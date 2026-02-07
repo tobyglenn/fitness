@@ -1,0 +1,341 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Clawd Strength & Recovery Report - 2026-02-06</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0a0a0c; color: white; margin: 0; padding: 20px;}
+            .container {max-width: 1400px; margin: 0 auto;}
+            .header {text-align: left; margin-bottom: 40px; border-left: 5px solid #0a84ff; padding-left: 20px;}
+            h1 {color: white; margin: 0; font-size: 3em; letter-spacing: -2px;}
+            .grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;}
+            .card {background: #1c1c1e; border-radius: 12px; padding: 30px; border: 1px solid #2c2c2e; transition: transform 0.2s;}
+            .card:hover {border-color: #333;}
+            .card h3 {margin-top: 0; color: #8e8e93; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; margin-bottom: 20px;}
+            .stat-value {font-size: 3.5em; font-weight: 800; color: white; line-height: 1;}
+            .stat-label {color: #0a84ff; text-transform: uppercase; font-size: 0.7em; letter-spacing: 1px; font-weight: bold;}
+            .body-viz {text-align: center; grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; align-items: center;}
+            @media (max-width: 800px) { .body-viz {grid-template-columns: 1fr;} .body-viz svg {order: -1;} }
+            svg {max-width: 280px; filter: drop-shadow(0 0 15px rgba(0,132,255,0.1));} /* Adjusted glow to blue */
+            .volume-bar {height: 6px; background: #2c2c2e; border-radius: 3px; margin-top: 8px; overflow: hidden;} /* Adjusted background */
+            .volume-fill {height: 100%; background: #0a84ff;} /* Adjusted fill color */
+            .muscle-label {display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.85em; color: #8e8e93;} /* Adjusted color */
+            .muscle-label b {color: white;}
+            .chart-container {height: 200px; margin-top: 20px;}
+            .prediction-item {margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #2c2c2e;} /* Adjusted border */
+            .prediction-item .time {color: #0a84ff; font-weight: bold; font-size: 0.9em;} /* Adjusted color */
+            .prediction-item .part {font-size: 0.8em; color: #8e8e93; text-transform: uppercase;} /* Adjusted color */
+            .tag {background: #2c2c2e; padding: 4px 10px; border-radius: 20px; font-size: 0.7em; color: #0a84ff; border: 1px solid #3a3a3c; margin-right: 5px;} /* Adjusted colors */
+
+            :root {--part-Core-color: #32d74b; --part-Core-glow: false;--part-Chest-color: #32d74b; --part-Chest-glow: false;--part-Back-color: #ff453a; --part-Back-glow: true;--part-Shoulders-color: #32d74b; --part-Shoulders-glow: false;--part-Arms-L-color: #32d74b; --part-Arms-L-glow: false;--part-Arms-R-color: #32d74b; --part-Arms-R-glow: false;--part-Legs-L-color: #32d74b; --part-Legs-L-glow: false;--part-Legs-R-color: #32d74b; --part-Legs-R-glow: false;}
+            svg .part-glow[data-glow="true"] {
+                filter: url(#glow);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <span class="stat-label">ATHLETE INTELLIGENCE</span>
+                <h1>PERFORMANCE REPORT</h1>
+                <p id="date-updated" style="color: #444; font-size: 0.8em;"></p>
+            </div>
+
+            <div class="grid">
+                <!-- Hero Recovery Section -->
+                <div class="card body-viz">
+                    <div style="text-align: left;">
+                        <h3>Biological Readiness</h3>
+                        <div style="margin-bottom: 20px;">
+                            <span class="stat-label">Systemic Muscle Fatigue</span><br>
+                            <span class="stat-value" id="systemic-fatigue-score">--</span><span style="font-size: 0.5em; color: #333;">%</span>
+                        </div>
+                        <div id="individual-fatigue-list"></div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <circle cx="100" cy="40" fill="var(--part-Core-color)" id="part-Core" r="25" class="part-glow" data-part-id="Core" />
+                            <rect x="70" y="70" width="60" height="100" rx="10" fill="var(--part-Chest-color)" id="part-Chest" class="part-glow" data-part-id="Chest" />
+                            <rect x="70" y="70" width="60" height="100" rx="10" fill="var(--part-Back-color)" id="part-Back" style="opacity:0;" class="part-glow" data-part-id="Back" />
+                            <rect x="60" y="55" width="80" height="20" rx="10" fill="var(--part-Shoulders-color)" id="part-Shoulders" class="part-glow" data-part-id="Shoulders" />
+                            <rect x="40" y="70" width="25" height="120" rx="10" fill="var(--part-Arms-L-color)" id="part-Arms-L" class="part-Arms part-glow" data-part-id="Arms-L" />
+                            <rect x="135" y="70" width="25" height="120" rx="10" fill="var(--part-Arms-R-color)" id="part-Arms-R" class="part-Arms part-glow" data-part-id="Arms-R" />
+                            <rect x="72" y="175" width="25" height="150" rx="10" fill="var(--part-Legs-L-color)" id="part-Legs-L" class="part-Legs part-glow" data-part-id="Legs-L" />
+                            <rect x="103" y="175" width="25" height="150" rx="10" fill="var(--part-Legs-R-color)" id="part-Legs-R" class="part-Legs part-glow" data-part-id="Legs-R" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Monthly Volume Section -->
+                <div class="card">
+                    <h3>Load Distribution <span id="volume-range" style="font-size: 0.7em; color: #444; margin-left: 5px; text-transform: none;"></span></h3>
+                    <div id="volume-list"></div>
+                    <div id="monthly-volume-list"></div>
+                </div>
+
+                <!-- Overload Tracking -->
+                <div class="card" style="grid-column: span 2;">
+                    <h3>Overload Velocity</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="overloadChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Nutrition Correlation -->
+                <div class="card">
+                    <h3>Anabolic Support</h3>
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <span class="stat-label">Energy</span><br>
+                            <span class="stat-value" id="nut-kcal" style="font-size: 2em;">--</span>
+                        </div>
+                        <div>
+                            <span class="stat-label">Protein</span><br>
+                            <span class="stat-value" id="nut-protein" style="font-size: 2em;">--</span>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="height: 150px;">
+                        <canvas id="volumeTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const data = {"volume": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 5083.0, "Shoulders": 0.0, "Other": 0.0, "Core": 0.0}, "systemic_muscle_fatigue": 68, "muscle_fatigue_parts": {"Chest": 100, "Back": 4, "Legs": 0, "Arms": 100, "Shoulders": 0, "Core": 0}, "daily_vol": {"2026-01-08": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-09": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 2293.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-10": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-11": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 41481.5}, "2026-01-12": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-13": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 12656.0}, "2026-01-14": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-15": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-16": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 12002.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-17": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-18": {"Chest": 0.0, "Back": 10552.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-19": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-20": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-21": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-22": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 12465.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-23": {"Chest": 0.0, "Back": 8091.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 17802.0}, "2026-01-24": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 2825.8}, "2026-01-25": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-26": {"Chest": 14562.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 73.12}, "2026-01-27": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 22014.5}, "2026-01-28": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-01-29": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 1666.0, "Shoulders": 0.0, "Core": 0.0, "Other": 27095.0}, "2026-01-30": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 32.0}, "2026-01-31": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 5076.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-02-01": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-02-02": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 35305.0}, "2026-02-03": {"Chest": 1421.5, "Back": 88.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 8.0}, "2026-02-04": {"Chest": 10191.5, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}, "2026-02-05": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 0.0, "Shoulders": 0.0, "Core": 0.0, "Other": 344.4}, "2026-02-06": {"Chest": 0.0, "Back": 0.0, "Legs": 0.0, "Arms": 5083.0, "Shoulders": 0.0, "Core": 0.0, "Other": 0.0}}, "nutrition": [], "overload": {"Warrior 1": [{"date": "2025-11-10", "vol": 11152.0}, {"date": "2025-11-14", "vol": 32887.0}, {"date": "2025-11-19", "vol": 8620.0}, {"date": "2025-12-07", "vol": 14541.5}, {"date": "2025-12-09", "vol": 33203.5}, {"date": "2025-12-19", "vol": 33294.0}, {"date": "2026-01-06", "vol": 19499.0}, {"date": "2026-01-23", "vol": 17802.0}, {"date": "2026-01-29", "vol": 27095.0}, {"date": "2026-02-02", "vol": 35305.0}], "Warrior 2": [{"date": "2025-12-12", "vol": 9018.0}, {"date": "2025-12-15", "vol": 41058.0}, {"date": "2026-01-07", "vol": 20698.0}, {"date": "2026-01-11", "vol": 41481.5}, {"date": "2026-01-27", "vol": 22014.5}], "Arms Barbell": [{"date": "2025-11-13", "vol": 10465.0}, {"date": "2025-11-17", "vol": 11030.0}, {"date": "2025-11-20", "vol": 10734.0}, {"date": "2025-11-22", "vol": 7571.0}, {"date": "2025-11-25", "vol": 12752.0}, {"date": "2025-11-28", "vol": 4868.0}, {"date": "2025-11-29", "vol": 4825.0}, {"date": "2025-12-12", "vol": 13917.0}, {"date": "2026-01-09", "vol": 2293.0}, {"date": "2026-01-16", "vol": 12002.0}, {"date": "2026-01-22", "vol": 12465.0}, {"date": "2026-01-29", "vol": 1666.0}, {"date": "2026-01-31", "vol": 5076.0}, {"date": "2026-02-06", "vol": 5083.0}], "Chest handles": [{"date": "2025-11-09", "vol": 21458.5}, {"date": "2025-11-14", "vol": 6798.5}, {"date": "2025-11-17", "vol": 9113.0}, {"date": "2025-11-22", "vol": 4335.0}, {"date": "2025-11-25", "vol": 5683.5}, {"date": "2026-01-26", "vol": 14562.0}, {"date": "2026-02-03", "vol": 1421.5}, {"date": "2026-02-04", "vol": 10191.5}], "Back Barbell": [{"date": "2025-11-21", "vol": 13730.0}, {"date": "2026-01-18", "vol": 10552.0}, {"date": "2026-01-23", "vol": 8091.0}, {"date": "2026-02-03", "vol": 88.0}]}, "last_updated": "2026-02-06 22:25:57", "monthly_volume": {"Chest": 26175, "Back": 18731, "Legs": 11804, "Arms": 52502, "Shoulders": 0, "Core": 0}};
+            
+            document.getElementById('date-updated').innerText = `TS: ${data.last_updated} | V3.0-FINAL`;
+            // Update systemic fatigue score display
+            document.getElementById('systemic-fatigue-score').innerText = data.systemic_muscle_fatigue || '--';
+
+            // Set Load Distribution Date Range (still relevant)
+            const allVolDates = Object.keys(data.daily_vol).filter(d => Object.values(data.daily_vol[d]).some(v => v > 0)).sort();
+            if (allVolDates.length > 0) {
+                const start = new Date(allVolDates[0] + 'T12:00:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+                const end = new Date(allVolDates[allVolDates.length - 1] + 'T12:00:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+                document.getElementById('volume-range').innerText = `(${start} - ${end})`;
+            }
+
+            // Populate Individual Muscle Fatigue List
+            const individualFatigueList = document.getElementById('individual-fatigue-list');
+            if (data.muscle_fatigue_parts) {
+                for (const [part, score] of Object.entries(data.muscle_fatigue_parts)) {
+                    let color = '#32d74b'; // Green (optimal default)
+                    if (score > 120) color = '#ff453a'; // Red (overloaded significantly)
+                    else if (score < 80 && score > 0) color = '#ff453a'; // Red (under-recovered/under-stimulated)
+                    else if (score >= 80 && score <= 120) color = '#32d74b'; // Green (optimal)
+                    else if (score > 120 && score <= 150) color = '#ffd60a'; // Yellow (slightly overloaded)
+                    else if (score < 80 && score >= 50) color = '#ffd60a'; // Yellow (slightly under-recovered)
+                    
+                    individualFatigueList.innerHTML += `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="color: #8e8e93;">${part}</span>
+                            <span style="color: ${color}; font-weight: bold;">${score}%</span>
+                        </div>
+                    `;
+                }
+            }
+
+            // Monthly Volume List
+            const monthlyVolumeList = document.getElementById('monthly-volume-list');
+            if (data.monthly_volume) {
+                for (const [part, vol] of Object.entries(data.monthly_volume)) {
+                    if (vol > 0) {
+                        monthlyVolumeList.innerHTML += `
+                            <div class="muscle-label">
+                                <span>${part}</span>
+                                <span><b>${vol.toLocaleString()}</b> lbs</span>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            // Volume List & Body Color
+            const volumeList = document.getElementById('volume-list');
+            const maxVol = Math.max(...Object.values(data.volume));
+            
+            // Calculate last trained dates
+            const lastTrained = {};
+            Object.keys(data.volume).forEach(part => {
+                // Find all dates where 'part' had volume
+                const datesWithVolume = Object.keys(data.daily_vol)
+                    .filter(d => data.daily_vol[d][part] > 0)
+                    .sort();
+                lastTrained[part] = datesWithVolume.length > 0 ? datesWithVolume[datesWithVolume.length - 1] : 'Never';
+            });
+
+            for (const [part, vol] of Object.entries(data.volume)) {
+                if (part === 'Other' || vol == 0) continue; // Use == 0 to catch 0.0
+                const percentage = (vol / maxVol) * 100;
+                const date = lastTrained[part];
+                const dateDisplay = date !== 'Never' ? new Date(date + 'T12:00:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'}) : 'N/A';
+
+                volumeList.innerHTML += `
+                    <div class="muscle-label">
+                        <span>${part} <span style="font-size: 0.8em; color: #444; margin-left: 8px;">Last: ${dateDisplay}</span></span>
+                        <span><b>${vol.toLocaleString()}</b> lbs</span>
+                    </div>
+                    <div class="volume-bar">
+                        <div class="volume-fill" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                
+                // Update CSS variables for dynamic coloring (instead of direct style manipulation)
+                const score = data.muscle_fatigue_parts[part] || 0;
+                let color = '#32d74b';
+                let applyGlow = false;
+
+                if (score >= 80 && score <= 100) { color = '#32d74b'; }
+                else if (score >= 50 && score < 80) { color = '#ffd60a'; applyGlow = true; }
+                else if (score < 50 && score > 0) { color = '#ff453a'; applyGlow = true; }
+                else if (score === 0) { color = '#32d74b'; applyGlow = false; }
+
+                // Apply color and glow to corresponding CSS variables
+                const root = document.documentElement;
+                if (part === 'Arms') {
+                    root.style.setProperty('--part-Arms-L-color', color);
+                    root.style.setProperty('--part-Arms-R-color', color);
+                    root.style.setProperty('--part-Arms-L-glow', applyGlow ? 'true' : 'false');
+                    root.style.setProperty('--part-Arms-R-glow', applyGlow ? 'true' : 'false');
+                } else if (part === 'Legs') {
+                    root.style.setProperty('--part-Legs-L-color', color);
+                    root.style.setProperty('--part-Legs-R-color', color);
+                    root.style.setProperty('--part-Legs-L-glow', applyGlow ? 'true' : 'false');
+                    root.style.setProperty('--part-Legs-R-glow', applyGlow ? 'true' : 'false');
+                } else {
+                    root.style.setProperty(`--part-${part}-color`, color);
+                    root.style.setProperty(`--part-${part}-glow`, applyGlow ? 'true' : 'false');
+                }
+            }
+
+            // Overload Chart
+            const overloadCtx = document.getElementById('overloadChart').getContext('2d');
+            
+            const allOverloadDates = new Set();
+            Object.values(data.overload).forEach(exData => {
+                exData.forEach(d => allOverloadDates.add(d.date));
+            });
+            const sortedOverloadLabels = Array.from(allOverloadDates).sort();
+
+            const exerciseNames = Object.keys(data.overload).slice(0, 5);
+            const colors = ['#00ff88', '#00ccff', '#ff00ff', '#ffff00', '#ff8800'];
+            
+            const datasets = exerciseNames.map((ex, i) => {
+                const chartData = sortedOverloadLabels.map(date => {
+                    const found = data.overload[ex].find(d => d.date === date);
+                    return found ? found.vol : null;
+                });
+
+                return {
+                    label: ex,
+                    data: chartData,
+                    borderColor: colors[i],
+                    backgroundColor: colors[i],
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    spanGaps: true
+                };
+            });
+
+            new Chart(overloadCtx, {
+                type: 'line',
+                data: {
+                    labels: sortedOverloadLabels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            display: true,
+                            grid: { color: '#111', drawBorder: false },
+                            ticks: {
+                                color: '#555',
+                                font: { size: 10 },
+                                callback: (val) => (val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val)
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#444', font: { size: 9 }, maxRotation: 45, minRotation: 45 }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            align: 'start',
+                            labels: {
+                                color: '#888',
+                                boxWidth: 10,
+                                font: { size: 10 },
+                                padding: 10
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#0a0a0a',
+                            titleColor: '#00ff88',
+                            bodyColor: '#fff',
+                            borderColor: '#333',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            callbacks: {
+                                label: (context) => ` ${context.dataset.label}: ${context.parsed.y.toLocaleString()} lbs`
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Nutrition Data
+            if (data.nutrition && data.nutrition.length > 0) {
+                const latest = data.nutrition[data.nutrition.length - 1];
+                document.getElementById('nut-kcal').innerText = Math.round(latest.kcal);
+                document.getElementById('nut-protein').innerText = Math.round(latest.protein) + 'g';
+            }
+
+            // Volume Trend (daily_vol for total volume trend bar chart)
+            const volumeTrendCtx = document.getElementById('volumeTrendChart').getContext('2d');
+            const sortedDatesForVolumeTrend = Object.keys(data.daily_vol).sort();
+            new Chart(volumeTrendCtx, {
+                type: 'bar',
+                data: {
+                    labels: sortedDatesForVolumeTrend.slice(-10),
+                    datasets: [{
+                        data: sortedDatesForVolumeTrend.slice(-10).map(d => Object.values(data.daily_vol[d]).reduce((a,b)=>a+b, 0)),
+                        backgroundColor: '#111',
+                        hoverBackgroundColor: '#00ff88',
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { display: false } , x: { grid: { display: false } , ticks: { display: false } } } ,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
