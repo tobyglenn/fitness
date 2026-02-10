@@ -10,7 +10,7 @@
         .nav { display:flex; justify-content:space-between; align-items:center; margin:15px 0; padding:12px; background:#2c2c2e; border-radius:8px; }
         .nav a { color:#4fc3f7; text-decoration:none; font-size:1.2em; }
         table { width: 100%; border-collapse: collapse; }
-        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; height: 100px; box-sizing: border-box; }
+        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; min-height: 160px; }
         th { background: #2c2c2e; color: #fff; font-weight: bold; text-transform: uppercase; }
         td { background: #1c1c1e; }
         .day-num { font-weight: bold; color: #888; text-align: right; display: block; margin-bottom: 6px; }
@@ -18,14 +18,14 @@
         .acts li { color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.7em; font-weight: bold; display: flex; align-items: center; gap: 4px; }
         .strain-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
         .empty { background: #151517 !important; }
-        .streak { outline: 2px solid #ffd700 !important; outline-offset: -2px; background: #2a2a1e !important; }
+        .streak { border: 2px solid #ffd700 !important; background: #2a2a1e !important; }
         .streak::after { content: "STREAK"; color: #ffd700; font-size: 9px; font-weight: bold; position: absolute; top: 2px; left: 2px; }
         .legend { background: #2c2c2e; padding: 12px; border-radius: 8px; margin: 15px 0; }
         .legend-title { font-weight: bold; margin-bottom: 8px; color: #4fc3f7; }
         .legend-items { display: flex; flex-wrap: wrap; gap: 8px; }
         .legend-item { font-size: 0.75em; padding: 3px 8px; color: white; border-radius: 3px; }
         .weekly-summary { background: #2c2c2e; border-top: 2px solid #3c3c3e; }
-        .weekly-summary td { padding: 2px 8px; height: auto; line-height: 1; font-size: 0.85em; color: #aaa; }
+        .weekly-summary td { padding: 8px; font-size: 0.85em; color: #aaa; }
     </style>
 </head>
 <body>
@@ -107,6 +107,7 @@
 </td>
 <td class='streak'>
 <span class='day-num'>9</span>
+<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>1.7 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
@@ -128,7 +129,7 @@
 </ul>
 </td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 2: 9 workouts | BJJ:2, LIFT:5, RUN:2 | Avg strain: 7.7</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 2: 9 workouts | BJJ:2, LIFT:5, RUN:2 | Avg strain: 7.7 | Garmin Run: 1.7 mi</td></tr>
 <tr>
 <td class='streak'>
 <span class='day-num'>13</span>
