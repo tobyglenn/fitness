@@ -9,23 +9,25 @@
         h1 { text-align: center; color: #4fc3f7; margin: 0; }
         .nav { display:flex; justify-content:space-between; align-items:center; margin:15px 0; padding:12px; background:#2c2c2e; border-radius:8px; }
         .nav a { color:#4fc3f7; text-decoration:none; font-size:1.2em; }
-        table { width: 100%; border-collapse: collapse; }
-        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; min-height: 160px; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        tbody tr:not(.weekly-summary) { height: 100px; }
+        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; min-height: 100px; }
         th { background: #2c2c2e; color: #fff; font-weight: bold; text-transform: uppercase; }
-        td { background: #1c1c1e; }
+        td { background: #1c1c1e; height: 100px; overflow: hidden; }
+        .day-content { text-decoration: none; color: inherit; display: block; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding: 10px; box-sizing: border-box; }
         .day-num { font-weight: bold; color: #888; text-align: right; display: block; margin-bottom: 6px; }
         .acts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
         .acts li { color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.7em; font-weight: bold; display: flex; align-items: center; gap: 4px; }
         .strain-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
         .empty { background: #151517 !important; }
-        .streak { border: 2px solid #ffd700 !important; background: #2a2a1e !important; }
+        .streak { background: #2a2a1e !important; box-shadow: inset 0 0 0 2px #ffd700; }
         .streak::after { content: "STREAK"; color: #ffd700; font-size: 9px; font-weight: bold; position: absolute; top: 2px; left: 2px; }
         .legend { background: #2c2c2e; padding: 12px; border-radius: 8px; margin: 15px 0; }
         .legend-title { font-weight: bold; margin-bottom: 8px; color: #4fc3f7; }
         .legend-items { display: flex; flex-wrap: wrap; gap: 8px; }
         .legend-item { font-size: 0.75em; padding: 3px 8px; color: white; border-radius: 3px; }
         .weekly-summary { background: #2c2c2e; border-top: 2px solid #3c3c3e; }
-        .weekly-summary td { padding: 8px; font-size: 0.85em; color: #aaa; }
+        .weekly-summary td { padding: 2px 8px; font-size: 15px; color: #aaa; height: 20px; line-height: 20px; }
     </style>
 </head>
 <body>
@@ -69,213 +71,251 @@
 <td class='empty'></td>
 <td class='empty'></td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>1</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>4.0 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 1: 2 workouts • LIFT: 1, RUN: 1 • RUN: 4.0 mi • Avg strain: 14.7</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 1: 2 workouts • LIFT: 1, RUN: 1 • Avg strain: 14.7</td></tr>
 <tr>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>2</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.0 mi</div>
 <ul class='acts'>
 <li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>3</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>2.3 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>4</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.3 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>5</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.5 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>6</span>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>7</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.3 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>8</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>4.7 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 2: 9 workouts • BJJ: 1, LIFT: 2, RUN: 6 • RUN: 20.1 mi • Avg strain: 11.9</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 2: 9 workouts • LIFT: 2, RUN: 6, BJJ: 1 • Avg strain: 11.9</td></tr>
 <tr>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>9</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>2.1 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>10</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.2 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>11</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>2.5 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>12</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>4.1 mi</div>
 <ul class='acts'>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>13</span>
 <ul class='acts'>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>14</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>2.2 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>15</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.7 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 3: 9 workouts • BJJ: 1, LIFT: 2, RUN: 6 • RUN: 17.8 mi • Avg strain: 13.0</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 3: 9 workouts • LIFT: 2, RUN: 6, BJJ: 1 • Avg strain: 13.0</td></tr>
 <tr>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>16</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>4.3 mi</div>
 <ul class='acts'>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>17</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>5.8 mi</div>
 <ul class='acts'>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='streak'>
+<div class='day-content'>
 <span class='day-num'>18</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>2.5 mi</div>
 <ul class='acts'>
 <li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>19</span>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>20</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.0 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>21</span>
 <ul class='acts'>
 <li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>22</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.1 mi</div>
+</div>
 </td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 4: 10 workouts • BJJ: 3, LIFT: 3, RUN: 4 • RUN: 18.7 mi • Avg strain: 11.2</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 4: 10 workouts • LIFT: 3, RUN: 4, BJJ: 3 • Avg strain: 11.2</td></tr>
 <tr>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>23</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>4.0 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>24</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>3.0 mi</div>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>25</span>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>26</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>4.0 mi</div>
 <ul class='acts'>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>27</span>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>28</span>
+</div>
 </td>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>29</span>
+</div>
 </td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 5: 3 workouts • RUN: 3 • RUN: 11.1 mi • Avg strain: 8.3</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 5: 3 workouts • RUN: 3 • Avg strain: 8.3</td></tr>
 <tr>
 <td class=''>
+<div class='day-content'>
 <span class='day-num'>30</span>
-<div style='font-size: 0.7em; color: #4fc3f7; margin-top: 4px;'>5.0 mi</div>
 <ul class='acts'>
 <li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
 <li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
 </ul>
+</div>
 </td>
 <td class='empty'></td>
 <td class='empty'></td>
@@ -284,7 +324,7 @@
 <td class='empty'></td>
 <td class='empty'></td>
 </tr>
-<tr class='weekly-summary'><td colspan='7'>Week 6: 3 workouts • BJJ: 1, LIFT: 1, RUN: 1 • RUN: 5.0 mi • Avg strain: 16.7</td></tr>
+<tr class='weekly-summary'><td colspan='7'>Week 6: 3 workouts • LIFT: 1, RUN: 1, BJJ: 1 • Avg strain: 16.7</td></tr>
 </tbody>
 </table>
 </div>
