@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { background: #1e1e2e; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.avatar { width: 100px; height: 100px; }
+</style>
+</head>
+<body>
+<!-- Inline SVG for browsers that block external SVGs -->
+<svg class="avatar" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#1e1e2e"/>
+  <g fill="#ff69b4" opacity="0.9">
+    <circle cx="50" cy="50" r="6" fill="#ffb6c1"/>
+    <ellipse cx="50" cy="28" rx="10" ry="18"/>
+    <ellipse cx="68" cy="42" rx="18" ry="10" transform="rotate(72 68 42)"/>
+    <ellipse cx="60" cy="66" rx="18" ry="10" transform="rotate(144 60 66)"/>
+    <ellipse cx="40" cy="66" rx="18" ry="10" transform="rotate(216 40 66)"/>
+    <ellipse cx="32" cy="42" rx="18" ry="10" transform="rotate(288 32 42)"/>
+  </g>
+  <g fill="#ffc0cb" opacity="0.6">
+    <ellipse cx="50" cy="32" rx="5" ry="10"/>
+    <ellipse cx="64" cy="44" rx="10" ry="5" transform="rotate(72 64 44)"/>
+    <ellipse cx="58" cy="62" rx="10" ry="5" transform="rotate(144 58 62)"/>
+    <ellipse cx="42" cy="62" rx="10" ry="5" transform="rotate(216 42 62)"/>
+    <ellipse cx="36" cy="44" rx="10" ry="5" transform="rotate(288 36 44)"/>
+  </g>
+  <circle cx="50" cy="50" r="48" fill="none" stroke="#ff69b4" stroke-width="2" opacity="0.3"/>
+</svg>
+</body>
+</html>
