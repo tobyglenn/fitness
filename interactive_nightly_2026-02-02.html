@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report - 2026-02-02</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0c;
+            color: #ffffff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #0a84ff;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        h2 {
+            color: #0a84ff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        h3 {
+            color: #5e5ce6;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .date-header {
+            color: #8e8e93;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #1c1c1e;
+            border: 1px solid #2c2c2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #2c2c2e;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .badge-green {
+            background: #32d74b;
+            color: #000;
+        }
+        
+        .badge-yellow {
+            background: #ffd60a;
+            color: #000;
+        }
+        
+        .badge-red {
+            background: #ff453a;
+            color: #fff;
+        }
+        
+        .badge-blue {
+            background: #0a84ff;
+            color: #fff;
+        }
+        
+        .badge-gray {
+            background: #8e8e93;
+            color: #fff;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            background: #2c2c2e;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .stat-label {
+            color: #8e8e93;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0a84ff;
+        }
+        
+        .stat-subtext {
+            color: #8e8e93;
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #2c2c2e;
+            border-radius: 6px;
+        }
+        
+        .detail-label {
+            color: #8e8e93;
+        }
+        
+        .detail-value {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .quality-indicator {
+            display: inline-block;
+        }
+        
+        .quality-stars {
+            color: #ffd60a;
+        }
+        
+        .quality-label {
+            color: #8e8e93;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+        
+        .hr-zone-chart {
+            margin: 20px 0;
+        }
+        
+        .hr-zone {
+            margin: 10px 0;
+        }
+        
+        .hr-zone-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .hr-zone-bar {
+            width: 100%;
+            height: 20px;
+            background: #2c2c2e;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .hr-zone-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .form-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .form-metric {
+            background: #2c2c2e;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #0a84ff;
+        }
+        
+        .form-metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .form-metric-name {
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .form-metric-value {
+            font-size: 1.3rem;
+            color: #0a84ff;
+        }
+        
+        .training-effect-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2c2c2e;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 5px;
+        }
+        
+        .training-effect-emoji {
+            font-size: 1.5rem;
+        }
+        
+        .training-effect-label {
+            font-weight: bold;
+        }
+        
+        .training-effect-score {
+            color: #8e8e93;
+            font-size: 0.9rem;
+        }
+        
+        .recovery-context {
+            background: linear-gradient(135deg, #1a2a3a 0%, #2a1a3a 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .trend-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #8e8e93;
+            font-size: 0.9rem;
+        }
+        
+        .no-data {
+            background: #2c2c2e;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #8e8e93;
+        }
+        
+        .efficiency-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .efficiency-excellent {
+            background: #32d74b;
+            color: #000;
+        }
+        
+        .efficiency-good {
+            background: #ffd60a;
+            color: #000;
+        }
+        
+        .efficiency-poor {
+            background: #ff453a;
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .card {
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏋️ Interactive Nightly Report</h1>
+        <div class="date-header">Monday, 2026-02-02</div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">💪 Speediance Lifting</div>
+                
+                <span class="badge badge-blue">Strength</span>
+                
+            </div>
+            
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Total Volume</div>
+                    <div class="stat-value">77,834 lbs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Exercises</div>
+                    <div class="stat-value">30</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Calories</div>
+                    <div class="stat-value">1,507</div>
+                    <div class="stat-subtext">8.2 cal/min</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Efficiency</div>
+                    <div class="stat-value">
+                        
+                        <span class="efficiency-badge efficiency-excellent">365.5%</span>
+                        
+                    </div>
+                    <div class="stat-subtext">Actual vs Planned</div>
+                </div>
+            </div>
+            
+            <h3>📋 Workout Details</h3>
+            <div class="details-grid">
+                <div class="detail-row">
+                    <span class="detail-label">Workout Name</span>
+                    <span class="detail-value">Warrior 1</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Finish Time</span>
+                    <span class="detail-value">2026-02-02 21:49:47</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Planned Duration</span>
+                    <span class="detail-value">50.0 min</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Actual Duration</span>
+                    <span class="detail-value">182.8 min</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Volume per Exercise</span>
+                    <span class="detail-value">2,594 lbs</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Intensity</span>
+                    <span class="detail-value">Moderate</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Template ID</span>
+                    <span class="detail-value">635676</span>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">🏃 Garmin Running & Cardio</div>
+                
+                <span class="badge badge-green">Running Activity Detected</span>
+                
+            </div>
+            
+            
+            
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Distance</div>
+                    <div class="stat-value">2.70 mi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Pace</div>
+                    <div class="stat-value">13:11</div>
+                    <div class="stat-subtext">min/mile</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Avg HR</div>
+                    <div class="stat-value">134 bpm</div>
+                    <div class="stat-subtext">Max: 163</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Calories</div>
+                    <div class="stat-value">509</div>
+                </div>
+            </div>
+            
+            <h3>❤️ Heart Rate Zone Distribution</h3>
+            <div class="hr-zone-chart">
+                
+                <div class="hr-zone">
+                    <div class="hr-zone-label">
+                        <span>Z1 (50-60%)</span>
+                        <span>0% (—)</span>
+                    </div>
+                    <div class="hr-zone-bar">
+                        <div class="hr-zone-fill" style="width: 0%; background: #8e8e93;"></div>
+                    </div>
+                </div>
+                
+                <div class="hr-zone">
+                    <div class="hr-zone-label">
+                        <span>Z2 (60-70%)</span>
+                        <span>0% (—)</span>
+                    </div>
+                    <div class="hr-zone-bar">
+                        <div class="hr-zone-fill" style="width: 0%; background: #0a84ff;"></div>
+                    </div>
+                </div>
+                
+                <div class="hr-zone">
+                    <div class="hr-zone-label">
+                        <span>Z3 (70-80%)</span>
+                        <span>20% (7:07)</span>
+                    </div>
+                    <div class="hr-zone-bar">
+                        <div class="hr-zone-fill" style="width: 20%; background: #32d74b;"></div>
+                    </div>
+                </div>
+                
+                <div class="hr-zone">
+                    <div class="hr-zone-label">
+                        <span>Z4 (80-90%)</span>
+                        <span>60% (21:22)</span>
+                    </div>
+                    <div class="hr-zone-bar">
+                        <div class="hr-zone-fill" style="width: 60%; background: #ffd60a;"></div>
+                    </div>
+                </div>
+                
+                <div class="hr-zone">
+                    <div class="hr-zone-label">
+                        <span>Z5 (90%+)</span>
+                        <span>20% (7:07)</span>
+                    </div>
+                    <div class="hr-zone-bar">
+                        <div class="hr-zone-fill" style="width: 20%; background: #ff453a;"></div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="details-grid" style="margin-top: 15px;">
+                <div class="detail-row">
+                    <span class="detail-label">Average HR</span>
+                    <span class="detail-value">134 bpm</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Max HR</span>
+                    <span class="detail-value">163 bpm</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Min HR</span>
+                    <span class="detail-value">0 bpm</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Resting HR</span>
+                    <span class="detail-value">71 bpm</span>
+                </div>
+            </div>
+            
+            <h3>📈 Training Metrics</h3>
+            <div style="margin: 15px 0;">
+                <div class="training-effect-badge">
+                    <span class="training-effect-emoji">💪</span>
+                    <div>
+                        <div class="training-effect-label">Aerobic: Tempo</div>
+                        <div class="training-effect-score">Score: 3.2</div>
+                    </div>
+                </div>
+                <div class="training-effect-badge">
+                    <span class="training-effect-emoji">😌</span>
+                    <div>
+                        <div class="training-effect-label">Anaerobic: Recovery</div>
+                        <div class="training-effect-score">Score: 1.0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="details-grid">
+                <div class="detail-row">
+                    <span class="detail-label">Moderate Intensity</span>
+                    <span class="detail-value">1 min</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Vigorous Intensity</span>
+                    <span class="detail-value">35 min</span>
+                </div>
+            </div>
+            
+            <h3>👟 Running Form Analysis</h3>
+            <div class="form-metrics-grid">
+                <div class="form-metric">
+                    <div class="form-metric-header">
+                        <span class="form-metric-name">Cadence</span>
+                        <span class="quality-indicator">
+                            <span class="quality-stars">
+                                ⭐
+                            </span>
+                            <span class="quality-label">Fair</span>
+                        </span>
+                    </div>
+                    <div class="form-metric-value">152 spm</div>
+                    <div class="stat-subtext">Optimal: 170-180 spm</div>
+                </div>
+                
+                <div class="form-metric">
+                    <div class="form-metric-header">
+                        <span class="form-metric-name">Stride Length</span>
+                        <span class="quality-indicator">
+                            <span class="quality-stars">
+                                
+                            </span>
+                            <span class="quality-label">Poor</span>
+                        </span>
+                    </div>
+                    <div class="form-metric-value">0.79 m</div>
+                    <div class="stat-subtext">Optimal: 1.0-1.3 m</div>
+                </div>
+                
+                <div class="form-metric">
+                    <div class="form-metric-header">
+                        <span class="form-metric-name">Vertical Oscillation</span>
+                        <span class="quality-indicator">
+                            <span class="quality-stars">
+                                ⭐⭐⭐
+                            </span>
+                            <span class="quality-label">Excellent</span>
+                        </span>
+                    </div>
+                    <div class="form-metric-value">7.4 cm</div>
+                    <div class="stat-subtext">Optimal: 6-9 cm</div>
+                </div>
+                
+                <div class="form-metric">
+                    <div class="form-metric-header">
+                        <span class="form-metric-name">Ground Contact Time</span>
+                        <span class="quality-indicator">
+                            <span class="quality-stars">
+                                ⭐
+                            </span>
+                            <span class="quality-label">Fair</span>
+                        </span>
+                    </div>
+                    <div class="form-metric-value">306 ms</div>
+                    <div class="stat-subtext">Optimal: 200-250 ms</div>
+                </div>
+                
+                <div class="form-metric">
+                    <div class="form-metric-header">
+                        <span class="form-metric-name">Vertical Ratio</span>
+                        <span class="quality-indicator">
+                            <span class="quality-stars">
+                                ⭐⭐
+                            </span>
+                            <span class="quality-label">Good</span>
+                        </span>
+                    </div>
+                    <div class="form-metric-value">9.5%</div>
+                    <div class="stat-subtext">Optimal: 6-9%</div>
+                </div>
+                
+                
+                <div class="form-metric">
+                    <div class="form-metric-header">
+                        <span class="form-metric-name">Running Power</span>
+                    </div>
+                    <div class="form-metric-value">274 W</div>
+                    <div class="stat-subtext">Max: 398 W</div>
+                </div>
+                
+            </div>
+            
+            <h3>🚀 Performance</h3>
+            <div class="details-grid">
+                <div class="detail-row">
+                    <span class="detail-label">Average Speed</span>
+                    <span class="detail-value">4.55 mph</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Max Speed</span>
+                    <span class="detail-value">6.01 mph</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Elevation Gain</span>
+                    <span class="detail-value">15.8 m</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Elevation Loss</span>
+                    <span class="detail-value">17.6 m</span>
+                </div>
+            </div>
+            
+            
+            <h3>⚡ Energy Expenditure</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Total Calories</div>
+                    <div class="stat-value">2,926</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Active Calories</div>
+                    <div class="stat-value">505</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Resting Calories</div>
+                    <div class="stat-value">2,421</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Steps</div>
+                    <div class="stat-value">6,633</div>
+                </div>
+            </div>
+            
+            <h3>🧠 Stress</h3>
+            <div class="details-grid">
+                <div class="detail-row">
+                    <span class="detail-label">Average Stress</span>
+                    <span class="detail-value">52</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Max Stress</span>
+                    <span class="detail-value">93</span>
+                </div>
+            </div>
+            
+            
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">🔋 WHOOP Recovery & Strain</div>
+                
+                <span class="badge badge-yellow">
+                    🟡 Adequate
+                </span>
+                
+            </div>
+            
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Recovery Score</div>
+                    <div class="stat-value">47%</div>
+                    <div class="stat-subtext">Adequate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">HRV</div>
+                    <div class="stat-value">19.4 ms</div>
+                    <div class="stat-subtext">
+                        <span class="trend-indicator">
+                            ↗️ improving
+                            
+                            (21.2%)
+                            
+                        </span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Resting Heart Rate</div>
+                    <div class="stat-value">79 bpm</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Day Strain</div>
+                    <div class="stat-value">9.2</div>
+                </div>
+            </div>
+            
+            
+            <h3>😴 Sleep Performance</h3>
+            <div class="stat-item">
+                <div class="stat-label">Sleep Quality</div>
+                <div class="stat-value">81%</div>
+            </div>
+            
+            
+            <div class="recovery-context">
+                <h3 style="margin-top: 0; color: #fff;">📊 Recovery Context</h3>
+                <div class="details-grid">
+                    <div class="detail-row" style="background: rgba(255,255,255,0.1);">
+                        <span class="detail-label" style="color: #ccc;">Recovery Status</span>
+                        <span class="detail-value">🟡 47% (Adequate)</span>
+                    </div>
+                    <div class="detail-row" style="background: rgba(255,255,255,0.1);">
+                        <span class="detail-label" style="color: #ccc;">HRV Trend</span>
+                        <span class="detail-value">19.4 ms ↗️</span>
+                    </div>
+                    <div class="detail-row" style="background: rgba(255,255,255,0.1);">
+                        <span class="detail-label" style="color: #ccc;">Resting HR</span>
+                        <span class="detail-value">79 bpm</span>
+                    </div>
+                    <div class="detail-row" style="background: rgba(255,255,255,0.1);">
+                        <span class="detail-label" style="color: #ccc;">Day Strain</span>
+                        <span class="detail-value">9.2</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">🎯 Performance Summary</div>
+            </div>
+            
+            <div class="stats-grid">
+                
+                <div class="stat-item">
+                    <div class="stat-label">Lifting Volume</div>
+                    <div class="stat-value">77,834 lbs</div>
+                    <div class="stat-subtext">30 exercises</div>
+                </div>
+                
+                
+                
+                <div class="stat-item">
+                    <div class="stat-label">Running Distance</div>
+                    <div class="stat-value">2.70 mi</div>
+                    <div class="stat-subtext">13:11 pace</div>
+                </div>
+                
+                
+                
+                <div class="stat-item">
+                    <div class="stat-label">Recovery</div>
+                    <div class="stat-value">🟡 47%</div>
+                    <div class="stat-subtext">Adequate</div>
+                </div>
+                
+                
+                
+                <div class="stat-item">
+                    <div class="stat-label">Total Calories</div>
+                    <div class="stat-value">2,926</div>
+                    <div class="stat-subtext">505 active</div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; color: #8e8e93;">
+            <p>Generated: 2026-02-02</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Streamlined Interactive Report - 120+ Data Fields</p>
+        </div>
+    </div>
+</body>
+</html>
