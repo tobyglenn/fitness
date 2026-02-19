@@ -18,7 +18,7 @@ h1,h2{color:#0a84ff}p{margin:10px 0}.date-range{color:#8e8e93;font-size:16px}
 <nav style="background:#1a1a1f;padding:8px 20px;display:flex;gap:12px;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;flex-wrap:nowrap;overflow:hidden;align-items:center">
   <a href="./index.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏠 Home</a>
   <a href="./calendars/2026-02-calendar.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">📅 Calendar</a>
-  <a href="https://tobyglenn.github.io/fitness/speediance_dashboard.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏋️ Speediance</a>
+  <a id="speediance-nav-link" href="file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏋️ Speediance</a>
   <a href="./lifting_recovery_report_2026-02-19.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">💪 Lifting & Recovery</a>
 </nav>
 <div class="container">
@@ -45,4 +45,15 @@ h1,h2{color:#0a84ff}p{margin:10px 0}.date-range{color:#8e8e93;font-size:16px}
 <div class="card"><h2>7. Consistency Dashboard</h2>
 <p>Protein Target Hit (30d): 64.3% | Recovery 60%+ (30d): 30.0%</p>
 <p>Overall Trend: <strong>STABLE</strong></p>
-</div></div></body></html>
+</div></div>
+<script>
+(function () {
+  var link = document.getElementById('speediance-nav-link');
+  if (!link) return;
+  var host = window.location.hostname || '';
+  var protocol = window.location.protocol || '';
+  var isLocal = protocol === 'file:' || host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.endsWith('.local');
+  link.href = isLocal ? 'file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html' : 'https://tobyglenn.github.io/fitness/speediance_dashboard.html';
+})();
+</script>
+</body></html>

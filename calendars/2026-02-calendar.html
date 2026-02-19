@@ -47,7 +47,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.5;
@@ -56,7 +56,7 @@
         /* === CONTAINER === */
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             background: var(--bg-secondary);
             padding: 30px;
             border-radius: 16px;
@@ -460,10 +460,11 @@
         /* === MOBILE RESPONSIVE === */
         @media (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 0;
             }
             
             .container {
+                margin: 10px auto;
                 padding: 15px;
                 border-radius: 12px;
             }
@@ -521,11 +522,12 @@
         
         @media (max-width: 480px) {
             body {
-                padding: 4px;
+                padding: 0;
                 overflow-x: hidden;
             }
             
             .container {
+                margin: 4px auto;
                 padding: 8px;
                 max-width: 100vw;
             }
@@ -847,10 +849,10 @@
 </head>
 <body>
 <nav style="background:#1a1a1f;padding:8px 20px;display:flex;gap:12px;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;flex-wrap:nowrap;overflow:hidden;align-items:center">
-  <a href="./index.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏠 Home</a>
+  <a href="../index.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏠 Home</a>
   <a href="./calendars/2026-02-calendar.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">📅 Calendar</a>
-  <a href="https://tobyglenn.github.io/fitness/speediance_dashboard.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏋️ Speediance</a>
-  <a href="./morning_report_2026-02-01.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🌅 Morning Report</a>
+  <a id="speediance-nav-link" href="file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏋️ Speediance</a>
+  <a href="../lifting_recovery_report_2026-02-19.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">💪 Lifting & Recovery</a>
 </nav>
     <div class="container">
         <!-- Header -->
@@ -2246,4 +2248,14 @@
         </table>
     </div>
 </body>
+<script>
+(function () {
+  var link = document.getElementById('speediance-nav-link');
+  if (!link) return;
+  var host = window.location.hostname || '';
+  var protocol = window.location.protocol || '';
+  var isLocal = protocol === 'file:' || host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.endsWith('.local');
+  link.href = isLocal ? 'file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html' : 'https://tobyglenn.github.io/fitness/speediance_dashboard.html';
+})();
+</script>
 </html>

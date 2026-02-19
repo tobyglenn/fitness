@@ -15,6 +15,8 @@
 }
 html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;min-height:100vh;font-size:14px}
 a{color:var(--accent);text-decoration:none}
+.report-links{background:#0d0d0f;border-bottom:1px solid var(--border);padding:8px 20px;display:flex;gap:12px;flex-wrap:nowrap;overflow:hidden;align-items:center}
+.report-links a{color:#00ff88;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap}
 
 /* NAV */
 .nav{background:#111;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:0 20px}
@@ -347,6 +349,12 @@ tr:hover td{background:#1f1f1f}
 </style>
 </head>
 <body>
+<div class="report-links">
+  <a id="hdr-home" href="file:///Users/tobyglennpeters/clawd/docs/index.html">🏠 Home</a>
+  <a id="hdr-calendar" href="file:///Users/tobyglennpeters/clawd/docs/calendars/2026-02-calendar.html">📅 Calendar</a>
+  <a id="hdr-speediance" href="file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html">🏋️ Speediance</a>
+  <a id="hdr-lifting" href="file:///Users/tobyglennpeters/clawd/docs/lifting_recovery_report_2026-02-19.html">💪 Lifting & Recovery</a>
+</div>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -1592,6 +1600,25 @@ function closeExerciseModal() {
 function _exModalKeydown(e) {
   if (e.key === 'Escape') closeExerciseModal();
 }
+</script>
+<script>
+(function () {
+  var host = window.location.hostname || "";
+  var protocol = window.location.protocol || "";
+  var isLocal = protocol === "file:" || host === "localhost" || host === "127.0.0.1" || host.startsWith("192.168.") || host.endsWith(".local");
+  var baseLocal = "file:///Users/tobyglennpeters/clawd/docs";
+  var now = new Date();
+  var ym = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+  var home = document.getElementById("hdr-home");
+  var cal = document.getElementById("hdr-calendar");
+  var spd = document.getElementById("hdr-speediance");
+  var lift = document.getElementById("hdr-lifting");
+  if (home) home.href = isLocal ? baseLocal + "/index.html" : "https://tobyglenn.github.io/fitness/index.html";
+  if (cal) cal.href = isLocal ? baseLocal + "/calendars/" + ym + "-calendar.html" : "https://tobyglenn.github.io/fitness/calendars/" + ym + "-calendar.html";
+  if (spd) spd.href = isLocal ? baseLocal + "/speediance_dashboard.html" : "https://tobyglenn.github.io/fitness/speediance_dashboard.html";
+  var ymd = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
+  if (lift) lift.href = isLocal ? baseLocal + "/lifting_recovery_report_" + ymd + ".html" : "https://tobyglenn.github.io/fitness/lifting_recovery_report_" + ymd + ".html";
+})();
 </script>
 </body>
 </html>
