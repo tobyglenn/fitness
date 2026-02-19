@@ -1,295 +1,2325 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset='UTF-8'>
-<title>October 2025</title>
-<style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 20px; background: #0a0a0c; color: #e0e0e0; }
-        .container { max-width: 1000px; margin: auto; background: #1c1c1e; padding: 20px; border-radius: 12px; }
-        h1 { text-align: center; color: #4fc3f7; margin: 0; }
-        .nav { display:flex; justify-content:space-between; align-items:center; margin:15px 0; padding:12px; background:#2c2c2e; border-radius:8px; }
-        .nav a { color:#4fc3f7; text-decoration:none; font-size:1.2em; }
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        tbody tr:not(.weekly-summary) { height: 100px; }
-        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; min-height: 100px; }
-        th { background: #2c2c2e; color: #fff; font-weight: bold; text-transform: uppercase; }
-        td { background: #1c1c1e; height: 100px; overflow: hidden; }
-        .day-content { text-decoration: none; color: inherit; display: block; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding: 10px; box-sizing: border-box; }
-        .day-num { font-weight: bold; color: #888; text-align: right; display: block; margin-bottom: 6px; }
-        .acts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
-        .acts li { color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.7em; font-weight: bold; display: flex; align-items: center; gap: 4px; }
-        .strain-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-        .empty { background: #151517 !important; }
-        .streak { background: #2a2a1e !important; box-shadow: inset 0 0 0 2px #ffd700; }
-        .streak::after { content: "STREAK"; color: #ffd700; font-size: 9px; font-weight: bold; position: absolute; top: 2px; left: 2px; }
-        .legend { background: #2c2c2e; padding: 12px; border-radius: 8px; margin: 15px 0; }
-        .legend-title { font-weight: bold; margin-bottom: 8px; color: #4fc3f7; }
-        .legend-items { display: flex; flex-wrap: wrap; gap: 8px; }
-        .legend-item { font-size: 0.75em; padding: 3px 8px; color: white; border-radius: 3px; }
-        .weekly-summary { background: #2c2c2e; border-top: 2px solid #3c3c3e; }
-        .weekly-summary td { padding: 2px 8px; font-size: 15px; color: #aaa; height: 20px; line-height: 20px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>October 2025 - Training Calendar</title>
+    <style>
+        /* === DESIGN PHILOSOPHY ===
+         * Make the calendar feel ALIVE:
+         * 1. Interactive hover states with smooth transitions
+         * 2. Visual depth with shadows and gradients
+         * 3. Contextual colors showing intensity/strain
+         * 4. Tooltips revealing detailed information
+         * 5. Progress indicators and trend visualization
+         * 6. Mobile-responsive with touch-friendly targets
+         * 7. Subtle animations that enhance without distracting
+         */
+        
+        /* === CSS VARIABLES === */
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --bg-hover: #3c3c3e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaa;
+            --text-dim: #888;
+            --accent-blue: #4fc3f7;
+            --accent-gold: #ffd700;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+            --border-color: #2c2c2e;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.5);
+            --glow-blue: 0 0 20px rgba(79, 195, 247, 0.3);
+            --glow-gold: 0 0 20px rgba(255, 215, 0, 0.4);
+            --transition-fast: 150ms ease;
+            --transition-medium: 250ms ease;
+        }
+        
+        /* === BASE STYLES === */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        /* === CONTAINER === */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* === HEADER === */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+        
+        /* === NAVIGATION === */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .nav a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all var(--transition-fast);
+        }
+        
+        .nav a:hover {
+            background: var(--bg-hover);
+            box-shadow: var(--glow-blue);
+            transform: translateY(-2px);
+        }
+        
+        .nav .current-month {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        /* === MONTH STATS === */
+        .month-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-medium);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-blue);
+        }
+        
+        .stat-card .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+        
+        .stat-card .stat-suffix {
+            color: var(--text-dim);
+            font-size: 0.9em;
+            margin-left: 4px;
+        }
+        
+        /* === LEGEND === */
+        .legend {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .legend-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent-blue);
+            font-size: 1.1em;
+        }
+        
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .legend-item {
+            font-size: 0.85em;
+            padding: 6px 12px;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+            cursor: default;
+        }
+        
+        .legend-item:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* === CALENDAR TABLE === */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 8px;
+            table-layout: fixed;
+        }
+        
+        th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 12px;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* === DAY CELLS === */
+        td {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            padding: 0;
+            vertical-align: top;
+            position: relative;
+            min-height: 120px;
+            height: 120px;
+            border-radius: 10px;
+            transition: all var(--transition-medium);
+            overflow: hidden;
+        }
+        
+        td:hover:not(.empty) {
+            border-color: var(--accent-blue);
+            box-shadow: var(--glow-blue);
+            transform: translateY(-2px);
+        }
+        
+        td.empty {
+            background: var(--bg-primary);
+            border-color: transparent;
+            opacity: 0.3;
+        }
+        
+        /* Strain-based background gradient */
+        td[data-strain-intensity] {
+            position: relative;
+        }
+        
+        td[data-strain-intensity]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, 
+                rgba(220, 53, 69, var(--strain-opacity, 0)) 0%, 
+                transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Streak highlighting */
+        td.streak {
+            border-color: var(--accent-gold);
+            box-shadow: var(--glow-gold);
+        }
+        
+        td.streak::after {
+            content: "⚡ STREAK";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 0.65em;
+            font-weight: 800;
+            color: var(--accent-gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            z-index: 10;
+            letter-spacing: 0.5px;
+        }
+        
+        /* === DAY CONTENT === */
+        .day-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 12px;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .day-num {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: var(--text-dim);
+            text-align: right;
+            margin-bottom: 8px;
+            transition: color var(--transition-fast);
+        }
+        
+        td:hover .day-num {
+            color: var(--accent-blue);
+        }
+        
+        /* === METRICS === */
+        .metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 8px;
+            font-size: 0.75em;
+        }
+        
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+        }
+        
+        .metric-run {
+            color: var(--accent-blue);
+        }
+        
+        .metric-lift {
+            color: var(--accent-red);
+        }
+        
+        .metric-strain {
+            color: #ffc107;
+        }
+        
+        .metric-icon {
+            font-size: 1.1em;
+        }
+        
+        /* === ACTIVITIES === */
+        .activities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+        }
+        
+        .activity-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 700;
+            color: white;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .activity-badge:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+            z-index: 5;
+        }
+        
+        /* Tooltip on activity hover */
+        .activity-badge::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+        }
+        
+        .activity-badge:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+        
+        .strain-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px currentColor;
+            transition: all var(--transition-fast);
+        }
+        
+        .activity-badge:hover .strain-indicator {
+            transform: scale(1.3);
+        }
+        
+        /* === WEEKLY SUMMARY === */
+        .weekly-summary {
+            background: var(--bg-tertiary);
+            border-top: 3px solid var(--accent-blue);
+            margin-top: 4px;
+        }
+        
+        .weekly-summary td {
+            padding: 12px 16px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            height: auto;
+            min-height: auto;
+            border: none;
+            border-radius: 8px;
+            transition: all var(--transition-medium);
+        }
+        
+        .weekly-summary td:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        
+        .weekly-summary strong {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+        
+        .weekly-summary .summary-item {
+            display: inline-block;
+            margin-right: 16px;
+        }
+        
+        /* Progress bar for weekly volume */
+        .progress-bar {
+            display: inline-block;
+            width: 60px;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+            transition: width var(--transition-medium);
+            border-radius: 3px;
+        }
+        
+        /* === MOBILE RESPONSIVE === */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+                border-radius: 12px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .month-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .stat-card .stat-value {
+                font-size: 1.5em;
+            }
+            
+            table {
+                border-spacing: 4px;
+            }
+            
+            th {
+                padding: 8px 4px;
+                font-size: 0.75em;
+            }
+            
+            td {
+                min-height: 100px;
+                height: 100px;
+            }
+            
+            .day-content {
+                padding: 8px;
+            }
+            
+            .day-num {
+                font-size: 1em;
+            }
+            
+            .activity-badge {
+                padding: 4px 6px;
+                font-size: 0.65em;
+                gap: 4px;
+            }
+            
+            .metrics {
+                font-size: 0.7em;
+            }
+            
+            .weekly-summary td {
+                font-size: 0.8em;
+                padding: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 4px;
+                overflow-x: hidden;
+            }
+            
+            .container {
+                padding: 8px;
+                max-width: 100vw;
+            }
+            
+            .month-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            
+            .stat-card {
+                padding: 10px;
+            }
+            
+            .stat-card .stat-value {
+                font-size: 1.3em;
+            }
+            
+            .legend-items {
+                gap: 4px;
+            }
+            
+            .legend-item {
+                font-size: 0.7em;
+                padding: 4px 8px;
+            }
+            
+            .nav {
+                padding: 10px;
+                gap: 4px;
+            }
+            
+            .nav a, .nav .current-month {
+                font-size: 0.9em;
+            }
+            
+            .nav a {
+                padding: 6px 10px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            table {
+                border-spacing: 2px;
+            }
+            
+            th {
+                font-size: 0.6em;
+                padding: 6px 1px;
+                letter-spacing: 0;
+            }
+            
+            td {
+                min-height: 70px;
+                height: 70px;
+                border-width: 1px;
+                border-radius: 6px;
+            }
+            
+            .day-content {
+                padding: 3px;
+                gap: 1px;
+            }
+            
+            .day-num {
+                font-size: 0.75em;
+                margin-bottom: 2px;
+            }
+            
+            /* Move streak label to avoid overlap with day number */
+            td.streak::after {
+                content: "⚡";
+                font-size: 0.6em;
+                top: 2px;
+                left: 2px;
+            }
+            
+            .metrics {
+                font-size: 0.55em;
+                gap: 1px;
+                margin-bottom: 2px;
+            }
+            
+            .metric {
+                gap: 1px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .metric-icon {
+                font-size: 0.9em;
+            }
+            
+            .activities {
+                gap: 2px;
+            }
+            
+            .activity-badge {
+                font-size: 0.5em;
+                padding: 2px 3px;
+                gap: 2px;
+                border-radius: 3px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 100%;
+            }
+            
+            /* Hide strain dot on mobile to save space */
+            .activity-badge .strain-indicator {
+                display: none;
+            }
+            
+            /* Hide tooltips on mobile (touch doesn't hover well) */
+            .activity-badge::after {
+                display: none;
+            }
+            
+            .weekly-summary td {
+                font-size: 0.7em;
+                padding: 6px;
+            }
+            
+            .weekly-summary .summary-item {
+                margin-right: 8px;
+            }
+            
+            .progress-bar {
+                width: 40px;
+            }
+        }
+        
+        /* === ANIMATIONS === */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        /* Stagger animation for calendar cells */
+        @keyframes cellFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        td {
+            animation: cellFadeIn 0.3s ease backwards;
+        }
+        
+        
+            
+        tr:nth-child(2) td:nth-child(1) {
+            animation-delay: 0.0s;
+        }
+            
+        tr:nth-child(2) td:nth-child(2) {
+            animation-delay: 0.02s;
+        }
+            
+        tr:nth-child(2) td:nth-child(3) {
+            animation-delay: 0.04s;
+        }
+            
+        tr:nth-child(2) td:nth-child(4) {
+            animation-delay: 0.06s;
+        }
+            
+        tr:nth-child(2) td:nth-child(5) {
+            animation-delay: 0.08s;
+        }
+            
+        tr:nth-child(2) td:nth-child(6) {
+            animation-delay: 0.1s;
+        }
+            
+        tr:nth-child(2) td:nth-child(7) {
+            animation-delay: 0.12s;
+        }
+            
+        
+            
+        tr:nth-child(4) td:nth-child(1) {
+            animation-delay: 0.14s;
+        }
+            
+        tr:nth-child(4) td:nth-child(2) {
+            animation-delay: 0.16s;
+        }
+            
+        tr:nth-child(4) td:nth-child(3) {
+            animation-delay: 0.18s;
+        }
+            
+        tr:nth-child(4) td:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+            
+        tr:nth-child(4) td:nth-child(5) {
+            animation-delay: 0.22s;
+        }
+            
+        tr:nth-child(4) td:nth-child(6) {
+            animation-delay: 0.24s;
+        }
+            
+        tr:nth-child(4) td:nth-child(7) {
+            animation-delay: 0.26s;
+        }
+            
+        
+            
+        tr:nth-child(6) td:nth-child(1) {
+            animation-delay: 0.28s;
+        }
+            
+        tr:nth-child(6) td:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+            
+        tr:nth-child(6) td:nth-child(3) {
+            animation-delay: 0.32s;
+        }
+            
+        tr:nth-child(6) td:nth-child(4) {
+            animation-delay: 0.34s;
+        }
+            
+        tr:nth-child(6) td:nth-child(5) {
+            animation-delay: 0.36s;
+        }
+            
+        tr:nth-child(6) td:nth-child(6) {
+            animation-delay: 0.38s;
+        }
+            
+        tr:nth-child(6) td:nth-child(7) {
+            animation-delay: 0.4s;
+        }
+            
+        
+            
+        tr:nth-child(8) td:nth-child(1) {
+            animation-delay: 0.42s;
+        }
+            
+        tr:nth-child(8) td:nth-child(2) {
+            animation-delay: 0.44s;
+        }
+            
+        tr:nth-child(8) td:nth-child(3) {
+            animation-delay: 0.46s;
+        }
+            
+        tr:nth-child(8) td:nth-child(4) {
+            animation-delay: 0.48s;
+        }
+            
+        tr:nth-child(8) td:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+            
+        tr:nth-child(8) td:nth-child(6) {
+            animation-delay: 0.52s;
+        }
+            
+        tr:nth-child(8) td:nth-child(7) {
+            animation-delay: 0.54s;
+        }
+            
+        
+            
+        tr:nth-child(10) td:nth-child(1) {
+            animation-delay: 0.56s;
+        }
+            
+        tr:nth-child(10) td:nth-child(2) {
+            animation-delay: 0.58s;
+        }
+            
+        tr:nth-child(10) td:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+            
+        tr:nth-child(10) td:nth-child(4) {
+            animation-delay: 0.62s;
+        }
+            
+        tr:nth-child(10) td:nth-child(5) {
+            animation-delay: 0.64s;
+        }
+            
+        tr:nth-child(10) td:nth-child(6) {
+            animation-delay: 0.66s;
+        }
+            
+        tr:nth-child(10) td:nth-child(7) {
+            animation-delay: 0.68s;
+        }
+            
+        
     </style>
 </head>
 <body>
-<div class='container'>
-<h1>Training Calendar</h1>
-<div class='nav'>
-<a href='2025-09-calendar.html'>Prev</a>
-<span>October 2025</span>
-<a href='2025-11-calendar.html'>Next</a>
-</div>
-<div class='legend'>
-<div class='legend-title'>Activity Types</div>
-<div class='legend-items'>
-<span class='legend-item' style='background:#007bff'>BIKE</span>
-<span class='legend-item' style='background:#6f42c1'>BJJ</span>
-<span class='legend-item' style='background:#6f42c1'>BOX</span>
-<span class='legend-item' style='background:#6c757d'>ELIP</span>
-<span class='legend-item' style='background:#fd7e14'>HIIT</span>
-<span class='legend-item' style='background:#795548'>HIKE</span>
-<span class='legend-item' style='background:#6f42c1'>KBOX</span>
-<span class='legend-item' style='background:#dc3545'>LIFT</span>
-<span class='legend-item' style='background:#adb5bd'>OTHR</span>
-<span class='legend-item' style='background:#6c757d'>ROW</span>
-<span class='legend-item' style='background:#28a745'>RUN</span>
-<span class='legend-item' style='background:#007bff'>SPIN</span>
-<span class='legend-item' style='background:#17a2b8'>SWIM</span>
-<span class='legend-item' style='background:#6c757d'>TMIL</span>
-<span class='legend-item' style='background:#ffc107'>YOGA</span>
-</div>
-</div>
-<table>
-<thead>
-<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
-</thead>
-<tbody>
-<tr>
-<td class='empty'></td>
-<td class='empty'></td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>1</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>2</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>3</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>4</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>5</span>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 1: 1 workouts • LIFT: 1 • Avg strain: 6.1</td></tr>
-<tr>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>6</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>7</span>
-<ul class='acts'>
-<li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>8</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>9</span>
-<ul class='acts'>
-<li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>10</span>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>11</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>12</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 2: 9 workouts • LIFT: 5, RUN: 2, BJJ: 2 • Avg strain: 7.7</td></tr>
-<tr>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>13</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>14</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BOX<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>15</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#007bff'>SPIN<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>16</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>17</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>18</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>19</span>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 3: 7 workouts • LIFT: 2, BJJ: 3, BOX: 1, SPIN: 1 • Avg strain: 5.7</td></tr>
-<tr>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>20</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>21</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>22</span>
-<ul class='acts'>
-<li style='background:#adb5bd'>WALK<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>23</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>24</span>
-<ul class='acts'>
-<li style='background:#007bff'>SPIN<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>25</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>26</span>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 4: 3 workouts • LIFT: 1, SPIN: 1, WALK: 1 • Avg strain: 5.5</td></tr>
-<tr>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>27</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>28</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>29</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>30</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>31</span>
-</div>
-</td>
-<td class='empty'></td>
-<td class='empty'></td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 5: 1 workouts • LIFT: 1 • Avg strain: 5.3</td></tr>
-</tbody>
-</table>
-</div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📅 Training Calendar</h1>
+            <div class="subtitle">October 2025</div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="nav">
+            <a href="2025-09-calendar.html">← Previous</a>
+            <span class="current-month">October 2025</span>
+            
+            <a href="2025-11-calendar.html">Next →</a>
+            
+        </div>
+        
+        <!-- Month Statistics -->
+        <div class="month-stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Workouts</div>
+                <div class="stat-value">22</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Strain</div>
+                <div class="stat-value">3.4</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Distance</div>
+                <div class="stat-value">0.0<span class="stat-suffix">mi</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Volume</div>
+                <div class="stat-value">0.0<span class="stat-suffix">K lbs</span></div>
+            </div>
+            
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-title">Activity Types</div>
+            <div class="legend-items">
+                
+                <span class="legend-item" style="background: #007bff;">BIKE</span>
+                
+                <span class="legend-item" style="background: #6f42c1;">BJJ</span>
+                
+                <span class="legend-item" style="background: #6f42c1;">BOX</span>
+                
+                <span class="legend-item" style="background: #6c757d;">ELIP</span>
+                
+                <span class="legend-item" style="background: #fd7e14;">HIIT</span>
+                
+                <span class="legend-item" style="background: #795548;">HIKE</span>
+                
+                <span class="legend-item" style="background: #6f42c1;">KBOX</span>
+                
+                <span class="legend-item" style="background: #dc3545;">LIFT</span>
+                
+                <span class="legend-item" style="background: #adb5bd;">OTHR</span>
+                
+                <span class="legend-item" style="background: #6c757d;">ROW</span>
+                
+                <span class="legend-item" style="background: #28a745;">RUN</span>
+                
+                <span class="legend-item" style="background: #007bff;">SPIN</span>
+                
+                <span class="legend-item" style="background: #17a2b8;">SWIM</span>
+                
+                <span class="legend-item" style="background: #6c757d;">TMIL</span>
+                
+                <span class="legend-item" style="background: #ffc107;">YOGA</span>
+                
+            </div>
+        </div>
+        
+        <!-- Calendar Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    
+                    
+                    <td class="empty"></td>
+                    
+                    
+                    
+                    <td class="empty"></td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.1910903047619048"
+                        style="--strain-opacity: 0.1910903047619048;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">1</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    10.0
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.11105933333333334"
+                        style="--strain-opacity: 0.11105933333333334;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">2</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    5.8
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 4.3 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.11053969142857144"
+                        style="--strain-opacity: 0.11053969142857144;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">3</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    5.8
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.09073977714285714"
+                        style="--strain-opacity: 0.09073977714285714;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">4</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.8
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.08176408571428573"
+                        style="--strain-opacity: 0.08176408571428573;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">5</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                
+                <!-- Weekly Summary -->
+                
+                <tr class="weekly-summary">
+                    <td colspan="7">
+                        <strong>Week 1:</strong>
+                        
+                        
+                        <span class="summary-item">1 workouts</span>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="summary-item">Avg strain: 6.1</span>
+                        
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.1851089523809524"
+                        style="--strain-opacity: 0.1851089523809524;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">6</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    9.7
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.1 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.17674438095238099"
+                        style="--strain-opacity: 0.17674438095238099;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">7</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    9.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #28a745;"
+                                     data-tooltip="Strain: 5.4 (low)">
+                                    RUN
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                                <div class="activity-badge" 
+                                     style="background: #6f42c1;"
+                                     data-tooltip="Strain: 7.4 (low)">
+                                    BJJ
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.20752373333333335"
+                        style="--strain-opacity: 0.20752373333333335;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">8</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    10.9
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #6f42c1;"
+                                     data-tooltip="Strain: 5.1 (low)">
+                                    BJJ
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.0 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.11894146095238096"
+                        style="--strain-opacity: 0.11894146095238096;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">9</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    6.2
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #28a745;"
+                                     data-tooltip="Strain: 5.5 (low)">
+                                    RUN
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.0 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.11506293333333334"
+                        style="--strain-opacity: 0.11506293333333334;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">10</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    6.0
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0"
+                        style="--strain-opacity: 0;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">11</span>
+                            
+                            <!-- Metrics -->
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 1.2 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.08105624"
+                        style="--strain-opacity: 0.08105624;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">12</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.0 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                
+                <!-- Weekly Summary -->
+                
+                <tr class="weekly-summary">
+                    <td colspan="7">
+                        <strong>Week 2:</strong>
+                        
+                        
+                        <span class="summary-item">9 workouts</span>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="summary-item">BJJ: 2</span>
+                        
+                        
+                        
+                        <span class="summary-item">Avg strain: 7.7</span>
+                        
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.10888076190476191"
+                        style="--strain-opacity: 0.10888076190476191;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">13</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    5.7
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #6f42c1;"
+                                     data-tooltip="Strain: 5.1 (low)">
+                                    BJJ
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.16794375238095238"
+                        style="--strain-opacity: 0.16794375238095238;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">14</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    8.8
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #6f42c1;"
+                                     data-tooltip="Strain: 5.6 (low)">
+                                    BOX
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                                <div class="activity-badge" 
+                                     style="background: #6f42c1;"
+                                     data-tooltip="Strain: 6.2 (low)">
+                                    BJJ
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.0 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.15832569523809525"
+                        style="--strain-opacity: 0.15832569523809525;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">15</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    8.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #6f42c1;"
+                                     data-tooltip="Strain: 5.2 (low)">
+                                    BJJ
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                                <div class="activity-badge" 
+                                     style="background: #007bff;"
+                                     data-tooltip="Strain: 5.9 (low)">
+                                    SPIN
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="streak" 
+                        data-strain-intensity="0.08281729523809525"
+                        style="--strain-opacity: 0.08281729523809525;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">16</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.0 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.1327766780952381"
+                        style="--strain-opacity: 0.1327766780952381;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">17</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    7.0
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.02014381904761905"
+                        style="--strain-opacity: 0.02014381904761905;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">18</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    1.1
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.08667253333333334"
+                        style="--strain-opacity: 0.08667253333333334;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">19</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.6
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                
+                <!-- Weekly Summary -->
+                
+                <tr class="weekly-summary">
+                    <td colspan="7">
+                        <strong>Week 3:</strong>
+                        
+                        
+                        <span class="summary-item">7 workouts</span>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="summary-item">BJJ: 3</span>
+                        
+                        <span class="summary-item">BOX: 1</span>
+                        
+                        <span class="summary-item">SPIN: 1</span>
+                        
+                        
+                        
+                        <span class="summary-item">Avg strain: 5.7</span>
+                        
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.08200754285714286"
+                        style="--strain-opacity: 0.08200754285714286;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">20</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.0 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.10623738476190477"
+                        style="--strain-opacity: 0.10623738476190477;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">21</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    5.6
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.14054432000000003"
+                        style="--strain-opacity: 0.14054432000000003;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">22</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    7.4
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #adb5bd;"
+                                     data-tooltip="Strain: 4.5 (recovery)">
+                                    WALK
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.08381121904761907"
+                        style="--strain-opacity: 0.08381121904761907;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">23</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.4
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.11849436952380953"
+                        style="--strain-opacity: 0.11849436952380953;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">24</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    6.2
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #007bff;"
+                                     data-tooltip="Strain: 5.5 (low)">
+                                    SPIN
+                                    <span class="strain-indicator" style="background: #ffc107;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.0823709219047619"
+                        style="--strain-opacity: 0.0823709219047619;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">25</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.11616194285714286"
+                        style="--strain-opacity: 0.11616194285714286;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">26</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    6.1
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                
+                <!-- Weekly Summary -->
+                
+                <tr class="weekly-summary">
+                    <td colspan="7">
+                        <strong>Week 4:</strong>
+                        
+                        
+                        <span class="summary-item">3 workouts</span>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="summary-item">SPIN: 1</span>
+                        
+                        <span class="summary-item">WALK: 1</span>
+                        
+                        
+                        
+                        <span class="summary-item">Avg strain: 5.5</span>
+                        
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.09096594285714288"
+                        style="--strain-opacity: 0.09096594285714288;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">27</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.8
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.09876201333333333"
+                        style="--strain-opacity: 0.09876201333333333;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">28</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    5.2
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.12040925714285716"
+                        style="--strain-opacity: 0.12040925714285716;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">29</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    6.3
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.11105474666666666"
+                        style="--strain-opacity: 0.11105474666666666;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">30</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    5.8
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                            <div class="activities">
+                                
+                                <div class="activity-badge" 
+                                     style="background: #dc3545;"
+                                     data-tooltip="Strain: 0.1 (recovery)">
+                                    LIFT
+                                    <span class="strain-indicator" style="background: #28a745;"></span>
+                                </div>
+                                
+                            </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="" 
+                        data-strain-intensity="0.08738438095238095"
+                        style="--strain-opacity: 0.08738438095238095;">
+                        
+                        
+                        <div class="day-content">
+                        
+                            <span class="day-num">31</span>
+                            
+                            <!-- Metrics -->
+                            
+                            <div class="metrics">
+                                
+                                
+                                
+                                <div class="metric metric-strain">
+                                    <span class="metric-icon">🔥</span>
+                                    4.6
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!-- Activities -->
+                            
+                        
+                        
+                        </div>
+                        
+                    </td>
+                    
+                    
+                    
+                    <td class="empty"></td>
+                    
+                    
+                    
+                    <td class="empty"></td>
+                    
+                    
+                </tr>
+                
+                <!-- Weekly Summary -->
+                
+                <tr class="weekly-summary">
+                    <td colspan="7">
+                        <strong>Week 5:</strong>
+                        
+                        
+                        <span class="summary-item">1 workouts</span>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <span class="summary-item">Avg strain: 5.3</span>
+                        
+                    </td>
+                </tr>
+                
+                
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
