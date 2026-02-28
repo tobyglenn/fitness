@@ -1418,5 +1418,114 @@ Next-day Run: 1.56 miles</title></circle>
 </section>
 
 
+
+<!-- WEEK COMPARISON WIDGET START -->
+
+<style>
+/* Week Comparison Widget */
+.week-comparison {
+  background: #161b22;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+}
+.week-comparison h2 {
+  color: white;
+  margin: 0 0 20px 0;
+  font-size: 1.4em;
+}
+.wc-week-labels {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 0.8em;
+  color: #8b949e;
+}
+.wc-week-labels span { flex: 1; text-align: center; }
+.comparison-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.comp-card {
+  background: #0d1117;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.comp-card .label {
+  color: #8b949e;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 10px;
+}
+.comp-card .values {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  margin: 12px 0;
+}
+.comp-card .current {
+  color: white;
+  font-weight: bold;
+  font-size: 1.15em;
+}
+.comp-card .previous {
+  color: #6e7681;
+  font-size: 0.85em;
+}
+.comp-card .delta {
+  font-weight: bold;
+  font-size: 1.05em;
+  display: block;
+  margin-top: 4px;
+}
+.delta.positive { color: #2ea043; }
+.delta.negative { color: #f85149; }
+.delta.neutral  { color: #8b949e; }
+.wc-no-data {
+  color: #6e7681;
+  text-align: center;
+  padding: 16px;
+  font-style: italic;
+}
+</style>
+
+<section class="week-comparison">
+  <h2>📊 This Week vs Last Week</h2>
+  <div class="wc-week-labels">
+    <span>This week (Feb 23 – Mar 01)</span>
+    <span>Last week (Feb 16 – Feb 22)</span>
+  </div>
+  <div class="comparison-cards">
+    <div class="comp-card">
+      <span class="label">Avg Sleep Score</span>
+      <div class="values">
+        <span class="current">80</span>
+        <span class="previous">72</span>
+      </div>
+      <span class="delta positive">↑ +10.9%</span>
+    </div>
+    <div class="comp-card">
+      <span class="label">Avg Hours</span>
+      <div class="values">
+        <span class="current">6.2 hrs</span>
+        <span class="previous">5.9 hrs</span>
+      </div>
+      <span class="delta positive">↑ +6.4%</span>
+    </div>
+    <div class="comp-card">
+      <span class="label">Avg HRV</span>
+      <div class="values">
+        <span class="current">34 ms</span>
+        <span class="previous">29 ms</span>
+      </div>
+      <span class="delta positive">↑ +14.5%</span>
+    </div></div>
+</section>
+<!-- WEEK COMPARISON WIDGET END -->
+
 </body>
 </html>

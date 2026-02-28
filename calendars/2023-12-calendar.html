@@ -845,6 +845,34 @@
         }
             
         
+    
+        .day-detail-link { display: block; text-align: center; font-size: 10px; color: #f39c12; text-decoration: none; margin-top: 4px; opacity: 0.7; }
+        .day-detail-link:hover { opacity: 1; }
+
+    /* === CALENDAR OVERLAY BADGES === */
+    .day-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      margin-top: 4px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 9px;
+      margin: 0 1px;
+      font-weight: bold;
+    }
+    .badge.whoop-green { background: #2ea043; color: white; }
+    .badge.whoop-yellow { background: #f39c12; color: black; }
+    .badge.whoop-red { background: #f85149; color: white; }
+    .badge.sleep-green { background: #2ea043; color: white; }
+    .badge.sleep-yellow { background: #f39c12; color: black; }
+    .badge.sleep-red { background: #f85149; color: white; }
+    .badge.tonal { background: #0a84ff; color: white; }
+    .badge.run { background: #a371f7; color: white; }
+
     </style>
 </head>
 <body>
@@ -976,6 +1004,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">1</span>
+                            <a href="../day/?date=2023-12-01" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1009,7 +1038,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪7.1K</span></div>
+                        </div>
                             
                         
                         
@@ -1027,6 +1058,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">2</span>
+                            <a href="../day/?date=2023-12-02" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1053,7 +1085,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜33</span><span class="badge sleep-green" title="8Sleep Score">😴84</span></div>
+                        </div>
                             
                         
                         
@@ -1071,6 +1105,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">3</span>
+                            <a href="../day/?date=2023-12-03" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1104,7 +1139,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪7.6K</span></div>
+                        </div>
                             
                         
                         
@@ -1151,6 +1188,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">4</span>
+                            <a href="../day/?date=2023-12-04" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1177,7 +1215,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪10.5K</span></div>
+                        </div>
                             
                         
                         
@@ -1195,6 +1235,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">5</span>
+                            <a href="../day/?date=2023-12-05" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1221,7 +1262,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪10.3K</span></div>
+                        </div>
                             
                         
                         
@@ -1239,6 +1282,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">6</span>
+                            <a href="../day/?date=2023-12-06" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1265,7 +1309,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪10.2K</span></div>
+                        </div>
                             
                         
                         
@@ -1283,6 +1329,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">7</span>
+                            <a href="../day/?date=2023-12-07" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1316,7 +1363,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪6.9K</span></div>
+                        </div>
                             
                         
                         
@@ -1334,6 +1383,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">8</span>
+                            <a href="../day/?date=2023-12-08" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1360,7 +1410,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜38</span><span class="badge sleep-green" title="8Sleep Score">😴88</span></div>
+                        </div>
                             
                         
                         
@@ -1378,6 +1430,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">9</span>
+                            <a href="../day/?date=2023-12-09" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1404,7 +1457,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪13.1K</span></div>
+                        </div>
                             
                         
                         
@@ -1422,6 +1477,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">10</span>
+                            <a href="../day/?date=2023-12-10" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1455,7 +1511,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪3.7K</span></div>
+                        </div>
                             
                         
                         
@@ -1502,6 +1560,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">11</span>
+                            <a href="../day/?date=2023-12-11" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1528,7 +1587,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪9.6K</span></div>
+                        </div>
                             
                         
                         
@@ -1546,6 +1607,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">12</span>
+                            <a href="../day/?date=2023-12-12" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1586,7 +1648,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪10.3K</span></div>
+                        </div>
                             
                         
                         
@@ -1604,6 +1668,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">13</span>
+                            <a href="../day/?date=2023-12-13" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1644,7 +1709,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪4.2K</span></div>
+                        </div>
                             
                         
                         
@@ -1662,6 +1729,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">14</span>
+                            <a href="../day/?date=2023-12-14" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1695,6 +1763,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">15</span>
+                            <a href="../day/?date=2023-12-15" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1728,6 +1797,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">16</span>
+                            <a href="../day/?date=2023-12-16" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1761,6 +1831,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">17</span>
+                            <a href="../day/?date=2023-12-17" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1787,7 +1858,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜92</span></div>
+                        </div>
                             
                         
                         
@@ -1836,6 +1909,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">18</span>
+                            <a href="../day/?date=2023-12-18" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1869,6 +1943,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">19</span>
+                            <a href="../day/?date=2023-12-19" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1902,7 +1977,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜79</span></div>
+                        </div>
                             
                         
                         
@@ -1920,6 +1997,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">20</span>
+                            <a href="../day/?date=2023-12-20" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1946,7 +2024,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪12.3K</span></div>
+                        </div>
                             
                         
                         
@@ -1964,6 +2044,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">21</span>
+                            <a href="../day/?date=2023-12-21" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -1990,7 +2071,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪7.9K</span></div>
+                        </div>
                             
                         
                         
@@ -2008,6 +2091,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">22</span>
+                            <a href="../day/?date=2023-12-22" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2041,7 +2125,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪17.5K</span></div>
+                        </div>
                             
                         
                         
@@ -2059,6 +2145,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">23</span>
+                            <a href="../day/?date=2023-12-23" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2092,6 +2179,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">24</span>
+                            <a href="../day/?date=2023-12-24" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2118,7 +2206,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜56</span><span class="badge sleep-green" title="8Sleep Score">😴93</span></div>
+                        </div>
                             
                         
                         
@@ -2163,6 +2253,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">25</span>
+                            <a href="../day/?date=2023-12-25" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2196,6 +2287,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">26</span>
+                            <a href="../day/?date=2023-12-26" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2229,7 +2321,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪10.9K</span></div>
+                        </div>
                             
                         
                         
@@ -2247,6 +2341,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">27</span>
+                            <a href="../day/?date=2023-12-27" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2280,7 +2375,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪7.9K</span></div>
+                        </div>
                             
                         
                         
@@ -2298,6 +2395,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">28</span>
+                            <a href="../day/?date=2023-12-28" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2324,7 +2422,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪11.8K</span></div>
+                        </div>
                             
                         
                         
@@ -2342,6 +2442,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">29</span>
+                            <a href="../day/?date=2023-12-29" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2368,7 +2469,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪4.3K</span></div>
+                        </div>
                             
                         
                         
@@ -2386,6 +2489,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">30</span>
+                            <a href="../day/?date=2023-12-30" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2412,7 +2516,9 @@
                                     <span class="strain-indicator" style="background: #28a745;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪8.1K</span></div>
+                        </div>
                             
                         
                         
@@ -2430,6 +2536,7 @@
                         <div class="day-content">
                         
                             <span class="day-num">31</span>
+                            <a href="../day/?date=2023-12-31" class="day-detail-link">details</a>
                             
                             <!-- Metrics -->
                             
@@ -2463,7 +2570,9 @@
                                     <span class="strain-indicator" style="background: #ffc107;"></span>
                                 </div>
                                 
-                            </div>
+                            
+                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜86</span><span class="badge sleep-green" title="8Sleep Score">😴87</span></div>
+                        </div>
                             
                         
                         
