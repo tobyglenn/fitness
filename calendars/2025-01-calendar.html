@@ -871,6 +871,34 @@
     .badge.tonal { background: #0a84ff; color: white; }
     .badge.run { background: #a371f7; color: white; }
 
+    
+    /* === DRILLDOWN OVERLAY BADGES (v2) === */
+    .drilldown-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .drilldown-badges .badge {
+      display: inline-block;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: bold;
+      color: white;
+      line-height: 1.4;
+    }
+    .badge.whoop-green  { background: #2ea043; }
+    .badge.whoop-yellow { background: #f39c12; color: #000; }
+    .badge.whoop-red    { background: #f85149; }
+    .badge.sleep-green  { background: #1a6ea0; }
+    .badge.sleep-yellow { background: #6e60a8; color: #fff; }
+    .badge.sleep-red    { background: #7a3038; }
+    .badge.tonal        { background: #0a84ff; }
+    .badge.run          { background: #a371f7; }
+    /* legacy day-badges alias kept for backward compat */
+    .day-badges { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
+
     </style>
 </head>
 <body>
@@ -878,6 +906,13 @@
         <!-- Header -->
         <div class="header">
             <h1>📅 Training Calendar</h1>
+<div class="calendar-legend" style="display:flex;gap:12px;padding:8px 12px;background:#161b22;border-radius:6px;margin-bottom:12px;font-size:11px;color:#8b949e;flex-wrap:wrap;">
+  <strong style="color:#f39c12;margin-right:4px;">📊 Key:</strong>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2ea043;margin-right:3px;vertical-align:middle;"></span>WHOOP %</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1a6ea0;margin-right:3px;vertical-align:middle;"></span>8Sleep</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0a84ff;margin-right:3px;vertical-align:middle;"></span>Tonal lbs</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a371f7;margin-right:3px;vertical-align:middle;"></span>Run mi</span>
+</div>
             <div class="subtitle">January 2025</div>
         </div>
         
@@ -1050,7 +1085,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪18.4K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 24%">💜24</span><span class="badge sleep-green" title="8Sleep Score: 84">😴84</span><span class="badge tonal" title="Tonal Volume: 18,406 lbs">💪18K</span></div>
                         </div>
                             
                         
@@ -1165,7 +1204,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪35.8K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 73%">💜73</span><span class="badge sleep-yellow" title="8Sleep Score: 74">😴74</span><span class="badge tonal" title="Tonal Volume: 35,752 lbs">💪36K</span></div>
                         </div>
                             
                         
@@ -1239,7 +1282,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪23.0K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 68%">💜68</span><span class="badge sleep-green" title="8Sleep Score: 85">😴85</span><span class="badge tonal" title="Tonal Volume: 23,044 lbs">💪23K</span></div>
                         </div>
                             
                         
@@ -1286,7 +1333,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪14.0K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 40%">💜40</span><span class="badge sleep-yellow" title="8Sleep Score: 60">😴60</span><span class="badge tonal" title="Tonal Volume: 14,010 lbs">💪14K</span></div>
                         </div>
                             
                         
@@ -1333,7 +1384,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪12.8K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 29%">💜29</span><span class="badge sleep-yellow" title="8Sleep Score: 80">😴80</span><span class="badge tonal" title="Tonal Volume: 12,767 lbs">💪13K</span></div>
                         </div>
                             
                         
@@ -1380,7 +1435,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜36</span><span class="badge sleep-green" title="8Sleep Score">😴85</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 36%">💜36</span><span class="badge sleep-green" title="8Sleep Score: 85">😴85</span></div>
                         </div>
                             
                         
@@ -1434,7 +1493,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪19.7K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 74%">💜74</span><span class="badge sleep-green" title="8Sleep Score: 82">😴82</span><span class="badge tonal" title="Tonal Volume: 19,711 lbs">💪20K</span></div>
                         </div>
                             
                         
@@ -1481,7 +1544,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪25.5K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 60%">💜60</span><span class="badge sleep-green" title="8Sleep Score: 93">😴93</span><span class="badge tonal" title="Tonal Volume: 25,481 lbs">💪25K</span></div>
                         </div>
                             
                         
@@ -1591,7 +1658,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜43</span><span class="badge sleep-green" title="8Sleep Score">😴86</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 43%">💜43</span><span class="badge sleep-green" title="8Sleep Score: 86">😴86</span></div>
                         </div>
                             
                         
@@ -1638,7 +1709,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪11.3K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 52%">💜52</span><span class="badge sleep-yellow" title="8Sleep Score: 76">😴76</span><span class="badge tonal" title="Tonal Volume: 11,256 lbs">💪11K</span></div>
                         </div>
                             
                         
@@ -1753,7 +1828,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪11.7K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 78%">💜78</span><span class="badge sleep-green" title="8Sleep Score: 99">😴99</span><span class="badge tonal" title="Tonal Volume: 11,715 lbs">💪12K</span></div>
                         </div>
                             
                         
@@ -1834,7 +1913,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪8.0K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 52%">💜52</span><span class="badge sleep-green" title="8Sleep Score: 92">😴92</span><span class="badge tonal" title="Tonal Volume: 8,048 lbs">💪8.0K</span></div>
                         </div>
                             
                         
@@ -1944,7 +2027,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪16.9K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 53%">💜53</span><span class="badge sleep-green" title="8Sleep Score: 88">😴88</span><span class="badge tonal" title="Tonal Volume: 16,894 lbs">💪17K</span></div>
                         </div>
                             
                         
@@ -1998,7 +2085,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜84</span><span class="badge sleep-yellow" title="8Sleep Score">😴71</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 84%">💜84</span><span class="badge sleep-yellow" title="8Sleep Score: 71">😴71</span></div>
                         </div>
                             
                         
@@ -2045,7 +2136,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪27.5K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 38%">💜38</span><span class="badge sleep-green" title="8Sleep Score: 87">😴87</span><span class="badge tonal" title="Tonal Volume: 27,543 lbs">💪28K</span></div>
                         </div>
                             
                         
@@ -2099,7 +2194,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪5.2K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 47%">💜47</span><span class="badge sleep-green" title="8Sleep Score: 84">😴84</span><span class="badge tonal" title="Tonal Volume: 5,237 lbs">💪5.2K</span></div>
                         </div>
                             
                         
@@ -2187,7 +2286,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪4.3K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 81%">💜81</span><span class="badge sleep-green" title="8Sleep Score: 93">😴93</span><span class="badge tonal" title="Tonal Volume: 4,315 lbs">💪4.3K</span></div>
                         </div>
                             
                         
@@ -2267,7 +2370,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪19.8K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 69%">💜69</span><span class="badge sleep-green" title="8Sleep Score: 89">😴89</span><span class="badge tonal" title="Tonal Volume: 19,831 lbs">💪20K</span></div>
                         </div>
                             
                         
@@ -2314,7 +2421,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪27.6K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 52%">💜52</span><span class="badge sleep-green" title="8Sleep Score: 83">😴83</span><span class="badge tonal" title="Tonal Volume: 27,619 lbs">💪28K</span></div>
                         </div>
                             
                         
@@ -2395,7 +2506,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜30</span><span class="badge sleep-green" title="8Sleep Score">😴91</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 30%">💜30</span><span class="badge sleep-green" title="8Sleep Score: 91">😴91</span></div>
                         </div>
                             
                         
@@ -2442,7 +2557,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪5.1K</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 49%">💜49</span><span class="badge sleep-red" title="8Sleep Score: 44">😴44</span><span class="badge tonal" title="Tonal Volume: 5,099 lbs">💪5.1K</span></div>
                         </div>
                             
                         

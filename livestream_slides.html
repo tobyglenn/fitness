@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build BJJ Buddy Live + Speediance | AI Dev Session 🔥</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0d0d0d;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      width: 1920px;
+      height: 1080px;
+    }
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .slide.active {
+      opacity: 1;
+    }
+    h1 {
+      font-size: 64px;
+      margin-bottom: 20px;
+      color: #3b82f6;
+    }
+    h2 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 32px;
+      margin-bottom: 20px;
+      max-width: 1600px;
+    }
+    img {
+      max-width: 600px;
+      margin: 20px 0;
+    }
+    .counter {
+      position: absolute;
+      bottom: 30px;
+      right: 50px;
+      font-size: 24px;
+      color: #3b82f6;
+    }
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 60px;
+      color: #3b82f6;
+      cursor: pointer;
+    }
+    .arrow.left {
+      left: 30px;
+    }
+    .arrow.right {
+      right: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide active" id="slide1">
+    <h1>Build BJJ Buddy Live + Speediance | AI Dev Session 🔥</h1>
+    <p>Sunday Feb 22 2026</p>
+    <p>@tobyonfitness</p>
+    <p>tobyonfitnesstech.com</p>
+  </div>
+
+  <div class="slide" id="slide2">
+    <h2>What We're Doing Today</h2>
+    <p>Two parallel tracks: 🧑‍💻 AI Dev session + 💪 Speediance lifts.</p>
+    <p>Real building, no scripts, powered by ARIA (OpenClaw AI).</p>
+  </div>
+
+  <div class="slide" id="slide3">
+    <h2>Project 1: BJJ Buddy App</h2>
+    <p>Just added full Supabase backend: cloud sync, email/password login (RLS), biometrics tracking.</p>
+    <p>Stack: React Native + Expo + Supabase.</p>
+    <p>Live at <a href="http://192.168.1.236:8087" style="color: #3b82f6;">http://192.168.1.236:8087</a></p>
+  </div>
+
+  <div class="slide" id="slide4">
+    <h2>Project 2: tobyonfitnesstech.com</h2>
+    <p>Full nav overhaul (6-item nav, Blog dropdown, podcast pages).</p>
+    <p>OpenClaw Daily + Fitness Tech podcast pages.</p>
+    <p>Bing Search verification added.</p>
+  </div>
+
+  <div class="slide" id="slide5">
+    <h2>Project 3: OpenClaw Daily Ep. 4</h2>
+    <p>"The Agents Awakening" | 31 min | Spotify, Apple, iHeart, Amazon.</p>
+    <img src="http://192.168.1.236:4321/images/podcast/episode_004_cover.png" style="height:200px;border-radius:12px">
+  </div>
+
+  <div class="slide" id="slide6">
+    <h2>The AI Stack</h2>
+    <p>ARIA 🌸 (Claude Sonnet), Clarity 🔍 (Qwen3-Coder 30B local), Nova 🌟 (GLM-4.7 local), Spark ⚡ (Mistral Large), Vision 👁️ (Gemini 2.5).</p>
+    <p>All on Mac Studio 64GB. Zero cloud API for overnight builds.</p>
+  </div>
+
+  <div class="slide" id="slide7">
+    <h2>Speediance Workout</h2>
+    <p>Today: Upper body push.</p>
+    <p>Chest press, OHP, Lateral raises, Tricep pushdown.</p>
+    <p>242→188 lb transformation. 1M+ lbs lifted.</p>
+  </div>
+
+  <div class="slide" id="slide8">
+    <h2>What's Next</h2>
+    <p>Vercel deploy for BJJ Buddy.</p>
+    <p>Giscus blog comments.</p>
+    <p>Video podcast pipeline with talking head avatar.</p>
+    <p>More OpenClaw Daily episodes.</p>
+  </div>
+
+  <div class="slide" id="slide9">
+    <h2>Q&A / Chat</h2>
+    <p>"Ask me anything in live chat!"</p>
+    <p>tobyonfitnesstech.com</p>
+    <p>OpenClaw Daily</p>
+    <p>BJJ Buddy (coming to app stores)</p>
+  </div>
+
+  <div class="arrow left" id="prevArrow">←</div>
+  <div class="arrow right" id="nextArrow">→</div>
+  <div class="counter" id="slideCounter">1 / 9</div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevArrow = document.getElementById('prevArrow');
+    const nextArrow = document.getElementById('nextArrow');
+
+    function updateSlide() {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[currentSlide].classList.add('active');
+      slideCounter.textContent = `${currentSlide + 1} / 9`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        nextSlide();
+      } else if (event.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    nextArrow.addEventListener('click', nextSlide);
+    prevArrow.addEventListener('click', prevSlide);
+
+    updateSlide();
+  </script>
+</body>
+</html>

@@ -871,6 +871,34 @@
     .badge.tonal { background: #0a84ff; color: white; }
     .badge.run { background: #a371f7; color: white; }
 
+    
+    /* === DRILLDOWN OVERLAY BADGES (v2) === */
+    .drilldown-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .drilldown-badges .badge {
+      display: inline-block;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: bold;
+      color: white;
+      line-height: 1.4;
+    }
+    .badge.whoop-green  { background: #2ea043; }
+    .badge.whoop-yellow { background: #f39c12; color: #000; }
+    .badge.whoop-red    { background: #f85149; }
+    .badge.sleep-green  { background: #1a6ea0; }
+    .badge.sleep-yellow { background: #6e60a8; color: #fff; }
+    .badge.sleep-red    { background: #7a3038; }
+    .badge.tonal        { background: #0a84ff; }
+    .badge.run          { background: #a371f7; }
+    /* legacy day-badges alias kept for backward compat */
+    .day-badges { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
+
     </style>
 </head>
 <body>
@@ -878,6 +906,13 @@
         <!-- Header -->
         <div class="header">
             <h1>📅 Training Calendar</h1>
+<div class="calendar-legend" style="display:flex;gap:12px;padding:8px 12px;background:#161b22;border-radius:6px;margin-bottom:12px;font-size:11px;color:#8b949e;flex-wrap:wrap;">
+  <strong style="color:#f39c12;margin-right:4px;">📊 Key:</strong>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2ea043;margin-right:3px;vertical-align:middle;"></span>WHOOP %</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1a6ea0;margin-right:3px;vertical-align:middle;"></span>8Sleep</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0a84ff;margin-right:3px;vertical-align:middle;"></span>Tonal lbs</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a371f7;margin-right:3px;vertical-align:middle;"></span>Run mi</span>
+</div>
             <div class="subtitle">May 2025</div>
         </div>
         
@@ -1061,7 +1096,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜79</span><span class="badge run" title="Run Distance">🏃1.3mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 79%">💜79</span><span class="badge run" title="Run: 1.32 mi">🏃1.3mi</span></div>
                         </div>
                             
                         
@@ -1115,7 +1154,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜48</span><span class="badge run" title="Run Distance">🏃1.8mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 48%">💜48</span><span class="badge run" title="Run: 1.78 mi">🏃1.8mi</span></div>
                         </div>
                             
                         
@@ -1162,7 +1205,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜63</span><span class="badge sleep-yellow" title="8Sleep Score">😴72</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 63%">💜63</span><span class="badge sleep-yellow" title="8Sleep Score: 72">😴72</span></div>
                         </div>
                             
                         
@@ -1238,7 +1285,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜45</span><span class="badge sleep-green" title="8Sleep Score">😴87</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 45%">💜45</span><span class="badge sleep-green" title="8Sleep Score: 87">😴87</span></div>
                         </div>
                             
                         
@@ -1285,7 +1336,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜44</span><span class="badge sleep-green" title="8Sleep Score">😴87</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 44%">💜44</span><span class="badge sleep-green" title="8Sleep Score: 87">😴87</span></div>
                         </div>
                             
                         
@@ -1339,7 +1394,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜75</span><span class="badge sleep-green" title="8Sleep Score">😴88</span><span class="badge run" title="Run Distance">🏃1.5mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 75%">💜75</span><span class="badge sleep-green" title="8Sleep Score: 88">😴88</span><span class="badge run" title="Run: 1.50 mi">🏃1.5mi</span></div>
                         </div>
                             
                         
@@ -1386,7 +1445,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜36</span><span class="badge sleep-green" title="8Sleep Score">😴91</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 36%">💜36</span><span class="badge sleep-green" title="8Sleep Score: 91">😴91</span></div>
                         </div>
                             
                         
@@ -1564,7 +1627,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜27</span><span class="badge sleep-green" title="8Sleep Score">😴87</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 27%">💜27</span><span class="badge sleep-green" title="8Sleep Score: 87">😴87</span></div>
                         </div>
                             
                         
@@ -1686,7 +1753,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜72</span><span class="badge sleep-green" title="8Sleep Score">😴93</span><span class="badge run" title="Run Distance">🏃2.9mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 72%">💜72</span><span class="badge sleep-green" title="8Sleep Score: 93">😴93</span><span class="badge run" title="Run: 2.88 mi">🏃2.9mi</span></div>
                         </div>
                             
                         
@@ -1747,7 +1818,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜66</span><span class="badge sleep-green" title="8Sleep Score">😴85</span><span class="badge run" title="Run Distance">🏃1.2mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 66%">💜66</span><span class="badge sleep-green" title="8Sleep Score: 85">😴85</span><span class="badge run" title="Run: 1.22 mi">🏃1.2mi</span></div>
                         </div>
                             
                         
@@ -1801,7 +1876,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜48</span><span class="badge sleep-green" title="8Sleep Score">😴95</span><span class="badge run" title="Run Distance">🏃3.3mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 48%">💜48</span><span class="badge sleep-green" title="8Sleep Score: 95">😴95</span><span class="badge run" title="Run: 3.25 mi">🏃3.3mi</span></div>
                         </div>
                             
                         
@@ -1848,7 +1927,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜95</span><span class="badge sleep-green" title="8Sleep Score">😴90</span><span class="badge run" title="Run Distance">🏃3.3mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 95%">💜95</span><span class="badge sleep-green" title="8Sleep Score: 90">😴90</span><span class="badge run" title="Run: 3.29 mi">🏃3.3mi</span></div>
                         </div>
                             
                         
@@ -1938,7 +2021,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜34</span><span class="badge sleep-green" title="8Sleep Score">😴84</span><span class="badge run" title="Run Distance">🏃3.1mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 34%">💜34</span><span class="badge sleep-green" title="8Sleep Score: 84">😴84</span><span class="badge run" title="Run: 3.09 mi">🏃3.1mi</span></div>
                         </div>
                             
                         
@@ -1985,7 +2072,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜54</span><span class="badge sleep-red" title="8Sleep Score">😴58</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 54%">💜54</span><span class="badge sleep-red" title="8Sleep Score: 58">😴58</span></div>
                         </div>
                             
                         
@@ -2032,7 +2123,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜50</span><span class="badge sleep-yellow" title="8Sleep Score">😴77</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 50%">💜50</span><span class="badge sleep-yellow" title="8Sleep Score: 77">😴77</span></div>
                         </div>
                             
                         
@@ -2079,7 +2174,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜44</span><span class="badge sleep-green" title="8Sleep Score">😴93</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 44%">💜44</span><span class="badge sleep-green" title="8Sleep Score: 93">😴93</span></div>
                         </div>
                             
                         
@@ -2126,7 +2225,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜71</span><span class="badge sleep-yellow" title="8Sleep Score">😴80</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 71%">💜71</span><span class="badge sleep-yellow" title="8Sleep Score: 80">😴80</span></div>
                         </div>
                             
                         
@@ -2173,7 +2276,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜97</span><span class="badge sleep-green" title="8Sleep Score">😴89</span><span class="badge run" title="Run Distance">🏃4.0mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 97%">💜97</span><span class="badge sleep-green" title="8Sleep Score: 89">😴89</span><span class="badge run" title="Run: 4.03 mi">🏃4.0mi</span></div>
                         </div>
                             
                         
@@ -2227,7 +2334,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜91</span><span class="badge sleep-green" title="8Sleep Score">😴87</span><span class="badge run" title="Run Distance">🏃4.2mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 91%">💜91</span><span class="badge sleep-green" title="8Sleep Score: 87">😴87</span><span class="badge run" title="Run: 4.20 mi">🏃4.2mi</span></div>
                         </div>
                             
                         
@@ -2303,7 +2414,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜50</span><span class="badge sleep-green" title="8Sleep Score">😴92</span><span class="badge run" title="Run Distance">🏃2.0mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 50%">💜50</span><span class="badge sleep-green" title="8Sleep Score: 92">😴92</span><span class="badge run" title="Run: 1.96 mi">🏃2.0mi</span></div>
                         </div>
                             
                         
@@ -2391,7 +2506,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-green" title="WHOOP Recovery">💜72</span><span class="badge sleep-green" title="8Sleep Score">😴83</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-green" title="WHOOP Recovery: 72%">💜72</span><span class="badge sleep-green" title="8Sleep Score: 83">😴83</span></div>
                         </div>
                             
                         
@@ -2438,7 +2557,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜51</span><span class="badge sleep-green" title="8Sleep Score">😴88</span><span class="badge run" title="Run Distance">🏃2.6mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-yellow" title="WHOOP Recovery: 51%">💜51</span><span class="badge sleep-green" title="8Sleep Score: 88">😴88</span><span class="badge run" title="Run: 2.57 mi">🏃2.6mi</span></div>
                         </div>
                             
                         
@@ -2499,7 +2622,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜38</span><span class="badge sleep-green" title="8Sleep Score">😴90</span><span class="badge run" title="Run Distance">🏃1.3mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 38%">💜38</span><span class="badge sleep-green" title="8Sleep Score: 90">😴90</span><span class="badge run" title="Run: 1.28 mi">🏃1.3mi</span></div>
                         </div>
                             
                         
@@ -2546,7 +2673,11 @@
                                 </div>
                                 
                             
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜38</span><span class="badge sleep-green" title="8Sleep Score">😴87</span><span class="badge run" title="Run Distance">🏃4.6mi</span></div>
+                            
+                        
+                            
+                        
+                            <div class="drilldown-badges"><span class="badge whoop-red" title="WHOOP Recovery: 38%">💜38</span><span class="badge sleep-green" title="8Sleep Score: 87">😴87</span><span class="badge run" title="Run: 4.61 mi">🏃4.6mi</span></div>
                         </div>
                             
                         
