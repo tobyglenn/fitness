@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🏆 Achievement Center</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+nav .brand { font-weight: 700; color: #f39c12; margin-right: 8px; }
+nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; padding: 4px 8px; border-radius: 6px; }
+nav a:hover { color: #e6edf3; background: #21262d; }
+nav a.active { color: #f39c12; background: #21262d; }
+main { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+.subtitle { color: #8b949e; margin-bottom: 32px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; }
+.stat-value { font-size: 2rem; font-weight: 700; color: #f39c12; }
+.stat-label { color: #8b949e; font-size: 0.85rem; margin-top: 4px; }
+.section-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; color: #e6edf3; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+.badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.badge-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; transition: transform 0.2s; }
+.badge-card:hover { transform: translateY(-2px); }
+.badge-card.earned { border-color: #f39c12; }
+.badge-card.locked { opacity: 0.5; filter: grayscale(100%); }
+.badge-icon { font-size: 2.5rem; margin-bottom: 8px; }
+.badge-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+.badge-desc { color: #8b949e; font-size: 0.8rem; margin-bottom: 8px; }
+.badge-date { color: #f39c12; font-size: 0.8rem; font-weight: 600; }
+.badge-hint { color: #8b949e; font-size: 0.75rem; font-style: italic; }
+.progress-bar-wrap { background: #21262d; border-radius: 6px; height: 8px; margin-top: 8px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #f39c12; border-radius: 6px; }
+.progress-text { color: #8b949e; font-size: 0.75rem; margin-top: 4px; }
+.category-link { display: inline-block; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 20px; text-decoration: none; color: #e6edf3; margin-right: 12px; margin-bottom: 12px; font-weight: 600; }
+.category-link:hover { border-color: #f39c12; color: #f39c12; }
+.donut-wrap { display: flex; justify-content: center; margin-bottom: 32px; }
+.timeline { list-style: none; padding: 0; }
+.timeline-item { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid #21262d; align-items: center; }
+.timeline-icon { font-size: 1.5rem; flex-shrink: 0; }
+.timeline-text { flex: 1; }
+.timeline-name { font-weight: 600; font-size: 0.95rem; }
+.timeline-date { color: #8b949e; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">🏆 Fitness Ecosystem</span>
+  <a href="../index.html">🏠 Hub</a>
+  <a href="../calendars/">📅 Calendars</a>
+  <a href="../strength/index.html">💪 Strength</a>
+  <a href="../running/index.html">🏃 Cardio</a>
+  <a href="../recovery/index.html">😴 Recovery</a>
+  <a href="../achievements/index.html" class="active">🏆 Achievements</a>
+</nav>
+<main>
+  <h1>🏆 Achievement Center</h1>
+  <p class="subtitle">17 of 25 badges earned · 68% complete</p>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value">17</div><div class="stat-label">Badges Earned</div></div>
+    <div class="stat-card"><div class="stat-value">68%</div><div class="stat-label">Completion</div></div>
+    <div class="stat-card"><div class="stat-value">1,002</div><div class="stat-label">Tonal Workouts</div></div>
+    <div class="stat-card"><div class="stat-value">111</div><div class="stat-label">Runs Logged</div></div>
+    <div class="stat-card"><div class="stat-value">8,844,120</div><div class="stat-label">Total Volume (lbs)</div></div>
+    <div class="stat-card"><div class="stat-value">265.1</div><div class="stat-label">Total Miles</div></div>
+  </div>
+
+  <div class="donut-wrap"><svg width="180" height="180"><circle cx="90" cy="90" r="70" fill="none" stroke="#21262d" stroke-width="18"/><circle cx="90" cy="90" r="70" fill="none" stroke="#f39c12" stroke-width="18" stroke-dasharray="299.1 140.7" transform="rotate(-90 90 90)"/><text x="90" y="85" text-anchor="middle" fill="#f39c12" font-size="24" font-weight="700">17</text><text x="90" y="105" text-anchor="middle" fill="#8b949e" font-size="13">of 25</text><text x="90" y="120" text-anchor="middle" fill="#8b949e" font-size="11">earned</text></svg></div>
+
+  <div style="margin-bottom:24px;">
+    <a href="index.html" class="category-link" style="border-color:#f39c12;color:#f39c12;">🏆 All</a>
+    <a href="strength.html" class="category-link">💪 Strength</a>
+    <a href="cardio.html" class="category-link">🏃 Cardio</a>
+    <a href="recovery.html" class="category-link">😴 Recovery</a>
+  </div>
+
+  <div class="section-title">All Badges (25 total)</div>
+  <div class="badge-grid"><div class="badge-card earned"><div class="badge-icon">🏋️</div><div class="badge-name">First Lift</div><div class="badge-desc">Complete first Tonal workout</div><div class="badge-date">✅ Oct 02, 2021</div></div><div class="badge-card earned"><div class="badge-icon">💪</div><div class="badge-name">Century Set</div><div class="badge-desc">100 total Tonal workouts</div><div class="badge-date">✅ Jan 14, 2022</div></div><div class="badge-card earned"><div class="badge-icon">🔥</div><div class="badge-name">Double Century</div><div class="badge-desc">200 total Tonal workouts</div><div class="badge-date">✅ Jul 03, 2022</div></div><div class="badge-card earned"><div class="badge-icon">👑</div><div class="badge-name">Volume King</div><div class="badge-desc">100,000 lbs total volume</div><div class="badge-date">✅ Oct 14, 2021</div></div><div class="badge-card earned"><div class="badge-icon">💎</div><div class="badge-name">Millionaire</div><div class="badge-desc">1,000,000 lbs total volume</div><div class="badge-date">✅ Jun 18, 2022</div></div><div class="badge-card earned"><div class="badge-icon">👑</div><div class="badge-name">Consistency King</div><div class="badge-desc">4+ workouts/week for 8 consecutive weeks</div></div><div class="badge-card locked"><div class="badge-icon">📈</div><div class="badge-name">PR Machine</div><div class="badge-desc">Set 10+ personal records</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div><div class="progress-text">0 / 10</div></div><div class="badge-card earned"><div class="badge-icon">🧭</div><div class="badge-name">Exercise Explorer</div><div class="badge-desc">Try 20+ unique exercises</div></div><div class="badge-card earned"><div class="badge-icon">🏃</div><div class="badge-name">First Mile</div><div class="badge-desc">Complete first tracked run</div><div class="badge-date">✅ Feb 17, 2025</div></div><div class="badge-card earned"><div class="badge-icon">🎽</div><div class="badge-name">5K Club</div><div class="badge-desc">Run 5km (3.1 mi) in one session</div><div class="badge-date">✅ Mar 15, 2025</div></div><div class="badge-card locked"><div class="badge-icon">🏅</div><div class="badge-name">10K Club</div><div class="badge-desc">Run 10km (6.2 mi) in one session</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:80%"></div></div><div class="progress-text">5.0 / 6.2</div></div><div class="badge-card locked"><div class="badge-icon">🏆</div><div class="badge-name">Marathon Month</div><div class="badge-desc">Run 26.2 miles in one month</div><div class="badge-hint">Need 26.2 miles in a single calendar month</div></div><div class="badge-card earned"><div class="badge-icon">💯</div><div class="badge-name">Century Runner</div><div class="badge-desc">100 total running miles</div><div class="badge-date">✅ Jun 20, 2025</div></div><div class="badge-card earned"><div class="badge-icon">🏃‍♂️</div><div class="badge-name">Double Century</div><div class="badge-desc">200 total running miles</div><div class="badge-date">✅ Sep 13, 2025</div></div><div class="badge-card locked"><div class="badge-icon">⚡</div><div class="badge-name">Speed Demon</div><div class="badge-desc">Average pace under 8:00/mile</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div><div class="progress-text">10:17/mi / 8:00/mi</div></div><div class="badge-card earned"><div class="badge-icon">🌅</div><div class="badge-name">Early Bird</div><div class="badge-desc">5–6am workout 5+ times</div></div><div class="badge-card earned"><div class="badge-icon">🦅</div><div class="badge-name">Weekend Warrior</div><div class="badge-desc">Weekend workouts 10+ times</div></div><div class="badge-card earned"><div class="badge-icon">💜</div><div class="badge-name">Recovery Champion</div><div class="badge-desc">90%+ WHOOP recovery 5 times</div></div><div class="badge-card locked"><div class="badge-icon">⭐</div><div class="badge-name">Sleep Star</div><div class="badge-desc">90+ 8Sleep score 5 times</div><div class="badge-hint">Historical 8Sleep scores not in current data</div></div><div class="badge-card locked"><div class="badge-icon">❤️</div><div class="badge-name">HRV Hero</div><div class="badge-desc">80+ HRV RMSSD average</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:45%"></div></div><div class="progress-text">36.6 / 80</div></div><div class="badge-card earned"><div class="badge-icon">🫀</div><div class="badge-name">Resting HR Low</div><div class="badge-desc">RHR under 50 bpm</div><div class="badge-hint">Best RHR: 47.0 bpm</div></div><div class="badge-card earned"><div class="badge-icon">⚖️</div><div class="badge-name">Balanced Athlete</div><div class="badge-desc">20+ strength + 20+ cardio sessions</div></div><div class="badge-card locked"><div class="badge-icon">🔄</div><div class="badge-name">All-Rounder</div><div class="badge-desc">Work out 6 days/week for 4 weeks</div><div class="badge-hint">Need 4 consecutive 6-day training weeks</div></div><div class="badge-card earned"><div class="badge-icon">🌟</div><div class="badge-name">No Excuses</div><div class="badge-desc">Train all 7 days in a single week</div><div class="badge-hint">Complete a full 7-day training week</div></div><div class="badge-card locked"><div class="badge-icon">🗓️</div><div class="badge-name">Quarter Master</div><div class="badge-desc">Train 90+ days in a quarter</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:85%"></div></div><div class="progress-text">77 / 90</div></div></div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;">
+    <div>
+      <div class="section-title">🕐 Recent Achievements</div>
+      <ul class="timeline"><li class="timeline-item"><span class="timeline-icon">🏃‍♂️</span><span class="timeline-text"><div class="timeline-name">Double Century <span style="color:#8b949e;font-size:0.8rem;">(cardio)</span></div><div class="timeline-date">Sep 13, 2025</div></span></li><li class="timeline-item"><span class="timeline-icon">👑</span><span class="timeline-text"><div class="timeline-name">Volume King <span style="color:#8b949e;font-size:0.8rem;">(strength)</span></div><div class="timeline-date">Oct 14, 2021</div></span></li><li class="timeline-item"><span class="timeline-icon">🏋️</span><span class="timeline-text"><div class="timeline-name">First Lift <span style="color:#8b949e;font-size:0.8rem;">(strength)</span></div><div class="timeline-date">Oct 02, 2021</div></span></li><li class="timeline-item"><span class="timeline-icon">🎽</span><span class="timeline-text"><div class="timeline-name">5K Club <span style="color:#8b949e;font-size:0.8rem;">(cardio)</span></div><div class="timeline-date">Mar 15, 2025</div></span></li><li class="timeline-item"><span class="timeline-icon">💯</span><span class="timeline-text"><div class="timeline-name">Century Runner <span style="color:#8b949e;font-size:0.8rem;">(cardio)</span></div><div class="timeline-date">Jun 20, 2025</div></span></li><li class="timeline-item"><span class="timeline-icon">💎</span><span class="timeline-text"><div class="timeline-name">Millionaire <span style="color:#8b949e;font-size:0.8rem;">(strength)</span></div><div class="timeline-date">Jun 18, 2022</div></span></li></ul>
+    </div>
+    <div>
+      <div class="section-title">🎯 In Progress (50%+)</div>
+      <div style="margin-bottom:16px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span>🏅 10K Club</span><span style="color:#f39c12;">80%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:80%"></div></div><div class="progress-text">5.0 / 6.2</div></div><div style="margin-bottom:16px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span>🗓️ Quarter Master</span><span style="color:#f39c12;">85%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:85%"></div></div><div class="progress-text">77 / 90</div></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

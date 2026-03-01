@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Gap Analyzer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+  nav a { color: #58a6ff; text-decoration: none; font-size: 14px; padding: 4px 10px; border-radius: 6px; transition: background 0.2s; }
+  nav a:hover { background: #21262d; }
+  nav a.active { background: #f39c12; color: #0d1117; font-weight: 600; }
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { color: #8b949e; margin-bottom: 32px; font-size: 15px; }
+  h2 { font-size: 18px; font-weight: 600; color: #f39c12; margin: 0 0 16px; }
+  .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  /* Alert cards */
+  .alerts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .alert-card { background: #0d1117; border-radius: 8px; padding: 16px; position: relative; }
+  .alert-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; color: white; margin-bottom: 8px; }
+  .alert-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .alert-detail { font-size: 13px; color: #8b949e; }
+  .no-alerts { background: #0d1117; border-radius: 8px; padding: 16px; color: #2ea043; font-weight: 500; }
+  /* Gap bars */
+  .gap-row { display: grid; grid-template-columns: 220px 1fr 50px 130px 160px; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .gap-label { font-size: 14px; color: #e6edf3; }
+  .gap-bar-wrap { background: #21262d; border-radius: 4px; height: 10px; overflow: hidden; }
+  .gap-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .gap-days { font-size: 14px; font-weight: 700; text-align: right; }
+  .gap-badge-sm { font-size: 11px; padding: 2px 8px; border-radius: 20px; color: white; font-weight: 600; text-align: center; }
+  .gap-last { font-size: 12px; color: #8b949e; }
+  /* Timeline */
+  .timeline-grid { display: grid; grid-template-columns: 70px repeat(7, 1fr); gap: 4px; }
+  .tl-header { font-size: 11px; font-weight: 700; color: #8b949e; text-align: center; padding: 4px; text-transform: uppercase; }
+  .tl-week { font-size: 12px; color: #8b949e; display: flex; align-items: center; padding: 4px 2px; }
+  .tl-cell { border-radius: 4px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,0.6); transition: transform 0.1s; cursor: default; }
+  .tl-cell:hover { transform: scale(1.1); }
+  /* Recs */
+  .rec-item { background: #0d1117; border-radius: 6px; padding: 12px 16px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
+  /* Legend */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+  @media (max-width: 600px) {
+    .gap-row { grid-template-columns: 1fr 80px; }
+    .gap-bar-wrap, .gap-badge-sm, .gap-last { display: none; }
+    .timeline-grid { grid-template-columns: 60px repeat(7, 1fr); gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">🏠 Home</a>
+  <a href="/calendars/">📅 Calendars</a>
+  <a href="/strength/">💪 Strength</a>
+  <a href="/cardio/">🏃 Cardio</a>
+  <a href="/recovery/">💤 Recovery</a>
+  <a href="/nutrition/">🥗 Nutrition</a>
+  <a href="/gap_analysis/" class="active">🔍 Gap Analyzer</a>
+</nav>
+<div class="page">
+  <h1>🔍 Training Gap Analyzer</h1>
+  <p class="subtitle">Identifying what's been missed — muscle groups, cardio types, and recovery patterns · Updated Feb 28, 2026 08:23 PM ET</p>
+
+  <div class="section">
+    <h2>⚠️ Active Alerts</h2>
+    <div class="alerts-grid">
+      
+        <div class="alert-card" style="border-left: 4px solid #f85149;">
+            <div class="alert-badge" style="background:#f85149;">Long Absence</div>
+            <div class="alert-title">Upper Body (Chest/Back/Shoulders/Arms)</div>
+            <div class="alert-detail">Last trained: Apr 01, 2025 &nbsp;·&nbsp; <strong style="color:#f85149">333 days ago</strong></div>
+        </div>
+        <div class="alert-card" style="border-left: 4px solid #f85149;">
+            <div class="alert-badge" style="background:#f85149;">Long Absence</div>
+            <div class="alert-title">Lower Body (Legs/Glutes)</div>
+            <div class="alert-detail">Last trained: Apr 01, 2025 &nbsp;·&nbsp; <strong style="color:#f85149">333 days ago</strong></div>
+        </div>
+        <div class="alert-card" style="border-left: 4px solid #f85149;">
+            <div class="alert-badge" style="background:#f85149;">Long Absence</div>
+            <div class="alert-title">Core</div>
+            <div class="alert-detail">Last trained: Apr 01, 2025 &nbsp;·&nbsp; <strong style="color:#f85149">333 days ago</strong></div>
+        </div>
+        <div class="alert-card" style="border-left: 4px solid #f85149;">
+            <div class="alert-badge" style="background:#f85149;">Long Absence</div>
+            <div class="alert-title">Cycling Cardio</div>
+            <div class="alert-detail">Last session: Never &nbsp;·&nbsp; <strong style="color:#f85149">∞ days ago</strong></div>
+        </div>
+        <div class="alert-card" style="border-left: 4px solid #f85149;">
+            <div class="alert-badge" style="background:#f85149;">Long Absence</div>
+            <div class="alert-title">Walking Cardio</div>
+            <div class="alert-detail">Last session: Never &nbsp;·&nbsp; <strong style="color:#f85149">∞ days ago</strong></div>
+        </div>
+        <div class="alert-card" style="border-left: 4px solid #f85149;">
+            <div class="alert-badge" style="background:#f85149;">Long Absence</div>
+            <div class="alert-title">Swimming Cardio</div>
+            <div class="alert-detail">Last session: Jul 29, 2025 &nbsp;·&nbsp; <strong style="color:#f85149">214 days ago</strong></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>💪 Strength Training Gaps</h2>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#2ea043;"></div> Recent (0-7d)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f39c12;"></div> Light Gap (8-14d)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e67e22;"></div> Moderate (15-21d)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f85149;"></div> Critical (21d+)</div>
+    </div>
+    
+    <div class="gap-row">
+        <div class="gap-label">Upper Body (Chest/Back/Shoulders/Arms)</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:100%; background:#f85149;"></div>
+        </div>
+        <div class="gap-days" style="color:#f85149;">333d</div>
+        <div class="gap-badge-sm" style="background:#f85149;">Long Absence</div>
+        <div class="gap-last">Last: Apr 01, 2025</div>
+    </div>
+    <div class="gap-row">
+        <div class="gap-label">Lower Body (Legs/Glutes)</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:100%; background:#f85149;"></div>
+        </div>
+        <div class="gap-days" style="color:#f85149;">333d</div>
+        <div class="gap-badge-sm" style="background:#f85149;">Long Absence</div>
+        <div class="gap-last">Last: Apr 01, 2025</div>
+    </div>
+    <div class="gap-row">
+        <div class="gap-label">Core</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:100%; background:#f85149;"></div>
+        </div>
+        <div class="gap-days" style="color:#f85149;">333d</div>
+        <div class="gap-badge-sm" style="background:#f85149;">Long Absence</div>
+        <div class="gap-last">Last: Apr 01, 2025</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🏃 Cardio Gaps</h2>
+    
+    <div class="gap-row">
+        <div class="gap-label">Running</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:18%; background:#f39c12;"></div>
+        </div>
+        <div class="gap-days" style="color:#f39c12;">9d</div>
+        <div class="gap-badge-sm" style="background:#f39c12;">Light Gap</div>
+        <div class="gap-last">Last: Feb 19, 2026</div>
+    </div>
+    <div class="gap-row">
+        <div class="gap-label">Cycling</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:100%; background:#f85149;"></div>
+        </div>
+        <div class="gap-days" style="color:#f85149;">∞</div>
+        <div class="gap-badge-sm" style="background:#f85149;">Long Absence</div>
+        <div class="gap-last">Last: Never</div>
+    </div>
+    <div class="gap-row">
+        <div class="gap-label">Swimming</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:100%; background:#f85149;"></div>
+        </div>
+        <div class="gap-days" style="color:#f85149;">214d</div>
+        <div class="gap-badge-sm" style="background:#f85149;">Long Absence</div>
+        <div class="gap-last">Last: Jul 29, 2025</div>
+    </div>
+    <div class="gap-row">
+        <div class="gap-label">Walking</div>
+        <div class="gap-bar-wrap">
+            <div class="gap-bar" style="width:100%; background:#f85149;"></div>
+        </div>
+        <div class="gap-days" style="color:#f85149;">∞</div>
+        <div class="gap-badge-sm" style="background:#f85149;">Long Absence</div>
+        <div class="gap-last">Last: Never</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📅 12-Week Training Timeline</h2>
+    <p style="font-size:13px;color:#8b949e;margin-bottom:16px;">Green = trained that week · Dark = missed · ✓ = hit · · = missed</p>
+    
+<div class="timeline-grid">
+  <div class="tl-header">Week</div>
+  <div class="tl-header">Upper</div>
+  <div class="tl-header">Lower</div>
+  <div class="tl-header">Core</div>
+  <div class="tl-header">Run</div>
+  <div class="tl-header">Bike</div>
+  <div class="tl-header">Swim</div>
+  <div class="tl-header">Walk</div>
+
+  <div class="tl-week">Dec 08</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Running">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Dec 15</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Running">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Dec 22</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Running">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Dec 29</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Running">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Jan 05</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Jan 12</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Jan 19</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Jan 26</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Feb 02</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Feb 09</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Feb 16</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#2ea043;" title="Running">✓</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+  <div class="tl-week">Feb 23</div>
+  <div class="tl-cell" style="background:#21262d;" title="Upper Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Lower Body">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Core">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Running">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Cycling">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Swimming">·</div>
+  <div class="tl-cell" style="background:#21262d;" title="Walking">·</div>
+</div>
+  </div>
+
+  <div class="section">
+    <h2>💡 Recommendations This Week</h2>
+    <div class="rec-item" style="border-left:3px solid #f85149;">🚨 Upper Body (Chest/Back/Shoulders/Arms) hasn't been trained in 333 days — schedule a session ASAP</div><div class="rec-item" style="border-left:3px solid #f85149;">🚨 Lower Body (Legs/Glutes) hasn't been trained in 333 days — schedule a session ASAP</div><div class="rec-item" style="border-left:3px solid #f85149;">🚨 Core hasn't been trained in 333 days — schedule a session ASAP</div><div class="rec-item" style="border-left:3px solid #8b949e;">📊 No Cycling activity found in recent data</div><div class="rec-item" style="border-left:3px solid #8b949e;">📊 No Walking activity found in recent data</div><div class="rec-item" style="border-left:3px solid #e67e22;">🏃 No Swimming in 214 days — add some cardio variety</div>
+  </div>
+
+  <div style="text-align:center;color:#8b949e;font-size:12px;margin-top:32px;padding-top:16px;border-top:1px solid #30363d;">
+    Data sources: Tonal · Garmin · WHOOP &nbsp;|&nbsp; 
+    <a href="/strength/" style="color:#58a6ff;">Strength Dashboard</a> · 
+    <a href="/cardio/" style="color:#58a6ff;">Cardio Dashboard</a> · 
+    <a href="/" style="color:#58a6ff;">Home</a>
+  </div>
+</div>
+</body>
+</html>

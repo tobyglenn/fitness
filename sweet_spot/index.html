@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweet Spot Finder — Optimal Training Windows</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{background:#161b22;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+nav a{color:#8b949e;text-decoration:none;font-size:13px;padding:4px 10px;border-radius:6px;transition:all .2s}
+nav a:hover,nav a.active{background:#21262d;color:#f0f6fc}
+nav .brand{color:#f39c12;font-weight:700;font-size:15px;margin-right:10px}
+.container{max-width:980px;margin:0 auto;padding:32px 20px}
+h1{font-size:28px;font-weight:700;color:#f0f6fc;margin-bottom:4px}
+.subtitle{color:#8b949e;font-size:15px;margin-bottom:32px}
+.section{margin-bottom:36px}
+h2{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:16px;border-bottom:1px solid #21262d;padding-bottom:8px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;margin-bottom:16px;overflow-x:auto}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.metric{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:18px;text-align:center}
+.metric .val{font-size:36px;font-weight:700;line-height:1}
+.metric .lbl{font-size:12px;color:#8b949e;margin-top:6px;text-transform:uppercase;letter-spacing:.5px}
+.readiness-big{font-size:72px;font-weight:800;text-align:center;margin:16px 0;line-height:1}
+.rec-card{background:#161b22;border:2px solid;border-radius:12px;padding:24px;text-align:center}
+.rec-card h3{font-size:22px;font-weight:700;margin-bottom:10px}
+.rec-card p{color:#8b949e;font-size:15px;line-height:1.6}
+.sweet-spot-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ss-card{background:#0d1117;border-radius:8px;padding:16px}
+.ss-card h4{font-size:13px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.ss-card .top{color:#2ea043;font-size:20px;font-weight:700}
+.ss-card .bot{color:#f85149;font-size:20px;font-weight:700}
+.chart-label{font-size:13px;color:#8b949e;margin-bottom:10px}
+.caption{font-size:12px;color:#6e7681;margin-top:8px;font-style:italic}
+svg{max-width:100%}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">🏋️ FitHub</span>
+  <a href="../hub_index.html">Home</a>
+  <a href="../fitness_overview.html">Overview</a>
+  <a href="../strength/">Strength</a>
+  <a href="../cardio/">Cardio</a>
+  <a href="../recovery/">Recovery</a>
+  <a href="../nutrition/">Nutrition</a>
+  <a href="../training_rhythm/">Rhythm</a>
+  <a href="index.html" class="active">Sweet Spot</a>
+</nav>
+
+<div class="container">
+  <h1>🎯 Sweet Spot Finder</h1>
+  <p class="subtitle">Find Your Optimal Training Windows — based on recovery, sleep &amp; rest patterns</p>
+
+  <!-- Section 1: Today's Recommendation -->
+  <div class="section">
+    <h2>Today's Status</h2>
+    <div class="rec-card" style="border-color:#f85149">
+      <h3 style="color:#f85149">Red Zone — RECOVER</h3>
+      <p>Low readiness. Rest or light activity only. Pushing hard today typically yields bottom-quartile results.</p>
+      <div style="margin-top:16px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+        <span style='color:#555'>Recovery: N/A</span>
+        <span style='color:#8b949e'>Sleep: <strong style='color:white'>98</strong></span>
+        <span style='color:#8b949e'>Rest Days: <strong style='color:white'>333</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Composite Readiness -->
+  <div class="section">
+    <h2>Composite Readiness (90-Day Trend)</h2>
+    <div class="card">
+      <div class="readiness-big" style="color:#2ea043">100</div>
+      <p class="caption" style="text-align:center;margin-bottom:16px">Current composite score (40% recovery · 30% sleep · 30% rest)</p>
+      <svg width="860" height="180" style="display:block">
+<line x1="40" y1="57.5" x2="840" y2="57.5" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+<text x="845" y="61.5" fill="#2ea043" font-size="10">70</text>
+<path d="M 40.0 42.9 L 49.0 20.0 L 58.0 62.9 L 67.0 85.8 L 76.0 46.4 L 84.9 20.0 L 93.9 53.6 L 102.9 35.7 L 111.9 27.1 L 120.9 21.4 L 129.9 43.6 L 138.9 52.9 L 147.9 45.8 L 156.9 37.1 L 165.8 70.0 L 174.8 44.3 L 183.8 27.1 L 192.8 23.6 L 201.8 23.6 L 210.8 27.1 L 219.8 50.0 L 228.8 83.6 L 237.8 22.1 L 246.7 46.4 L 255.7 23.6 L 264.7 34.3 L 273.7 32.9 L 282.7 34.3 L 291.7 21.4 L 300.7 21.4 L 309.7 22.1 L 318.7 47.1 L 327.6 50.0 L 336.6 47.9 L 345.6 20.0 L 354.6 51.4 L 363.6 52.9 L 372.6 43.6 L 381.6 21.4 L 390.6 64.3 L 399.6 68.6 L 408.5 56.4 L 417.5 40.0 L 426.5 55.0 L 435.5 78.6 L 444.5 50.8 L 453.5 24.2 L 462.5 56.4 L 471.5 45.0 L 480.4 22.9 L 489.4 56.4 L 498.4 47.1 L 507.4 57.1 L 516.4 46.4 L 525.4 49.3 L 534.4 40.0 L 543.4 60.0 L 552.4 60.0 L 561.3 60.0 L 570.3 70.8 L 579.3 64.3 L 588.3 27.9 L 597.3 69.2 L 606.3 57.9 L 615.3 80.8 L 624.3 84.2 L 633.3 81.4 L 642.2 39.2 L 651.2 29.3 L 660.2 32.1 L 669.2 60.0 L 678.2 46.4 L 687.2 78.6 L 696.2 80.9 L 705.2 35.7 L 714.2 73.6 L 723.1 75.0 L 732.1 66.4 L 741.1 85.2 L 750.1 57.0 L 759.1 55.5 L 768.1 59.6 L 777.1 66.8 L 786.1 60.8 L 795.1 59.9 L 804.0 53.8 L 813.0 79.4 L 822.0 43.5 L 831.0 21.2 L 840.0 20.0 L 840.0 145 L 40.0 145 Z" fill="#f39c12" opacity="0.1"/>
+<path d="M 40.0 42.9 L 49.0 20.0 L 58.0 62.9 L 67.0 85.8 L 76.0 46.4 L 84.9 20.0 L 93.9 53.6 L 102.9 35.7 L 111.9 27.1 L 120.9 21.4 L 129.9 43.6 L 138.9 52.9 L 147.9 45.8 L 156.9 37.1 L 165.8 70.0 L 174.8 44.3 L 183.8 27.1 L 192.8 23.6 L 201.8 23.6 L 210.8 27.1 L 219.8 50.0 L 228.8 83.6 L 237.8 22.1 L 246.7 46.4 L 255.7 23.6 L 264.7 34.3 L 273.7 32.9 L 282.7 34.3 L 291.7 21.4 L 300.7 21.4 L 309.7 22.1 L 318.7 47.1 L 327.6 50.0 L 336.6 47.9 L 345.6 20.0 L 354.6 51.4 L 363.6 52.9 L 372.6 43.6 L 381.6 21.4 L 390.6 64.3 L 399.6 68.6 L 408.5 56.4 L 417.5 40.0 L 426.5 55.0 L 435.5 78.6 L 444.5 50.8 L 453.5 24.2 L 462.5 56.4 L 471.5 45.0 L 480.4 22.9 L 489.4 56.4 L 498.4 47.1 L 507.4 57.1 L 516.4 46.4 L 525.4 49.3 L 534.4 40.0 L 543.4 60.0 L 552.4 60.0 L 561.3 60.0 L 570.3 70.8 L 579.3 64.3 L 588.3 27.9 L 597.3 69.2 L 606.3 57.9 L 615.3 80.8 L 624.3 84.2 L 633.3 81.4 L 642.2 39.2 L 651.2 29.3 L 660.2 32.1 L 669.2 60.0 L 678.2 46.4 L 687.2 78.6 L 696.2 80.9 L 705.2 35.7 L 714.2 73.6 L 723.1 75.0 L 732.1 66.4 L 741.1 85.2 L 750.1 57.0 L 759.1 55.5 L 768.1 59.6 L 777.1 66.8 L 786.1 60.8 L 795.1 59.9 L 804.0 53.8 L 813.0 79.4 L 822.0 43.5 L 831.0 21.2 L 840.0 20.0" fill="none" stroke="#f39c12" stroke-width="2"/>
+<line x1="40.0" y1="20" x2="40.0" y2="145" stroke="#333" stroke-width="1"/>
+<text x="43.0" y="163" fill="#666" font-size="10">12</text>
+<line x1="318.7" y1="20" x2="318.7" y2="145" stroke="#333" stroke-width="1"/>
+<text x="321.7" y="163" fill="#666" font-size="10">01</text>
+<line x1="597.3" y1="20" x2="597.3" y2="145" stroke="#333" stroke-width="1"/>
+<text x="600.3" y="163" fill="#666" font-size="10">02</text>
+<circle cx="840.0" cy="20.0" r="5" fill="#2ea043"/>
+</svg>
+      <p class="caption">Gold dashed threshold = 70. Green dot = latest value.</p>
+    </div>
+  </div>
+
+  <!-- Section 3: Sweet Spot Stats -->
+  <div class="section">
+    <h2>Your Sweet Spot</h2>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="val" style="color:#2ea043">60.2%</div>
+        <div class="lbl">Avg Recovery (Top 25%)</div>
+      </div>
+      <div class="metric">
+        <div class="val" style="color:#f85149">54.8%</div>
+        <div class="lbl">Avg Recovery (Bot 25%)</div>
+      </div>
+      <div class="metric">
+        <div class="val" style="color:#2ea043">1.4d</div>
+        <div class="lbl">Avg Rest Days (Top 25%)</div>
+      </div>
+      <div class="metric">
+        <div class="val" style="color:#f85149">1.4d</div>
+        <div class="lbl">Avg Rest Days (Bot 25%)</div>
+      </div>
+      <div class="metric">
+        <div class="val" style="color:#f39c12">17k</div>
+        <div class="lbl">Top-25% Volume (lbs)</div>
+      </div>
+      <div class="metric">
+        <div class="val" style="color:#8b949e">659</div>
+        <div class="lbl">Workouts Analysed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Recovery vs Volume Scatter -->
+  <div class="section">
+    <h2>Recovery % vs Workout Volume</h2>
+    <div class="card">
+      <p class="chart-label">Each dot = one Tonal workout. Color: red (low recovery) → green (high recovery). Gold dashed = trend line.</p>
+      <svg width="860" height="360" style="display:block">
+<line x1="65.0" y1="20" x2="65.0" y2="310" stroke="#222" stroke-width="1"/>
+<text x="65.0" y="328" text-anchor="middle" fill="#888" font-size="11">0%</text>
+<line x1="220.0" y1="20" x2="220.0" y2="310" stroke="#222" stroke-width="1"/>
+<text x="220.0" y="328" text-anchor="middle" fill="#888" font-size="11">20%</text>
+<line x1="375.0" y1="20" x2="375.0" y2="310" stroke="#222" stroke-width="1"/>
+<text x="375.0" y="328" text-anchor="middle" fill="#888" font-size="11">40%</text>
+<line x1="530.0" y1="20" x2="530.0" y2="310" stroke="#222" stroke-width="1"/>
+<text x="530.0" y="328" text-anchor="middle" fill="#888" font-size="11">60%</text>
+<line x1="685.0" y1="20" x2="685.0" y2="310" stroke="#222" stroke-width="1"/>
+<text x="685.0" y="328" text-anchor="middle" fill="#888" font-size="11">80%</text>
+<line x1="840.0" y1="20" x2="840.0" y2="310" stroke="#222" stroke-width="1"/>
+<text x="840.0" y="328" text-anchor="middle" fill="#888" font-size="11">100%</text>
+<line x1="65" y1="310.0" x2="840" y2="310.0" stroke="#222" stroke-width="1"/>
+<text x="57" y="314.0" text-anchor="end" fill="#888" font-size="10">0k</text>
+<line x1="65" y1="237.5" x2="840" y2="237.5" stroke="#222" stroke-width="1"/>
+<text x="57" y="241.5" text-anchor="end" fill="#888" font-size="10">8k</text>
+<line x1="65" y1="165.0" x2="840" y2="165.0" stroke="#222" stroke-width="1"/>
+<text x="57" y="169.0" text-anchor="end" fill="#888" font-size="10">17k</text>
+<line x1="65" y1="92.5" x2="840" y2="92.5" stroke="#222" stroke-width="1"/>
+<text x="57" y="96.5" text-anchor="end" fill="#888" font-size="10">26k</text>
+<line x1="65" y1="20.0" x2="840" y2="20.0" stroke="#222" stroke-width="1"/>
+<text x="57" y="24.0" text-anchor="end" fill="#888" font-size="10">34k</text>
+<text x="452.5" y="355" text-anchor="middle" fill="#aaa" font-size="12">WHOOP Recovery %</text>
+<text x="12" y="165.0" text-anchor="middle" fill="#aaa" font-size="12" transform="rotate(-90,12,165.0)">Volume (lbs)</text>
+<line x1="65.0" y1="200.2" x2="840.0" y2="170.3" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.7"/>
+<circle cx="452.5" cy="128.2" r="4" fill="rgb(145,113,60)" opacity="0.7"/>
+<circle cx="444.8" cy="258.7" r="4" fill="rgb(146,112,60)" opacity="0.7"/>
+<circle cx="444.8" cy="130.2" r="4" fill="rgb(146,112,60)" opacity="0.7"/>
+<circle cx="460.2" cy="265.4" r="4" fill="rgb(143,114,60)" opacity="0.7"/>
+<circle cx="460.2" cy="182.1" r="4" fill="rgb(143,114,60)" opacity="0.7"/>
+<circle cx="584.2" cy="128.9" r="4" fill="rgb(111,129,62)" opacity="0.7"/>
+<circle cx="468.0" cy="180.3" r="4" fill="rgb(141,115,60)" opacity="0.7"/>
+<circle cx="685.0" cy="125.3" r="4" fill="rgb(85,141,64)" opacity="0.7"/>
+<circle cx="274.2" cy="125.9" r="4" fill="rgb(190,92,57)" opacity="0.7"/>
+<circle cx="700.5" cy="177.7" r="4" fill="rgb(81,143,64)" opacity="0.7"/>
+<circle cx="646.2" cy="176.9" r="4" fill="rgb(95,136,63)" opacity="0.7"/>
+<circle cx="522.2" cy="209.5" r="4" fill="rgb(127,121,61)" opacity="0.7"/>
+<circle cx="506.7" cy="108.2" r="4" fill="rgb(131,120,61)" opacity="0.7"/>
+<circle cx="499.0" cy="141.1" r="4" fill="rgb(133,119,61)" opacity="0.7"/>
+<circle cx="390.5" cy="217.5" r="4" fill="rgb(160,106,59)" opacity="0.7"/>
+<circle cx="654.0" cy="173.1" r="4" fill="rgb(93,137,63)" opacity="0.7"/>
+<circle cx="212.2" cy="256.5" r="4" fill="rgb(206,84,56)" opacity="0.7"/>
+<circle cx="351.8" cy="99.4" r="4" fill="rgb(170,101,58)" opacity="0.7"/>
+<circle cx="514.5" cy="150.4" r="4" fill="rgb(129,120,61)" opacity="0.7"/>
+<circle cx="553.2" cy="151.4" r="4" fill="rgb(119,125,62)" opacity="0.7"/>
+<circle cx="530.0" cy="235.4" r="4" fill="rgb(125,122,61)" opacity="0.7"/>
+<circle cx="274.2" cy="262.1" r="4" fill="rgb(190,92,57)" opacity="0.7"/>
+<circle cx="274.2" cy="133.9" r="4" fill="rgb(190,92,57)" opacity="0.7"/>
+<circle cx="429.2" cy="98.2" r="4" fill="rgb(150,110,60)" opacity="0.7"/>
+<circle cx="723.8" cy="216.7" r="4" fill="rgb(75,146,65)" opacity="0.7"/>
+<circle cx="654.0" cy="132.4" r="4" fill="rgb(93,137,63)" opacity="0.7"/>
+<circle cx="793.5" cy="185.1" r="4" fill="rgb(57,154,66)" opacity="0.7"/>
+<circle cx="429.2" cy="245.2" r="4" fill="rgb(150,110,60)" opacity="0.7"/>
+<circle cx="460.2" cy="143.5" r="4" fill="rgb(143,114,60)" opacity="0.7"/>
+<circle cx="336.2" cy="247.3" r="4" fill="rgb(174,99,58)" opacity="0.7"/>
+<circle cx="522.2" cy="161.4" r="4" fill="rgb(127,121,61)" opacity="0.7"/>
+<circle cx="522.2" cy="127.5" r="4" fill="rgb(127,121,61)" opacity="0.7"/>
+<circle cx="227.8" cy="205.9" r="4" fill="rgb(202,86,56)" opacity="0.7"/>
+<circle cx="576.5" cy="237.8" r="4" fill="rgb(113,128,62)" opacity="0.7"/>
+<circle cx="212.2" cy="210.8" r="4" fill="rgb(206,84,56)" opacity="0.7"/>
+<circle cx="289.8" cy="188.7" r="4" fill="rgb(186,93,57)" opacity="0.7"/>
+<circle cx="196.8" cy="195.0" r="4" fill="rgb(210,82,56)" opacity="0.7"/>
+<circle cx="367.2" cy="242.3" r="4" fill="rgb(166,103,59)" opacity="0.7"/>
+<circle cx="266.5" cy="237.0" r="4" fill="rgb(192,91,57)" opacity="0.7"/>
+<circle cx="468.0" cy="201.8" r="4" fill="rgb(141,115,60)" opacity="0.7"/>
+<circle cx="514.5" cy="131.3" r="4" fill="rgb(129,120,61)" opacity="0.7"/>
+<circle cx="754.8" cy="134.2" r="4" fill="rgb(67,149,65)" opacity="0.7"/>
+<circle cx="475.8" cy="174.5" r="4" fill="rgb(139,116,60)" opacity="0.7"/>
+<circle cx="429.2" cy="129.0" r="4" fill="rgb(150,110,60)" opacity="0.7"/>
+<circle cx="313.0" cy="131.7" r="4" fill="rgb(180,96,58)" opacity="0.7"/>
+<circle cx="266.5" cy="254.1" r="4" fill="rgb(192,91,57)" opacity="0.7"/>
+<circle cx="382.8" cy="129.3" r="4" fill="rgb(162,105,59)" opacity="0.7"/>
+<circle cx="793.5" cy="130.0" r="4" fill="rgb(57,154,66)" opacity="0.7"/>
+<circle cx="762.5" cy="213.8" r="4" fill="rgb(65,150,65)" opacity="0.7"/>
+<circle cx="561.0" cy="171.5" r="4" fill="rgb(117,126,62)" opacity="0.7"/>
+<circle cx="607.5" cy="196.9" r="4" fill="rgb(105,132,63)" opacity="0.7"/>
+<circle cx="785.8" cy="149.5" r="4" fill="rgb(59,153,66)" opacity="0.7"/>
+<circle cx="607.5" cy="141.0" r="4" fill="rgb(105,132,63)" opacity="0.7"/>
+<circle cx="708.2" cy="179.2" r="4" fill="rgb(79,144,64)" opacity="0.7"/>
+<circle cx="351.8" cy="122.6" r="4" fill="rgb(170,101,58)" opacity="0.7"/>
+<circle cx="444.8" cy="128.5" r="4" fill="rgb(146,112,60)" opacity="0.7"/>
+<circle cx="700.5" cy="272.3" r="4" fill="rgb(81,143,64)" opacity="0.7"/>
+<circle cx="537.8" cy="87.0" r="4" fill="rgb(123,123,61)" opacity="0.7"/>
+<circle cx="483.5" cy="166.5" r="4" fill="rgb(137,117,61)" opacity="0.7"/>
+<circle cx="134.8" cy="260.6" r="4" fill="rgb(226,75,55)" opacity="0.7"/>
+<circle cx="243.2" cy="163.3" r="4" fill="rgb(198,88,56)" opacity="0.7"/>
+<circle cx="421.5" cy="124.6" r="4" fill="rgb(152,109,59)" opacity="0.7"/>
+<circle cx="398.2" cy="163.9" r="4" fill="rgb(158,106,59)" opacity="0.7"/>
+<circle cx="328.5" cy="191.2" r="4" fill="rgb(176,98,58)" opacity="0.7"/>
+<circle cx="297.5" cy="147.8" r="4" fill="rgb(184,94,57)" opacity="0.7"/>
+<circle cx="499.0" cy="218.2" r="4" fill="rgb(133,119,61)" opacity="0.7"/>
+<circle cx="351.8" cy="259.1" r="4" fill="rgb(170,101,58)" opacity="0.7"/>
+<circle cx="491.3" cy="268.3" r="4" fill="rgb(135,118,61)" opacity="0.7"/>
+<circle cx="491.3" cy="157.6" r="4" fill="rgb(135,118,61)" opacity="0.7"/>
+<circle cx="134.8" cy="224.0" r="4" fill="rgb(226,75,55)" opacity="0.7"/>
+<circle cx="382.8" cy="116.0" r="4" fill="rgb(162,105,59)" opacity="0.7"/>
+<circle cx="545.5" cy="259.7" r="4" fill="rgb(121,124,62)" opacity="0.7"/>
+<circle cx="235.5" cy="257.3" r="4" fill="rgb(200,87,56)" opacity="0.7"/>
+<circle cx="111.5" cy="236.2" r="4" fill="rgb(232,72,54)" opacity="0.7"/>
+<circle cx="328.5" cy="123.6" r="4" fill="rgb(176,98,58)" opacity="0.7"/>
+<circle cx="328.5" cy="144.3" r="4" fill="rgb(176,98,58)" opacity="0.7"/>
+<circle cx="568.8" cy="255.5" r="4" fill="rgb(115,127,62)" opacity="0.7"/>
+<circle cx="568.8" cy="218.7" r="4" fill="rgb(115,127,62)" opacity="0.7"/>
+<circle cx="685.0" cy="295.3" r="4" fill="rgb(85,141,64)" opacity="0.7"/>
+<circle cx="630.8" cy="148.3" r="4" fill="rgb(99,134,63)" opacity="0.7"/>
+<circle cx="568.8" cy="214.1" r="4" fill="rgb(115,127,62)" opacity="0.7"/>
+<circle cx="398.2" cy="177.6" r="4" fill="rgb(158,106,59)" opacity="0.7"/>
+<circle cx="561.0" cy="117.4" r="4" fill="rgb(117,126,62)" opacity="0.7"/>
+<circle cx="382.8" cy="146.5" r="4" fill="rgb(162,105,59)" opacity="0.7"/>
+<circle cx="739.2" cy="124.4" r="4" fill="rgb(71,147,65)" opacity="0.7"/>
+<circle cx="646.2" cy="206.0" r="4" fill="rgb(95,136,63)" opacity="0.7"/>
+<circle cx="623.0" cy="189.4" r="4" fill="rgb(101,133,63)" opacity="0.7"/>
+<circle cx="669.5" cy="140.7" r="4" fill="rgb(89,139,64)" opacity="0.7"/>
+<circle cx="514.5" cy="115.3" r="4" fill="rgb(129,120,61)" opacity="0.7"/>
+<circle cx="801.2" cy="172.3" r="4" fill="rgb(55,155,66)" opacity="0.7"/>
+<circle cx="770.2" cy="225.2" r="4" fill="rgb(63,151,65)" opacity="0.7"/>
+<circle cx="638.5" cy="269.1" r="4" fill="rgb(97,135,63)" opacity="0.7"/>
+<circle cx="313.0" cy="212.6" r="4" fill="rgb(180,96,58)" opacity="0.7"/>
+<circle cx="762.5" cy="114.9" r="4" fill="rgb(65,150,65)" opacity="0.7"/>
+<circle cx="468.0" cy="124.5" r="4" fill="rgb(141,115,60)" opacity="0.7"/>
+<circle cx="623.0" cy="300.5" r="4" fill="rgb(101,133,63)" opacity="0.7"/>
+<circle cx="739.2" cy="178.2" r="4" fill="rgb(71,147,65)" opacity="0.7"/>
+<circle cx="739.2" cy="223.3" r="4" fill="rgb(71,147,65)" opacity="0.7"/>
+<circle cx="816.8" cy="231.9" r="4" fill="rgb(51,157,66)" opacity="0.7"/>
+<circle cx="553.2" cy="261.9" r="4" fill="rgb(119,125,62)" opacity="0.7"/>
+<circle cx="235.5" cy="260.4" r="4" fill="rgb(200,87,56)" opacity="0.7"/>
+<circle cx="615.2" cy="114.2" r="4" fill="rgb(103,133,63)" opacity="0.7"/>
+<circle cx="545.5" cy="220.2" r="4" fill="rgb(121,124,62)" opacity="0.7"/>
+<circle cx="576.5" cy="199.9" r="4" fill="rgb(113,128,62)" opacity="0.7"/>
+<circle cx="654.0" cy="240.3" r="4" fill="rgb(93,137,63)" opacity="0.7"/>
+<circle cx="654.0" cy="216.6" r="4" fill="rgb(93,137,63)" opacity="0.7"/>
+<circle cx="313.0" cy="261.9" r="4" fill="rgb(180,96,58)" opacity="0.7"/>
+<circle cx="514.5" cy="113.4" r="4" fill="rgb(129,120,61)" opacity="0.7"/>
+<circle cx="367.2" cy="120.5" r="4" fill="rgb(166,103,59)" opacity="0.7"/>
+<circle cx="475.8" cy="293.0" r="4" fill="rgb(139,116,60)" opacity="0.7"/>
+<circle cx="475.8" cy="297.4" r="4" fill="rgb(139,116,60)" opacity="0.7"/>
+<circle cx="320.8" cy="156.7" r="4" fill="rgb(178,97,58)" opacity="0.7"/>
+<circle cx="491.3" cy="214.2" r="4" fill="rgb(135,118,61)" opacity="0.7"/>
+<circle cx="491.3" cy="108.0" r="4" fill="rgb(135,118,61)" opacity="0.7"/>
+<circle cx="630.8" cy="118.0" r="4" fill="rgb(99,134,63)" opacity="0.7"/>
+<circle cx="592.0" cy="193.3" r="4" fill="rgb(109,130,62)" opacity="0.7"/>
+<circle cx="375.0" cy="203.6" r="4" fill="rgb(164,104,59)" opacity="0.7"/>
+<circle cx="344.0" cy="145.8" r="4" fill="rgb(172,100,58)" opacity="0.7"/>
+<circle cx="638.5" cy="97.7" r="4" fill="rgb(97,135,63)" opacity="0.7"/>
+<circle cx="398.2" cy="285.2" r="4" fill="rgb(158,106,59)" opacity="0.7"/>
+<circle cx="398.2" cy="241.0" r="4" fill="rgb(158,106,59)" opacity="0.7"/>
+<circle cx="530.0" cy="212.4" r="4" fill="rgb(125,122,61)" opacity="0.7"/>
+<circle cx="677.2" cy="243.0" r="4" fill="rgb(87,140,64)" opacity="0.7"/>
+<circle cx="700.5" cy="264.4" r="4" fill="rgb(81,143,64)" opacity="0.7"/>
+<circle cx="700.5" cy="214.9" r="4" fill="rgb(81,143,64)" opacity="0.7"/>
+<circle cx="716.0" cy="80.6" r="4" fill="rgb(77,145,64)" opacity="0.7"/>
+<circle cx="359.5" cy="266.4" r="4" fill="rgb(168,102,58)" opacity="0.7"/>
+<circle cx="762.5" cy="274.1" r="4" fill="rgb(65,150,65)" opacity="0.7"/>
+<circle cx="692.8" cy="144.8" r="4" fill="rgb(83,142,64)" opacity="0.7"/>
+<circle cx="599.8" cy="286.6" r="4" fill="rgb(107,131,62)" opacity="0.7"/>
+<circle cx="599.8" cy="103.3" r="4" fill="rgb(107,131,62)" opacity="0.7"/>
+<circle cx="297.5" cy="267.5" r="4" fill="rgb(184,94,57)" opacity="0.7"/>
+<circle cx="444.8" cy="103.8" r="4" fill="rgb(146,112,60)" opacity="0.7"/>
+<circle cx="716.0" cy="153.2" r="4" fill="rgb(77,145,64)" opacity="0.7"/>
+<circle cx="762.5" cy="119.1" r="4" fill="rgb(65,150,65)" opacity="0.7"/>
+<circle cx="220.0" cy="221.7" r="4" fill="rgb(204,85,56)" opacity="0.7"/>
+<circle cx="220.0" cy="258.1" r="4" fill="rgb(204,85,56)" opacity="0.7"/>
+<circle cx="483.5" cy="76.2" r="4" fill="rgb(137,117,61)" opacity="0.7"/>
+<circle cx="545.5" cy="270.4" r="4" fill="rgb(121,124,62)" opacity="0.7"/>
+<circle cx="545.5" cy="260.3" r="4" fill="rgb(121,124,62)" opacity="0.7"/>
+<circle cx="561.0" cy="266.0" r="4" fill="rgb(117,126,62)" opacity="0.7"/>
+<circle cx="630.8" cy="131.2" r="4" fill="rgb(99,134,63)" opacity="0.7"/>
+<circle cx="739.2" cy="255.7" r="4" fill="rgb(71,147,65)" opacity="0.7"/>
+<circle cx="793.5" cy="89.7" r="4" fill="rgb(57,154,66)" opacity="0.7"/>
+<circle cx="413.8" cy="110.8" r="4" fill="rgb(154,108,59)" opacity="0.7"/>
+<circle cx="785.8" cy="107.3" r="4" fill="rgb(59,153,66)" opacity="0.7"/>
+<circle cx="227.8" cy="240.4" r="4" fill="rgb(202,86,56)" opacity="0.7"/>
+<circle cx="615.2" cy="251.1" r="4" fill="rgb(103,133,63)" opacity="0.7"/>
+<circle cx="615.2" cy="209.5" r="4" fill="rgb(103,133,63)" opacity="0.7"/>
+<circle cx="615.2" cy="269.5" r="4" fill="rgb(103,133,63)" opacity="0.7"/>
+<circle cx="615.2" cy="270.7" r="4" fill="rgb(103,133,63)" opacity="0.7"/>
+<circle cx="599.8" cy="197.2" r="4" fill="rgb(107,131,62)" opacity="0.7"/>
+<circle cx="344.0" cy="135.8" r="4" fill="rgb(172,100,58)" opacity="0.7"/>
+<circle cx="328.5" cy="229.5" r="4" fill="rgb(176,98,58)" opacity="0.7"/>
+<circle cx="258.8" cy="131.2" r="4" fill="rgb(194,90,57)" opacity="0.7"/>
+<circle cx="661.8" cy="160.6" r="4" fill="rgb(91,138,64)" opacity="0.7"/>
+<circle cx="747.0" cy="117.6" r="4" fill="rgb(69,148,65)" opacity="0.7"/>
+<circle cx="824.5" cy="102.3" r="4" fill="rgb(49,158,66)" opacity="0.7"/>
+<circle cx="677.2" cy="92.6" r="4" fill="rgb(87,140,64)" opacity="0.7"/>
+<circle cx="452.5" cy="78.5" r="4" fill="rgb(145,113,60)" opacity="0.7"/>
+<circle cx="561.0" cy="86.8" r="4" fill="rgb(117,126,62)" opacity="0.7"/>
+<circle cx="421.5" cy="185.1" r="4" fill="rgb(152,109,59)" opacity="0.7"/>
+<circle cx="437.0" cy="87.5" r="4" fill="rgb(148,111,60)" opacity="0.7"/>
+<circle cx="437.0" cy="258.9" r="4" fill="rgb(148,111,60)" opacity="0.7"/>
+<circle cx="568.8" cy="128.0" r="4" fill="rgb(115,127,62)" opacity="0.7"/>
+<circle cx="452.5" cy="33.8" r="4" fill="rgb(145,113,60)" opacity="0.7"/>
+<circle cx="305.2" cy="243.4" r="4" fill="rgb(182,95,58)" opacity="0.7"/>
+<circle cx="227.8" cy="205.6" r="4" fill="rgb(202,86,56)" opacity="0.7"/>
+<circle cx="227.8" cy="97.8" r="4" fill="rgb(202,86,56)" opacity="0.7"/>
+<circle cx="297.5" cy="195.6" r="4" fill="rgb(184,94,57)" opacity="0.7"/>
+<circle cx="344.0" cy="125.4" r="4" fill="rgb(172,100,58)" opacity="0.7"/>
+<circle cx="475.8" cy="227.5" r="4" fill="rgb(139,116,60)" opacity="0.7"/>
+<circle cx="390.5" cy="98.6" r="4" fill="rgb(160,106,59)" opacity="0.7"/>
+<circle cx="499.0" cy="242.5" r="4" fill="rgb(133,119,61)" opacity="0.7"/>
+<circle cx="251.0" cy="125.8" r="4" fill="rgb(196,89,57)" opacity="0.7"/>
+<circle cx="553.2" cy="287.3" r="4" fill="rgb(119,125,62)" opacity="0.7"/>
+<circle cx="553.2" cy="95.2" r="4" fill="rgb(119,125,62)" opacity="0.7"/>
+<circle cx="545.5" cy="272.9" r="4" fill="rgb(121,124,62)" opacity="0.7"/>
+<circle cx="716.0" cy="109.3" r="4" fill="rgb(77,145,64)" opacity="0.7"/>
+<circle cx="716.0" cy="199.3" r="4" fill="rgb(77,145,64)" opacity="0.7"/>
+</svg>
+      <p class="caption">Correlation slope: 35.9 lbs per recovery point. Positive correlation — higher recovery → more volume.</p>
+    </div>
+  </div>
+
+  <!-- Section 5: Rest Days vs Volume -->
+  <div class="section">
+    <h2>Rest Days vs Average Volume</h2>
+    <div class="card">
+      <p class="chart-label">How many days of rest between workouts produces your best performance? Gold bar = best rest period.</p>
+      <svg width="520" height="280" style="display:block">
+<line x1="65" y1="230.0" x2="500" y2="230.0" stroke="#222" stroke-width="1"/>
+<text x="57" y="234.0" text-anchor="end" fill="#888" font-size="10">0k</text>
+<line x1="65" y1="177.5" x2="500" y2="177.5" stroke="#222" stroke-width="1"/>
+<text x="57" y="181.5" text-anchor="end" fill="#888" font-size="10">3k</text>
+<line x1="65" y1="125.0" x2="500" y2="125.0" stroke="#222" stroke-width="1"/>
+<text x="57" y="129.0" text-anchor="end" fill="#888" font-size="10">7k</text>
+<line x1="65" y1="72.5" x2="500" y2="72.5" stroke="#222" stroke-width="1"/>
+<text x="57" y="76.5" text-anchor="end" fill="#888" font-size="10">11k</text>
+<line x1="65" y1="20.0" x2="500" y2="20.0" stroke="#222" stroke-width="1"/>
+<text x="57" y="24.0" text-anchor="end" fill="#888" font-size="10">14k</text>
+<rect x="78.0" y="230.0" width="60.9" height="0.0" fill="#0a84ff" rx="3"/>
+<text x="108.5" y="246" text-anchor="middle" fill="#aaa" font-size="11">Same Day</text>
+<rect x="165.1" y="75.9" width="60.9" height="154.1" fill="#0a84ff" rx="3"/>
+<text x="195.5" y="246" text-anchor="middle" fill="#aaa" font-size="11">1 Day</text>
+<text x="195.5" y="70.9" text-anchor="middle" fill="white" font-size="10">10k</text>
+<rect x="252.1" y="78.4" width="60.9" height="151.6" fill="#0a84ff" rx="3"/>
+<text x="282.5" y="246" text-anchor="middle" fill="#aaa" font-size="11">2 Days</text>
+<text x="282.5" y="73.4" text-anchor="middle" fill="white" font-size="10">10k</text>
+<rect x="339.1" y="39.1" width="60.9" height="190.9" fill="#f39c12" rx="3"/>
+<text x="369.5" y="246" text-anchor="middle" fill="#aaa" font-size="11">3 Days</text>
+<text x="369.5" y="34.1" text-anchor="middle" fill="white" font-size="10">13k</text>
+<rect x="426.1" y="101.0" width="60.9" height="129.0" fill="#0a84ff" rx="3"/>
+<text x="456.5" y="246" text-anchor="middle" fill="#aaa" font-size="11">4+ Days</text>
+<text x="456.5" y="96.0" text-anchor="middle" fill="white" font-size="10">9k</text>
+<text x="282.5" y="277" text-anchor="middle" fill="#aaa" font-size="12">Days Since Last Workout</text>
+<text x="12" y="125.0" text-anchor="middle" fill="#aaa" font-size="12" transform="rotate(-90,12,125.0)">Avg Volume (lbs)</text>
+</svg>
+      <p class="caption">Best average volume comes after 3 Days of rest.</p>
+    </div>
+  </div>
+
+  <!-- Section 6: Heatmap -->
+  <div class="section">
+    <h2>Sweet Spot Heatmap — Recovery × Rest Days</h2>
+    <div class="card">
+      <p class="chart-label">2D grid: rows = WHOOP recovery range, cols = days since last workout. Darker = higher avg volume.</p>
+      <svg width="520" height="280" style="display:block">
+<text x="110.0" y="30" text-anchor="middle" fill="#aaa" font-size="12">0d rest</text>
+<text x="190.0" y="30" text-anchor="middle" fill="#aaa" font-size="12">1d rest</text>
+<text x="270.0" y="30" text-anchor="middle" fill="#aaa" font-size="12">2d rest</text>
+<text x="350.0" y="30" text-anchor="middle" fill="#aaa" font-size="12">3+d rest</text>
+<text x="62" y="67.5" text-anchor="end" fill="#aaa" font-size="11"><40</text>
+<text x="62" y="112.5" text-anchor="end" fill="#aaa" font-size="11">40-55</text>
+<text x="62" y="157.5" text-anchor="end" fill="#aaa" font-size="11">55-70</text>
+<text x="62" y="202.5" text-anchor="end" fill="#aaa" font-size="11">70-85</text>
+<text x="62" y="247.5" text-anchor="end" fill="#aaa" font-size="11">85+</text>
+<rect x="70" y="40" width="78" height="43" fill="rgb(13,17,22)" rx="4"/>
+<rect x="150" y="40" width="78" height="43" fill="rgb(150,100,19)" rx="4"/>
+<text x="189.0" y="67.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">9k</text>
+<rect x="230" y="40" width="78" height="43" fill="rgb(132,88,19)" rx="4"/>
+<text x="269.0" y="67.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">8k</text>
+<rect x="310" y="40" width="78" height="43" fill="rgb(152,101,19)" rx="4"/>
+<text x="349.0" y="67.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">10k</text>
+<rect x="70" y="85" width="78" height="43" fill="rgb(13,17,22)" rx="4"/>
+<rect x="150" y="85" width="78" height="43" fill="rgb(159,105,19)" rx="4"/>
+<text x="189.0" y="112.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">10k</text>
+<rect x="230" y="85" width="78" height="43" fill="rgb(208,135,18)" rx="4"/>
+<text x="269.0" y="112.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">14k</text>
+<rect x="310" y="85" width="78" height="43" fill="rgb(203,132,18)" rx="4"/>
+<text x="349.0" y="112.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">13k</text>
+<rect x="70" y="130" width="78" height="43" fill="rgb(13,17,22)" rx="4"/>
+<rect x="150" y="130" width="78" height="43" fill="rgb(150,99,19)" rx="4"/>
+<text x="189.0" y="157.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">9k</text>
+<rect x="230" y="130" width="78" height="43" fill="rgb(187,122,18)" rx="4"/>
+<text x="269.0" y="157.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">12k</text>
+<rect x="310" y="130" width="78" height="43" fill="rgb(211,136,18)" rx="4"/>
+<text x="349.0" y="157.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">14k</text>
+<rect x="70" y="175" width="78" height="43" fill="rgb(13,17,22)" rx="4"/>
+<rect x="150" y="175" width="78" height="43" fill="rgb(178,116,19)" rx="4"/>
+<text x="189.0" y="202.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">11k</text>
+<rect x="230" y="175" width="78" height="43" fill="rgb(117,80,20)" rx="4"/>
+<text x="269.0" y="202.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">7k</text>
+<rect x="310" y="175" width="78" height="43" fill="rgb(149,99,19)" rx="4"/>
+<text x="349.0" y="202.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">9k</text>
+<rect x="70" y="220" width="78" height="43" fill="rgb(13,17,22)" rx="4"/>
+<rect x="150" y="220" width="78" height="43" fill="rgb(221,142,18)" rx="4"/>
+<text x="189.0" y="247.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">14k</text>
+<rect x="230" y="220" width="78" height="43" fill="rgb(243,156,18)" rx="4"/>
+<text x="269.0" y="247.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">16k</text>
+<rect x="310" y="220" width="78" height="43" fill="rgb(123,83,20)" rx="4"/>
+<text x="349.0" y="247.5" text-anchor="middle" fill="white" font-size="12" font-weight="bold">7k</text>
+</svg>
+      <p class="caption">Find the darkest cell — that's your sweet spot combination.</p>
+    </div>
+  </div>
+
+  <p style="color:#444;font-size:11px;text-align:center;margin-top:32px">Generated 2026-02-28 · 659 Tonal workouts · 1112 WHOOP records · 1812 sleep nights</p>
+</div>
+</body>
+</html>

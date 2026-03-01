@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Records & Best Performances 🏆</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --card2: #21262d;
+    --accent: #f39c12;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --border: #30363d;
+    --green: #2ea043;
+    --gold: #FFD700;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  
+  /* NAV */
+  nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color .2s; }
+  nav a:hover, nav a.active { color: var(--accent); }
+  nav .nav-brand { color: var(--accent); font-weight: 700; font-size: 15px; margin-right: 12px; }
+  
+  /* LAYOUT */
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+  
+  /* HEADER */
+  .page-header { margin-bottom: 32px; }
+  .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .page-header p { color: var(--muted); font-size: 15px; }
+  
+  /* SECTION */
+  .section { margin-bottom: 40px; }
+  .section-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  
+  /* WEEK CARDS */
+  .weeks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .week-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; position: relative; transition: border-color .2s; }
+  .week-card:hover { border-color: var(--accent); }
+  .rank-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .week-range { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .week-volume { font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .week-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .workout-badge { background: var(--card2); padding: 2px 8px; border-radius: 12px; }
+  .week-load { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  
+  /* PERSONAL BESTS */
+  .pbs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .pb-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .pb-icon { font-size: 28px; margin-bottom: 8px; }
+  .pb-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+  .pb-value { font-size: 26px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .pb-sub { font-size: 13px; color: var(--muted); }
+  .pb-date { font-size: 11px; color: var(--muted); margin-top: 8px; border-top: 1px solid var(--border); padding-top: 8px; }
+  
+  /* STREAKS */
+  .streaks-container { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .streak-row { margin-bottom: 20px; }
+  .streak-row:last-child { margin-bottom: 0; }
+  .streak-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .streak-name { font-size: 14px; font-weight: 500; }
+  .streak-days { font-size: 14px; font-weight: 700; color: var(--accent); }
+  .streak-track { background: var(--card2); border-radius: 4px; height: 10px; overflow: hidden; }
+  .streak-bar { height: 100%; border-radius: 4px; transition: width .8s ease; }
+  .streak-date { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  
+  /* FOOTER */
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 40px; }
+  footer a { color: var(--accent); text-decoration: none; }
+  
+  @media (max-width: 600px) {
+    .weeks-grid { grid-template-columns: 1fr; }
+    .pbs-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">🏋️ FitDash</span>
+  <a href="../index.html">🏠 Home</a>
+  <a href="../calendars/">📅 Calendars</a>
+  <a href="../strength/">💪 Strength</a>
+  <a href="../cardio/">🏃 Cardio</a>
+  <a href="../recovery/">💜 Recovery</a>
+  <a href="../nutrition/">🥗 Nutrition</a>
+  <a href="../velocity/">⚡ Velocity</a>
+  <a href="../training_rhythm/">🔄 Rhythm</a>
+  <a href="index.html" class="active">🏆 Records</a>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Records &amp; Best Performances 🏆</h1>
+    <p>Your personal bests, best weeks, and training streaks</p>
+  </div>
+
+  <!-- SECTION 1: BEST WEEKS -->
+  <div class="section">
+    <div class="section-title">📅 Best Weeks Ever — Top 10 Leaderboard</div>
+    <div class="weeks-grid">
+      
+        <div class="week-card">
+            <div class="rank-badge" style="background:#FFD700;color:#7d6800">#1</div>
+            <div class="week-range">Jun 30–Jul 6, 2025</div>
+            <div class="week-volume">0 lbs</div>
+            <div class="week-meta">
+                <span>🏃 22.6 mi</span>
+                <span class="workout-badge">0 workouts</span>
+            </div>
+            <div class="week-load">Load: 226.0</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#C0C0C0;color:#666">#2</div>
+            <div class="week-range">Mar 18–24, 2024</div>
+            <div class="week-volume">219,241 lbs</div>
+            <div class="week-meta">
+                <span>🏃 0 mi</span>
+                <span class="workout-badge">10 workouts</span>
+            </div>
+            <div class="week-load">Load: 219.2</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#CD7F32;color:#7a3a00">#3</div>
+            <div class="week-range">Jun 2–8, 2025</div>
+            <div class="week-volume">0 lbs</div>
+            <div class="week-meta">
+                <span>🏃 20.1 mi</span>
+                <span class="workout-badge">0 workouts</span>
+            </div>
+            <div class="week-load">Load: 200.8</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#4</div>
+            <div class="week-range">Jun 16–22, 2025</div>
+            <div class="week-volume">0 lbs</div>
+            <div class="week-meta">
+                <span>🏃 18.7 mi</span>
+                <span class="workout-badge">0 workouts</span>
+            </div>
+            <div class="week-load">Load: 187.2</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#5</div>
+            <div class="week-range">Jun 9–15, 2025</div>
+            <div class="week-volume">0 lbs</div>
+            <div class="week-meta">
+                <span>🏃 17.8 mi</span>
+                <span class="workout-badge">0 workouts</span>
+            </div>
+            <div class="week-load">Load: 178.2</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#6</div>
+            <div class="week-range">Mar 11–17, 2024</div>
+            <div class="week-volume">178,140 lbs</div>
+            <div class="week-meta">
+                <span>🏃 0 mi</span>
+                <span class="workout-badge">8 workouts</span>
+            </div>
+            <div class="week-load">Load: 178.1</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#7</div>
+            <div class="week-range">Apr 29–May 5, 2024</div>
+            <div class="week-volume">177,267 lbs</div>
+            <div class="week-meta">
+                <span>🏃 0 mi</span>
+                <span class="workout-badge">7 workouts</span>
+            </div>
+            <div class="week-load">Load: 177.3</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#8</div>
+            <div class="week-range">Mar 25–31, 2024</div>
+            <div class="week-volume">166,290 lbs</div>
+            <div class="week-meta">
+                <span>🏃 0 mi</span>
+                <span class="workout-badge">7 workouts</span>
+            </div>
+            <div class="week-load">Load: 166.3</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#9</div>
+            <div class="week-range">Apr 1–7, 2024</div>
+            <div class="week-volume">165,992 lbs</div>
+            <div class="week-meta">
+                <span>🏃 0 mi</span>
+                <span class="workout-badge">8 workouts</span>
+            </div>
+            <div class="week-load">Load: 166.0</div>
+        </div>
+
+        <div class="week-card">
+            <div class="rank-badge" style="background:#21262d;color:#8b949e">#10</div>
+            <div class="week-range">Apr 22–28, 2024</div>
+            <div class="week-volume">163,809 lbs</div>
+            <div class="week-meta">
+                <span>🏃 0 mi</span>
+                <span class="workout-badge">7 workouts</span>
+            </div>
+            <div class="week-load">Load: 163.8</div>
+        </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: PERSONAL BESTS -->
+  <div class="section">
+    <div class="section-title">🥇 Personal Bests</div>
+    <div class="pbs-grid">
+      <div class="pb-card">
+        <div class="pb-icon">🏋️</div>
+        <div class="pb-label">Best Lift Day</div>
+        <div class="pb-value">43,094</div>
+        <div class="pb-sub">lbs total volume · 2 sessions</div>
+        <div class="pb-date">📆 Mar 21, 2024</div>
+      </div>
+      <div class="pb-card">
+        <div class="pb-icon">🏃</div>
+        <div class="pb-label">Longest Run</div>
+        <div class="pb-value">5.0</div>
+        <div class="pb-sub">miles · pace 14:13/mi</div>
+        <div class="pb-date">📆 Jun 30, 2025</div>
+      </div>
+      <div class="pb-card">
+        <div class="pb-icon">💜</div>
+        <div class="pb-label">Best Recovery</div>
+        <div class="pb-value">99%</div>
+        <div class="pb-sub">WHOOP · HRV 48 ms</div>
+        <div class="pb-date">📆 May 10, 2025</div>
+      </div>
+      <div class="pb-card">
+        <div class="pb-icon">😴</div>
+        <div class="pb-label">Best Sleep Score</div>
+        <div class="pb-value">73</div>
+        <div class="pb-sub">8Sleep score</div>
+        <div class="pb-date">📆 today</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: STREAKS -->
+  <div class="section">
+    <div class="section-title">🔥 Streak Records</div>
+    <div class="streaks-container">
+      
+        <div class="streak-row">
+            <div class="streak-label">
+                <span class="streak-name">Any Activity</span>
+                <span class="streak-days">60 days</span>
+            </div>
+            <div class="streak-track">
+                <div class="streak-bar" style="width:33.3%;background:#f39c12"></div>
+            </div>
+            <div class="streak-date">2024-03-06 → 2024-05-04</div>
+        </div>
+
+        <div class="streak-row">
+            <div class="streak-label">
+                <span class="streak-name">Tonal Strength</span>
+                <span class="streak-days">60 days</span>
+            </div>
+            <div class="streak-track">
+                <div class="streak-bar" style="width:66.7%;background:#e67e22"></div>
+            </div>
+            <div class="streak-date">2024-03-06 → 2024-05-04</div>
+        </div>
+
+        <div class="streak-row">
+            <div class="streak-label">
+                <span class="streak-name">Running</span>
+                <span class="streak-days">8 days</span>
+            </div>
+            <div class="streak-track">
+                <div class="streak-bar" style="width:13.3%;background:#3498db"></div>
+            </div>
+            <div class="streak-date">2025-05-29 → 2025-06-05</div>
+        </div>
+
+        <div class="streak-row">
+            <div class="streak-label">
+                <span class="streak-name">Current Streak</span>
+                <span class="streak-days">0 days</span>
+            </div>
+            <div class="streak-track">
+                <div class="streak-bar" style="width:0.0%;background:#2ea043"></div>
+            </div>
+            <div class="streak-date">ongoing</div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Generated: February 27, 2026 at 1:23 PM ET &nbsp;·&nbsp; <a href="../index.html">← Back to Dashboard</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1set Warrior — Exercise Detail</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; }
+nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+nav a { color: #8b949e; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 14px; transition: all 0.2s; }
+nav a:hover { background: #21262d; color: #e6edf3; }
+nav a.active { background: #f39c12; color: #000; font-weight: 600; }
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+h1 { font-size: 30px; font-weight: 700; color: #e6edf3; margin-bottom: 6px; }
+h2 { font-size: 18px; font-weight: 600; color: #f39c12; margin-bottom: 12px; }
+.sub { color: #8b949e; font-size: 14px; margin-bottom: 28px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: #8b949e; text-decoration: none; margin-bottom: 20px; font-size: 14px; padding: 6px 0; }
+.back-link:hover { color: #f39c12; }
+.pr-banner { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+.pr-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px 24px; flex: 1; min-width: 160px; text-align: center; }
+.pr-card.highlight { border-color: #f39c12; background: #f39c1210; }
+.pr-card .label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.pr-card .value { font-size: 32px; font-weight: 700; color: #f39c12; }
+.pr-card .date { font-size: 12px; color: #8b949e; margin-top: 4px; }
+.chart-section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; overflow-x: auto; }
+.history-section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { background: #21262d; color: #8b949e; font-size: 12px; font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 1px solid #30363d; }
+td { padding: 10px 12px; border-bottom: 1px solid #21262d; }
+tr:hover td { background: #1c2128; }
+tr:last-child td { border-bottom: none; }
+.footer-nav { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+.footer-nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+.footer-nav a:hover { color: #f39c12; }
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html">🏠 Home</a>
+<a href="../calendars/2026-02-calendar.html">📅 Calendars</a>
+<a href="../strength/index.html">💪 Strength</a>
+<a href="../cardio/index.html">🏃 Cardio</a>
+<a href="../recovery/index.html">🛌 Recovery</a>
+<a href="../nutrition/index.html">🥗 Nutrition</a>
+<a href="index.html">🏋️ Exercises</a>
+</nav>
+<div class="container">
+  <a class="back-link" href="index.html">← Back to All Exercises</a>
+  <h1>1set Warrior</h1>
+  <div class="sub">
+    Movement ID: 6b526e88-90a… &nbsp;|&nbsp; 62 sessions &nbsp;|&nbsp; 186 total sets
+  </div>
+
+  <!-- PR Banner -->
+  <div class="pr-banner">
+    <div class="pr-card highlight">
+      <div class="label">All-Time PR</div>
+      <div class="value">43 lbs</div>
+      <div class="date">on 2025-04-01</div>
+    </div>
+    <div class="pr-card">
+      <div class="label">Est. 1RM PR</div>
+      <div class="value">52 lbs</div>
+    </div>
+    <div class="pr-card">
+      <div class="label">Total Volume</div>
+      <div class="value">88K lbs</div>
+    </div>
+    <div class="pr-card">
+      <div class="label">Sessions</div>
+      <div class="value">62</div>
+    </div>
+  </div>
+
+  <!-- Weight Over Time Chart -->
+  <div class="chart-section">
+    <h2>Weight Progress</h2>
+    <svg viewBox="0 0 800 300" style="width:100%;background:#0d1117;border-radius:8px;display:block">
+  <text x="417.5" y="22" fill="#e6edf3" text-anchor="middle" font-size="13" font-weight="600">Weight Progress</text>
+  <text x="14" y="145.0" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,14,145.0)">Weight (lbs)</text>
+  <!-- grid -->
+  <line x1="65" y1="250.0" x2="770" y2="250.0" stroke="#30363d" stroke-width="1"/><text x="59" y="254.0" fill="#8b949e" font-size="11" text-anchor="end">16</text><line x1="65" y1="197.5" x2="770" y2="197.5" stroke="#30363d" stroke-width="1"/><text x="59" y="201.5" fill="#8b949e" font-size="11" text-anchor="end">24</text><line x1="65" y1="145.0" x2="770" y2="145.0" stroke="#30363d" stroke-width="1"/><text x="59" y="149.0" fill="#8b949e" font-size="11" text-anchor="end">31</text><line x1="65" y1="92.5" x2="770" y2="92.5" stroke="#30363d" stroke-width="1"/><text x="59" y="96.5" fill="#8b949e" font-size="11" text-anchor="end">39</text><line x1="65" y1="40.0" x2="770" y2="40.0" stroke="#30363d" stroke-width="1"/><text x="59" y="44.0" fill="#8b949e" font-size="11" text-anchor="end">46</text>
+  <!-- x labels -->
+  <text x="65.0" y="268" fill="#8b949e" font-size="10" text-anchor="middle">01-20</text><text x="134.3" y="268" fill="#8b949e" font-size="10" text-anchor="middle">06-22</text><text x="203.7" y="268" fill="#8b949e" font-size="10" text-anchor="middle">11-03</text><text x="273.0" y="268" fill="#8b949e" font-size="10" text-anchor="middle">01-10</text><text x="342.4" y="268" fill="#8b949e" font-size="10" text-anchor="middle">09-05</text><text x="411.7" y="268" fill="#8b949e" font-size="10" text-anchor="middle">09-26</text><text x="481.1" y="268" fill="#8b949e" font-size="10" text-anchor="middle">10-21</text><text x="550.4" y="268" fill="#8b949e" font-size="10" text-anchor="middle">11-19</text><text x="619.8" y="268" fill="#8b949e" font-size="10" text-anchor="middle">01-10</text><text x="689.1" y="268" fill="#8b949e" font-size="10" text-anchor="middle">02-07</text><text x="758.4" y="268" fill="#8b949e" font-size="10" text-anchor="middle">03-23</text>
+  <!-- area -->
+  <path d="M 65.0,183.0 L 76.6,190.7 L 88.1,232.2 L 99.7,168.9 L 111.2,197.0 L 122.8,197.0 L 134.3,161.9 L 145.9,225.2 L 157.5,154.8 L 169.0,190.0 L 180.6,169.6 L 192.1,197.7 L 203.7,197.0 L 215.2,197.0 L 226.8,218.1 L 238.4,164.0 L 249.9,175.9 L 261.5,185.8 L 273.0,218.1 L 284.6,183.7 L 296.1,162.6 L 307.7,162.6 L 319.3,162.6 L 330.8,162.6 L 342.4,162.6 L 353.9,155.5 L 365.5,197.7 L 377.0,197.0 L 388.6,155.5 L 400.2,155.5 L 411.7,155.5 L 423.3,239.9 L 434.8,197.7 L 446.4,155.5 L 458.0,161.9 L 469.5,148.5 L 481.1,134.5 L 492.6,183.7 L 504.2,134.5 L 515.7,133.7 L 527.3,169.6 L 538.9,120.4 L 550.4,120.4 L 562.0,119.7 L 573.5,120.4 L 585.1,120.4 L 596.6,113.4 L 608.2,113.4 L 619.8,113.4 L 631.3,113.4 L 642.9,113.4 L 654.4,113.4 L 666.0,99.3 L 677.5,99.3 L 689.1,148.5 L 700.7,148.5 L 712.2,85.2 L 723.8,85.2 L 735.3,127.4 L 746.9,64.1 L 758.4,64.1 L 770.0,64.1 L 770.0,250 L 65.0,250 Z" fill="#0a84ff" fill-opacity="0.08"/>
+  <!-- line -->
+  <path d="M 65.0,183.0 L 76.6,190.7 L 88.1,232.2 L 99.7,168.9 L 111.2,197.0 L 122.8,197.0 L 134.3,161.9 L 145.9,225.2 L 157.5,154.8 L 169.0,190.0 L 180.6,169.6 L 192.1,197.7 L 203.7,197.0 L 215.2,197.0 L 226.8,218.1 L 238.4,164.0 L 249.9,175.9 L 261.5,185.8 L 273.0,218.1 L 284.6,183.7 L 296.1,162.6 L 307.7,162.6 L 319.3,162.6 L 330.8,162.6 L 342.4,162.6 L 353.9,155.5 L 365.5,197.7 L 377.0,197.0 L 388.6,155.5 L 400.2,155.5 L 411.7,155.5 L 423.3,239.9 L 434.8,197.7 L 446.4,155.5 L 458.0,161.9 L 469.5,148.5 L 481.1,134.5 L 492.6,183.7 L 504.2,134.5 L 515.7,133.7 L 527.3,169.6 L 538.9,120.4 L 550.4,120.4 L 562.0,119.7 L 573.5,120.4 L 585.1,120.4 L 596.6,113.4 L 608.2,113.4 L 619.8,113.4 L 631.3,113.4 L 642.9,113.4 L 654.4,113.4 L 666.0,99.3 L 677.5,99.3 L 689.1,148.5 L 700.7,148.5 L 712.2,85.2 L 723.8,85.2 L 735.3,127.4 L 746.9,64.1 L 758.4,64.1 L 770.0,64.1" fill="none" stroke="#0a84ff" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- dots -->
+  <circle cx="65.0" cy="183.0" r="4" fill="#0a84ff" stroke="#0d1117" stroke-width="2"/><title>2022-01-20: 26.0 lbs</title><circle cx="746.9" cy="64.1" r="4" fill="#0a84ff" stroke="#0d1117" stroke-width="2"/><title>2025-03-22: 42.9 lbs</title><circle cx="770.0" cy="64.1" r="4" fill="#0a84ff" stroke="#0d1117" stroke-width="2"/><title>2025-04-01: 42.9 lbs</title>
+</svg>
+  </div>
+
+  <!-- 1RM Trend Chart -->
+  <div class="chart-section">
+    <h2>Estimated 1RM Trend</h2>
+    <svg viewBox="0 0 800 300" style="width:100%;background:#0d1117;border-radius:8px;display:block">
+  <text x="417.5" y="22" fill="#e6edf3" text-anchor="middle" font-size="13" font-weight="600">Estimated 1RM Trend</text>
+  <text x="14" y="145.0" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,14,145.0)">Est. 1RM (lbs)</text>
+  <!-- grid -->
+  <line x1="65" y1="250.0" x2="770" y2="250.0" stroke="#30363d" stroke-width="1"/><text x="59" y="254.0" fill="#8b949e" font-size="11" text-anchor="end">17</text><line x1="65" y1="197.5" x2="770" y2="197.5" stroke="#30363d" stroke-width="1"/><text x="59" y="201.5" fill="#8b949e" font-size="11" text-anchor="end">27</text><line x1="65" y1="145.0" x2="770" y2="145.0" stroke="#30363d" stroke-width="1"/><text x="59" y="149.0" fill="#8b949e" font-size="11" text-anchor="end">36</text><line x1="65" y1="92.5" x2="770" y2="92.5" stroke="#30363d" stroke-width="1"/><text x="59" y="96.5" fill="#8b949e" font-size="11" text-anchor="end">46</text><line x1="65" y1="40.0" x2="770" y2="40.0" stroke="#30363d" stroke-width="1"/><text x="59" y="44.0" fill="#8b949e" font-size="11" text-anchor="end">56</text>
+  <!-- x labels -->
+  <text x="65.0" y="268" fill="#8b949e" font-size="10" text-anchor="middle">01-20</text><text x="134.3" y="268" fill="#8b949e" font-size="10" text-anchor="middle">06-22</text><text x="203.7" y="268" fill="#8b949e" font-size="10" text-anchor="middle">11-03</text><text x="273.0" y="268" fill="#8b949e" font-size="10" text-anchor="middle">01-10</text><text x="342.4" y="268" fill="#8b949e" font-size="10" text-anchor="middle">09-05</text><text x="411.7" y="268" fill="#8b949e" font-size="10" text-anchor="middle">09-26</text><text x="481.1" y="268" fill="#8b949e" font-size="10" text-anchor="middle">10-21</text><text x="550.4" y="268" fill="#8b949e" font-size="10" text-anchor="middle">11-19</text><text x="619.8" y="268" fill="#8b949e" font-size="10" text-anchor="middle">01-10</text><text x="689.1" y="268" fill="#8b949e" font-size="10" text-anchor="middle">02-07</text><text x="758.4" y="268" fill="#8b949e" font-size="10" text-anchor="middle">03-23</text>
+  <!-- area -->
+  <path d="M 65.0,181.2 L 76.6,183.6 L 88.1,241.9 L 99.7,194.3 L 111.2,214.9 L 122.8,188.9 L 134.3,187.9 L 145.9,235.5 L 157.5,181.4 L 169.0,188.4 L 180.6,161.3 L 192.1,214.1 L 203.7,186.5 L 215.2,208.3 L 226.8,206.0 L 238.4,181.2 L 249.9,190.7 L 261.5,191.6 L 273.0,191.9 L 284.6,156.0 L 296.1,153.6 L 307.7,153.6 L 319.3,153.6 L 330.8,153.6 L 342.4,153.6 L 353.9,145.9 L 365.5,186.5 L 377.0,177.3 L 388.6,145.9 L 400.2,145.9 L 411.7,145.9 L 423.3,227.1 L 434.8,186.5 L 446.4,140.1 L 458.0,136.9 L 469.5,126.2 L 481.1,128.3 L 492.6,171.2 L 504.2,128.3 L 515.7,115.7 L 527.3,161.3 L 538.9,113.0 L 550.4,113.0 L 562.0,113.0 L 573.5,113.0 L 585.1,113.0 L 596.6,105.3 L 608.2,105.3 L 619.8,105.3 L 631.3,105.3 L 642.9,105.3 L 654.4,98.4 L 666.0,95.4 L 677.5,80.8 L 689.1,138.2 L 700.7,138.2 L 712.2,80.1 L 723.8,64.6 L 735.3,120.7 L 746.9,62.5 L 758.4,62.5 L 770.0,62.5 L 770.0,250 L 65.0,250 Z" fill="#f39c12" fill-opacity="0.08"/>
+  <!-- line -->
+  <path d="M 65.0,181.2 L 76.6,183.6 L 88.1,241.9 L 99.7,194.3 L 111.2,214.9 L 122.8,188.9 L 134.3,187.9 L 145.9,235.5 L 157.5,181.4 L 169.0,188.4 L 180.6,161.3 L 192.1,214.1 L 203.7,186.5 L 215.2,208.3 L 226.8,206.0 L 238.4,181.2 L 249.9,190.7 L 261.5,191.6 L 273.0,191.9 L 284.6,156.0 L 296.1,153.6 L 307.7,153.6 L 319.3,153.6 L 330.8,153.6 L 342.4,153.6 L 353.9,145.9 L 365.5,186.5 L 377.0,177.3 L 388.6,145.9 L 400.2,145.9 L 411.7,145.9 L 423.3,227.1 L 434.8,186.5 L 446.4,140.1 L 458.0,136.9 L 469.5,126.2 L 481.1,128.3 L 492.6,171.2 L 504.2,128.3 L 515.7,115.7 L 527.3,161.3 L 538.9,113.0 L 550.4,113.0 L 562.0,113.0 L 573.5,113.0 L 585.1,113.0 L 596.6,105.3 L 608.2,105.3 L 619.8,105.3 L 631.3,105.3 L 642.9,105.3 L 654.4,98.4 L 666.0,95.4 L 677.5,80.8 L 689.1,138.2 L 700.7,138.2 L 712.2,80.1 L 723.8,64.6 L 735.3,120.7 L 746.9,62.5 L 758.4,62.5 L 770.0,62.5" fill="none" stroke="#f39c12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- dots -->
+  <circle cx="65.0" cy="181.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="2"/><title>2022-01-20: 29.8 lbs</title><circle cx="746.9" cy="62.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="2"/><title>2025-03-22: 51.6 lbs</title><circle cx="770.0" cy="62.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="2"/><title>2025-04-01: 51.6 lbs</title>
+</svg>
+  </div>
+
+  <!-- Session History Table -->
+  <div class="history-section">
+    <h2>Recent Sessions (last 20)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Max Weight</th>
+          <th>Sets</th>
+          <th>Best Reps</th>
+          <th>Est. 1RM</th>
+          <th>Workout</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td>2025-04-01</td>
+        <td><strong>43 lbs</strong></td>
+        <td>4</td>
+        <td>12</td>
+        <td>52</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-03-23</td>
+        <td><strong>43 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>52</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-03-22</td>
+        <td><strong>43 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>52</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-03-07</td>
+        <td><strong>34 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>41</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-03-03</td>
+        <td><strong>40 lbs</strong></td>
+        <td>2</td>
+        <td>14</td>
+        <td>51</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-02-25</td>
+        <td><strong>40 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>48</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-02-21</td>
+        <td><strong>31 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>38</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-02-07</td>
+        <td><strong>31 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>38</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-02-06</td>
+        <td><strong>38 lbs</strong></td>
+        <td>2</td>
+        <td>14</td>
+        <td>48</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-02-01</td>
+        <td><strong>38 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>46</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2025-01-23</td>
+        <td><strong>36 lbs</strong></td>
+        <td>2</td>
+        <td>13</td>
+        <td>45</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-01-17</td>
+        <td><strong>36 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>44</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-01-11</td>
+        <td><strong>36 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>44</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-01-10</td>
+        <td><strong>36 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>44</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior Dropsets</td>
+      </tr><tr>
+        <td>2025-01-05</td>
+        <td><strong>36 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>44</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2024-12-26</td>
+        <td><strong>36 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>44</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2024-12-15</td>
+        <td><strong>35 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>42</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2024-11-26</td>
+        <td><strong>35 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>42</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2024-11-21</td>
+        <td><strong>35 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>42</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr><tr>
+        <td>2024-11-19</td>
+        <td><strong>35 lbs</strong></td>
+        <td>2</td>
+        <td>12</td>
+        <td>42</td>
+        <td style="color:#8b949e;font-size:12px">1set Warrior</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-nav">
+    <a href="index.html">← All Exercises</a>
+    <a href="../strength/index.html">Strength Dashboard →</a>
+  </div>
+</div>
+</body>
+</html>

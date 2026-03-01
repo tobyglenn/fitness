@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cardio-Strength Interference</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+  .container{max-width:960px;margin:0 auto;padding:32px 16px;}
+  h1{font-size:2rem;font-weight:700;color:#e6edf3;}
+  h2{font-size:1.25rem;font-weight:600;color:#e6edf3;margin-bottom:12px;}
+  .subtitle{color:#8b949e;margin-top:6px;margin-bottom:32px;font-size:1rem;}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:24px;margin-bottom:24px;}
+  .metric-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px;}
+  .metric{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;flex:1;min-width:180px;text-align:center;}
+  .metric-val{font-size:2.2rem;font-weight:700;}
+  .metric-label{color:#8b949e;font-size:0.85rem;margin-top:6px;}
+  .metric-sub{font-size:0.9rem;margin-top:4px;color:#8b949e;}
+  .chart-wrap{overflow-x:auto;}
+  ul.recs{list-style:none;padding:0;}
+  ul.recs li{padding:10px 0;border-bottom:1px solid #21262d;display:flex;align-items:flex-start;gap:10px;}
+  ul.recs li:last-child{border-bottom:none;}
+  ul.recs li::before{content:"→";color:#f39c12;font-weight:700;}
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;}
+</style>
+</head>
+<body>
+<nav style="background:#161b22;padding:12px 24px;border-bottom:1px solid #30363d;display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+  <a href="/index.html" style="color:#f39c12;font-weight:700;text-decoration:none;">🏠 Hub</a>
+  <a href="/calendars/" style="color:#8b949e;text-decoration:none;">📅 Calendars</a>
+  <a href="/strength/index.html" style="color:#8b949e;text-decoration:none;">💪 Strength</a>
+  <a href="/cardio/index.html" style="color:#8b949e;text-decoration:none;">🏃 Cardio</a>
+  <a href="/recovery/index.html" style="color:#8b949e;text-decoration:none;">🔋 Recovery</a>
+  <a href="/nutrition/index.html" style="color:#8b949e;text-decoration:none;">🥗 Nutrition</a>
+  <span style="color:#f39c12;font-weight:600;margin-left:auto;">⚡ Interference</span>
+</nav>
+<div class="container">
+  <h1>Cardio-Strength Interference</h1>
+  <p class="subtitle">When does running hurt your lifting?</p>
+
+  <!-- Section 1: Summary -->
+  <div class="metric-row">
+    <div class="metric">
+      <div class="metric-val" style="color:#2ea043">0<span style="font-size:1.2rem">/100</span></div>
+      <div class="metric-label">Interference Score</div>
+      <div class="metric-sub">Low impact</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:#2ea043">N/A</div>
+      <div class="metric-label">Same-Day Impact</div>
+      <div class="metric-sub">Volume when cardio HR &gt;140</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:#2ea043">N/A</div>
+      <div class="metric-label">Next-Day Impact</div>
+      <div class="metric-sub">Volume after hard runs</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:#0a84ff">0</div>
+      <div class="metric-label">Baseline Volume</div>
+      <div class="metric-sub">lbs — rest days before lifting</div>
+    </div>
+  </div>
+
+  <!-- Section 2: Same-day -->
+  <div class="card">
+    <h2>📊 Same-Day Analysis — 0 overlapping days</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">Does running the same day reduce your Tonal output?</p>
+    <div class="chart-wrap"><svg width="800" height="400"><text x="400" y="200" fill="#888" text-anchor="middle">No data available</text></svg></div>
+  </div>
+
+  <!-- Section 3: Next-day -->
+  <div class="card">
+    <h2>📈 Next-Day Recovery Impact — 0 consecutive day pairs</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">Does hard cardio today suppress tomorrow's strength output?</p>
+    <div class="chart-wrap"><svg width="800" height="400"><text x="400" y="200" fill="#888" text-anchor="middle">No data available</text></svg></div>
+  </div>
+
+  <!-- Section 4: Weekly pattern -->
+  <div class="card">
+    <h2>📅 Weekly Pattern — Avg Strength Volume by Cardio Frequency</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">Does running frequency per week correlate with total lifting volume?</p>
+    <div class="chart-wrap"><svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="300" fill="#161b22" rx="8"/>
+  <line x1="70" y1="30" x2="670" y2="30" stroke="#30363d" stroke-width="1"/><text x="65" y="34" fill="#8b949e" font-size="11" text-anchor="end">1</text><line x1="70" y1="103" x2="670" y2="103" stroke="#30363d" stroke-width="1"/><text x="65" y="107" fill="#8b949e" font-size="11" text-anchor="end">0</text><line x1="70" y1="176" x2="670" y2="176" stroke="#30363d" stroke-width="1"/><text x="65" y="180" fill="#8b949e" font-size="11" text-anchor="end">0</text><line x1="70" y1="250" x2="670" y2="250" stroke="#30363d" stroke-width="1"/><text x="65" y="254" fill="#8b949e" font-size="11" text-anchor="end">0</text>
+  <rect x="110.0" y="250.0" width="120.0" height="0.0" fill="#f39c12" rx="3" fill-opacity="0.85"/><text x="170.0" y="244.0" fill="#e6edf3" font-size="12" text-anchor="middle">0</text><text x="170.0" y="270.0" fill="#8b949e" font-size="12" text-anchor="middle">0 runs</text><rect x="310.0" y="250.0" width="120.0" height="0.0" fill="#f39c12" rx="3" fill-opacity="0.85"/><text x="370.0" y="244.0" fill="#e6edf3" font-size="12" text-anchor="middle">0</text><text x="370.0" y="270.0" fill="#8b949e" font-size="12" text-anchor="middle">1-2 runs</text><rect x="510.0" y="250.0" width="120.0" height="0.0" fill="#f39c12" rx="3" fill-opacity="0.85"/><text x="570.0" y="244.0" fill="#e6edf3" font-size="12" text-anchor="middle">0</text><text x="570.0" y="270.0" fill="#8b949e" font-size="12" text-anchor="middle">3+ runs</text>
+</svg></div>
+  </div>
+
+  <!-- Section 5: Recommendations -->
+  <div class="card">
+    <h2>💡 Recommendations</h2>
+    <ul class="recs">
+      <li>Best day for heavy lifting: <strong>Mon</strong> — historically your highest volume day</li>
+      <li>Same-day cardio: keep avg HR below <strong>140 bpm</strong> to preserve strength output</li>
+      <li>If you run hard (&gt;140 bpm), consider scheduling Tonal for the <strong>following day</strong> rather than same day</li>
+      <li>Weeks with <strong>0 runs</strong> average 0 lbs vs. 0 lbs on 3+ run weeks</li>
+      <li>Your interference score is <strong>0/100</strong> — cardio and lifting coexist well ✅</li>
+    </ul>
+  </div>
+
+  <p style="color:#30363d;font-size:0.75rem;text-align:right;margin-top:8px;">
+    Generated 2026-03-01 08:22 ET · Last 90 days · 30 training days analyzed
+  </p>
+</div>
+</body>
+</html>

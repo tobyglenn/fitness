@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>🔥 Streak Intelligence</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+    nav{background:#161b22;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+    .page-title{color:#f39c12;font-weight:700;font-size:1em;margin-right:8px}
+    .container{max-width:1100px;margin:0 auto;padding:32px 20px}
+    h1{font-size:2em;font-weight:800;margin-bottom:4px}
+    .subtitle{color:#8b949e;margin-bottom:32px}
+    .card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;margin-bottom:24px}
+    .card-title{font-size:.85em;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+    table{width:100%;border-collapse:collapse}
+    th{color:#8b949e;font-size:.8em;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid #30363d}
+    td{padding:10px 12px;border-bottom:1px solid #21262d;font-size:.92em}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#1c2128}
+    .stat-big{font-size:2.8em;font-weight:800;line-height:1}
+    .badge-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+    @media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav>
+  <span class="page-title">🔥 Fitness</span>
+  <a href="../hub_index.html" style="color:#8b949e;text-decoration:none;font-size:.9em;white-space:nowrap">🏠 Home</a>
+<a href="../calendars/index.html" style="color:#8b949e;text-decoration:none;font-size:.9em;white-space:nowrap">📅 Calendars</a>
+<a href="../strength/index.html" style="color:#8b949e;text-decoration:none;font-size:.9em;white-space:nowrap">💪 Strength</a>
+<a href="../cardio/index.html" style="color:#8b949e;text-decoration:none;font-size:.9em;white-space:nowrap">🏃 Cardio</a>
+<a href="../recovery/index.html" style="color:#8b949e;text-decoration:none;font-size:.9em;white-space:nowrap">💤 Recovery</a>
+<a href="../nutrition/index.html" style="color:#8b949e;text-decoration:none;font-size:.9em;white-space:nowrap">🥗 Nutrition</a>
+<a href="index.html" style="color:#f39c12;text-decoration:none;font-size:.9em;white-space:nowrap">🔥 Streaks</a>
+</nav>
+<div class="container">
+  <h1>🔥 Streak Intelligence</h1>
+  <p class="subtitle">Consecutive training day analysis — 793 total training days tracked</p>
+
+  <!-- Current Streak Hero -->
+  <div class="card" style="border-color:#484f58;background:#161b22">
+    <div class="card-title">Current Streak</div>
+    <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap">
+      <div class="stat-big" style="color:#484f58">0</div>
+      <div>
+        <div style="font-size:1.3em;font-weight:600">No active streak</div>
+        <div style="color:#8b949e;font-size:.9em;margin-top:2px">Started: —</div>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- Longest + Averages -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🏆 Longest Streak Ever</div>
+      <div class="stat-big" style="color:#f39c12">60</div>
+      <div style="color:#8b949e;font-size:.85em;margin-top:8px">days</div>
+      <div style="margin-top:10px;font-size:.9em">Mar 06, 2024<br>→ May 04, 2024</div>
+      <div style="margin-top:6px;color:#8b949e;font-size:.8em">2nd longest: 50 days</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Streak Stats</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div><div style="color:#8b949e;font-size:.8em">Total Streaks</div><div style="font-size:1.6em;font-weight:700">251</div></div>
+        <div><div style="color:#8b949e;font-size:.8em">Avg Length</div><div style="font-size:1.6em;font-weight:700">3.2 days</div></div>
+        <div><div style="color:#8b949e;font-size:.8em">Best Month</div><div style="font-size:1em;font-weight:600">2024-03 (60d streak)</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ Survival Rates</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:.9em">
+        <div style="display:flex;justify-content:space-between"><span style="color:#8b949e">Reach 7 days</span><span style="font-weight:600;color:#f39c12">7.6%</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#8b949e">Reach 14 days</span><span style="font-weight:600;color:#f39c12">2.0%</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#8b949e">Reach 21 days</span><span style="font-weight:600">1.6%</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#8b949e">Reach 30 days</span><span style="font-weight:600">1.2%</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#8b949e">Reach 60 days</span><span style="font-weight:600">0.4%</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#8b949e">Reach 90 days</span><span style="font-weight:600">0.0%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Milestone Badges -->
+  <div class="card">
+    <div class="card-title">🏅 Milestone Badges</div>
+    <div class="badge-grid"><div style="background:#21262d;border:1.5px solid #f39c12;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px">
+  <div style="font-size:1.5em;font-weight:bold;color:#f39c12">7</div>
+  <div style="color:#8b949e;font-size:.75em">days</div>
+  <div style="color:#2ea043;font-size:.7em;margin-top:4px">✓ 2021-10</div>
+</div><div style="background:#21262d;border:1.5px solid #f39c12;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px">
+  <div style="font-size:1.5em;font-weight:bold;color:#f39c12">14</div>
+  <div style="color:#8b949e;font-size:.75em">days</div>
+  <div style="color:#2ea043;font-size:.7em;margin-top:4px">✓ 2021-11</div>
+</div><div style="background:#21262d;border:1.5px solid #f39c12;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px">
+  <div style="font-size:1.5em;font-weight:bold;color:#f39c12">21</div>
+  <div style="color:#8b949e;font-size:.75em">days</div>
+  <div style="color:#2ea043;font-size:.7em;margin-top:4px">✓ 2022-06</div>
+</div><div style="background:#21262d;border:1.5px solid #f39c12;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px">
+  <div style="font-size:1.5em;font-weight:bold;color:#f39c12">30</div>
+  <div style="color:#8b949e;font-size:.75em">days</div>
+  <div style="color:#2ea043;font-size:.7em;margin-top:4px">✓ 2022-06</div>
+</div><div style="background:#21262d;border:1.5px solid #f39c12;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px">
+  <div style="font-size:1.5em;font-weight:bold;color:#f39c12">45</div>
+  <div style="color:#8b949e;font-size:.75em">days</div>
+  <div style="color:#2ea043;font-size:.7em;margin-top:4px">✓ 2022-06</div>
+</div><div style="background:#21262d;border:1.5px solid #f39c12;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px">
+  <div style="font-size:1.5em;font-weight:bold;color:#f39c12">60</div>
+  <div style="color:#8b949e;font-size:.75em">days</div>
+  <div style="color:#2ea043;font-size:.7em;margin-top:4px">✓ 2024-03</div>
+</div><div style="background:#0d1117;border:1.5px solid #30363d;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px;opacity:.5">
+  <div style="font-size:1.5em;font-weight:bold;color:#484f58">90</div>
+  <div style="color:#484f58;font-size:.75em">days</div>
+  <div style="color:#484f58;font-size:.7em;margin-top:4px">not yet</div>
+</div><div style="background:#0d1117;border:1.5px solid #30363d;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px;opacity:.5">
+  <div style="font-size:1.5em;font-weight:bold;color:#484f58">120</div>
+  <div style="color:#484f58;font-size:.75em">days</div>
+  <div style="color:#484f58;font-size:.7em;margin-top:4px">not yet</div>
+</div><div style="background:#0d1117;border:1.5px solid #30363d;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px;opacity:.5">
+  <div style="font-size:1.5em;font-weight:bold;color:#484f58">180</div>
+  <div style="color:#484f58;font-size:.75em">days</div>
+  <div style="color:#484f58;font-size:.7em;margin-top:4px">not yet</div>
+</div><div style="background:#0d1117;border:1.5px solid #30363d;border-radius:10px;padding:14px 18px;text-align:center;min-width:90px;opacity:.5">
+  <div style="font-size:1.5em;font-weight:bold;color:#484f58">365</div>
+  <div style="color:#484f58;font-size:.75em">days</div>
+  <div style="color:#484f58;font-size:.7em;margin-top:4px">not yet</div>
+</div></div>
+  </div>
+
+  <!-- Survival Chart -->
+  <div class="card">
+    <div class="card-title">📉 Streak Survival Chart — % of streaks surviving to each milestone</div>
+    <div style="overflow-x:auto;padding-top:8px"><svg width="760" height="400" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="32" fill="#8b949e" font-size="13" font-family="monospace">3d</text>
+  <rect x="50" y="10" width="200" height="28" fill="#f39c12" rx="3"/>
+  <text x="258" y="32" fill="white" font-size="13" font-family="monospace">33.9%</text>
+
+  <text x="0" y="70" fill="#8b949e" font-size="13" font-family="monospace">5d</text>
+  <rect x="50" y="48" width="89" height="28" fill="#e74c3c" rx="3"/>
+  <text x="147" y="70" fill="white" font-size="13" font-family="monospace">15.1%</text>
+
+  <text x="0" y="108" fill="#8b949e" font-size="13" font-family="monospace">7d</text>
+  <rect x="50" y="86" width="44" height="28" fill="#e74c3c" rx="3"/>
+  <text x="102" y="108" fill="white" font-size="13" font-family="monospace">7.6%</text>
+
+  <text x="0" y="146" fill="#8b949e" font-size="13" font-family="monospace">10d</text>
+  <rect x="50" y="124" width="18" height="28" fill="#e74c3c" rx="3"/>
+  <text x="76" y="146" fill="white" font-size="13" font-family="monospace">3.2%</text>
+
+  <text x="0" y="184" fill="#8b949e" font-size="13" font-family="monospace">14d</text>
+  <rect x="50" y="162" width="11" height="28" fill="#e74c3c" rx="3"/>
+  <text x="69" y="184" fill="white" font-size="13" font-family="monospace">2.0%</text>
+
+  <text x="0" y="222" fill="#8b949e" font-size="13" font-family="monospace">21d</text>
+  <rect x="50" y="200" width="9" height="28" fill="#e74c3c" rx="3"/>
+  <text x="67" y="222" fill="white" font-size="13" font-family="monospace">1.6%</text>
+
+  <text x="0" y="260" fill="#8b949e" font-size="13" font-family="monospace">30d</text>
+  <rect x="50" y="238" width="7" height="28" fill="#e74c3c" rx="3"/>
+  <text x="65" y="260" fill="white" font-size="13" font-family="monospace">1.2%</text>
+
+  <text x="0" y="298" fill="#8b949e" font-size="13" font-family="monospace">45d</text>
+  <rect x="50" y="276" width="4" height="28" fill="#e74c3c" rx="3"/>
+  <text x="62" y="298" fill="white" font-size="13" font-family="monospace">0.8%</text>
+
+  <text x="0" y="336" fill="#8b949e" font-size="13" font-family="monospace">60d</text>
+  <rect x="50" y="314" width="2" height="28" fill="#e74c3c" rx="3"/>
+  <text x="60" y="336" fill="white" font-size="13" font-family="monospace">0.4%</text>
+
+  <text x="0" y="374" fill="#8b949e" font-size="13" font-family="monospace">90d</text>
+  <rect x="50" y="352" width="1" height="28" fill="#e74c3c" rx="3"/>
+  <text x="59" y="374" fill="white" font-size="13" font-family="monospace">0.0%</text>
+</svg></div>
+  </div>
+
+  <!-- Top 10 Table -->
+  <div class="card">
+    <div class="card-title">📋 Top 10 Longest Streaks</div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Rank</th><th>Start</th><th>End</th><th>Length</th><th>Volume (lbs·mi-eq)</th><th>Type</th></tr></thead>
+        <tbody><tr>
+      <td style="color:#f39c12;font-weight:bold">#1</td>
+      <td>Mar 06, 2024</td>
+      <td>May 04, 2024</td>
+      <td style="font-size:1.1em;font-weight:bold">60 days</td>
+      <td>1,453,800</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#2</td>
+      <td>Jun 20, 2022</td>
+      <td>Aug 08, 2022</td>
+      <td style="font-size:1.1em;font-weight:bold">50 days</td>
+      <td>402,371</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#3</td>
+      <td>Oct 29, 2023</td>
+      <td>Nov 29, 2023</td>
+      <td style="font-size:1.1em;font-weight:bold">32 days</td>
+      <td>288,011</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#4</td>
+      <td>Sep 18, 2023</td>
+      <td>Oct 15, 2023</td>
+      <td style="font-size:1.1em;font-weight:bold">28 days</td>
+      <td>319,399</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#5</td>
+      <td>Nov 29, 2021</td>
+      <td>Dec 14, 2021</td>
+      <td style="font-size:1.1em;font-weight:bold">16 days</td>
+      <td>136,376</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#6</td>
+      <td>Jan 22, 2024</td>
+      <td>Feb 03, 2024</td>
+      <td style="font-size:1.1em;font-weight:bold">13 days</td>
+      <td>261,467</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#7</td>
+      <td>Jun 02, 2024</td>
+      <td>Jun 13, 2024</td>
+      <td style="font-size:1.1em;font-weight:bold">12 days</td>
+      <td>221,114</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#8</td>
+      <td>Oct 15, 2024</td>
+      <td>Oct 25, 2024</td>
+      <td style="font-size:1.1em;font-weight:bold">11 days</td>
+      <td>178,394</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#9</td>
+      <td>Jun 15, 2024</td>
+      <td>Jun 23, 2024</td>
+      <td style="font-size:1.1em;font-weight:bold">9 days</td>
+      <td>155,492</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr><tr>
+      <td style="color:#f39c12;font-weight:bold">#10</td>
+      <td>Nov 18, 2024</td>
+      <td>Nov 26, 2024</td>
+      <td style="font-size:1.1em;font-weight:bold">9 days</td>
+      <td>137,385</td>
+      <td><span style="background:#21262d;padding:2px 8px;border-radius:10px;font-size:.85em">Tonal Only</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Equipment-Specific -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🏋️ Best Tonal-Only Streak</div>
+      
+<div style="font-size:2em;font-weight:bold;color:#f39c12">60 days</div>
+<div style="color:#8b949e;font-size:.85em">Mar 06, 2024 → May 04, 2024</div>
+
+      <div style="color:#8b949e;font-size:.8em;margin-top:10px">207 Tonal streak(s) total</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏃 Best Running-Only Streak</div>
+      
+<div style="font-size:2em;font-weight:bold;color:#3fb950">8 days</div>
+<div style="color:#8b949e;font-size:.85em">May 29, 2025 → Jun 05, 2025</div>
+
+      <div style="color:#8b949e;font-size:.8em;margin-top:10px">45 running streak(s) total</div>
+    </div>
+  </div>
+
+  <div style="color:#484f58;font-size:.75em;text-align:center;margin-top:32px">Generated 2026-02-28 · Streak Intelligence v1.0</div>
+</div>
+</body>
+</html>

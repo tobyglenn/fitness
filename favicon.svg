@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Mechanical Arm / Prosthetic - like emoji 🦾 -->
+  <!-- Shoulder/Upper arm -->
+  <rect x="32" y="24" width="28" height="48" rx="6" fill="#6366F1"/>
+  <!-- Forearm -->
+  <rect x="24" y="60" width="32" height="44" rx="4" fill="#3B82F6" transform="rotate(-25 40 82)"/>
+  <!-- Elbow joint -->
+  <circle cx="44" cy="66" r="12" fill="#4F46E5"/>
+  <!-- Hand/Mechanical grip -->
+  <rect x="26" y="92" width="20" height="16" rx="3" fill="#1E40AF"/>
+  <!-- Mechanical details/lines -->
+  <rect x="38" y="32" width="8" height="32" rx="2" fill="#818CF8" opacity="0.5"/>
+  <rect x="30" y="70" width="6" height="28" rx="2" fill="#60A5FA" opacity="0.4" transform="rotate(-25 33 84)"/>
+  <!-- Bolt/rivet details -->
+  <circle cx="40" cy="42" r="3" fill="#C4B5FD"/>
+  <circle cx="40" cy="54" r="3" fill="#C4B5FD"/>
+  <circle cx="44" cy="66" r="4" fill="#A78BFA"/>
+  <!-- Outline/stroke for definition -->
+  <rect x="32" y="24" width="28" height="48" rx="6" fill="none" stroke="#312E81" stroke-width="2"/>
+  <rect x="24" y="60" width="32" height="44" rx="4" fill="none" stroke="#1E3A8A" stroke-width="2" transform="rotate(-25 40 82)"/>
+  <circle cx="44" cy="66" r="12" fill="none" stroke="#312E81" stroke-width="2"/>
+  <rect x="26" y="92" width="20" height="16" rx="3" fill="none" stroke="#1E3A8A" stroke-width="2"/>
+</svg>

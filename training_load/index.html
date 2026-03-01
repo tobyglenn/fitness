@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Training Load & Recovery Balance</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 16px; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 13px; }
+  nav a:hover { color: #f39c12; }
+  nav a[href="./"] { color: #f39c12; font-weight: 600; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 24px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+  .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 28px; }
+  h2 { font-size: 16px; font-weight: 600; color: #e6edf3; margin-bottom: 14px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  @media(max-width:700px){ .stats-row{ grid-template-columns: repeat(2,1fr); } }
+  .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px; text-align: center; }
+  .stat-val { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .stat-lbl { font-size: 12px; color: #8b949e; }
+  .gauge-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .hero-grid { display: grid; grid-template-columns: 300px 1fr; gap: 20px; margin-bottom: 24px; }
+  @media(max-width:700px){ .hero-grid{ grid-template-columns: 1fr; } }
+  .status-msg { font-size: 15px; color: #8b949e; font-weight: 600; margin-top: 8px; text-align: center; }
+  .chart-wrap { overflow-x: auto; }
+  .insight { background: #0d1117; border-left: 3px solid #f39c12; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 13px; color: #8b949e; margin-top: 12px; }
+  .section { margin-bottom: 28px; }
+  svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+</style>
+</head>
+<body>
+<nav><a href="../index.html">🏠 Home</a>
+<a href="../calendars/">📅 Calendars</a>
+<a href="../strength/">💪 Strength</a>
+<a href="../cardio/">🏃 Cardio</a>
+<a href="../recovery/">🫀 Recovery</a>
+<a href="../nutrition/">🥗 Nutrition</a>
+<a href="./">⚡ Load</a>
+<a href="../training_rhythm/">🔥 Rhythm</a></nav>
+<div class="container">
+  <h1>Training Load &amp; Recovery Balance</h1>
+  <p class="subtitle">Are you training too much, too little, or just right?</p>
+
+  <!-- Hero: ACLR Gauge + description -->
+  <div class="hero-grid section">
+    <div class="card gauge-wrap">
+      <svg viewBox="0 0 300 200" width="100%" style="max-width:300px"><path d="M46.1,220.0 A120,120 0 0,0 67.9,72.5" stroke="#0a84ff" stroke-width="18" fill="none" opacity="0.85"/>
+<path d="M67.9,72.5 A120,120 0 0,0 160.0,40.4" stroke="#2ea043" stroke-width="18" fill="none" opacity="0.85"/>
+<path d="M160.0,40.4 A120,120 0 0,0 264.1,122.9" stroke="#f39c12" stroke-width="18" fill="none" opacity="0.85"/>
+<path d="M264.1,122.9 A120,120 0 0,0 253.9,220.0" stroke="#f85149" stroke-width="18" fill="none" opacity="0.85"/>
+<line x1="150" y1="160" x2="59.1" y2="212.5" stroke="white" stroke-width="3" stroke-linecap="round"/><circle cx="150" cy="160" r="6" fill="white"/><text x="150" y="125" font-size="32" font-weight="bold" fill="#8b949e" text-anchor="middle">0.00</text><text x="150" y="150" font-size="12" fill="#8b949e" text-anchor="middle">No Data</text><text x="13.5" y="139.8" font-size="8" fill="#0a84ff" text-anchor="middle">Under</text>
+<text x="104.6" y="29.7" font-size="8" fill="#2ea043" text-anchor="middle">Optimal</text>
+<text x="235.7" y="51.9" font-size="8" fill="#f39c12" text-anchor="middle">Overreach</text>
+<text x="287.2" y="174.4" font-size="8" fill="#f85149" text-anchor="middle">Risk</text></svg>
+      <p class="status-msg">ACLR N/A — No Data</p>
+      <p style="font-size:12px;color:#8b949e;text-align:center;margin-top:6px;">
+        Acute:Chronic Load Ratio based on last 7-day vs 28-day rolling training load
+      </p>
+    </div>
+    <div class="card">
+      <h2>ACLR Trend — Last 90 Days</h2>
+      <div class="chart-wrap"><svg viewBox="0 0 900 200" width="100%" style="max-width:900px"><rect x="55" y="20.0" width="825" height="29.0" fill="#f85149" opacity="0.08"/><rect x="55" y="49.0" width="825" height="40.6" fill="#f39c12" opacity="0.08"/><rect x="55" y="89.6" width="825" height="29.0" fill="#2ea043" opacity="0.12"/><rect x="55" y="118.6" width="825" height="46.4" fill="#0a84ff" opacity="0.08"/><line x1="55" y1="118.6" x2="880" y2="118.6" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/><line x1="55" y1="89.6" x2="880" y2="89.6" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/><text x="55.0" y="195" font-size="9" fill="#8b949e">11-30</text>
+<text x="192.5" y="195" font-size="9" fill="#8b949e">12-15</text>
+<text x="330.0" y="195" font-size="9" fill="#8b949e">12-30</text>
+<text x="467.5" y="195" font-size="9" fill="#8b949e">01-14</text>
+<text x="605.0" y="195" font-size="9" fill="#8b949e">01-29</text>
+<text x="742.5" y="195" font-size="9" fill="#8b949e">02-13</text><text x="50" y="168.0" font-size="9" fill="#8b949e" text-anchor="end">0</text>
+<text x="50" y="121.6" font-size="9" fill="#8b949e" text-anchor="end">0.8</text>
+<text x="50" y="92.6" font-size="9" fill="#8b949e" text-anchor="end">1.3</text>
+<text x="50" y="52.0" font-size="9" fill="#8b949e" text-anchor="end">2.0</text></svg></div>
+      <div class="insight">
+        Green zone (0.8–1.3) = optimal training stimulus. Blue = under-trained. Yellow = overreaching. Red = injury risk territory.
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div class="stats-row section">
+    <div class="stat-card">
+      <div class="stat-val" style="color:#f39c12">0.0</div>
+      <div class="stat-lbl">7-Day Acute Load</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:#0a84ff">0.0</div>
+      <div class="stat-lbl">28-Day Chronic Load</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:#8b949e">N/A</div>
+      <div class="stat-lbl">Current ACLR</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:#2ea043">0</div>
+      <div class="stat-lbl">Days in Optimal Zone (30d)</div>
+    </div>
+  </div>
+
+  <!-- 90-day overlay chart -->
+  <div class="card section">
+    <h2>90-Day Training Load &amp; Recovery Overlay</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 900 350" width="100%" style="max-width:900px">
+<polyline points="64.3,115.7 73.0,112.8 90.3,194.0 99.0,286.8 107.7,127.3 125.0,156.3 133.7,83.8 142.3,49.0 151.0,25.8 159.7,115.7 168.3,153.4 177.0,124.4 185.7,89.6 194.3,223.0 203.0,118.6 211.7,49.0 220.3,34.5 229.0,34.5 237.7,49.0 246.3,141.8 255.0,278.1 263.7,28.7 272.3,127.3 281.0,34.5 289.7,78.0 298.3,72.2 307.0,78.0 315.7,25.8 324.3,25.8 333.0,28.7 341.7,130.2 350.3,141.8 359.0,133.1 376.3,147.6 385.0,153.4 393.7,115.7 402.3,25.8 411.0,199.8 419.7,217.2 428.3,167.9 437.0,101.2 445.7,162.1 454.3,257.8 463.0,144.7 471.7,37.4 480.3,167.9 489.0,121.5 497.7,31.6 506.3,167.9 515.0,130.2 523.7,170.8 532.3,127.3 541.0,138.9 549.7,101.2 558.3,182.4 567.0,182.4 575.7,182.4 584.3,225.9 593.0,199.8 601.7,51.9 610.3,220.1 619.0,173.7 627.7,266.5 636.3,281.0 645.0,269.4 653.7,98.3 662.3,57.7 671.0,69.3 679.7,182.4 688.3,127.3 697.0,257.8 705.7,257.8 714.3,63.5 723.0,237.5 731.7,243.3 740.3,208.5 749.0,289.7 757.7,208.5 766.3,199.8 775.0,199.8 783.7,191.1 792.3,208.5 801.0,196.9 809.7,176.6 818.3,266.5 827.0,138.9" fill="none" stroke="#2ea043" stroke-width="2" opacity="0.9"/>
+<text x="60.0" y="342" font-size="9" fill="#8b949e">11-30</text>
+<text x="190.0" y="342" font-size="9" fill="#8b949e">12-15</text>
+<text x="320.0" y="342" font-size="9" fill="#8b949e">12-30</text>
+<text x="450.0" y="342" font-size="9" fill="#8b949e">01-14</text>
+<text x="580.0" y="342" font-size="9" fill="#8b949e">01-29</text>
+<text x="710.0" y="342" font-size="9" fill="#8b949e">02-13</text>
+<text x="55" y="310.0" font-size="9" fill="#f39c12" text-anchor="end">0</text>
+<text x="55" y="165.0" font-size="9" fill="#f39c12" text-anchor="end">0</text>
+<text x="55" y="20.0" font-size="9" fill="#f39c12" text-anchor="end">1</text>
+<text x="845" y="310.0" font-size="9" fill="#2ea043">0</text>
+<text x="845" y="165.0" font-size="9" fill="#2ea043">50</text>
+<text x="845" y="20.0" font-size="9" fill="#2ea043">100</text>
+<rect x="60" y="5" width="10" height="8" fill="#f39c12" opacity="0.7"/><text x="74" y="13" font-size="9" fill="#ccc">Tonal Load</text><rect x="140" y="5" width="10" height="8" fill="#0a84ff" opacity="0.7"/><text x="154" y="13" font-size="9" fill="#ccc">Garmin Load</text><line x1="235" y1="9" x2="255" y2="9" stroke="#2ea043" stroke-width="2"/><text x="259" y="13" font-size="9" fill="#ccc">Recovery %</text></svg></div>
+    <div class="insight">
+      Orange bars = Tonal strength load (volume ÷ 1000). Blue bars = Garmin cardio estimated load. Green line = WHOOP recovery score.
+    </div>
+  </div>
+
+  <!-- Scatter: load vs next-day recovery -->
+  <div class="card section">
+    <h2>Training Load vs. Next-Day Recovery</h2>
+    <div class="chart-wrap" style="display:flex;justify-content:center;"><svg viewBox="0 0 600 380" width="100%"><text x="50%" y="50%" text-anchor="middle" fill="#8b949e">No data</text></svg></div>
+    <div class="insight"></div>
+  </div>
+
+  <!-- Weekly breakdown -->
+  <div class="card section">
+    <h2>Weekly Load Breakdown — Last 8 Weeks</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 700 300" width="100%" style="max-width:700px"><text x="94.1" y="292" font-size="9" fill="#8b949e" text-anchor="middle">01/03</text>
+<text x="172.2" y="292" font-size="9" fill="#8b949e" text-anchor="middle">01/10</text>
+<text x="250.3" y="292" font-size="9" fill="#8b949e" text-anchor="middle">01/17</text>
+<text x="328.4" y="292" font-size="9" fill="#8b949e" text-anchor="middle">01/24</text>
+<text x="406.6" y="292" font-size="9" fill="#8b949e" text-anchor="middle">01/31</text>
+<text x="484.7" y="292" font-size="9" fill="#8b949e" text-anchor="middle">02/07</text>
+<text x="562.8" y="292" font-size="9" fill="#8b949e" text-anchor="middle">02/14</text>
+<text x="640.9" y="292" font-size="9" fill="#8b949e" text-anchor="middle">02/21</text>
+<text x="50" y="258.0" font-size="9" fill="#8b949e" text-anchor="end">0</text>
+<text x="50" y="140.5" font-size="9" fill="#8b949e" text-anchor="end">0</text>
+<text x="50" y="23.0" font-size="9" fill="#8b949e" text-anchor="end">1</text>
+<rect x="55" y="5" width="10" height="8" fill="#f39c12" opacity="0.8"/><text x="69" y="13" font-size="9" fill="#ccc">Tonal</text><rect x="110" y="5" width="10" height="8" fill="#0a84ff" opacity="0.8"/><text x="124" y="13" font-size="9" fill="#ccc">Garmin</text></svg></div>
+    <div class="insight">
+      Stacked bars show contribution from Tonal (strength) and Garmin (cardio) each week. Labels show total weekly load.
+    </div>
+  </div>
+
+  <p style="text-align:center;color:#484f58;font-size:11px;margin-top:12px;">
+    Generated 2026-02-27 15:52 ET
+  </p>
+</div>
+</body>
+</html>

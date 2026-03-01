@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Score — Composite</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    nav {
+      background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100;
+    }
+    .nav-brand { font-weight: 700; color: #f39c12; font-size: 1.1rem; margin-right: 8px; }
+    nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; padding: 4px 8px; border-radius: 6px; }
+    nav a:hover, nav a.active { color: #f39c12; background: #1f2937; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+    h1 { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+    .subtitle { color: #8b949e; font-size: 0.95rem; margin-bottom: 32px; }
+    .hero { text-align: center; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 40px 20px; margin-bottom: 32px; }
+    .score-big { font-size: 7rem; font-weight: 900; line-height: 1; color: #e74c3c; }
+    .score-label { font-size: 1.2rem; color: #8b949e; margin-top: 8px; }
+    .score-trend { font-size: 1.1rem; margin-top: 12px; }
+    .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: #f39c12; margin-bottom: 16px; }
+    .chart-wrap { overflow-x: auto; }
+    .comp-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+    .comp-card {
+      flex: 1; min-width: 160px; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 10px; padding: 16px; text-align: center;
+    }
+    .comp-icon { font-size: 1.8rem; margin-bottom: 6px; }
+    .comp-name { font-weight: 700; font-size: 0.95rem; }
+    .comp-label { color: #8b949e; font-size: 0.75rem; margin-bottom: 6px; }
+    .comp-score { font-size: 2rem; font-weight: 900; margin: 6px 0; }
+    .comp-spark { display: flex; justify-content: center; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .stat-card { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 20px; text-align: center; }
+    .stat-label { color: #8b949e; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .stat-value { font-size: 1.6rem; font-weight: 800; color: #f39c12; }
+    .stat-sub { color: #8b949e; font-size: 0.8rem; margin-top: 4px; }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .score-big { font-size: 5rem; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <span class="nav-brand">🏋️ Fitness Hub</span>
+  <a href="/index.html">Home</a>
+  <a href="/hub_index.html">Hub</a>
+  <a href="/calendars/">Calendars</a>
+  <a href="/strength/">Strength</a>
+  <a href="/cardio/">Cardio</a>
+  <a href="/recovery/">Recovery</a>
+  <a href="/nutrition/">Nutrition</a>
+  <a href="/running/">Running</a>
+  <a href="/fitness_score/" class="active">Fitness Score</a>
+</nav>
+
+<div class="container">
+  <h1>🎯 Fitness Score</h1>
+  <p class="subtitle">Based on Recovery, Sleep, Strength, Cardio &amp; Consistency · Updated February 28, 2026 3:51 AM ET</p>
+
+  <div class="hero">
+    <div class="score-big">26</div>
+    <div class="score-label">Current Composite Fitness Score</div>
+    <div class="score-trend"><span style="color:#e74c3c">▼ -6.4</span> vs 7 days ago</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📈 90-Day Trend</div>
+    <div class="chart-wrap"><svg width="800" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <line x1="50" y1="260.0" x2="780" y2="260.0" stroke="#2a2f3a" stroke-width="1"/><text x="45" y="264.0" fill="#888" font-size="11" text-anchor="end">0</text><line x1="50" y1="200.0" x2="780" y2="200.0" stroke="#2a2f3a" stroke-width="1"/><text x="45" y="204.0" fill="#888" font-size="11" text-anchor="end">25</text><line x1="50" y1="140.0" x2="780" y2="140.0" stroke="#2a2f3a" stroke-width="1"/><text x="45" y="144.0" fill="#888" font-size="11" text-anchor="end">50</text><line x1="50" y1="80.0" x2="780" y2="80.0" stroke="#2a2f3a" stroke-width="1"/><text x="45" y="84.0" fill="#888" font-size="11" text-anchor="end">75</text><line x1="50" y1="20.0" x2="780" y2="20.0" stroke="#2a2f3a" stroke-width="1"/><text x="45" y="24.0" fill="#888" font-size="11" text-anchor="end">100</text>
+  <path d="M 50.0,185.6 L 58.2,196.4 L 66.4,202.4 L 74.6,221.6 L 82.8,188.5 L 91.0,196.4 L 99.2,194.7 L 107.4,170.5 L 115.6,159.0 L 123.8,164.2 L 132.0,189.0 L 140.2,195.4 L 148.4,203.4 L 156.6,172.2 L 164.8,219.4 L 173.0,217.0 L 181.2,193.5 L 189.4,159.2 L 197.6,161.6 L 205.8,164.2 L 214.0,194.0 L 222.2,219.7 L 230.4,168.3 L 238.7,188.5 L 246.9,169.3 L 255.1,178.4 L 263.3,177.2 L 271.5,178.4 L 279.7,167.6 L 287.9,167.6 L 296.1,168.3 L 304.3,189.2 L 312.5,191.6 L 320.7,189.9 L 328.9,223.8 L 337.1,159.9 L 345.3,150.8 L 353.5,141.0 L 361.7,130.4 L 369.9,188.7 L 378.1,171.0 L 386.3,154.6 L 394.5,114.3 L 402.7,173.6 L 410.9,189.0 L 419.1,189.2 L 427.3,130.6 L 435.5,204.8 L 443.7,161.1 L 451.9,121.5 L 460.1,151.5 L 468.3,161.8 L 476.5,176.0 L 484.7,184.4 L 492.9,127.5 L 501.1,174.1 L 509.3,182.7 L 517.5,160.2 L 525.7,142.6 L 533.9,189.9 L 542.1,176.7 L 550.3,158.0 L 558.5,162.1 L 566.7,155.4 L 574.9,158.5 L 583.1,197.8 L 591.3,177.0 L 599.6,113.1 L 607.8,135.7 L 616.0,118.6 L 624.2,133.0 L 632.4,127.5 L 640.6,166.6 L 648.8,180.8 L 657.0,96.3 L 665.2,170.2 L 673.4,142.9 L 681.6,150.3 L 689.8,197.6 L 698.0,141.9 L 706.2,134.0 L 714.4,172.9 L 722.6,182.0 L 730.8,181.0 L 739.0,186.8 L 747.2,179.4 L 755.4,217.8 L 763.6,180.3 L 771.8,183.0 L 780.0,196.4 L 780.0,260.0 L 50.0,260.0 Z" fill="#f39c12" fill-opacity="0.12"/>
+  <path d="M 50.0,185.6 L 58.2,196.4 L 66.4,202.4 L 74.6,221.6 L 82.8,188.5 L 91.0,196.4 L 99.2,194.7 L 107.4,170.5 L 115.6,159.0 L 123.8,164.2 L 132.0,189.0 L 140.2,195.4 L 148.4,203.4 L 156.6,172.2 L 164.8,219.4 L 173.0,217.0 L 181.2,193.5 L 189.4,159.2 L 197.6,161.6 L 205.8,164.2 L 214.0,194.0 L 222.2,219.7 L 230.4,168.3 L 238.7,188.5 L 246.9,169.3 L 255.1,178.4 L 263.3,177.2 L 271.5,178.4 L 279.7,167.6 L 287.9,167.6 L 296.1,168.3 L 304.3,189.2 L 312.5,191.6 L 320.7,189.9 L 328.9,223.8 L 337.1,159.9 L 345.3,150.8 L 353.5,141.0 L 361.7,130.4 L 369.9,188.7 L 378.1,171.0 L 386.3,154.6 L 394.5,114.3 L 402.7,173.6 L 410.9,189.0 L 419.1,189.2 L 427.3,130.6 L 435.5,204.8 L 443.7,161.1 L 451.9,121.5 L 460.1,151.5 L 468.3,161.8 L 476.5,176.0 L 484.7,184.4 L 492.9,127.5 L 501.1,174.1 L 509.3,182.7 L 517.5,160.2 L 525.7,142.6 L 533.9,189.9 L 542.1,176.7 L 550.3,158.0 L 558.5,162.1 L 566.7,155.4 L 574.9,158.5 L 583.1,197.8 L 591.3,177.0 L 599.6,113.1 L 607.8,135.7 L 616.0,118.6 L 624.2,133.0 L 632.4,127.5 L 640.6,166.6 L 648.8,180.8 L 657.0,96.3 L 665.2,170.2 L 673.4,142.9 L 681.6,150.3 L 689.8,197.6 L 698.0,141.9 L 706.2,134.0 L 714.4,172.9 L 722.6,182.0 L 730.8,181.0 L 739.0,186.8 L 747.2,179.4 L 755.4,217.8 L 763.6,180.3 L 771.8,183.0 L 780.0,196.4" fill="none" stroke="#f39c12" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="50.0" y="278.0" fill="#888" font-size="10" text-anchor="middle">Dec 01</text><text x="173.0" y="278.0" fill="#888" font-size="10" text-anchor="middle">Dec 16</text><text x="296.1" y="278.0" fill="#888" font-size="10" text-anchor="middle">Dec 31</text><text x="419.1" y="278.0" fill="#888" font-size="10" text-anchor="middle">Jan 15</text><text x="542.1" y="278.0" fill="#888" font-size="10" text-anchor="middle">Jan 30</text><text x="665.2" y="278.0" fill="#888" font-size="10" text-anchor="middle">Feb 14</text>
+</svg></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔍 Component Breakdown (14-day avg)</div>
+    <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-icon">❤️</div>
+      <div class="comp-name">Recovery</div>
+      <div class="comp-label">WHOOP · 25%</div>
+      <div class="comp-score" style="color:#e74c3c">36</div>
+      <div class="comp-spark"><svg width="100" height="30" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path d="M 0.0,20.8 L 7.7,13.8 L 15.4,30.0 L 23.1,13.8 L 30.8,12.1 L 38.5,12.1 L 46.2,10.4 L 53.8,13.8 L 61.5,11.5 L 69.2,7.5 L 76.9,25.4 L 84.6,0.0 L 92.3,5.2 L 100.0,5.2" fill="none" stroke="#f39c12" stroke-width="1.5"/></svg></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">🌙</div>
+      <div class="comp-name">Sleep</div>
+      <div class="comp-label">8Sleep · 20%</div>
+      <div class="comp-score" style="color:#f39c12">75</div>
+      <div class="comp-spark"><svg width="100" height="30" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path d="M 0.0,17.5 L 7.7,17.5 L 15.4,30.0 L 23.1,6.2 L 30.8,6.2 L 38.5,13.1 L 46.2,27.5 L 53.8,12.5 L 61.5,14.4 L 69.2,10.0 L 76.9,26.9 L 84.6,3.8 L 92.3,0.0 L 100.0,17.5" fill="none" stroke="#f39c12" stroke-width="1.5"/></svg></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">🏋️</div>
+      <div class="comp-name">Strength</div>
+      <div class="comp-label">Tonal · 20%</div>
+      <div class="comp-score" style="color:#e74c3c">0</div>
+      <div class="comp-spark"><svg width="100" height="30" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path d="M 0.0,30.0 L 7.7,30.0 L 15.4,30.0 L 23.1,30.0 L 30.8,30.0 L 38.5,30.0 L 46.2,30.0 L 53.8,30.0 L 61.5,30.0 L 69.2,30.0 L 76.9,30.0 L 84.6,30.0 L 92.3,30.0 L 100.0,30.0" fill="none" stroke="#f39c12" stroke-width="1.5"/></svg></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">🏃</div>
+      <div class="comp-name">Cardio</div>
+      <div class="comp-label">Garmin · 15%</div>
+      <div class="comp-score" style="color:#e74c3c">18</div>
+      <div class="comp-spark"><svg width="100" height="30" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path d="M 0.0,0.0 L 7.7,15.2 L 15.4,30.0 L 23.1,8.3 L 30.8,1.9 L 38.5,30.0 L 46.2,30.0 L 53.8,30.0 L 61.5,30.0 L 69.2,30.0 L 76.9,30.0 L 84.6,30.0 L 92.3,30.0 L 100.0,30.0" fill="none" stroke="#f39c12" stroke-width="1.5"/></svg></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">📅</div>
+      <div class="comp-name">Consistency</div>
+      <div class="comp-label">All Sources · 20%</div>
+      <div class="comp-score" style="color:#e74c3c">44</div>
+      <div class="comp-spark"><svg width="100" height="30" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path d="M 0.0,0.0 L 7.7,0.0 L 15.4,5.0 L 23.1,5.0 L 30.8,5.0 L 38.5,10.0 L 46.2,10.0 L 53.8,15.0 L 61.5,20.0 L 69.2,20.0 L 76.9,25.0 L 84.6,30.0 L 92.3,30.0 L 100.0,30.0" fill="none" stroke="#f39c12" stroke-width="1.5"/></svg></div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📊 Stats</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Best Day</div>
+        <div class="stat-value" style="color:#f39c12">68</div>
+        <div class="stat-sub">Feb 13, 2026</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Worst Day</div>
+        <div class="stat-value" style="color:#e74c3c">15</div>
+        <div class="stat-sub">Jan 4, 2026</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Week Δ</div>
+        <div class="stat-value" style="color:#e74c3c">-12.1</div>
+        <div class="stat-sub">vs prior week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Month Δ</div>
+        <div class="stat-value" style="color:#f39c12">+1.7</div>
+        <div class="stat-sub">vs prior month</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📊 Score Distribution (last 90 days)</div>
+    <div class="chart-wrap"><svg width="700" height="200" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="41.0" y="160.0" width="62.0" height="0.0" fill="#f39c12" rx="2"/><text x="72.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">0-10</text><rect x="105.0" y="132.9" width="62.0" height="27.1" fill="#f39c12" rx="2"/><text x="136.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">10-20</text><text x="136.0" y="128.9" fill="#ccc" font-size="10" text-anchor="middle">6</text><rect x="169.0" y="60.6" width="62.0" height="99.4" fill="#f39c12" rx="2"/><text x="200.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">20-30</text><text x="200.0" y="56.6" fill="#ccc" font-size="10" text-anchor="middle">22</text><rect x="233.0" y="20.0" width="62.0" height="140.0" fill="#f39c12" rx="2"/><text x="264.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">30-40</text><text x="264.0" y="16.0" fill="#ccc" font-size="10" text-anchor="middle">31</text><rect x="297.0" y="74.2" width="62.0" height="85.8" fill="#f39c12" rx="2"/><text x="328.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">40-50</text><text x="328.0" y="70.2" fill="#ccc" font-size="10" text-anchor="middle">19</text><rect x="361.0" y="119.4" width="62.0" height="40.6" fill="#f39c12" rx="2"/><text x="392.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">50-60</text><text x="392.0" y="115.4" fill="#ccc" font-size="10" text-anchor="middle">9</text><rect x="425.0" y="146.5" width="62.0" height="13.5" fill="#f39c12" rx="2"/><text x="456.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">60-70</text><text x="456.0" y="142.5" fill="#ccc" font-size="10" text-anchor="middle">3</text><rect x="489.0" y="160.0" width="62.0" height="0.0" fill="#f39c12" rx="2"/><text x="520.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">70-80</text><rect x="553.0" y="160.0" width="62.0" height="0.0" fill="#f39c12" rx="2"/><text x="584.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">80-90</text><rect x="617.0" y="160.0" width="62.0" height="0.0" fill="#f39c12" rx="2"/><text x="648.0" y="175.0" fill="#888" font-size="9" text-anchor="middle">90-100</text>
+</svg></div>
+    <p style="color:#8b949e;font-size:0.85rem;margin-top:8px;">Score bins 0–100, showing day count per range</p>
+  </div>
+</div>
+</body>
+</html>

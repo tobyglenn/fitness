@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muscle Recovery Map</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;margin:0}
+nav{background:#161b22;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+nav a{color:#8b949e;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:14px;font-weight:500;transition:all .15s}
+nav a:hover{background:#21262d;color:#e6edf3}
+nav a.active{background:#f39c12;color:#000;font-weight:600}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+h1{font-size:24px;font-weight:700;margin:0 0 4px}
+.subtitle{color:#8b949e;font-size:14px;margin:0 0 24px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:20px}
+h2{font-size:18px;font-weight:600;margin:0 0 16px;color:#e6edf3}
+h3{font-size:14px;font-weight:600;margin:0 0 10px;color:#8b949e}
+.grid-2{display:grid;grid-template-columns:380px 1fr;gap:24px}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+.muscle-legend{display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+.muscle-card{background:#0d1117;border-radius:8px;padding:11px 14px;border-left:4px solid}
+.muscle-card.green{border-color:#2ea043}
+.muscle-card.yellow{border-color:#f39c12}
+.muscle-card.red{border-color:#f85149}
+.muscle-name{font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.muscle-meta{font-size:11px;color:#8b949e;margin-top:4px}
+.badge{display:inline-block;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge.green{background:#2ea04322;color:#2ea043}
+.badge.yellow{background:#f39c1222;color:#f39c12}
+.badge.red{background:#f8514922;color:#f85149}
+.reco-section{display:flex;gap:14px;flex-wrap:wrap}
+.reco-col{flex:1;min-width:160px;background:#0d1117;border-radius:8px;padding:14px}
+.reco-item{display:inline-block;background:#21262d;border-radius:5px;padding:3px 9px;margin:3px;font-size:12px}
+.stats-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.stat{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px 16px;flex:1;min-width:110px;text-align:center}
+.stat-val{font-size:24px;font-weight:700}
+.stat-lbl{font-size:11px;color:#8b949e;margin-top:2px}
+.green-text{color:#2ea043}
+.yellow-text{color:#f39c12}
+.red-text{color:#f85149}
+.blue-text{color:#58a6ff}
+.muscle-region{transition:opacity .15s}
+.muscle-region:hover{opacity:.75}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">🏠 Home</a>
+  <a href="../hub_index.html">📊 Hub</a>
+  <a href="../calendars/2026-02-calendar.html">📅 Calendar</a>
+  <a href="../strength/index.html">💪 Strength</a>
+  <a href="../cardio/index.html">🏃 Cardio</a>
+  <a href="../recovery/index.html">💤 Recovery</a>
+  <a href="../nutrition/index.html">🥗 Nutrition</a>
+  <a href="index.html" class="active">🗺️ Muscle Map</a>
+  <a href="../exercises/index.html">🏋️ Exercises</a>
+  <a href="../training_load/index.html">📈 Load</a>
+</nav>
+<div class="container">
+  <h1>🗺️ Muscle Recovery Map</h1>
+  <p class="subtitle">Generated Friday, February 27 2026 at 06:57 PM ET &nbsp;·&nbsp; Data via Tonal + WHOOP + 8Sleep</p>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-val yellow-text">45%</div><div class="stat-lbl">WHOOP Recovery</div></div>
+    <div class="stat"><div class="stat-val blue-text">28.5 ms</div><div class="stat-lbl">HRV (RMSSD)</div></div>
+    <div class="stat"><div class="stat-val green-text">7/7</div><div class="stat-lbl">Muscles Ready</div></div>
+    <div class='stat'><div class='stat-val blue-text'>98</div><div class='stat-lbl'>Sleep Score</div></div>
+    <div class="stat"><div class="stat-val yellow-text">28.5 ms</div><div class="stat-lbl">HRV 30d Baseline</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Today's Muscle Recovery Status</h2>
+    <div class="grid-2">
+      <div><svg id="bodySvg" viewBox="0 0 380 580" width="380" height="580" style="display:block;margin:0 auto">
+<rect width="380" height="580" fill="#0d1117" rx="12"/>
+<ellipse cx="190" cy="55" rx="32" ry="38" fill="#21262d" stroke="#30363d" stroke-width="2"/>
+<rect x="178" y="87" width="24" height="22" fill="#21262d"/>
+<path d="M 125 115 L 255 115 L 272 325 L 215 330 L 190 315 L 165 330 L 108 325 Z" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<path d="M 125 118 Q 82 148 76 248 Q 74 275 84 280 Q 94 285 97 258 L 105 170 L 133 148 Z" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<path d="M 255 118 Q 298 148 304 248 Q 306 275 296 280 Q 286 285 283 258 L 275 170 L 247 148 Z" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<path d="M 148 326 L 125 326 L 114 472 Q 111 498 126 500 Q 141 502 144 478 L 152 395 Z" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<path d="M 232 326 L 255 326 L 266 472 Q 269 498 254 500 Q 239 502 236 478 L 228 395 Z" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<g class="muscle-region" data-muscle="Chest" style="cursor:pointer">
+<title>Chest: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<ellipse cx="148" cy="178" rx="36" ry="24" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+<ellipse cx="232" cy="178" rx="36" ry="24" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<g class="muscle-region" data-muscle="Back" style="cursor:pointer">
+<title>Back: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<rect x="148" y="138" width="84" height="70" rx="6" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<g class="muscle-region" data-muscle="Shoulders" style="cursor:pointer">
+<title>Shoulders: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<ellipse cx="105" cy="148" rx="24" ry="18" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+<ellipse cx="275" cy="148" rx="24" ry="18" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<g class="muscle-region" data-muscle="Biceps" style="cursor:pointer">
+<title>Biceps: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<ellipse cx="90" cy="205" rx="16" ry="28" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+<ellipse cx="290" cy="205" rx="16" ry="28" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<g class="muscle-region" data-muscle="Triceps" style="cursor:pointer">
+<title>Triceps: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<ellipse cx="84" cy="210" rx="12" ry="24" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+<ellipse cx="296" cy="210" rx="12" ry="24" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<g class="muscle-region" data-muscle="Core" style="cursor:pointer">
+<title>Core: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<rect x="155" y="208" width="70" height="88" rx="6" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<g class="muscle-region" data-muscle="Legs" style="cursor:pointer">
+<title>Legs: Ready (100%) | Last: No data (30d ago) | Vol: 0 lbs</title>
+<ellipse cx="160" cy="388" rx="36" ry="72" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+<ellipse cx="220" cy="388" rx="36" ry="72" fill="#2ea043" fill-opacity="0.75" stroke="#2ea043" stroke-width="1.5"/>
+</g>
+<text x="190" y="184" text-anchor="middle" fill="white" font-size="10" font-weight="bold" pointer-events="none">Chest 100%</text>
+<text x="190" y="178" text-anchor="middle" fill="white" font-size="10" font-weight="bold" pointer-events="none">Back 100%</text>
+<text x="190" y="118" text-anchor="middle" fill="white" font-size="10" font-weight="bold" pointer-events="none">Shoulders 100%</text>
+<text x="190" y="255" text-anchor="middle" fill="white" font-size="10" font-weight="bold" pointer-events="none">Core 100%</text>
+<text x="190" y="388" text-anchor="middle" fill="white" font-size="10" font-weight="bold" pointer-events="none">Legs 100%</text>
+</svg></div>
+      <div class="muscle-legend">
+        <div class="muscle-card green">
+          <div class="muscle-name">Chest<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div>
+        <div class="muscle-card green">
+          <div class="muscle-name">Back<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div>
+        <div class="muscle-card green">
+          <div class="muscle-name">Shoulders<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div>
+        <div class="muscle-card green">
+          <div class="muscle-name">Biceps<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div>
+        <div class="muscle-card green">
+          <div class="muscle-name">Triceps<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div>
+        <div class="muscle-card green">
+          <div class="muscle-name">Legs<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div>
+        <div class="muscle-card green">
+          <div class="muscle-name">Core<span class="badge green">Ready 100%</span></div>
+          <div class="muscle-meta">Last: No data &nbsp;|&nbsp; 30d+ &nbsp;|&nbsp; Last vol: 0 lbs &nbsp;|&nbsp; 7d vol: 0 lbs</div>
+        </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Training Recommendations</h2>
+    
+    <div class="reco-section">
+      <div class="reco-col"><h3>✅ Train Today (Ready)</h3><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Chest</span><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Back</span><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Shoulders</span><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Biceps</span><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Triceps</span><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Legs</span><span class="reco-item" style="border:1px solid #2ea04344;color:#2ea043">Core</span></div>
+      <div class="reco-col"><h3>🟡 Maybe Tomorrow</h3><span style="color:#8b949e;font-size:13px">None</span></div>
+      <div class="reco-col"><h3>🔴 Rest / Active Recovery</h3><span style="color:#8b949e;font-size:13px">None — you're fully recovered!</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>7-Day Muscle Load Timeline</h2>
+    <p style="color:#8b949e;font-size:13px;margin:0 0 12px">Volume in thousands of lbs per muscle group per day (stacked bars)</p>
+    <svg viewBox="0 0 760 210" style="width:100%;max-width:760px;background:#161b22;border-radius:8px">
+<text x="103.9" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Sat</text>
+<text x="201.8" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Sun</text>
+<text x="299.6" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Mon</text>
+<text x="397.5" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Tue</text>
+<text x="495.4" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Wed</text>
+<text x="593.2" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Thu</text>
+<text x="691.1" y="188.0" text-anchor="middle" fill="#8b949e" font-size="11">Fri</text>
+<text x="50" y="176.0" text-anchor="end" fill="#8b949e" font-size="10">0K</text>
+<line x1="55" y1="172.0" x2="740" y2="172.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="50" y="100.0" text-anchor="end" fill="#8b949e" font-size="10">0K</text>
+<line x1="55" y1="96.0" x2="740" y2="96.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="50" y="24.0" text-anchor="end" fill="#8b949e" font-size="10">1K</text>
+<line x1="55" y1="20.0" x2="740" y2="20.0" stroke="#30363d" stroke-width="0.5"/>
+<rect x="55" y="5" width="9" height="9" fill="#58a6ff" rx="2"/>
+<text x="67" y="13" fill="#8b949e" font-size="9">Chest</text>
+<rect x="153" y="5" width="9" height="9" fill="#3fb950" rx="2"/>
+<text x="165" y="13" fill="#8b949e" font-size="9">Back</text>
+<rect x="251" y="5" width="9" height="9" fill="#f39c12" rx="2"/>
+<text x="263" y="13" fill="#8b949e" font-size="9">Shoulders</text>
+<rect x="349" y="5" width="9" height="9" fill="#d2a8ff" rx="2"/>
+<text x="361" y="13" fill="#8b949e" font-size="9">Biceps</text>
+<rect x="446" y="5" width="9" height="9" fill="#ff7b72" rx="2"/>
+<text x="458" y="13" fill="#8b949e" font-size="9">Triceps</text>
+<rect x="544" y="5" width="9" height="9" fill="#79c0ff" rx="2"/>
+<text x="556" y="13" fill="#8b949e" font-size="9">Legs</text>
+<rect x="642" y="5" width="9" height="9" fill="#ffa657" rx="2"/>
+<text x="654" y="13" fill="#8b949e" font-size="9">Core</text>
+</svg>
+  </div>
+
+  <div class="card">
+    <h2>30-Day Recovery Score Trend</h2>
+    <p style="color:#8b949e;font-size:13px;margin:0 0 12px">WHOOP recovery score. Vertical orange lines = heavy training days (&gt;80% of recent avg volume).</p>
+    <svg viewBox="0 0 760 250" style="width:100%;max-width:760px;background:#161b22;border-radius:8px">
+<text x="43" y="216.0" text-anchor="end" fill="#8b949e" font-size="10">0%</text>
+<line x1="48" y1="212.0" x2="740" y2="212.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="43" y="168.0" text-anchor="end" fill="#8b949e" font-size="10">25%</text>
+<line x1="48" y1="164.0" x2="740" y2="164.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="43" y="120.0" text-anchor="end" fill="#8b949e" font-size="10">50%</text>
+<line x1="48" y1="116.0" x2="740" y2="116.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="43" y="72.0" text-anchor="end" fill="#8b949e" font-size="10">75%</text>
+<line x1="48" y1="68.0" x2="740" y2="68.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="43" y="24.0" text-anchor="end" fill="#8b949e" font-size="10">100%</text>
+<line x1="48" y1="20.0" x2="740" y2="20.0" stroke="#30363d" stroke-width="0.5"/>
+<polyline points="48.0,139.0 71.9,41.1 95.7,152.5 119.6,121.8 143.4,183.2 167.3,192.8 191.2,185.1 215.0,71.8 238.9,45.0 262.8,52.6 286.6,127.5 310.5,91.0 334.3,177.4 382.1,48.8 429.8,167.8 453.7,144.8 501.4,144.8 525.2,139.0 549.1,139.0 573.0,133.3 596.8,144.8 620.7,137.1 644.6,123.7 692.3,98.7" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="48.0" cy="139.0" r="3" fill="#f39c12"><title>Jan 29: 38%</title></circle>
+<circle cx="71.9" cy="41.1" r="3" fill="#2ea043"><title>Jan 30: 89%</title></circle>
+<circle cx="95.7" cy="152.5" r="3" fill="#f85149"><title>Jan 31: 31%</title></circle>
+<circle cx="119.6" cy="121.8" r="3" fill="#f39c12"><title>Feb 01: 47%</title></circle>
+<circle cx="143.4" cy="183.2" r="3" fill="#f85149"><title>Feb 02: 15%</title></circle>
+<circle cx="167.3" cy="192.8" r="3" fill="#f85149"><title>Feb 03: 10%</title></circle>
+<circle cx="191.2" cy="185.1" r="3" fill="#f85149"><title>Feb 04: 14%</title></circle>
+<circle cx="215.0" cy="71.8" r="3" fill="#2ea043"><title>Feb 05: 73%</title></circle>
+<circle cx="238.9" cy="45.0" r="3" fill="#2ea043"><title>Feb 06: 87%</title></circle>
+<circle cx="262.8" cy="52.6" r="3" fill="#2ea043"><title>Feb 07: 83%</title></circle>
+<circle cx="286.6" cy="127.5" r="3" fill="#f39c12"><title>Feb 08: 44%</title></circle>
+<circle cx="310.5" cy="91.0" r="3" fill="#f39c12"><title>Feb 09: 63%</title></circle>
+<circle cx="334.3" cy="177.4" r="3" fill="#f85149"><title>Feb 10: 18%</title></circle>
+<circle cx="382.1" cy="48.8" r="3" fill="#2ea043"><title>Feb 12: 85%</title></circle>
+<circle cx="429.8" cy="167.8" r="3" fill="#f85149"><title>Feb 14: 23%</title></circle>
+<circle cx="453.7" cy="144.8" r="3" fill="#f39c12"><title>Feb 15: 35%</title></circle>
+<circle cx="501.4" cy="144.8" r="3" fill="#f39c12"><title>Feb 17: 35%</title></circle>
+<circle cx="525.2" cy="139.0" r="3" fill="#f39c12"><title>Feb 18: 38%</title></circle>
+<circle cx="549.1" cy="139.0" r="3" fill="#f39c12"><title>Feb 19: 38%</title></circle>
+<circle cx="573.0" cy="133.3" r="3" fill="#f39c12"><title>Feb 20: 41%</title></circle>
+<circle cx="596.8" cy="144.8" r="3" fill="#f39c12"><title>Feb 21: 35%</title></circle>
+<circle cx="620.7" cy="137.1" r="3" fill="#f39c12"><title>Feb 22: 39%</title></circle>
+<circle cx="644.6" cy="123.7" r="3" fill="#f39c12"><title>Feb 23: 46%</title></circle>
+<circle cx="692.3" cy="98.7" r="3" fill="#f39c12"><title>Feb 25: 59%</title></circle>
+<line x1="48" y1="125.1" x2="740" y2="125.1" stroke="#f39c12" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="736" y="121.1" text-anchor="end" fill="#f39c12" font-size="10">Avg 45%</text>
+<text x="48.0" y="228.0" text-anchor="middle" fill="#8b949e" font-size="10">Jan 29</text>
+<text x="167.3" y="228.0" text-anchor="middle" fill="#8b949e" font-size="10">Feb 03</text>
+<text x="286.6" y="228.0" text-anchor="middle" fill="#8b949e" font-size="10">Feb 08</text>
+<text x="405.9" y="228.0" text-anchor="middle" fill="#8b949e" font-size="10">Feb 13</text>
+<text x="525.2" y="228.0" text-anchor="middle" fill="#8b949e" font-size="10">Feb 18</text>
+<text x="644.6" y="228.0" text-anchor="middle" fill="#8b949e" font-size="10">Feb 23</text>
+<circle cx="58" cy="11" r="4" fill="#58a6ff"/>
+<text x="66" y="15" fill="#8b949e" font-size="10">Recovery Score</text>
+<line x1="156" y1="11" x2="166" y2="11" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="3,2"/>
+<text x="170" y="15" fill="#8b949e" font-size="10">30d Average</text>
+</svg>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Workout Recommender</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --accent: #f39c12;
+    --text: #e6edf3;
+    --muted: #8b949e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; }
+
+  nav {
+    background: #0d1117;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: background 0.2s, color 0.2s;
+  }
+  nav a:hover { background: var(--card); color: var(--text); }
+  nav a.active { background: var(--accent); color: #000; font-weight: 600; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 32px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .page-header h1 { font-size: 2rem; margin-bottom: 8px; }
+  .page-header p { color: var(--muted); font-size: 1rem; }
+  .timestamp { color: var(--muted); font-size: 12px; margin-top: 8px; }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  .gauge-section {
+    text-align: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .gauge-section svg { max-width: 300px; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .metric-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .metric-card .label { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+  .metric-card .value { font-size: 1.6rem; font-weight: 700; }
+  .metric-card .sub { color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+  .chart-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .chart-section svg { max-width: 100%; }
+
+  .recommendation-hero {
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 3px solid #f39c12;
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+  }
+  .recommendation-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #f39c1210;
+    pointer-events: none;
+  }
+  .rec-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .rec-icon { font-size: 3rem; }
+  .rec-title { font-size: 2rem; font-weight: 800; color: #f39c12; }
+  .rec-intensity { font-size: 13px; color: var(--muted); }
+  .rec-desc { font-size: 1rem; line-height: 1.6; color: var(--text); margin-bottom: 16px; }
+  .confidence-bar-wrap { margin-bottom: 16px; }
+  .confidence-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .confidence-bar {
+    height: 8px;
+    background: #21262d;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .confidence-fill {
+    height: 100%;
+    background: #f39c12;
+    border-radius: 4px;
+    width: 100%;
+    transition: width 0.5s;
+  }
+  .factors-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .factors-list li {
+    background: #f39c1220;
+    border: 1px solid #f39c1240;
+    color: #f39c12;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .formula-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .formula-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .formula-item {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .formula-item .fi-label { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+  .formula-item .fi-val { font-size: 1.2rem; font-weight: 600; }
+  .formula-item .fi-weight { color: var(--muted); font-size: 11px; }
+
+  .history-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th { color: var(--muted); font-size: 12px; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 12px; border-bottom: 1px solid #21262d; font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #0d1117; }
+
+  @media (max-width: 768px) {
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+    .formula-grid { grid-template-columns: 1fr; }
+    .rec-title { font-size: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html">🏠 Hub</a>
+  <a href="/calendars/">📅 Calendars</a>
+  <a href="/strength/">💪 Strength</a>
+  <a href="/cardio/">🏃 Cardio</a>
+  <a href="/recovery/">💜 Recovery</a>
+  <a href="/velocity/">⚡ Velocity</a>
+  <a href="/nutrition/">🥗 Nutrition</a>
+  <a href="/training_recommender/" class="active">🧠 Recommender</a>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>🧠 Tomorrow's Workout Recommender</h1>
+    <p>AI-powered training recommendations based on your recovery &amp; load</p>
+    <div class="timestamp">Last updated: February 27, 2026 at 01:54 PM EST</div>
+  </div>
+
+  <!-- Readiness Gauge -->
+  <div class="gauge-section">
+    <div class="section-title">Today's Readiness Score</div>
+    <svg width="300" height="170" viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background arc -->
+  <path d="M 40.00 140.00 A 110 110 0 1 1 260.00 140.00" fill="none" stroke="#21262d" stroke-width="22" stroke-linecap="round"/>
+  <!-- Red zone 0-40% -->
+  <path d="M 40.00 140.00 A 110 110 0 0 1 116.01 35.38" fill="none" stroke="#f85149" stroke-width="22" stroke-linecap="butt" opacity="0.7"/>
+  <!-- Yellow zone 40-70% -->
+  <path d="M 116.01 35.38 A 110 110 0 0 1 214.66 51.01" fill="none" stroke="#f39c12" stroke-width="22" stroke-linecap="butt" opacity="0.7"/>
+  <!-- Green zone 70-100% -->
+  <path d="M 214.66 51.01 A 110 110 0 0 1 260.00 140.00" fill="none" stroke="#2ea043" stroke-width="22" stroke-linecap="butt" opacity="0.7"/>
+  <!-- Needle -->
+  <line x1="150" y1="140" x2="168.25" y2="51.87" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="150" cy="140" r="8" fill="#21262d" stroke="white" stroke-width="2"/>
+  <!-- Score text -->
+  <text x="150" y="168" text-anchor="middle" fill="#f39c12" font-size="36" font-weight="bold" font-family="system-ui,sans-serif">56</text>
+  <text x="150" y="186" text-anchor="middle" fill="#8b949e" font-size="13" font-family="system-ui,sans-serif">/ 100 Readiness</text>
+  <!-- Labels -->
+  <text x="28" y="148" text-anchor="middle" fill="#f85149" font-size="11" font-family="system-ui,sans-serif">Poor</text>
+  <text x="150" y="22" text-anchor="middle" fill="#f39c12" font-size="11" font-family="system-ui,sans-serif">Moderate</text>
+  <text x="272" y="148" text-anchor="middle" fill="#2ea043" font-size="11" font-family="system-ui,sans-serif">Great</text>
+</svg>
+  </div>
+
+  <!-- Metric Cards -->
+  <div class="cards-grid">
+    <div class="metric-card">
+      <div class="icon">💜</div>
+      <div class="label">WHOOP Recovery</div>
+      <div class="value" style="color:#f85149">14%</div>
+      <div class="sub">Poor</div>
+    </div>
+    <div class="metric-card">
+      <div class="icon">😴</div>
+      <div class="label">Sleep Score</div>
+      <div class="value" style="color:#2ea043">98</div>
+      <div class="sub">8Sleep · Good</div>
+    </div>
+    <div class="metric-card">
+      <div class="icon">💓</div>
+      <div class="label">HRV</div>
+      <div class="value" style="color:#2ea043">30<span style="font-size:1rem">ms</span></div>
+      <div class="sub">Baseline 21ms</div>
+    </div>
+    <div class="metric-card">
+      <div class="icon">❤️</div>
+      <div class="label">Resting HR</div>
+      <div class="value" style="color:#2ea043">67 ↓</div>
+      <div class="sub">Baseline 77 bpm</div>
+    </div>
+  </div>
+
+  <!-- Weekly Load Chart -->
+  <div class="chart-section">
+    <div class="section-title">📊 Weekly Training Load ➡️ Stable</div>
+    <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg">
+  <text x="44" y="214.0" text-anchor="end" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">0</text>
+<line x1="50" y1="210.0" x2="580" y2="210.0" stroke="#21262d" stroke-width="1"/>
+<text x="44" y="166.5" text-anchor="end" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">0</text>
+<line x1="50" y1="162.5" x2="580" y2="162.5" stroke="#21262d" stroke-width="1"/>
+<text x="44" y="119.0" text-anchor="end" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">0</text>
+<line x1="50" y1="115.0" x2="580" y2="115.0" stroke="#21262d" stroke-width="1"/>
+<text x="44" y="71.5" text-anchor="end" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">1</text>
+<line x1="50" y1="67.5" x2="580" y2="67.5" stroke="#21262d" stroke-width="1"/>
+<text x="44" y="24.0" text-anchor="end" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">1</text>
+<line x1="50" y1="20.0" x2="580" y2="20.0" stroke="#21262d" stroke-width="1"/>
+
+  <rect x="63.2" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+<rect x="139.0" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+<rect x="214.7" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+<rect x="290.4" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+<rect x="366.1" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+<rect x="441.8" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+<rect x="517.5" y="210.0" width="49.2" height="0.0" fill="#2ea043" rx="3" opacity="0.85"/>
+
+  <text x="87.9" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Sat</text>
+<text x="87.9" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/21</text>
+<text x="163.6" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Sun</text>
+<text x="163.6" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/22</text>
+<text x="239.3" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Mon</text>
+<text x="239.3" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/23</text>
+<text x="315.0" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Tue</text>
+<text x="315.0" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/24</text>
+<text x="390.7" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Wed</text>
+<text x="390.7" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/25</text>
+<text x="466.4" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Thu</text>
+<text x="466.4" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/26</text>
+<text x="542.1" y="228" text-anchor="middle" fill="#8b949e" font-size="11" font-family="system-ui,sans-serif">Fri</text>
+<text x="542.1" y="242" text-anchor="middle" fill="#8b949e" font-size="10" font-family="system-ui,sans-serif">02/27</text>
+
+</svg>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--muted);">
+      <span><span style="color:#2ea043">■</span> Light (&lt;15)</span>
+      <span><span style="color:#f39c12">■</span> Moderate (15-25)</span>
+      <span><span style="color:#f85149">■</span> High (&gt;25)</span>
+      <span style="margin-left:auto">7-day total: 0.0 · avg/day: 0.0</span>
+    </div>
+  </div>
+
+  <!-- Recommendation Hero -->
+  <div class="recommendation-hero">
+    <div class="section-title" style="color:#f39c12">🎯 Tomorrow's Recommendation</div>
+    <div class="rec-header">
+      <div class="rec-icon">🏃</div>
+      <div>
+        <div class="rec-title">Light Cardio</div>
+        <div class="rec-intensity">Intensity: Low-Moderate</div>
+      </div>
+    </div>
+    <p class="rec-desc">Moderate recovery metrics suggest a lighter day. A 20-30 min cardio session at low-moderate intensity will keep momentum without overtaxing recovery.</p>
+    <div class="confidence-bar-wrap">
+      <div class="confidence-label">Confidence: 100%</div>
+      <div class="confidence-bar"><div class="confidence-fill"></div></div>
+    </div>
+    <ul class="factors-list">
+      <li>✓ WHOOP Recovery</li><li>✓ 8Sleep Score</li><li>✓ HRV Trend</li><li>✓ Resting HR</li>
+      <li>Load Trend: Stable</li>
+    </ul>
+  </div>
+
+  <!-- Why This Recommendation -->
+  <div class="formula-section">
+    <div class="section-title">🔬 Why This Recommendation?</div>
+    <p style="color:var(--muted);margin-bottom:16px;font-size:14px;">
+      Readiness = (WHOOP Recovery × 40%) + (Sleep Score × 30%) + (HRV Factor × 20%) + (RHR Factor × 10%)
+    </p>
+    <div class="formula-grid">
+      <div class="formula-item">
+        <div class="fi-label">WHOOP Recovery</div>
+        <div class="fi-val" style="color:#f85149">14%</div>
+        <div class="fi-weight">Weight: 40%</div>
+      </div>
+      <div class="formula-item">
+        <div class="fi-label">Sleep Score (8Sleep)</div>
+        <div class="fi-val" style="color:#2ea043">98</div>
+        <div class="fi-weight">Weight: 30%</div>
+      </div>
+      <div class="formula-item">
+        <div class="fi-label">HRV vs Baseline</div>
+        <div class="fi-val" style="color:#2ea043">30ms <span style="font-size:0.9rem;color:var(--muted)">vs 21ms baseline</span></div>
+        <div class="fi-weight">Weight: 20%</div>
+      </div>
+      <div class="formula-item">
+        <div class="fi-label">Resting HR vs Baseline</div>
+        <div class="fi-val" style="color:#2ea043">67bpm <span style="font-size:0.9rem;color:var(--muted)">vs 77bpm baseline</span></div>
+        <div class="fi-weight">Weight: 10%</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:#0d1117;border-radius:8px;font-size:14px;color:var(--muted);">
+      <strong style="color:var(--text)">Composite Readiness: 56.5/100</strong> |
+      Weekly Load Avg: 0.0/day |
+      Load Trend: ➡️ Stable
+    </div>
+  </div>
+
+  <!-- Historical Table -->
+  <div class="history-section">
+    <div class="section-title">📋 Historical Recovery Log</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Recovery</th>
+          <th>Suggested Activity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>Feb 05</td>
+          <td style="color:#f85149">14%</td>
+          <td>😴 Rest</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Feb 04</td>
+          <td style="color:#f85149">10%</td>
+          <td>😴 Rest</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Feb 03</td>
+          <td style="color:#f85149">15%</td>
+          <td>😴 Rest</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Feb 02</td>
+          <td style="color:#f39c12">47%</td>
+          <td>🧘 Light</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Feb 01</td>
+          <td style="color:#f85149">31%</td>
+          <td>😴 Rest</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Jan 31</td>
+          <td style="color:#2ea043">89%</td>
+          <td>🏋️ Heavy</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Jan 30</td>
+          <td style="color:#f85149">38%</td>
+          <td>😴 Rest</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td>Jan 29</td>
+          <td style="color:#f85149">29%</td>
+          <td>😴 Rest</td>
+          <td>✅</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today's Training Blueprint</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 0 24px; display: flex; align-items: center; gap: 6px; height: 48px; flex-wrap: wrap; }
+  nav a { color: #8b949e; text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 13px; white-space: nowrap; }
+  nav a:hover, nav a.active { background: #21262d; color: #f39c12; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 20px 60px; }
+  .page-title { font-size: 22px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+  .page-date { color: #8b949e; font-size: 14px; margin-bottom: 28px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+  .section-title { font-size: 13px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+  @media (max-width: 640px) { .metrics-row { grid-template-columns: 1fr; } }
+  .metric-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 18px; text-align: center; }
+  .metric-label { font-size: 13px; color: #8b949e; margin-bottom: 10px; font-weight: 600; }
+  .metric-main { font-size: 28px; font-weight: 700; }
+  .metric-sub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/index.html">🏠 Hub</a>
+  <a href="/strength/index.html">💪 Strength</a>
+  <a href="/cardio/index.html">🏃 Cardio</a>
+  <a href="/recovery/index.html">💚 Recovery</a>
+  <a href="/sleep_dashboard.html">😴 Sleep</a>
+  <a href="/training_rhythm/index.html">🥁 Rhythm</a>
+  <a href="/training_blueprint/index.html" class="active">🗺️ Blueprint</a>
+</nav>
+
+<div class="container">
+  <div class="page-title">🗺️ Today's Training Blueprint</div>
+  <div class="page-date">Saturday, February 28, 2026</div>
+
+  <!-- Hero Traffic Light -->
+  <div style="text-align:center;margin-bottom:28px">
+    <div style="width:140px;height:140px;border-radius:50%;background:#2ea043;
+      margin:0 auto 16px;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 0 40px #2ea04355;font-size:44px">
+      🟢
+    </div>
+    <div style="font-size:32px;font-weight:800;color:#2ea043;letter-spacing:-0.5px">Train Today</div>
+    <div style="color:#8b949e;font-size:15px;margin-top:6px">Recovery 70%, sleep 98% — you're primed</div>
+    <div style="margin-top:12px">
+      <span class="tag" style="background:#2ea04322;color:#2ea043;border:1px solid #2ea04344;font-size:13px;padding:4px 14px">
+        Composite Readiness: 70%
+      </span>
+    </div>
+  </div>
+
+  <!-- Metrics Row -->
+  <div class="section-title">Today's Metrics</div>
+  <div class="metrics-row" style="margin-bottom:20px">
+
+    <!-- WHOOP Recovery -->
+    <div class="metric-card">
+      <div class="metric-label">💚 WHOOP Recovery</div>
+      <div style="position:relative;width:110px;height:110px;margin:0 auto">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+  <circle cx="55.0" cy="55.0" r="50.0" fill="none" stroke="#30363d" stroke-width="10"/>
+  <circle cx="55.0" cy="55.0" r="50.0" fill="none" stroke="#f39c12" stroke-width="10"
+    stroke-dasharray="185.4 314.2" stroke-dashoffset="0"
+    transform="rotate(-90 55.0 55.0)" stroke-linecap="round"/>
+</svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <span style="font-size:24px;font-weight:700;color:#f39c12">59%</span>
+        </div>
+      </div>
+      <div class="metric-sub" style="margin-top:8px">HRV 35.2 ms &nbsp;|&nbsp; RHR 69 bpm</div>
+      <div style="font-size:10px;color:#6e7681;margin-top:4px">as of 2026-02-26</div>
+    </div>
+
+    <!-- 8Sleep -->
+    <div class="metric-card">
+      <div class="metric-label">😴 8Sleep Score</div>
+      <div style="position:relative;width:110px;height:110px;margin:0 auto">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+  <circle cx="55.0" cy="55.0" r="50.0" fill="none" stroke="#30363d" stroke-width="10"/>
+  <circle cx="55.0" cy="55.0" r="50.0" fill="none" stroke="#2ea043" stroke-width="10"
+    stroke-dasharray="307.9 314.2" stroke-dashoffset="0"
+    transform="rotate(-90 55.0 55.0)" stroke-linecap="round"/>
+</svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <span style="font-size:24px;font-weight:700;color:#2ea043">98%</span>
+        </div>
+      </div>
+      <div class="metric-sub" style="margin-top:8px">7.9 hrs slept</div>
+      <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin:6px 0">
+  <div style="width:13.7%;background:#1abc9c;border-radius:7px 0 0 7px" title="Deep 1.1h"></div>
+  <div style="width:34.3%;background:#9b59b6" title="REM 2.7h"></div>
+  <div style="width:52.1%;background:#3498db;border-radius:0 7px 7px 0" title="Light 4.1h"></div>
+</div>
+<div style="display:flex;gap:14px;font-size:11px;color:#8b949e;margin-top:2px">
+  <span><span style="color:#1abc9c">■</span> Deep 1.1h</span>
+  <span><span style="color:#9b59b6">■</span> REM 2.7h</span>
+  <span><span style="color:#3498db">■</span> Light 4.1h</span>
+</div>
+      <div style="font-size:10px;color:#6e7681;margin-top:4px">as of 2026-02-27</div>
+    </div>
+
+    <!-- Training Load -->
+    <div class="metric-card">
+      <div class="metric-label">🏋️ Recent Load</div>
+      <div style="position:relative;width:110px;height:110px;margin:0 auto">
+        <svg width="110" height="110" viewBox="0 0 110 110">
+  <circle cx="55.0" cy="55.0" r="50.0" fill="none" stroke="#30363d" stroke-width="10"/>
+  <circle cx="55.0" cy="55.0" r="50.0" fill="none" stroke="#f39c12" stroke-width="10"
+    stroke-dasharray="0.0 314.2" stroke-dashoffset="0"
+    transform="rotate(-90 55.0 55.0)" stroke-linecap="round"/>
+</svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <span style="font-size:20px;font-weight:700;color:#f39c12">0%</span>
+        </div>
+      </div>
+      <div class="metric-sub" style="margin-top:8px">0 lbs (3-day)</div>
+      <div style="font-size:12px;color:#8b949e;margin-top:4px">0 Tonal sessions this stretch</div>
+    </div>
+  </div>
+
+  <!-- Recommendation Details -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="section-title">Recommendation</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div>
+        <div style="font-size:12px;color:#8b949e;margin-bottom:4px">SUGGESTED WORKOUT</div>
+        <div style="font-size:16px;font-weight:700;color:#e6edf3">Full Body Strength</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#8b949e;margin-bottom:4px">AVOID</div>
+        <div style="font-size:16px;font-weight:700;color:#f85149">None — go for it</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:#8b949e;margin-bottom:8px">WHY</div>
+    <ul style="list-style:none;padding:0"><li style="margin:6px 0;color:#c9d1d9">WHOOP recovery: 59% (HRV 35.2 ms, RHR 69 bpm)</li><li style="margin:6px 0;color:#c9d1d9">8Sleep score: 98% (7.9 hrs)</li><li style="margin:6px 0;color:#c9d1d9">No recent Tonal sessions — fresh start</li></ul>
+  </div>
+
+  <!-- Week Outlook -->
+  <div class="card" style="margin-bottom:20px">
+    <div class="section-title">Next 3 Days Outlook</div>
+    <div style="display:flex;gap:10px">
+      <div style="background:#1c2128;border-radius:8px;padding:12px 10px;text-align:center;flex:1">
+  <div style="font-size:11px;color:#8b949e">Sun</div>
+  <div style="font-size:10px;color:#8b949e;margin-bottom:6px">Mar 01</div>
+  <div style="width:36px;height:36px;border-radius:50%;background:#2ea043;margin:0 auto 6px"></div>
+  <div style="font-size:11px;font-weight:600;color:#2ea043">GO</div>
+  <div style="font-size:10px;color:#8b949e;margin-top:4px">Strength</div>
+</div><div style="background:#1c2128;border-radius:8px;padding:12px 10px;text-align:center;flex:1">
+  <div style="font-size:11px;color:#8b949e">Mon</div>
+  <div style="font-size:10px;color:#8b949e;margin-bottom:6px">Mar 02</div>
+  <div style="width:36px;height:36px;border-radius:50%;background:#f39c12;margin:0 auto 6px"></div>
+  <div style="font-size:11px;font-weight:600;color:#f39c12">CAUTION</div>
+  <div style="font-size:10px;color:#8b949e;margin-top:4px">Light / Cardio</div>
+</div><div style="background:#1c2128;border-radius:8px;padding:12px 10px;text-align:center;flex:1">
+  <div style="font-size:11px;color:#8b949e">Tue</div>
+  <div style="font-size:10px;color:#8b949e;margin-bottom:6px">Mar 03</div>
+  <div style="width:36px;height:36px;border-radius:50%;background:#f39c12;margin:0 auto 6px"></div>
+  <div style="font-size:11px;font-weight:600;color:#f39c12">CAUTION</div>
+  <div style="font-size:10px;color:#8b949e;margin-top:4px">Light / Cardio</div>
+</div>
+    </div>
+  </div>
+
+  <!-- 7-Day History -->
+  <div class="card">
+    <div class="section-title">Last 7 Days</div>
+    <div style="display:flex;justify-content:space-around;align-items:flex-start;padding:8px 0">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 22: CAUTION (52%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#f39c12;border:2px solid transparent;opacity:0.75"></div>
+  <span style="font-size:10px;color:#8b949e">Sun</span>
+  <span style="font-size:9px;color:#8b949e">22</span>
+</div><div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 23: CAUTION (53%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#f39c12;border:2px solid transparent;opacity:0.75"></div>
+  <span style="font-size:10px;color:#8b949e">Mon</span>
+  <span style="font-size:9px;color:#8b949e">23</span>
+</div><div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 24: CAUTION (60%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#f39c12;border:2px solid transparent;opacity:0.75"></div>
+  <span style="font-size:10px;color:#8b949e">Tue</span>
+  <span style="font-size:9px;color:#8b949e">24</span>
+</div><div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 25: REST (31%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#f85149;border:2px solid transparent;opacity:0.75"></div>
+  <span style="font-size:10px;color:#8b949e">Wed</span>
+  <span style="font-size:9px;color:#8b949e">25</span>
+</div><div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 26: GO (72%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#2ea043;border:2px solid transparent;opacity:0.75"></div>
+  <span style="font-size:10px;color:#8b949e">Thu</span>
+  <span style="font-size:9px;color:#8b949e">26</span>
+</div><div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 27: GO (69%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#2ea043;border:2px solid transparent;opacity:0.75"></div>
+  <span style="font-size:10px;color:#8b949e">Fri</span>
+  <span style="font-size:9px;color:#8b949e">27</span>
+</div><div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default"
+  title="Feb 28: CAUTION (50%) — No workout">
+  <div style="width:28px;height:28px;border-radius:50%;background:#f39c12;border:2px solid #f39c12;opacity:1"></div>
+  <span style="font-size:10px;color:#8b949e">Sat</span>
+  <span style="font-size:9px;color:#8b949e">28</span>
+</div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:14px;font-size:11px;color:#8b949e">
+      <span><span style="color:#2ea043">●</span> GO</span>
+      <span><span style="color:#f39c12">●</span> CAUTION</span>
+      <span><span style="color:#f85149">●</span> REST</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

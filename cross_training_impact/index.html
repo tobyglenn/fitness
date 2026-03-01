@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cross-Training Impact Analysis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',monospace;}
+h1,h2,h3{font-family:monospace;}
+a{color:#0a84ff;}
+table{width:100%;border-collapse:collapse;}
+th{background:#21262d;color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:10px 16px;text-align:left;}
+tr:hover td{background:#1c2128;}
+td{border-top:1px solid #21262d;}
+.section{padding:32px 24px;max-width:1100px;margin:0 auto;}
+.card-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+.chart-row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
+</style>
+</head>
+<body>
+<nav style="background:#161b22;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-family:monospace;font-size:13px;">
+  <a href="../index.html" style="color:#f39c12;text-decoration:none;font-weight:bold;">Home</a>
+  <a href="../strength/index.html" style="color:#8b949e;text-decoration:none;">Strength</a>
+  <a href="../cardio/index.html" style="color:#8b949e;text-decoration:none;">Cardio</a>
+  <a href="../recovery/index.html" style="color:#8b949e;text-decoration:none;">Recovery</a>
+  <a href="../velocity/index.html" style="color:#8b949e;text-decoration:none;">Velocity</a>
+  <a href="../running/index.html" style="color:#8b949e;text-decoration:none;">Running</a>
+  <a href="../muscle_groups/index.html" style="color:#8b949e;text-decoration:none;">Muscles</a>
+  <a href="../sleep_dashboard.html" style="color:#8b949e;text-decoration:none;">Sleep</a>
+  <span style="color:#f39c12;margin-left:auto;">Cross-Training Impact</span>
+</nav>
+<div class="section">
+  <h1 style="font-size:24px;margin-bottom:6px;">Cross-Training Impact Analysis</h1>
+  <p style="color:#8b949e;font-size:13px;margin-bottom:28px;">How Tonal strength training and running affect each other and your recovery</p>
+
+  <h2 style="font-size:14px;color:#8b949e;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;">How Your Training Types Affect Each Other</h2>
+  <div class="card-row">
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;flex:1;min-width:180px;">
+      <div style="color:#8b949e;font-size:12px;margin-bottom:8px;">After Tonal - Next-Day Recovery</div>
+      <div style="color:#f85149;font-size:28px;font-weight:bold;margin-bottom:4px;">-1.4%</div>
+      <div style="color:#8b949e;font-size:11px;">vs baseline</div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;flex:1;min-width:180px;">
+      <div style="color:#8b949e;font-size:12px;margin-bottom:8px;">After Running - Next-Day Tonal Volume</div>
+      <div style="color:#2ea043;font-size:28px;font-weight:bold;margin-bottom:4px;">+3.1%</div>
+      <div style="color:#8b949e;font-size:11px;">vs baseline</div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;flex:1;min-width:180px;">
+      <div style="color:#8b949e;font-size:12px;margin-bottom:8px;">Best Recovery Day</div>
+      <div style="color:#f39c12;font-size:28px;font-weight:bold;margin-bottom:4px;">Sun</div>
+      <div style="color:#8b949e;font-size:11px;">highest avg next-day recovery</div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;flex:1;min-width:180px;">
+      <div style="color:#8b949e;font-size:12px;margin-bottom:8px;">Hardest Combo Impact</div>
+      <div style="color:#8b949e;font-size:28px;font-weight:bold;margin-bottom:4px;">Low data</div>
+      <div style="color:#8b949e;font-size:11px;">Heavy Tonal + Long Run</div>
+    </div></div>
+
+  <h2 style="font-size:14px;color:#8b949e;margin-top:32px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;">Tonal Intensity - Next-Day Impact Matrix</h2>
+  <p style="color:#8b949e;font-size:12px;margin-bottom:16px;">How today's Tonal volume affects tomorrow's key metrics (% change from your average)</p>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+    <svg width="520" height="380" xmlns="http://www.w3.org/2000/svg">
+<rect width="520" height="380" fill="#161b22" rx="8"/>
+<text x="141.25" y="30" text-anchor="middle" fill="#8b949e" font-size="11" font-family="monospace">Recovery</text>
+<text x="243.75" y="30" text-anchor="middle" fill="#8b949e" font-size="11" font-family="monospace">HRV</text>
+<text x="346.25" y="30" text-anchor="middle" fill="#8b949e" font-size="11" font-family="monospace">RHR</text>
+<text x="448.75" y="30" text-anchor="middle" fill="#8b949e" font-size="11" font-family="monospace">Tonal Volume</text>
+<text x="82" y="101.5" text-anchor="end" fill="#e6edf3" font-size="12" font-family="monospace">None</text>
+<rect x="92.0" y="62.0" width="98.5" height="71.0" fill="rgb(14,24,25)" rx="4"/>
+<text x="141.25" y="101.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">+1.3%</text>
+<rect x="194.5" y="62.0" width="98.5" height="71.0" fill="rgb(57,29,32)" rx="4"/>
+<text x="243.75" y="101.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">-4.7%</text>
+<rect x="297.0" y="62.0" width="98.5" height="71.0" fill="rgb(23,61,36)" rx="4"/>
+<text x="346.25" y="101.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">+7.7%</text>
+<rect x="399.5" y="62.0" width="98.5" height="71.0" fill="rgb(31,95,47)" rx="4"/>
+<text x="448.75" y="101.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">+13.7%</text>
+<text x="82" y="176.5" text-anchor="end" fill="#e6edf3" font-size="12" font-family="monospace">Light</text>
+<rect x="92.0" y="137.0" width="98.5" height="71.0" fill="rgb(101,41,41)" rx="4"/>
+<text x="141.25" y="176.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">-9.4%</text>
+<rect x="194.5" y="137.0" width="98.5" height="71.0" fill="rgb(34,108,51)" rx="4"/>
+<text x="243.75" y="176.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">+16.0%</text>
+<rect x="297.0" y="137.0" width="98.5" height="71.0" fill="rgb(56,28,32)" rx="4"/>
+<text x="346.25" y="176.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">-4.6%</text>
+<rect x="399.5" y="137.0" width="98.5" height="71.0" fill="rgb(248,81,73)" rx="4"/>
+<text x="448.75" y="176.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">-27.5%</text>
+<text x="82" y="251.5" text-anchor="end" fill="#e6edf3" font-size="12" font-family="monospace">Medium</text>
+<rect x="92.0" y="212.0" width="98.5" height="71.0" fill="rgb(59,29,32)" rx="4"/>
+<text x="141.25" y="251.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">-4.9%</text>
+<rect x="194.5" y="212.0" width="98.5" height="71.0" fill="rgb(28,86,44)" rx="4"/>
+<text x="243.75" y="251.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">+12.1%</text>
+<rect x="297.0" y="212.0" width="98.5" height="71.0" fill="rgb(24,20,25)" rx="4"/>
+<text x="346.25" y="251.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">-1.2%</text>
+<rect x="399.5" y="212.0" width="98.5" height="71.0" fill="rgb(174,61,57)" rx="4"/>
+<text x="448.75" y="251.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">-17.2%</text>
+<text x="82" y="326.5" text-anchor="end" fill="#e6edf3" font-size="12" font-family="monospace">Heavy</text>
+<rect x="92.0" y="287.0" width="98.5" height="71.0" fill="rgb(14,25,25)" rx="4"/>
+<text x="141.25" y="326.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">+1.4%</text>
+<rect x="194.5" y="287.0" width="98.5" height="71.0" fill="rgb(17,34,28)" rx="4"/>
+<text x="243.75" y="326.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">+3.1%</text>
+<rect x="297.0" y="287.0" width="98.5" height="71.0" fill="rgb(16,33,28)" rx="4"/>
+<text x="346.25" y="326.5" text-anchor="middle" fill="#8b949e" font-size="12" font-weight="bold" font-family="monospace">+2.9%</text>
+<rect x="399.5" y="287.0" width="98.5" height="71.0" fill="rgb(37,121,55)" rx="4"/>
+<text x="448.75" y="326.5" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">+18.2%</text>
+<rect x="90" y="358" width="12" height="12" fill="#f85149" rx="2"/>
+<text x="106" y="368" fill="#8b949e" font-size="10" font-family="monospace">Negative</text>
+<rect x="210" y="358" width="12" height="12" fill="#555" rx="2"/>
+<text x="226" y="368" fill="#8b949e" font-size="10" font-family="monospace">Neutral</text>
+<rect x="330" y="358" width="12" height="12" fill="#2ea043" rx="2"/>
+<text x="346" y="368" fill="#8b949e" font-size="10" font-family="monospace">Positive</text>
+</svg>
+  </div>
+
+  <h2 style="font-size:14px;color:#8b949e;margin-top:32px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;">Running - Next-Day Impact</h2>
+  <p style="color:#8b949e;font-size:12px;margin-bottom:16px;">Each dot = one day. Dashed blue line shows trend.</p>
+  <div class="chart-row" style="margin-bottom:32px;">
+    <div><svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="#161b22" rx="8"/>
+<text x="200" y="18" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Run Distance - Next-Day Recovery</text>
+<line x1="55" y1="30" x2="55" y2="255" stroke="#30363d" stroke-width="1"/>
+<line x1="55" y1="255" x2="380" y2="255" stroke="#30363d" stroke-width="1"/>
+<line x1="55.0" y1="255" x2="55.0" y2="259" stroke="#30363d"/>
+<text x="55.0" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">0.2</text>
+<line x1="51" y1="255.0" x2="55" y2="255.0" stroke="#30363d"/>
+<text x="49" y="258.0" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">7</text>
+<line x1="136.25" y1="255" x2="136.25" y2="259" stroke="#30363d"/>
+<text x="136.25" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">1.6</text>
+<line x1="51" y1="198.75" x2="55" y2="198.75" stroke="#30363d"/>
+<text x="49" y="201.75" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">30</text>
+<line x1="217.5" y1="255" x2="217.5" y2="259" stroke="#30363d"/>
+<text x="217.5" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">3.0</text>
+<line x1="51" y1="142.5" x2="55" y2="142.5" stroke="#30363d"/>
+<text x="49" y="145.5" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">52</text>
+<line x1="298.75" y1="255" x2="298.75" y2="259" stroke="#30363d"/>
+<text x="298.75" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">4.4</text>
+<line x1="51" y1="86.25" x2="55" y2="86.25" stroke="#30363d"/>
+<text x="49" y="89.25" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">75</text>
+<line x1="380.0" y1="255" x2="380.0" y2="259" stroke="#30363d"/>
+<text x="380.0" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">5.8</text>
+<line x1="51" y1="30.0" x2="55" y2="30.0" stroke="#30363d"/>
+<text x="49" y="33.0" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">98</text>
+<text x="217" y="295" text-anchor="middle" fill="#8b949e" font-size="10" font-family="monospace">Distance  mi</text>
+<text x="10" y="142" text-anchor="middle" fill="#8b949e" font-size="10" font-family="monospace" transform="rotate(-90,10,142)">Recovery Score </text>
+<line x1="55.0" y1="153.32447344186113" x2="380.0" y2="130.03976087615354" stroke="#0a84ff" stroke-width="2" stroke-dasharray="4,3" opacity="0.8"/>
+<circle cx="278.7401376682662" cy="203.07692307692307" r="5" fill="#f39c12" opacity="0.75"><title>2025-03-15: Distance=4.1 mi, Recovery Score=28</title></circle>
+<circle cx="109.20463327402453" cy="114.06593406593407" r="5" fill="#f39c12" opacity="0.75"><title>2025-04-22: Distance=1.1 mi, Recovery Score=64</title></circle>
+<circle cx="119.2278176165058" cy="76.97802197802199" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-02: Distance=1.3 mi, Recovery Score=79</title></circle>
+<circle cx="145.90374004780648" cy="153.6263736263736" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-03: Distance=1.8 mi, Recovery Score=48</title></circle>
+<circle cx="129.6423500655991" cy="86.86813186813185" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-07: Distance=1.5 mi, Recovery Score=75</title></circle>
+<circle cx="210.50538272137453" cy="94.28571428571428" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-15: Distance=2.9 mi, Recovery Score=72</title></circle>
+<circle cx="113.12979637317804" cy="109.12087912087912" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-16: Distance=1.2 mi, Recovery Score=66</title></circle>
+<circle cx="232.12298484930176" cy="153.6263736263736" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-17: Distance=3.3 mi, Recovery Score=48</title></circle>
+<circle cx="234.3133660430258" cy="37.41758241758242" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-18: Distance=3.3 mi, Recovery Score=95</title></circle>
+<circle cx="222.58460487769807" cy="188.24175824175825" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-19: Distance=3.1 mi, Recovery Score=34</title></circle>
+<circle cx="277.3382937042828" cy="32.472527472527474" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-24: Distance=4.0 mi, Recovery Score=97</title></circle>
+<circle cx="287.5308675257454" cy="47.30769230769229" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-25: Distance=4.2 mi, Recovery Score=91</title></circle>
+<circle cx="156.55191315756366" cy="148.6813186813187" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-26: Distance=2.0 mi, Recovery Score=50</title></circle>
+<circle cx="191.90758613252817" cy="146.2087912087912" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-29: Distance=2.6 mi, Recovery Score=51</title></circle>
+<circle cx="116.65192933268631" cy="178.35164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-30: Distance=1.3 mi, Recovery Score=38</title></circle>
+<circle cx="311.3738969464963" cy="178.35164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2025-05-31: Distance=4.6 mi, Recovery Score=38</title></circle>
+<circle cx="275.83715245951726" cy="161.04395604395603" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-01: Distance=4.0 mi, Recovery Score=45</title></circle>
+<circle cx="218.89308243920846" cy="208.02197802197801" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-02: Distance=3.0 mi, Recovery Score=26</title></circle>
+<circle cx="177.07724519688716" cy="74.50549450549451" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-03: Distance=2.3 mi, Recovery Score=80</title></circle>
+<circle cx="232.858952930393" cy="104.17582417582418" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-04: Distance=3.3 mi, Recovery Score=68</title></circle>
+<circle cx="246.8248234215776" cy="222.85714285714286" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-05: Distance=3.5 mi, Recovery Score=20</title></circle>
+<circle cx="236.51542926978306" cy="67.08791208791209" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-07: Distance=3.3 mi, Recovery Score=83</title></circle>
+<circle cx="313.23134019877426" cy="121.4835164835165" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-08: Distance=4.6 mi, Recovery Score=61</title></circle>
+<circle cx="167.7958699520138" cy="158.57142857142858" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-09: Distance=2.2 mi, Recovery Score=46</title></circle>
+<circle cx="226.4805628942686" cy="119.01098901098902" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-10: Distance=3.2 mi, Recovery Score=62</title></circle>
+<circle cx="185.9964774177315" cy="146.2087912087912" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-11: Distance=2.5 mi, Recovery Score=51</title></circle>
+<circle cx="283.43047393109396" cy="173.4065934065934" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-12: Distance=4.1 mi, Recovery Score=40</title></circle>
+<circle cx="172.49204723135813" cy="136.3186813186813" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-14: Distance=2.2 mi, Recovery Score=55</title></circle>
+<circle cx="256.9998741934904" cy="126.42857142857144" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-15: Distance=3.7 mi, Recovery Score=59</title></circle>
+<circle cx="291.09388760086983" cy="104.17582417582418" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-16: Distance=4.3 mi, Recovery Score=68</title></circle>
+<circle cx="380.0" cy="141.26373626373626" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-17: Distance=5.8 mi, Recovery Score=53</title></circle>
+<circle cx="191.01391060548875" cy="156.09890109890108" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-18: Distance=2.5 mi, Recovery Score=47</title></circle>
+<circle cx="219.2902715623371" cy="203.07692307692307" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-20: Distance=3.0 mi, Recovery Score=28</title></circle>
+<circle cx="222.61965097679766" cy="69.56043956043956" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-22: Distance=3.1 mi, Recovery Score=82</title></circle>
+<circle cx="278.83943494904827" cy="153.6263736263736" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-23: Distance=4.1 mi, Recovery Score=48</title></circle>
+<circle cx="220.1489009902769" cy="39.89010989010987" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-24: Distance=3.0 mi, Recovery Score=94</title></circle>
+<circle cx="277.6653906292122" cy="217.9120879120879" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-26: Distance=4.0 mi, Recovery Score=22</title></circle>
+<circle cx="334.0078359483114" cy="138.79120879120876" r="5" fill="#f39c12" opacity="0.75"><title>2025-06-30: Distance=5.0 mi, Recovery Score=54</title></circle>
+<circle cx="182.42177530957383" cy="52.25274725274724" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-01: Distance=2.4 mi, Recovery Score=89</title></circle>
+<circle cx="190.71017774662565" cy="148.6813186813187" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-02: Distance=2.5 mi, Recovery Score=50</title></circle>
+<circle cx="275.6502399309861" cy="81.9230769230769" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-03: Distance=4.0 mi, Recovery Score=77</title></circle>
+<circle cx="299.00262396434283" cy="99.23076923076923" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-05: Distance=4.4 mi, Recovery Score=70</title></circle>
+<circle cx="290.66165237864163" cy="183.2967032967033" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-06: Distance=4.3 mi, Recovery Score=36</title></circle>
+<circle cx="201.516058302331" cy="151.15384615384613" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-11: Distance=2.7 mi, Recovery Score=49</title></circle>
+<circle cx="253.93918153879332" cy="39.89010989010987" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-14: Distance=3.6 mi, Recovery Score=94</title></circle>
+<circle cx="142.84304739310937" cy="215.43956043956044" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-18: Distance=1.7 mi, Recovery Score=23</title></circle>
+<circle cx="242.07607699358385" cy="146.2087912087912" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-19: Distance=3.4 mi, Recovery Score=51</title></circle>
+<circle cx="55.0" cy="138.79120879120876" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-26: Distance=0.2 mi, Recovery Score=54</title></circle>
+<circle cx="58.89595801657051" cy="212.96703296703296" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-29: Distance=0.3 mi, Recovery Score=24</title></circle>
+<circle cx="177.32840890710088" cy="212.96703296703296" r="5" fill="#f39c12" opacity="0.75"><title>2025-07-30: Distance=2.3 mi, Recovery Score=24</title></circle>
+<circle cx="146.35349831958445" cy="133.84615384615387" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-03: Distance=1.8 mi, Recovery Score=56</title></circle>
+<circle cx="235.62759475926023" cy="245.1098901098901" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-07: Distance=3.3 mi, Recovery Score=11</title></circle>
+<circle cx="238.09834474578096" cy="74.50549450549451" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-10: Distance=3.4 mi, Recovery Score=80</title></circle>
+<circle cx="375.51994033176976" cy="185.76923076923077" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-12: Distance=5.7 mi, Recovery Score=35</title></circle>
+<circle cx="248.6238565086896" cy="114.06593406593407" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-15: Distance=3.5 mi, Recovery Score=64</title></circle>
+<circle cx="254.76276486763356" cy="165.98901098901098" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-18: Distance=3.6 mi, Recovery Score=43</title></circle>
+<circle cx="181.8902428065635" cy="101.7032967032967" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-19: Distance=2.4 mi, Recovery Score=69</title></circle>
+<circle cx="298.056379288654" cy="62.14285714285717" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-21: Distance=4.4 mi, Recovery Score=85</title></circle>
+<circle cx="159.93386172067358" cy="96.75824175824175" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-22: Distance=2.0 mi, Recovery Score=71</title></circle>
+<circle cx="95.54249564170306" cy="133.84615384615387" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-25: Distance=0.9 mi, Recovery Score=56</title></circle>
+<circle cx="151.99592027461762" cy="168.46153846153845" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-26: Distance=1.9 mi, Recovery Score=42</title></circle>
+<circle cx="152.91295986772343" cy="235.2197802197802" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-27: Distance=1.9 mi, Recovery Score=15</title></circle>
+<circle cx="152.39310939774626" cy="208.02197802197801" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-28: Distance=1.9 mi, Recovery Score=26</title></circle>
+<circle cx="153.84168149386244" cy="42.36263736263737" r="5" fill="#f39c12" opacity="0.75"><title>2025-08-31: Distance=1.9 mi, Recovery Score=93</title></circle>
+<circle cx="199.53011268668783" cy="198.13186813186815" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-02: Distance=2.7 mi, Recovery Score=30</title></circle>
+<circle cx="226.2586042666379" cy="161.04395604395603" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-03: Distance=3.2 mi, Recovery Score=45</title></circle>
+<circle cx="92.75048974676946" cy="156.09890109890108" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-10: Distance=0.9 mi, Recovery Score=47</title></circle>
+<circle cx="97.9489944465412" cy="136.3186813186813" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-11: Distance=1.0 mi, Recovery Score=55</title></circle>
+<circle cx="213.5485523265218" cy="69.56043956043956" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-13: Distance=2.9 mi, Recovery Score=82</title></circle>
+<circle cx="92.61614636688772" cy="180.82417582417582" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-26: Distance=0.9 mi, Recovery Score=37</title></circle>
+<circle cx="95.4724034435039" cy="217.9120879120879" r="5" fill="#f39c12" opacity="0.75"><title>2025-09-30: Distance=0.9 mi, Recovery Score=22</title></circle>
+<circle cx="142.99491382254092" cy="81.9230769230769" r="5" fill="#f39c12" opacity="0.75"><title>2025-10-09: Distance=1.7 mi, Recovery Score=77</title></circle>
+<circle cx="134.65394223683973" cy="138.79120879120876" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-05: Distance=1.6 mi, Recovery Score=54</title></circle>
+<circle cx="173.78291188152622" cy="106.64835164835165" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-06: Distance=2.3 mi, Recovery Score=67</title></circle>
+<circle cx="125.35504394241656" cy="30.0" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-07: Distance=1.4 mi, Recovery Score=98</title></circle>
+<circle cx="74.69006667745008" cy="178.35164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-08: Distance=0.6 mi, Recovery Score=38</title></circle>
+<circle cx="159.09275534228357" cy="151.15384615384613" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-10: Distance=2.0 mi, Recovery Score=49</title></circle>
+<circle cx="220.23067522150927" cy="146.2087912087912" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-12: Distance=3.0 mi, Recovery Score=51</title></circle>
+<circle cx="95.59506479035244" cy="227.8021978021978" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-13: Distance=0.9 mi, Recovery Score=18</title></circle>
+<circle cx="105.62993116586689" cy="131.37362637362637" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-14: Distance=1.1 mi, Recovery Score=57</title></circle>
+<circle cx="217.83001743318775" cy="151.15384615384613" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-19: Distance=3.0 mi, Recovery Score=49</title></circle>
+<circle cx="162.57984220269225" cy="119.01098901098902" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-20: Distance=2.1 mi, Recovery Score=62</title></circle>
+<circle cx="153.4094462716342" cy="153.6263736263736" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-21: Distance=1.9 mi, Recovery Score=48</title></circle>
+<circle cx="220.16642403982675" cy="94.28571428571428" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-24: Distance=3.0 mi, Recovery Score=72</title></circle>
+<circle cx="112.7559713161158" cy="163.5164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-27: Distance=1.2 mi, Recovery Score=44</title></circle>
+<circle cx="249.65187541561076" cy="200.60439560439562" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-28: Distance=3.6 mi, Recovery Score=29</title></circle>
+<circle cx="119.18108948437303" cy="195.65934065934067" r="5" fill="#f39c12" opacity="0.75"><title>2026-01-31: Distance=1.3 mi, Recovery Score=31</title></circle>
+<circle cx="112.4989665893855" cy="156.09890109890108" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-01: Distance=1.2 mi, Recovery Score=47</title></circle>
+<circle cx="199.78711741341814" cy="235.2197802197802" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-02: Distance=2.7 mi, Recovery Score=15</title></circle>
+<circle cx="222.7189482575798" cy="247.58241758241758" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-03: Distance=3.1 mi, Recovery Score=10</title></circle>
+<circle cx="80.75888283819485" cy="91.81318681318683" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-05: Distance=0.7 mi, Recovery Score=73</title></circle>
+<circle cx="203.29172732337662" cy="57.19780219780219" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-06: Distance=2.8 mi, Recovery Score=87</title></circle>
+<circle cx="115.09237792275479" cy="163.5164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-08: Distance=1.2 mi, Recovery Score=44</title></circle>
+<circle cx="206.7963372333351" cy="116.53846153846152" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-09: Distance=2.8 mi, Recovery Score=63</title></circle>
+<circle cx="130.86312251756797" cy="227.8021978021978" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-10: Distance=1.5 mi, Recovery Score=18</title></circle>
+<circle cx="122.68569939433151" cy="227.8021978021978" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-11: Distance=1.4 mi, Recovery Score=18</title></circle>
+<circle cx="73.24733559785051" cy="62.14285714285717" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-12: Distance=0.5 mi, Recovery Score=85</title></circle>
+<circle cx="267.4377707086501" cy="210.4945054945055" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-13: Distance=3.9 mi, Recovery Score=25</title></circle>
+<circle cx="230.26554159702374" cy="185.76923076923077" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-15: Distance=3.2 mi, Recovery Score=35</title></circle>
+<circle cx="134.64810122032313" cy="255.0" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-16: Distance=1.6 mi, Recovery Score=7</title></circle>
+<circle cx="177.96507970740998" cy="178.35164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-18: Distance=2.3 mi, Recovery Score=38</title></circle>
+<circle cx="218.47837026653005" cy="178.35164835164835" r="5" fill="#f39c12" opacity="0.75"><title>2026-02-19: Distance=3.0 mi, Recovery Score=38</title></circle>
+</svg></div>
+    <div><svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="300" fill="#161b22" rx="8"/>
+<text x="200" y="18" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Run Intensity - Next-Day Tonal</text>
+<line x1="55" y1="30" x2="55" y2="255" stroke="#30363d" stroke-width="1"/>
+<line x1="55" y1="255" x2="380" y2="255" stroke="#30363d" stroke-width="1"/>
+<line x1="55.0" y1="255" x2="55.0" y2="259" stroke="#30363d"/>
+<text x="55.0" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">132.0</text>
+<line x1="51" y1="255.0" x2="55" y2="255.0" stroke="#30363d"/>
+<text x="49" y="258.0" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">13535</text>
+<line x1="136.25" y1="255" x2="136.25" y2="259" stroke="#30363d"/>
+<text x="136.25" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">132.2</text>
+<line x1="51" y1="198.75" x2="55" y2="198.75" stroke="#30363d"/>
+<text x="49" y="201.75" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">13535</text>
+<line x1="217.5" y1="255" x2="217.5" y2="259" stroke="#30363d"/>
+<text x="217.5" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">132.5</text>
+<line x1="51" y1="142.5" x2="55" y2="142.5" stroke="#30363d"/>
+<text x="49" y="145.5" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">13536</text>
+<line x1="298.75" y1="255" x2="298.75" y2="259" stroke="#30363d"/>
+<text x="298.75" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">132.8</text>
+<line x1="51" y1="86.25" x2="55" y2="86.25" stroke="#30363d"/>
+<text x="49" y="89.25" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">13536</text>
+<line x1="380.0" y1="255" x2="380.0" y2="259" stroke="#30363d"/>
+<text x="380.0" y="269" text-anchor="middle" fill="#8b949e" font-size="9" font-family="monospace">133.0</text>
+<line x1="51" y1="30.0" x2="55" y2="30.0" stroke="#30363d"/>
+<text x="49" y="33.0" text-anchor="end" fill="#8b949e" font-size="9" font-family="monospace">13536</text>
+<text x="217" y="295" text-anchor="middle" fill="#8b949e" font-size="10" font-family="monospace">Avg HR  bpm</text>
+<text x="10" y="142" text-anchor="middle" fill="#8b949e" font-size="10" font-family="monospace" transform="rotate(-90,10,142)">Tonal Volume  lbs</text>
+<line x1="55.0" y1="3045630.0" x2="55.0" y2="3045630.0" stroke="#0a84ff" stroke-width="2" stroke-dasharray="4,3" opacity="0.8"/>
+<circle cx="55.0" cy="255.0" r="5" fill="#f39c12" opacity="0.75"><title>2025-02-17: Avg HR=132.0 bpm, Tonal Volume=13535 lbs</title></circle>
+</svg></div>
+  </div>
+
+  <h2 style="font-size:14px;color:#8b949e;margin-top:32px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;">Optimal Training Combinations</h2>
+  <p style="color:#8b949e;font-size:12px;margin-bottom:16px;">Ranked by next-day recovery impact. Baseline: 55</p>
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:32px;">
+    <table>
+      <thead><tr>
+        <th>Training Combination</th>
+        <th style="text-align:center;">Days</th>
+        <th style="text-align:center;">Avg Next-Day Recovery</th>
+        <th style="text-align:center;">vs Baseline</th>
+      </tr></thead>
+      <tbody><tr>
+      <td style="padding:10px 16px;color:#e6edf3;">Rest Day (no training)</td>
+      <td style="padding:10px 16px;text-align:center;color:#8b949e;">550</td>
+      <td style="padding:10px 16px;text-align:center;color:#e6edf3;">57</td>
+      <td style="padding:10px 16px;text-align:center;color:#2ea043;font-weight:bold;">+2.6%</td>
+    </tr><tr>
+      <td style="padding:10px 16px;color:#e6edf3;">Medium Tonal + No Run</td>
+      <td style="padding:10px 16px;text-align:center;color:#8b949e;">149</td>
+      <td style="padding:10px 16px;text-align:center;color:#e6edf3;">53</td>
+      <td style="padding:10px 16px;text-align:center;color:#f85149;font-weight:bold;">-4.9%</td>
+    </tr><tr>
+      <td style="padding:10px 16px;color:#e6edf3;">Run Only (no Tonal)</td>
+      <td style="padding:10px 16px;text-align:center;color:#8b949e;">103</td>
+      <td style="padding:10px 16px;text-align:center;color:#e6edf3;">52</td>
+      <td style="padding:10px 16px;text-align:center;color:#f85149;font-weight:bold;">-5.9%</td>
+    </tr><tr>
+      <td style="padding:10px 16px;color:#e6edf3;">Light Tonal + No Run</td>
+      <td style="padding:10px 16px;text-align:center;color:#8b949e;">96</td>
+      <td style="padding:10px 16px;text-align:center;color:#e6edf3;">50</td>
+      <td style="padding:10px 16px;text-align:center;color:#f85149;font-weight:bold;">-9.4%</td>
+    </tr></tbody>
+    </table>
+  </div>
+
+  <h2 style="font-size:14px;color:#8b949e;margin-top:32px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;">Day-of-Week Training and Recovery</h2>
+  <p style="color:#8b949e;font-size:12px;margin-bottom:16px;">Average training load by day + next-day recovery trend (green line)</p>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+    <svg width="700" height="350" xmlns="http://www.w3.org/2000/svg">
+<rect width="700" height="350" fill="#161b22" rx="8"/>
+<line x1="55" y1="232.5" x2="645" y2="232.5" stroke="#21262d" stroke-width="1"/>
+<line x1="55" y1="165.0" x2="645" y2="165.0" stroke="#21262d" stroke-width="1"/>
+<line x1="55" y1="97.5" x2="645" y2="97.5" stroke="#21262d" stroke-width="1"/>
+<line x1="55" y1="30.0" x2="645" y2="30.0" stroke="#21262d" stroke-width="1"/>
+<rect x="59.0" y="86.025278521963" width="76.28571428571429" height="213.974721478037" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 7.4k lbs</title></rect>
+<rect x="59.0" y="7.944764114017062" width="76.28571428571429" height="78.08051440794594" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.3 mi</title></rect>
+<text x="97.14285714285714" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Mon</text>
+<rect x="143.28571428571428" y="71.37567202192358" width="76.28571428571429" height="228.62432797807642" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 7.9k lbs</title></rect>
+<rect x="143.28571428571428" y="2.588645921278186" width="76.28571428571429" height="68.78702610064539" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.2 mi</title></rect>
+<text x="181.42857142857142" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Tue</text>
+<rect x="227.57142857142858" y="149.50262566657554" width="76.28571428571429" height="150.49737433342446" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 5.2k lbs</title></rect>
+<rect x="227.57142857142858" y="97.39467955610189" width="76.28571428571429" height="52.10794611047365" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.2 mi</title></rect>
+<text x="265.7142857142857" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Wed</text>
+<rect x="311.8571428571429" y="30.0" width="76.28571428571429" height="270.0" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 9.3k lbs</title></rect>
+<rect x="311.8571428571429" y="-32.0277562726431" width="76.28571428571429" height="62.0277562726431" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.2 mi</title></rect>
+<text x="350.00000000000006" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Thu</text>
+<rect x="396.14285714285717" y="139.90405858606135" width="76.28571428571429" height="160.09594141393865" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 5.5k lbs</title></rect>
+<rect x="396.14285714285717" y="99.89462080400818" width="76.28571428571429" height="40.00943778205316" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.1 mi</title></rect>
+<text x="434.28571428571433" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Fri</text>
+<rect x="480.42857142857144" y="151.64868894097864" width="76.28571428571429" height="148.35131105902136" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 5.1k lbs</title></rect>
+<rect x="480.42857142857144" y="86.33089694679221" width="76.28571428571429" height="65.31779199418644" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.2 mi</title></rect>
+<text x="518.5714285714286" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Sat</text>
+<rect x="564.7142857142858" y="121.32084326745644" width="76.28571428571429" height="178.67915673254356" fill="#f39c12" rx="2" opacity="0.85"><title>Avg Tonal: 6.1k lbs</title></rect>
+<rect x="564.7142857142858" y="56.10914767168441" width="76.28571428571429" height="65.21169559577203" fill="#0a84ff" rx="2" opacity="0.85"><title>Avg Run: 0.2 mi</title></rect>
+<text x="602.8571428571429" y="316" text-anchor="middle" fill="#e6edf3" font-size="11" font-family="monospace">Sun</text>
+<path d="M 97.14285714285714,237.46776573370573 L 181.42857142857142,171.2565980378611 L 265.7142857142857,201.34091996676355 L 350.00000000000006,246.0 L 434.28571428571433,175.680401673038 L 518.5714285714286,102.90861733491818 L 602.8571428571429,84.0" stroke="#2ea043" stroke-width="2" fill="none"/>
+<circle cx="97.14285714285714" cy="237.46776573370573" r="4" fill="#2ea043"/>
+<circle cx="181.42857142857142" cy="171.2565980378611" r="4" fill="#2ea043"/>
+<circle cx="265.7142857142857" cy="201.34091996676355" r="4" fill="#2ea043"/>
+<circle cx="350.00000000000006" cy="246.0" r="4" fill="#2ea043"/>
+<circle cx="434.28571428571433" cy="175.680401673038" r="4" fill="#2ea043"/>
+<circle cx="518.5714285714286" cy="102.90861733491818" r="4" fill="#2ea043"/>
+<circle cx="602.8571428571429" cy="84.0" r="4" fill="#2ea043"/>
+<text x="690" y="165" text-anchor="middle" fill="#2ea043" font-size="10" font-family="monospace" transform="rotate(90,690,165)">Recovery Score</text>
+<rect x="55" y="332" width="12" height="12" fill="#f39c12" rx="2"/>
+<text x="71" y="344" fill="#8b949e" font-size="10" font-family="monospace">Tonal Volume</text>
+<rect x="235" y="332" width="12" height="12" fill="#0a84ff" rx="2"/>
+<text x="251" y="344" fill="#8b949e" font-size="10" font-family="monospace">Run Miles</text>
+<rect x="415" y="332" width="12" height="12" fill="#2ea043" rx="2"/>
+<text x="431" y="344" fill="#8b949e" font-size="10" font-family="monospace">Next-Day Recovery</text>
+</svg>
+  </div>
+
+  <h2 style="font-size:14px;color:#8b949e;margin-top:32px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;">Recommendations</h2>
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;">
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;">
+      <li style="display:flex;gap:12px;align-items:flex-start;">
+        <span style="color:#f39c12;">-</span>
+        <span>Schedule heavy Tonal sessions on <strong style="color:#f39c12;">Sun</strong> - your data shows highest next-day recovery after training on this day.</span>
+      </li>
+      <li style="display:flex;gap:12px;align-items:flex-start;">
+        <span style="color:#f85149;">-</span>
+        <span>Avoid combining <strong style="color:#f85149;">Heavy Tonal + Running</strong> on the same day - this pairing shows the largest recovery penalty (N/A).</span>
+      </li>
+      <li style="display:flex;gap:12px;align-items:flex-start;">
+        <span style="color:#2ea043;">-</span>
+        <span>Your best recovery comes after <strong style="color:#2ea043;">Rest Day (no training)</strong> - consider sequencing this before important workouts.</span>
+      </li>
+      <li style="display:flex;gap:12px;align-items:flex-start;">
+        <span style="color:#0a84ff;">-</span>
+        <span>Running has a <strong style="color:#2ea043">+3.1%</strong> effect on next-day Tonal volume - plan accordingly when targeting strength PRs.</span>
+      </li>
+    </ul>
+  </div>
+
+  <p style="color:#30363d;font-size:11px;text-align:right;margin-top:24px;">Generated 2026-02-28 12:54 - 1340 days analyzed - 1253 consecutive day-pairs</p>
+</div>
+</body>
+</html>

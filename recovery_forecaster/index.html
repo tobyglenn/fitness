@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recovery Forecaster</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  nav a:hover { color: #f39c12; }
+  nav a.active { color: #f39c12; font-weight: 600; }
+  nav .brand { color: #f39c12; font-weight: 700; font-size: 15px; margin-right: 12px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  h1 { font-size: 26px; font-weight: 700; color: #f0f6fc; }
+  .subtitle { color: #8b949e; font-size: 14px; margin-top: 4px; }
+  .last-updated { color: #6e7681; font-size: 12px; margin-top: 4px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .card h2 { font-size: 16px; color: #c9d1d9; margin-bottom: 16px; font-weight: 600; }
+  .stat-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .stat { flex: 1; min-width: 100px; background: #0d1117; border-radius: 8px; padding: 12px 16px; text-align: center; }
+  .stat .label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat .value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+  .forecast-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start; }
+  .insight { background: #0d1117; border-left: 3px solid #f39c12; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-bottom: 10px; font-size: 14px; color: #c9d1d9; }
+  .pattern-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .pattern-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">🏋️ Fitness Hub</span>
+  <a href="/docs/hub_index.html">Home</a>
+  <a href="/docs/calendars/2026-02-calendar.html">Calendars</a>
+  <a href="/docs/strength/index.html">Strength</a>
+  <a href="/docs/cardio/index.html">Cardio</a>
+  <a href="/docs/recovery/index.html">Recovery</a>
+  <a href="/docs/recovery_forecaster/index.html" class="active">Forecaster</a>
+  <a href="/docs/nutrition/index.html">Nutrition</a>
+</nav>
+
+<div class="container">
+  <h1>🔮 Recovery Forecaster</h1>
+  <div class="subtitle">Predicting your optimal training days based on recovery + strain data</div>
+  <div class="last-updated">Last updated: February 28, 2026 at 06:22 AM ET</div>
+
+  <!-- Today Status -->
+  <div class="card" style="margin-top:24px;border-color:#f39c1240;">
+    <h2>Today's Status — Saturday, February 28</h2>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-size:64px;font-weight:800;color:#f39c12;line-height:1;">59</div>
+        <div style="font-size:13px;color:#8b949e;">Combined Score</div>
+        <div style="margin-top:8px;display:inline-block;padding:6px 18px;border-radius:24px;background:#f39c12;color:#0d1117;font-weight:700;font-size:14px;">CAUTION</div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:22px;font-weight:600;color:#f0f6fc;margin-bottom:12px;">Moderate Training ⚠️</div>
+        <div class="stat-row">
+          <div class="stat"><div class="label">WHOOP</div><div class="value" style="color:#0a84ff;">—</div></div>
+          <div class="stat"><div class="label">8Sleep</div><div class="value" style="color:#bf5af2;">—</div></div>
+          <div class="stat"><div class="label">HRV</div><div class="value" style="color:#2ea043;">—</div></div>
+          <div class="stat"><div class="label">RHR</div><div class="value" style="color:#f39c12;">—</div></div>
+          <div class="stat"><div class="label">Strain</div><div class="value" style="color:#f85149;">0</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7-Day Forecast -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="margin:0;">📅 7-Day Forecast</h2>
+      <span style="font-size:12px;color:#8b949e;">Forecast Accuracy (30d): <span style="color:#f39c12;font-weight:700;">30%</span></span>
+    </div>
+    <div class="forecast-grid">
+      
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#1c2128;border: 2px solid #f39c12;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Sat (Today)</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Feb 28</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#161b22;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Sun</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Mar 01</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#161b22;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Mon</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Mar 02</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#161b22;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Tue</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Mar 03</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#161b22;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Wed</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Mar 04</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#161b22;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Thu</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Mar 05</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+
+        <div style="min-width:100px;max-width:130px;flex:1;padding:12px 8px;border-radius:8px;background:#161b22;text-align:center;">
+          <div style="font-size:11px;color:#8b949e;">Fri</div>
+          <div style="font-size:12px;color:#c9d1d9;margin:2px 0;">Mar 06</div>
+          <div style="font-size:28px;font-weight:700;color:#f39c12;margin:6px 0;">59</div>
+          <div style="display:inline-block;padding:3px 10px;border-radius:20px;background:#f39c12;color:#0d1117;font-size:11px;font-weight:700;">CAUTION</div>
+          <div style="margin-top:8px;background:#0d1117;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:47%;height:100%;background:#f39c12;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:10px;color:#8b949e;margin-top:4px;">Strain: 0</div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Strain vs Recovery Chart -->
+  <div class="card">
+    <h2>📊 Strain vs Recovery — Last 30 Days</h2>
+    <div style="overflow-x:auto;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" style="width:100%;height:auto;background:#161b22;border-radius:8px">
+<line x1="45" y1="260.0" x2="755" y2="260.0" stroke="#30363d" stroke-width="1"/>
+<text x="40" y="264.0" fill="#8b949e" font-size="11" text-anchor="end">0</text>
+<line x1="45" y1="200.0" x2="755" y2="200.0" stroke="#30363d" stroke-width="1"/>
+<text x="40" y="204.0" fill="#8b949e" font-size="11" text-anchor="end">25</text>
+<line x1="45" y1="140.0" x2="755" y2="140.0" stroke="#30363d" stroke-width="1"/>
+<text x="40" y="144.0" fill="#8b949e" font-size="11" text-anchor="end">50</text>
+<line x1="45" y1="80.0" x2="755" y2="80.0" stroke="#30363d" stroke-width="1"/>
+<text x="40" y="84.0" fill="#8b949e" font-size="11" text-anchor="end">75</text>
+<line x1="45" y1="20.0" x2="755" y2="20.0" stroke="#30363d" stroke-width="1"/>
+<text x="40" y="24.0" fill="#8b949e" font-size="11" text-anchor="end">100</text>
+<polyline points="45.0,260.0 69.5,260.0 94.0,260.0 118.4,260.0 142.9,260.0 167.4,260.0 191.9,260.0 216.4,260.0 240.9,260.0 265.3,260.0 289.8,260.0 314.3,260.0 338.8,260.0 363.3,260.0 387.8,260.0 412.2,260.0 436.7,260.0 461.2,260.0 485.7,260.0 510.2,260.0 534.7,260.0 559.1,260.0 583.6,260.0 608.1,260.0 632.6,260.0 657.1,260.0 681.6,260.0 706.0,260.0 730.5,260.0 755.0,260.0" fill="none" stroke="#f39c12" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="45.0,125.6 69.5,45.4 94.0,132.8 118.4,114.6 142.9,177.0 167.4,188.0 191.9,170.7 216.4,80.0 240.9,59.8 265.3,64.6 289.8,114.1 314.3,75.2 338.8,175.5 363.3,189.0 387.8,62.7 412.2,200.0 436.7,204.8 461.2,176.0 485.7,201.9 510.2,125.1 534.7,120.8 559.1,131.4 583.6,149.1 608.1,134.7 632.6,131.8 657.1,115.0 681.6,185.6 706.0,86.7 730.5,24.8" fill="none" stroke="#0a84ff" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="45.0" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Jan 30</text>
+<text x="167.4" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Feb 04</text>
+<text x="289.8" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Feb 09</text>
+<text x="412.2" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Feb 14</text>
+<text x="534.7" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Feb 19</text>
+<text x="657.1" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Feb 24</text>
+<text x="755.0" y="292" fill="#8b949e" font-size="10" text-anchor="middle">Feb 28</text>
+<circle cx="635" cy="12" r="5" fill="#0a84ff"/>
+<text x="643" y="16" fill="#e6edf3" font-size="11">Recovery</text>
+<circle cx="700" cy="12" r="5" fill="#f39c12"/>
+<text x="708" y="16" fill="#e6edf3" font-size="11">Strain</text>
+</svg>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#6e7681;">Red shaded areas indicate days where strain exceeded recovery — higher injury/fatigue risk.</div>
+  </div>
+
+  <!-- Weekly Pattern Insights -->
+  <div class="card">
+    <h2>📈 Weekly Pattern Insights</h2>
+    <div class="pattern-grid">
+      <div style="background:#0d1117;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Best Training Days</div>
+        <div style="font-size:18px;font-weight:700;color:#2ea043;">Fri, Tue, Sat</div>
+        <div style="font-size:11px;color:#6e7681;margin-top:4px;">Based on avg recovery score by day of week</div>
+      </div>
+      <div style="background:#0d1117;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Recovery After Strain</div>
+        <div style="font-size:18px;font-weight:700;color:#f39c12;">N/A</div>
+        <div style="font-size:11px;color:#6e7681;margin-top:4px;">Typical time to reach 60+ recovery</div>
+      </div>
+      <div style="background:#0d1117;border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Current Trend</div>
+        <div style="font-size:18px;font-weight:700;color:#c9d1d9;">📈 Building</div>
+        <div style="font-size:11px;color:#6e7681;margin-top:4px;">7-day rolling recovery trajectory</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div class="card">
+    <h2>💡 Actionable Recommendations</h2>
+    <div class="insight">⚠️ Moderate intensity recommended today — don't leave gains on the table, but don't push to failure.</div><div class="insight">💤 Low recent training load detected — you have capacity to push harder.</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatigue-Fitness Paradox</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; }
+
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 10px 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 6px; transition: all 0.2s; }
+  nav a:hover { background: #21262d; color: #f0f6fc; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 28px; font-weight: 700; color: #f0f6fc; }
+  .subtitle { color: #8b949e; margin-top: 6px; font-size: 15px; }
+  .explainer { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; margin: 20px 0; color: #c9d1d9; font-size: 14px; line-height: 1.6; }
+  .explainer strong { color: #f39c12; }
+
+  .status-card { background: #161b22; border: 2px solid #0a84ff; border-radius: 12px; padding: 24px; margin: 24px 0; display: flex; align-items: center; gap: 20px; }
+  .status-badge { background: #0a84ff; color: #fff; font-weight: 700; font-size: 18px; padding: 10px 20px; border-radius: 8px; white-space: nowrap; }
+  .status-desc { color: #c9d1d9; font-size: 14px; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 24px 0; }
+  .metric { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px; text-align: center; }
+  .metric .val { font-size: 32px; font-weight: 700; margin: 8px 0 4px; }
+  .metric .lbl { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .section { margin: 32px 0; }
+  .section h2 { font-size: 18px; font-weight: 600; color: #f0f6fc; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-bottom: 16px; }
+
+  .chart-wrap { width: 100%; overflow-x: auto; }
+
+  .zone-legend { display: flex; gap: 20px; margin: 12px 0 20px; flex-wrap: wrap; }
+  .zone-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #c9d1d9; }
+  .zone-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .data-table th { background: #21262d; color: #8b949e; padding: 10px 12px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+  .data-table tr:hover td { background: #21262d; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .info-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+  .info-card h3 { font-size: 15px; font-weight: 600; color: #f0f6fc; margin-bottom: 12px; }
+  .info-card p { font-size: 14px; color: #c9d1d9; line-height: 1.6; }
+  .info-card .highlight { color: #f39c12; font-weight: 600; }
+  .info-card .good { color: #2ea043; font-weight: 600; }
+  .info-card .bad { color: #f85149; font-weight: 600; }
+
+  .tips { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; margin: 20px 0; }
+  .tips h3 { font-size: 15px; font-weight: 600; color: #f0f6fc; margin-bottom: 12px; }
+  .tips ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tips li { padding: 8px 12px; border-radius: 6px; font-size: 14px; color: #c9d1d9; display: flex; align-items: flex-start; gap: 10px; }
+  .tips li::before { content: "→"; color: #f39c12; font-weight: bold; flex-shrink: 0; }
+
+  footer { text-align: center; color: #30363d; font-size: 12px; padding: 32px 16px; }
+
+  @media (max-width: 600px) {
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .status-card { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<nav><a href="../index.html">🏠 Hub</a>
+<a href="../training_load/index.html">📊 Training Load</a>
+<a href="../recovery_trends/index.html">💚 Recovery Trends</a>
+<a href="../fitness_score/index.html">⚡ Fitness Score</a>
+<a href="../pmc/index.html">📈 PMC</a>
+<a href="../hrv_analysis/index.html">❤️ HRV</a>
+<a href="../strain_accumulation/index.html">🔥 Strain</a></nav>
+<div class="container">
+
+  <h1>⚡ Fatigue-Fitness Paradox</h1>
+  <p class="subtitle">Acute:Chronic Workload Ratio & Optimal Training Zones — Last 90 Days</p>
+
+  <div class="explainer">
+    <strong>The Paradox:</strong> High fatigue doesn't always mean declining fitness — in fact, fatigue often <em>masks</em> rising fitness gains. 
+    The key is managing your <strong>Acute:Chronic Workload Ratio</strong>: how much you've done in the past 7 days vs your 28-day baseline. 
+    Stay between <strong>0.8–1.3</strong> to build fitness safely. Push above <strong>1.5</strong> and injury risk spikes dramatically.
+  </div>
+
+  <!-- Current Status -->
+  <div class="status-card">
+    <div class="status-badge">UNDERTRAINING</div>
+    <div class="status-desc">
+      <strong style="font-size:16px;">A:C Ratio: 0.39</strong><br/>
+      Workload is well below chronic baseline. Fitness gains may stagnate.
+    </div>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="metrics-row">
+    <div class="metric">
+      <div class="lbl">A:C Ratio</div>
+      <div class="val" style="color:#0a84ff">0.39</div>
+      <div class="lbl">Current</div>
+    </div>
+    <div class="metric">
+      <div class="lbl">Recovery</div>
+      <div class="val" style="color:#2ea043">—</div>
+      <div class="lbl">WHOOP Score</div>
+    </div>
+    <div class="metric">
+      <div class="lbl">Fatigue</div>
+      <div class="val" style="color:#f85149">60</div>
+      <div class="lbl">Score (0-100)</div>
+    </div>
+    <div class="metric">
+      <div class="lbl">Fitness</div>
+      <div class="val" style="color:#0a84ff">40</div>
+      <div class="lbl">Trend Score</div>
+    </div>
+  </div>
+
+  <!-- Chart 1: Acute vs Chronic -->
+  <div class="section">
+    <h2>📊 Acute vs Chronic Workload (90 Days)</h2>
+    <div class="zone-legend">
+      <div class="zone-item"><div class="zone-dot" style="background:#2ea043;opacity:0.6"></div> Sweet Spot (0.8–1.3)</div>
+      <div class="zone-item"><div class="zone-dot" style="background:#e3b341;opacity:0.7"></div> Caution (1.3–1.5)</div>
+      <div class="zone-item"><div class="zone-dot" style="background:#f85149;opacity:0.7"></div> High Risk (&gt;1.5)</div>
+    </div>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 900 350" style="width:100%;max-width:900px;height:350px;background:#161b22;border-radius:8px;">
+  <!-- Background zones (ratio scale) -->
+  <rect x="60" y="159.6" width="820" height="54.0" fill="#2ea043" fill-opacity="0.08"/>
+<rect x="60" y="138.0" width="820" height="21.6" fill="#e3b341" fill-opacity="0.1"/>
+<rect x="60" y="30.0" width="820" height="108.0" fill="#f85149" fill-opacity="0.12"/>
+  <!-- Grid -->
+  <line x1="60" y1="300.0" x2="880" y2="300.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="304.0" text-anchor="end" fill="#8b949e" font-size="10">0.0</text>
+<line x1="60" y1="246.0" x2="880" y2="246.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="250.0" text-anchor="end" fill="#8b949e" font-size="10">3.9</text>
+<line x1="60" y1="192.0" x2="880" y2="192.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="196.0" text-anchor="end" fill="#8b949e" font-size="10">7.8</text>
+<line x1="60" y1="138.0" x2="880" y2="138.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="142.0" text-anchor="end" fill="#8b949e" font-size="10">11.7</text>
+<line x1="60" y1="84.0" x2="880" y2="84.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="88.0" text-anchor="end" fill="#8b949e" font-size="10">15.5</text>
+<line x1="60" y1="30.0" x2="880" y2="30.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="34.0" text-anchor="end" fill="#8b949e" font-size="10">19.4</text>
+  <!-- Area fills -->
+  <polyline points="60.0,196.5 69.2,232.0 78.4,195.4 87.6,221.6 96.9,216.0 106.1,209.9 115.3,201.6 124.5,192.1 133.7,190.2 142.9,181.3 152.1,181.2 161.3,180.5 170.6,180.6 179.8,178.7 189.0,175.5 198.2,174.9 207.4,174.5 216.6,173.4 225.8,170.7 235.1,177.2 244.3,176.7 253.5,175.6 262.7,171.2 271.9,170.2 281.1,170.2 290.3,170.6 299.6,170.4 308.8,169.9 318.0,169.0 327.2,162.6 336.4,160.4 345.6,155.4 354.8,153.7 364.0,149.8 373.3,144.3 382.5,140.3 391.7,138.0 400.9,131.2 410.1,126.7 419.3,126.9 428.5,118.4 437.8,115.5 447.0,111.7 456.2,112.3 465.4,112.2 474.6,112.9 483.8,114.9 493.0,103.3 502.2,98.1 511.5,94.9 520.7,98.6 529.9,98.8 539.1,93.1 548.3,92.9 557.5,92.1 566.7,91.4 576.0,83.4 585.2,86.1 594.4,87.6 603.6,85.2 612.8,84.8 622.0,83.9 631.2,85.5 640.4,91.9 649.7,93.5 658.9,99.3 668.1,101.7 677.3,99.0 686.5,100.2 695.7,96.7 704.9,94.0 714.2,98.2 723.4,91.4 732.6,96.0 741.8,90.3 751.0,95.0 760.2,104.9 769.4,101.1 778.7,96.7 787.9,97.8 797.1,100.6 806.3,93.4 815.5,93.9 824.7,93.2 833.9,105.7 843.1,105.9 852.4,112.9 861.6,119.0 870.8,120.8 880.0,130.0" fill="none" stroke="#0a84ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><polygon points="60.0,196.5 69.2,232.0 78.4,195.4 87.6,221.6 96.9,216.0 106.1,209.9 115.3,201.6 124.5,192.1 133.7,190.2 142.9,181.3 152.1,181.2 161.3,180.5 170.6,180.6 179.8,178.7 189.0,175.5 198.2,174.9 207.4,174.5 216.6,173.4 225.8,170.7 235.1,177.2 244.3,176.7 253.5,175.6 262.7,171.2 271.9,170.2 281.1,170.2 290.3,170.6 299.6,170.4 308.8,169.9 318.0,169.0 327.2,162.6 336.4,160.4 345.6,155.4 354.8,153.7 364.0,149.8 373.3,144.3 382.5,140.3 391.7,138.0 400.9,131.2 410.1,126.7 419.3,126.9 428.5,118.4 437.8,115.5 447.0,111.7 456.2,112.3 465.4,112.2 474.6,112.9 483.8,114.9 493.0,103.3 502.2,98.1 511.5,94.9 520.7,98.6 529.9,98.8 539.1,93.1 548.3,92.9 557.5,92.1 566.7,91.4 576.0,83.4 585.2,86.1 594.4,87.6 603.6,85.2 612.8,84.8 622.0,83.9 631.2,85.5 640.4,91.9 649.7,93.5 658.9,99.3 668.1,101.7 677.3,99.0 686.5,100.2 695.7,96.7 704.9,94.0 714.2,98.2 723.4,91.4 732.6,96.0 741.8,90.3 751.0,95.0 760.2,104.9 769.4,101.1 778.7,96.7 787.9,97.8 797.1,100.6 806.3,93.4 815.5,93.9 824.7,93.2 833.9,105.7 843.1,105.9 852.4,112.9 861.6,119.0 870.8,120.8 880.0,130.0 880.0,300.0 60.0,300.0" fill="#0a84ff" fill-opacity="0.15" stroke="none"/>
+  <polyline points="60.0,196.5 69.2,232.0 78.4,195.4 87.6,221.6 96.9,216.0 106.1,209.9 115.3,201.6 124.5,191.5 133.7,178.2 142.9,175.2 152.1,158.1 161.3,155.2 170.6,155.5 179.8,155.9 189.0,156.5 198.2,155.3 207.4,164.9 216.6,161.0 225.8,153.8 235.1,170.7 244.3,172.7 253.5,175.9 262.7,162.7 271.9,159.7 281.1,162.2 290.3,170.4 299.6,151.0 308.8,149.5 318.0,152.1 327.2,154.3 336.4,141.8 345.6,140.3 354.8,135.4 364.0,121.9 373.3,99.1 382.5,76.7 391.7,79.7 400.9,58.5 410.1,43.3 419.3,47.9 428.5,30.0 437.8,40.8 447.0,42.1 456.2,52.5 465.4,88.7 474.6,105.6 483.8,105.9 493.0,110.4 502.2,103.0 511.5,108.7 520.7,107.7 529.9,106.2 539.1,83.3 548.3,82.3 557.5,106.0 566.7,122.6 576.0,106.2 585.2,104.5 594.4,97.1 603.6,108.6 612.8,103.2 622.0,89.3 631.2,75.5 640.4,110.4 649.7,109.3 658.9,105.2 668.1,109.4 677.3,104.5 686.5,95.0 695.7,85.7 704.9,50.5 714.2,71.0 723.4,57.2 732.6,82.9 741.8,71.5 751.0,89.6 760.2,135.7 769.4,137.4 778.7,102.0 787.9,131.6 797.1,101.8 806.3,94.6 815.5,101.6 824.7,75.8 833.9,124.6 843.1,141.2 852.4,157.6 861.6,182.0 870.8,212.9 880.0,233.8" fill="none" stroke="#f39c12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><polygon points="60.0,196.5 69.2,232.0 78.4,195.4 87.6,221.6 96.9,216.0 106.1,209.9 115.3,201.6 124.5,191.5 133.7,178.2 142.9,175.2 152.1,158.1 161.3,155.2 170.6,155.5 179.8,155.9 189.0,156.5 198.2,155.3 207.4,164.9 216.6,161.0 225.8,153.8 235.1,170.7 244.3,172.7 253.5,175.9 262.7,162.7 271.9,159.7 281.1,162.2 290.3,170.4 299.6,151.0 308.8,149.5 318.0,152.1 327.2,154.3 336.4,141.8 345.6,140.3 354.8,135.4 364.0,121.9 373.3,99.1 382.5,76.7 391.7,79.7 400.9,58.5 410.1,43.3 419.3,47.9 428.5,30.0 437.8,40.8 447.0,42.1 456.2,52.5 465.4,88.7 474.6,105.6 483.8,105.9 493.0,110.4 502.2,103.0 511.5,108.7 520.7,107.7 529.9,106.2 539.1,83.3 548.3,82.3 557.5,106.0 566.7,122.6 576.0,106.2 585.2,104.5 594.4,97.1 603.6,108.6 612.8,103.2 622.0,89.3 631.2,75.5 640.4,110.4 649.7,109.3 658.9,105.2 668.1,109.4 677.3,104.5 686.5,95.0 695.7,85.7 704.9,50.5 714.2,71.0 723.4,57.2 732.6,82.9 741.8,71.5 751.0,89.6 760.2,135.7 769.4,137.4 778.7,102.0 787.9,131.6 797.1,101.8 806.3,94.6 815.5,101.6 824.7,75.8 833.9,124.6 843.1,141.2 852.4,157.6 861.6,182.0 870.8,212.9 880.0,233.8 880.0,300.0 60.0,300.0" fill="#f39c12" fill-opacity="0.15" stroke="none"/>
+  <!-- Ratio line -->
+  <polyline points="60.0,192.0 69.2,192.0 78.4,192.0 87.6,192.0 96.9,192.0 106.1,192.0 115.3,192.0 124.5,191.4 133.7,180.2 142.9,186.5 152.1,171.0 161.3,169.1 170.6,169.3 179.8,171.6 189.0,175.6 198.2,175.0 207.4,183.7 216.6,181.5 225.8,177.9 235.1,186.4 244.3,188.4 253.5,192.2 262.7,184.9 271.9,183.3 281.1,185.3 290.3,191.9 299.6,175.9 308.8,175.0 318.0,178.1 327.2,185.4 336.4,177.6 345.6,180.8 354.8,178.5 364.0,171.9 373.3,160.7 382.5,149.0 391.7,153.1 400.9,145.5 410.1,140.1 419.3,142.8 428.5,139.4 437.8,148.3 447.0,152.1 456.2,157.7 465.4,178.5 474.6,187.8 483.8,186.7 493.0,195.9 502.2,194.6 511.5,199.2 520.7,197.0 529.9,196.0 539.1,186.8 548.3,186.5 557.5,199.2 566.7,208.2 576.0,203.3 585.2,201.3 594.4,196.8 603.6,203.8 612.8,201.2 622.0,194.7 631.2,187.0 640.4,201.6 649.7,200.3 658.9,195.2 668.1,196.2 677.3,194.9 686.5,189.2 695.7,186.2 704.9,169.2 714.2,177.5 723.4,174.3 732.6,185.0 741.8,182.3 751.0,189.2 760.2,209.1 769.4,211.7 778.7,194.8 787.9,210.0 797.1,192.6 806.3,192.6 815.5,196.1 824.7,182.9 833.9,202.5 843.1,211.7 852.4,217.8 861.6,229.6 870.8,247.5 880.0,258.0" fill="none" stroke="#a371f7" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- X labels -->
+  <text x="60.0" y="340" text-anchor="middle" fill="#8b949e" font-size="10">12-02</text>
+<text x="198.2" y="340" text-anchor="middle" fill="#8b949e" font-size="10">12-17</text>
+<text x="336.4" y="340" text-anchor="middle" fill="#8b949e" font-size="10">01-01</text>
+<text x="474.6" y="340" text-anchor="middle" fill="#8b949e" font-size="10">01-16</text>
+<text x="612.8" y="340" text-anchor="middle" fill="#8b949e" font-size="10">01-31</text>
+<text x="751.0" y="340" text-anchor="middle" fill="#8b949e" font-size="10">02-15</text>
+  <!-- Y axis label -->
+  <text transform="rotate(-90)" x="-175" y="15" text-anchor="middle" fill="#8b949e" font-size="11">Training Load (AU)</text>
+  <!-- Right Y label -->
+  <text x="895" y="175" text-anchor="end" fill="#a371f7" font-size="10" transform="rotate(90, 895, 175)">A:C Ratio</text>
+  <!-- Legend -->
+  <rect x="70" y="35" width="12" height="3" fill="#f39c12" rx="2"/>
+  <text x="88" y="40" fill="#ccc" font-size="11">Acute (7d)</text>
+  <rect x="170" y="35" width="12" height="3" fill="#0a84ff" rx="2"/>
+  <text x="188" y="40" fill="#ccc" font-size="11">Chronic (28d)</text>
+  <rect x="280" y="35" width="12" height="3" fill="#a371f7" rx="2"/>
+  <text x="298" y="40" fill="#ccc" font-size="11">A:C Ratio</text>
+</svg>
+    </div>
+  </div>
+
+  <!-- Chart 2: Fitness vs Fatigue -->
+  <div class="section">
+    <h2>💪 Fitness vs Fatigue Timeline</h2>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 900 350" style="width:100%;max-width:900px;height:350px;background:#161b22;border-radius:8px;">
+  
+  <line x1="60" y1="300.0" x2="880" y2="300.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="304.0" text-anchor="end" fill="#8b949e" font-size="10">0.0</text>
+<line x1="60" y1="246.0" x2="880" y2="246.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="250.0" text-anchor="end" fill="#8b949e" font-size="10">20.0</text>
+<line x1="60" y1="192.0" x2="880" y2="192.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="196.0" text-anchor="end" fill="#8b949e" font-size="10">40.0</text>
+<line x1="60" y1="138.0" x2="880" y2="138.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="142.0" text-anchor="end" fill="#8b949e" font-size="10">60.0</text>
+<line x1="60" y1="84.0" x2="880" y2="84.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="88.0" text-anchor="end" fill="#8b949e" font-size="10">80.0</text>
+<line x1="60" y1="30.0" x2="880" y2="30.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+<text x="55" y="34.0" text-anchor="end" fill="#8b949e" font-size="10">100.0</text>
+  <polyline points="69.2,192.0 78.4,200.6 87.6,193.6 96.9,193.6 106.1,189.8 115.3,179.8 124.5,167.4 133.7,154.5 142.9,150.7 152.1,151.2 161.3,148.8 170.6,143.4 179.8,151.0 189.0,148.0 198.2,138.8 207.4,129.4 216.6,120.7 225.8,114.5 235.1,117.2 244.3,132.6 253.5,123.2 262.7,124.0 271.9,115.9 281.1,112.6 290.3,109.1 299.6,106.7 308.8,99.7 318.0,93.2 327.2,87.5 336.4,92.1 345.6,97.2 354.8,101.0 364.0,101.0 373.3,105.9 382.5,110.7 391.7,111.5 400.9,104.0 410.1,113.2 419.3,123.4 428.5,127.7 437.8,125.6 447.0,129.1 456.2,141.5 465.4,141.8 474.6,132.3 483.8,135.8 493.0,134.8 502.2,125.3 511.5,129.6 520.7,129.9 529.9,133.9 539.1,133.4 548.3,134.2 557.5,131.2 566.7,136.4 576.0,141.0 585.2,144.8 594.4,152.6 603.6,157.2 612.8,147.2 622.0,154.2 631.2,156.1 640.4,166.3 649.7,177.1 658.9,185.5 668.1,177.4 677.3,166.1 686.5,157.2 695.7,159.6 704.9,156.6 714.2,166.1 723.4,174.4 732.6,164.2 741.8,170.9 751.0,177.7 760.2,180.4 769.4,190.6 778.7,192.0 787.9,192.5 797.1,193.1 806.3,192.5 815.5,193.9 824.7,194.2 833.9,192.3 843.1,199.0 852.4,193.1 861.6,193.1 870.8,193.3 880.0,193.3" fill="none" stroke="#2ea043" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><polygon points="69.2,192.0 78.4,200.6 87.6,193.6 96.9,193.6 106.1,189.8 115.3,179.8 124.5,167.4 133.7,154.5 142.9,150.7 152.1,151.2 161.3,148.8 170.6,143.4 179.8,151.0 189.0,148.0 198.2,138.8 207.4,129.4 216.6,120.7 225.8,114.5 235.1,117.2 244.3,132.6 253.5,123.2 262.7,124.0 271.9,115.9 281.1,112.6 290.3,109.1 299.6,106.7 308.8,99.7 318.0,93.2 327.2,87.5 336.4,92.1 345.6,97.2 354.8,101.0 364.0,101.0 373.3,105.9 382.5,110.7 391.7,111.5 400.9,104.0 410.1,113.2 419.3,123.4 428.5,127.7 437.8,125.6 447.0,129.1 456.2,141.5 465.4,141.8 474.6,132.3 483.8,135.8 493.0,134.8 502.2,125.3 511.5,129.6 520.7,129.9 529.9,133.9 539.1,133.4 548.3,134.2 557.5,131.2 566.7,136.4 576.0,141.0 585.2,144.8 594.4,152.6 603.6,157.2 612.8,147.2 622.0,154.2 631.2,156.1 640.4,166.3 649.7,177.1 658.9,185.5 668.1,177.4 677.3,166.1 686.5,157.2 695.7,159.6 704.9,156.6 714.2,166.1 723.4,174.4 732.6,164.2 741.8,170.9 751.0,177.7 760.2,180.4 769.4,190.6 778.7,192.0 787.9,192.5 797.1,193.1 806.3,192.5 815.5,193.9 824.7,194.2 833.9,192.3 843.1,199.0 852.4,193.1 861.6,193.1 870.8,193.3 880.0,193.3 880.0,300.0 69.2,300.0" fill="#2ea043" fill-opacity="0.15" stroke="none"/>
+  <polyline points="69.2,138.0 78.4,94.8 87.6,129.9 96.9,129.9 106.1,140.7 115.3,160.7 124.5,179.3 133.7,205.5 142.9,232.0 152.1,227.9 161.3,224.4 170.6,233.3 179.8,214.7 189.0,205.5 198.2,202.5 207.4,213.3 216.6,229.0 225.8,239.0 235.1,232.2 244.3,224.7 253.5,236.8 262.7,226.3 271.9,226.3 281.1,220.6 290.3,217.4 299.6,226.0 308.8,259.5 318.0,259.8 327.2,273.0 336.4,260.3 345.6,251.7 354.8,243.6 364.0,243.3 373.3,224.4 382.5,204.7 391.7,191.2 400.9,207.4 410.1,198.2 419.3,185.2 428.5,182.0 437.8,188.2 447.0,186.9 456.2,168.0 465.4,152.3 474.6,173.9 483.8,180.4 493.0,186.6 502.2,195.8 511.5,195.0 520.7,212.0 529.9,208.5 539.1,196.6 548.3,200.4 557.5,203.1 566.7,183.1 576.0,181.2 585.2,174.2 594.4,166.9 603.6,157.2 612.8,168.8 622.0,153.1 631.2,154.2 640.4,143.1 649.7,129.9 658.9,124.2 668.1,137.7 677.3,136.9 686.5,156.9 695.7,155.8 704.9,174.2 714.2,177.4 723.4,178.8 732.6,183.6 741.8,159.6 751.0,136.4 760.2,132.9 769.4,111.3 778.7,118.0 787.9,125.6 797.1,107.5 806.3,113.7 815.5,118.3 824.7,119.9 833.9,135.0 843.1,127.2 852.4,135.3 861.6,135.8 870.8,134.8 880.0,136.9" fill="none" stroke="#f85149" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><polygon points="69.2,138.0 78.4,94.8 87.6,129.9 96.9,129.9 106.1,140.7 115.3,160.7 124.5,179.3 133.7,205.5 142.9,232.0 152.1,227.9 161.3,224.4 170.6,233.3 179.8,214.7 189.0,205.5 198.2,202.5 207.4,213.3 216.6,229.0 225.8,239.0 235.1,232.2 244.3,224.7 253.5,236.8 262.7,226.3 271.9,226.3 281.1,220.6 290.3,217.4 299.6,226.0 308.8,259.5 318.0,259.8 327.2,273.0 336.4,260.3 345.6,251.7 354.8,243.6 364.0,243.3 373.3,224.4 382.5,204.7 391.7,191.2 400.9,207.4 410.1,198.2 419.3,185.2 428.5,182.0 437.8,188.2 447.0,186.9 456.2,168.0 465.4,152.3 474.6,173.9 483.8,180.4 493.0,186.6 502.2,195.8 511.5,195.0 520.7,212.0 529.9,208.5 539.1,196.6 548.3,200.4 557.5,203.1 566.7,183.1 576.0,181.2 585.2,174.2 594.4,166.9 603.6,157.2 612.8,168.8 622.0,153.1 631.2,154.2 640.4,143.1 649.7,129.9 658.9,124.2 668.1,137.7 677.3,136.9 686.5,156.9 695.7,155.8 704.9,174.2 714.2,177.4 723.4,178.8 732.6,183.6 741.8,159.6 751.0,136.4 760.2,132.9 769.4,111.3 778.7,118.0 787.9,125.6 797.1,107.5 806.3,113.7 815.5,118.3 824.7,119.9 833.9,135.0 843.1,127.2 852.4,135.3 861.6,135.8 870.8,134.8 880.0,136.9 880.0,300.0 69.2,300.0" fill="#f85149" fill-opacity="0.15" stroke="none"/>
+  <text x="60.0" y="340" text-anchor="middle" fill="#8b949e" font-size="10">12-02</text>
+<text x="198.2" y="340" text-anchor="middle" fill="#8b949e" font-size="10">12-17</text>
+<text x="336.4" y="340" text-anchor="middle" fill="#8b949e" font-size="10">01-01</text>
+<text x="474.6" y="340" text-anchor="middle" fill="#8b949e" font-size="10">01-16</text>
+<text x="612.8" y="340" text-anchor="middle" fill="#8b949e" font-size="10">01-31</text>
+<text x="751.0" y="340" text-anchor="middle" fill="#8b949e" font-size="10">02-15</text>
+  <text transform="rotate(-90)" x="-175" y="15" text-anchor="middle" fill="#8b949e" font-size="11">Score (0-100)</text>
+  <rect x="70" y="35" width="12" height="3" fill="#2ea043" rx="2"/>
+  <text x="88" y="40" fill="#ccc" font-size="11">Fitness</text>
+  <rect x="160" y="35" width="12" height="3" fill="#f85149" rx="2"/>
+  <text x="178" y="40" fill="#ccc" font-size="11">Fatigue</text>
+  <rect x="250" y="35" width="12" height="3" fill="#e3b341" fill-opacity="0.5" rx="2"/>
+  <text x="268" y="40" fill="#ccc" font-size="11">Paradox Zone</text>
+</svg>
+    </div>
+    <p style="color:#8b949e;font-size:13px;margin-top:8px;">
+      Shaded yellow areas = Fatigue-Fitness Paradox zones (high fatigue + high workload ratio). 
+      Fitness = 21-day smoothed recovery trend. Fatigue = 7-day inverse recovery average.
+    </p>
+  </div>
+
+  <!-- Paradox Zone Analysis -->
+  <div class="section">
+    <h2>🌀 Paradox Zone Periods</h2>
+    <p style="color:#8b949e;font-size:14px;margin-bottom:16px;">
+      Periods where fatigue ≥ 60 AND A:C ratio &gt; 1.3 simultaneously — the "hard but building" zone.
+    </p>
+    <p style="color:#8b949e;text-align:center;padding:20px;">No paradox zones detected in the last 90 days. Great training balance!</p>
+  </div>
+
+  <!-- Deload Alerts -->
+  <div class="section">
+    <h2>🚨 Deload Alerts (A:C &gt; 1.5 for 3+ Days)</h2>
+    <p style="color:#2ea043;padding:16px;">✅ No deload alerts in the last 90 days. Workload has been well managed.</p>
+  </div>
+
+  <!-- Historical Analysis -->
+  <div class="section">
+    <h2>🏆 Historical Analysis</h2>
+    <div class="two-col">
+      <div class="info-card">
+        <h3>✅ Best Performance Period</h3>
+        <p>Highest fitness relative to fatigue:<br/>
+        <span class="good">2025-12-29 → 2026-01-02</span><br/><br/>
+        This was your most productive training window — high fitness output with manageable fatigue levels.</p>
+      </div>
+      <div class="info-card">
+        <h3>⚠️ Most Challenging Period</h3>
+        <p>Highest fatigue relative to fitness:<br/>
+        <span class="bad">2026-02-17 → 2026-02-21</span><br/><br/>
+        Fatigue was dominating fitness during this window — recovery should have been prioritized.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div class="tips">
+    <h3>🎯 Training Guidance</h3>
+    <ul>
+      <li>Keep your A:C Ratio between <strong>0.8 and 1.3</strong> — this is the sweet spot for maximizing fitness gains while minimizing injury risk.</li>
+      <li>When ratio climbs above <strong>1.3</strong>, reduce training intensity (not volume) first — swap hard sessions for moderate ones.</li>
+      <li>If ratio exceeds <strong>1.5</strong> for 3+ days, take a structured deload week: 40-60% of normal volume and intensity.</li>
+      <li>Don't confuse <strong>fatigue with overtraining</strong> — some fatigue is normal and required for adaptation. The ratio tells you if it's too much.</li>
+      <li>Build a deload week every <strong>4th week</strong> proactively — don't wait for the ratio to spike.</li>
+      <li>WHOOP recovery score below 33% consistently + high ratio = stop and rest. Recovery score above 67% = safe to push.</li>
+    </ul>
+  </div>
+
+</div>
+<footer>Generated 2026-03-01 07:22 ET · Fatigue-Fitness Paradox · 90-Day Analysis</footer>
+</body>
+</html>
