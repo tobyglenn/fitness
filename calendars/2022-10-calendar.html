@@ -1,2502 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>October 2022 - Training Calendar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🏋️ Fitness Ecosystem · October 2022</title>
+  
     <style>
-        /* === DESIGN PHILOSOPHY ===
-         * Make the calendar feel ALIVE:
-         * 1. Interactive hover states with smooth transitions
-         * 2. Visual depth with shadows and gradients
-         * 3. Contextual colors showing intensity/strain
-         * 4. Tooltips revealing detailed information
-         * 5. Progress indicators and trend visualization
-         * 6. Mobile-responsive with touch-friendly targets
-         * 7. Subtle animations that enhance without distracting
-         */
-        
-        /* === CSS VARIABLES === */
-        :root {
-            --bg-primary: #0a0a0c;
-            --bg-secondary: #1c1c1e;
-            --bg-tertiary: #2c2c2e;
-            --bg-hover: #3c3c3e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #aaa;
-            --text-dim: #888;
-            --accent-blue: #4fc3f7;
-            --accent-gold: #ffd700;
-            --accent-green: #28a745;
-            --accent-red: #dc3545;
-            --border-color: #2c2c2e;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
-            --shadow-md: 0 4px 8px rgba(0,0,0,0.4);
-            --shadow-lg: 0 8px 16px rgba(0,0,0,0.5);
-            --glow-blue: 0 0 20px rgba(79, 195, 247, 0.3);
-            --glow-gold: 0 0 20px rgba(255, 215, 0, 0.4);
-            --transition-fast: 150ms ease;
-            --transition-medium: 250ms ease;
-        }
-        
-        /* === BASE STYLES === */
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.5;
-        }
-        
-        /* === CONTAINER === */
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            background: var(--bg-secondary);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        /* === HEADER === */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            margin: 0 0 10px 0;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-        
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1em;
-        }
-        
-        /* === NAVIGATION === */
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
-            padding: 16px 20px;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .nav a {
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-size: 1.2em;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all var(--transition-fast);
-        }
-        
-        .nav a:hover {
-            background: var(--bg-hover);
-            box-shadow: var(--glow-blue);
-            transform: translateY(-2px);
-        }
-        
-        .nav .current-month {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        /* === MONTH STATS === */
-        .month-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-        
-        .stat-card {
-            background: var(--bg-tertiary);
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            transition: all var(--transition-medium);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent-blue);
-        }
-        
-        .stat-card .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        
-        .stat-card .stat-value {
-            font-size: 2em;
-            font-weight: 700;
-            color: var(--accent-blue);
-        }
-        
-        .stat-card .stat-suffix {
-            color: var(--text-dim);
-            font-size: 0.9em;
-            margin-left: 4px;
-        }
-        
-        /* === LEGEND === */
-        .legend {
-            background: var(--bg-tertiary);
-            padding: 16px;
-            border-radius: 12px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-        }
-        
-        .legend-title {
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--accent-blue);
-            font-size: 1.1em;
-        }
-        
-        .legend-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .legend-item {
-            font-size: 0.85em;
-            padding: 6px 12px;
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all var(--transition-fast);
-            cursor: default;
-        }
-        
-        .legend-item:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        /* === CALENDAR TABLE === */
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 8px;
-            table-layout: fixed;
-        }
-        
-        th {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 12px;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            border-radius: 8px;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        /* === DAY CELLS === */
-        td {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            padding: 0;
-            vertical-align: top;
-            position: relative;
-            min-height: 120px;
-            height: 120px;
-            border-radius: 10px;
-            transition: all var(--transition-medium);
-            overflow: hidden;
-        }
-        
-        td:hover:not(.empty) {
-            border-color: var(--accent-blue);
-            box-shadow: var(--glow-blue);
-            transform: translateY(-2px);
-        }
-        
-        td.empty {
-            background: var(--bg-primary);
-            border-color: transparent;
-            opacity: 0.3;
-        }
-        
-        /* Strain-based background gradient */
-        td[data-strain-intensity] {
-            position: relative;
-        }
-        
-        td[data-strain-intensity]::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at top right, 
-                rgba(220, 53, 69, var(--strain-opacity, 0)) 0%, 
-                transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        /* Streak highlighting */
-        td.streak {
-            border-color: var(--accent-gold);
-            box-shadow: var(--glow-gold);
-        }
-        
-        td.streak::after {
-            content: "⚡ STREAK";
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            font-size: 0.65em;
-            font-weight: 800;
-            color: var(--accent-gold);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            z-index: 10;
-            letter-spacing: 0.5px;
-        }
-        
-        /* === DAY CONTENT === */
-        .day-content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            padding: 12px;
-            position: relative;
-            z-index: 1;
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .day-num {
-            font-weight: 700;
-            font-size: 1.2em;
-            color: var(--text-dim);
-            text-align: right;
-            margin-bottom: 8px;
-            transition: color var(--transition-fast);
-        }
-        
-        td:hover .day-num {
-            color: var(--accent-blue);
-        }
-        
-        /* === METRICS === */
-        .metrics {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 8px;
-            font-size: 0.75em;
-        }
-        
-        .metric {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-        }
-        
-        .metric-run {
-            color: var(--accent-blue);
-        }
-        
-        .metric-lift {
-            color: var(--accent-red);
-        }
-        
-        .metric-strain {
-            color: #ffc107;
-        }
-        
-        .metric-icon {
-            font-size: 1.1em;
-        }
-        
-        /* === ACTIVITIES === */
-        .activities {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: auto;
-        }
-        
-        .activity-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.75em;
-            font-weight: 700;
-            color: white;
-            transition: all var(--transition-fast);
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .activity-badge:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-md);
-            z-index: 5;
-        }
-        
-        /* Tooltip on activity hover */
-        .activity-badge::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-8px);
-            background: rgba(0, 0, 0, 0.95);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.9em;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all var(--transition-fast);
-            box-shadow: var(--shadow-md);
-            z-index: 100;
-        }
-        
-        .activity-badge:hover::after {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-4px);
-        }
-        
-        .strain-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 6px currentColor;
-            transition: all var(--transition-fast);
-        }
-        
-        .activity-badge:hover .strain-indicator {
-            transform: scale(1.3);
-        }
-        
-        /* === WEEKLY SUMMARY === */
-        .weekly-summary {
-            background: var(--bg-tertiary);
-            border-top: 3px solid var(--accent-blue);
-            margin-top: 4px;
-        }
-        
-        .weekly-summary td {
-            padding: 12px 16px;
-            font-size: 0.9em;
-            color: var(--text-secondary);
-            height: auto;
-            min-height: auto;
-            border: none;
-            border-radius: 8px;
-            transition: all var(--transition-medium);
-        }
-        
-        .weekly-summary td:hover {
-            background: var(--bg-hover);
-            color: var(--text-primary);
-        }
-        
-        .weekly-summary strong {
-            color: var(--accent-blue);
-            font-weight: 700;
-        }
-        
-        .weekly-summary .summary-item {
-            display: inline-block;
-            margin-right: 16px;
-        }
-        
-        /* Progress bar for weekly volume */
-        .progress-bar {
-            display: inline-block;
-            width: 60px;
-            height: 6px;
-            background: var(--bg-secondary);
-            border-radius: 3px;
-            overflow: hidden;
-            vertical-align: middle;
-            margin-left: 6px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
-            transition: width var(--transition-medium);
-            border-radius: 3px;
-        }
-        
-        /* === MOBILE RESPONSIVE === */
-        @media (max-width: 768px) {
-            body {
-                padding: 0;
-            }
-            
-            .container {
-                margin: 10px auto;
-                padding: 15px;
-                border-radius: 12px;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-            }
-            
-            .month-stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            
-            .stat-card .stat-value {
-                font-size: 1.5em;
-            }
-            
-            table {
-                border-spacing: 4px;
-            }
-            
-            th {
-                padding: 8px 4px;
-                font-size: 0.75em;
-            }
-            
-            td {
-                min-height: 100px;
-                height: 100px;
-            }
-            
-            .day-content {
-                padding: 8px;
-            }
-            
-            .day-num {
-                font-size: 1em;
-            }
-            
-            .activity-badge {
-                padding: 4px 6px;
-                font-size: 0.65em;
-                gap: 4px;
-            }
-            
-            .metrics {
-                font-size: 0.7em;
-            }
-            
-            .weekly-summary td {
-                font-size: 0.8em;
-                padding: 8px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 0;
-                overflow-x: hidden;
-            }
-            
-            .container {
-                margin: 4px auto;
-                padding: 8px;
-                max-width: 100vw;
-            }
-            
-            .month-stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-            
-            .stat-card {
-                padding: 10px;
-            }
-            
-            .stat-card .stat-value {
-                font-size: 1.3em;
-            }
-            
-            .legend-items {
-                gap: 4px;
-            }
-            
-            .legend-item {
-                font-size: 0.7em;
-                padding: 4px 8px;
-            }
-            
-            .nav {
-                padding: 10px;
-                gap: 4px;
-            }
-            
-            .nav a, .nav .current-month {
-                font-size: 0.9em;
-            }
-            
-            .nav a {
-                padding: 6px 10px;
-            }
-            
-            h1 {
-                font-size: 1.5em;
-            }
-            
-            table {
-                border-spacing: 2px;
-            }
-            
-            th {
-                font-size: 0.6em;
-                padding: 6px 1px;
-                letter-spacing: 0;
-            }
-            
-            td {
-                min-height: 70px;
-                height: 70px;
-                border-width: 1px;
-                border-radius: 6px;
-            }
-            
-            .day-content {
-                padding: 3px;
-                gap: 1px;
-            }
-            
-            .day-num {
-                font-size: 0.75em;
-                margin-bottom: 2px;
-            }
-            
-            /* Move streak label to avoid overlap with day number */
-            td.streak::after {
-                content: "⚡";
-                font-size: 0.6em;
-                top: 2px;
-                left: 2px;
-            }
-            
-            .metrics {
-                font-size: 0.55em;
-                gap: 1px;
-                margin-bottom: 2px;
-            }
-            
-            .metric {
-                gap: 1px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            
-            .metric-icon {
-                font-size: 0.9em;
-            }
-            
-            .activities {
-                gap: 2px;
-            }
-            
-            .activity-badge {
-                font-size: 0.5em;
-                padding: 2px 3px;
-                gap: 2px;
-                border-radius: 3px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                max-width: 100%;
-            }
-            
-            /* Hide strain dot on mobile to save space */
-            .activity-badge .strain-indicator {
-                display: none;
-            }
-            
-            /* Hide tooltips on mobile (touch doesn't hover well) */
-            .activity-badge::after {
-                display: none;
-            }
-            
-            .weekly-summary td {
-                font-size: 0.7em;
-                padding: 6px;
-            }
-            
-            .weekly-summary .summary-item {
-                margin-right: 8px;
-            }
-            
-            .progress-bar {
-                width: 40px;
-            }
-        }
-        
-        /* === ANIMATIONS === */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .container {
-            animation: fadeIn 0.4s ease;
-        }
-        
-        /* Stagger animation for calendar cells */
-        @keyframes cellFadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        td {
-            animation: cellFadeIn 0.3s ease backwards;
-        }
-        
-        
-            
-        tr:nth-child(2) td:nth-child(1) {
-            animation-delay: 0.0s;
-        }
-            
-        tr:nth-child(2) td:nth-child(2) {
-            animation-delay: 0.02s;
-        }
-            
-        tr:nth-child(2) td:nth-child(3) {
-            animation-delay: 0.04s;
-        }
-            
-        tr:nth-child(2) td:nth-child(4) {
-            animation-delay: 0.06s;
-        }
-            
-        tr:nth-child(2) td:nth-child(5) {
-            animation-delay: 0.08s;
-        }
-            
-        tr:nth-child(2) td:nth-child(6) {
-            animation-delay: 0.1s;
-        }
-            
-        tr:nth-child(2) td:nth-child(7) {
-            animation-delay: 0.12s;
-        }
-            
-        
-            
-        tr:nth-child(4) td:nth-child(1) {
-            animation-delay: 0.14s;
-        }
-            
-        tr:nth-child(4) td:nth-child(2) {
-            animation-delay: 0.16s;
-        }
-            
-        tr:nth-child(4) td:nth-child(3) {
-            animation-delay: 0.18s;
-        }
-            
-        tr:nth-child(4) td:nth-child(4) {
-            animation-delay: 0.2s;
-        }
-            
-        tr:nth-child(4) td:nth-child(5) {
-            animation-delay: 0.22s;
-        }
-            
-        tr:nth-child(4) td:nth-child(6) {
-            animation-delay: 0.24s;
-        }
-            
-        tr:nth-child(4) td:nth-child(7) {
-            animation-delay: 0.26s;
-        }
-            
-        
-            
-        tr:nth-child(6) td:nth-child(1) {
-            animation-delay: 0.28s;
-        }
-            
-        tr:nth-child(6) td:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-            
-        tr:nth-child(6) td:nth-child(3) {
-            animation-delay: 0.32s;
-        }
-            
-        tr:nth-child(6) td:nth-child(4) {
-            animation-delay: 0.34s;
-        }
-            
-        tr:nth-child(6) td:nth-child(5) {
-            animation-delay: 0.36s;
-        }
-            
-        tr:nth-child(6) td:nth-child(6) {
-            animation-delay: 0.38s;
-        }
-            
-        tr:nth-child(6) td:nth-child(7) {
-            animation-delay: 0.4s;
-        }
-            
-        
-            
-        tr:nth-child(8) td:nth-child(1) {
-            animation-delay: 0.42s;
-        }
-            
-        tr:nth-child(8) td:nth-child(2) {
-            animation-delay: 0.44s;
-        }
-            
-        tr:nth-child(8) td:nth-child(3) {
-            animation-delay: 0.46s;
-        }
-            
-        tr:nth-child(8) td:nth-child(4) {
-            animation-delay: 0.48s;
-        }
-            
-        tr:nth-child(8) td:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-            
-        tr:nth-child(8) td:nth-child(6) {
-            animation-delay: 0.52s;
-        }
-            
-        tr:nth-child(8) td:nth-child(7) {
-            animation-delay: 0.54s;
-        }
-            
-        
-            
-        tr:nth-child(10) td:nth-child(1) {
-            animation-delay: 0.56s;
-        }
-            
-        tr:nth-child(10) td:nth-child(2) {
-            animation-delay: 0.58s;
-        }
-            
-        tr:nth-child(10) td:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-            
-        tr:nth-child(10) td:nth-child(4) {
-            animation-delay: 0.62s;
-        }
-            
-        tr:nth-child(10) td:nth-child(5) {
-            animation-delay: 0.64s;
-        }
-            
-        tr:nth-child(10) td:nth-child(6) {
-            animation-delay: 0.66s;
-        }
-            
-        tr:nth-child(10) td:nth-child(7) {
-            animation-delay: 0.68s;
-        }
-            
-        
-            
-        tr:nth-child(12) td:nth-child(1) {
-            animation-delay: 0.7000000000000001s;
-        }
-            
-        tr:nth-child(12) td:nth-child(2) {
-            animation-delay: 0.72s;
-        }
-            
-        tr:nth-child(12) td:nth-child(3) {
-            animation-delay: 0.74s;
-        }
-            
-        tr:nth-child(12) td:nth-child(4) {
-            animation-delay: 0.76s;
-        }
-            
-        tr:nth-child(12) td:nth-child(5) {
-            animation-delay: 0.78s;
-        }
-            
-        tr:nth-child(12) td:nth-child(6) {
-            animation-delay: 0.8s;
-        }
-            
-        tr:nth-child(12) td:nth-child(7) {
-            animation-delay: 0.8200000000000001s;
-        }
-            
-        
-    
-        .day-detail-link { display: block; text-align: center; font-size: 10px; color: #f39c12; text-decoration: none; margin-top: 4px; opacity: 0.7; }
-        .day-detail-link:hover { opacity: 1; }
-
-    /* === CALENDAR OVERLAY BADGES === */
-    .day-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-      margin-top: 4px;
-    }
-    .badge {
-      display: inline-block;
-      padding: 1px 4px;
-      border-radius: 3px;
-      font-size: 9px;
-      margin: 0 1px;
-      font-weight: bold;
-    }
-    .badge.whoop-green { background: #2ea043; color: white; }
-    .badge.whoop-yellow { background: #f39c12; color: black; }
-    .badge.whoop-red { background: #f85149; color: white; }
-    .badge.sleep-green { background: #2ea043; color: white; }
-    .badge.sleep-yellow { background: #f39c12; color: black; }
-    .badge.sleep-red { background: #f85149; color: white; }
-    .badge.tonal { background: #0a84ff; color: white; }
-    .badge.run { background: #a371f7; color: white; }
-
+      :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--text:#fff;--muted:#8b949e;--accent:#f39c12;--blue:#58a6ff;--green:#2ea043;--good:#2ea043;--mid:#d29922;--poor:#f85149}
+      *{box-sizing:border-box}
+      body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text)}
+      .global-nav{position:sticky;top:0;z-index:20;background:#0b0f14;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px}
+      .global-nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.9rem}
+      .global-nav a.active,.global-nav a:hover{color:var(--accent);background:#161b22}
+      .container{max-width:1200px;margin:0 auto;padding:18px}
+      .header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+      .header h1{margin:0;font-size:2rem;color:var(--accent)}
+      .summary{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:10px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+      .summary .box{background:#0b0f14;padding:10px;border-radius:8px;border:1px solid #21262d}
+      .summary .label{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+      .summary .value{font-size:1.45rem;font-weight:700;margin-top:6px}
+      .calendar-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+      .month-title{font-size:1.5rem;margin:0 0 10px}
+      .meta{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+      .pager{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+      .pager a{color:var(--blue);text-decoration:none;padding:6px 10px;border:1px solid var(--line);border-radius:8px}
+      .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+      .dow{font-size:.75rem;color:var(--muted);text-align:center;padding:8px 0}
+      .day{position:relative;min-height:88px;background:#0b0f14;border:1px solid #21262d;border-radius:8px;padding:8px 8px 6px}
+      .day.empty{opacity:0.85}
+      .day.future{opacity:0.45}
+      .day.today{outline:2px solid var(--accent);outline-offset:-2px}
+      .day.weekend{background:#111826}
+      .day .num{font-weight:700;font-size:.9rem}
+      .tone{margin-top:6px;color:var(--accent);font-size:.76rem;line-height:1.25}
+      .gar{margin-top:6px;color:var(--green);font-size:.76rem;line-height:1.25}
+      .reco{margin-top:6px;font-size:.74rem}
+      .reco .dot{display:inline-block;width:9px;height:9px;border-radius:99px;margin-right:6px;vertical-align:middle}
+      .whoop-good .dot{background:var(--good)}
+      .whoop-mid .dot{background:var(--mid)}
+      .whoop-poor .dot{background:var(--poor)}
+      .whoop{display:flex;align-items:center;margin-top:6px;font-size:.75rem;color:var(--muted)}
+      .footer{margin-top:20px;color:var(--muted);font-size:.88rem}
+      .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
+      .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
+      .month-grid a.current{border-color:var(--accent);color:var(--accent)}
     </style>
+    
 </head>
 <body>
-<nav style="background:#1a1a1f;padding:8px 20px;display:flex;gap:12px;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;flex-wrap:nowrap;overflow:hidden;align-items:center">
-  <a href="../index.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏠 Home</a>
-  <a href="./calendars/2022-10-calendar.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">📅 Calendar</a>
-  <a id="speediance-nav-link" href="file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">🏋️ Speediance</a>
-  <a href="../lifting_recovery_report_2026-02-26.html" style="color:#00ff88;text-decoration:none;font-size:13px;font-weight:600">💪 Lifting & Recovery</a>
-</nav>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>📅 Training Calendar</h1>
-            <div class="subtitle">October 2022</div>
-        </div>
-        
-        <!-- Navigation -->
-        <div class="nav">
-            <a href="2022-09-calendar.html">← Previous</a>
-            <span class="current-month">October 2022</span>
-            
-            <a href="2022-11-calendar.html">Next →</a>
-            
-        </div>
-        
-        <!-- Month Statistics -->
-        <div class="month-stats">
-            <div class="stat-card">
-                <div class="stat-label">Total Workouts</div>
-                <div class="stat-value">33</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Avg Strain</div>
-                <div class="stat-value">3.5</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Distance</div>
-                <div class="stat-value">0.0<span class="stat-suffix">mi</span></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Volume</div>
-                <div class="stat-value">0.0<span class="stat-suffix">K lbs</span></div>
-            </div>
-            
-        </div>
-        
-        <!-- Legend -->
-        <div class="legend">
-            <div class="legend-title">Activity Types</div>
-            <div class="legend-items">
-                
-                <span class="legend-item" style="background: #007bff;">BIKE</span>
-                
-                <span class="legend-item" style="background: #6f42c1;">BJJ</span>
-                
-                <span class="legend-item" style="background: #6f42c1;">BOX</span>
-                
-                <span class="legend-item" style="background: #6c757d;">ELIP</span>
-                
-                <span class="legend-item" style="background: #fd7e14;">HIIT</span>
-                
-                <span class="legend-item" style="background: #795548;">HIKE</span>
-                
-                <span class="legend-item" style="background: #6f42c1;">KBOX</span>
-                
-                <span class="legend-item" style="background: #dc3545;">LIFT</span>
-                
-                <span class="legend-item" style="background: #adb5bd;">OTHR</span>
-                
-                <span class="legend-item" style="background: #6c757d;">ROW</span>
-                
-                <span class="legend-item" style="background: #28a745;">RUN</span>
-                
-                <span class="legend-item" style="background: #007bff;">SPIN</span>
-                
-                <span class="legend-item" style="background: #17a2b8;">SWIM</span>
-                
-                <span class="legend-item" style="background: #6c757d;">TMIL</span>
-                
-                <span class="legend-item" style="background: #ffc107;">YOGA</span>
-                
-            </div>
-        </div>
-        
-        <!-- Calendar Table -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.08690620952380952"
-                        style="--strain-opacity: 0.08690620952380952;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">1</span>
-                            <a href="../day/?date=2022-10-01" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.6
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.016770013333333333"
-                        style="--strain-opacity: 0.016770013333333333;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">2</span>
-                            <a href="../day/?date=2022-10-02" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    0.9
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                </tr>
-                
-                <!-- Weekly Summary -->
-                
-                
-                <tr>
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.07964740000000002"
-                        style="--strain-opacity: 0.07964740000000002;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">3</span>
-                            <a href="../day/?date=2022-10-03" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.2
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.0942387542857143"
-                        style="--strain-opacity: 0.0942387542857143;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">4</span>
-                            <a href="../day/?date=2022-10-04" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.9
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #28a745;"
-                                     data-tooltip="Strain: 4.6 (recovery)">
-                                    RUN
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 0.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪9.7K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.2295388380952381"
-                        style="--strain-opacity: 0.2295388380952381;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">5</span>
-                            <a href="../day/?date=2022-10-05" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    12.1
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 3.2 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪2.7K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.10079904761904762"
-                        style="--strain-opacity: 0.10079904761904762;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">6</span>
-                            <a href="../day/?date=2022-10-06" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    5.3
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.2495224"
-                        style="--strain-opacity: 0.2495224;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">7</span>
-                            <a href="../day/?date=2022-10-07" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    13.1
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #adb5bd;"
-                                     data-tooltip="Strain: 10.8 (moderate)">
-                                    WRES
-                                    <span class="strain-indicator" style="background: #ffc107;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge whoop-yellow" title="WHOOP Recovery">💜49</span><span class="badge sleep-yellow" title="8Sleep Score">😴68</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.0878455561904762"
-                        style="--strain-opacity: 0.0878455561904762;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">8</span>
-                            <a href="../day/?date=2022-10-08" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.6
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.09898936000000001"
-                        style="--strain-opacity: 0.09898936000000001;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">9</span>
-                            <a href="../day/?date=2022-10-09" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    5.2
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                </tr>
-                
-                <!-- Weekly Summary -->
-                
-                <tr class="weekly-summary">
-                    <td colspan="7">
-                        <strong>Week 2:</strong>
-                        
-                        
-                        <span class="summary-item">4 workouts</span>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <span class="summary-item">WRES: 1</span>
-                        
-                        
-                        
-                        <span class="summary-item">Avg strain: 7.1</span>
-                        
-                    </td>
-                </tr>
-                
-                
-                <tr>
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.12783136"
-                        style="--strain-opacity: 0.12783136;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">10</span>
-                            <a href="../day/?date=2022-10-10" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    6.7
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.09569652190476191"
-                        style="--strain-opacity: 0.09569652190476191;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">11</span>
-                            <a href="../day/?date=2022-10-11" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    5.0
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 3.9 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪4.4K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.08906455238095239"
-                        style="--strain-opacity: 0.08906455238095239;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">12</span>
-                            <a href="../day/?date=2022-10-12" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.7
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.08165956190476191"
-                        style="--strain-opacity: 0.08165956190476191;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">13</span>
-                            <a href="../day/?date=2022-10-13" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.3
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 0.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪405</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.08626015238095239"
-                        style="--strain-opacity: 0.08626015238095239;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">14</span>
-                            <a href="../day/?date=2022-10-14" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.5
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 4.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪4.4K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.11250987238095239"
-                        style="--strain-opacity: 0.11250987238095239;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">15</span>
-                            <a href="../day/?date=2022-10-15" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    5.9
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 0.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪13.1K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.31623382857142857"
-                        style="--strain-opacity: 0.31623382857142857;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">16</span>
-                            <a href="../day/?date=2022-10-16" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    16.6
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #6f42c1;"
-                                     data-tooltip="Strain: 16.3 (high)">
-                                    BJJ
-                                    <span class="strain-indicator" style="background: #dc3545;"></span>
-                                </div>
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 4.3 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪6.9K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                </tr>
-                
-                <!-- Weekly Summary -->
-                
-                <tr class="weekly-summary">
-                    <td colspan="7">
-                        <strong>Week 3:</strong>
-                        
-                        
-                        <span class="summary-item">6 workouts</span>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <span class="summary-item">BJJ: 1</span>
-                        
-                        
-                        
-                        <span class="summary-item">Avg strain: 6.8</span>
-                        
-                    </td>
-                </tr>
-                
-                
-                <tr>
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.25813857142857144"
-                        style="--strain-opacity: 0.25813857142857144;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">17</span>
-                            <a href="../day/?date=2022-10-17" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    13.6
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 4.3 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪3.2K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.0803187619047619"
-                        style="--strain-opacity: 0.0803187619047619;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">18</span>
-                            <a href="../day/?date=2022-10-18" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.2
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 0.7 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪6.0K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.2777908761904762"
-                        style="--strain-opacity: 0.2777908761904762;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">19</span>
-                            <a href="../day/?date=2022-10-19" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    14.6
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #6f42c1;"
-                                     data-tooltip="Strain: 11.5 (moderate)">
-                                    BJJ
-                                    <span class="strain-indicator" style="background: #ffc107;"></span>
-                                </div>
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 3.3 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪6.2K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.08963294285714286"
-                        style="--strain-opacity: 0.08963294285714286;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">20</span>
-                            <a href="../day/?date=2022-10-20" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.7
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.22509278095238097"
-                        style="--strain-opacity: 0.22509278095238097;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">21</span>
-                            <a href="../day/?date=2022-10-21" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    11.8
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 4.1 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪2.5K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.0881085619047619"
-                        style="--strain-opacity: 0.0881085619047619;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">22</span>
-                            <a href="../day/?date=2022-10-22" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.6
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 2.9 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪14.3K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.10192585904761904"
-                        style="--strain-opacity: 0.10192585904761904;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">23</span>
-                            <a href="../day/?date=2022-10-23" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    5.4
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 0.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪7.3K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                </tr>
-                
-                <!-- Weekly Summary -->
-                
-                <tr class="weekly-summary">
-                    <td colspan="7">
-                        <strong>Week 4:</strong>
-                        
-                        
-                        <span class="summary-item">7 workouts</span>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <span class="summary-item">BJJ: 1</span>
-                        
-                        
-                        
-                        <span class="summary-item">Avg strain: 8.4</span>
-                        
-                    </td>
-                </tr>
-                
-                
-                <tr>
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.26432540952380956"
-                        style="--strain-opacity: 0.26432540952380956;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">24</span>
-                            <a href="../day/?date=2022-10-24" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    13.9
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #6f42c1;"
-                                     data-tooltip="Strain: 10.6 (moderate)">
-                                    BJJ
-                                    <span class="strain-indicator" style="background: #ffc107;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge whoop-red" title="WHOOP Recovery">💜22</span><span class="badge sleep-yellow" title="8Sleep Score">😴75</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.07834512380952381"
-                        style="--strain-opacity: 0.07834512380952381;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">25</span>
-                            <a href="../day/?date=2022-10-25" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.1
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 0.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪8.8K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.20416800000000002"
-                        style="--strain-opacity: 0.20416800000000002;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">26</span>
-                            <a href="../day/?date=2022-10-26" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    10.7
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 4.0 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪1.9K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="streak" 
-                        data-strain-intensity="0.1083236380952381"
-                        style="--strain-opacity: 0.1083236380952381;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">27</span>
-                            <a href="../day/?date=2022-10-27" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    5.7
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                            <div class="activities">
-                                
-                                <div class="activity-badge" 
-                                     style="background: #dc3545;"
-                                     data-tooltip="Strain: 4.1 (recovery)">
-                                    LIFT
-                                    <span class="strain-indicator" style="background: #28a745;"></span>
-                                </div>
-                                
-                            
-                            <div class="day-badges"><span class="badge tonal" title="Tonal Volume">💪5.5K</span></div>
-                        </div>
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.11903024761904764"
-                        style="--strain-opacity: 0.11903024761904764;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">28</span>
-                            <a href="../day/?date=2022-10-28" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    6.2
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.08467201142857145"
-                        style="--strain-opacity: 0.08467201142857145;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">29</span>
-                            <a href="../day/?date=2022-10-29" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.4
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.08298170857142857"
-                        style="--strain-opacity: 0.08298170857142857;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">30</span>
-                            <a href="../day/?date=2022-10-30" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.4
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                </tr>
-                
-                <!-- Weekly Summary -->
-                
-                <tr class="weekly-summary">
-                    <td colspan="7">
-                        <strong>Week 5:</strong>
-                        
-                        
-                        <span class="summary-item">4 workouts</span>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <span class="summary-item">BJJ: 1</span>
-                        
-                        
-                        
-                        <span class="summary-item">Avg strain: 7.1</span>
-                        
-                    </td>
-                </tr>
-                
-                
-                <tr>
-                    
-                    
-                    <td class="" 
-                        data-strain-intensity="0.09119996190476191"
-                        style="--strain-opacity: 0.09119996190476191;">
-                        
-                        
-                        <div class="day-content">
-                        
-                            <span class="day-num">31</span>
-                            <a href="../day/?date=2022-10-31" class="day-detail-link">details</a>
-                            
-                            <!-- Metrics -->
-                            
-                            <div class="metrics">
-                                
-                                
-                                
-                                <div class="metric metric-strain">
-                                    <span class="metric-icon">🔥</span>
-                                    4.8
-                                </div>
-                                
-                            </div>
-                            
-                            
-                            <!-- Activities -->
-                            
-                        
-                        
-                        </div>
-                        
-                    </td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                    
-                    <td class="empty"></td>
-                    
-                    
-                </tr>
-                
-                <!-- Weekly Summary -->
-                
-                
-            </tbody>
-        </table>
+  
+    <nav class="global-nav">
+      <a href="../index.html" class="">🏋️ Fitness Ecosystem</a>
+      <a href="../index.html" class="">Hub</a>
+      <a href="index.html" class="active">📅 Calendars</a>
+      <a href="../strength/index.html" class="">💪 Strength</a>
+      <a href="../running/index.html" class="">🏃 Cardio</a>
+      <a href="../balance/index.html" class="">⚖️ Balance</a>
+      <a href="../sleep/index.html" class="">😴 Recovery</a>
+      <a href="../nutrition/index.html" class="">🥗 Nutrition</a>
+    </nav>
+    
+  <div class="container">
+    <div class="header">
+      <h1>October 2022</h1>
+      <div class="meta">Generated on 2026-03-05 02:28 EST</div>
     </div>
+
+    <section class="summary">
+      <div class="box"><div class="label">Total Tonal Volume</div><div class="value">97.4k lbs</div></div>
+      <div class="box"><div class="label">Total Running Dist.</div><div class="value">1.0 mi</div></div>
+      <div class="box"><div class="label">Running Activities</div><div class="value">1</div></div>
+      <div class="box"><div class="label">Month Coverage</div><div class="value">2022-10</div></div>
+    </section>
+
+    <section class="calendar-card">
+      <div class="pager"> 
+        <div><a href="2022-09-calendar.html">← September 2022</a></div>
+        <a href="index.html">← Back to Calendars</a>
+        <div><a href="2022-11-calendar.html">November 2022 →</a></div>
+      </div>
+      <div class="grid"><div class='dow'>Sun</div><div class='dow'>Mon</div><div class='dow'>Tue</div><div class='dow'>Wed</div><div class='dow'>Thu</div><div class='dow'>Fri</div><div class='dow'>Sat</div></div>
+      <div class="grid"><div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+
+                <div class='day weekend'>
+                  <div class='num'>1</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>2</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>3</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>4</div>
+                  <div class='tone'>🏋️ 9.7k lbs</div>
+                  <div class='gar'>🏃 1.0 mi</div>
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>5</div>
+                  <div class='tone'>🏋️ 2.7k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>6</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>7</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>8</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>9</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>10</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>11</div>
+                  <div class='tone'>🏋️ 4.4k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>12</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>13</div>
+                  <div class='tone'>🏋️ 405 lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>14</div>
+                  <div class='tone'>🏋️ 4.4k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>15</div>
+                  <div class='tone'>🏋️ 13.1k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>16</div>
+                  <div class='tone'>🏋️ 6.9k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>17</div>
+                  <div class='tone'>🏋️ 3.2k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>18</div>
+                  <div class='tone'>🏋️ 6.0k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>19</div>
+                  <div class='tone'>🏋️ 6.2k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>20</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>21</div>
+                  <div class='tone'>🏋️ 2.5k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>22</div>
+                  <div class='tone'>🏋️ 14.3k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>23</div>
+                  <div class='tone'>🏋️ 7.3k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>24</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>25</div>
+                  <div class='tone'>🏋️ 8.8k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>26</div>
+                  <div class='tone'>🏋️ 1.9k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>27</div>
+                  <div class='tone'>🏋️ 5.5k lbs</div>
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>28</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>29</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>30</div>
+                  
+                  
+                  
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>31</div>
+                  
+                  
+                  
+                </div>
+                
+<div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div></div>
+    </section>
+
+    <div class="footer">
+      <div>Month links:</div>
+      <div class="month-grid"><a href='2021-10-calendar.html'>October 2021</a><a href='2021-11-calendar.html'>November 2021</a><a href='2021-12-calendar.html'>December 2021</a><a href='2022-01-calendar.html'>January 2022</a><a href='2022-02-calendar.html'>February 2022</a><a href='2022-03-calendar.html'>March 2022</a><a href='2022-04-calendar.html'>April 2022</a><a href='2022-05-calendar.html'>May 2022</a><a href='2022-06-calendar.html'>June 2022</a><a href='2022-07-calendar.html'>July 2022</a><a href='2022-08-calendar.html'>August 2022</a><a href='2022-09-calendar.html'>September 2022</a><a href='2022-10-calendar.html'>October 2022</a><a href='2022-11-calendar.html'>November 2022</a><a href='2022-12-calendar.html'>December 2022</a><a href='2023-01-calendar.html'>January 2023</a><a href='2023-02-calendar.html'>February 2023</a><a href='2023-03-calendar.html'>March 2023</a><a href='2023-04-calendar.html'>April 2023</a><a href='2023-05-calendar.html'>May 2023</a><a href='2023-06-calendar.html'>June 2023</a><a href='2023-07-calendar.html'>July 2023</a><a href='2023-08-calendar.html'>August 2023</a><a href='2023-09-calendar.html'>September 2023</a><a href='2023-10-calendar.html'>October 2023</a><a href='2023-11-calendar.html'>November 2023</a><a href='2023-12-calendar.html'>December 2023</a><a href='2024-01-calendar.html'>January 2024</a><a href='2024-02-calendar.html'>February 2024</a><a href='2024-03-calendar.html'>March 2024</a><a href='2024-04-calendar.html'>April 2024</a><a href='2024-05-calendar.html'>May 2024</a><a href='2024-06-calendar.html'>June 2024</a><a href='2024-07-calendar.html'>July 2024</a><a href='2024-08-calendar.html'>August 2024</a><a href='2024-09-calendar.html'>September 2024</a><a href='2024-10-calendar.html'>October 2024</a><a href='2024-11-calendar.html'>November 2024</a><a href='2024-12-calendar.html'>December 2024</a><a href='2025-01-calendar.html'>January 2025</a><a href='2025-02-calendar.html'>February 2025</a><a href='2025-03-calendar.html'>March 2025</a><a href='2025-04-calendar.html'>April 2025</a><a href='2025-05-calendar.html'>May 2025</a><a href='2025-06-calendar.html'>June 2025</a><a href='2025-07-calendar.html'>July 2025</a><a href='2025-08-calendar.html'>August 2025</a><a href='2025-09-calendar.html'>September 2025</a><a href='2025-10-calendar.html'>October 2025</a><a href='2025-11-calendar.html'>November 2025</a><a href='2025-12-calendar.html'>December 2025</a><a href='2026-01-calendar.html'>January 2026</a><a href='2026-02-calendar.html'>February 2026</a></div>
+    </div>
+  </div>
 </body>
-<script>
-(function () {
-  var link = document.getElementById('speediance-nav-link');
-  if (!link) return;
-  var host = window.location.hostname || '';
-  var protocol = window.location.protocol || '';
-  var isLocal = protocol === 'file:' || host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.endsWith('.local');
-  link.href = protocol === 'file:' ? 'file:///Users/tobyglennpeters/clawd/docs/speediance_dashboard.html' : isLocal ? 'http://localhost:8082/speediance_dashboard.html' : 'https://tobyglenn.github.io/fitness/speediance_dashboard.html';
-})();
-</script>
 </html>

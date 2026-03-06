@@ -1,130 +1,74 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fitness Calendars</title>
-<style>
-body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
-h1 { color: #4fc3f7; margin-bottom: 5px; }
-.subtitle { color: #888; margin-bottom: 30px; }
-.back { color: #4fc3f7; text-decoration: none; display: inline-block; margin-bottom: 20px; }
-.year-label { color: #4fc3f7; font-size: 1.2em; font-weight: bold; margin-top: 25px; margin-bottom: 10px; }
-.months { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-.months a { background: #1c1c1e; color: #e0e0e0; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-size: 0.9em; }
-.months a:hover { background: #4fc3f7; color: #0a0a0c; }
-</style></head><body>
-<a class="back" href="http://192.168.1.249:8082/fitness">← Back to Fitness Center</a>
-<h1>📅 Fitness Calendars</h1>
-
-    <div class="overlay-legend" style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 16px;margin-bottom:16px;font-size:12px;color:#c9d1d9;">
-      <strong style="color:#f39c12;">📊 Cell Indicators:</strong>
-      &nbsp;&nbsp;
-      <span style="background:#2ea043;color:white;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold;">💜 WHOOP</span> Recovery score (green &gt;70, yellow 40-70, red &lt;40)
-      &nbsp;|&nbsp;
-      <span style="background:#2ea043;color:white;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold;">😴 8Sleep</span> Sleep score (green &gt;80, yellow 60-80, red &lt;60)
-      &nbsp;|&nbsp;
-      <span style="background:#0a84ff;color:white;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold;">💪 Tonal</span> Volume in lbs (k)
-      &nbsp;|&nbsp;
-      <span style="background:#a371f7;color:white;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold;">🏃 Run</span> Miles
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📅 Fitness Calendars</title>
+  
+    <style>
+      :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--text:#fff;--muted:#8b949e;--accent:#f39c12;--blue:#58a6ff;--green:#2ea043;--good:#2ea043;--mid:#d29922;--poor:#f85149}
+      *{box-sizing:border-box}
+      body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text)}
+      .global-nav{position:sticky;top:0;z-index:20;background:#0b0f14;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px}
+      .global-nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.9rem}
+      .global-nav a.active,.global-nav a:hover{color:var(--accent);background:#161b22}
+      .container{max-width:1200px;margin:0 auto;padding:18px}
+      .header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+      .header h1{margin:0;font-size:2rem;color:var(--accent)}
+      .summary{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:10px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+      .summary .box{background:#0b0f14;padding:10px;border-radius:8px;border:1px solid #21262d}
+      .summary .label{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+      .summary .value{font-size:1.45rem;font-weight:700;margin-top:6px}
+      .calendar-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+      .month-title{font-size:1.5rem;margin:0 0 10px}
+      .meta{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+      .pager{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+      .pager a{color:var(--blue);text-decoration:none;padding:6px 10px;border:1px solid var(--line);border-radius:8px}
+      .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+      .dow{font-size:.75rem;color:var(--muted);text-align:center;padding:8px 0}
+      .day{position:relative;min-height:88px;background:#0b0f14;border:1px solid #21262d;border-radius:8px;padding:8px 8px 6px}
+      .day.empty{opacity:0.85}
+      .day.future{opacity:0.45}
+      .day.today{outline:2px solid var(--accent);outline-offset:-2px}
+      .day.weekend{background:#111826}
+      .day .num{font-weight:700;font-size:.9rem}
+      .tone{margin-top:6px;color:var(--accent);font-size:.76rem;line-height:1.25}
+      .gar{margin-top:6px;color:var(--green);font-size:.76rem;line-height:1.25}
+      .reco{margin-top:6px;font-size:.74rem}
+      .reco .dot{display:inline-block;width:9px;height:9px;border-radius:99px;margin-right:6px;vertical-align:middle}
+      .whoop-good .dot{background:var(--good)}
+      .whoop-mid .dot{background:var(--mid)}
+      .whoop-poor .dot{background:var(--poor)}
+      .whoop{display:flex;align-items:center;margin-top:6px;font-size:.75rem;color:var(--muted)}
+      .footer{margin-top:20px;color:var(--muted);font-size:.88rem}
+      .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
+      .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
+      .month-grid a.current{border-color:var(--accent);color:var(--accent)}
+    </style>
+    
+  <style>.month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));} .calendar-card{padding-bottom:22px}</style>
+</head>
+<body>
+  
+    <nav class="global-nav">
+      <a href="../index.html" class="">🏋️ Fitness Ecosystem</a>
+      <a href="../index.html" class="">Hub</a>
+      <a href="index.html" class="active">📅 Calendars</a>
+      <a href="../strength/index.html" class="">💪 Strength</a>
+      <a href="../running/index.html" class="">🏃 Cardio</a>
+      <a href="../balance/index.html" class="">⚖️ Balance</a>
+      <a href="../sleep/index.html" class="">😴 Recovery</a>
+      <a href="../nutrition/index.html" class="">🥗 Nutrition</a>
+    </nav>
+    
+  <div class="container">
+    <h1>Fitness Calendars</h1>
+    <div class="meta">53 months of data</div>
+    <div class="summary"><div class="box"><div class="label">Range</div><div class="value">2021-10 to 2026-02</div></div></div>
+    <div class="calendar-card">
+      <h2 style="margin:0 0 10px">All Months</h2>
+      <div class="month-grid"><a href="2021-10-calendar.html">October 2021</a><a href="2021-11-calendar.html">November 2021</a><a href="2021-12-calendar.html">December 2021</a><a href="2022-01-calendar.html">January 2022</a><a href="2022-02-calendar.html">February 2022</a><a href="2022-03-calendar.html">March 2022</a><a href="2022-04-calendar.html">April 2022</a><a href="2022-05-calendar.html">May 2022</a><a href="2022-06-calendar.html">June 2022</a><a href="2022-07-calendar.html">July 2022</a><a href="2022-08-calendar.html">August 2022</a><a href="2022-09-calendar.html">September 2022</a><a href="2022-10-calendar.html">October 2022</a><a href="2022-11-calendar.html">November 2022</a><a href="2022-12-calendar.html">December 2022</a><a href="2023-01-calendar.html">January 2023</a><a href="2023-02-calendar.html">February 2023</a><a href="2023-03-calendar.html">March 2023</a><a href="2023-04-calendar.html">April 2023</a><a href="2023-05-calendar.html">May 2023</a><a href="2023-06-calendar.html">June 2023</a><a href="2023-07-calendar.html">July 2023</a><a href="2023-08-calendar.html">August 2023</a><a href="2023-09-calendar.html">September 2023</a><a href="2023-10-calendar.html">October 2023</a><a href="2023-11-calendar.html">November 2023</a><a href="2023-12-calendar.html">December 2023</a><a href="2024-01-calendar.html">January 2024</a><a href="2024-02-calendar.html">February 2024</a><a href="2024-03-calendar.html">March 2024</a><a href="2024-04-calendar.html">April 2024</a><a href="2024-05-calendar.html">May 2024</a><a href="2024-06-calendar.html">June 2024</a><a href="2024-07-calendar.html">July 2024</a><a href="2024-08-calendar.html">August 2024</a><a href="2024-09-calendar.html">September 2024</a><a href="2024-10-calendar.html">October 2024</a><a href="2024-11-calendar.html">November 2024</a><a href="2024-12-calendar.html">December 2024</a><a href="2025-01-calendar.html">January 2025</a><a href="2025-02-calendar.html">February 2025</a><a href="2025-03-calendar.html">March 2025</a><a href="2025-04-calendar.html">April 2025</a><a href="2025-05-calendar.html">May 2025</a><a href="2025-06-calendar.html">June 2025</a><a href="2025-07-calendar.html">July 2025</a><a href="2025-08-calendar.html">August 2025</a><a href="2025-09-calendar.html">September 2025</a><a href="2025-10-calendar.html">October 2025</a><a href="2025-11-calendar.html">November 2025</a><a href="2025-12-calendar.html">December 2025</a><a href="2026-01-calendar.html">January 2026</a><a href="2026-02-calendar.html">February 2026</a></div>
     </div>
-
-<p class="subtitle">WHOOP · Garmin · 8Sleep · Tonal · Speediance • January 2020 – December 2026</p>
-<p class="subtitle">78 months of data</p>
-<div class='year-label'>2020</div>
-<div class='months'>
-<a href='2020-01-calendar.html'>January 2020</a>
-<a href='2020-02-calendar.html'>February 2020</a>
-<a href='2020-03-calendar.html'>March 2020</a>
-<a href='2020-04-calendar.html'>April 2020</a>
-<a href='2020-05-calendar.html'>May 2020</a>
-<a href='2020-06-calendar.html'>June 2020</a>
-<a href='2020-07-calendar.html'>July 2020</a>
-<a href='2020-08-calendar.html'>August 2020</a>
-<a href='2020-09-calendar.html'>September 2020</a>
-<a href='2020-10-calendar.html'>October 2020</a>
-<a href='2020-11-calendar.html'>November 2020</a>
-<a href='2020-12-calendar.html'>December 2020</a>
-</div>
-<div class='year-label'>2021</div>
-<div class='months'>
-<a href='2021-01-calendar.html'>January 2021</a>
-<a href='2021-02-calendar.html'>February 2021</a>
-<a href='2021-03-calendar.html'>March 2021</a>
-<a href='2021-04-calendar.html'>April 2021</a>
-<a href='2021-05-calendar.html'>May 2021</a>
-<a href='2021-06-calendar.html'>June 2021</a>
-<a href='2021-07-calendar.html'>July 2021</a>
-<a href='2021-08-calendar.html'>August 2021</a>
-<a href='2021-09-calendar.html'>September 2021</a>
-<a href='2021-10-calendar.html'>October 2021</a>
-<a href='2021-11-calendar.html'>November 2021</a>
-<a href='2021-12-calendar.html'>December 2021</a>
-</div>
-<div class='year-label'>2022</div>
-<div class='months'>
-<a href='2022-01-calendar.html'>January 2022</a>
-<a href='2022-02-calendar.html'>February 2022</a>
-<a href='2022-05-calendar.html'>May 2022</a>
-<a href='2022-06-calendar.html'>June 2022</a>
-<a href='2022-07-calendar.html'>July 2022</a>
-<a href='2022-08-calendar.html'>August 2022</a>
-<a href='2022-09-calendar.html'>September 2022</a>
-<a href='2022-10-calendar.html'>October 2022</a>
-<a href='2022-11-calendar.html'>November 2022</a>
-</div>
-<div class='year-label'>2023</div>
-<div class='months'>
-<a href='2023-02-calendar.html'>February 2023</a>
-<a href='2023-03-calendar.html'>March 2023</a>
-<a href='2023-04-calendar.html'>April 2023</a>
-<a href='2023-05-calendar.html'>May 2023</a>
-<a href='2023-06-calendar.html'>June 2023</a>
-<a href='2023-07-calendar.html'>July 2023</a>
-<a href='2023-08-calendar.html'>August 2023</a>
-<a href='2023-09-calendar.html'>September 2023</a>
-<a href='2023-12-calendar.html'>December 2023</a>
-</div>
-<div class='year-label'>2024</div>
-<div class='months'>
-<a href='2024-01-calendar.html'>January 2024</a>
-<a href='2024-02-calendar.html'>February 2024</a>
-<a href='2024-03-calendar.html'>March 2024</a>
-<a href='2024-04-calendar.html'>April 2024</a>
-<a href='2024-05-calendar.html'>May 2024</a>
-<a href='2024-06-calendar.html'>June 2024</a>
-<a href='2024-07-calendar.html'>July 2024</a>
-<a href='2024-08-calendar.html'>August 2024</a>
-<a href='2024-09-calendar.html'>September 2024</a>
-<a href='2024-10-calendar.html'>October 2024</a>
-<a href='2024-11-calendar.html'>November 2024</a>
-<a href='2024-12-calendar.html'>December 2024</a>
-</div>
-<div class='year-label'>2025</div>
-<div class='months'>
-<a href='2025-01-calendar.html'>January 2025</a>
-<a href='2025-02-calendar.html'>February 2025</a>
-<a href='2025-03-calendar.html'>March 2025</a>
-<a href='2025-04-calendar.html'>April 2025</a>
-<a href='2025-05-calendar.html'>May 2025</a>
-<a href='2025-06-calendar.html'>June 2025</a>
-<a href='2025-07-calendar.html'>July 2025</a>
-<a href='2025-08-calendar.html'>August 2025</a>
-<a href='2025-09-calendar.html'>September 2025</a>
-<a href='2025-10-calendar.html'>October 2025</a>
-<a href='2025-11-calendar.html'>November 2025</a>
-<a href='2025-12-calendar.html'>December 2025</a>
-</div>
-<div class='year-label'>2026</div>
-<div class='months'>
-<a href='2026-01-calendar.html'>January 2026</a>
-<a href='2026-02-calendar.html'>February 2026</a>
-<a href='2026-03-calendar.html'>March 2026</a>
-<a href='2026-04-calendar.html'>April 2026</a>
-<a href='2026-05-calendar.html'>May 2026</a>
-<a href='2026-06-calendar.html'>June 2026</a>
-<a href='2026-07-calendar.html'>July 2026</a>
-<a href='2026-08-calendar.html'>August 2026</a>
-<a href='2026-09-calendar.html'>September 2026</a>
-<a href='2026-10-calendar.html'>October 2026</a>
-<a href='2026-11-calendar.html'>November 2026</a>
-<a href='2026-12-calendar.html'>December 2026</a>
-</div>
-</body></html>
+  </div>
+</body>
+</html>
