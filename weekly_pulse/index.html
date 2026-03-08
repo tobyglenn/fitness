@@ -2,117 +2,131 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Weekly Pulse — February 23 – March 1, 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Weekly Pulse — February 23 – March 01, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  .global-nav { background: #161b22; padding: 0.75em 2em; display: flex; gap: 1.5em; flex-wrap: wrap; border-bottom: 1px solid #30363d; }
-  .global-nav a { color: #8b949e; text-decoration: none; font-size: 0.85em; }
-  .global-nav a:hover, .global-nav a.active { color: #f39c12; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 0.75em 1.5em; display: flex; flex-wrap: wrap; gap: 0.5em; align-items: center; }
+  nav a { color: #8b949e; text-decoration: none; padding: 0.3em 0.7em; border-radius: 6px; font-size: 0.9em; transition: all 0.2s; }
+  nav a:hover { color: #f39c12; background: #21262d; }
+  nav a.active { color: #f39c12; background: #21262d; }
   .container { max-width: 1200px; margin: 0 auto; padding: 2em; }
-  h1 { font-size: 1.8em; margin-bottom: 0.2em; }
-  .week-range { color: #8b949e; margin-bottom: 1.5em; font-size: 1em; }
-  .progress-wrap { background: #2a2a4a; border-radius: 10px; height: 22px; overflow: hidden; margin-bottom: 2em; position: relative; }
-  .progress-fill { background: #f39c12; height: 100%; border-radius: 10px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.75em; font-weight: 600; color: #0d1117; min-width: 2em; transition: width 0.5s; }
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5em; margin-bottom: 2em; }
-  .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5em; }
-  .stat-label { font-size: 0.8em; color: #8b949e; margin-bottom: 0.5em; text-transform: uppercase; letter-spacing: 0.05em; }
-  .stat-value { font-size: 2em; font-weight: 700; color: #fff; margin-bottom: 0.25em; }
-  .stat-compare { font-size: 0.85em; }
+  .week-header { text-align: center; margin-bottom: 2em; }
+  .week-header h1 { font-size: 2.2em; margin-bottom: 0.2em; }
+  .week-range { color: #8b949e; font-size: 1.1em; margin-bottom: 1.2em; }
+  .progress-section { margin-bottom: 0.5em; }
+  .progress-label { display: flex; justify-content: space-between; color: #8b949e; font-size: 0.85em; margin-bottom: 0.4em; }
+  .progress-bar { background: #21262d; height: 22px; border-radius: 11px; overflow: hidden; }
+  .progress-fill { background: linear-gradient(90deg, #f39c12, #e67e22); height: 100%; border-radius: 11px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.6em; font-size: 0.8em; font-weight: 600; color: #000; transition: width 0.5s ease; }
+  .days-row { display: flex; gap: 0.5em; justify-content: center; margin: 1.2em 0; flex-wrap: wrap; }
+  .day-pill { display: flex; flex-direction: column; align-items: center; gap: 0.2em; padding: 0.5em 0.8em; border-radius: 8px; min-width: 52px; }
+  .day-pill.trained { background: #1a3a1a; border: 1px solid #2ea043; }
+  .day-pill.rest { background: #1c1c28; border: 1px solid #30363d; }
+  .day-pill.future { background: #161b22; border: 1px solid #21262d; opacity: 0.5; }
+  .day-icon { font-size: 1.1em; }
+  .day-pill.trained .day-icon { color: #2ea043; }
+  .day-pill.rest .day-icon { color: #6e7681; }
+  .day-label { font-size: 0.75em; color: #8b949e; font-weight: 600; }
+  .day-date { font-size: 0.7em; color: #6e7681; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2em; margin: 2em 0; }
+  @media (max-width: 800px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+  .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.4em; display: flex; flex-direction: column; gap: 0.4em; }
+  .stat-icon { font-size: 1.4em; }
+  .stat-label { color: #8b949e; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-value { font-size: 2.2em; font-weight: 700; color: #fff; line-height: 1; }
+  .stat-unit { color: #6e7681; font-size: 0.6em; font-weight: 400; }
+  .stat-compare { font-size: 0.82em; margin-top: 0.2em; }
   .stat-compare.positive { color: #2ea043; }
   .stat-compare.negative { color: #f85149; }
-  .sparkline { margin-top: 1em; }
-  .section { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.5em; margin-bottom: 1.5em; }
-  .section h2 { font-size: 1em; color: #f39c12; margin-bottom: 1em; text-transform: uppercase; letter-spacing: 0.05em; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
-  th { color: #8b949e; text-align: left; padding: 0.5em 0.75em; border-bottom: 1px solid #30363d; font-weight: 400; font-size: 0.8em; text-transform: uppercase; }
-  td { padding: 0.6em 0.75em; border-bottom: 1px solid #21262d; }
-  tr:last-child td { border-bottom: none; }
-  .recommendation { background: #1a2a1a; border: 1px solid #2ea043; border-radius: 10px; padding: 1.5em; margin-bottom: 1.5em; color: #e6edf3; font-size: 0.95em; }
-  .recommendation strong { color: #2ea043; }
+  .sparkline { margin-top: 0.6em; }
+  .sparkline-svg { display: block; }
+  .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.4em; margin-bottom: 1.5em; }
+  .section h2 { font-size: 1.1em; color: #e6edf3; margin-bottom: 1em; padding-bottom: 0.6em; border-bottom: 1px solid #21262d; }
+  .workout-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8em 0; border-bottom: 1px solid #21262d; }
+  .workout-row:last-child { border-bottom: none; }
+  .workout-info { display: flex; align-items: center; gap: 0.8em; }
+  .workout-icon { font-size: 1.3em; }
+  .workout-name { font-weight: 600; font-size: 0.95em; }
+  .workout-meta { color: #8b949e; font-size: 0.8em; margin-top: 0.15em; }
+  .workout-vol { color: #f39c12; font-weight: 700; font-size: 1em; }
+  .recommendation { background: #161b22; border: 1px solid #f39c12; border-radius: 12px; padding: 1.2em 1.5em; margin-bottom: 1.5em; font-size: 1em; line-height: 1.5; color: #e6edf3; }
+  .meta-row { display: flex; gap: 1.5em; flex-wrap: wrap; color: #6e7681; font-size: 0.82em; margin-top: 1em; }
+  .meta-row span { color: #8b949e; }
+  .meta-row strong { color: #e6edf3; }
 </style>
 </head>
 <body>
-<nav class="global-nav">
-  <a href="../index.html">🏠 Home</a>
-  <a href="../calendars/index.html">📅 Calendars</a>
+<nav>
+  <a href="../index.html">🏠 Hub</a>
   <a href="../strength/index.html">💪 Strength</a>
   <a href="../cardio/index.html">🏃 Cardio</a>
   <a href="../recovery/index.html">💜 Recovery</a>
   <a href="../nutrition/index.html">🥗 Nutrition</a>
-  <a href="../streaks/index.html">🔥 Streaks</a>
+  <a href="../pulse/index.html">💓 Pulse</a>
   <a href="index.html" class="active">📊 Weekly Pulse</a>
 </nav>
 <div class="container">
-  <h1>📊 Weekly Pulse</h1>
-  <p class="week-range">February 23 – March 1, 2026 &nbsp;·&nbsp; Day 7 of 7</p>
-
-  <div class="progress-wrap">
-    <div class="progress-fill" style="width:100%">100%</div>
+  <div class="week-header">
+    <h1>📊 Weekly Pulse</h1>
+    <p class="week-range">February 23 – March 01, 2026</p>
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Week Progress</span>
+        <span>6/7 days · 0 trained</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:86%">86%</div>
+      </div>
+    </div>
+    <div class="days-row"><div class="day-pill rest"><span class="day-icon">◌</span><span class="day-label">Mon</span><span class="day-date">23</span></div><div class="day-pill rest"><span class="day-icon">◌</span><span class="day-label">Tue</span><span class="day-date">24</span></div><div class="day-pill rest"><span class="day-icon">◌</span><span class="day-label">Wed</span><span class="day-date">25</span></div><div class="day-pill rest"><span class="day-icon">◌</span><span class="day-label">Thu</span><span class="day-date">26</span></div><div class="day-pill rest"><span class="day-icon">◌</span><span class="day-label">Fri</span><span class="day-date">27</span></div><div class="day-pill rest"><span class="day-icon">◌</span><span class="day-label">Sat</span><span class="day-date">28</span></div><div class="day-pill future"><span class="day-icon">○</span><span class="day-label">Sun</span><span class="day-date">1</span></div></div>
   </div>
 
   <div class="stats-grid">
-    
     <div class="stat-card">
-      <div class="stat-label">💪 Tonal Volume</div>
-      <div class="stat-value">—</div>
+      <div class="stat-icon">🏋️</div>
+      <div class="stat-label">Total Volume</div>
+      <div class="stat-value">0<span class="stat-unit"> lbs</span></div>
       
-      <div class="sparkline"><svg width="100" height="30"></svg></div>
+      <div class="sparkline"><svg width="120" height="36"><line x1="0" y1="18" x2="120" y2="18" stroke="#444" stroke-width="1"/></svg></div>
     </div>
-    
     <div class="stat-card">
-      <div class="stat-label">🏋️ Sessions</div>
-      <div class="stat-value">0</div>
-      
-      <div class="sparkline"><svg width="100" height="30"></svg></div>
+      <div class="stat-icon">📅</div>
+      <div class="stat-label">Sessions</div>
+      <div class="stat-value">0<span class="stat-unit"> total</span></div>
+      <span class="stat-compare" style="color:#8b949e">0 strength · 0 cardio</span>
+      <div class="sparkline"><svg width="120" height="36"><line x1="0" y1="18" x2="120" y2="18" stroke="#444" stroke-width="1"/></svg></div>
     </div>
-    
     <div class="stat-card">
-      <div class="stat-label">🏃 Miles Run</div>
-      <div class="stat-value">—</div>
-      <span class="stat-compare negative">↓ -100%</span>
-      <div class="sparkline"><svg width="100" height="30" viewBox="0 0 100 30"><polyline points="0.0,13.8 25.0,7.6 50.0,2.0 75.0,14.5 100.0,28.0" stroke="#2ea043" stroke-width="2" fill="none"/><circle cx="0.0" cy="13.8" r="2.5" fill="#2ea043"/><circle cx="25.0" cy="7.6" r="2.5" fill="#2ea043"/><circle cx="50.0" cy="2.0" r="2.5" fill="#2ea043"/><circle cx="75.0" cy="14.5" r="2.5" fill="#2ea043"/><circle cx="100.0" cy="28.0" r="2.5" fill="#2ea043"/></svg></div>
+      <div class="stat-icon">🏃</div>
+      <div class="stat-label">Miles Run</div>
+      <div class="stat-value">0.0<span class="stat-unit"> mi</span></div>
+      <span class="stat-compare negative">▼ -100% vs 4w avg</span>
+      <div class="sparkline"><svg width="120" height="36" class="sparkline-svg"><polyline points="2,17 31,10 60,4 89,17 118,32" fill="none" stroke="#3fb950" stroke-width="2" stroke-linejoin="round"/><circle cx="2" cy="17" r="3" fill="#3fb950"/><circle cx="31" cy="10" r="3" fill="#3fb950"/><circle cx="60" cy="4" r="3" fill="#3fb950"/><circle cx="89" cy="17" r="3" fill="#3fb950"/><circle cx="118" cy="32" r="3" fill="#3fb950"/><circle cx="118" cy="32" r="4" fill="#3fb950" stroke="#0d1117" stroke-width="2"/></svg></div>
     </div>
-    
     <div class="stat-card">
-      <div class="stat-label">💜 Avg Recovery</div>
+      <div class="stat-icon">💜</div>
+      <div class="stat-label">Avg Recovery</div>
       <div class="stat-value">40%</div>
-      <span class="stat-compare negative">↓ -4%</span>
-      <div class="sparkline"><svg width="100" height="30" viewBox="0 0 100 30"><polyline points="0.0,2.8 25.0,2.0 50.0,6.2 75.0,9.9 100.0,6.1" stroke="#a855f7" stroke-width="2" fill="none"/><circle cx="0.0" cy="2.8" r="2.5" fill="#a855f7"/><circle cx="25.0" cy="2.0" r="2.5" fill="#a855f7"/><circle cx="50.0" cy="6.2" r="2.5" fill="#a855f7"/><circle cx="75.0" cy="9.9" r="2.5" fill="#a855f7"/><circle cx="100.0" cy="6.1" r="2.5" fill="#a855f7"/></svg></div>
+      <span class="stat-compare negative">▼ -3% vs 4w avg</span>
+      <div class="sparkline"><svg width="120" height="36" class="sparkline-svg"><polyline points="2,7 31,4 60,19 89,32 118,18" fill="none" stroke="#bc8cff" stroke-width="2" stroke-linejoin="round"/><circle cx="2" cy="7" r="3" fill="#bc8cff"/><circle cx="31" cy="4" r="3" fill="#bc8cff"/><circle cx="60" cy="19" r="3" fill="#bc8cff"/><circle cx="89" cy="32" r="3" fill="#bc8cff"/><circle cx="118" cy="18" r="3" fill="#bc8cff"/><circle cx="118" cy="18" r="4" fill="#bc8cff" stroke="#0d1117" stroke-width="2"/></svg></div>
     </div>
   </div>
 
-  <div class="recommendation">
-    <strong>This Week:</strong> Week complete! Great work — review your numbers and plan next week.
+  <div class="recommendation">📉 Volume is running low this week. Consider adding a strength session in the remaining days.</div>
+
+  <div class="section">
+    <h2>🔝 This Week's Workouts</h2>
+    <p style="color:#666;text-align:center;padding:1em">No workouts logged this week yet</p>
   </div>
 
-  
-
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-label">📅 Days Trained</div>
-      <div class="stat-value">0</div>
-      <span style="color:#8b949e;font-size:0.85em">of 7 days elapsed</span>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">😴 Avg Sleep Score</div>
-      <div class="stat-value">—</div>
-      <span class="stat-compare negative">↓ -100%</span>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">🏃 Runs This Week</div>
-      <div class="stat-value">0</div>
-      <span class="stat-compare negative">↓ -100%</span>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">📈 vs 4-Week Avg</div>
-      <div class="stat-value">0%</div>
-      <span style="color:#8b949e;font-size:0.85em">of avg weekly volume</span>
-    </div>
+  <div class="meta-row">
+    <span>Sleep avg: <strong>81/100</strong></span>
+    <span>Days trained: <strong>0/7</strong></span>
+    <span>Week: <strong>2/23 – 3/1</strong></span>
+    <span>Generated: <strong>Feb 28, 2026 11:50 PM ET</strong></span>
   </div>
-
-  <p style="color:#4a5568;font-size:0.75em;text-align:center;margin-top:2em;">Generated 2026-03-01 00:00 ET</p>
 </div>
 </body>
 </html>
