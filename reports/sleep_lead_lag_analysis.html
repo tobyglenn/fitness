@@ -25,6 +25,7 @@ function drawScatter(id,lag,label){const p=lagPairs('recovery',lag),reg=regressi
 (function(){const c=document.getElementById('strength'),ctx=setupCanvas(c),w=c.clientWidth,h=c.clientHeight,arr=lags.map(l=>({lag:l,corr:recoveryCorrs[l]??0,abs:Math.abs(recoveryCorrs[l]??0)})).sort((a,b)=>b.abs-a.abs),m={l:90,r:40,t:20,b:20},pw=w-m.l-m.r,ph=h-m.t-m.b,bh=ph/arr.length*.6,max=Math.max(...arr.map(a=>a.abs),0.01);arr.forEach((d,i)=>{const y=m.t+i*(ph/arr.length)+(ph/arr.length-bh)/2,bw=d.abs/max*pw;ctx.fillStyle=d.corr>=0?colors.green:colors.red;ctx.fillRect(m.l,y,bw,bh);ctx.fillStyle=colors.text;ctx.textAlign='right';ctx.fillText(`Lag ${d.lag}`,m.l-8,y+bh/2+4);ctx.textAlign='left';ctx.fillText(d.corr.toFixed(3),m.l+bw+8,y+bh/2+4)})})();
 window.addEventListener('resize',()=>location.reload());
 </script><script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

@@ -106,6 +106,7 @@ function renderAll(){drawWeeklyStack(); drawScatter('sc_chest','chest','Chest',D
 window.addEventListener('resize',()=>{clearTimeout(window.__rt); window.__rt=setTimeout(renderAll,120);}); renderAll();
 </script>
 <script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
