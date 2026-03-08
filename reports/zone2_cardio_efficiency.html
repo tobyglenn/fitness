@@ -50,4 +50,4 @@ stacked('c3',data);
 const withRec=data.map(d=>{const p=new Date(d.date);p.setDate(p.getDate()-1);const k=p.toISOString().slice(0,10);const r=recMap[k]?.recovery;return r!=null?{rec: Number(r), eff:d.eff}:null}).filter(Boolean);scatter('c4',withRec,'rec','eff','Prior-day recovery','Efficiency %');
 const d90=data.filter(d=>new Date(d.date)>=new Date(Date.now()-90*86400000));lineChart('c5',d90.map(d=>d.eff),d90.map(_=>60));
 const intr30=data.filter(d=>new Date(d.date)>=new Date(Date.now()-30*86400000));timeline('c6',intr30);
-</script></body></html>
+</script><!-- morning_report_link_injected --><script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)</body></body>!el.querySelector("a")){var a=document.createElement("a");a.href="/fitness/morning_report_"+t+".html";a.style.cssText="color:#58a6ff;text-decoration:none";a.textContent=t;el.textContent="";el.appendChild(a);}});})();</script></body></html>
