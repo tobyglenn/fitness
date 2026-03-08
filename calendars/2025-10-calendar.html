@@ -44,34 +44,18 @@
       .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
       .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
       .month-grid a.current{border-color:var(--accent);color:var(--accent)}
-    
-    /* === DRILLDOWN OVERLAY BADGES (v2) === */
-    .drilldown-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-      margin-top: 3px;
-    }
-    .drilldown-badges .badge {
-      display: inline-block;
-      padding: 1px 3px;
-      border-radius: 3px;
-      font-size: 9px;
-      font-weight: bold;
-      color: white;
-      line-height: 1.4;
-    }
-    .badge.whoop-green  { background: #2ea043; }
-    .badge.whoop-yellow { background: #f39c12; color: #000; }
-    .badge.whoop-red    { background: #f85149; }
-    .badge.sleep-green  { background: #1a6ea0; }
-    .badge.sleep-yellow { background: #6e60a8; color: #fff; }
-    .badge.sleep-red    { background: #7a3038; }
-    .badge.tonal        { background: #0a84ff; }
-    .badge.run          { background: #a371f7; }
-    /* legacy day-badges alias kept for backward compat */
-    .day-badges { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
-
+      /* --- Drilldown badge styles --- */
+      .badge{display:inline-block;font-size:.68rem;font-weight:600;padding:1px 5px;border-radius:4px;margin:1px 1px 0 0;white-space:nowrap;line-height:1.4}
+      .badge-whoop-green{background:#0d3321;color:#3fb950;border:1px solid #238636}
+      .badge-whoop-yellow{background:#2d2000;color:#e3b341;border:1px solid #9e6a03}
+      .badge-whoop-red{background:#3d0c0c;color:#f85149;border:1px solid #8e1519}
+      .badge-sleep{background:#0d1f3c;color:#58a6ff;border:1px solid #1f4b8e}
+      .badge-tonal{background:#0e2233;color:#79c0ff;border:1px solid #1a4a72}
+      .badge-run{background:#1f1040;color:#b392f0;border:1px solid #5a3ea1}
+      .drilldown-badges{margin-top:5px;line-height:1.6}
+      /* --- Badge legend --- */
+      .badge-legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;padding:8px 10px;background:#0b0f14;border:1px solid var(--line);border-radius:8px;font-size:.75rem;color:var(--muted)}
+      .badge-legend span{font-weight:600;color:var(--text);margin-right:2px}
     </style>
     
 </head>
@@ -91,14 +75,7 @@
   <div class="container">
     <div class="header">
       <h1>October 2025</h1>
-<div class="calendar-legend" style="display:flex;gap:12px;padding:8px 12px;background:#161b22;border-radius:6px;margin-bottom:12px;font-size:11px;color:#8b949e;flex-wrap:wrap;">
-  <strong style="color:#f39c12;margin-right:4px;">📊 Key:</strong>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2ea043;margin-right:3px;vertical-align:middle;"></span>WHOOP %</span>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1a6ea0;margin-right:3px;vertical-align:middle;"></span>8Sleep</span>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0a84ff;margin-right:3px;vertical-align:middle;"></span>Tonal lbs</span>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a371f7;margin-right:3px;vertical-align:middle;"></span>Run mi</span>
-</div>
-      <div class="meta">Generated on 2026-03-08 10:38 EDT</div>
+      <div class="meta">Generated on 2026-03-08 11:29 EDT</div>
     </div>
 
     <section class="summary">
@@ -114,6 +91,7 @@
         <a href="index.html">← Back to Calendars</a>
         <div><a href="2025-11-calendar.html">November 2025 →</a></div>
       </div>
+      <div class='badge-legend'><span>Legend:</span><span class='badge badge-whoop-green'>💜 WHOOP %</span><span class='badge badge-sleep'>😴 8Sleep score</span><span class='badge badge-tonal'>💪 Tonal lbs</span><span class='badge badge-run'>🏃 Run mi</span></div>
       <div class="grid"><div class='dow'>Sun</div><div class='dow'>Mon</div><div class='dow'>Tue</div><div class='dow'>Wed</div><div class='dow'>Thu</div><div class='dow'>Fri</div><div class='dow'>Sat</div></div>
       <div class="grid"><div class="day empty"></div>
 <div class="day empty"></div>
@@ -121,249 +99,187 @@
 
                 <div class='day'>
                   <div class='num'>1</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 22.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜22</span><span class='badge badge-sleep'>😴77</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>2</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 11.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜11</span><span class='badge badge-sleep'>😴84</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>3</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 24.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜24</span><span class='badge badge-sleep'>😴39</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>4</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 55.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜55</span><span class='badge badge-sleep'>😴55</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>5</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 37.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜37</span><span class='badge badge-sleep'>😴90</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>6</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 59.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜59</span><span class='badge badge-sleep'>😴72</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>7</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 34.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜34</span><span class='badge badge-sleep'>😴76</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>8</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 42.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜42</span><span class='badge badge-sleep'>😴68</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>9</div>
-                  
-                  <div class='gar'>🏃 3.5 mi</div>
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 26.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜26</span><span class='badge badge-sleep'>😴69</span><span class='badge badge-run'>🏃3.5mi</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>10</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 77.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜77</span><span class='badge badge-sleep'>😴96</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>11</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 54.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜54</span><span class='badge badge-sleep'>😴82</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>12</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 53.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜53</span><span class='badge badge-sleep'>😴89</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>13</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 94.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜94</span><span class='badge badge-sleep'>😴85</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>14</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 47.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜47</span><span class='badge badge-sleep'>😴86</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>15</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 37.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜37</span><span class='badge badge-sleep'>😴80</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>16</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 20.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜20</span><span class='badge badge-sleep'>😴57</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>17</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 36.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜36</span><span class='badge badge-sleep'>😴70</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>18</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 43.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜43</span><span class='badge badge-sleep'>😴82</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>19</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 73.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜73</span><span class='badge badge-sleep'>😴96</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>20</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 68.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜68</span><span class='badge badge-sleep'>😴86</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>21</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 47.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜47</span><span class='badge badge-sleep'>😴79</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>22</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 61.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜61</span><span class='badge badge-sleep'>😴78</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>23</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 46.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜46</span><span class='badge badge-sleep'>😴82</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>24</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 53.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜53</span><span class='badge badge-sleep'>😴88</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>25</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 81.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜81</span><span class='badge badge-sleep'>😴84</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>26</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 73.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜73</span><span class='badge badge-sleep'>😴77</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>27</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 97.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜97</span><span class='badge badge-sleep'>😴70</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>28</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 38.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜38</span><span class='badge badge-sleep'>😴94</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>29</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 42.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜42</span><span class='badge badge-sleep'>😴61</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>30</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 86.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜86</span><span class='badge badge-sleep'>😴87</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>31</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 38.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜38</span><span class='badge badge-sleep'>😴80</span></div>
                 </div>
                 
 <div class="day empty"></div></div>

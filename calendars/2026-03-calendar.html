@@ -44,6 +44,18 @@
       .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
       .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
       .month-grid a.current{border-color:var(--accent);color:var(--accent)}
+      /* --- Drilldown badge styles --- */
+      .badge{display:inline-block;font-size:.68rem;font-weight:600;padding:1px 5px;border-radius:4px;margin:1px 1px 0 0;white-space:nowrap;line-height:1.4}
+      .badge-whoop-green{background:#0d3321;color:#3fb950;border:1px solid #238636}
+      .badge-whoop-yellow{background:#2d2000;color:#e3b341;border:1px solid #9e6a03}
+      .badge-whoop-red{background:#3d0c0c;color:#f85149;border:1px solid #8e1519}
+      .badge-sleep{background:#0d1f3c;color:#58a6ff;border:1px solid #1f4b8e}
+      .badge-tonal{background:#0e2233;color:#79c0ff;border:1px solid #1a4a72}
+      .badge-run{background:#1f1040;color:#b392f0;border:1px solid #5a3ea1}
+      .drilldown-badges{margin-top:5px;line-height:1.6}
+      /* --- Badge legend --- */
+      .badge-legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;padding:8px 10px;background:#0b0f14;border:1px solid var(--line);border-radius:8px;font-size:.75rem;color:var(--muted)}
+      .badge-legend span{font-weight:600;color:var(--text);margin-right:2px}
     </style>
     
 </head>
@@ -63,7 +75,7 @@
   <div class="container">
     <div class="header">
       <h1>March 2026</h1>
-      <div class="meta">Generated on 2026-03-08 11:19 EDT</div>
+      <div class="meta">Generated on 2026-03-08 11:29 EDT</div>
     </div>
 
     <section class="summary">
@@ -75,80 +87,63 @@
 
     <section class="calendar-card">
       <div class="pager"> 
-        <div></div>
+        <div><a href="2026-02-calendar.html">← February 2026</a></div>
         <a href="index.html">← Back to Calendars</a>
         <div></div>
       </div>
+      <div class='badge-legend'><span>Legend:</span><span class='badge badge-whoop-green'>💜 WHOOP %</span><span class='badge badge-sleep'>😴 8Sleep score</span><span class='badge badge-tonal'>💪 Tonal lbs</span><span class='badge badge-run'>🏃 Run mi</span></div>
       <div class="grid"><div class='dow'>Sun</div><div class='dow'>Mon</div><div class='dow'>Tue</div><div class='dow'>Wed</div><div class='dow'>Thu</div><div class='dow'>Fri</div><div class='dow'>Sat</div></div>
       <div class="grid">
                 <div class='day weekend'>
                   <div class='num'>1</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 44.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜44</span><span class='badge badge-sleep'>😴87</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>2</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 43.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜43</span><span class='badge badge-sleep'>😴78</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>3</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 44.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜44</span><span class='badge badge-sleep'>😴89</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>4</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 37.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜37</span><span class='badge badge-sleep'>😴88</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>5</div>
-                  
-                  
-                  
+                  <div class='drilldown-badges'><span class='badge badge-sleep'>😴61</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>6</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 58.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜58</span><span class='badge badge-sleep'>😴70</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>7</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 57.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜57</span><span class='badge badge-sleep'>😴42</span></div>
                 </div>
                 
 
                 <div class='day today weekend'>
                   <div class='num'>8</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 48.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜48</span><span class='badge badge-sleep'>😴63</span></div>
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>9</div>
-                  
-                  
                   
                 </div>
                 
@@ -156,15 +151,11 @@
                 <div class='day future empty'>
                   <div class='num'>10</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>11</div>
-                  
-                  
                   
                 </div>
                 
@@ -172,15 +163,11 @@
                 <div class='day future empty'>
                   <div class='num'>12</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>13</div>
-                  
-                  
                   
                 </div>
                 
@@ -188,15 +175,11 @@
                 <div class='day future weekend empty'>
                   <div class='num'>14</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future weekend empty'>
                   <div class='num'>15</div>
-                  
-                  
                   
                 </div>
                 
@@ -204,15 +187,11 @@
                 <div class='day future empty'>
                   <div class='num'>16</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>17</div>
-                  
-                  
                   
                 </div>
                 
@@ -220,15 +199,11 @@
                 <div class='day future empty'>
                   <div class='num'>18</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>19</div>
-                  
-                  
                   
                 </div>
                 
@@ -236,15 +211,11 @@
                 <div class='day future empty'>
                   <div class='num'>20</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future weekend empty'>
                   <div class='num'>21</div>
-                  
-                  
                   
                 </div>
                 
@@ -252,15 +223,11 @@
                 <div class='day future weekend empty'>
                   <div class='num'>22</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>23</div>
-                  
-                  
                   
                 </div>
                 
@@ -268,15 +235,11 @@
                 <div class='day future empty'>
                   <div class='num'>24</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>25</div>
-                  
-                  
                   
                 </div>
                 
@@ -284,15 +247,11 @@
                 <div class='day future empty'>
                   <div class='num'>26</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>27</div>
-                  
-                  
                   
                 </div>
                 
@@ -300,15 +259,11 @@
                 <div class='day future weekend empty'>
                   <div class='num'>28</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future weekend empty'>
                   <div class='num'>29</div>
-                  
-                  
                   
                 </div>
                 
@@ -316,15 +271,11 @@
                 <div class='day future empty'>
                   <div class='num'>30</div>
                   
-                  
-                  
                 </div>
                 
 
                 <div class='day future empty'>
                   <div class='num'>31</div>
-                  
-                  
                   
                 </div>
                 
@@ -336,7 +287,7 @@
 
     <div class="footer">
       <div>Month links:</div>
-      <div class="month-grid"><a href='2026-03-calendar.html'>March 2026</a></div>
+      <div class="month-grid"><a href='2025-10-calendar.html'>October 2025</a><a href='2025-11-calendar.html'>November 2025</a><a href='2025-12-calendar.html'>December 2025</a><a href='2026-01-calendar.html'>January 2026</a><a href='2026-02-calendar.html'>February 2026</a><a href='2026-03-calendar.html'>March 2026</a></div>
     </div>
   </div>
 </body>
