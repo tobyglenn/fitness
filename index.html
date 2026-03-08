@@ -32,6 +32,9 @@
     .link-card .icon { font-size: 1.4rem; margin-right: 8px; }
     .link-card .title { font-weight: 600; }
     .link-card .desc { color: var(--muted); font-size: .88rem; margin-top: 4px; }
+    .section-group { margin-bottom: 32px; }
+    .section-header { font-size: 16px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
     table { width: 100%; border-collapse: collapse; font-size: .92rem; }
     th, td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
     th { text-align: left; color: var(--muted); font-weight: 600; }
@@ -53,7 +56,7 @@
     
   <div class="container">
     <h1>Hub - Fitness Ecosystem</h1>
-    <div class="sub">Today: Sunday, 2026-03-08 11:54 ET</div>
+    <div class="sub">Today: Sunday, 2026-03-08 12:07 ET</div>
 
     <div class="stats">
       <div class="card"><div class="label">Total Lifting Volume</div><div class="value">10,797,215 lbs</div><div style="font-size:11px;color:#8b949e;margin-top:4px;">Tonal + Speediance · since Oct 2021</div></div>
@@ -64,13 +67,160 @@
 
     <section class="section">
       <h2>Sections</h2>
-      <div class="grid-links">
-        <a class="link-card" href="calendars/2026-02-calendar.html"><span class="icon">📅</span><span class="title">Calendars</span><div class="desc">Monthly training calendar</div></a>
-        <a class="link-card" href="strength/index.html"><span class="icon">💪</span><span class="title">Strength</span><div class="desc">Tonal volume, scores, volume trends</div></a>
-        <a class="link-card" href="running/index.html"><span class="icon">🏃</span><span class="title">Running</span><div class="desc">Cardio logs and pace breakdowns</div></a>
-        <a class="link-card" href="sleep/index.html"><span class="icon">😴</span><span class="title">Sleep &amp; Recovery</span><div class="desc">Sleep quality and recovery metrics</div></a>
-        <a class="link-card" href="nutrition/index.html"><span class="icon">🥗</span><span class="title">Nutrition</span><div class="desc">Diet insights and macros</div></a>
-        <a class="link-card" href="morning_report_2026-03-08.html"><span class="icon">📊</span><span class="title">Reports</span><div class="desc">Latest nightly report</div></a>
+      <div class="section-group">
+        <h3 class="section-header">📅 Calendars</h3>
+        <div class="link-grid">
+          <a class="link-card" href="calendars/index.html"><span class="title">Monthly Calendars</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">💪 Strength</h3>
+        <div class="link-grid">
+          <a class="link-card" href="strength/index.html"><span class="title">Strength Dashboard</span></a>
+          <a class="link-card" href="tonal_explorer/index.html"><span class="title">Tonal Exercise Explorer</span></a>
+          <a class="link-card" href="exercises/index.html"><span class="title">Exercise Library</span></a>
+          <a class="link-card" href="muscle_groups/index.html"><span class="title">Muscle Group Volume</span></a>
+          <a class="link-card" href="muscle_dependency_map/index.html"><span class="title">Muscle Dependency Map</span></a>
+          <a class="link-card" href="muscle_fatigue_heatmap/index.html"><span class="title">Muscle Fatigue Heatmap</span></a>
+          <a class="link-card" href="muscle_frequency/index.html"><span class="title">Muscle Frequency & Recovery</span></a>
+          <a class="link-card" href="muscle_growth/index.html"><span class="title">Hypertrophy Volume Finder</span></a>
+          <a class="link-card" href="muscle_recovery/index.html"><span class="title">Muscle Recovery Map</span></a>
+          <a class="link-card" href="muscle_symmetry/index.html"><span class="title">Muscle Symmetry Score</span></a>
+          <a class="link-card" href="muscle_depreciation/index.html"><span class="title">Muscle Depreciation</span></a>
+          <a class="link-card" href="training_hypertrophy/index.html"><span class="title">Hypertrophy Tracker</span></a>
+          <a class="link-card" href="workout_split_analyzer/index.html"><span class="title">Workout Split Analyzer</span></a>
+          <a class="link-card" href="workout_signature/index.html"><span class="title">Workout Signature DNA</span></a>
+          <a class="link-card" href="yoy_progress/index.html"><span class="title">Year-over-Year Progress</span></a>
+          <a class="link-card" href="personal_bests_timeline/index.html"><span class="title">Personal Best Timeline</span></a>
+          <a class="link-card" href="speediance/index.html"><span class="title">Speediance Journey</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">🏃 Cardio & Running</h3>
+        <div class="link-grid">
+          <a class="link-card" href="cardio/index.html"><span class="title">Cardio Dashboard</span></a>
+          <a class="link-card" href="cardio_zone_heatmap/index.html"><span class="title">Zone Distribution Heatmap</span></a>
+          <a class="link-card" href="running/index.html"><span class="title">Running Log</span></a>
+          <a class="link-card" href="vo2max/index.html"><span class="title">VO2 Max Progression</span></a>
+          <a class="link-card" href="running_recovery_correlation/index.html"><span class="title">Pace vs Recovery</span></a>
+          <a class="link-card" href="running_strength_correlation/index.html"><span class="title">Running Economy vs Strength</span></a>
+          <a class="link-card" href="polarized_training/index.html"><span class="title">Polarized Training Analysis</span></a>
+          <a class="link-card" href="race_day_readiness/index.html"><span class="title">Race Day Readiness</span></a>
+          <a class="link-card" href="race_predictor/index.html"><span class="title">Race Predictor</span></a>
+          <a class="link-card" href="sweet_spot/index.html"><span class="title">Sweet Spot Finder</span></a>
+          <a class="link-card" href="training_load/index.html"><span class="title">Training Load & Balance</span></a>
+          <a class="link-card" href="training_impulse/index.html"><span class="title">Training Impulse</span></a>
+          <a class="link-card" href="training_effect_recovery/index.html"><span class="title">Training Effect vs Recovery</span></a>
+          <a class="link-card" href="velocity/index.html"><span class="title">Training Velocity</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">😴 Recovery & Sleep</h3>
+        <div class="link-grid">
+          <a class="link-card" href="recovery/index.html"><span class="title">Recovery Dashboard</span></a>
+          <a class="link-card" href="balance/index.html"><span class="title">Recovery-Strain Balance</span></a>
+          <a class="link-card" href="hrv_analysis/index.html"><span class="title">HRV Analysis</span></a>
+          <a class="link-card" href="hrv_triage/index.html"><span class="title">HRV Triage Diagnostic</span></a>
+          <a class="link-card" href="divergence_detector/index.html"><span class="title">8Sleep ↔ WHOOP Divergence</span></a>
+          <a class="link-card" href="sleep_architecture_impact/index.html"><span class="title">Sleep Architecture Impact</span></a>
+          <a class="link-card" href="sleep_debt_dashboard/index.html"><span class="title">Sleep Debt Dashboard</span></a>
+          <a class="link-card" href="sleep_stacking/index.html"><span class="title">Sleep Architecture Stacking</span></a>
+          <a class="link-card" href="sleep_stage_predictor/index.html"><span class="title">Sleep Stage Predictor</span></a>
+          <a class="link-card" href="sleep_stage_recovery_impact/index.html"><span class="title">Sleep Stage Recovery Impact</span></a>
+          <a class="link-card" href="sleep_stage_running_bridge/index.html"><span class="title">Sleep → Running Bridge</span></a>
+          <a class="link-card" href="sleep_strength_prediction/index.html"><span class="title">Sleep → Strength Predictor</span></a>
+          <a class="link-card" href="sleep_workout_matcher/index.html"><span class="title">Sleep → Workout Matcher</span></a>
+          <a class="link-card" href="sleep_workout_pipeline/index.html"><span class="title">Sleep → Workout Pipeline</span></a>
+          <a class="link-card" href="sleep_workout_quality_bridge/index.html"><span class="title">Sleep-Workout Quality Bridge</span></a>
+          <a class="link-card" href="recovery_capacity_demand/index.html"><span class="title">Recovery Capacity vs Demand</span></a>
+          <a class="link-card" href="recovery_composite/index.html"><span class="title">Recovery Composite</span></a>
+          <a class="link-card" href="recovery_efficiency/index.html"><span class="title">Recovery Efficiency</span></a>
+          <a class="link-card" href="recovery_forecaster/index.html"><span class="title">7-Day Recovery Forecast</span></a>
+          <a class="link-card" href="recovery_lag/index.html"><span class="title">Recovery-Workout Lag</span></a>
+          <a class="link-card" href="recovery_pipeline/index.html"><span class="title">72-Hour Recovery Pipeline</span></a>
+          <a class="link-card" href="recovery_trends/index.html"><span class="title">Recovery Trends</span></a>
+          <a class="link-card" href="strain_balance_heatmap/index.html"><span class="title">Weekly Strain Heatmap</span></a>
+          <a class="link-card" href="strain_vs_capacity/index.html"><span class="title">Strain vs Adaptive Capacity</span></a>
+          <a class="link-card" href="strain_accumulation/index.html"><span class="title">Rolling Strain Accumulation</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">🥗 Nutrition</h3>
+        <div class="link-grid">
+          <a class="link-card" href="nutrition/index.html"><span class="title">Nutrition & Recovery</span></a>
+          <a class="link-card" href="cronometer_training_alignment/index.html"><span class="title">Cronometer-Training Alignment</span></a>
+          <a class="link-card" href="nutrition_performance/index.html"><span class="title">Nutrition ↔ Performance</span></a>
+          <a class="link-card" href="nutrition_recovery_lag/index.html"><span class="title">Nutrition-Recovery Lag</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">🎯 Readiness & Recommendations</h3>
+        <div class="link-grid">
+          <a class="link-card" href="ready_now/index.html"><span class="title">Ready Now</span></a>
+          <a class="link-card" href="ready_router/index.html"><span class="title">Daily Readiness Router</span></a>
+          <a class="link-card" href="readiness_composite/index.html"><span class="title">Morning Readiness Composite</span></a>
+          <a class="link-card" href="readiness_gap/index.html"><span class="title">Readiness Gap Analyzer</span></a>
+          <a class="link-card" href="recommendations/index.html"><span class="title">Smart Training Recommendations</span></a>
+          <a class="link-card" href="training_recommender/index.html"><span class="title">Workout Recommender</span></a>
+          <a class="link-card" href="forecaster/index.html"><span class="title">Next-Day Workout Forecaster</span></a>
+          <a class="link-card" href="nextday_performance_forecaster/index.html"><span class="title">Next-Day Performance Forecaster</span></a>
+          <a class="link-card" href="training_blueprint/index.html"><span class="title">Today's Training Blueprint</span></a>
+          <a class="link-card" href="training_phase/index.html"><span class="title">Training Phase Intelligence</span></a>
+          <a class="link-card" href="training_scheduler/index.html"><span class="title">Recovery-Driven Scheduler</span></a>
+          <a class="link-card" href="sequencing/index.html"><span class="title">Workout Sequencing Intelligence</span></a>
+          <a class="link-card" href="workout_quality/index.html"><span class="title">Workout Quality Index</span></a>
+          <a class="link-card" href="workout_quality_predictor/index.html"><span class="title">Workout Quality Predictor</span></a>
+          <a class="link-card" href="training_debt/index.html"><span class="title">Training Debt Tracker</span></a>
+          <a class="link-card" href="weekly_priority_recommender/index.html"><span class="title">Weekly Priority Recommender</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">📊 Analysis & Insights</h3>
+        <div class="link-grid">
+          <a class="link-card" href="correlation/index.html"><span class="title">Cross-Source Correlation Matrix</span></a>
+          <a class="link-card" href="cross_training_impact/index.html"><span class="title">Cross-Training Impact</span></a>
+          <a class="link-card" href="patterns/index.html"><span class="title">Training Pattern Discovery</span></a>
+          <a class="link-card" href="integrative_insights/index.html"><span class="title">Integrative Insights</span></a>
+          <a class="link-card" href="gap_analysis/index.html"><span class="title">Training Gap Analyzer</span></a>
+          <a class="link-card" href="fatigue_fitness_paradox/index.html"><span class="title">Fatigue-Fitness Paradox</span></a>
+          <a class="link-card" href="fitness_score/index.html"><span class="title">Fitness Score Composite</span></a>
+          <a class="link-card" href="fitness_rolling_30d/index.html"><span class="title">30-Day Rolling Fitness Score</span></a>
+          <a class="link-card" href="intensity/index.html"><span class="title">Training Intensity Decomposition</span></a>
+          <a class="link-card" href="interference/index.html"><span class="title">Cardio-Strength Interference</span></a>
+          <a class="link-card" href="time_of_day/index.html"><span class="title">Time-of-Day Performance</span></a>
+          <a class="link-card" href="equipment/index.html"><span class="title">Equipment ROI Analysis</span></a>
+          <a class="link-card" href="garmin_activity_recovery_correlation/index.html"><span class="title">Garmin Activity × Recovery</span></a>
+          <a class="link-card" href="weekly_balance/index.html"><span class="title">Inter-Week Recovery Balance</span></a>
+          <a class="link-card" href="exercise_fatigue_fingerprint/index.html"><span class="title">Exercise Fatigue Fingerprint</span></a>
+          <a class="link-card" href="date_comparator/index.html"><span class="title">Date Range Comparator</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">🏆 Milestones & Streaks</h3>
+        <div class="link-grid">
+          <a class="link-card" href="achievements/index.html"><span class="title">Achievement Center</span></a>
+          <a class="link-card" href="records/index.html"><span class="title">Records & Best Performances</span></a>
+          <a class="link-card" href="streaks/index.html"><span class="title">Streak Intelligence</span></a>
+          <a class="link-card" href="missions/index.html"><span class="title">Monthly Missions</span></a>
+          <a class="link-card" href="annual_review/index.html"><span class="title">Annual Review 2026</span></a>
+          <a class="link-card" href="pulse/index.html"><span class="title">Training Pulse</span></a>
+          <a class="link-card" href="weekly_pulse/index.html"><span class="title">Weekly Pulse</span></a>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <h3 class="section-header">📈 Reports</h3>
+        <div class="link-grid">
+          <a class="link-card" href="reports/index.html"><span class="title">Analytics Reports</span></a>
+          <a class="link-card" href="morning_report_2026-03-08.html"><span class="title">Latest Morning Report</span></a>
+        </div>
       </div>
     </section>
 
