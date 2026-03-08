@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sleep-Workout Quality Bridge · Patterns</title>
+<style>
+  body { margin:0; background:#0d1117; color:#ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  nav { background:#161b22; padding:12px 16px; border-bottom:1px solid #30363d; display:flex; gap:8px; flex-wrap:wrap; }
+  nav a { color:#58a6ff; text-decoration:none; padding:4px 10px; border-radius:6px; }
+  nav a:hover { background:#21262d; }
+  .wrap { max-width:1040px; margin:0 auto; padding:18px; }
+  .panel { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:16px; margin:16px 0; }
+  h1 { color:#f39c12; }
+  .muted { color:#8b949e; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { border-bottom:1px solid #30363d; padding:8px 10px; text-align:left; font-size:14px; }
+  th { color:#8b949e; font-size:11px; text-transform:uppercase; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../sleep_workout_quality_bridge/index.html">← Back to Bridge</a>
+  <a href="../../hub_index.html">🏠 Hub</a>
+  <a href="../../docs/sleep_workout_quality_bridge/index.html">Bridge</a>
+</nav>
+<div class="wrap">
+  <h1>Prediction Pattern Tree</h1>
+  <p class="muted">Decision tree thresholds and pattern breakdown across recent data.</p>
+
+  <div class="panel">
+    <h3>Pattern Bands</h3>
+    <ul>
+      <li>Elite: Sleep > 75 + Recovery > 70 (avg sleep 27.5, avg recovery 25.7)</li>
+      <li>Moderate: Sleep 60-75 with middling recovery (avg sleep 56.2, avg recovery 50.8)</li>
+      <li>Light/Rest: Sleep < 65 and Recovery < 60 (avg sleep 70.3, avg recovery 83.2)</li>
+    </ul>
+    <p class="muted">Accuracy by predicted tier:</p>
+    <ul>
+      <li>Tier 1: 0.0% (0/1)</li><li>Tier 2: 0.0% (0/14)</li><li>Tier 3: 0.0% (0/35)</li><li>Tier 4: 0.0% (0/21)</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3>Decision Notes</h3>
+    <ol>
+      <li>Use confidence only when at least two readiness inputs are available.</li>
+      <li>When HRV is missing, model discounts HRV weight and uses sleep/recovery blend.</li>
+      <li>Tier 1 requires both volume and duration thresholds plus a PR signal where present.</li>
+    </ol>
+  </div>
+
+  <div class="panel">
+    <h3>Last Samples</h3>
+    <div style="overflow:auto">
+      <table>
+        <thead><tr><th>Date</th><th>Sleep</th><th>Recovery</th><th>Predicted</th><th>Actual</th></tr></thead>
+        <tbody><tr><td>2026-03-04</td><td>88.0</td><td>37.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-03-03</td><td>89.0</td><td>44.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-03-02</td><td>78.0</td><td>43.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-03-01</td><td>87.0</td><td>44.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-28</td><td>81.0</td><td>39.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-27</td><td>98.0</td><td>1.3726697</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-26</td><td>92.0</td><td>59.0</td><td>Tier 4</td><td>Tier 5</td></tr><tr><td>2026-02-25</td><td>55.0</td><td>15.0</td><td>Tier 2</td><td>Tier 5</td></tr><tr><td>2026-02-24</td><td>82.0</td><td>46.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-23</td><td>75.0</td><td>39.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-22</td><td>78.0</td><td>35.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-21</td><td>54.0</td><td>41.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-20</td><td>77.0</td><td>38.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-19</td><td>88.0</td><td>38.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-18</td><td>88.0</td><td>35.0</td><td>Tier 3</td><td>Tier 5</td></tr><tr><td>2026-02-17</td><td>50.0</td><td>7.0</td><td>Tier 2</td><td>Tier 5</td></tr><tr><td>2026-02-16</td><td></td><td>35.0</td><td>Tier 2</td><td>Tier 5</td></tr><tr><td>2026-02-15</td><td></td><td>23.0</td><td>Tier 2</td><td>Tier 5</td></tr><tr><td>2026-02-14</td><td></td><td>25.0</td><td>Tier 2</td><td>Tier 5</td></tr><tr><td>2026-02-13</td><td>78.0</td><td>85.0</td><td>Tier 4</td><td>Tier 5</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

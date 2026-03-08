@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recovery Composite</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{background:#161b22;border-bottom:1px solid #21262d;padding:0.75rem 1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center}
+nav a{color:#8b949e;text-decoration:none;font-size:0.85rem;transition:color 0.2s}
+nav a:hover,nav a.active{color:#f39c12}
+nav .brand{color:#f39c12;font-weight:700;font-size:0.95rem;margin-right:1rem}
+.container{max-width:1100px;margin:0 auto;padding:1.5rem}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:0.25rem}
+.subtitle{color:#555;font-size:0.9rem;margin-bottom:1.5rem}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.card h2{font-size:1.1rem;font-weight:600;margin-bottom:1rem;color:#ccc}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem}
+@media(max-width:700px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.big-score{text-align:center;padding:2rem 1rem}
+.big-score .num{font-size:5rem;font-weight:800;line-height:1}
+.big-score .lbl{font-size:0.9rem;color:#555;margin-top:0.5rem;text-transform:uppercase;letter-spacing:1px}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{padding:0.5rem 0.8rem;text-align:left;color:#555;font-weight:500;border-bottom:1px solid #21262d}
+.tag{background:#21262d;color:#8b949e;padding:2px 8px;border-radius:8px;font-size:0.75rem}
+.slider-row{display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem}
+.slider-row label{width:130px;color:#ccc;font-size:0.85rem}
+.slider-row input[type=range]{flex:1;accent-color:#f39c12}
+.slider-row .val{width:40px;text-align:right;color:#f39c12;font-weight:600;font-size:0.9rem}
+button{background:#f39c12;color:#0d1117;border:none;padding:0.5rem 1.5rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem}
+button:hover{background:#e67e22}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">🏋️ Fitness Dashboard</span>
+  <a href="/index.html">Hub</a>
+  <a href="/calendars/2026-02-calendar.html">Calendars</a>
+  <a href="/strength/index.html">Strength</a>
+  <a href="/cardio/index.html">Cardio</a>
+  <a href="/recovery/index.html">Recovery</a>
+  <a href="/sleep_dashboard.html">Sleep</a>
+  <a href="/nutrition/index.html">Nutrition</a>
+  <a href="/recovery_composite/index.html" class="active">Recovery Composite</a>
+</nav>
+<div class="container">
+  <h1>Multi-Source Recovery Composite</h1>
+  <p class="subtitle">WHOOP + 8Sleep + Garmin — unified recovery scoring &nbsp;|&nbsp; March 1, 2026</p>
+
+  <!-- Today's Composite -->
+  <div class="card">
+    <h2>Today's Composite Score</h2>
+    <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap">
+      <div class="big-score">
+        <div class="num" style="color:#f39c12">60</div>
+        <div class="lbl">Fair</div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
+          <span style="color:#ccc;font-size:0.9rem">WHOOP</span>
+          <span style="color:#f39c12;font-weight:700;font-size:1.1rem">44</span>
+        </div>
+        <div style="background:#21262d;border-radius:4px;height:8px;margin-bottom:0.75rem">
+          <div style="background:#f39c12;height:8px;width:44%;border-radius:4px"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
+          <span style="color:#ccc;font-size:0.9rem">8Sleep</span>
+          <span style="color:#0a84ff;font-weight:700;font-size:1.1rem">87</span>
+        </div>
+        <div style="background:#21262d;border-radius:4px;height:8px;margin-bottom:0.75rem">
+          <div style="background:#0a84ff;height:8px;width:87%;border-radius:4px"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
+          <span style="color:#ccc;font-size:0.9rem">Garmin</span>
+          <span style="color:#2ea043;font-weight:700;font-size:1.1rem">46</span>
+        </div>
+        <div style="background:#21262d;border-radius:4px;height:8px">
+          <div style="background:#2ea043;height:8px;width:46%;border-radius:4px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weight Calibration -->
+  <div class="card">
+    <h2>Weight Calibration</h2>
+    <p style="color:#555;font-size:0.82rem;margin-bottom:1rem">Adjust weights (must sum to 100%). Changes recalculate composite scores live.</p>
+    <div class="slider-row">
+      <label>WHOOP</label>
+      <input type="range" id="w_whoop" min="0" max="100" value="40" oninput="updateWeights()">
+      <span class="val" id="v_whoop">40%</span>
+    </div>
+    <div class="slider-row">
+      <label>8Sleep</label>
+      <input type="range" id="w_sleep" min="0" max="100" value="35" oninput="updateWeights()">
+      <span class="val" id="v_sleep">35%</span>
+    </div>
+    <div class="slider-row">
+      <label>Garmin</label>
+      <input type="range" id="w_garmin" min="0" max="100" value="25" oninput="updateWeights()">
+      <span class="val" id="v_garmin">25%</span>
+    </div>
+    <div id="weight_warn" style="color:#f85149;font-size:0.82rem;margin-top:0.5rem;display:none">⚠️ Weights don't sum to 100% — composite will be normalized automatically.</div>
+  </div>
+
+  <!-- Source Breakdown -->
+  <div class="grid-3">
+    
+    <div style="background:#161b22;border-radius:10px;padding:1.2rem;border:1px solid #21262d">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+        <span style="color:#ccc;font-size:0.85rem;font-weight:600">WHOOP Recovery</span>
+        <span style="color:#f39c12;font-size:1.6rem;font-weight:700">44</span>
+      </div>
+      <div style="background:#21262d;border-radius:4px;height:6px;overflow:hidden">
+        <div style="background:#f39c12;height:6px;width:44%;border-radius:4px;transition:width 0.5s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:0.6rem;font-size:0.75rem;color:#555">
+        <span>30d avg: <strong style="color:#888">41</strong></span>
+        <span>7d avg: <strong style="color:#888">40</strong></span>
+        <span style="font-size:1rem">→</span>
+      </div>
+    </div>
+    
+    <div style="background:#161b22;border-radius:10px;padding:1.2rem;border:1px solid #21262d">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+        <span style="color:#ccc;font-size:0.85rem;font-weight:600">8Sleep Score</span>
+        <span style="color:#0a84ff;font-size:1.6rem;font-weight:700">87</span>
+      </div>
+      <div style="background:#21262d;border-radius:4px;height:6px;overflow:hidden">
+        <div style="background:#0a84ff;height:6px;width:87%;border-radius:4px;transition:width 0.5s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:0.6rem;font-size:0.75rem;color:#555">
+        <span>30d avg: <strong style="color:#888">75</strong></span>
+        <span>7d avg: <strong style="color:#888">81</strong></span>
+        <span style="font-size:1rem">↑</span>
+      </div>
+    </div>
+    
+    <div style="background:#161b22;border-radius:10px;padding:1.2rem;border:1px solid #21262d">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+        <span style="color:#ccc;font-size:0.85rem;font-weight:600">Garmin HRV+RHR</span>
+        <span style="color:#2ea043;font-size:1.6rem;font-weight:700">46</span>
+      </div>
+      <div style="background:#21262d;border-radius:4px;height:6px;overflow:hidden">
+        <div style="background:#2ea043;height:6px;width:46%;border-radius:4px;transition:width 0.5s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:0.6rem;font-size:0.75rem;color:#555">
+        <span>30d avg: <strong style="color:#888">55</strong></span>
+        <span>7d avg: <strong style="color:#888">49</strong></span>
+        <span style="font-size:1rem">→</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Time Series -->
+  <div class="card">
+    <h2>30-Day Score Timeline</h2>
+    <svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block">
+<rect width="680" height="280" fill="#0d1117" rx="8"/>
+<line x1="45" y1="240.0" x2="660" y2="240.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="41" y="244.0" fill="#666" font-size="10" text-anchor="end">0</text>
+<line x1="45" y1="195.0" x2="660" y2="195.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="41" y="199.0" fill="#666" font-size="10" text-anchor="end">20</text>
+<line x1="45" y1="150.0" x2="660" y2="150.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="41" y="154.0" fill="#666" font-size="10" text-anchor="end">40</text>
+<line x1="45" y1="105.0" x2="660" y2="105.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="41" y="109.0" fill="#666" font-size="10" text-anchor="end">60</text>
+<line x1="45" y1="60.0" x2="660" y2="60.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="41" y="64.0" fill="#666" font-size="10" text-anchor="end">80</text>
+<line x1="45" y1="15.0" x2="660" y2="15.0" stroke="#30363d" stroke-width="0.5"/>
+<text x="41" y="19.0" fill="#666" font-size="10" text-anchor="end">100</text>
+<text x="45.0" y="272" fill="#555" font-size="9" text-anchor="middle">1/31</text>
+<text x="108.6" y="272" fill="#555" font-size="9" text-anchor="middle">2/3</text>
+<text x="172.2" y="272" fill="#555" font-size="9" text-anchor="middle">2/6</text>
+<text x="235.9" y="272" fill="#555" font-size="9" text-anchor="middle">2/9</text>
+<text x="299.5" y="272" fill="#555" font-size="9" text-anchor="middle">2/12</text>
+<text x="363.1" y="272" fill="#555" font-size="9" text-anchor="middle">2/15</text>
+<text x="426.7" y="272" fill="#555" font-size="9" text-anchor="middle">2/18</text>
+<text x="490.3" y="272" fill="#555" font-size="9" text-anchor="middle">2/21</text>
+<text x="554.0" y="272" fill="#555" font-size="9" text-anchor="middle">2/24</text>
+<text x="617.6" y="272" fill="#555" font-size="9" text-anchor="middle">2/27</text>
+<polyline points="45.0,39.8 66.2,170.2 87.4,134.2 108.6,206.2 129.8,217.5 151.0,208.5 172.2,75.8 193.4,44.2 214.7,53.2 235.9,141.0 257.1,98.2 278.3,199.5 299.5,199.5 320.7,48.8 341.9,183.8 363.1,188.2 384.3,161.2 405.5,224.2 426.7,161.2 447.9,154.5 469.1,154.5 490.3,147.8 511.6,161.2 532.8,152.2 554.0,136.5 575.2,206.2 596.4,107.2 638.8,152.2 660.0,141.0" fill="none" stroke="#f39c12" stroke-width="1.5" stroke-linejoin="round" opacity="0.9"/>
+<polyline points="299.5,134.2 320.7,64.5 405.5,127.5 426.7,42.0 447.9,42.0 469.1,66.8 490.3,118.5 511.6,64.5 532.8,71.2 554.0,55.5 575.2,116.2 596.4,33.0 617.6,19.5 638.8,57.8 660.0,44.2" fill="none" stroke="#0a84ff" stroke-width="1.5" stroke-linejoin="round" opacity="0.9"/>
+<polyline points="45.0,97.6 66.2,120.1 87.4,131.3 108.6,108.8 129.8,101.2 151.0,86.3 172.2,101.2 193.4,89.9 214.7,101.2 235.9,108.8 257.1,112.4 278.3,93.8 299.5,116.2 320.7,112.4 341.9,142.6 363.1,120.1 384.3,131.3 405.5,105.0 426.7,105.0 447.9,97.6 469.1,112.4 490.3,123.7 511.6,127.5 532.8,143.5 554.0,144.4 575.2,133.1 596.4,121.4 617.6,118.5 638.8,117.1 660.0,136.1" fill="none" stroke="#2ea043" stroke-width="1.5" stroke-linejoin="round" opacity="0.9"/>
+<polyline points="45.0,62.0 66.2,150.9 87.4,133.1 108.6,168.7 129.8,172.7 151.0,161.5 172.2,85.4 193.4,61.8 214.7,71.7 235.9,128.6 257.1,103.7 278.3,158.8 299.5,155.8 320.7,70.1 341.9,168.0 363.1,161.9 384.3,149.8 405.5,160.6 426.7,105.5 447.9,100.9 469.1,113.3 490.3,131.6 511.6,119.0 532.8,121.6 554.0,110.2 575.2,156.5 596.4,84.8 617.6,60.7 638.8,110.4 660.0,105.9" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" opacity="0.9"/>
+<line x1="45" y1="270" x2="61" y2="270" stroke="#f39c12" stroke-width="1.5"/>
+<text x="65" y="272" fill="#f39c12" font-size="10">WHOOP</text>
+<line x1="125" y1="270" x2="141" y2="270" stroke="#0a84ff" stroke-width="1.5"/>
+<text x="145" y="272" fill="#0a84ff" font-size="10">8Sleep</text>
+<line x1="205" y1="270" x2="221" y2="270" stroke="#2ea043" stroke-width="1.5"/>
+<text x="225" y="272" fill="#2ea043" font-size="10">Garmin</text>
+<line x1="285" y1="270" x2="301" y2="270" stroke="#ffffff" stroke-width="2.5"/>
+<text x="305" y="272" fill="#ffffff" font-size="10">Composite</text>
+</svg>
+  </div>
+
+  <!-- Drag Analysis -->
+  <div class="card">
+    <h2>Drag Analysis — Days With Low Source (<40)</h2>
+    
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th>Date</th>
+        <th style="color:#f39c12">WHOOP</th>
+        <th style="color:#0a84ff">8Sleep</th>
+        <th style="color:#2ea043">Garmin</th>
+        <th>Composite</th>
+        <th>Drag Source</th>
+      </tr></thead>
+      <tbody><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 1</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">31</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">53</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">40</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 3</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">15</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">58</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">32</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 4</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">10</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">62</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">30</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 5</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">14</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">68</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">35</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 11</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">18</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">65</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">36</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 12</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">18</td><td style="padding:0.4rem 0.8rem;color:#ccc">47</td><td style="padding:0.4rem 0.8rem;color:#ccc">55</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">37</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 14</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">25</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">43</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">32</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 15</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">23</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">53</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">35</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 16</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">35</td><td style="padding:0.4rem 0.8rem;color:#ccc">—</td><td style="padding:0.4rem 0.8rem;color:#ccc">48</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">40</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 17</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">7</td><td style="padding:0.4rem 0.8rem;color:#ccc">50</td><td style="padding:0.4rem 0.8rem;color:#ccc">60</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">35</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 18</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">35</td><td style="padding:0.4rem 0.8rem;color:#ccc">88</td><td style="padding:0.4rem 0.8rem;color:#ccc">60</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">60</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 19</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">38</td><td style="padding:0.4rem 0.8rem;color:#ccc">88</td><td style="padding:0.4rem 0.8rem;color:#ccc">63</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">62</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 20</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">38</td><td style="padding:0.4rem 0.8rem;color:#ccc">77</td><td style="padding:0.4rem 0.8rem;color:#ccc">57</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">56</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 22</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">35</td><td style="padding:0.4rem 0.8rem;color:#ccc">78</td><td style="padding:0.4rem 0.8rem;color:#ccc">50</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">54</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 23</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">39</td><td style="padding:0.4rem 0.8rem;color:#ccc">75</td><td style="padding:0.4rem 0.8rem;color:#ccc">43</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">53</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 25</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">15</td><td style="padding:0.4rem 0.8rem;color:#ccc">55</td><td style="padding:0.4rem 0.8rem;color:#ccc">48</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">37</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr><tr style="border-bottom:1px solid #21262d">
+      <td style="padding:0.4rem 0.8rem;color:#888">Feb 28</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-weight:700">39</td><td style="padding:0.4rem 0.8rem;color:#ccc">81</td><td style="padding:0.4rem 0.8rem;color:#ccc">55</td>
+      <td style="padding:0.4rem 0.8rem;color:#f39c12;font-weight:700">58</td>
+      <td style="padding:0.4rem 0.8rem;color:#f85149;font-size:0.8rem">WHOOP</td>
+    </tr></tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Performance Correlation -->
+  <div class="card">
+    <h2>Recovery → Next-Day Workout Quality</h2>
+    <div class="grid-2" style="align-items:start">
+      <div>
+        <p style='color:#555;padding:1rem'>No correlation data available</p>
+      </div>
+      <div style="padding:1rem">
+        <div style="margin-bottom:1rem">
+          <div style="color:#555;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.25rem">R² Correlation</div>
+          <div style="font-size:2.5rem;font-weight:800;color:#f39c12">N/A</div>
+          <div style="color:#555;font-size:0.8rem;margin-top:0.25rem">
+            Weak correlation — other factors dominate
+          </div>
+        </div>
+        <div style="background:#0d1117;border-radius:8px;padding:1rem;font-size:0.82rem;color:#555">
+          <p>Each dot = one workout. X-axis is the composite recovery score from the prior day. Y-axis is workout quality (volume normalized 0–100).</p>
+          <p style="margin-top:0.5rem">Data points: <strong style="color:#ccc">0</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cross links -->
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem">
+    <a href="/recovery/index.html" style="color:#f39c12;text-decoration:none;font-size:0.85rem">→ WHOOP Recovery Detail</a>
+    <a href="/sleep_dashboard.html" style="color:#0a84ff;text-decoration:none;font-size:0.85rem">→ 8Sleep Dashboard</a>
+    <a href="/hrv_analysis/index.html" style="color:#2ea043;text-decoration:none;font-size:0.85rem">→ HRV Analysis</a>
+    <a href="/strength/index.html" style="color:#ccc;text-decoration:none;font-size:0.85rem">→ Strength</a>
+  </div>
+  <p style="color:#333;font-size:0.75rem;margin-top:1.5rem">Generated 2026-03-02 03:53 ET</p>
+</div>
+
+<script>
+function updateWeights() {
+  const ww = parseInt(document.getElementById('w_whoop').value);
+  const ws = parseInt(document.getElementById('w_sleep').value);
+  const wg = parseInt(document.getElementById('w_garmin').value);
+  document.getElementById('v_whoop').textContent = ww + '%';
+  document.getElementById('v_sleep').textContent = ws + '%';
+  document.getElementById('v_garmin').textContent = wg + '%';
+  const total = ww + ws + wg;
+  const warn = document.getElementById('weight_warn');
+  warn.style.display = total !== 100 ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

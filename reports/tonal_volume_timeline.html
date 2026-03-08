@@ -579,20 +579,28 @@
             container.innerHTML = html;
         }
         
+        function safeDraw(name, fn) {
+            try {
+                fn();
+            } catch (err) {
+                console.error(`[tonal] ${name} draw failed:`, err);
+            }
+        }
+
         // Wait for DOM to be ready
         window.addEventListener('load', function() {
-            drawMonthlyChart();
-            drawCumulativeChart();
-            drawYearlyChart();
-            buildHeatmap();
+            safeDraw('monthly', drawMonthlyChart);
+            safeDraw('cumulative', drawCumulativeChart);
+            safeDraw('yearly', drawYearlyChart);
+            safeDraw('heatmap', buildHeatmap);
         });
         
         // Redraw on resize
         window.addEventListener('resize', function() {
-            drawMonthlyChart();
-            drawCumulativeChart();
-            drawYearlyChart();
-            buildHeatmap();
+            safeDraw('monthly', drawMonthlyChart);
+            safeDraw('cumulative', drawCumulativeChart);
+            safeDraw('yearly', drawYearlyChart);
+            safeDraw('heatmap', buildHeatmap);
         });
     </script>
 </body>

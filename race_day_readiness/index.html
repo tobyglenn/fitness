@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Day Readiness</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0d1117;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        /* Navigation */
+        nav {
+            background: #161b22;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        nav a {
+            color: #8b949e;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            background: #f09912;
+            color: #0d1117;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #f09912;
+        }
+        .subtitle {
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        /* Cards */
+        .card {
+            background: #161b22;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #f09912;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Readiness Dial */
+        .readiness-section {
+            text-align: center;
+        }
+        .dial-container {
+            position: relative;
+            width: 200px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+        .dial-svg {
+            width: 200px;
+            height: 120px;
+        }
+        .dial-value {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+        .dial-label {
+            color: #f1c40f;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        
+        /* Metric Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .metric-card {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f09912;
+        }
+        .metric-label {
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        /* Table */
+        .race-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .race-table th, .race-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+        .race-table th {
+            color: #f09912;
+            font-weight: 600;
+        }
+        .race-table tr:hover {
+            background: #0d1117;
+        }
+        
+        /* Forecast */
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .forecast-day {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .forecast-day .day {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+        .forecast-day .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .forecast-day .date {
+            color: #8b949e;
+            font-size: 0.8rem;
+        }
+        
+        /* Scatter Plot */
+        .scatter-container {
+            height: 300px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .scatter-svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Recommendations */
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .rec-item {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #f09912;
+        }
+        .rec-item h4 {
+            color: #f09912;
+            margin-bottom: 10px;
+        }
+        .rec-item p {
+            color: #8b949e;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Full width sections */
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .forecast-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/calendars/">Calendars</a>
+            <a href="/strength/">Strength</a>
+            <a href="/cardio/">Cardio</a>
+            <a href="/recovery/">Recovery</a>
+            <a href="/nutrition/">Nutrition</a>
+            <a href="/running/">Running</a>
+            <a href="/recovery_forecaster/">Recovery Forecaster</a>
+            <a href="/hrv_analysis/">HRV Analysis</a>
+            <a href="/race_day_readiness/" class="active">Race Day</a>
+        </nav>
+        
+        <header>
+            <h1>🏃 Race Day Readiness</h1>
+            <p class="subtitle">Performance forecasting based on recovery, sleep, and training load</p>
+        </header>
+        
+        <div class="main-grid">
+            <div class="readiness-section">
+                <div class="card">
+                    <h2>📊 Current Readiness</h2>
+                    <div class="dial-container">
+                        <svg class="dial-svg" viewBox="0 0 200 120">
+                            <defs>
+                                <linearGradient id="dialGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#e74c3c"/>
+                                    <stop offset="50%" style="stop-color:#f1c40f"/>
+                                    <stop offset="100%" style="stop-color:#2ecc71"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#30363d" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#dialGradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="159.134 251"/>
+                        </svg>
+                        <div class="dial-value">63.4</div>
+                        <div class="dial-label">Moderate</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>📈 Key Metrics</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">57.0</div>
+                            <div class="metric-label">Recovery (WHOOP)</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">42</div>
+                            <div class="metric-label">Sleep (8Sleep)</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">118.2%</div>
+                            <div class="metric-label">HRV Status</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">50%</div>
+                            <div class="metric-label">Taper Quality</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="card">
+                    <h2>📅 7-Day Race Forecast</h2>
+                    <div class="forecast-grid">
+                        <div class="forecast-day">
+                            <div class="day">Sat</div>
+                            <div class="value" style="color:#f1c40f">62.1</div>
+                            <div class="date">03-07</div>
+                        </div>
+                        <div class="forecast-day">
+                            <div class="day">Sun</div>
+                            <div class="value" style="color:#f1c40f">68.2</div>
+                            <div class="date">03-08</div>
+                        </div>
+                        <div class="forecast-day">
+                            <div class="day">Mon</div>
+                            <div class="value" style="color:#f1c40f">69.5</div>
+                            <div class="date">03-09</div>
+                        </div>
+                        <div class="forecast-day">
+                            <div class="day">Tue</div>
+                            <div class="value" style="color:#f1c40f">70.8</div>
+                            <div class="date">03-10</div>
+                        </div>
+                        <div class="forecast-day">
+                            <div class="day">Wed</div>
+                            <div class="value" style="color:#f1c40f">72.0</div>
+                            <div class="date">03-11</div>
+                        </div>
+                        <div class="forecast-day">
+                            <div class="day">Thu</div>
+                            <div class="value" style="color:#f1c40f">73.2</div>
+                            <div class="date">03-12</div>
+                        </div>
+                        <div class="forecast-day">
+                            <div class="day">Fri</div>
+                            <div class="value" style="color:#f1c40f">74.5</div>
+                            <div class="date">03-13</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>🎯 Performance vs Readiness</h2>
+                    <p style="color: #8b949e; margin-bottom: 15px;">Pace as % of personal best (lower = faster)</p>
+                    <div class="scatter-container">
+                        <svg class="scatter-svg" viewBox="0 0 400 250">
+                            <!-- Axes -->
+                            <line x1="40" y1="220" x2="380" y2="220" stroke="#30363d" stroke-width="2"/>
+                            <line x1="40" y1="220" x2="40" y2="20" stroke="#30363d" stroke-width="2"/>
+                            
+                            <!-- Grid lines -->
+                            <line x1="40" y1="220" x2="380" y2="220" stroke="#21262d" stroke-width="1"/>
+                            <text x="35" y="224" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+                            <line x1="40" y1="170" x2="380" y2="170" stroke="#21262d" stroke-width="1"/>
+                            <text x="35" y="174" fill="#8b949e" font-size="10" text-anchor="end">25</text>
+                            <line x1="40" y1="120" x2="380" y2="120" stroke="#21262d" stroke-width="1"/>
+                            <text x="35" y="124" fill="#8b949e" font-size="10" text-anchor="end">50</text>
+                            <line x1="40" y1="70" x2="380" y2="70" stroke="#21262d" stroke-width="1"/>
+                            <text x="35" y="74" fill="#8b949e" font-size="10" text-anchor="end">75</text>
+                            <line x1="40" y1="20" x2="380" y2="20" stroke="#21262d" stroke-width="1"/>
+                            <text x="35" y="24" fill="#8b949e" font-size="10" text-anchor="end">100</text>
+                            <text x="40" y="235" fill="#8b949e" font-size="10" text-anchor="middle">80%</text>
+                            <text x="125" y="235" fill="#8b949e" font-size="10" text-anchor="middle">90%</text>
+                            <text x="210" y="235" fill="#8b949e" font-size="10" text-anchor="middle">100%</text>
+                            <text x="295" y="235" fill="#8b949e" font-size="10" text-anchor="middle">110%</text>
+                            <text x="380" y="235" fill="#8b949e" font-size="10" text-anchor="middle">120%</text>
+                            <!-- Axis labels -->
+                            <text x="210" y="248" fill="#f09912" font-size="12" text-anchor="middle">Readiness Score</text>
+                            <text x="15" y="125" fill="#f09912" font-size="12" text-anchor="middle" transform="rotate(-90, 15, 125)">Pace % of PR</text>
+                            <circle cx="40" cy="105.04692691994886" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="40" cy="96.77989032071237" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="40" cy="20" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="40" cy="25.223199845787462" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="57.0" cy="33.10077329033541" r="5" fill="#2ecc71" opacity="0.7"/>
+                            <circle cx="40" cy="20" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="40" cy="59.59369438087964" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="40" cy="20" r="5" fill="#f1c40f" opacity="0.7"/>
+                            <circle cx="40" cy="76.25922607938278" r="5" fill="#e74c3c" opacity="0.7"/>
+                            <circle cx="50.2" cy="20" r="5" fill="#2ecc71" opacity="0.7"/>
+                            <circle cx="40" cy="20" r="5" fill="#f1c40f" opacity="0.7"/>
+                            <circle cx="40" cy="20" r="5" fill="#e74c3c" opacity="0.7"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card full-width">
+            <h2>🏅 Recent Race History</h2>
+            <table class="race-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Distance (mi)</th>
+                        <th>Duration (min)</th>
+                        <th>Pace (min/mi)</th>
+                        <th>Avg HR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-02-19</td>
+                        <td>3.02</td>
+                        <td>35.6</td>
+                        <td>11.78</td>
+                        <td>132.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-02-15</td>
+                        <td>3.22</td>
+                        <td>45.9</td>
+                        <td>14.25</td>
+                        <td>133.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-02-13</td>
+                        <td>3.86</td>
+                        <td>54.0</td>
+                        <td>14.01</td>
+                        <td>130.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-02-03</td>
+                        <td>3.09</td>
+                        <td>41.1</td>
+                        <td>13.3</td>
+                        <td>139.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-28</td>
+                        <td>3.55</td>
+                        <td>43.9</td>
+                        <td>12.35</td>
+                        <td>143.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-24</td>
+                        <td>3.05</td>
+                        <td>41.9</td>
+                        <td>13.75</td>
+                        <td>137.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-19</td>
+                        <td>3.01</td>
+                        <td>39.5</td>
+                        <td>13.13</td>
+                        <td>130.0</td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-12</td>
+                        <td>3.05</td>
+                        <td>40.3</td>
+                        <td>13.23</td>
+                        <td>146.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-21</td>
+                        <td>3.48</td>
+                        <td>69.4</td>
+                        <td>19.95</td>
+                        <td>105.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-18</td>
+                        <td>3.64</td>
+                        <td>78.5</td>
+                        <td>21.56</td>
+                        <td>108.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-15</td>
+                        <td>3.54</td>
+                        <td>62.5</td>
+                        <td>17.67</td>
+                        <td>117.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-12</td>
+                        <td>3.57</td>
+                        <td>63.1</td>
+                        <td>17.68</td>
+                        <td>123.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-10</td>
+                        <td>3.36</td>
+                        <td>64.0</td>
+                        <td>19.08</td>
+                        <td>109.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-08-07</td>
+                        <td>3.31</td>
+                        <td>53.5</td>
+                        <td>16.13</td>
+                        <td>132.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-07-19</td>
+                        <td>3.42</td>
+                        <td>59.9</td>
+                        <td>17.49</td>
+                        <td>113.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-07-14</td>
+                        <td>3.63</td>
+                        <td>52.8</td>
+                        <td>14.55</td>
+                        <td>127.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-07-06</td>
+                        <td>4.26</td>
+                        <td>64.5</td>
+                        <td>15.15</td>
+                        <td>112.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-07-05</td>
+                        <td>4.4</td>
+                        <td>73.2</td>
+                        <td>16.65</td>
+                        <td>107.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-07-03</td>
+                        <td>4.0</td>
+                        <td>69.0</td>
+                        <td>17.26</td>
+                        <td>111.0</td>
+                    </tr>
+                    <tr>
+                        <td>2025-06-30</td>
+                        <td>5.0</td>
+                        <td>71.1</td>
+                        <td>14.22</td>
+                        <td>132.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card full-width">
+            <h2>💡 Recommendations</h2>
+            <div class="recommendations">
+                <div class="rec-item">
+                    <h4>🔴 Prioritize Recovery</h4>
+                    <p>Your WHOOP recovery score is low. Consider an active recovery day with light mobility work and extra sleep tonight.</p>
+                </div>
+                <div class="rec-item">
+                    <h4>😴 Focus on Sleep</h4>
+                    <p>Sleep quality is below optimal. Aim for 8+ hours and maintain a consistent bedtime routine. Consider earlier screen cutoff.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer style="text-align: center; padding: 20px; color: #8b949e;">
+            <p>Last updated: 2026-03-07 22:02</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Race Day Readiness Generator</p>
+        </footer>
+    </div>
+</body>
+</html>

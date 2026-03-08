@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Garmin Activity × Recovery Correlation</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif; background: #0d1117; color: #ffffff; }
+    nav { padding: 12px 16px; display: flex; gap: 12px; flex-wrap: wrap; background: #161b22; border-bottom: 1px solid #30363d; }
+    nav a { color: #8b949e; text-decoration: none; padding: 4px 8px; border-radius: 8px; font-size: 13px; }
+    nav a:hover { color: #ffffff; background: #21262d; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 18px 16px 36px; }
+    h1 { margin: 6px 0; font-size: 34px; }
+    .sub { color: #8b949e; margin-bottom: 14px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap: 12px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 12px; }
+    .card-title { color: #8b949e; font-size: 13px; margin-bottom: 6px; text-transform: capitalize; }
+    .value { font-size: 24px; font-weight: 700; }
+    .muted { color: #8b949e; font-size: 12px; }
+    .panel { margin-top: 14px; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 12px; }
+    .panel h2 { margin: 2px 0 12px; font-size: 20px; }
+    .panel p { color: #8b949e; font-size: 13px; }
+    ul { padding-left: 18px; line-height: 1.45; color: #c9d1d9; }
+    .chart { width: min(100%, 600px); height: auto; border: 1px solid #30363d; border-radius: 8px; display: block; }
+    @media (max-width: 700px) { h1 { font-size: 30px; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/index.html">index.html</a>
+    <a href="/calendars/">calendars/</a>
+    <a href="/strength/">strength/</a>
+    <a href="/cardio/">cardio/</a>
+    <a href="/recovery/">recovery/</a>
+    <a href="/nutrition/">nutrition/</a>
+    <a href="/running/">running/</a>
+    <a href="/recovery_trends/">recovery_trends/</a>
+    <a href="/garmin_running_drift/">garmin_running_drift</a>
+  </nav>
+  <div class="container">
+    <h1>Garmin Activity × Recovery Correlation</h1>
+    <div class="sub">How your Garmin activities affect next-day recovery and workout quality</div>
+    <div class="stats">
+      <div class="card"><div class="card-title">Matched Days</div><div class="value">103</div><div class="muted">Garmin day + next-day WHOOP/Tonal overlap</div></div>
+      <div class="card"><div class="card-title">Recovery Pairs</div><div class="value">102</div><div class="muted">Days with next-day WHOOP recovery score</div></div>
+      <div class="card"><div class="card-title">Date Span</div><div class="value">2025-02-17 → 2026-02-19</div><div class="muted">Sorted daily aggregate timeline</div></div>
+      <div class="card"><div class="card-title">Dominant Type</div><div class="value">Easy Run</div><div class="muted">Primary sample slice shown by top row</div></div>
+    </div>
+
+    <section class="panel">
+      <h2>Section 1: Activity Type Impact Summary</h2>
+      <div class="stats"><div class="card">
+            <div class="card-title">Easy Run</div>
+            <div class="value" style="color:#f39c12">55.75 / 32d</div>
+            <div class="muted">Avg next-day recovery · No tonal overlap</div>
+          </div><div class="card">
+            <div class="card-title">Tempo Run</div>
+            <div class="value" style="color:#f39c12">50.27 / 60d</div>
+            <div class="muted">Avg next-day recovery · avg tonal 13535.0 lbs</div>
+          </div><div class="card">
+            <div class="card-title">Hiit Sprint</div>
+            <div class="value" style="color:#f39c12">55.00 / 8d</div>
+            <div class="muted">Avg next-day recovery · No tonal overlap</div>
+          </div><div class="card">
+            <div class="card-title">Long Run</div>
+            <div class="value" style="color:#8b949e">N/A / 0d</div>
+            <div class="muted">Avg next-day recovery · No tonal overlap</div>
+          </div><div class="card">
+            <div class="card-title">Cycling</div>
+            <div class="value" style="color:#8b949e">N/A / 0d</div>
+            <div class="muted">Avg next-day recovery · No tonal overlap</div>
+          </div><div class="card">
+            <div class="card-title">Swimming</div>
+            <div class="value" style="color:#f85149">39.00 / 2d</div>
+            <div class="muted">Avg next-day recovery · No tonal overlap</div>
+          </div><div class="card">
+            <div class="card-title">Other</div>
+            <div class="value" style="color:#8b949e">N/A / 0d</div>
+            <div class="muted">Avg next-day recovery · No tonal overlap</div>
+          </div></div>
+    </section>
+
+    <section class="panel">
+      <h2>Section 2: Activity Type × Recovery Heatmap</h2>
+      <div class="chart"><svg viewBox="0 0 600 400" width="600" height="400" aria-label="Activity type by recovery heatmap">
+<rect width="600" height="400" fill="#0d1117"/>
+<text x="300" y="16" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="700">Activity Type × Recovery Heatmap</text>
+<line x1="100" y1="24" x2="100" y2="352" stroke="#30363d"/>
+<line x1="100" y1="352" x2="580" y2="352" stroke="#30363d"/>
+<text x="160.0" y="376" fill="#8b949e" font-size="11" text-anchor="middle">0-30</text>
+<line x1="220.0" y1="24" x2="220.0" y2="352" stroke="#222831"/>
+<text x="280.0" y="376" fill="#8b949e" font-size="11" text-anchor="middle">30-50</text>
+<line x1="340.0" y1="24" x2="340.0" y2="352" stroke="#222831"/>
+<text x="400.0" y="376" fill="#8b949e" font-size="11" text-anchor="middle">50-70</text>
+<line x1="460.0" y1="24" x2="460.0" y2="352" stroke="#222831"/>
+<text x="520.0" y="376" fill="#8b949e" font-size="11" text-anchor="middle">70-100</text>
+<line x1="580.0" y1="24" x2="580.0" y2="352" stroke="#222831"/>
+<text x="92" y="51.4" fill="#8b949e" font-size="11" text-anchor="end">Easy Run</text>
+<line x1="100" y1="70.85714285714286" x2="580" y2="70.85714285714286" stroke="#222831"/>
+<text x="92" y="98.3" fill="#8b949e" font-size="11" text-anchor="end">Tempo Run</text>
+<line x1="100" y1="117.71428571428572" x2="580" y2="117.71428571428572" stroke="#222831"/>
+<text x="92" y="145.1" fill="#8b949e" font-size="11" text-anchor="end">Hiit Sprint</text>
+<line x1="100" y1="164.57142857142856" x2="580" y2="164.57142857142856" stroke="#222831"/>
+<text x="92" y="192.0" fill="#8b949e" font-size="11" text-anchor="end">Long Run</text>
+<line x1="100" y1="211.42857142857142" x2="580" y2="211.42857142857142" stroke="#222831"/>
+<text x="92" y="238.9" fill="#8b949e" font-size="11" text-anchor="end">Cycling</text>
+<line x1="100" y1="258.2857142857143" x2="580" y2="258.2857142857143" stroke="#222831"/>
+<text x="92" y="285.7" fill="#8b949e" font-size="11" text-anchor="end">Swimming</text>
+<line x1="100" y1="305.1428571428571" x2="580" y2="305.1428571428571" stroke="#222831"/>
+<text x="92" y="332.6" fill="#8b949e" font-size="11" text-anchor="end">Other</text>
+<line x1="100" y1="351.99999999999994" x2="580" y2="351.99999999999994" stroke="#222831"/>
+<rect x="100.0" y="24.0" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.45"><title>easy_run / 0-30: 6 days</title></rect>
+<rect x="220.0" y="24.0" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.54"><title>easy_run / 30-50: 8 days</title></rect>
+<rect x="340.0" y="24.0" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.45"><title>easy_run / 50-70: 6 days</title></rect>
+<rect x="460.0" y="24.0" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.71"><title>easy_run / 70-100: 12 days</title></rect>
+<rect x="100.0" y="70.9" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.66"><title>tempo_run / 0-30: 11 days</title></rect>
+<rect x="220.0" y="70.9" width="120.0" height="46.9" fill="#2ea043" fill-opacity="1.00"><title>tempo_run / 30-50: 19 days</title></rect>
+<rect x="340.0" y="70.9" width="120.0" height="46.9" fill="#2ea043" fill-opacity="1.00"><title>tempo_run / 50-70: 19 days</title></rect>
+<rect x="460.0" y="70.9" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.66"><title>tempo_run / 70-100: 11 days</title></rect>
+<rect x="100.0" y="117.7" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.28"><title>hiit_sprint / 0-30: 2 days</title></rect>
+<rect x="220.0" y="117.7" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.33"><title>hiit_sprint / 30-50: 3 days</title></rect>
+<rect x="340.0" y="117.7" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.24"><title>hiit_sprint / 50-70: 1 days</title></rect>
+<rect x="460.0" y="117.7" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.28"><title>hiit_sprint / 70-100: 2 days</title></rect>
+<rect x="100.0" y="258.3" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.24"><title>swimming / 0-30: 1 days</title></rect>
+<rect x="340.0" y="258.3" width="120.0" height="46.9" fill="#2ea043" fill-opacity="0.24"><title>swimming / 50-70: 1 days</title></rect>
+</svg></div>
+    </section>
+
+    <section class="panel">
+      <h2>Section 3: Intensity vs Recovery Scatter</h2>
+      <div class="chart"><svg viewBox="0 0 600 400" width="600" height="400" aria-label="Intensity vs recovery scatter">
+<rect width="600" height="400" fill="#0d1117"/>
+<text x="300" y="16" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="700">Intensity vs Next-Day Recovery</text>
+<line x1="56.0" y1="28" x2="56.0" y2="348" stroke="#30363d" stroke-width="1" />
+<line x1="159.2" y1="28" x2="159.2" y2="348" stroke="#30363d" stroke-width="1" />
+<line x1="262.4" y1="28" x2="262.4" y2="348" stroke="#30363d" stroke-width="1" />
+<line x1="365.6" y1="28" x2="365.6" y2="348" stroke="#30363d" stroke-width="1" />
+<line x1="468.8" y1="28" x2="468.8" y2="348" stroke="#30363d" stroke-width="1" />
+<line x1="572.0" y1="28" x2="572.0" y2="348" stroke="#30363d" stroke-width="1" />
+<line x1="56" y1="28.0" x2="572" y2="28.0" stroke="#30363d" stroke-width="1" />
+<text x="48" y="32.0" fill="#8b949e" font-size="10" text-anchor="end">100</text>
+<line x1="56" y1="92.0" x2="572" y2="92.0" stroke="#30363d" stroke-width="1" />
+<text x="48" y="96.0" fill="#8b949e" font-size="10" text-anchor="end">80</text>
+<line x1="56" y1="156.0" x2="572" y2="156.0" stroke="#30363d" stroke-width="1" />
+<text x="48" y="160.0" fill="#8b949e" font-size="10" text-anchor="end">60</text>
+<line x1="56" y1="220.0" x2="572" y2="220.0" stroke="#30363d" stroke-width="1" />
+<text x="48" y="224.0" fill="#8b949e" font-size="10" text-anchor="end">40</text>
+<line x1="56" y1="284.0" x2="572" y2="284.0" stroke="#30363d" stroke-width="1" />
+<text x="48" y="288.0" fill="#8b949e" font-size="10" text-anchor="end">20</text>
+<line x1="56" y1="348.0" x2="572" y2="348.0" stroke="#30363d" stroke-width="1" />
+<text x="48" y="352.0" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+<line x1="56" y1="28" x2="56" y2="348" stroke="#9ba3ad" stroke-width="2"/>
+<line x1="56" y1="348" x2="572" y2="348" stroke="#9ba3ad" stroke-width="2"/>
+<text x="300.0" y="386" fill="#8b949e" font-size="11" text-anchor="middle">Duration (minutes)</text>
+<text x="18" y="188.0" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90 18 188.0)">Next-day Recovery</text>
+<line x1="56.0" y1="198.9" x2="572.0" y2="146.9" stroke="#f39c12" stroke-width="2" stroke-dasharray="6,4"/>
+<circle cx="378.5" cy="258.4" r="7.5" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-03-15: Tempo Run | Recovery 28.0 | Duration 67.5m</title></circle>
+<circle cx="106.9" cy="143.2" r="4.1" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-04-22: Tempo Run | Recovery 64.0 | Duration 16.0m</title></circle>
+<circle cx="104.3" cy="95.2" r="4.0" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-02: Tempo Run | Recovery 79.0 | Duration 15.5m</title></circle>
+<circle cx="182.8" cy="194.4" r="5.0" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-03: Easy Run | Recovery 48.0 | Duration 30.4m</title></circle>
+<circle cx="139.1" cy="108.0" r="4.5" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-07: Easy Run | Recovery 75.0 | Duration 22.1m</title></circle>
+<circle cx="251.0" cy="117.6" r="5.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-15: Tempo Run | Recovery 72.0 | Duration 43.3m</title></circle>
+<circle cx="102.4" cy="136.8" r="4.0" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-16: Hiit Sprint | Recovery 66.0 | Duration 15.2m</title></circle>
+<circle cx="255.0" cy="194.4" r="5.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-17: Tempo Run | Recovery 48.0 | Duration 44.1m</title></circle>
+<circle cx="269.5" cy="44.0" r="6.1" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-18: Tempo Run | Recovery 95.0 | Duration 46.8m</title></circle>
+<circle cx="284.5" cy="239.2" r="6.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-19: Tempo Run | Recovery 34.0 | Duration 49.7m</title></circle>
+<circle cx="319.4" cy="37.6" r="6.8" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-24: Hiit Sprint | Recovery 97.0 | Duration 56.3m</title></circle>
+<circle cx="327.8" cy="56.8" r="6.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-25: Tempo Run | Recovery 91.0 | Duration 57.9m</title></circle>
+<circle cx="181.4" cy="188.0" r="5.0" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-26: Tempo Run | Recovery 50.0 | Duration 30.1m</title></circle>
+<circle cx="234.1" cy="184.8" r="5.7" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-29: Tempo Run | Recovery 51.0 | Duration 40.1m</title></circle>
+<circle cx="127.1" cy="226.4" r="4.3" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-30: Easy Run | Recovery 38.0 | Duration 19.8m</title></circle>
+<circle cx="327.9" cy="226.4" r="6.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-05-31: Tempo Run | Recovery 38.0 | Duration 57.9m</title></circle>
+<circle cx="324.3" cy="204.0" r="6.8" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-01: Tempo Run | Recovery 45.0 | Duration 57.2m</title></circle>
+<circle cx="214.2" cy="264.8" r="5.4" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-02: Hiit Sprint | Recovery 26.0 | Duration 36.4m</title></circle>
+<circle cx="244.7" cy="92.0" r="5.8" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-03: Easy Run | Recovery 80.0 | Duration 42.1m</title></circle>
+<circle cx="289.7" cy="130.4" r="6.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-04: Tempo Run | Recovery 68.0 | Duration 50.7m</title></circle>
+<circle cx="282.8" cy="284.0" r="6.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-05: Tempo Run | Recovery 20.0 | Duration 49.4m</title></circle>
+<circle cx="270.9" cy="82.4" r="6.1" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-07: Tempo Run | Recovery 83.0 | Duration 47.1m</title></circle>
+<circle cx="389.5" cy="152.8" r="7.6" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-08: Tempo Run | Recovery 61.0 | Duration 69.6m</title></circle>
+<circle cx="190.7" cy="200.8" r="5.1" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-09: Easy Run | Recovery 46.0 | Duration 31.9m</title></circle>
+<circle cx="246.9" cy="149.6" r="5.8" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-10: Tempo Run | Recovery 62.0 | Duration 42.6m</title></circle>
+<circle cx="207.6" cy="184.8" r="5.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-11: Tempo Run | Recovery 51.0 | Duration 35.1m</title></circle>
+<circle cx="293.3" cy="220.0" r="6.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-12: Tempo Run | Recovery 40.0 | Duration 51.4m</title></circle>
+<circle cx="237.8" cy="172.0" r="5.7" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-14: Tempo Run | Recovery 55.0 | Duration 40.8m</title></circle>
+<circle cx="294.6" cy="159.2" r="6.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-15: Tempo Run | Recovery 59.0 | Duration 51.6m</title></circle>
+<circle cx="286.8" cy="130.4" r="6.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-16: Tempo Run | Recovery 68.0 | Duration 50.1m</title></circle>
+<circle cx="572.0" cy="178.4" r="9.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-17: Tempo Run | Recovery 53.0 | Duration 104.2m</title></circle>
+<circle cx="251.1" cy="197.6" r="5.9" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-18: Easy Run | Recovery 47.0 | Duration 43.4m</title></circle>
+<circle cx="259.6" cy="258.4" r="6.0" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-20: Tempo Run | Recovery 28.0 | Duration 45.0m</title></circle>
+<circle cx="323.6" cy="85.6" r="6.8" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-22: Easy Run | Recovery 82.0 | Duration 57.1m</title></circle>
+<circle cx="290.2" cy="194.4" r="6.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-23: Tempo Run | Recovery 48.0 | Duration 50.8m</title></circle>
+<circle cx="292.4" cy="47.2" r="6.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-24: Tempo Run | Recovery 94.0 | Duration 51.2m</title></circle>
+<circle cx="356.0" cy="277.6" r="7.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-26: Tempo Run | Recovery 22.0 | Duration 63.2m</title></circle>
+<circle cx="397.2" cy="175.2" r="7.7" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-06-30: Tempo Run | Recovery 54.0 | Duration 71.1m</title></circle>
+<circle cx="219.0" cy="63.2" r="5.5" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-01: Easy Run | Recovery 89.0 | Duration 37.3m</title></circle>
+<circle cx="237.9" cy="188.0" r="5.7" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-02: Easy Run | Recovery 50.0 | Duration 40.9m</title></circle>
+<circle cx="386.5" cy="101.6" r="7.6" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-03: Tempo Run | Recovery 77.0 | Duration 69.0m</title></circle>
+<circle cx="408.7" cy="124.0" r="7.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-05: Tempo Run | Recovery 70.0 | Duration 73.2m</title></circle>
+<circle cx="362.6" cy="232.8" r="7.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-06: Tempo Run | Recovery 36.0 | Duration 64.5m</title></circle>
+<circle cx="274.9" cy="191.2" r="6.2" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-11: Easy Run | Recovery 49.0 | Duration 47.9m</title></circle>
+<circle cx="300.8" cy="47.2" r="6.5" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-14: Tempo Run | Recovery 94.0 | Duration 52.8m</title></circle>
+<circle cx="211.7" cy="274.4" r="5.4" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-18: Easy Run | Recovery 23.0 | Duration 35.9m</title></circle>
+<circle cx="338.3" cy="184.8" r="7.0" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-19: Tempo Run | Recovery 51.0 | Duration 59.9m</title></circle>
+<circle cx="108.4" cy="175.2" r="4.1" fill="#79c0ff" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-26: Swimming | Recovery 54.0 | Duration 16.3m</title></circle>
+<circle cx="146.1" cy="271.2" r="4.6" fill="#79c0ff" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-29: Swimming | Recovery 24.0 | Duration 23.4m</title></circle>
+<circle cx="218.2" cy="271.2" r="5.5" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-07-30: Easy Run | Recovery 24.0 | Duration 37.1m</title></circle>
+<circle cx="219.9" cy="168.8" r="5.5" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-03: Easy Run | Recovery 56.0 | Duration 37.4m</title></circle>
+<circle cx="304.3" cy="312.8" r="6.6" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-07: Tempo Run | Recovery 11.0 | Duration 53.4m</title></circle>
+<circle cx="360.1" cy="92.0" r="7.3" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-10: Easy Run | Recovery 80.0 | Duration 64.0m</title></circle>
+<circle cx="566.5" cy="236.0" r="9.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-12: Tempo Run | Recovery 35.0 | Duration 103.2m</title></circle>
+<circle cx="352.1" cy="143.2" r="7.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-15: Tempo Run | Recovery 64.0 | Duration 62.5m</title></circle>
+<circle cx="436.6" cy="210.4" r="8.2" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-18: Easy Run | Recovery 43.0 | Duration 78.5m</title></circle>
+<circle cx="254.7" cy="127.2" r="5.9" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-19: Easy Run | Recovery 69.0 | Duration 44.0m</title></circle>
+<circle cx="439.9" cy="76.0" r="8.3" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-21: Easy Run | Recovery 85.0 | Duration 79.2m</title></circle>
+<circle cx="231.1" cy="120.8" r="5.6" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-22: Easy Run | Recovery 71.0 | Duration 39.6m</title></circle>
+<circle cx="79.1" cy="168.8" r="3.7" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-25: Easy Run | Recovery 56.0 | Duration 10.8m</title></circle>
+<circle cx="161.1" cy="213.6" r="4.8" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-26: Tempo Run | Recovery 42.0 | Duration 26.3m</title></circle>
+<circle cx="147.9" cy="300.0" r="4.6" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-27: Easy Run | Recovery 15.0 | Duration 23.8m</title></circle>
+<circle cx="144.4" cy="264.8" r="4.5" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-28: Easy Run | Recovery 26.0 | Duration 23.1m</title></circle>
+<circle cx="227.1" cy="50.4" r="5.6" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-08-31: Easy Run | Recovery 93.0 | Duration 38.8m</title></circle>
+<circle cx="193.5" cy="252.0" r="5.2" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-02: Hiit Sprint | Recovery 30.0 | Duration 32.4m</title></circle>
+<circle cx="214.1" cy="204.0" r="5.4" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-03: Hiit Sprint | Recovery 45.0 | Duration 36.3m</title></circle>
+<circle cx="92.0" cy="197.6" r="3.9" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-10: Easy Run | Recovery 47.0 | Duration 13.2m</title></circle>
+<circle cx="106.1" cy="172.0" r="4.1" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-11: Easy Run | Recovery 55.0 | Duration 15.9m</title></circle>
+<circle cx="337.0" cy="85.6" r="7.0" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-13: Easy Run | Recovery 82.0 | Duration 59.7m</title></circle>
+<circle cx="82.8" cy="229.6" r="3.8" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-26: Easy Run | Recovery 37.0 | Duration 11.5m</title></circle>
+<circle cx="95.9" cy="277.6" r="3.9" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-09-30: Easy Run | Recovery 22.0 | Duration 13.9m</title></circle>
+<circle cx="202.2" cy="101.6" r="5.3" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2025-10-09: Easy Run | Recovery 77.0 | Duration 34.1m</title></circle>
+<circle cx="141.5" cy="175.2" r="4.5" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-05: Easy Run | Recovery 54.0 | Duration 22.6m</title></circle>
+<circle cx="178.4" cy="133.6" r="5.0" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-06: Tempo Run | Recovery 67.0 | Duration 29.6m</title></circle>
+<circle cx="118.7" cy="34.4" r="4.2" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-07: Hiit Sprint | Recovery 98.0 | Duration 18.2m</title></circle>
+<circle cx="56.0" cy="226.4" r="3.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-08: Tempo Run | Recovery 38.0 | Duration 6.4m</title></circle>
+<circle cx="166.1" cy="191.2" r="4.8" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-10: Hiit Sprint | Recovery 49.0 | Duration 27.2m</title></circle>
+<circle cx="235.2" cy="184.8" r="5.7" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-12: Tempo Run | Recovery 51.0 | Duration 40.3m</title></circle>
+<circle cx="90.0" cy="290.4" r="3.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-13: Tempo Run | Recovery 18.0 | Duration 12.8m</title></circle>
+<circle cx="118.0" cy="165.6" r="4.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-14: Tempo Run | Recovery 57.0 | Duration 18.1m</title></circle>
+<circle cx="230.8" cy="191.2" r="5.6" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-19: Tempo Run | Recovery 49.0 | Duration 39.5m</title></circle>
+<circle cx="181.8" cy="149.6" r="5.0" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-20: Tempo Run | Recovery 62.0 | Duration 30.2m</title></circle>
+<circle cx="197.1" cy="194.4" r="5.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-21: Tempo Run | Recovery 48.0 | Duration 33.1m</title></circle>
+<circle cx="243.6" cy="117.6" r="5.8" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-24: Tempo Run | Recovery 72.0 | Duration 41.9m</title></circle>
+<circle cx="121.5" cy="207.2" r="4.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-27: Tempo Run | Recovery 44.0 | Duration 18.8m</title></circle>
+<circle cx="254.0" cy="255.2" r="5.9" fill="#f85149" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-28: Hiit Sprint | Recovery 29.0 | Duration 43.9m</title></circle>
+<circle cx="118.3" cy="248.8" r="4.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-01-31: Tempo Run | Recovery 31.0 | Duration 18.2m</title></circle>
+<circle cx="122.0" cy="197.6" r="4.3" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-01: Tempo Run | Recovery 47.0 | Duration 18.9m</title></circle>
+<circle cx="210.3" cy="300.0" r="5.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-02: Tempo Run | Recovery 15.0 | Duration 35.6m</title></circle>
+<circle cx="239.4" cy="316.0" r="5.7" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-03: Tempo Run | Recovery 10.0 | Duration 41.1m</title></circle>
+<circle cx="77.5" cy="114.4" r="3.7" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-05: Easy Run | Recovery 73.0 | Duration 10.4m</title></circle>
+<circle cx="234.6" cy="69.6" r="5.7" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-06: Tempo Run | Recovery 87.0 | Duration 40.2m</title></circle>
+<circle cx="120.4" cy="207.2" r="4.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-08: Tempo Run | Recovery 44.0 | Duration 18.6m</title></circle>
+<circle cx="210.9" cy="146.4" r="5.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-09: Tempo Run | Recovery 63.0 | Duration 35.7m</title></circle>
+<circle cx="147.3" cy="290.4" r="4.6" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-10: Tempo Run | Recovery 18.0 | Duration 23.7m</title></circle>
+<circle cx="118.4" cy="290.4" r="4.2" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-11: Tempo Run | Recovery 18.0 | Duration 18.2m</title></circle>
+<circle cx="66.6" cy="76.0" r="3.6" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-12: Easy Run | Recovery 85.0 | Duration 8.4m</title></circle>
+<circle cx="307.5" cy="268.0" r="6.6" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-13: Tempo Run | Recovery 25.0 | Duration 54.0m</title></circle>
+<circle cx="264.6" cy="236.0" r="6.1" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-15: Tempo Run | Recovery 35.0 | Duration 45.9m</title></circle>
+<circle cx="147.8" cy="325.6" r="4.6" fill="#2ea043" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-16: Easy Run | Recovery 7.0 | Duration 23.8m</title></circle>
+<circle cx="170.2" cy="226.4" r="4.9" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-18: Tempo Run | Recovery 38.0 | Duration 28.0m</title></circle>
+<circle cx="210.1" cy="226.4" r="5.4" fill="#f39c12" opacity="0.8" stroke="#ffffff" stroke-width="1"><title>2026-02-19: Tempo Run | Recovery 38.0 | Duration 35.6m</title></circle>
+<text x="56.0" y="366.0" fill="#8b949e" font-size="10" text-anchor="middle">6</text>
+<text x="159.2" y="366.0" fill="#8b949e" font-size="10" text-anchor="middle">26</text>
+<text x="262.4" y="366.0" fill="#8b949e" font-size="10" text-anchor="middle">45</text>
+<text x="365.6" y="366.0" fill="#8b949e" font-size="10" text-anchor="middle">65</text>
+<text x="468.8" y="366.0" fill="#8b949e" font-size="10" text-anchor="middle">85</text>
+<text x="572.0" y="366.0" fill="#8b949e" font-size="10" text-anchor="middle">104</text>
+</svg></div>
+      <p>Color indicates dominant activity type. Point size reflects activity duration.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Section 4: Workout Quality Link</h2>
+      <div class="chart"><svg viewBox="0 0 600 300" width="600" height="300" aria-label="Tonal volume by previous activity type">
+<rect width="600" height="300" fill="#0d1117"/>
+<text x="300" y="16" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="700">Avg Next-Day Tonal Volume by Activity Type</text>
+<line x1="82" y1="256" x2="576" y2="256" stroke="#30363d"/>
+<line x1="82" y1="20" x2="82" y2="256" stroke="#9ba3ad"/>
+<rect x="156.1" y="36.0" width="345.8" height="220.0" fill="#f39c12" opacity="0.9"/>
+<text x="329.0" y="276" text-anchor="middle" fill="#8b949e" font-size="11">tempo run</text>
+<text x="329.0" y="30.0" text-anchor="middle" fill="#c9d1d9" font-size="10">13535 (1)</text>
+<line x1="82" y1="20.0" x2="576" y2="20.0" stroke="#30363d" stroke-width="1" opacity="0.6"/>
+<text x="74" y="23.0" fill="#8b949e" font-size="10" text-anchor="end">13535</text>
+<line x1="82" y1="79.0" x2="576" y2="79.0" stroke="#30363d" stroke-width="1" opacity="0.6"/>
+<text x="74" y="82.0" fill="#8b949e" font-size="10" text-anchor="end">10151</text>
+<line x1="82" y1="138.0" x2="576" y2="138.0" stroke="#30363d" stroke-width="1" opacity="0.6"/>
+<text x="74" y="141.0" fill="#8b949e" font-size="10" text-anchor="end">6768</text>
+<line x1="82" y1="197.0" x2="576" y2="197.0" stroke="#30363d" stroke-width="1" opacity="0.6"/>
+<text x="74" y="200.0" fill="#8b949e" font-size="10" text-anchor="end">3384</text>
+<line x1="82" y1="256.0" x2="576" y2="256.0" stroke="#30363d" stroke-width="1" opacity="0.6"/>
+<text x="74" y="259.0" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+<text x="300.0" y="290" fill="#8b949e" font-size="11" text-anchor="middle">Next-Day Activity Type (dominant Garmin)</text>
+<text x="18" y="160" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90 18 160)">Avg Tonal Volume (lbs)</text>
+</svg></div>
+      <div class="chart" style="margin-top:14px"><svg viewBox="0 0 600 300" width="600" height="300" aria-label="Stress vs Tonal volume">
+<rect width="600" height="300" fill="#0d1117"/>
+<text x="300" y="16" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="700">Garmin Stress vs Next-Day Tonal Volume</text>
+<line x1="54" y1="24" x2="54" y2="254" stroke="#30363d"/>
+<line x1="54" y1="254" x2="578" y2="254" stroke="#30363d"/>
+<line x1="54.0" y1="24" x2="54.0" y2="254" stroke="#222831"/>
+<line x1="185.0" y1="24" x2="185.0" y2="254" stroke="#222831"/>
+<line x1="316.0" y1="24" x2="316.0" y2="254" stroke="#222831"/>
+<line x1="447.0" y1="24" x2="447.0" y2="254" stroke="#222831"/>
+<line x1="578.0" y1="24" x2="578.0" y2="254" stroke="#222831"/>
+<line x1="54" y1="24.0" x2="578" y2="24.0" stroke="#222831"/>
+<line x1="54" y1="81.5" x2="578" y2="81.5" stroke="#222831"/>
+<line x1="54" y1="139.0" x2="578" y2="139.0" stroke="#222831"/>
+<line x1="54" y1="196.5" x2="578" y2="196.5" stroke="#222831"/>
+<line x1="54" y1="254.0" x2="578" y2="254.0" stroke="#222831"/>
+<circle cx="54.0" cy="254.0" r="4" fill="#f39c12" opacity="0.85" stroke="#ffffff" stroke-width="1"><title>2025-02-17: TE 2.10 · Volume 13535</title></circle>
+<text x="300.0" y="286" fill="#8b949e" font-size="11" text-anchor="middle">Avg Aerobic TE</text>
+<text x="15" y="150" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90 15 150)">Next-Day Tonal Volume (lbs)</text>
+</svg></div>
+    </section>
+
+    <section class="panel">
+      <h2>Section 5: Optimal Activity Timing</h2>
+      <div class="chart"><svg viewBox="0 0 600 300" width="600" height="300" aria-label="Day of week × activity type" >
+<rect width="600" height="300" fill="#0d1117"/>
+<text x="300" y="16" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="700">Best Days by Activity Type (Avg Next-Day Recovery)</text>
+<text x="108.3" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Mon</text>
+<line x1="72.0" y1="26" x2="72.0" y2="258" stroke="#222831"/>
+<text x="180.9" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Tue</text>
+<line x1="144.57142857142856" y1="26" x2="144.57142857142856" y2="258" stroke="#222831"/>
+<text x="253.4" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Wed</text>
+<line x1="217.14285714285714" y1="26" x2="217.14285714285714" y2="258" stroke="#222831"/>
+<text x="326.0" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Thu</text>
+<line x1="289.7142857142857" y1="26" x2="289.7142857142857" y2="258" stroke="#222831"/>
+<text x="398.6" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Fri</text>
+<line x1="362.2857142857143" y1="26" x2="362.2857142857143" y2="258" stroke="#222831"/>
+<text x="471.1" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Sat</text>
+<line x1="434.85714285714283" y1="26" x2="434.85714285714283" y2="258" stroke="#222831"/>
+<text x="543.7" y="276" fill="#8b949e" font-size="11" text-anchor="middle">Sun</text>
+<line x1="507.42857142857144" y1="26" x2="507.42857142857144" y2="258" stroke="#222831"/>
+<text x="64" y="45.6" fill="#8b949e" font-size="11" text-anchor="end">easy run</text>
+<line x1="72" y1="59.142857142857146" x2="580" y2="59.142857142857146" stroke="#222831"/>
+<text x="64" y="78.7" fill="#8b949e" font-size="11" text-anchor="end">tempo run</text>
+<line x1="72" y1="92.28571428571429" x2="580" y2="92.28571428571429" stroke="#222831"/>
+<text x="64" y="111.9" fill="#8b949e" font-size="11" text-anchor="end">hiit sprint</text>
+<line x1="72" y1="125.42857142857144" x2="580" y2="125.42857142857144" stroke="#222831"/>
+<text x="64" y="145.0" fill="#8b949e" font-size="11" text-anchor="end">long run</text>
+<line x1="72" y1="158.57142857142858" x2="580" y2="158.57142857142858" stroke="#222831"/>
+<text x="64" y="178.1" fill="#8b949e" font-size="11" text-anchor="end">cycling</text>
+<line x1="72" y1="191.71428571428572" x2="580" y2="191.71428571428572" stroke="#222831"/>
+<text x="64" y="211.3" fill="#8b949e" font-size="11" text-anchor="end">swimming</text>
+<line x1="72" y1="224.85714285714286" x2="580" y2="224.85714285714286" stroke="#222831"/>
+<text x="64" y="244.4" fill="#8b949e" font-size="11" text-anchor="end">other</text>
+<line x1="72" y1="258.00000000000006" x2="580" y2="258.00000000000006" stroke="#222831"/>
+<rect x="72.0" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.53"><title>Mon / easy_run: 41.2</title></rect>
+<rect x="72.0" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.62"><title>Mon / tempo_run: 52.6</title></rect>
+<rect x="72.0" y="92.3" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.41"><title>Mon / hiit_sprint: 26.0</title></rect>
+<rect x="144.6" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.72"><title>Tue / easy_run: 65.0</title></rect>
+<rect x="144.6" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.58"><title>Tue / tempo_run: 47.4</title></rect>
+<rect x="144.6" y="92.3" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.44"><title>Tue / hiit_sprint: 30.0</title></rect>
+<rect x="144.6" y="191.7" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.39"><title>Tue / swimming: 24.0</title></rect>
+<rect x="217.1" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.54"><title>Wed / easy_run: 43.0</title></rect>
+<rect x="217.1" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.57"><title>Wed / tempo_run: 46.7</title></rect>
+<rect x="217.1" y="92.3" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.66"><title>Wed / hiit_sprint: 57.3</title></rect>
+<rect x="289.7" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.73"><title>Thu / easy_run: 66.8</title></rect>
+<rect x="289.7" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.53"><title>Thu / tempo_run: 41.0</title></rect>
+<rect x="362.3" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.55"><title>Fri / easy_run: 43.6</title></rect>
+<rect x="362.3" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.65"><title>Fri / tempo_run: 56.6</title></rect>
+<rect x="362.3" y="92.3" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.73"><title>Fri / hiit_sprint: 66.0</title></rect>
+<rect x="434.9" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.72"><title>Sat / easy_run: 65.0</title></rect>
+<rect x="434.9" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.62"><title>Sat / tempo_run: 52.9</title></rect>
+<rect x="434.9" y="92.3" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.78"><title>Sat / hiit_sprint: 73.0</title></rect>
+<rect x="434.9" y="191.7" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.63"><title>Sat / swimming: 54.0</title></rect>
+<rect x="507.4" y="26.0" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.82"><title>Sun / easy_run: 77.8</title></rect>
+<rect x="507.4" y="59.1" width="72.6" height="33.1" fill="#f39c12" fill-opacity="0.66"><title>Sun / tempo_run: 57.0</title></rect>
+</svg></div>
+      <div class="chart" style="margin-top:14px"><svg viewBox="0 0 600 300" width="600" height="300" aria-label="7-day recovery trend with workout count overlay">
+<rect width="600" height="300" fill="#0d1117"/>
+<text x="300" y="16" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="700">7-day Recovery Trend</text>
+<line x1="56" y1="22.0" x2="574" y2="22.0" stroke="#30363d"/>
+<text x="48" y="25.0" fill="#8b949e" font-size="10" text-anchor="end">100</text>
+<line x1="56" y1="80.0" x2="574" y2="80.0" stroke="#30363d"/>
+<text x="48" y="83.0" fill="#8b949e" font-size="10" text-anchor="end">75</text>
+<line x1="56" y1="138.0" x2="574" y2="138.0" stroke="#30363d"/>
+<text x="48" y="141.0" fill="#8b949e" font-size="10" text-anchor="end">50</text>
+<line x1="56" y1="196.0" x2="574" y2="196.0" stroke="#30363d"/>
+<text x="48" y="199.0" fill="#8b949e" font-size="10" text-anchor="end">25</text>
+<line x1="56" y1="254.0" x2="574" y2="254.0" stroke="#30363d"/>
+<text x="48" y="257.0" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+<line x1="56" y1="22" x2="56" y2="254" stroke="#9ba3ad"/>
+<line x1="56" y1="254" x2="574" y2="254" stroke="#9ba3ad"/>
+<polyline points="56.0,189.0 61.1,147.3 66.3,121.8 71.4,127.0 76.5,117.6 81.6,112.5 86.8,110.8 91.9,104.2 97.0,93.9 102.2,108.8 107.3,92.6 112.4,87.3 117.5,94.6 122.7,99.6 127.8,102.9 132.9,121.8 138.1,118.1 143.2,141.6 148.3,145.3 153.4,139.3 158.6,149.6 163.7,134.7 168.8,127.1 174.0,126.7 179.1,114.8 184.2,124.4 189.3,133.7 194.5,122.1 199.6,130.0 204.7,127.7 209.9,125.4 215.0,130.4 220.1,138.0 225.2,124.1 230.4,126.4 235.5,114.8 240.6,130.0 245.8,129.7 250.9,115.8 256.0,108.5 261.1,110.2 266.3,102.9 271.4,122.1 276.5,113.1 281.7,99.9 286.8,121.8 291.9,121.4 297.0,129.1 302.2,144.3 307.3,148.3 312.4,146.0 317.6,173.5 322.7,154.6 327.8,159.9 333.0,156.6 338.1,150.3 343.2,135.3 348.3,125.7 353.5,105.9 358.6,113.8 363.7,111.5 368.9,127.7 374.0,133.4 379.1,125.4 384.2,143.6 389.4,152.3 394.5,155.2 399.6,150.9 404.8,128.7 409.9,125.1 415.0,148.6 420.1,133.0 425.3,130.0 430.4,123.4 435.5,109.2 440.7,123.7 445.8,119.8 450.9,110.2 456.0,129.7 461.2,128.7 466.3,134.7 471.4,146.6 476.6,143.3 481.7,135.7 486.8,138.0 491.9,134.4 497.1,143.0 502.2,143.6 507.3,159.2 512.5,171.8 517.6,171.5 522.7,157.2 527.8,152.3 533.0,141.6 538.1,151.3 543.2,150.3 548.4,125.4 553.5,141.3 558.6,158.5 563.7,170.8 568.9,179.1 574.0,172.5" fill="none" stroke="#f39c12" stroke-width="2"/>
+<rect x="54.0" y="194.0" width="4" height="11.3" fill="#f39c12" opacity="0.7">
+<title>2025-03-15: tempo_run</title>
+</rect>
+<rect x="59.1" y="110.5" width="4" height="2.7" fill="#f39c12" opacity="0.7">
+<title>2025-04-22: tempo_run</title>
+</rect>
+<rect x="64.3" y="75.7" width="4" height="2.6" fill="#f39c12" opacity="0.7">
+<title>2025-05-02: tempo_run</title>
+</rect>
+<rect x="69.4" y="147.6" width="4" height="5.1" fill="#2ea043" opacity="0.7">
+<title>2025-05-03: easy_run</title>
+</rect>
+<rect x="74.5" y="85.0" width="4" height="3.7" fill="#2ea043" opacity="0.7">
+<title>2025-05-07: easy_run</title>
+</rect>
+<rect x="79.6" y="92.0" width="4" height="7.2" fill="#f39c12" opacity="0.7">
+<title>2025-05-15: tempo_run</title>
+</rect>
+<rect x="84.8" y="105.9" width="4" height="2.5" fill="#f85149" opacity="0.7">
+<title>2025-05-16: hiit_sprint</title>
+</rect>
+<rect x="89.9" y="147.6" width="4" height="7.4" fill="#f39c12" opacity="0.7">
+<title>2025-05-17: tempo_run</title>
+</rect>
+<rect x="95.0" y="38.6" width="4" height="7.8" fill="#f39c12" opacity="0.7">
+<title>2025-05-18: tempo_run</title>
+</rect>
+<rect x="100.2" y="180.1" width="4" height="8.3" fill="#f39c12" opacity="0.7">
+<title>2025-05-19: tempo_run</title>
+</rect>
+<rect x="105.3" y="34.0" width="4" height="9.4" fill="#f85149" opacity="0.7">
+<title>2025-05-24: hiit_sprint</title>
+</rect>
+<rect x="110.4" y="47.9" width="4" height="9.6" fill="#f39c12" opacity="0.7">
+<title>2025-05-25: tempo_run</title>
+</rect>
+<rect x="115.5" y="143.0" width="4" height="5.0" fill="#f39c12" opacity="0.7">
+<title>2025-05-26: tempo_run</title>
+</rect>
+<rect x="120.7" y="140.7" width="4" height="6.7" fill="#f39c12" opacity="0.7">
+<title>2025-05-29: tempo_run</title>
+</rect>
+<rect x="125.8" y="170.8" width="4" height="3.3" fill="#2ea043" opacity="0.7">
+<title>2025-05-30: easy_run</title>
+</rect>
+<rect x="130.9" y="170.8" width="4" height="9.7" fill="#f39c12" opacity="0.7">
+<title>2025-05-31: tempo_run</title>
+</rect>
+<rect x="136.1" y="154.6" width="4" height="9.5" fill="#f39c12" opacity="0.7">
+<title>2025-06-01: tempo_run</title>
+</rect>
+<rect x="141.2" y="198.7" width="4" height="6.1" fill="#f85149" opacity="0.7">
+<title>2025-06-02: hiit_sprint</title>
+</rect>
+<rect x="146.3" y="73.4" width="4" height="7.0" fill="#2ea043" opacity="0.7">
+<title>2025-06-03: easy_run</title>
+</rect>
+<rect x="151.4" y="101.2" width="4" height="8.4" fill="#f39c12" opacity="0.7">
+<title>2025-06-04: tempo_run</title>
+</rect>
+<rect x="156.6" y="212.6" width="4" height="8.2" fill="#f39c12" opacity="0.7">
+<title>2025-06-05: tempo_run</title>
+</rect>
+<rect x="161.7" y="66.4" width="4" height="7.9" fill="#f39c12" opacity="0.7">
+<title>2025-06-07: tempo_run</title>
+</rect>
+<rect x="166.8" y="117.5" width="4" height="11.6" fill="#f39c12" opacity="0.7">
+<title>2025-06-08: tempo_run</title>
+</rect>
+<rect x="172.0" y="152.3" width="4" height="5.3" fill="#2ea043" opacity="0.7">
+<title>2025-06-09: easy_run</title>
+</rect>
+<rect x="177.1" y="115.2" width="4" height="7.1" fill="#f39c12" opacity="0.7">
+<title>2025-06-10: tempo_run</title>
+</rect>
+<rect x="182.2" y="140.7" width="4" height="5.9" fill="#f39c12" opacity="0.7">
+<title>2025-06-11: tempo_run</title>
+</rect>
+<rect x="187.3" y="166.2" width="4" height="8.6" fill="#f39c12" opacity="0.7">
+<title>2025-06-12: tempo_run</title>
+</rect>
+<rect x="192.5" y="131.4" width="4" height="6.8" fill="#f39c12" opacity="0.7">
+<title>2025-06-14: tempo_run</title>
+</rect>
+<rect x="197.6" y="122.1" width="4" height="8.6" fill="#f39c12" opacity="0.7">
+<title>2025-06-15: tempo_run</title>
+</rect>
+<rect x="202.7" y="101.2" width="4" height="8.4" fill="#f39c12" opacity="0.7">
+<title>2025-06-16: tempo_run</title>
+</rect>
+<rect x="207.9" y="136.0" width="4" height="17.4" fill="#f39c12" opacity="0.7">
+<title>2025-06-17: tempo_run</title>
+</rect>
+<rect x="213.0" y="150.0" width="4" height="7.2" fill="#2ea043" opacity="0.7">
+<title>2025-06-18: easy_run</title>
+</rect>
+<rect x="218.1" y="194.0" width="4" height="7.5" fill="#f39c12" opacity="0.7">
+<title>2025-06-20: tempo_run</title>
+</rect>
+<rect x="223.2" y="68.8" width="4" height="9.5" fill="#2ea043" opacity="0.7">
+<title>2025-06-22: easy_run</title>
+</rect>
+<rect x="228.4" y="147.6" width="4" height="8.5" fill="#f39c12" opacity="0.7">
+<title>2025-06-23: tempo_run</title>
+</rect>
+<rect x="233.5" y="40.9" width="4" height="8.5" fill="#f39c12" opacity="0.7">
+<title>2025-06-24: tempo_run</title>
+</rect>
+<rect x="238.6" y="208.0" width="4" height="10.5" fill="#f39c12" opacity="0.7">
+<title>2025-06-26: tempo_run</title>
+</rect>
+<rect x="243.8" y="133.7" width="4" height="11.8" fill="#f39c12" opacity="0.7">
+<title>2025-06-30: tempo_run</title>
+</rect>
+<rect x="248.9" y="52.5" width="4" height="6.2" fill="#2ea043" opacity="0.7">
+<title>2025-07-01: easy_run</title>
+</rect>
+<rect x="254.0" y="143.0" width="4" height="6.8" fill="#2ea043" opacity="0.7">
+<title>2025-07-02: easy_run</title>
+</rect>
+<rect x="259.1" y="80.4" width="4" height="11.5" fill="#f39c12" opacity="0.7">
+<title>2025-07-03: tempo_run</title>
+</rect>
+<rect x="264.3" y="96.6" width="4" height="12.2" fill="#f39c12" opacity="0.7">
+<title>2025-07-05: tempo_run</title>
+</rect>
+<rect x="269.4" y="175.5" width="4" height="10.7" fill="#f39c12" opacity="0.7">
+<title>2025-07-06: tempo_run</title>
+</rect>
+<rect x="274.5" y="145.3" width="4" height="8.0" fill="#2ea043" opacity="0.7">
+<title>2025-07-11: easy_run</title>
+</rect>
+<rect x="279.7" y="40.9" width="4" height="8.8" fill="#f39c12" opacity="0.7">
+<title>2025-07-14: tempo_run</title>
+</rect>
+<rect x="284.8" y="205.6" width="4" height="6.0" fill="#2ea043" opacity="0.7">
+<title>2025-07-18: easy_run</title>
+</rect>
+<rect x="289.9" y="140.7" width="4" height="10.0" fill="#f39c12" opacity="0.7">
+<title>2025-07-19: tempo_run</title>
+</rect>
+<rect x="295.0" y="133.7" width="4" height="2.7" fill="#79c0ff" opacity="0.7">
+<title>2025-07-26: swimming</title>
+</rect>
+<rect x="300.2" y="203.3" width="4" height="3.9" fill="#79c0ff" opacity="0.7">
+<title>2025-07-29: swimming</title>
+</rect>
+<rect x="305.3" y="203.3" width="4" height="6.2" fill="#2ea043" opacity="0.7">
+<title>2025-07-30: easy_run</title>
+</rect>
+<rect x="310.4" y="129.1" width="4" height="6.2" fill="#2ea043" opacity="0.7">
+<title>2025-08-03: easy_run</title>
+</rect>
+<rect x="315.6" y="233.5" width="4" height="8.9" fill="#f39c12" opacity="0.7">
+<title>2025-08-07: tempo_run</title>
+</rect>
+<rect x="320.7" y="73.4" width="4" height="10.7" fill="#2ea043" opacity="0.7">
+<title>2025-08-10: easy_run</title>
+</rect>
+<rect x="325.8" y="177.8" width="4" height="17.2" fill="#f39c12" opacity="0.7">
+<title>2025-08-12: tempo_run</title>
+</rect>
+<rect x="331.0" y="110.5" width="4" height="10.4" fill="#f39c12" opacity="0.7">
+<title>2025-08-15: tempo_run</title>
+</rect>
+<rect x="336.1" y="159.2" width="4" height="13.1" fill="#2ea043" opacity="0.7">
+<title>2025-08-18: easy_run</title>
+</rect>
+<rect x="341.2" y="98.9" width="4" height="7.3" fill="#2ea043" opacity="0.7">
+<title>2025-08-19: easy_run</title>
+</rect>
+<rect x="346.3" y="61.8" width="4" height="13.2" fill="#2ea043" opacity="0.7">
+<title>2025-08-21: easy_run</title>
+</rect>
+<rect x="351.5" y="94.3" width="4" height="6.6" fill="#2ea043" opacity="0.7">
+<title>2025-08-22: easy_run</title>
+</rect>
+<rect x="356.6" y="129.1" width="4" height="1.8" fill="#2ea043" opacity="0.7">
+<title>2025-08-25: easy_run</title>
+</rect>
+<rect x="361.7" y="161.6" width="4" height="4.4" fill="#f39c12" opacity="0.7">
+<title>2025-08-26: tempo_run</title>
+</rect>
+<rect x="366.9" y="224.2" width="4" height="4.0" fill="#2ea043" opacity="0.7">
+<title>2025-08-27: easy_run</title>
+</rect>
+<rect x="372.0" y="198.7" width="4" height="3.9" fill="#2ea043" opacity="0.7">
+<title>2025-08-28: easy_run</title>
+</rect>
+<rect x="377.1" y="43.2" width="4" height="6.5" fill="#2ea043" opacity="0.7">
+<title>2025-08-31: easy_run</title>
+</rect>
+<rect x="382.2" y="189.4" width="4" height="5.4" fill="#f85149" opacity="0.7">
+<title>2025-09-02: hiit_sprint</title>
+</rect>
+<rect x="387.4" y="154.6" width="4" height="6.1" fill="#f85149" opacity="0.7">
+<title>2025-09-03: hiit_sprint</title>
+</rect>
+<rect x="392.5" y="150.0" width="4" height="2.2" fill="#2ea043" opacity="0.7">
+<title>2025-09-10: easy_run</title>
+</rect>
+<rect x="397.6" y="131.4" width="4" height="2.6" fill="#2ea043" opacity="0.7">
+<title>2025-09-11: easy_run</title>
+</rect>
+<rect x="402.8" y="68.8" width="4" height="9.9" fill="#2ea043" opacity="0.7">
+<title>2025-09-13: easy_run</title>
+</rect>
+<rect x="407.9" y="173.2" width="4" height="1.9" fill="#2ea043" opacity="0.7">
+<title>2025-09-26: easy_run</title>
+</rect>
+<rect x="413.0" y="208.0" width="4" height="2.3" fill="#2ea043" opacity="0.7">
+<title>2025-09-30: easy_run</title>
+</rect>
+<rect x="418.1" y="80.4" width="4" height="5.7" fill="#2ea043" opacity="0.7">
+<title>2025-10-09: easy_run</title>
+</rect>
+<rect x="423.3" y="133.7" width="4" height="3.8" fill="#2ea043" opacity="0.7">
+<title>2026-01-05: easy_run</title>
+</rect>
+<rect x="428.4" y="103.6" width="4" height="4.9" fill="#f39c12" opacity="0.7">
+<title>2026-01-06: tempo_run</title>
+</rect>
+<rect x="433.5" y="31.6" width="4" height="3.0" fill="#f85149" opacity="0.7">
+<title>2026-01-07: hiit_sprint</title>
+</rect>
+<rect x="438.7" y="170.8" width="4" height="1.1" fill="#f39c12" opacity="0.7">
+<title>2026-01-08: tempo_run</title>
+</rect>
+<rect x="443.8" y="145.3" width="4" height="4.5" fill="#f85149" opacity="0.7">
+<title>2026-01-10: hiit_sprint</title>
+</rect>
+<rect x="448.9" y="140.7" width="4" height="6.7" fill="#f39c12" opacity="0.7">
+<title>2026-01-12: tempo_run</title>
+</rect>
+<rect x="454.0" y="217.2" width="4" height="2.1" fill="#f39c12" opacity="0.7">
+<title>2026-01-13: tempo_run</title>
+</rect>
+<rect x="459.2" y="126.8" width="4" height="3.0" fill="#f39c12" opacity="0.7">
+<title>2026-01-14: tempo_run</title>
+</rect>
+<rect x="464.3" y="145.3" width="4" height="6.6" fill="#f39c12" opacity="0.7">
+<title>2026-01-19: tempo_run</title>
+</rect>
+<rect x="469.4" y="115.2" width="4" height="5.0" fill="#f39c12" opacity="0.7">
+<title>2026-01-20: tempo_run</title>
+</rect>
+<rect x="474.6" y="147.6" width="4" height="5.5" fill="#f39c12" opacity="0.7">
+<title>2026-01-21: tempo_run</title>
+</rect>
+<rect x="479.7" y="92.0" width="4" height="7.0" fill="#f39c12" opacity="0.7">
+<title>2026-01-24: tempo_run</title>
+</rect>
+<rect x="484.8" y="156.9" width="4" height="3.1" fill="#f39c12" opacity="0.7">
+<title>2026-01-27: tempo_run</title>
+</rect>
+<rect x="489.9" y="191.7" width="4" height="7.3" fill="#f85149" opacity="0.7">
+<title>2026-01-28: hiit_sprint</title>
+</rect>
+<rect x="495.1" y="187.1" width="4" height="3.0" fill="#f39c12" opacity="0.7">
+<title>2026-01-31: tempo_run</title>
+</rect>
+<rect x="500.2" y="150.0" width="4" height="3.1" fill="#f39c12" opacity="0.7">
+<title>2026-02-01: tempo_run</title>
+</rect>
+<rect x="505.3" y="224.2" width="4" height="5.9" fill="#f39c12" opacity="0.7">
+<title>2026-02-02: tempo_run</title>
+</rect>
+<rect x="510.5" y="235.8" width="4" height="6.9" fill="#f39c12" opacity="0.7">
+<title>2026-02-03: tempo_run</title>
+</rect>
+<rect x="515.6" y="89.6" width="4" height="1.7" fill="#2ea043" opacity="0.7">
+<title>2026-02-05: easy_run</title>
+</rect>
+<rect x="520.7" y="57.2" width="4" height="6.7" fill="#f39c12" opacity="0.7">
+<title>2026-02-06: tempo_run</title>
+</rect>
+<rect x="525.8" y="156.9" width="4" height="3.1" fill="#f39c12" opacity="0.7">
+<title>2026-02-08: tempo_run</title>
+</rect>
+<rect x="531.0" y="112.8" width="4" height="6.0" fill="#f39c12" opacity="0.7">
+<title>2026-02-09: tempo_run</title>
+</rect>
+<rect x="536.1" y="217.2" width="4" height="3.9" fill="#f39c12" opacity="0.7">
+<title>2026-02-10: tempo_run</title>
+</rect>
+<rect x="541.2" y="217.2" width="4" height="3.0" fill="#f39c12" opacity="0.7">
+<title>2026-02-11: tempo_run</title>
+</rect>
+<rect x="546.4" y="61.8" width="4" height="1.4" fill="#2ea043" opacity="0.7">
+<title>2026-02-12: easy_run</title>
+</rect>
+<rect x="551.5" y="201.0" width="4" height="9.0" fill="#f39c12" opacity="0.7">
+<title>2026-02-13: tempo_run</title>
+</rect>
+<rect x="556.6" y="177.8" width="4" height="7.7" fill="#f39c12" opacity="0.7">
+<title>2026-02-15: tempo_run</title>
+</rect>
+<rect x="561.7" y="242.8" width="4" height="4.0" fill="#2ea043" opacity="0.7">
+<title>2026-02-16: easy_run</title>
+</rect>
+<rect x="566.9" y="170.8" width="4" height="4.7" fill="#f39c12" opacity="0.7">
+<title>2026-02-18: tempo_run</title>
+</rect>
+<rect x="572.0" y="170.8" width="4" height="5.9" fill="#f39c12" opacity="0.7">
+<title>2026-02-19: tempo_run</title>
+</rect>
+<text x="582" y="34" fill="#8b949e" font-size="10" text-anchor="end">Recovery Score</text>
+<text x="24" y="160" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-90 24 160)">Recovery</text>
+</svg></div>
+    </section>
+
+    <section class="panel">
+      <h2>Section 6: Key Insights</h2>
+      <ul><li>Easy Run shows the best average next-day recovery among grouped activity types (55.8, n=32), while Swimming is lower on average (39.0, n=2).</li><li>Easy runs are associated with about +0.8 points better recovery than HIIT/Sprint days on average.</li></ul>
+    </section>
+  </div>
+</body>
+</html>

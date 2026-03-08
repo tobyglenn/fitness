@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Running Performance Analysis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0c;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:20px;line-height:1.5}
+a{color:#4fc3f7;text-decoration:none}
+a:hover{text-decoration:underline}
+.header{text-align:center;margin-bottom:30px}
+.header h1{color:#fff;font-size:1.8rem;margin-bottom:5px}
+.header p{color:#8e8e93;font-size:0.95rem}
+.back-link{position:absolute;top:20px;left:20px;color:#4fc3f7;font-size:0.9rem}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:30px;max-width:900px;margin-left:auto;margin-right:auto}
+.stat-card{background:#1c1c1e;border-radius:12px;padding:20px;text-align:center}
+.stat-card .value{font-size:1.6rem;font-weight:600;color:#4fc3f7}
+.stat-card .label{font-size:0.85rem;color:#8e8e93;margin-top:5px}
+.charts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px;margin:0 auto 30px}
+.chart-card{background:#1c1c1e;border-radius:12px;padding:20px}
+.chart-card h3{color:#fff;font-size:1rem;margin-bottom:15px;font-weight:500}
+.chart-card.full{grid-column:span 2}
+canvas{width:100%;height:200px;display:block}
+.data-note{background:#1c1c1e;border-radius:12px;padding:20px;max-width:900px;margin:0 auto 30px}
+.data-note h3{color:#ffd700;font-size:1rem;margin-bottom:10px}
+.data-note p{color:#8e8e93;font-size:0.9rem}
+.legend{display:flex;gap:15px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.8rem;color:#8e8e93}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-grid{grid-template-columns:1fr}.chart-card.full{grid-column:span 1}}
+</style>
+</head>
+<body>
+<a href="http://192.168.1.249:8082/" class="back-link">← Back to Reports</a>
+<div class="header">
+<h1>Running Performance Analysis</h1>
+<p>Pace, Heart Rate & Performance Patterns</p>
+</div>
+<div class="stats-grid">
+<div class="stat-card"><div class="value">111</div><div class="label">Total Runs</div></div>
+<div class="stat-card"><div class="value">15:04</div><div class="label">Avg Pace (min/mi)</div></div>
+<div class="stat-card"><div class="value">128</div><div class="label">Avg HR (bpm)</div></div>
+<div class="stat-card"><div class="value">10:17</div><div class="label">Best Pace (min/mi)</div></div>
+</div>
+<div class="data-note">
+<h3>⚠️ Data Limitation</h3>
+<p>Garmin activity exports do not include weather data (temperature, humidity, conditions). This report analyzes performance correlations we CAN measure: pace vs heart rate, time of day, day of week, and distance patterns.</p>
+</div>
+<div class="charts-grid">
+<div class="chart-card">
+<h3>Pace vs Heart Rate</h3>
+<canvas id="chart1"></canvas>
+<div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>&lt;3 mi</div><div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>3-5 mi</div><div class="legend-item"><div class="legend-dot" style="background:#28a745"></div>5+ mi</div></div>
+</div>
+<div class="chart-card">
+<h3>Weekly Performance Pattern</h3>
+<canvas id="chart2"></canvas>
+</div>
+<div class="chart-card full">
+<h3>Time of Day Analysis</h3>
+<canvas id="chart3"></canvas>
+</div>
+<div class="chart-card">
+<h3>Distance vs Effort</h3>
+<canvas id="chart4"></canvas>
+</div>
+<div class="chart-card">
+<h3>Monthly Progression</h3>
+<canvas id="chart5"></canvas>
+</div>
+</div>
+<script>
+const data = {
+    "pace_hr": [[132.0, 15.9375, 1.024], [142.0, 16.66214181701508, 4.0517], [137.0, 13.931430560389838, 1.1492], [139.0, 11.742883101150818, 1.3208], [119.0, 17.10267229254571, 1.7775], [128.0, 14.762190647721965, 1.4991], [126.0, 15.030345066759146, 2.8835], [152.0, 12.463005590266361, 1.2164], [136.0, 13.55421686746988, 3.2536], [131.0, 14.232323539242199, 3.2911], [135.0, 16.076109115619843, 3.0903], [151.0, 13.980683764927875, 4.0277], [144.0, 13.778496977773546, 4.2022], [145.0, 15.37401775691397, 1.9598], [130.0, 15.644614245058673, 2.5651], [130.0, 15.54006422808804, 1.2767], [142.0, 12.560732257504771, 4.6104], [139.0, 14.300349825087457, 4.002], [155.0, 12.011496151432064, 3.0271], [113.0, 18.23295257874697, 2.3112], [119.0, 15.51650235747964, 3.2662], [130.0, 14.084386500442186, 3.5053], [128.0, 14.152247055996154, 3.3288], [127.0, 14.138840597086507, 3.3362], [119.0, 17.166921898928024, 1.306], [125.0, 14.82600009292385, 2.1523], [128.0, 13.481152993348116, 3.157], [127.0, 14.24976663013921, 2.4639], [144.0, 12.427395934172315, 4.132], [129.0, 18.29175437810723, 2.2327], [135.0, 14.020926756352766, 3.6795], [143.0, 11.7587727528617, 4.2632], [112.0, 17.423658464275125, 3.373], [111.0, 18.83264933880529, 2.4123], [117.0, 17.005255314142286, 2.5498], [128.0, 14.822505685751013, 3.0339], [114.0, 18.476819049467792, 3.0909], [141.0, 12.52528741303597, 4.0534], [116.0, 16.79131404579151, 3.0486], [119.0, 15.67946842535889, 4.0333], [132.0, 14.217971548050183, 4.9979], [116.0, 15.511715986182214, 2.4027], [115.0, 16.05360370981687, 2.5446], [111.0, 17.260178053416023, 3.9988], [107.0, 16.65075251216296, 4.3986], [112.0, 15.153437661544245, 4.2558], [108.0, 17.537368112543962, 2.7296], [127.0, 14.551570124893166, 3.6271], [103.0, 20.804591038200684, 1.7251], [113.0, 17.49123831775701, 3.424], [117.0, 16.02677607428201, 2.3155], [106.0, 20.978041676002693, 1.7852], [132.0, 16.130492515692904, 3.3136], [109.0, 19.076849727345866, 3.3559], [123.0, 17.679527051637667, 3.5691], [116.0, 18.719326945548023, 2.1395], [117.0, 17.67483951245723, 3.5361], [108.0, 21.564319455124682, 3.6412], [112.0, 18.394886363636363, 2.3936], [105.0, 19.94654865222139, 3.4798], [158.0, 10.79104808331487, 0.9026], [106.0, 19.60648262873569, 2.0177], [134.0, 11.74478313121381, 0.9153], [140.0, 14.683382915427114, 0.9412], [134.0, 13.25749521581969, 0.9406], [118.0, 14.662425610506874, 0.9746], [134.0, 10.2936396142594, 0.9229], [134.0, 12.601288177851652, 0.9626], [137.0, 11.879049676025918, 0.926], [110.0, 20.27803909271454, 1.9134], [163.0, 11.079434289228018, 1.7889], [134.0, 13.918605933605383, 0.9067], [154.0, 10.766185270166913, 2.2227], [138.0, 13.347662547017732, 0.9305], [118.0, 15.216138328530258, 0.8675], [130.0, 16.59174072138003, 0.9565], [106.0, 20.31952582095653, 2.9356], [133.0, 13.233934350439204, 0.8652], [126.0, 15.239032928563613, 0.9141], [121.0, 19.731434855588358, 1.7277], [132.0, 14.246955643889203, 1.5849], [140.0, 13.11424516586837, 2.2548], [152.0, 12.588478710661004, 0.9183], [136.0, 13.184864012613325, 0.5074], [149.0, 11.391724879097259, 0.5583], [151.0, 13.597564019368043, 2.0033], [146.0, 13.226229508196724, 3.05], [131.0, 13.98166339227243, 0.9162], [126.0, 16.645220588235293, 1.088], [130.0, 13.131044567782245, 3.0089], [126.0, 14.648570043625785, 2.063], [118.0, 17.376705141657922, 1.906], [137.0, 13.752500901964643, 3.0489], [122.0, 15.52892561983471, 1.21], [143.0, 12.35332188986127, 3.5537], [119.0, 13.772727272727272, 1.32], [123.0, 15.651957531519576, 1.2056], [134.0, 13.196296296296296, 2.7], [139.0, 13.302722628209274, 3.0926], [106.0, 15.76562971911809, 0.6622], [127.0, 14.572463768115943, 2.76], [121.0, 14.856, 1.25], [141.0, 12.673758865248228, 2.82], [122.0, 15.572368421052632, 1.52], [117.0, 13.18840579710145, 1.38], [120.0, 15.70464767616192, 0.5336], [130.0, 14.006531543206677, 3.8582], [133.0, 14.249798249425785, 3.2218], [120.0, 14.998738011105502, 1.5848], [133.0, 12.04006189821183, 2.3264], [132.0, 11.78476821192053, 3.02]],
+    "dow": [[14.238873554975733, 134.11764705882354], [15.39643147056515, 126.71428571428571], [14.182066896800292, 128.33333333333334], [14.849691846681186, 128.47058823529412], [15.636788141723237, 124.81818181818181], [15.529904406038705, 129.23076923076923], [16.168485898749356, 123.07142857142857]],
+    "hour": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    "hourVals": [13.597564019368043, 13.980683764927875, 14.058338736252091, 14.208758101700925, 14.12940536574789, 14.085853437597036, 13.902082594359786, 15.346456868486117, 14.21577175862328, 13.462465962882858, 15.878597578906302, 14.559991669743777, 16.01708766955631, 16.38159191453506, 16.54069160593331, 16.74491371769312],
+    "dist_hr": [[1.024, 132.0], [4.0517, 142.0], [1.1492, 137.0], [1.3208, 139.0], [1.7775, 119.0], [1.4991, 128.0], [2.8835, 126.0], [1.2164, 152.0], [3.2536, 136.0], [3.2911, 131.0], [3.0903, 135.0], [4.0277, 151.0], [4.2022, 144.0], [1.9598, 145.0], [2.5651, 130.0], [1.2767, 130.0], [4.6104, 142.0], [4.002, 139.0], [3.0271, 155.0], [2.3112, 113.0], [3.2662, 119.0], [3.5053, 130.0], [3.3288, 128.0], [3.3362, 127.0], [1.306, 119.0], [2.1523, 125.0], [3.157, 128.0], [2.4639, 127.0], [4.132, 144.0], [2.2327, 129.0], [3.6795, 135.0], [4.2632, 143.0], [3.373, 112.0], [2.4123, 111.0], [2.5498, 117.0], [3.0339, 128.0], [3.0909, 114.0], [4.0534, 141.0], [3.0486, 116.0], [4.0333, 119.0], [4.9979, 132.0], [2.4027, 116.0], [2.5446, 115.0], [3.9988, 111.0], [4.3986, 107.0], [4.2558, 112.0], [2.7296, 108.0], [3.6271, 127.0], [1.7251, 103.0], [3.424, 113.0], [2.3155, 117.0], [1.7852, 106.0], [3.3136, 132.0], [3.3559, 109.0], [3.5691, 123.0], [2.1395, 116.0], [3.5361, 117.0], [3.6412, 108.0], [2.3936, 112.0], [3.4798, 105.0], [0.9026, 158.0], [2.0177, 106.0], [0.9153, 134.0], [0.9412, 140.0], [0.9406, 134.0], [0.9746, 118.0], [0.9229, 134.0], [0.9626, 134.0], [0.926, 137.0], [1.9134, 110.0], [1.7889, 163.0], [0.9067, 134.0], [2.2227, 154.0], [0.9305, 138.0], [0.8675, 118.0], [0.9565, 130.0], [2.9356, 106.0], [0.8652, 133.0], [0.9141, 126.0], [1.7277, 121.0], [1.5849, 132.0], [2.2548, 140.0], [0.9183, 152.0], [0.5074, 136.0], [0.5583, 149.0], [2.0033, 151.0], [3.05, 146.0], [0.9162, 131.0], [1.088, 126.0], [3.0089, 130.0], [2.063, 126.0], [1.906, 118.0], [3.0489, 137.0], [1.21, 122.0], [3.5537, 143.0], [1.32, 119.0], [1.2056, 123.0], [2.7, 134.0], [3.0926, 139.0], [0.6622, 106.0], [2.76, 127.0], [1.25, 121.0], [2.82, 141.0], [1.52, 122.0], [1.38, 117.0], [0.5336, 120.0], [3.8582, 130.0], [3.2218, 133.0], [1.5848, 120.0], [2.3264, 133.0], [3.02, 132.0]],
+    "month": {"2025-02": [15.9375, 132.0], "2025-03": [16.66214181701508, 142.0], "2025-04": [13.931430560389838, 137.0], "2025-05": [14.417311103645915, 136.28571428571428], "2025-06": [15.184766491157594, 127.125], "2025-07": [16.704123159079916, 112.9], "2025-08": [16.31381400239665, 122.78947368421052], "2025-09": [14.412473354431963, 133.55555555555554], "2025-10": [19.731434855588358, 121.0], "2026-01": [13.908796334853468, 134.875], "2026-02": [14.10427657444625, 126.53333333333333]}
+};
+
+function setupCanvas(id){const c=document.getElementById(id),ctx=c.getContext('2d'),dpr=window.devicePixelRatio||1,rect=c.getBoundingClientRect();c.width=rect.width*dpr;c.height=rect.height*dpr;ctx.scale(dpr,dpr);return{canvas:c,ctx:ctx,w:rect.width,h:rect.height}}
+
+function drawChart1(){
+    const{canvas:c,ctx:ctx,w:h}=setupCanvas('chart1');
+    ctx.fillStyle='#1c1c1e';ctx.fillRect(0,0,w,h);
+    const pts=data.pace_hr.map(p=>({x:p[0],y:p[1],d:p[2]}));
+    const minHR=Math.min(...pts.map(p=>p.x))-5,maxHR=Math.max(...pts.map(p=>p.x))+5,minP=Math.min(...pts.map(p=>p.y))-1,maxP=Math.max(...pts.map(p=>p.y))+1;
+    const pad={t:20,r:20,b:30,l:40},mapX=v=>pad.l+(v-minHR)/(maxHR-minHR)*(w-pad.l-pad.r),mapY=v=>h-pad.b-(v-minP)/(maxP-minP)*(h-pad.t-pad.b);
+    ctx.strokeStyle='#333';ctx.lineWidth=1;
+    for(let hr=120;hr<=160;hr+=10){ctx.beginPath();ctx.moveTo(mapX(hr),pad.t);ctx.lineTo(mapX(hr),h-pad.b);ctx.stroke()}
+    for(let p=10;p<=20;p+=2){ctx.beginPath();ctx.moveTo(pad.l,mapY(p));ctx.lineTo(w-pad.r,mapY(p));ctx.stroke()}
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(mapX(p.x),mapY(p.y),4,p.d<3?4:p.d<5?5:6,0,Math.PI*2);ctx.fillStyle=p.d<3?'#4fc3f7':p.d<5?'#ffd700':'#28a745';ctx.fill()});
+    ctx.fillStyle='#8e8e93';ctx.font='10px -apple-system';ctx.textAlign='center';
+    for(let hr=120;hr<=160;hr+=20)ctx.fillText(hr,mapX(hr),h-8);
+    ctx.save();ctx.translate(12,h/2);ctx.rotate(-Math.PI/2);ctx.fillText('Pace (min/mi)',0,0);ctx.restore();
+    ctx.fillText('Avg HR (bpm)',w/2,h-2)
+}
+
+function drawChart2(){
+    const{canvas:c,ctx:ctx,w:h}=setupCanvas('chart2');
+    ctx.fillStyle='#1c1c1e';ctx.fillRect(0,0,w,h);
+    const dow=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],pad={t:20,r:20,b:30,l:40},barW=(w-pad.l-pad.r)/7*0.3,spacing=(w-pad.l-pad.r)/7;
+    const avgPaces=[[14.238873554975733, 134.11764705882354], [15.39643147056515, 126.71428571428571], [14.182066896800292, 128.33333333333334], [14.849691846681186, 128.47058823529412], [15.636788141723237, 124.81818181818181], [15.529904406038705, 129.23076923076923], [16.168485898749356, 123.07142857142857]][0],avgHrs=[[14.238873554975733, 134.11764705882354], [15.39643147056515, 126.71428571428571], [14.182066896800292, 128.33333333333334], [14.849691846681186, 128.47058823529412], [15.636788141723237, 124.81818181818181], [15.529904406038705, 129.23076923076923], [16.168485898749356, 123.07142857142857]][1];
+    const minV=10,maxV=160,mapY=v=>h-pad.b-(v-minV)/(maxV-minV)*(h-pad.t-pad.b);
+    dow.forEach((d,i)=>{
+        const x=pad.l+spacing*i+spacing/2-barW;
+        ctx.fillStyle='#4fc3f7';ctx.fillRect(x,mapY(avgPaces[i]),barW,mapY(10)-mapY(avgPaces[i]));
+        ctx.fillStyle='#ffd700';ctx.fillRect(x+barW+2,mapY(avgHrs[i]),barW,mapY(10)-mapY(avgHrs[i]));
+        ctx.fillStyle='#8e8e93';ctx.font='11px -apple-system';ctx.textAlign='center';ctx.fillText(d,pad.l+spacing*i+spacing/2,h-8)
+    });
+    ctx.fillStyle='#8e8e93';ctx.font='10px -apple-system';ctx.fillText('Pace',pad.l+15,pad.t+10);ctx.fillText('HR',pad.l+35,pad.t+10)
+}
+
+function drawChart3(){
+    const{canvas:c,ctx:ctx,w:h}=setupCanvas('chart3');
+    ctx.fillStyle='#1c1c1e';ctx.fillRect(0,0,w,h);
+    const hours=data.hour,paces=data.hourVals,pad={t:20,r:20,b:30,l:40};
+    const minP=Math.min(...paces)-1,maxP=Math.max(...paces)+1,mapX=v=>pad.l+(v-5)/(20-5)*(w-pad.l-pad.r),mapY=v=>h-pad.b-(v-minP)/(maxP-minP)*(h-pad.t-pad.b);
+    ctx.strokeStyle='#333';ctx.lineWidth=1;
+    for(let p=12;p<=18;p+=2){ctx.beginPath();ctx.moveTo(pad.l,mapY(p));ctx.lineTo(w-pad.r,mapY(p));ctx.stroke()}
+    ctx.strokeStyle='#4fc3f7';ctx.lineWidth=2;ctx.beginPath();
+    hours.forEach((hr,i)=>{const x=mapX(hr),y=mapY(paces[i]);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});ctx.stroke();
+    hours.forEach((hr,i)=>{ctx.beginPath();ctx.arc(mapX(hr),mapY(paces[i]),4,0,Math.PI*2);ctx.fillStyle='#4fc3f7';ctx.fill()});
+    ctx.fillStyle='#8e8e93';ctx.font='10px -apple-system';ctx.textAlign='center';
+    hours.forEach((hr,i){if(i%2===0)ctx.fillText(hr,mapX(hr),h-8)});
+    ctx.fillText('Hour',w/2,h-2);ctx.save();ctx.translate(12,h/2);ctx.rotate(-Math.PI/2);ctx.fillText('Pace (min/mi)',0,0);ctx.restore()
+}
+
+function drawChart4(){
+    const{canvas:c,ctx:ctx,w:h}=setupCanvas('chart4');
+    ctx.fillStyle='#1c1c1e';ctx.fillRect(0,0,w,h);
+    const pts=data.dist_hr.map(p=>({x:p[0],y:p[1]})),maxD=Math.max(...pts.map(p=>p.x)),minHR=120,maxHR=160,pad={t:20,r:20,b:30,l:40};
+    const mapX=v=>pad.l+v/maxD*(w-pad.l-pad.r),mapY=v=>h-pad.b-(v-minHR)/(maxHR-minHR)*(h-pad.t-pad.b);
+    ctx.strokeStyle='#333';ctx.lineWidth=1;
+    for(let hr=120;hr<=160;hr+=10){ctx.beginPath();ctx.moveTo(pad.l,mapY(hr));ctx.lineTo(w-pad.r,mapY(hr));ctx.stroke()}
+    for(let d=1;d<=5;d++){ctx.beginPath();ctx.moveTo(mapX(d),pad.t);ctx.lineTo(mapX(d),h-pad.b);ctx.stroke()}
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(mapX(p.x),mapY(p.y),3,0,Math.PI*2);ctx.fillStyle='#4fc3f7';ctx.fill()});
+    const n=pts.length,sx=pts.reduce((a,p)=>a+p.x,0),sy=pts.reduce((a,p)=>a+p.y,0),sxy=pts.reduce((a,p)=>a+p.x*p.y,0),sxx=pts.reduce((a,p)=>a+p.x*p.x,0),slope=(n*sxy-sx*sy)/(n*sxx-sx*sx),intercept=(sy-slope*sx)/n;
+    ctx.strokeStyle='#ffd700';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(mapX(0),mapY(intercept));ctx.lineTo(mapX(maxD),mapY(slope*maxD+intercept));ctx.stroke();
+    ctx.fillStyle='#8e8e93';ctx.font='10px -apple-system';ctx.textAlign='center';ctx.fillText('Distance (mi)',w/2,h-2);ctx.save();ctx.translate(12,h/2);ctx.rotate(-Math.PI/2);ctx.fillText('HR (bpm)',0,0);ctx.restore()
+}
+
+function drawChart5(){
+    const{canvas:c,ctx:ctx,w:h}=setupCanvas('chart5');
+    ctx.fillStyle='#1c1c1e';ctx.fillRect(0,0,w,h);
+    const months=Object.keys(data.month),pad={t:20,r:20,b:30,l:40};
+    const monthLabels={'2025-02':'Feb','2025-03':'Mar','2025-04':'Apr','2025-05':'May','2025-06':'Jun','2025-07':'Jul','2025-08':'Aug','2025-09':'Sep','2025-10':'Oct','2025-11':'Nov','2025-12':'Dec','2026-01':'Jan','2026-02':'Feb'};
+    const paces=months.map(m=>data.month[m][0]),hrs=months.map(m=>data.month[m][1]),minV=10,maxV=160,barW=(w-pad.l-pad.r)/months.length*0.35,spacing=(w-pad.l-pad.r)/months.length;
+    const mapY=v=>h-pad.b-(v-minV)/(maxV-minV)*(h-pad.t-pad.b);
+    months.forEach((m,i)=>{
+        const x=pad.l+spacing*i+spacing/2-barW;
+        ctx.fillStyle='#4fc3f7';ctx.fillRect(x,mapY(paces[i]),barW,mapY(10)-mapY(paces[i]));
+        ctx.fillStyle='#ffd700';ctx.fillRect(x+barW+2,mapY(hrs[i]),barW,mapY(10)-mapY(hrs[i]));
+        ctx.fillStyle='#8e8e93';ctx.font='10px -apple-system';ctx.textAlign='center';ctx.fillText(monthLabels[m],pad.l+spacing*i+spacing/2,h-8)
+    });
+    ctx.fillStyle='#8e8e93';ctx.font='10px -apple-system';ctx.fillText('Pace',pad.l+15,pad.t+10);ctx.fillText('HR',pad.l+35,pad.t+10)
+}
+
+drawChart1();drawChart2();drawChart3();drawChart4();drawChart5();
+</script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muscle Dependency Map</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0d1117;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        nav {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        nav a {
+            color: #8b949e;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        nav a:hover {
+            background: #21262d;
+            color: #f39c12;
+        }
+        nav a.active {
+            background: #f39c12;
+            color: #0d1117;
+            font-weight: 600;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #f39c12;
+        }
+        .header p {
+            color: #8b949e;
+            font-size: 16px;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px 24px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f39c12;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+        
+        .viz-container {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .viz-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #e6edf3;
+        }
+        #network-graph {
+            width: 100%;
+            height: 500px;
+            background: #0d1117;
+            border-radius: 8px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #8b949e;
+        }
+        .legend-line {
+            width: 24px;
+            height: 3px;
+            border-radius: 2px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .insight-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .insight-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .insight-card ul {
+            list-style: none;
+        }
+        .insight-card li {
+            padding: 6px 0;
+            color: #8b949e;
+            font-size: 14px;
+            border-bottom: 1px solid #21262d;
+        }
+        .insight-card li:last-child {
+            border-bottom: none;
+        }
+        .synergy-icon { color: #2ea043; }
+        .interference-icon { color: #f85149; }
+        
+        .table-container {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #30363d;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #21262d;
+            border-bottom: 1px solid #30363d;
+        }
+        td {
+            padding: 12px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid #21262d;
+        }
+        tr:nth-child(even) { background: #161b22; }
+        tr:nth-child(odd) { background: #0d1117; }
+        tr:hover { background: #21262d; }
+        
+        .muscle-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: #161b22;
+            border: 1px solid #f39c12;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 100;
+            max-width: 250px;
+        }
+        .tooltip.visible {
+            opacity: 1;
+        }
+        .tooltip h4 {
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            color: #8b949e;
+            margin-bottom: 4px;
+        }
+        .tooltip-value {
+            color: #e6edf3;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-bar { gap: 16px; }
+            .stat-card { padding: 12px 16px; }
+            .header h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/calendars/">Calendars</a>
+        <a href="/strength/">Strength</a>
+        <a href="/cardio/">Cardio</a>
+        <a href="/recovery/">Recovery</a>
+        <a href="/nutrition/">Nutrition</a>
+        <a href="/muscle_groups/">Muscle Groups</a>
+        <a href="/muscle_dependency_map/" class="active">Dependency Map</a>
+    </nav>
+    
+    <div class="header">
+        <h1>Muscle Dependency Map</h1>
+        <p>Network of how your muscles recover together vs. interfere</p>
+    </div>
+    
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Muscles Tracked</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">back <-> biceps</div>
+            <div class="stat-label">Top Synergy Pair</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">biceps <-> chest</div>
+            <div class="stat-label">Top Interference Pair</div>
+        </div>
+    </div>
+    
+    <div class="viz-container">
+        <div class="viz-title">Muscle Recovery Network</div>
+        <svg id="network-graph" viewBox="0 0 800 500"></svg>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-line" style="background: #2ea043;"></div>
+                <span>Synergy (recover together)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #f85149;"></div>
+                <span>Interference</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #f39c12;"></div>
+                <span>Push</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #3498db;"></div>
+                <span>Pull</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #2ecc71;"></div>
+                <span>Legs</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #9b59b6;"></div>
+                <span>Core</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <div class="insights-grid">
+        <div class="insight-card">
+            <h3><span class="synergy-icon">&#10003;</span> Recover Together</h3>
+            <ul>
+                <li>Chest + Shoulders + Triceps (Push day)</li>
+                <li>Back + Lats + Biceps (Pull day)</li>
+                <li>Quads + Glutes + Hamstrings (Leg day)</li>
+                <li>Abs + Obliques (Core circuit)</li>
+            </ul>
+        </div>
+        <div class="insight-card">
+            <h3><span class="interference-icon">&#9888;</span> Interference Pairs</h3>
+            <ul>
+                <li>Heavy legs -> Poor chest recovery</li>
+                <li>Intense shoulders -> Back strength drops</li>
+                <li>Heavy curls -> Grip strength affected</li>
+                <li>Full body -> Multiple muscle compromise</li>
+            </ul>
+        </div>
+        <div class="insight-card">
+            <h3>Split Optimization</h3>
+            <ul>
+                <li>Day 1: Push (Chest/Shoulders/Triceps)</li>
+                <li>Day 2: Pull (Back/Lats/Biceps)</li>
+                <li>Day 3: Legs (Quads/Hamstrings/Glutes)</li>
+                <li>Day 4: Repeat or add core</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <div class="table-header">Detailed Muscle Statistics</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Muscle Group</th>
+                    <th>Times Worked</th>
+                    <th>Avg Volume (lbs)</th>
+                    <th>Avg Recovery (days)</th>
+                    <th>Cluster</th>
+                </tr>
+            </thead>
+            <tbody id="stats-body">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const nodes = [{"id": "chest", "cluster": 0, "volume": 1099199, "times_worked": 434, "avg_recovery_days": 3.91864406779661, "size": 60}, {"id": "back", "cluster": 1, "volume": 815501, "times_worked": 446, "avg_recovery_days": 3.922818791946309, "size": 60}, {"id": "shoulders", "cluster": 0, "volume": 1099199, "times_worked": 434, "avg_recovery_days": 3.91864406779661, "size": 60}, {"id": "biceps", "cluster": 1, "volume": 815501, "times_worked": 446, "avg_recovery_days": 3.922818791946309, "size": 60}, {"id": "triceps", "cluster": 0, "volume": 1099199, "times_worked": 434, "avg_recovery_days": 3.91864406779661, "size": 60}, {"id": "quads", "cluster": 2, "volume": 439081, "times_worked": 239, "avg_recovery_days": 6.938650306748467, "size": 60}, {"id": "hamstrings", "cluster": 2, "volume": 439081, "times_worked": 239, "avg_recovery_days": 6.938650306748467, "size": 60}, {"id": "glutes", "cluster": 2, "volume": 439081, "times_worked": 239, "avg_recovery_days": 6.938650306748467, "size": 60}, {"id": "calves", "cluster": 2, "volume": 439081, "times_worked": 239, "avg_recovery_days": 6.938650306748467, "size": 60}, {"id": "abs", "cluster": 3, "volume": 986699, "times_worked": 193, "avg_recovery_days": 2.417989417989418, "size": 58.6}, {"id": "obliques", "cluster": 3, "volume": 0, "times_worked": 0, "avg_recovery_days": 0, "size": 20.0}, {"id": "traps", "cluster": 1, "volume": 586245, "times_worked": 308, "avg_recovery_days": 5.325123152709359, "size": 60}, {"id": "lats", "cluster": 1, "volume": 586245, "times_worked": 308, "avg_recovery_days": 5.325123152709359, "size": 60}];
+        const edges = [{"source": "biceps", "target": "traps", "weight": 308, "type": "synergy"}, {"source": "biceps", "target": "lats", "weight": 308, "type": "synergy"}, {"source": "biceps", "target": "chest", "weight": 138, "type": "interference"}, {"source": "biceps", "target": "triceps", "weight": 138, "type": "interference"}, {"source": "biceps", "target": "shoulders", "weight": 138, "type": "interference"}, {"source": "back", "target": "traps", "weight": 308, "type": "synergy"}, {"source": "back", "target": "biceps", "weight": 446, "type": "synergy"}, {"source": "back", "target": "lats", "weight": 308, "type": "synergy"}, {"source": "back", "target": "chest", "weight": 138, "type": "interference"}, {"source": "back", "target": "triceps", "weight": 138, "type": "interference"}, {"source": "back", "target": "shoulders", "weight": 138, "type": "interference"}, {"source": "abs", "target": "traps", "weight": 51, "type": "interference"}, {"source": "abs", "target": "biceps", "weight": 77, "type": "interference"}, {"source": "abs", "target": "back", "weight": 77, "type": "interference"}, {"source": "abs", "target": "lats", "weight": 51, "type": "interference"}, {"source": "abs", "target": "chest", "weight": 100, "type": "interference"}, {"source": "abs", "target": "triceps", "weight": 100, "type": "interference"}, {"source": "abs", "target": "shoulders", "weight": 100, "type": "interference"}, {"source": "abs", "target": "calves", "weight": 42, "type": "interference"}, {"source": "abs", "target": "quads", "weight": 42, "type": "interference"}, {"source": "abs", "target": "hamstrings", "weight": 42, "type": "interference"}, {"source": "abs", "target": "glutes", "weight": 42, "type": "interference"}, {"source": "lats", "target": "traps", "weight": 308, "type": "synergy"}, {"source": "hamstrings", "target": "quads", "weight": 239, "type": "synergy"}, {"source": "calves", "target": "hamstrings", "weight": 239, "type": "synergy"}, {"source": "calves", "target": "quads", "weight": 239, "type": "synergy"}, {"source": "calves", "target": "glutes", "weight": 239, "type": "synergy"}, {"source": "glutes", "target": "hamstrings", "weight": 239, "type": "synergy"}, {"source": "glutes", "target": "quads", "weight": 239, "type": "synergy"}, {"source": "chest", "target": "triceps", "weight": 434, "type": "synergy"}, {"source": "chest", "target": "shoulders", "weight": 434, "type": "synergy"}, {"source": "shoulders", "target": "triceps", "weight": 434, "type": "synergy"}];
+        const clusterColors = {"0": "#f39c12", "1": "#3498db", "2": "#2ecc71", "3": "#9b59b6"};
+        const clusterNames = ['Push', 'Pull', 'Legs', 'Core'];
+        
+        class ForceGraph {
+            constructor(svgId, nodes, edges) {
+                this.svg = document.getElementById(svgId);
+                this.width = 800;
+                this.height = 500;
+                this.nodes = nodes.map(n => ({...n, x: Math.random() * this.width, y: Math.random() * this.height, vx: 0, vy: 0}));
+                this.edges = edges.map(e => ({
+                    source: this.nodes.find(n => n.id === e.source),
+                    target: this.nodes.find(n => n.id === e.target),
+                    weight: e.weight,
+                    type: e.type
+                }));
+                this.simulationRunning = false;
+                this.tooltip = document.getElementById('tooltip');
+            }
+            
+            start() {
+                this.simulationRunning = true;
+                this.runSimulation();
+                this.render();
+            }
+            
+            runSimulation() {
+                if (!this.simulationRunning) return;
+                
+                const iterations = 150;
+                for (let i = 0; i < iterations; i++) {
+                    this.tick();
+                }
+                this.simulationRunning = false;
+                this.render();
+            }
+            
+            tick() {
+                for (let i = 0; i < this.nodes.length; i++) {
+                    for (let j = i + 1; j < this.nodes.length; j++) {
+                        const n1 = this.nodes[i];
+                        const n2 = this.nodes[j];
+                        let dx = n2.x - n1.x;
+                        let dy = n2.y - n1.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        const force = 5000 / (dist * dist);
+                        const fx = (dx / dist) * force;
+                        const fy = (dy / dist) * force;
+                        n1.vx -= fx;
+                        n1.vy -= fy;
+                        n2.vx += fx;
+                        n2.vy += fy;
+                    }
+                }
+                
+                for (const edge of this.edges) {
+                    const n1 = edge.source;
+                    const n2 = edge.target;
+                    let dx = n2.x - n1.x;
+                    let dy = n2.y - n1.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    const force = dist * 0.01 * edge.weight;
+                    const fx = (dx / dist) * force;
+                    const fy = (dy / dist) * force;
+                    n1.vx += fx;
+                    n1.vy += fy;
+                    n2.vx -= fx;
+                    n2.vy -= fy;
+                }
+                
+                for (const node of this.nodes) {
+                    node.vx += (this.width / 2 - node.x) * 0.001;
+                    node.vy += (this.height / 2 - node.y) * 0.001;
+                }
+                
+                for (const node of this.nodes) {
+                    node.x += node.vx * 0.5;
+                    node.y += node.vy * 0.5;
+                    node.vx *= 0.6;
+                    node.vy *= 0.6;
+                    
+                    node.x = Math.max(30, Math.min(this.width - 30, node.x));
+                    node.y = Math.max(30, Math.min(this.height - 30, node.y));
+                }
+            }
+            
+            render() {
+                let svgContent = '';
+                
+                for (const edge of this.edges) {
+                    const color = edge.type === 'synergy' ? '#2ea043' : '#f85149';
+                    const width = Math.min(4, Math.max(1, edge.weight / 30));
+                    svgContent += `<line x1="${edge.source.x}" y1="${edge.source.y}" x2="${edge.target.x}" y2="${edge.target.y}" stroke="${color}" stroke-width="${width}" opacity="0.6"/>`;
+                }
+                
+                for (const node of this.nodes) {
+                    const color = clusterColors[node.cluster];
+                    const size = node.size || 20;
+                    svgContent += `<circle cx="${node.x}" cy="${node.y}" r="${size}" fill="${color}" cursor="pointer" class="node" data-id="${node.id}"/>`;
+                    svgContent += `<text x="${node.x}" y="${node.y + 4}" text-anchor="middle" fill="#0d1117" font-size="11" font-weight="bold" pointer-events="none">${node.id}</text>`;
+                }
+                
+                this.svg.innerHTML = svgContent;
+                
+                this.svg.querySelectorAll('.node').forEach(el => {
+                    el.addEventListener('mouseenter', (e) => this.showTooltip(e));
+                    el.addEventListener('mouseleave', () => this.hideTooltip());
+                });
+            }
+            
+            showTooltip(e) {
+                const nodeId = e.target.dataset.id;
+                const node = this.nodes.find(n => n.id === nodeId);
+                if (!node) return;
+                
+                const clusterName = clusterNames[node.cluster];
+                this.tooltip.innerHTML = `
+                    <h4>${node.id.charAt(0).toUpperCase() + node.id.slice(1)}</h4>
+                    <div class="tooltip-row"><span>Times Worked:</span><span class="tooltip-value">${node.times_worked || 0}</span></div>
+                    <div class="tooltip-row"><span>Total Volume:</span><span class="tooltip-value">${Math.round(node.volume).toLocaleString()} lbs</span></div>
+                    <div class="tooltip-row"><span>Avg Recovery:</span><span class="tooltip-value">${node.avg_recovery_days ? node.avg_recovery_days.toFixed(1) : 'N/A'} days</span></div>
+                    <div class="tooltip-row"><span>Cluster:</span><span class="tooltip-value">${clusterName}</span></div>
+                `;
+                this.tooltip.classList.add('visible');
+                this.tooltip.style.left = (e.pageX + 10) + 'px';
+                this.tooltip.style.top = (e.pageY + 10) + 'px';
+            }
+            
+            hideTooltip() {
+                this.tooltip.classList.remove('visible');
+            }
+        }
+        
+        const graph = new ForceGraph('network-graph', nodes, edges);
+        graph.start();
+        
+        const tbody = document.getElementById('stats-body');
+        const sortedNodes = [...nodes].sort((a, b) => (b.times_worked || 0) - (a.times_worked || 0));
+        for (const node of sortedNodes) {
+            if (node.times_worked === 0) continue;
+            const row = document.createElement('tr');
+            const avgVol = node.volume / node.times_worked;
+            const clusterName = clusterNames[node.cluster];
+            const color = clusterColors[node.cluster];
+            row.innerHTML = `
+                <td><span class="muscle-tag" style="background:${color}">${node.id}</span></td>
+                <td>${node.times_worked}</td>
+                <td>${Math.round(avgVol).toLocaleString()}</td>
+                <td>${node.avg_recovery_days ? node.avg_recovery_days.toFixed(1) : 'N/A'}</td>
+                <td>${clusterName}</td>
+            `;
+            tbody.appendChild(row);
+        }
+    </script>
+</body>
+</html>

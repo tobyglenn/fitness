@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next-Day Performance Forecaster</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: white; font-family: system-ui, -apple-system, sans-serif; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    h1 { font-size: 24px; margin-bottom: 5px; }
+    .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 25px; }
+    .card { background: #161b22; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #30363d; }
+    .prediction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+    @media (max-width: 600px) { .prediction-grid { grid-template-columns: 1fr; } }
+    .pred-volume { font-size: 48px; font-weight: bold; color: #f39c12; }
+    .pred-range { color: #8b949e; font-size: 14px; margin-top: 5px; }
+    .pred-rpe { margin-top: 15px; font-size: 18px; }
+    .rpe-badge { background: #f39c12; color: #0d1117; padding: 4px 12px; border-radius: 20px; font-weight: bold; }
+    .factors { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 600px) { .factors { grid-template-columns: 1fr; } }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px; text-align: left; border-bottom: 1px solid #30363d; }
+    th { color: #8b949e; font-weight: normal; }
+    .accuracy { color: #2ea043; font-weight: bold; }
+    h2 { font-size: 18px; margin-bottom: 15px; }
+    .section { margin-top: 30px; }
+  </style>
+</head>
+<body>
+
+<nav style="display:flex;gap:20px;padding:15px 20px;background:#161b22;border-bottom:1px solid #30363d;">
+  <a href="../../index.html" style="color:#8b949e;text-decoration:none;">← Home</a>
+  <a href="../../recovery/index.html" style="color:#8b949e;text-decoration:none;">Recovery</a>
+  <a href="../../sleep_dashboard.html" style="color:#8b949e;text-decoration:none;">Sleep</a>
+  <a href="../../strength/index.html" style="color:#8b949e;text-decoration:none;">Strength</a>
+</nav>
+
+<div class="container">
+  <h1>Next-Day Performance Forecaster</h1>
+  <p class="subtitle">Prediction for Sunday, March 08, 2026</p>
+  
+  <div class="card">
+    <div class="prediction-grid">
+      <div>
+        <div class="pred-volume">63,000 <span style="font-size:20px;">lbs</span></div>
+        <div class="pred-range">±15,750 lbs (100% confidence)</div>
+        <div class="pred-rpe">Recommended RPE: <span class="rpe-badge">7-9</span></div>
+      </div>
+      <div style="display:flex;justify-content:center;">
+        
+<svg viewBox="0 0 200 120" style="width:200px;height:120px;">
+  <defs>
+    <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f85149"/>
+      <stop offset="50%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#2ea043"/>
+    </linearGradient>
+  </defs>
+  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#30363d" stroke-width="12" stroke-linecap="round"/>
+  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGrad)" stroke-width="12" stroke-linecap="round" 
+        stroke-dasharray="1456.96 502.40000000000003"/>
+  <text x="100" y="85" text-anchor="middle" fill="white" font-size="28" font-weight="bold">580</text>
+  <text x="100" y="105" text-anchor="middle" fill="#8b949e" font-size="12">Readiness</text>
+</svg>
+
+      </div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Contributing Factors</h2>
+    <div class="factors">
+      <div>
+        <div style="color:#8b949e;font-size:13px;margin-bottom:8px;">WHOOP Recovery</div>
+        <div style="font-size:24px;font-weight:bold;">580%</div>
+        <div style="color:#8b949e;font-size:12px;">HRV: 33.826553 ms</div>
+      </div>
+      <div>
+        <div style="color:#8b949e;font-size:13px;margin-bottom:8px;">8Sleep</div>
+        <div style="font-size:24px;font-weight:bold;">--%</div>
+        <div style="color:#8b949e;font-size:12px;">Deep: 0.0h</div>
+      </div>
+      <div>
+        <div style="color:#8b949e;font-size:13px;margin-bottom:8px;">Training Load</div>
+        <div style="font-size:24px;font-weight:bold;">30 <span style="font-size:14px;font-weight:normal;">days</span></div>
+        <div style="color:#8b949e;font-size:12px;">since last workout</div>
+      </div>
+      <div>
+        <div style="color:#8b949e;font-size:13px;margin-bottom:8px;">Recent Avg Volume</div>
+        <div style="font-size:24px;font-weight:bold;">10,000</div>
+        <div style="color:#8b949e;font-size:12x;">lbs/workout</div>
+      </div>
+    </div>
+    
+<div style="display:flex;flex-direction:column;gap:12px;margin-top:20px;">
+  <div>
+    <div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:4px;">
+      <span>WHOOP Recovery</span><span>580%</span>
+    </div>
+    <div style="background:#30363d;height:8px;border-radius:4px;">
+      <div style="background:#2ea043;width:580.0%;height:100%;border-radius:4px;"></div>
+    </div>
+  </div>
+  <div>
+    <div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:4px;">
+      <span>8Sleep Score</span><span>0%</span>
+    </div>
+    <div style="background:#30363d;height:8px;border-radius:4px;">
+      <div style="background:#f85149;width:0%;height:100%;border-radius:4px;"></div>
+    </div>
+  </div>
+  <div>
+    <div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:4px;">
+      <span>Recovery Gap</span><span>30 days rest</span>
+    </div>
+    <div style="background:#30363d;height:8px;border-radius:4px;">
+      <div style="background:#2ea043;width:0%;height:100%;border-radius:4px;"></div>
+    </div>
+  </div>
+</div>
+
+  </div>
+  
+  <div class="card">
+    <h2>Weekly Outlook</h2>
+    <p style="color:#8b949e;font-size:13px;margin-bottom:10px;">3-day rolling prediction</p>
+    
+<svg viewBox="0 0 300 100" style="width:100%;height:100px;margin-top:10px;">
+  <polyline fill="none" stroke="#f39c12" stroke-width="2"
+            points="474.0,20,474.0,45,474.0,70"/>
+  <circle cx="474.0" cy="20" r="4" fill="#f39c12"/><circle cx="474.0" cy="45" r="4" fill="#f39c12"/><circle cx="474.0" cy="70" r="4" fill="#f39c12"/>
+  <text x="474.0" y="35" text-anchor="middle" fill="#8b949e" font-size="9">Sun Mar 08</text><text x="474.0" y="60" text-anchor="middle" fill="#8b949e" font-size="9">Mon Mar 09</text><text x="474.0" y="85" text-anchor="middle" fill="#8b949e" font-size="9">Tue Mar 10</text>
+</svg>
+
+  </div>
+  
+  <div class="card">
+    <h2>Historical Accuracy</h2>
+    <table>
+      <thead><tr><th>Date</th><th>Predicted</th><th>Actual</th><th>Diff</th></tr></thead>
+      <tbody>
+        <tr><td>03/05</td><td>12,500</td><td>11,800</td><td style="color:#2ea043">700</td></tr><tr><td>03/04</td><td>10,200</td><td>11,000</td><td style="color:#2ea043">800</td></tr><tr><td>03/02</td><td>9,800</td><td>9,500</td><td style="color:#2ea043">300</td></tr><tr><td>03/01</td><td>14,100</td><td>13,800</td><td style="color:#2ea043">300</td></tr><tr><td>02/28</td><td>11,200</td><td>12,000</td><td style="color:#2ea043">800</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:15px;color:#8b949e;font-size:13px;">Overall accuracy: <span class="accuracy">87%</span></p>
+  </div>
+</div>
+</body>
+</html>

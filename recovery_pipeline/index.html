@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>72-Hour Recovery Pipeline</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{background:#161b22;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+nav a{color:#8b949e;text-decoration:none;font-size:13px;padding:4px 10px;border-radius:6px;transition:all .2s}
+nav a:hover,nav a.active{background:#21262d;color:#f0f6fc}
+nav .brand{color:#f39c12;font-weight:700;font-size:15px;margin-right:8px}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+h1{font-size:28px;font-weight:700;color:#f0f6fc;margin-bottom:6px}
+.subtitle{color:#8b949e;font-size:14px;margin-bottom:24px}
+.intro-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px 24px;margin-bottom:24px;color:#8b949e;line-height:1.6}
+.intro-card strong{color:#f0f6fc}
+.controls{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;align-items:center}
+.btn-group{display:flex;gap:4px}
+.btn{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;transition:all .2s}
+.btn:hover{background:#30363d;color:#f0f6fc}
+.btn.active{background:#f39c12;border-color:#f39c12;color:#0d1117;font-weight:600}
+.label{color:#8b949e;font-size:13px;margin-right:4px}
+.viz-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;margin-bottom:24px;overflow-x:auto}
+.viz-title{font-size:16px;font-weight:600;color:#f0f6fc;margin-bottom:16px}
+#timeline-svg{display:block;max-width:100%}
+.detail-panel{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;margin-bottom:24px;display:none}
+.detail-panel.visible{display:block}
+.detail-panel h3{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:16px}
+.detail-grid{display:grid;grid-template-columns:1fr 2fr;gap:20px}
+.detail-info p{font-size:13px;color:#8b949e;line-height:1.8}
+.detail-info strong{color:#f0f6fc}
+.cascade-bars{display:flex;flex-direction:column;gap:12px}
+.day-row{display:flex;align-items:center;gap:12px}
+.day-label{font-size:12px;color:#8b949e;width:60px;flex-shrink:0}
+.bar-container{flex:1;background:#21262d;border-radius:4px;height:28px;position:relative}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:12px;font-weight:600;min-width:30px;transition:width .4s ease}
+.bar-baseline{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.4);border-radius:2px}
+.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.insight-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px}
+.insight-icon{font-size:28px;margin-bottom:8px}
+.insight-title{font-size:13px;color:#8b949e;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.insight-value{font-size:24px;font-weight:700;color:#f39c12;margin-bottom:4px}
+.insight-desc{font-size:12px;color:#8b949e;line-height:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#8b949e}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+footer{text-align:center;padding:32px;color:#8b949e;font-size:13px;border-top:1px solid #21262d;margin-top:24px}
+footer a{color:#f39c12;text-decoration:none}
+@media(max-width:600px){.detail-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">🏋️ Fitness</span>
+  <a href="/index.html">Hub</a>
+  <a href="/calendars/">Calendars</a>
+  <a href="/strength/">Strength</a>
+  <a href="/cardio/">Cardio</a>
+  <a href="/recovery/">Recovery</a>
+  <a href="/recovery_pipeline/" class="active">Pipeline</a>
+  <a href="/nutrition/">Nutrition</a>
+</nav>
+<div class="container">
+  <h1>72-Hour Recovery Pipeline</h1>
+  <p class="subtitle">See how your training sessions impact recovery over the next 3 days</p>
+
+  <div class="intro-card">
+    <strong>How it works:</strong> Each workout dot represents a training session. The lines below show your
+    WHOOP recovery score, HRV, and 8Sleep score for the 3 days following that session.
+    <strong>Click any workout dot</strong> to trace its ripple effects and compare against your baseline.
+  </div>
+
+  <div class="controls">
+    <span class="label">Range:</span>
+    <div class="btn-group" id="range-btns">
+      <button class="btn active" data-days="30" onclick="setRange(30,this)">Last 30d</button>
+      <button class="btn" data-days="60" onclick="setRange(60,this)">Last 60d</button>
+      <button class="btn" data-days="90" onclick="setRange(90,this)">Last 90d</button>
+    </div>
+    <span class="label" style="margin-left:12px">Volume:</span>
+    <div class="btn-group" id="vol-btns">
+      <button class="btn active" data-tier="all" onclick="setTier('all',this)">All</button>
+      <button class="btn" data-tier="high" onclick="setTier('high',this)">High</button>
+      <button class="btn" data-tier="medium" onclick="setTier('medium',this)">Medium</button>
+      <button class="btn" data-tier="low" onclick="setTier('low',this)">Low</button>
+    </div>
+  </div>
+
+  <div class="viz-card">
+    <div class="viz-title">Timeline — Workouts & Recovery Cascade</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>High Volume Workout</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0a84ff"></div>Medium Volume</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2ea043"></div>Low Volume</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>WHOOP Recovery</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a371f7"></div>HRV</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div>Sleep Score</div>
+    </div>
+    <div id="timeline-container"></div>
+  </div>
+
+  <div class="detail-panel" id="detail-panel">
+    <h3 id="detail-title">Workout Details</h3>
+    <div class="detail-grid">
+      <div class="detail-info" id="detail-info"></div>
+      <div>
+        <p style="font-size:13px;color:#8b949e;margin-bottom:12px">Recovery cascade (vs baseline)</p>
+        <div class="cascade-bars" id="cascade-bars"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insights-grid">
+    <div class="insight-card">
+      <div class="insight-icon">📉</div>
+      <div class="insight-title">Avg Recovery Dip</div>
+      <div class="insight-value" id="ins-dip">—</div>
+      <div class="insight-desc">Average change in WHOOP recovery score the day after a workout vs your 7-day baseline</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">⚡</div>
+      <div class="insight-title">Impact by Intensity</div>
+      <div class="insight-value" id="ins-tiers">—</div>
+      <div class="insight-desc" id="ins-tiers-desc">Recovery delta by workout volume tier</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🎯</div>
+      <div class="insight-title">Sweet Spot Volume</div>
+      <div class="insight-value" id="ins-sweet">—</div>
+      <div class="insight-desc">Average volume (klbs) of workouts with the fastest recovery rebound on day +2</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Related: <a href="/recovery/">Recovery Dashboard</a> · <a href="/strength/">Strength</a> · <a href="/hrv_analysis/">HRV Analysis</a></p>
+  </footer>
+</div>
+
+<script>
+const ALL_DATA = [{"date": "2025-03-03", "datetime": "2025-03-03 10:55", "volume": 27784, "duration_min": 213, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-03", "recovery": 50.0, "hrv": 27.462093, "sleep": 83}, "day1": {"date": "2025-03-04", "recovery": 64.0, "hrv": 32.58675, "sleep": null}, "day2": {"date": "2025-03-05", "recovery": 46.0, "hrv": 26.028027, "sleep": null}}, "baseline": {"recovery": 76.1, "hrv": 37.3, "sleep": 87.5}}, {"date": "2025-03-04", "datetime": "2025-03-04 10:48", "volume": 26793, "duration_min": 426, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-04", "recovery": 64.0, "hrv": 32.58675, "sleep": null}, "day1": {"date": "2025-03-05", "recovery": 46.0, "hrv": 26.028027, "sleep": null}, "day2": {"date": "2025-03-06", "recovery": 48.0, "hrv": 25.905138, "sleep": null}}, "baseline": {"recovery": 70.7, "hrv": 36.5, "sleep": 87.2}}, {"date": "2025-03-05", "datetime": "2025-03-05 10:38", "volume": 14988, "duration_min": 363, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-03-05", "recovery": 46.0, "hrv": 26.028027, "sleep": null}, "day1": {"date": "2025-03-06", "recovery": 48.0, "hrv": 25.905138, "sleep": null}, "day2": {"date": "2025-03-07", "recovery": 65.0, "hrv": 28.691475, "sleep": null}}, "baseline": {"recovery": 65.9, "hrv": 33.9, "sleep": 86.0}}, {"date": "2025-03-06", "datetime": "2025-03-06 12:44", "volume": 26708, "duration_min": 273, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-06", "recovery": 48.0, "hrv": 25.905138, "sleep": null}, "day1": {"date": "2025-03-07", "recovery": 65.0, "hrv": 28.691475, "sleep": null}, "day2": {"date": "2025-03-08", "recovery": 40.0, "hrv": 22.443943, "sleep": null}}, "baseline": {"recovery": 61.1, "hrv": 32.7, "sleep": 81.0}}, {"date": "2025-03-06", "datetime": "2025-03-06 11:03", "volume": 6136, "duration_min": 21, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-06", "recovery": 48.0, "hrv": 25.905138, "sleep": null}, "day1": {"date": "2025-03-07", "recovery": 65.0, "hrv": 28.691475, "sleep": null}, "day2": {"date": "2025-03-08", "recovery": 40.0, "hrv": 22.443943, "sleep": null}}, "baseline": {"recovery": 61.1, "hrv": 32.7, "sleep": 81.0}}, {"date": "2025-03-07", "datetime": "2025-03-07 11:00", "volume": 21842, "duration_min": 358, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-03-07", "recovery": 65.0, "hrv": 28.691475, "sleep": null}, "day1": {"date": "2025-03-08", "recovery": 40.0, "hrv": 22.443943, "sleep": null}, "day2": {"date": "2025-03-09", "recovery": 50.0, "hrv": 24.757763, "sleep": null}}, "baseline": {"recovery": 55.7, "hrv": 30.7, "sleep": 83.0}}, {"date": "2025-03-09", "datetime": "2025-03-09 10:34", "volume": 33154, "duration_min": 110, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-09", "recovery": 50.0, "hrv": 24.757763, "sleep": null}, "day1": {"date": "2025-03-10", "recovery": 31.0, "hrv": 19.730682, "sleep": null}, "day2": {"date": "2025-03-11", "recovery": 41.0, "hrv": 21.440779, "sleep": null}}, "baseline": {"recovery": 52.7, "hrv": 26.8, "sleep": 83.0}}, {"date": "2025-03-10", "datetime": "2025-03-10 14:29", "volume": 7994, "duration_min": 363, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-10", "recovery": 31.0, "hrv": 19.730682, "sleep": null}, "day1": {"date": "2025-03-11", "recovery": 41.0, "hrv": 21.440779, "sleep": null}, "day2": {"date": "2025-03-12", "recovery": 86.0, "hrv": 33.991314, "sleep": null}}, "baseline": {"recovery": 51.9, "hrv": 26.8, "sleep": 83.0}}, {"date": "2025-03-13", "datetime": "2025-03-13 13:05", "volume": 12530, "duration_min": 182, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-13", "recovery": 21.0, "hrv": 18.14808, "sleep": null}, "day1": {"date": "2025-03-14", "recovery": 50.0, "hrv": 23.546093, "sleep": null}, "day2": {"date": "2025-03-15", "recovery": 55.0, "hrv": 23.3751, "sleep": null}}, "baseline": {"recovery": 51.6, "hrv": 25.3, "sleep": null}}, {"date": "2025-03-13", "datetime": "2025-03-13 08:35", "volume": 25477, "duration_min": 162, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-13", "recovery": 21.0, "hrv": 18.14808, "sleep": null}, "day1": {"date": "2025-03-14", "recovery": 50.0, "hrv": 23.546093, "sleep": null}, "day2": {"date": "2025-03-15", "recovery": 55.0, "hrv": 23.3751, "sleep": null}}, "baseline": {"recovery": 51.6, "hrv": 25.3, "sleep": null}}, {"date": "2025-03-18", "datetime": "2025-03-18 07:47", "volume": 13736, "duration_min": 135, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-03-18", "recovery": 30.0, "hrv": 17.4102, "sleep": null}, "day1": {"date": "2025-03-19", "recovery": 50.0, "hrv": 23.108168, "sleep": null}, "day2": {"date": "2025-03-20", "recovery": 36.0, "hrv": 20.600014, "sleep": null}}, "baseline": {"recovery": 47.9, "hrv": 23.4, "sleep": null}}, {"date": "2025-03-20", "datetime": "2025-03-20 08:15", "volume": 22161, "duration_min": 524, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-03-20", "recovery": 36.0, "hrv": 20.600014, "sleep": null}, "day1": {"date": "2025-03-21", "recovery": 20.0, "hrv": 20.07524, "sleep": null}, "day2": {"date": "2025-03-22", "recovery": 53.0, "hrv": 22.170765, "sleep": 78}}, "baseline": {"recovery": 41.1, "hrv": 21.3, "sleep": null}}, {"date": "2025-03-22", "datetime": "2025-03-22 08:09", "volume": 9901, "duration_min": 50, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-22", "recovery": 53.0, "hrv": 22.170765, "sleep": 78}, "day1": {"date": "2025-03-23", "recovery": 42.0, "hrv": 19.590982, "sleep": 69}, "day2": {"date": "2025-03-24", "recovery": 56.0, "hrv": 22.899662, "sleep": 69}}, "baseline": {"recovery": 39.0, "hrv": 21.1, "sleep": null}}, {"date": "2025-03-23", "datetime": "2025-03-23 10:25", "volume": 25381, "duration_min": 132, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-23", "recovery": 42.0, "hrv": 19.590982, "sleep": 69}, "day1": {"date": "2025-03-24", "recovery": 56.0, "hrv": 22.899662, "sleep": 69}, "day2": {"date": "2025-03-25", "recovery": 24.0, "hrv": 16.972628, "sleep": 67}}, "baseline": {"recovery": 38.7, "hrv": 21.0, "sleep": 78.0}}, {"date": "2025-03-24", "datetime": "2025-03-24 10:24", "volume": 8100, "duration_min": 308, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-24", "recovery": 56.0, "hrv": 22.899662, "sleep": 69}, "day1": {"date": "2025-03-25", "recovery": 24.0, "hrv": 16.972628, "sleep": 67}, "day2": {"date": "2025-03-26", "recovery": 63.0, "hrv": 24.268412, "sleep": 71}}, "baseline": {"recovery": 40.7, "hrv": 20.9, "sleep": 73.5}}, {"date": "2025-03-25", "datetime": "2025-03-25 10:19", "volume": 22109, "duration_min": 356, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-03-25", "recovery": 24.0, "hrv": 16.972628, "sleep": 67}, "day1": {"date": "2025-03-26", "recovery": 63.0, "hrv": 24.268412, "sleep": 71}, "day2": {"date": "2025-03-27", "recovery": 63.0, "hrv": 24.602604, "sleep": 82}}, "baseline": {"recovery": 41.0, "hrv": 20.8, "sleep": 72.0}}, {"date": "2025-03-27", "datetime": "2025-03-27 19:09", "volume": 2722, "duration_min": 10, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-27", "recovery": 63.0, "hrv": 24.602604, "sleep": 82}, "day1": {"date": "2025-03-28", "recovery": 67.0, "hrv": 25.6319, "sleep": 81}, "day2": {"date": "2025-03-29", "recovery": 62.0, "hrv": 25.154957, "sleep": 82}}, "baseline": {"recovery": 42.0, "hrv": 20.9, "sleep": 70.8}}, {"date": "2025-03-27", "datetime": "2025-03-27 09:54", "volume": 25786, "duration_min": 267, "exercises": [], "title": "Workout", "tier": "high", "cascade": {"day0": {"date": "2025-03-27", "recovery": 63.0, "hrv": 24.602604, "sleep": 82}, "day1": {"date": "2025-03-28", "recovery": 67.0, "hrv": 25.6319, "sleep": 81}, "day2": {"date": "2025-03-29", "recovery": 62.0, "hrv": 25.154957, "sleep": 82}}, "baseline": {"recovery": 42.0, "hrv": 20.9, "sleep": 70.8}}, {"date": "2025-03-29", "datetime": "2025-03-29 07:57", "volume": 4457, "duration_min": 32, "exercises": [], "title": "Workout", "tier": "low", "cascade": {"day0": {"date": "2025-03-29", "recovery": 62.0, "hrv": 25.154957, "sleep": 82}, "day1": {"date": "2025-03-30", "recovery": 22.0, "hrv": 18.953728, "sleep": 78}, "day2": {"date": "2025-03-31", "recovery": 86.0, "hrv": 29.48932, "sleep": 92}}, "baseline": {"recovery": 52.6, "hrv": 22.3, "sleep": 73.9}}, {"date": "2025-04-01", "datetime": "2025-04-01 13:36", "volume": 24091, "duration_min": 242, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-04-01", "recovery": 84.0, "hrv": 28.884716, "sleep": 86}, "day1": {"date": "2025-04-02", "recovery": 88.0, "hrv": 29.953098, "sleep": 89}, "day2": {"date": "2025-04-03", "recovery": 81.0, "hrv": 28.89143, "sleep": 90}}, "baseline": {"recovery": 55.3, "hrv": 23.6, "sleep": 79.0}}, {"date": "2025-04-01", "datetime": "2025-04-01 07:12", "volume": 13288, "duration_min": 225, "exercises": [], "title": "Workout", "tier": "medium", "cascade": {"day0": {"date": "2025-04-01", "recovery": 84.0, "hrv": 28.884716, "sleep": 86}, "day1": {"date": "2025-04-02", "recovery": 88.0, "hrv": 29.953098, "sleep": 89}, "day2": {"date": "2025-04-03", "recovery": 81.0, "hrv": 28.89143, "sleep": 90}}, "baseline": {"recovery": 55.3, "hrv": 23.6, "sleep": 79.0}}];
+const INSIGHTS = {"avg_dip": -0.3, "tier_avgs": {"high": -2.0, "medium": 5.0, "low": -4.0}, "sweet_spot_klbs": 11.5, "total_workouts": 21};
+let currentRange = 30;
+let currentTier = 'all';
+let selectedWorkout = null;
+
+const TIER_COLORS = {high:'#f39c12',medium:'#0a84ff',low:'#2ea043'};
+const RECOVERY_COLOR = '#f85149';
+const HRV_COLOR = '#a371f7';
+const SLEEP_COLOR = '#58a6ff';
+
+function filterData() {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - currentRange);
+  return ALL_DATA.filter(w => {
+    const d = new Date(w.date);
+    const tierOk = currentTier === 'all' || w.tier === currentTier;
+    return d >= cutoff && tierOk;
+  });
+}
+
+function setRange(days, btn) {
+  currentRange = days;
+  document.querySelectorAll('#range-btns .btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function setTier(tier, btn) {
+  currentTier = tier;
+  document.querySelectorAll('#vol-btns .btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function makeSVG(data) {
+  const W = Math.min(window.innerWidth - 80, 1100);
+  const H = 420;
+  const PAD = {top:30,right:30,bottom:50,left:50};
+  const innerW = W - PAD.left - PAD.right;
+  const innerH = H - PAD.top - PAD.bottom;
+
+  if (!data.length) return '<p style="color:#8b949e;padding:20px">No data for selected range/tier</p>';
+
+  // Date range
+  const dates = data.map(w => new Date(w.date));
+  const minDate = new Date(Math.min(...dates));
+  const maxDate = new Date();
+  const totalMs = maxDate - minDate || 1;
+
+  function xPos(dateStr) {
+    const ms = new Date(dateStr) - minDate;
+    return PAD.left + (ms / totalMs) * innerW;
+  }
+
+  // Collect all recovery/hrv/sleep values for scale
+  let allRecovery = [], allHrv = [], allSleep = [];
+  data.forEach(w => {
+    [0,1,2].forEach(i => {
+      const c = w.cascade[`day${i}`];
+      if (c.recovery != null) allRecovery.push(c.recovery);
+      if (c.hrv != null) allHrv.push(c.hrv);
+      if (c.sleep != null) allSleep.push(c.sleep);
+    });
+  });
+
+  // Normalize to 0-100 scale
+  const maxHrv = Math.max(...allHrv, 1);
+  function normHrv(v) { return v != null ? (v / maxHrv) * 100 : null; }
+  function yPos(val) { return val == null ? null : PAD.top + innerH - (val / 100) * innerH; }
+
+  let svgLines = '';
+  let svgDots = '';
+  let svgWorkoutDots = '';
+
+  // Draw recovery/hrv/sleep lines and connecting dashes
+  data.forEach(w => {
+    const x0 = xPos(w.date);
+    const dayMs = totalMs / innerW * 40; // ~40px per day offset for cascade
+
+    // Cascade connecting lines (dashed)
+    const cascadePts = [0,1,2].map(i => {
+      const c = w.cascade[`day${i}`];
+      const xc = x0 + i * dayMs;
+      const yr = yPos(c.recovery);
+      return {x: xc, y: yr, r: c.recovery};
+    });
+    // Draw dashed lines between cascade points
+    for (let i = 0; i < cascadePts.length - 1; i++) {
+      const a = cascadePts[i], b = cascadePts[i+1];
+      if (a.y && b.y) {
+        svgLines += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"
+          stroke="${RECOVERY_COLOR}" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>`;
+      }
+    }
+    // Cascade dots
+    cascadePts.forEach((pt, i) => {
+      if (pt.y != null) {
+        svgDots += `<circle cx="${pt.x}" cy="${pt.y}" r="3" fill="${RECOVERY_COLOR}" opacity="0.7"/>`;
+      }
+    });
+  });
+
+  // Draw workout dots (top row)
+  const workoutRowY = PAD.top + 10;
+  data.forEach((w, idx) => {
+    const x = xPos(w.date);
+    const color = TIER_COLORS[w.tier] || '#8b949e';
+    const size = w.tier === 'high' ? 8 : w.tier === 'medium' ? 6 : 5;
+    const volK = w.volume > 0 ? `${(w.volume/1000).toFixed(1)}k lbs` : '';
+    const isSelected = selectedWorkout && selectedWorkout.date === w.date && selectedWorkout.datetime === w.datetime;
+    svgWorkoutDots += `
+      <circle cx="${x}" cy="${workoutRowY}" r="${size}" fill="${color}"
+        class="workout-dot${isSelected ? ' selected-dot' : ''}"
+        data-idx="${idx}" style="cursor:pointer"
+        onclick="selectWorkout(${idx})"
+        opacity="${isSelected ? 1 : 0.85}">
+        <title>${w.title} — ${w.date}\n${volK} · ${w.duration_min}min</title>
+      </circle>
+      ${isSelected ? `<circle cx="${x}" cy="${workoutRowY}" r="${size+4}" fill="none" stroke="${color}" stroke-width="2" opacity="0.6"/>` : ''}
+    `;
+    // Vertical line from workout dot down
+    const firstCascadeY = yPos(w.cascade.day0.recovery);
+    if (firstCascadeY) {
+      svgLines = `<line x1="${x}" y1="${workoutRowY + size}" x2="${x}" y2="${firstCascadeY}"
+        stroke="${color}" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>` + svgLines;
+    }
+  });
+
+  // Grid lines
+  let gridLines = '';
+  [0,25,50,75,100].forEach(v => {
+    const y = yPos(v);
+    gridLines += `<line x1="${PAD.left}" y1="${y}" x2="${W - PAD.right}" y2="${y}"
+      stroke="#21262d" stroke-width="1"/>
+      <text x="${PAD.left - 6}" y="${y + 4}" fill="#8b949e" font-size="10" text-anchor="end">${v}</text>`;
+  });
+
+  // X-axis date labels (every ~2 weeks)
+  let xLabels = '';
+  const labelDates = [];
+  for (let i = 0; i <= currentRange; i += 14) {
+    const d = new Date(maxDate);
+    d.setDate(d.getDate() - (currentRange - i));
+    labelDates.push(d);
+  }
+  labelDates.forEach(d => {
+    const x = xPos(d.toISOString().slice(0,10));
+    const label = d.toLocaleDateString('en-US', {month:'short',day:'numeric'});
+    xLabels += `<text x="${x}" y="${H - PAD.bottom + 18}" fill="#8b949e" font-size="10" text-anchor="middle">${label}</text>`;
+  });
+
+  // Workout row label
+  const workoutLabel = `<text x="${PAD.left - 6}" y="${workoutRowY + 4}" fill="#8b949e" font-size="10" text-anchor="end">WO</text>`;
+  // Axis labels
+  const yAxisLabel = `<text transform="rotate(-90)" x="${-(PAD.top + innerH/2)}" y="14" fill="#8b949e" font-size="11" text-anchor="middle">Recovery Score (0–100)</text>`;
+
+  return `<svg id="timeline-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="#0d1117" rx="8"/>
+    ${gridLines}
+    ${workoutLabel}
+    ${xLabels}
+    ${yAxisLabel}
+    ${svgLines}
+    ${svgDots}
+    ${svgWorkoutDots}
+  </svg>`;
+}
+
+function selectWorkout(idx) {
+  const data = filterData();
+  const w = data[idx];
+  if (!w) return;
+  selectedWorkout = w;
+
+  const panel = document.getElementById('detail-panel');
+  panel.classList.add('visible');
+
+  document.getElementById('detail-title').textContent = `${w.title} — ${w.date}`;
+
+  const exerciseList = w.exercises.slice(0,6).join(', ') || 'N/A';
+  document.getElementById('detail-info').innerHTML = `
+    <p><strong>Date:</strong> ${w.datetime}</p>
+    <p><strong>Volume:</strong> ${w.volume > 0 ? (w.volume/1000).toFixed(1) + 'k lbs' : 'N/A'}</p>
+    <p><strong>Duration:</strong> ${w.duration_min} min</p>
+    <p><strong>Intensity:</strong> <span style="color:${TIER_COLORS[w.tier] || '#8b949e'};text-transform:capitalize;font-weight:600">${w.tier}</span></p>
+    <p><strong>Exercises:</strong> ${exerciseList}${w.exercises.length > 6 ? ` +${w.exercises.length - 6} more` : ''}</p>
+    <hr style="border-color:#30363d;margin:12px 0">
+    <p style="margin-top:8px"><strong>Baseline (7-day avg):</strong></p>
+    <p>Recovery: ${w.baseline.recovery != null ? w.baseline.recovery + '%' : 'N/A'}</p>
+    <p>HRV: ${w.baseline.hrv != null ? w.baseline.hrv.toFixed(1) + ' ms' : 'N/A'}</p>
+    <p>Sleep: ${w.baseline.sleep != null ? w.baseline.sleep + '/100' : 'N/A'}</p>
+  `;
+
+  const bars = document.getElementById('cascade-bars');
+  bars.innerHTML = '';
+  ['day0','day1','day2'].forEach((key, i) => {
+    const c = w.cascade[key];
+    const label = ['Day 0','Day +1','Day +2'][i];
+    const baseline = w.baseline.recovery;
+    const val = c.recovery;
+    if (val == null) {
+      bars.innerHTML += `<div class="day-row">
+        <span class="day-label">${label}</span>
+        <div class="bar-container"><span style="color:#8b949e;font-size:12px;padding:6px 8px">No data</span></div>
+      </div>`;
+      return;
+    }
+    const delta = baseline ? val - baseline : 0;
+    const color = delta >= 0 ? '#2ea043' : '#f85149';
+    const pct = Math.max(5, Math.min(100, val));
+    const baselinePct = baseline ? Math.min(100, baseline) : 50;
+    const sign = delta >= 0 ? '+' : '';
+    bars.innerHTML += `<div class="day-row">
+      <span class="day-label" style="color:#f0f6fc;font-weight:600">${label}</span>
+      <div class="bar-container" style="overflow:visible">
+        <div class="bar-fill" style="width:${pct}%;background:${color}">
+          ${val}%
+        </div>
+        <div class="bar-baseline" style="left:${baselinePct}%"
+          title="Baseline: ${baseline}%"></div>
+      </div>
+      <span style="font-size:12px;color:${color};width:44px;flex-shrink:0">${sign}${delta.toFixed(0)}</span>
+    </div>`;
+  });
+
+  render(); // re-render to show selection ring
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function renderInsights() {
+  const dip = INSIGHTS.avg_dip;
+  const dipEl = document.getElementById('ins-dip');
+  if (dip !== undefined && dip !== null) {
+    const sign = dip >= 0 ? '+' : '';
+    dipEl.textContent = sign + dip + ' pts';
+    dipEl.style.color = dip >= 0 ? '#2ea043' : '#f85149';
+  } else {
+    dipEl.textContent = 'N/A';
+  }
+
+  const ta = INSIGHTS.tier_avgs || {};
+  const tierLines = Object.entries(ta).map(([k,v]) => {
+    const sign = v >= 0 ? '+' : '';
+    return `${k}: ${sign}${v}`;
+  });
+  document.getElementById('ins-tiers').textContent = tierLines.length ? tierLines[0] : 'N/A';
+  document.getElementById('ins-tiers-desc').textContent = tierLines.join(' · ') || 'Not enough data';
+
+  const ss = INSIGHTS.sweet_spot_klbs;
+  document.getElementById('ins-sweet').textContent = ss ? `~${ss}k lbs` : 'N/A';
+}
+
+function render() {
+  const data = filterData();
+  const container = document.getElementById('timeline-container');
+  container.innerHTML = makeSVG(data);
+}
+
+renderInsights();
+render();
+window.addEventListener('resize', render);
+</script>
+</body>
+</html>

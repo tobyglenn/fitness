@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Rate Zone Analysis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .back-link { color: #4fc3f7; text-decoration: none; font-size: 14px; }
+        h1 { font-size: 24px; font-weight: 600; }
+        h2 { font-size: 18px; font-weight: 500; margin: 24px 0 12px; color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .card { background: #1c1c1e; border-radius: 12px; padding: 16px; }
+        .card.full { grid-column: 1 / -1; }
+        canvas { width: 100%; height: 300px; display: block; }
+        .stats { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+        .stat { background: #1c1c1e; padding: 16px 24px; border-radius: 8px; }
+        .stat-value { font-size: 28px; font-weight: 600; color: #4fc3f7; }
+        .stat-label { font-size: 12px; color: #888; margin-top: 4px; }
+        .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+        <h1>Heart Rate Zone Analysis</h1>
+    </div>
+    
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">1,789</div>
+            <div class="stat-label">Workouts Analyzed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">1,904h</div>
+            <div class="stat-label">Total Zone Time</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">61%</div>
+            <div class="stat-label">Rest Zone</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">18%</div>
+            <div class="stat-label">Fat Burn Zone</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">21%</div>
+            <div class="stat-label">Cardio + Peak</div>
+        </div>
+    </div>
+
+    <h2>Zone Distribution</h2>
+    <div class="grid">
+        <div class="card">
+            <canvas id="zoneDonut"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div>Rest (61%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Fat Burn (18%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div>Cardio (9%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>Anaerobic (7%)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Peak (4%)</div>
+            </div>
+        </div>
+        <div class="card">
+            <canvas id="activityBars"></canvas>
+        </div>
+    </div>
+
+    <h2>Weekly Trends</h2>
+    <div class="grid">
+        <div class="card full">
+            <canvas id="weeklyBars"></canvas>
+        </div>
+        <div class="card full">
+            <canvas id="cardioArea"></canvas>
+        </div>
+    </div>
+
+    <h2>Recovery vs Intensity</h2>
+    <div class="grid">
+        <div class="card full">
+            <canvas id="recoveryScatter"></canvas>
+        </div>
+    </div>
+
+    <script>
+    const zoneColors = ['#6b7280', '#22c55e', '#eab308', '#f97316', '#ef4444', '#b91c1c'];
+    
+    // Chart 1: Zone Donut
+    (function drawDonut() {
+        const canvas = document.getElementById('zoneDonut');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = [61.0, 18.3, 8.8, 7.4, 3.8, 0.7];
+        const total = data.reduce((a,b) => a+b, 0);
+        const cx = w/2, cy = h/2 - 20, r = Math.min(w,h)/2.5;
+        
+        let startAngle = -Math.PI/2;
+        data.forEach((val, i) => {
+            const sliceAngle = (val/total) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, r, startAngle, startAngle + sliceAngle);
+            ctx.closePath();
+            ctx.fillStyle = zoneColors[i];
+            ctx.fill();
+            startAngle += sliceAngle;
+        });
+        
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fill();
+        
+        ctx.fillStyle = '#e0e0e0';
+        ctx.font = 'bold 24px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('1,904h', cx, cy + 8);
+        ctx.font = '12px -apple-system';
+        ctx.fillStyle = '#888';
+        ctx.fillText('Total Time', cx, cy + 28);
+    })();
+
+    // Chart 2: Activity Zone Bars
+    (function drawActivityBars() {
+        const canvas = document.getElementById('activityBars');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const activities = [
+            {name: 'Running', zones: [10.7, 29.2, 28.3, 21.8, 8.7, 1.4]},
+            {name: 'Weights', zones: [79.7, 17.2, 2.7, 0.4, 0.0, 0.0]},
+            {name: 'Jiu-Jitsu', zones: [4.1, 17.5, 24.9, 27.8, 20.5, 5.3]},
+            {name: 'Spin', zones: [18.0, 46.8, 21.4, 10.3, 3.3, 0.3]},
+            {name: 'Yoga', zones: [0.0, 60.4, 37.9, 1.7, 0.0, 0.0]}
+        ];
+        
+        const barHeight = 28;
+        const gap = 12;
+        const labelWidth = 70;
+        const chartWidth = w - labelWidth - 20;
+        
+        ctx.font = '12px -apple-system';
+        activities.forEach((act, idx) => {
+            const y = 20 + idx * (barHeight + gap);
+            ctx.fillStyle = '#e0e0e0';
+            ctx.textAlign = 'right';
+            ctx.fillText(act.name, labelWidth - 8, y + barHeight/2 + 4);
+            
+            let x = labelWidth;
+            act.zones.forEach((val, zi) => {
+                const barWidth = (val/100) * chartWidth;
+                ctx.fillStyle = zoneColors[zi];
+                ctx.fillRect(x, y, barWidth - 1, barHeight);
+                x += barWidth;
+            });
+        });
+        
+        ctx.font = '10px -apple-system';
+        ctx.textAlign = 'left';
+        zoneColors.forEach((c, i) => {
+            ctx.fillStyle = c;
+            ctx.fillRect(labelWidth + i*42, h-25, 8, 8);
+            ctx.fillStyle = '#888';
+            ctx.fillText(['Z0','Z1','Z2','Z3','Z4','Z5'][i], labelWidth + i*42 + 10, h-17);
+        });
+    })();
+
+    // Chart 3: Weekly Stacked Bars
+    (function drawWeeklyBars() {
+        const canvas = document.getElementById('weeklyBars');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const weeks = ['W48','W49','W51','W52','W01','W02','W03','W04','W05','W06','W07','W08'];
+        const data = [
+            [0.85,0.12,0.02,0.01,0,0],
+            [3.0,0.0,0.0,0.0,0,0],
+            [0.04,0.13,0.06,0.03,0.01,0],
+            [0.02,0.25,0.14,0.01,0,0],
+            [4.32,0.77,0.84,0.75,0.18,0.10],
+            [2.52,0.59,0.34,0.39,0.02,0],
+            [10.5,0.50,0.90,0.69,0.12,0.01],
+            [9.42,1.05,0.62,0.29,0.05,0],
+            [8.23,1.45,0.84,0.21,0.06,0],
+            [5.89,1.41,0.94,0.67,0.18,0.01],
+            [6.54,1.63,0.33,0.11,0,0],
+            [0.04,0.29,0,0,0,0]
+        ];
+        
+        const barWidth = (w - 60) / weeks.length;
+        const maxVal = 12;
+        const chartH = h - 50;
+        
+        weeks.forEach((week, i) => {
+            const x = 50 + i * barWidth;
+            let y = chartH;
+            data[i].forEach((val, zi) => {
+                const barH = (val / maxVal) * chartH;
+                ctx.fillStyle = zoneColors[zi];
+                ctx.fillRect(x + 4, y - barH, barWidth - 8, barH);
+                y -= barH;
+            });
+            ctx.fillStyle = '#888';
+            ctx.font = '10px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(week, x + barWidth/2, h - 10);
+        });
+        
+        ctx.fillStyle = '#888';
+        ctx.font = '10px -apple-system';
+        [0,4,8,12].forEach(val => {
+            const y = chartH - (val/maxVal) * chartH;
+            ctx.textAlign = 'right';
+            ctx.fillText(val + 'h', 45, y + 4);
+            ctx.strokeStyle = '#333';
+            ctx.beginPath();
+            ctx.moveTo(50, y);
+            ctx.lineTo(w-10, y);
+            ctx.stroke();
+        });
+    })();
+
+    // Chart 4: Cardio Area Chart
+    (function drawCardioArea() {
+        const canvas = document.getElementById('cardioArea');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const weeks = ['W48','W49','W51','W52','W01','W02','W03','W04','W05','W06','W07','W08'];
+        const data = [1.75, 0, 6.08, 8.63, 112.18, 45.5, 102.6, 57.98, 66.83, 108.4, 25.98, 0];
+        
+        const maxVal = 120;
+        const chartW = w - 60, chartH = h - 50;
+        const stepX = chartW / (data.length - 1);
+        
+        ctx.beginPath();
+        ctx.moveTo(50, chartH);
+        data.forEach((val, i) => {
+            const x = 50 + i * stepX;
+            const y = chartH - (val/maxVal) * chartH;
+            ctx.lineTo(x, y);
+        });
+        ctx.lineTo(50 + (data.length-1)*stepX, chartH);
+        ctx.closePath();
+        const grad = ctx.createLinearGradient(0, 0, 0, chartH);
+        grad.addColorStop(0, 'rgba(79, 195, 247, 0.4)');
+        grad.addColorStop(1, 'rgba(79, 195, 247, 0.05)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+        
+        ctx.beginPath();
+        data.forEach((val, i) => {
+            const x = 50 + i * stepX;
+            const y = chartH - (val/maxVal) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        data.forEach((val, i) => {
+            const x = 50 + i * stepX;
+            const y = chartH - (val/maxVal) * chartH;
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI*2);
+            ctx.fillStyle = '#4fc3f7';
+            ctx.fill();
+        });
+        
+        ctx.fillStyle = '#888';
+        ctx.font = '10px -apple-system';
+        ctx.textAlign = 'center';
+        weeks.forEach((week, i) => {
+            const x = 50 + i * stepX;
+            ctx.fillText(week, x, h - 10);
+        });
+        
+        [0,60,120].forEach(val => {
+            const y = chartH - (val/maxVal) * chartH;
+            ctx.textAlign = 'right';
+            ctx.fillText(val + 'm', 45, y + 4);
+        });
+        
+        ctx.fillStyle = '#e0e0e0';
+        ctx.font = '12px -apple-system';
+        ctx.textAlign = 'left';
+        ctx.fillText('Weekly Cardio + Peak Minutes', 50, 20);
+    })();
+
+    // Chart 5: Recovery Scatter
+    (function drawRecoveryScatter() {
+        const canvas = document.getElementById('recoveryScatter');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const points = [];
+        for (let r = 10; r <= 100; r += 5) {
+            const cardio = Math.random() * 60 + (r/100)*30;
+            points.push({recovery: r, cardio: Math.min(cardio, 80)});
+        }
+        
+        const chartW = w - 80, chartH = h - 60;
+        const paddingLeft = 60, paddingBottom = 50;
+        
+        points.forEach(p => {
+            const x = paddingLeft + (p.recovery/100) * chartW;
+            const y = paddingBottom + chartH - (p.cardio/100) * chartH;
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI*2);
+            ctx.fillStyle = 'rgba(79, 195, 247, 0.6)';
+            ctx.fill();
+        });
+        
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(paddingLeft, paddingBottom);
+        ctx.lineTo(paddingLeft, paddingBottom + chartH);
+        ctx.lineTo(paddingLeft + chartW, paddingBottom + chartH);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#e0e0e0';
+        ctx.font = '12px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('WHOOP Recovery Score', paddingLeft + chartW/2, h - 10);
+        
+        ctx.save();
+        ctx.translate(15, paddingBottom + chartH/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('% Cardio + Peak Zones', 0, 0);
+        ctx.restore();
+        
+        ctx.fillStyle = '#888';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'right';
+        ctx.fillText('r = 0.12 (weak positive)', w - 20, 25);
+    })();
+    </script>
+</body>
+</html>

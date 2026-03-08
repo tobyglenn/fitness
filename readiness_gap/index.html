@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Readiness Gap Analyzer</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px}
+  nav{background:#161b22;padding:12px 24px;border-bottom:1px solid #30363d;display:flex;gap:20px;flex-wrap:wrap}
+  nav a{color:#8b949e;text-decoration:none;font-size:13px}
+  nav a:hover{color:#f39c12}
+  nav a.active{color:#f39c12;font-weight:600}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  h1{font-size:26px;font-weight:700;margin-bottom:4px}
+  .subtitle{color:#8b949e;margin-bottom:24px;font-size:14px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px}
+  .card-label{color:#8b949e;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+  .card-value{font-size:30px;font-weight:700;color:#f39c12}
+  .card-sub{color:#8b949e;font-size:12px;margin-top:4px}
+  .section{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:24px}
+  .section h2{font-size:17px;font-weight:600;margin-bottom:16px;color:#f39c12}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:8px 12px;color:#8b949e;border-bottom:1px solid #30363d;font-weight:500}
+  td{padding:8px 12px;border-bottom:1px solid #21262d}
+  tr:hover td{background:#1c2128}
+  .patterns{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .patterns li{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px 16px;font-size:14px}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#8b949e}
+  .legend-dot{width:12px;height:12px;border-radius:50%}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/index.html">🏠 Hub</a>
+  <a href="/calendars/index.html">📅 Calendars</a>
+  <a href="/strength/index.html">💪 Strength</a>
+  <a href="/cardio/index.html">🏃 Cardio</a>
+  <a href="/recovery/index.html">😴 Recovery</a>
+  <a href="/nutrition/index.html">🥗 Nutrition</a>
+  <a href="/readiness_gap/index.html" class="active">🎯 Readiness Gap</a>
+</nav>
+<div class="container">
+  <h1>🎯 Readiness Gap Analyzer</h1>
+  <p class="subtitle">WHOOP predictions vs actual performance — 466 paired workout days (last 90 days)</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Prediction Accuracy</div>
+      <div class="card-value">53%</div>
+      <div class="card-sub">WHOOP matched actual performance</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Overestimated Days</div>
+      <div class="card-value" style="color:#f39c12">153</div>
+      <div class="card-sub">High recovery, weak workout</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Underestimated Days</div>
+      <div class="card-value" style="color:#0a84ff">68</div>
+      <div class="card-sub">Low recovery, crushed it</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Best HRV Threshold</div>
+      <div class="card-value" style="color:#2ea043">0 ms</div>
+      <div class="card-sub">HRV predicting top workouts</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>4-Quadrant: Predicted vs Actual</h2>
+    <svg viewBox="0 0 800 400" style="width:100%;height:auto;background:#0d1117"><rect x="60" y="60" width="340.0" height="140.0" fill="#2ea04315"/><text x="230.0" y="130.0" fill="#2ea043" font-size="13" text-anchor="middle" opacity="0.8">Trusted 0%</text><rect x="400.0" y="60" width="340.0" height="140.0" fill="#f39c1215"/><text x="570.0" y="130.0" fill="#f39c12" font-size="13" text-anchor="middle" opacity="0.8">Overestimated 33%</text><rect x="60" y="200.0" width="340.0" height="140.0" fill="#0a84ff15"/><text x="230.0" y="270.0" fill="#0a84ff" font-size="13" text-anchor="middle" opacity="0.8">Underestimated 15%</text><rect x="400.0" y="200.0" width="340.0" height="140.0" fill="#a371f715"/><text x="570.0" y="270.0" fill="#a371f7" font-size="13" text-anchor="middle" opacity="0.8">Accurate 53%</text><line x1="60" y1="340" x2="740" y2="340" stroke="#444" stroke-width="1"/><line x1="60" y1="60" x2="60" y2="340" stroke="#444" stroke-width="1"/><line x1="400.0" y1="60" x2="400.0" y2="340" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/><line x1="60" y1="200.0" x2="740" y2="200.0" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/><text x="400" y="390" fill="#888" font-size="12" text-anchor="middle">Predicted Readiness (Low → High)</text><text x="12" y="200" fill="#888" font-size="12" text-anchor="middle" transform="rotate(-90,12,200)">Actual Performance (Low → High)</text><circle cx="582.8" cy="207.7" r="6" fill="#f39c12" opacity="0.75"><title>2024-12-22: Overestimated (RS:76.0%, Vol:0lbs)</title></circle><circle cx="177.3" cy="203.7" r="6" fill="#0a84ff" opacity="0.75"><title>2024-12-23: Underestimated (RS:32.0%, Vol:0lbs)</title></circle><circle cx="428.4" cy="187.6" r="6" fill="#a371f7" opacity="0.75"><title>2024-12-26: Accurate (RS:58.0%, Vol:0lbs)</title></circle><circle cx="427.4" cy="198.4" r="6" fill="#a371f7" opacity="0.75"><title>2024-12-29: Accurate (RS:39.0%, Vol:0lbs)</title></circle><circle cx="382.3" cy="188.4" r="6" fill="#a371f7" opacity="0.75"><title>2024-12-30: Accurate (RS:53.0%, Vol:0lbs)</title></circle><circle cx="377.4" cy="210.8" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-02: Accurate (RS:33.0%, Vol:0lbs)</title></circle><circle cx="419.9" cy="194.0" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-05: Accurate (RS:55.0%, Vol:0lbs)</title></circle><circle cx="628.6" cy="186.9" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-06: Overestimated (RS:73.0%, Vol:0lbs)</title></circle><circle cx="584.8" cy="192.8" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-07: Overestimated (RS:68.0%, Vol:0lbs)</title></circle><circle cx="422.4" cy="186.5" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-08: Accurate (RS:40.0%, Vol:0lbs)</title></circle><circle cx="372.6" cy="188.3" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-10: Accurate (RS:36.0%, Vol:0lbs)</title></circle><circle cx="642.5" cy="206.3" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-11: Overestimated (RS:74.0%, Vol:0lbs)</title></circle><circle cx="408.0" cy="203.9" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-14: Accurate (RS:43.0%, Vol:0lbs)</title></circle><circle cx="362.7" cy="203.5" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-17: Accurate (RS:60.0%, Vol:0lbs)</title></circle><circle cx="587.1" cy="199.4" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-19: Overestimated (RS:79.0%, Vol:0lbs)</title></circle><circle cx="585.6" cy="210.5" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-21: Overestimated (RS:82.0%, Vol:0lbs)</title></circle><circle cx="635.2" cy="210.0" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-23: Overestimated (RS:84.0%, Vol:0lbs)</title></circle><circle cx="364.6" cy="204.4" r="6" fill="#a371f7" opacity="0.75"><title>2025-01-24: Accurate (RS:38.0%, Vol:0lbs)</title></circle><circle cx="605.3" cy="197.5" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-26: Overestimated (RS:90.0%, Vol:0lbs)</title></circle><circle cx="566.2" cy="212.8" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-27: Overestimated (RS:81.0%, Vol:0lbs)</title></circle><circle cx="610.5" cy="200.1" r="6" fill="#f39c12" opacity="0.75"><title>2025-01-28: Overestimated (RS:69.0%, Vol:0lbs)</title></circle><circle cx="214.9" cy="186.1" r="6" fill="#0a84ff" opacity="0.75"><title>2025-01-31: Underestimated (RS:30.0%, Vol:0lbs)</title></circle><circle cx="397.2" cy="215.4" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-01: Accurate (RS:49.0%, Vol:0lbs)</title></circle><circle cx="614.5" cy="186.4" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-02: Overestimated (RS:84.0%, Vol:0lbs)</title></circle><circle cx="640.6" cy="199.9" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-03: Overestimated (RS:90.0%, Vol:0lbs)</title></circle><circle cx="222.3" cy="192.0" r="6" fill="#0a84ff" opacity="0.75"><title>2025-02-04: Underestimated (RS:20.0%, Vol:0lbs)</title></circle><circle cx="414.5" cy="183.9" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-06: Accurate (RS:54.0%, Vol:0lbs)</title></circle><circle cx="388.6" cy="189.0" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-07: Accurate (RS:62.0%, Vol:0lbs)</title></circle><circle cx="365.6" cy="185.3" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-08: Accurate (RS:64.0%, Vol:0lbs)</title></circle><circle cx="592.9" cy="207.3" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-09: Overestimated (RS:73.0%, Vol:0lbs)</title></circle><circle cx="574.2" cy="202.5" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-10: Overestimated (RS:87.0%, Vol:0lbs)</title></circle><circle cx="620.7" cy="203.3" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-11: Overestimated (RS:94.0%, Vol:0lbs)</title></circle><circle cx="402.0" cy="198.9" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-12: Accurate (RS:45.0%, Vol:0lbs)</title></circle><circle cx="637.5" cy="193.3" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-13: Overestimated (RS:93.0%, Vol:0lbs)</title></circle><circle cx="234.5" cy="212.7" r="6" fill="#0a84ff" opacity="0.75"><title>2025-02-14: Underestimated (RS:21.0%, Vol:0lbs)</title></circle><circle cx="590.9" cy="197.7" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-16: Overestimated (RS:71.0%, Vol:0lbs)</title></circle><circle cx="380.9" cy="196.2" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-19: Accurate (RS:36.0%, Vol:0lbs)</title></circle><circle cx="369.6" cy="190.4" r="6" fill="#a371f7" opacity="0.75"><title>2025-02-20: Accurate (RS:34.0%, Vol:0lbs)</title></circle><circle cx="232.0" cy="214.8" r="6" fill="#0a84ff" opacity="0.75"><title>2025-02-21: Underestimated (RS:25.0%, Vol:0lbs)</title></circle><circle cx="598.0" cy="190.0" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-23: Overestimated (RS:77.0%, Vol:0lbs)</title></circle><circle cx="643.4" cy="184.1" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-24: Overestimated (RS:88.0%, Vol:0lbs)</title></circle><circle cx="630.6" cy="188.7" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-25: Overestimated (RS:98.0%, Vol:0lbs)</title></circle><circle cx="621.2" cy="183.7" r="6" fill="#f39c12" opacity="0.75"><title>2025-02-26: Overestimated (RS:79.0%, Vol:0lbs)</title></circle><circle cx="361.2" cy="184.5" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-03: Accurate (RS:50.0%, Vol:0lbs)</title></circle><circle cx="367.4" cy="192.8" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-04: Accurate (RS:64.0%, Vol:0lbs)</title></circle><circle cx="431.6" cy="203.6" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-05: Accurate (RS:46.0%, Vol:0lbs)</title></circle><circle cx="379.9" cy="211.1" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-06: Accurate (RS:48.0%, Vol:0lbs)</title></circle><circle cx="436.1" cy="189.7" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-07: Accurate (RS:65.0%, Vol:0lbs)</title></circle><circle cx="438.6" cy="199.8" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-09: Accurate (RS:50.0%, Vol:0lbs)</title></circle><circle cx="231.2" cy="208.3" r="6" fill="#0a84ff" opacity="0.75"><title>2025-03-10: Underestimated (RS:31.0%, Vol:0lbs)</title></circle><circle cx="160.5" cy="211.4" r="6" fill="#0a84ff" opacity="0.75"><title>2025-03-13: Underestimated (RS:21.0%, Vol:0lbs)</title></circle><circle cx="212.0" cy="196.3" r="6" fill="#0a84ff" opacity="0.75"><title>2025-03-18: Underestimated (RS:30.0%, Vol:0lbs)</title></circle><circle cx="378.4" cy="211.8" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-20: Accurate (RS:36.0%, Vol:0lbs)</title></circle><circle cx="436.8" cy="200.5" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-22: Accurate (RS:53.0%, Vol:0lbs)</title></circle><circle cx="439.0" cy="213.4" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-23: Accurate (RS:42.0%, Vol:0lbs)</title></circle><circle cx="383.7" cy="194.2" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-24: Accurate (RS:56.0%, Vol:0lbs)</title></circle><circle cx="219.4" cy="191.2" r="6" fill="#0a84ff" opacity="0.75"><title>2025-03-25: Underestimated (RS:24.0%, Vol:0lbs)</title></circle><circle cx="372.0" cy="198.5" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-27: Accurate (RS:63.0%, Vol:0lbs)</title></circle><circle cx="432.6" cy="198.1" r="6" fill="#a371f7" opacity="0.75"><title>2025-03-29: Accurate (RS:62.0%, Vol:0lbs)</title></circle><circle cx="621.1" cy="215.4" r="6" fill="#f39c12" opacity="0.75"><title>2025-04-01: Overestimated (RS:84.0%, Vol:0lbs)</title></circle></svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#2ea043"></div>Trusted (High+High)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>Overestimated (High+Low)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0a84ff"></div>Underestimated (Low+High)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a371f7"></div>Accurate (Low+Low or Moderate)</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Gap Trend — Last 30 Workout Days</h2>
+    <svg viewBox="0 0 800 300" style="width:100%;height:auto;background:#0d1117"><line x1="50" y1="50.0" x2="750" y2="50.0" stroke="#222" stroke-width="1"/><line x1="50" y1="100.0" x2="750" y2="100.0" stroke="#222" stroke-width="1"/><line x1="50" y1="150.0" x2="750" y2="150.0" stroke="#222" stroke-width="1"/><line x1="50" y1="200.0" x2="750" y2="200.0" stroke="#222" stroke-width="1"/><line x1="50" y1="250.0" x2="750" y2="250.0" stroke="#222" stroke-width="1"/><polygon points="50.0,150.0 74.1,150.0 98.3,50.0 122.4,150.0 146.6,150.0 170.7,150.0 194.8,50.0 219.0,50.0 243.1,150.0 267.2,150.0 291.4,150.0 315.5,150.0 339.7,150.0 363.8,50.0 387.9,50.0 412.1,50.0 436.2,50.0 460.3,50.0 484.5,50.0 508.6,150.0 532.8,150.0 556.9,150.0 581.0,50.0 605.2,50.0 629.3,50.0 653.4,50.0 677.6,150.0 701.7,50.0 725.9,50.0 750.0,150.0 750.0,250 50.0,250" fill="#f39c1220"/><polyline points="50.0,150.0 74.1,150.0 98.3,50.0 122.4,150.0 146.6,150.0 170.7,150.0 194.8,50.0 219.0,50.0 243.1,150.0 267.2,150.0 291.4,150.0 315.5,150.0 339.7,150.0 363.8,50.0 387.9,50.0 412.1,50.0 436.2,50.0 460.3,50.0 484.5,50.0 508.6,150.0 532.8,150.0 556.9,150.0 581.0,50.0 605.2,50.0 629.3,50.0 653.4,50.0 677.6,150.0 701.7,50.0 725.9,50.0 750.0,150.0" fill="none" stroke="#f39c12" stroke-width="2"/><circle cx="50.0" cy="150.0" r="4" fill="#f39c12"><title>2025-02-10: 0.5</title></circle><circle cx="74.1" cy="150.0" r="4" fill="#f39c12"><title>2025-02-11: 0.5</title></circle><circle cx="98.3" cy="50.0" r="4" fill="#2ea043"><title>2025-02-12: 1.0</title></circle><circle cx="122.4" cy="150.0" r="4" fill="#f39c12"><title>2025-02-13: 0.5</title></circle><circle cx="146.6" cy="150.0" r="4" fill="#f39c12"><title>2025-02-14: 0.5</title></circle><circle cx="170.7" cy="150.0" r="4" fill="#f39c12"><title>2025-02-16: 0.5</title></circle><circle cx="194.8" cy="50.0" r="4" fill="#2ea043"><title>2025-02-19: 1.0</title></circle><circle cx="219.0" cy="50.0" r="4" fill="#2ea043"><title>2025-02-20: 1.0</title></circle><circle cx="243.1" cy="150.0" r="4" fill="#f39c12"><title>2025-02-21: 0.5</title></circle><circle cx="267.2" cy="150.0" r="4" fill="#f39c12"><title>2025-02-23: 0.5</title></circle><circle cx="291.4" cy="150.0" r="4" fill="#f39c12"><title>2025-02-24: 0.5</title></circle><circle cx="315.5" cy="150.0" r="4" fill="#f39c12"><title>2025-02-25: 0.5</title></circle><circle cx="339.7" cy="150.0" r="4" fill="#f39c12"><title>2025-02-26: 0.5</title></circle><circle cx="363.8" cy="50.0" r="4" fill="#2ea043"><title>2025-03-03: 1.0</title></circle><circle cx="387.9" cy="50.0" r="4" fill="#2ea043"><title>2025-03-04: 1.0</title></circle><circle cx="412.1" cy="50.0" r="4" fill="#2ea043"><title>2025-03-05: 1.0</title></circle><circle cx="436.2" cy="50.0" r="4" fill="#2ea043"><title>2025-03-06: 1.0</title></circle><circle cx="460.3" cy="50.0" r="4" fill="#2ea043"><title>2025-03-07: 1.0</title></circle><circle cx="484.5" cy="50.0" r="4" fill="#2ea043"><title>2025-03-09: 1.0</title></circle><circle cx="508.6" cy="150.0" r="4" fill="#f39c12"><title>2025-03-10: 0.5</title></circle><circle cx="532.8" cy="150.0" r="4" fill="#f39c12"><title>2025-03-13: 0.5</title></circle><circle cx="556.9" cy="150.0" r="4" fill="#f39c12"><title>2025-03-18: 0.5</title></circle><circle cx="581.0" cy="50.0" r="4" fill="#2ea043"><title>2025-03-20: 1.0</title></circle><circle cx="605.2" cy="50.0" r="4" fill="#2ea043"><title>2025-03-22: 1.0</title></circle><circle cx="629.3" cy="50.0" r="4" fill="#2ea043"><title>2025-03-23: 1.0</title></circle><circle cx="653.4" cy="50.0" r="4" fill="#2ea043"><title>2025-03-24: 1.0</title></circle><circle cx="677.6" cy="150.0" r="4" fill="#f39c12"><title>2025-03-25: 0.5</title></circle><circle cx="701.7" cy="50.0" r="4" fill="#2ea043"><title>2025-03-27: 1.0</title></circle><circle cx="725.9" cy="50.0" r="4" fill="#2ea043"><title>2025-03-29: 1.0</title></circle><circle cx="750.0" cy="150.0" r="4" fill="#f39c12"><title>2025-04-01: 0.5</title></circle><text x="50.0" y="290" fill="#666" font-size="10" text-anchor="middle">02-10</text><text x="170.7" y="290" fill="#666" font-size="10" text-anchor="middle">02-16</text><text x="291.4" y="290" fill="#666" font-size="10" text-anchor="middle">02-24</text><text x="412.1" y="290" fill="#666" font-size="10" text-anchor="middle">03-05</text><text x="532.8" y="290" fill="#666" font-size="10" text-anchor="middle">03-13</text><text x="653.4" y="290" fill="#666" font-size="10" text-anchor="middle">03-24</text><text x="45" y="54.0" fill="#888" font-size="10" text-anchor="end">Accurate</text><text x="45" y="154.0" fill="#888" font-size="10" text-anchor="end">Close</text><text x="45" y="254.0" fill="#888" font-size="10" text-anchor="end">Off</text><line x1="50" y1="50" x2="50" y2="250" stroke="#444" stroke-width="1"/><line x1="50" y1="250" x2="750" y2="250" stroke="#444" stroke-width="1"/></svg>
+    <p style="color:#8b949e;font-size:13px;margin-top:8px">Accurate = WHOOP nailed it | Close = 1 level off | Off = 2 levels off</p>
+  </div>
+
+  <div class="section">
+    <h2>💡 Pattern Insights</h2>
+    <ul class="patterns"><li>💡 Not enough data yet for pattern insights — keep tracking!</li></ul>
+  </div>
+
+  <div class="section">
+    <h2>Recent Paired Days</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Recovery Score</th>
+          <th>HRV</th>
+          <th>Predicted</th>
+          <th>Volume</th>
+          <th>Actual</th>
+          <th>Quadrant</th>
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td>2025-04-01</td>
+      <td>84.0%</td>
+      <td>29 ms</td>
+      <td style="color:#f39c12">High</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#f39c12;font-weight:600">Overestimated</td>
+    </tr>
+    <tr>
+      <td>2025-03-29</td>
+      <td>62.0%</td>
+      <td>25 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-27</td>
+      <td>63.0%</td>
+      <td>25 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-25</td>
+      <td>24.0%</td>
+      <td>17 ms</td>
+      <td style="color:#f39c12">Low</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#0a84ff;font-weight:600">Underestimated</td>
+    </tr>
+    <tr>
+      <td>2025-03-24</td>
+      <td>56.0%</td>
+      <td>23 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-23</td>
+      <td>42.0%</td>
+      <td>20 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-22</td>
+      <td>53.0%</td>
+      <td>22 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-20</td>
+      <td>36.0%</td>
+      <td>21 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-18</td>
+      <td>30.0%</td>
+      <td>17 ms</td>
+      <td style="color:#f39c12">Low</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#0a84ff;font-weight:600">Underestimated</td>
+    </tr>
+    <tr>
+      <td>2025-03-13</td>
+      <td>21.0%</td>
+      <td>18 ms</td>
+      <td style="color:#f39c12">Low</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#0a84ff;font-weight:600">Underestimated</td>
+    </tr>
+    <tr>
+      <td>2025-03-10</td>
+      <td>31.0%</td>
+      <td>20 ms</td>
+      <td style="color:#f39c12">Low</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#0a84ff;font-weight:600">Underestimated</td>
+    </tr>
+    <tr>
+      <td>2025-03-09</td>
+      <td>50.0%</td>
+      <td>25 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-07</td>
+      <td>65.0%</td>
+      <td>29 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-06</td>
+      <td>48.0%</td>
+      <td>26 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr>
+    <tr>
+      <td>2025-03-05</td>
+      <td>46.0%</td>
+      <td>26 ms</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td>0 lbs</td>
+      <td style="color:#f39c12">Moderate</td>
+      <td style="color:#a371f7;font-weight:600">Accurate</td>
+    </tr></tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

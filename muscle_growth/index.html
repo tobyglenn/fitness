@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hypertrophy Volume Threshold Finder</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  .global-nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; position: sticky; top: 0; z-index: 100; }
+  .global-nav a { color: #8b949e; text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 6px; transition: all 0.2s; white-space: nowrap; }
+  .global-nav a:hover { background: #21262d; color: #e6edf3; }
+  .global-nav a.active { background: #f39c12; color: #0d1117; font-weight: 600; }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+  h1 { font-size: 26px; font-weight: 700; color: #f39c12; margin-bottom: 6px; }
+  .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .card h2 { font-size: 16px; font-weight: 600; color: #e6edf3; margin-bottom: 14px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .pill { padding: 6px 16px; border-radius: 20px; border: 1px solid #30363d; background: #21262d; color: #8b949e; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+  .pill:hover { border-color: #f39c12; color: #f39c12; }
+  .pill.active { background: #f39c12; color: #0d1117; border-color: #f39c12; font-weight: 600; }
+  .chart-wrap { width: 100%; overflow-x: auto; margin-bottom: 8px; }
+  .chart-wrap svg { width: 100%; height: auto; }
+  .chart-label { font-size: 12px; color: #8b949e; text-align: center; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { padding: 10px 12px; text-align: left; color: #8b949e; font-weight: 600; border-bottom: 1px solid #30363d; font-size: 12px; text-transform: uppercase; }
+  td { padding: 10px 12px; border-bottom: 1px solid #21262d; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #21262d; }
+  .muscle-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+  .status-ok { color: #2ea043; font-weight: 600; }
+  .status-high { color: #f39c12; font-weight: 600; }
+  .status-low { color: #58a6ff; font-weight: 600; }
+  .status-none { color: #8b949e; }
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .insight-card { background: #21262d; border-radius: 8px; padding: 14px; border-left: 3px solid #f39c12; }
+  .insight-muscle { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .insight-range { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+  .insight-rec { font-size: 12px; color: #e6edf3; line-height: 1.5; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .stats-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .stat-chip { background: #21262d; border-radius: 8px; padding: 10px 14px; flex: 1; min-width: 100px; text-align: center; }
+  .stat-chip .val { font-size: 18px; font-weight: 700; color: #f39c12; }
+  .stat-chip .lbl { font-size: 11px; color: #8b949e; margin-top: 2px; }
+  .section-title { font-size: 13px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .generated { font-size: 11px; color: #6e7681; text-align: center; margin-top: 24px; padding-bottom: 24px; }
+</style>
+</head>
+<body>
+
+<nav class="global-nav">
+  <a href="/index.html">🏠 Hub</a>
+  <a href="/strength/index.html">💪 Strength</a>
+  <a href="/cardio/index.html">🏃 Cardio</a>
+  <a href="/recovery/index.html">💤 Recovery</a>
+  <a href="/nutrition/index.html">🥗 Nutrition</a>
+  <a href="/muscle_frequency/index.html">📊 Muscle Freq</a>
+  <a href="/muscle_groups/index.html">🎯 Muscle Groups</a>
+  <a href="/muscle_growth/index.html" class="active">📈 Growth Threshold</a>
+  <a href="/training_hypertrophy/index.html">🔬 Hypertrophy</a>
+</nav>
+
+<div class="container">
+  <h1>📈 Hypertrophy Volume Threshold Finder</h1>
+  <p class="subtitle">Find your optimal weekly training volume per muscle group — based on 1,002 Tonal workouts</p>
+
+  <!-- Muscle Group Selector -->
+  <div class="card">
+    <h2>Select Muscle Group</h2>
+    <div class="pills" id="pills">
+      <button class="pill active" data-muscle="All" onclick="selectMuscle('All', this)">All Muscles</button>
+      <button class="pill" data-muscle="Chest" onclick="selectMuscle('Chest', this)" style="border-color:#f8514922">Chest</button><button class="pill" data-muscle="Back" onclick="selectMuscle('Back', this)" style="border-color:#0a84ff22">Back</button><button class="pill" data-muscle="Shoulders" onclick="selectMuscle('Shoulders', this)" style="border-color:#f39c1222">Shoulders</button><button class="pill" data-muscle="Biceps" onclick="selectMuscle('Biceps', this)" style="border-color:#a371f722">Biceps</button><button class="pill" data-muscle="Triceps" onclick="selectMuscle('Triceps', this)" style="border-color:#58a6ff22">Triceps</button><button class="pill" data-muscle="Legs" onclick="selectMuscle('Legs', this)" style="border-color:#2ea04322">Legs</button><button class="pill" data-muscle="Core" onclick="selectMuscle('Core', this)" style="border-color:#ffa65722">Core</button>
+    </div>
+
+    <!-- Stats row for selected muscle -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-chip"><div class="val" id="stat-avg">—</div><div class="lbl">Avg Weekly Vol</div></div>
+      <div class="stat-chip"><div class="val" id="stat-current">—</div><div class="lbl">Latest Week</div></div>
+      <div class="stat-chip"><div class="val" id="stat-zone">—</div><div class="lbl">Optimal Zone</div></div>
+      <div class="stat-chip"><div class="val" id="stat-weeks">—</div><div class="lbl">Active Weeks</div></div>
+    </div>
+  </div>
+
+  <!-- Trend Chart -->
+  <div class="card">
+    <h2 id="trend-title">Volume Trend — All Muscles (Last 52 Weeks)</h2>
+    <div class="legend" id="trend-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>Chest</div><div class="legend-item"><div class="legend-dot" style="background:#0a84ff"></div>Back</div><div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>Shoulders</div><div class="legend-item"><div class="legend-dot" style="background:#a371f7"></div>Biceps</div><div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div>Triceps</div><div class="legend-item"><div class="legend-dot" style="background:#2ea043"></div>Legs</div><div class="legend-item"><div class="legend-dot" style="background:#ffa657"></div>Core</div>
+    </div>
+    <div class="chart-wrap" id="trend-chart-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="780" height="220" style="background:#0d1117;border-radius:8px">
+<line x1="60" y1="20.0" x2="760" y2="20.0" stroke="#21262d" stroke-width="1"/>
+<text x="55" y="24.0" text-anchor="end" fill="#8b949e" font-size="10">64K</text>
+<line x1="60" y1="60.0" x2="760" y2="60.0" stroke="#21262d" stroke-width="1"/>
+<text x="55" y="64.0" text-anchor="end" fill="#8b949e" font-size="10">48K</text>
+<line x1="60" y1="100.0" x2="760" y2="100.0" stroke="#21262d" stroke-width="1"/>
+<text x="55" y="104.0" text-anchor="end" fill="#8b949e" font-size="10">32K</text>
+<line x1="60" y1="140.0" x2="760" y2="140.0" stroke="#21262d" stroke-width="1"/>
+<text x="55" y="144.0" text-anchor="end" fill="#8b949e" font-size="10">16K</text>
+<line x1="60" y1="180.0" x2="760" y2="180.0" stroke="#21262d" stroke-width="1"/>
+<text x="55" y="184.0" text-anchor="end" fill="#8b949e" font-size="10">0K</text>
+<text x="60.0" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W14</text>
+<text x="142.4" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W21</text>
+<text x="224.7" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W27</text>
+<text x="307.1" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W33</text>
+<text x="389.4" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W39</text>
+<text x="471.8" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W45</text>
+<text x="554.1" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2024-W51</text>
+<text x="636.5" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2025-W05</text>
+<text x="718.8" y="196" text-anchor="middle" fill="#8b949e" font-size="9">2025-W11</text>
+<polygon points="60.0,40.2 73.7,54.3 87.5,59.9 101.2,45.6 114.9,34.5 128.6,107.7 142.4,141.2 156.1,111.6 169.8,80.4 183.5,81.4 197.3,80.3 211.0,134.1 224.7,101.9 238.4,134.2 252.2,64.7 265.9,117.5 279.6,124.5 293.3,109.2 307.1,129.7 320.8,118.2 334.5,131.0 348.2,151.2 362.0,144.2 375.7,96.3 389.4,129.5 403.1,122.8 416.9,148.7 430.6,103.0 444.3,110.6 458.0,115.9 471.8,104.1 485.5,113.6 499.2,96.1 512.9,117.7 526.7,172.3 540.4,157.8 554.1,158.3 567.8,137.2 581.6,139.3 595.3,96.8 609.0,154.5 622.7,140.9 636.5,101.1 650.2,97.1 663.9,86.9 677.6,122.6 691.4,119.2 705.1,50.8 718.8,146.4 732.5,121.6 746.3,128.2 760.0,149.3 760.0,180 60.0,180" fill="#f85149" fill-opacity="0.08"/>
+<polyline points="60.0,40.2 73.7,54.3 87.5,59.9 101.2,45.6 114.9,34.5 128.6,107.7 142.4,141.2 156.1,111.6 169.8,80.4 183.5,81.4 197.3,80.3 211.0,134.1 224.7,101.9 238.4,134.2 252.2,64.7 265.9,117.5 279.6,124.5 293.3,109.2 307.1,129.7 320.8,118.2 334.5,131.0 348.2,151.2 362.0,144.2 375.7,96.3 389.4,129.5 403.1,122.8 416.9,148.7 430.6,103.0 444.3,110.6 458.0,115.9 471.8,104.1 485.5,113.6 499.2,96.1 512.9,117.7 526.7,172.3 540.4,157.8 554.1,158.3 567.8,137.2 581.6,139.3 595.3,96.8 609.0,154.5 622.7,140.9 636.5,101.1 650.2,97.1 663.9,86.9 677.6,122.6 691.4,119.2 705.1,50.8 718.8,146.4 732.5,121.6 746.3,128.2 760.0,149.3" fill="none" stroke="#f85149" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="60.0,50.9 73.7,54.3 87.5,59.9 101.2,45.6 114.9,34.5 128.6,107.7 142.4,141.2 156.1,111.6 169.8,80.4 183.5,81.4 197.3,80.3 211.0,134.1 224.7,101.9 238.4,134.2 252.2,64.7 265.9,117.5 279.6,124.5 293.3,109.2 307.1,129.7 320.8,118.2 334.5,131.0 348.2,151.2 362.0,144.2 375.7,96.3 389.4,129.5 403.1,122.8 416.9,148.7 430.6,103.0 444.3,105.6 458.0,115.9 471.8,104.1 485.5,113.6 499.2,96.1 512.9,117.7 526.7,172.3 540.4,157.8 554.1,158.3 567.8,137.2 581.6,139.3 595.3,96.8 609.0,154.5 622.7,140.9 636.5,101.1 650.2,97.1 663.9,86.9 677.6,122.6 691.4,119.2 705.1,50.8 718.8,146.4 732.5,121.6 746.3,128.2 760.0,149.3 760.0,180 60.0,180" fill="#0a84ff" fill-opacity="0.08"/>
+<polyline points="60.0,50.9 73.7,54.3 87.5,59.9 101.2,45.6 114.9,34.5 128.6,107.7 142.4,141.2 156.1,111.6 169.8,80.4 183.5,81.4 197.3,80.3 211.0,134.1 224.7,101.9 238.4,134.2 252.2,64.7 265.9,117.5 279.6,124.5 293.3,109.2 307.1,129.7 320.8,118.2 334.5,131.0 348.2,151.2 362.0,144.2 375.7,96.3 389.4,129.5 403.1,122.8 416.9,148.7 430.6,103.0 444.3,105.6 458.0,115.9 471.8,104.1 485.5,113.6 499.2,96.1 512.9,117.7 526.7,172.3 540.4,157.8 554.1,158.3 567.8,137.2 581.6,139.3 595.3,96.8 609.0,154.5 622.7,140.9 636.5,101.1 650.2,97.1 663.9,86.9 677.6,122.6 691.4,119.2 705.1,50.8 718.8,146.4 732.5,121.6 746.3,128.2 760.0,149.3" fill="none" stroke="#0a84ff" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="60.0,40.2 73.7,54.3 87.5,59.9 101.2,45.6 114.9,34.5 128.6,107.7 142.4,141.2 156.1,111.6 169.8,80.4 183.5,81.4 197.3,80.3 211.0,134.1 224.7,101.9 238.4,134.2 252.2,64.7 265.9,117.5 279.6,124.5 293.3,109.2 307.1,129.7 320.8,118.2 334.5,131.0 348.2,151.2 362.0,144.2 375.7,96.3 389.4,129.5 403.1,122.8 416.9,148.7 430.6,103.0 444.3,105.6 458.0,115.9 471.8,104.1 485.5,113.6 499.2,96.1 512.9,117.7 526.7,165.2 540.4,157.8 554.1,148.0 567.8,137.2 581.6,139.3 595.3,112.5 609.0,154.5 622.7,140.9 636.5,101.1 650.2,97.1 663.9,86.9 677.6,105.9 691.4,119.2 705.1,50.8 718.8,146.4 732.5,121.6 746.3,128.2 760.0,149.3 760.0,180 60.0,180" fill="#f39c12" fill-opacity="0.08"/>
+<polyline points="60.0,40.2 73.7,54.3 87.5,59.9 101.2,45.6 114.9,34.5 128.6,107.7 142.4,141.2 156.1,111.6 169.8,80.4 183.5,81.4 197.3,80.3 211.0,134.1 224.7,101.9 238.4,134.2 252.2,64.7 265.9,117.5 279.6,124.5 293.3,109.2 307.1,129.7 320.8,118.2 334.5,131.0 348.2,151.2 362.0,144.2 375.7,96.3 389.4,129.5 403.1,122.8 416.9,148.7 430.6,103.0 444.3,105.6 458.0,115.9 471.8,104.1 485.5,113.6 499.2,96.1 512.9,117.7 526.7,165.2 540.4,157.8 554.1,148.0 567.8,137.2 581.6,139.3 595.3,112.5 609.0,154.5 622.7,140.9 636.5,101.1 650.2,97.1 663.9,86.9 677.6,105.9 691.4,119.2 705.1,50.8 718.8,146.4 732.5,121.6 746.3,128.2 760.0,149.3" fill="none" stroke="#f39c12" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,180.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,169.1 526.7,172.9 540.4,177.1 554.1,158.9 567.8,180.0 581.6,174.3 595.3,180.0 609.0,180.0 622.7,172.3 636.5,180.0 650.2,174.8 663.9,174.1 677.6,163.3 691.4,180.0 705.1,180.0 718.8,173.8 732.5,180.0 746.3,180.0 760.0,180.0 760.0,180 60.0,180" fill="#a371f7" fill-opacity="0.08"/>
+<polyline points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,180.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,169.1 526.7,172.9 540.4,177.1 554.1,158.9 567.8,180.0 581.6,174.3 595.3,180.0 609.0,180.0 622.7,172.3 636.5,180.0 650.2,174.8 663.9,174.1 677.6,163.3 691.4,180.0 705.1,180.0 718.8,173.8 732.5,180.0 746.3,180.0 760.0,180.0" fill="none" stroke="#a371f7" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,180.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,169.1 526.7,180.0 540.4,177.1 554.1,169.2 567.8,180.0 581.6,174.3 595.3,180.0 609.0,180.0 622.7,172.3 636.5,180.0 650.2,174.8 663.9,174.1 677.6,180.0 691.4,180.0 705.1,180.0 718.8,173.8 732.5,180.0 746.3,180.0 760.0,180.0 760.0,180 60.0,180" fill="#58a6ff" fill-opacity="0.08"/>
+<polyline points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,180.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,169.1 526.7,180.0 540.4,177.1 554.1,169.2 567.8,180.0 581.6,174.3 595.3,180.0 609.0,180.0 622.7,172.3 636.5,180.0 650.2,174.8 663.9,174.1 677.6,180.0 691.4,180.0 705.1,180.0 718.8,173.8 732.5,180.0 746.3,180.0 760.0,180.0" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,180.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,180.0 526.7,180.0 540.4,180.0 554.1,180.0 567.8,180.0 581.6,180.0 595.3,180.0 609.0,180.0 622.7,180.0 636.5,180.0 650.2,180.0 663.9,180.0 677.6,180.0 691.4,180.0 705.1,180.0 718.8,180.0 732.5,180.0 746.3,180.0 760.0,180.0 760.0,180 60.0,180" fill="#2ea043" fill-opacity="0.08"/>
+<polyline points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,180.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,180.0 526.7,180.0 540.4,180.0 554.1,180.0 567.8,180.0 581.6,180.0 595.3,180.0 609.0,180.0 622.7,180.0 636.5,180.0 650.2,180.0 663.9,180.0 677.6,180.0 691.4,180.0 705.1,180.0 718.8,180.0 732.5,180.0 746.3,180.0 760.0,180.0" fill="none" stroke="#2ea043" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,175.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,180.0 526.7,180.0 540.4,180.0 554.1,180.0 567.8,180.0 581.6,180.0 595.3,180.0 609.0,180.0 622.7,180.0 636.5,180.0 650.2,180.0 663.9,180.0 677.6,180.0 691.4,180.0 705.1,180.0 718.8,180.0 732.5,180.0 746.3,180.0 760.0,180.0 760.0,180 60.0,180" fill="#ffa657" fill-opacity="0.08"/>
+<polyline points="60.0,180.0 73.7,180.0 87.5,180.0 101.2,180.0 114.9,180.0 128.6,180.0 142.4,180.0 156.1,180.0 169.8,180.0 183.5,180.0 197.3,180.0 211.0,180.0 224.7,180.0 238.4,180.0 252.2,180.0 265.9,180.0 279.6,180.0 293.3,180.0 307.1,180.0 320.8,180.0 334.5,180.0 348.2,180.0 362.0,180.0 375.7,180.0 389.4,180.0 403.1,180.0 416.9,180.0 430.6,180.0 444.3,175.0 458.0,180.0 471.8,180.0 485.5,180.0 499.2,180.0 512.9,180.0 526.7,180.0 540.4,180.0 554.1,180.0 567.8,180.0 581.6,180.0 595.3,180.0 609.0,180.0 622.7,180.0 636.5,180.0 650.2,180.0 663.9,180.0 677.6,180.0 691.4,180.0 705.1,180.0 718.8,180.0 732.5,180.0 746.3,180.0 760.0,180.0" fill="none" stroke="#ffa657" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
+    </div>
+    <p class="chart-label">Weekly volume in lbs — higher = more total weight lifted that week</p>
+  </div>
+
+  <!-- Scatter Chart -->
+  <div class="card" id="scatter-section">
+    <h2 id="scatter-title">Volume vs. Training Frequency</h2>
+    <p style="font-size:12px;color:#8b949e;margin-bottom:12px">Each point = one week. Green zone = your historical optimal volume range. Select a muscle group above to see its scatter.</p>
+    <div class="chart-wrap" id="scatter-chart-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="780" height="320" style="background:#0d1117;border-radius:8px">
+<rect x="257.5" y="30" width="163.3" height="240" fill="#2ea043" fill-opacity="0.12" rx="3"/>
+<line x1="257.5" y1="30" x2="257.5" y2="270" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="420.8" y1="30" x2="420.8" y2="270" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="339.1" y="44" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="bold">Optimal Zone</text>
+<line x1="60" y1="235.7" x2="750" y2="235.7" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="239.7" text-anchor="end" fill="#8b949e" font-size="10">1d</text>
+<line x1="60" y1="201.4" x2="750" y2="201.4" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="205.4" text-anchor="end" fill="#8b949e" font-size="10">2d</text>
+<line x1="60" y1="167.1" x2="750" y2="167.1" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="171.1" text-anchor="end" fill="#8b949e" font-size="10">3d</text>
+<line x1="60" y1="132.9" x2="750" y2="132.9" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="136.9" text-anchor="end" fill="#8b949e" font-size="10">4d</text>
+<line x1="60" y1="98.6" x2="750" y2="98.6" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="102.6" text-anchor="end" fill="#8b949e" font-size="10">5d</text>
+<line x1="60" y1="64.3" x2="750" y2="64.3" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="68.3" text-anchor="end" fill="#8b949e" font-size="10">6d</text>
+<line x1="60" y1="30.0" x2="750" y2="30.0" stroke="#21262d" stroke-width="1"/>
+<text x="52" y="34.0" text-anchor="end" fill="#8b949e" font-size="10">7d</text>
+<line x1="60.0" y1="30" x2="60.0" y2="270" stroke="#21262d" stroke-width="1"/>
+<text x="60.0" y="286" text-anchor="middle" fill="#8b949e" font-size="10">0K</text>
+<line x1="232.5" y1="30" x2="232.5" y2="270" stroke="#21262d" stroke-width="1"/>
+<text x="232.5" y="286" text-anchor="middle" fill="#8b949e" font-size="10">16K</text>
+<line x1="405.0" y1="30" x2="405.0" y2="270" stroke="#21262d" stroke-width="1"/>
+<text x="405.0" y="286" text-anchor="middle" fill="#8b949e" font-size="10">32K</text>
+<line x1="577.5" y1="30" x2="577.5" y2="270" stroke="#21262d" stroke-width="1"/>
+<text x="577.5" y="286" text-anchor="middle" fill="#8b949e" font-size="10">48K</text>
+<line x1="750.0" y1="30" x2="750.0" y2="270" stroke="#21262d" stroke-width="1"/>
+<text x="750.0" y="286" text-anchor="middle" fill="#8b949e" font-size="10">64K</text>
+<text x="405" y="305" text-anchor="middle" fill="#8b949e" font-size="11">Weekly Volume (lbs)</text>
+<text x="20" y="150" text-anchor="middle" fill="#8b949e" font-size="11" transform="rotate(-90 20 150)">Days Trained</text>
+<circle cx="662.8" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="601.9" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="578.1" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="639.7" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="687.3" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="371.8" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="227.5" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="355.1" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="489.4" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="485.3" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="489.8" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="257.8" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="396.9" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="257.5" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="557.1" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="329.4" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="299.5" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="365.5" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="276.8" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="326.4" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="271.5" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="184.4" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="214.6" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="420.8" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="277.8" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="306.8" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="195.2" cy="201.4" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="392.1" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="359.2" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="336.5" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="387.1" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="346.3" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="421.9" cy="30.0" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="328.6" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="93.2" cy="235.7" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="155.8" cy="201.4" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="153.5" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="244.4" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="235.4" cy="201.4" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="418.8" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="169.8" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="228.8" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="400.1" cy="98.6" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="417.5" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="461.5" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="307.6" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="322.3" cy="167.1" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="617.0" cy="64.3" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="205.0" cy="201.4" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="311.9" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="283.5" cy="132.9" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+<circle cx="192.3" cy="235.7" r="5" fill="#f85149" fill-opacity="0.75" stroke="#f85149" stroke-width="1"/>
+</svg>
+    </div>
+    <p class="chart-label">X: Weekly volume (lbs) · Y: Days trained that week · Green band: optimal zone</p>
+  </div>
+
+  <!-- Insights -->
+  <div class="card">
+    <h2>Optimal Volume Insights</h2>
+    <div class="insights-grid" id="insights-grid">
+      
+        <div class="insight-card" style="border-left:3px solid #f85149">
+            <div class="insight-muscle" style="color:#f85149">Chest</div>
+            <div class="insight-range">Optimal: 18K–33K lbs/week</div>
+            <div class="insight-rec">Increase volume toward 18K lbs/week minimum.</div>
+        </div>
+        <div class="insight-card" style="border-left:3px solid #0a84ff">
+            <div class="insight-muscle" style="color:#0a84ff">Back</div>
+            <div class="insight-range">Optimal: 18K–33K lbs/week</div>
+            <div class="insight-rec">Increase volume toward 18K lbs/week minimum.</div>
+        </div>
+        <div class="insight-card" style="border-left:3px solid #f39c12">
+            <div class="insight-muscle" style="color:#f39c12">Shoulders</div>
+            <div class="insight-range">Optimal: 18K–33K lbs/week</div>
+            <div class="insight-rec">Increase volume toward 18K lbs/week minimum.</div>
+        </div>
+        <div class="insight-card" style="border-left:3px solid #a371f7">
+            <div class="insight-muscle" style="color:#a371f7">Biceps</div>
+            <div class="insight-range">Optimal: 2K–4K lbs/week</div>
+            <div class="insight-rec">Currently in optimal zone. Maintain consistency.</div>
+        </div>
+        <div class="insight-card" style="border-left:3px solid #58a6ff">
+            <div class="insight-muscle" style="color:#58a6ff">Triceps</div>
+            <div class="insight-range">Optimal: 2K–4K lbs/week</div>
+            <div class="insight-rec">Currently in optimal zone. Maintain consistency.</div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Summary Table -->
+  <div class="card">
+    <h2>Per-Muscle Volume Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Muscle</th>
+          <th>Latest Week</th>
+          <th>Avg Weekly</th>
+          <th>Optimal Range</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="summary-table">
+        
+    <tr>
+        <td><span class="muscle-dot" style="background:#f85149"></span>Chest</td>
+        <td>12,460 lbs</td>
+        <td>27,529 lbs</td>
+        <td>18,601–33,987 lbs</td>
+        <td class="status-low">📉 Below Zone</td>
+    </tr>
+    <tr>
+        <td><span class="muscle-dot" style="background:#0a84ff"></span>Back</td>
+        <td>12,460 lbs</td>
+        <td>27,485 lbs</td>
+        <td>18,601–33,987 lbs</td>
+        <td class="status-low">📉 Below Zone</td>
+    </tr>
+    <tr>
+        <td><span class="muscle-dot" style="background:#f39c12"></span>Shoulders</td>
+        <td>12,460 lbs</td>
+        <td>27,712 lbs</td>
+        <td>18,601–33,987 lbs</td>
+        <td class="status-low">📉 Below Zone</td>
+    </tr>
+    <tr>
+        <td><span class="muscle-dot" style="background:#a371f7"></span>Biceps</td>
+        <td>2,506 lbs</td>
+        <td>3,634 lbs</td>
+        <td>2,301–4,420 lbs</td>
+        <td class="status-ok">✅ In Zone</td>
+    </tr>
+    <tr>
+        <td><span class="muscle-dot" style="background:#58a6ff"></span>Triceps</td>
+        <td>2,506 lbs</td>
+        <td>2,812 lbs</td>
+        <td>2,301–4,400 lbs</td>
+        <td class="status-ok">✅ In Zone</td>
+    </tr>
+    <tr>
+        <td><span class="muscle-dot" style="background:#2ea043"></span>Legs</td>
+        <td>0 lbs</td>
+        <td>0 lbs</td>
+        <td>0–0 lbs</td>
+        <td class="status-none">🔴 No Data</td>
+    </tr>
+    <tr>
+        <td><span class="muscle-dot" style="background:#ffa657"></span>Core</td>
+        <td>2,037 lbs</td>
+        <td>2,037 lbs</td>
+        <td>2,037–2,037 lbs</td>
+        <td class="status-ok">✅ In Zone</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="generated">Generated March 02, 2026 at 10:53 AM ET · Data: tonal_workouts_20260225_214518.json</p>
+</div>
+
+<script>
+const DATA = {"muscles": ["Chest", "Back", "Shoulders", "Biceps", "Triceps", "Legs", "Core"], "colors": {"Chest": "#f85149", "Back": "#0a84ff", "Legs": "#2ea043", "Shoulders": "#f39c12", "Biceps": "#a371f7", "Triceps": "#58a6ff", "Core": "#ffa657"}, "weekLabels": ["2024-W14", "2024-W15", "2024-W16", "2024-W17", "2024-W18", "2024-W20", "2024-W21", "2024-W22", "2024-W23", "2024-W24", "2024-W25", "2024-W26", "2024-W27", "2024-W28", "2024-W29", "2024-W30", "2024-W31", "2024-W32", "2024-W33", "2024-W34", "2024-W35", "2024-W36", "2024-W37", "2024-W38", "2024-W39", "2024-W40", "2024-W41", "2024-W42", "2024-W43", "2024-W44", "2024-W45", "2024-W46", "2024-W47", "2024-W48", "2024-W49", "2024-W50", "2024-W51", "2024-W52", "2025-W01", "2025-W02", "2025-W03", "2025-W04", "2025-W05", "2025-W06", "2025-W07", "2025-W08", "2025-W09", "2025-W10", "2025-W11", "2025-W12", "2025-W13", "2025-W14"], "stats": {"Chest": {"vols": [56782, 51051, 48804, 54603, 59089, 29367, 15780, 27802, 40446, 40060, 40491, 18635, 31739, 18601, 46826, 25374, 22557, 28777, 20421, 25097, 19924, 11714, 14563, 33987, 20518, 23250, 12732, 31283, 28182, 26050, 30817, 26972, 34089, 25306, 3127, 9026, 8805, 17371, 16519, 33799, 10340, 15899, 32042, 33680, 37818, 23323, 24708, 52468, 13663, 23726, 21058, 12460], "q1": 18601, "q3": 33987, "avg": 27529, "current": 12460, "scatter": [{"vol": 56782, "days": 7}, {"vol": 51051, "days": 7}, {"vol": 48804, "days": 7}, {"vol": 54603, "days": 7}, {"vol": 59089, "days": 6}, {"vol": 29367, "days": 4}, {"vol": 15780, "days": 3}, {"vol": 27802, "days": 4}, {"vol": 40446, "days": 7}, {"vol": 40060, "days": 6}, {"vol": 40491, "days": 7}, {"vol": 18635, "days": 4}, {"vol": 31739, "days": 5}, {"vol": 18601, "days": 4}, {"vol": 46826, "days": 7}, {"vol": 25374, "days": 4}, {"vol": 22557, "days": 4}, {"vol": 28777, "days": 5}, {"vol": 20421, "days": 3}, {"vol": 25097, "days": 5}, {"vol": 19924, "days": 3}, {"vol": 11714, "days": 3}, {"vol": 14563, "days": 4}, {"vol": 33987, "days": 5}, {"vol": 20518, "days": 4}, {"vol": 23250, "days": 4}, {"vol": 12732, "days": 2}, {"vol": 31283, "days": 6}, {"vol": 28182, "days": 5}, {"vol": 26050, "days": 6}, {"vol": 30817, "days": 6}, {"vol": 26972, "days": 4}, {"vol": 34089, "days": 7}, {"vol": 25306, "days": 5}, {"vol": 3127, "days": 1}, {"vol": 9026, "days": 2}, {"vol": 8805, "days": 3}, {"vol": 17371, "days": 3}, {"vol": 16519, "days": 2}, {"vol": 33799, "days": 5}, {"vol": 10340, "days": 3}, {"vol": 15899, "days": 4}, {"vol": 32042, "days": 5}, {"vol": 33680, "days": 6}, {"vol": 37818, "days": 6}, {"vol": 23323, "days": 4}, {"vol": 24708, "days": 3}, {"vol": 52468, "days": 6}, {"vol": 13663, "days": 2}, {"vol": 23726, "days": 4}, {"vol": 21058, "days": 4}, {"vol": 12460, "days": 1}]}, "Back": {"vols": [52428, 51051, 48804, 54603, 59089, 29367, 15780, 27802, 40446, 40060, 40491, 18635, 31739, 18601, 46826, 25374, 22557, 28777, 20421, 25097, 19924, 11714, 14563, 33987, 20518, 23250, 12732, 31283, 30219, 26050, 30817, 26972, 34089, 25306, 3127, 9026, 8805, 17371, 16519, 33799, 10340, 15899, 32042, 33680, 37818, 23323, 24708, 52468, 13663, 23726, 21058, 12460], "q1": 18601, "q3": 33987, "avg": 27485, "current": 12460, "scatter": [{"vol": 52428, "days": 7}, {"vol": 51051, "days": 7}, {"vol": 48804, "days": 7}, {"vol": 54603, "days": 7}, {"vol": 59089, "days": 6}, {"vol": 29367, "days": 4}, {"vol": 15780, "days": 3}, {"vol": 27802, "days": 4}, {"vol": 40446, "days": 7}, {"vol": 40060, "days": 6}, {"vol": 40491, "days": 7}, {"vol": 18635, "days": 4}, {"vol": 31739, "days": 5}, {"vol": 18601, "days": 4}, {"vol": 46826, "days": 7}, {"vol": 25374, "days": 4}, {"vol": 22557, "days": 4}, {"vol": 28777, "days": 5}, {"vol": 20421, "days": 3}, {"vol": 25097, "days": 5}, {"vol": 19924, "days": 3}, {"vol": 11714, "days": 3}, {"vol": 14563, "days": 4}, {"vol": 33987, "days": 5}, {"vol": 20518, "days": 4}, {"vol": 23250, "days": 4}, {"vol": 12732, "days": 2}, {"vol": 31283, "days": 6}, {"vol": 30219, "days": 6}, {"vol": 26050, "days": 6}, {"vol": 30817, "days": 6}, {"vol": 26972, "days": 4}, {"vol": 34089, "days": 7}, {"vol": 25306, "days": 5}, {"vol": 3127, "days": 1}, {"vol": 9026, "days": 2}, {"vol": 8805, "days": 3}, {"vol": 17371, "days": 3}, {"vol": 16519, "days": 2}, {"vol": 33799, "days": 5}, {"vol": 10340, "days": 3}, {"vol": 15899, "days": 4}, {"vol": 32042, "days": 5}, {"vol": 33680, "days": 6}, {"vol": 37818, "days": 6}, {"vol": 23323, "days": 4}, {"vol": 24708, "days": 3}, {"vol": 52468, "days": 6}, {"vol": 13663, "days": 2}, {"vol": 23726, "days": 4}, {"vol": 21058, "days": 4}, {"vol": 12460, "days": 1}]}, "Shoulders": {"vols": [56782, 51051, 48804, 54603, 59089, 29367, 15780, 27802, 40446, 40060, 40491, 18635, 31739, 18601, 46826, 25374, 22557, 28777, 20421, 25097, 19924, 11714, 14563, 33987, 20518, 23250, 12732, 31283, 30219, 26050, 30817, 26972, 34089, 25306, 6016, 9026, 12991, 17371, 16519, 27415, 10340, 15899, 32042, 33680, 37818, 30091, 24708, 52468, 13663, 23726, 21058, 12460], "q1": 18601, "q3": 33987, "avg": 27712, "current": 12460, "scatter": [{"vol": 56782, "days": 7}, {"vol": 51051, "days": 7}, {"vol": 48804, "days": 7}, {"vol": 54603, "days": 7}, {"vol": 59089, "days": 6}, {"vol": 29367, "days": 4}, {"vol": 15780, "days": 3}, {"vol": 27802, "days": 4}, {"vol": 40446, "days": 7}, {"vol": 40060, "days": 6}, {"vol": 40491, "days": 7}, {"vol": 18635, "days": 4}, {"vol": 31739, "days": 5}, {"vol": 18601, "days": 4}, {"vol": 46826, "days": 7}, {"vol": 25374, "days": 4}, {"vol": 22557, "days": 4}, {"vol": 28777, "days": 5}, {"vol": 20421, "days": 3}, {"vol": 25097, "days": 5}, {"vol": 19924, "days": 3}, {"vol": 11714, "days": 3}, {"vol": 14563, "days": 4}, {"vol": 33987, "days": 5}, {"vol": 20518, "days": 4}, {"vol": 23250, "days": 4}, {"vol": 12732, "days": 2}, {"vol": 31283, "days": 6}, {"vol": 30219, "days": 6}, {"vol": 26050, "days": 6}, {"vol": 30817, "days": 6}, {"vol": 26972, "days": 4}, {"vol": 34089, "days": 7}, {"vol": 25306, "days": 5}, {"vol": 6016, "days": 2}, {"vol": 9026, "days": 2}, {"vol": 12991, "days": 3}, {"vol": 17371, "days": 3}, {"vol": 16519, "days": 2}, {"vol": 27415, "days": 4}, {"vol": 10340, "days": 3}, {"vol": 15899, "days": 4}, {"vol": 32042, "days": 5}, {"vol": 33680, "days": 6}, {"vol": 37818, "days": 6}, {"vol": 30091, "days": 5}, {"vol": 24708, "days": 3}, {"vol": 52468, "days": 6}, {"vol": 13663, "days": 2}, {"vol": 23726, "days": 4}, {"vol": 21058, "days": 4}, {"vol": 12460, "days": 1}]}, "Biceps": {"vols": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4420, 2890, 1191, 8586, 0, 2301, 0, 0, 3147, 0, 2120, 2412, 6768, 0, 0, 2506, 0, 0, 0], "q1": 2301, "q3": 4420, "avg": 3634, "current": 2506, "scatter": [{"vol": 4420, "days": 2}, {"vol": 2890, "days": 1}, {"vol": 1191, "days": 1}, {"vol": 8586, "days": 2}, {"vol": 2301, "days": 1}, {"vol": 3147, "days": 2}, {"vol": 2120, "days": 1}, {"vol": 2412, "days": 1}, {"vol": 6768, "days": 1}, {"vol": 2506, "days": 1}]}, "Triceps": {"vols": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4420, 0, 1191, 4400, 0, 2301, 0, 0, 3147, 0, 2120, 2412, 0, 0, 0, 2506, 0, 0, 0], "q1": 2301, "q3": 4400, "avg": 2812, "current": 2506, "scatter": [{"vol": 4420, "days": 2}, {"vol": 1191, "days": 1}, {"vol": 4400, "days": 2}, {"vol": 2301, "days": 1}, {"vol": 3147, "days": 2}, {"vol": 2120, "days": 1}, {"vol": 2412, "days": 1}, {"vol": 2506, "days": 1}]}, "Legs": {"vols": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "q1": 0, "q3": 0, "avg": 0, "current": 0, "scatter": []}, "Core": {"vols": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2037, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "q1": 2037, "q3": 2037, "avg": 2037, "current": 2037, "scatter": [{"vol": 2037, "days": 1}]}}};
+
+const trendCharts = {};
+const scatterCharts = {};
+
+// Pre-render SVG strings (inline, no CDN)
+function fmt(n) {
+  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+  return n.toString();
+}
+
+function selectMuscle(muscle, btn) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+
+  const trendWrap = document.getElementById('trend-chart-wrap');
+  const scatterWrap = document.getElementById('scatter-chart-wrap');
+  const trendTitle = document.getElementById('trend-title');
+  const scatterTitle = document.getElementById('scatter-title');
+  const legendEl = document.getElementById('trend-legend');
+
+  if (muscle === 'All') {
+    // Restore all-muscle view — reload page charts
+    trendTitle.textContent = 'Volume Trend — All Muscles (Last 52 Weeks)';
+    scatterTitle.textContent = 'Volume vs. Training Frequency';
+    legendEl.style.display = 'flex';
+    // Show all muscles inline chart (already rendered)
+    trendWrap.innerHTML = document.getElementById('trend-all-svg').innerHTML;
+    scatterWrap.innerHTML = '<p style="color:#8b949e;font-size:13px;padding:20px">Select a specific muscle group to see its scatter plot.</p>';
+    updateStats(null);
+  } else {
+    trendTitle.textContent = `Volume Trend — ${muscle} (Last 52 Weeks)`;
+    scatterTitle.textContent = `${muscle}: Volume vs. Training Frequency`;
+    legendEl.style.display = 'none';
+    // Render SVG using data
+    const ms = DATA.stats[muscle];
+    trendWrap.innerHTML = buildTrendSVG(muscle, ms.vols, DATA.weekLabels, DATA.colors[muscle]);
+    scatterWrap.innerHTML = buildScatterSVG(muscle, ms.scatter, ms.q1, ms.q3, DATA.colors[muscle]);
+    updateStats(muscle);
+  }
+}
+
+function updateStats(muscle) {
+  const avgEl = document.getElementById('stat-avg');
+  const curEl = document.getElementById('stat-current');
+  const zoneEl = document.getElementById('stat-zone');
+  const wksEl = document.getElementById('stat-weeks');
+
+  if (!muscle) {
+    // Aggregate all muscles
+    const allAvg = Object.values(DATA.stats).reduce((s, ms) => s + ms.avg, 0);
+    avgEl.textContent = fmt(Math.round(allAvg));
+    curEl.textContent = '—';
+    zoneEl.textContent = 'All';
+    wksEl.textContent = DATA.weekLabels.length;
+    return;
+  }
+  const ms = DATA.stats[muscle];
+  avgEl.textContent = fmt(ms.avg) + ' lbs';
+  curEl.textContent = fmt(ms.current) + ' lbs';
+  zoneEl.textContent = ms.q1 > 0 ? fmt(ms.q1) + '–' + fmt(ms.q3) + ' lbs' : 'N/A';
+  const activeWeeks = ms.vols.filter(v => v > 0).length;
+  wksEl.textContent = activeWeeks + ' / ' + ms.vols.length;
+}
+
+function buildTrendSVG(muscle, vols, labels, color) {
+  const W = 780, H = 220;
+  const pl = 60, pr = 20, pt = 20, pb = 40;
+  const cw = W - pl - pr, ch = H - pt - pb;
+  const n = vols.length;
+  const maxV = Math.max(...vols) * 1.1 || 1;
+
+  const sx = i => pl + (i / Math.max(n-1, 1)) * cw;
+  const sy = v => pt + ch - (v / maxV) * ch;
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" style="background:#0d1117;border-radius:8px;width:100%">`;
+
+  // Grid
+  for (let t = 0; t <= 4; t++) {
+    const y = pt + t * ch / 4;
+    const lv = Math.round(maxV * (4-t) / 4);
+    svg += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${pl+cw}" y2="${y.toFixed(1)}" stroke="#21262d" stroke-width="1"/>`;
+    svg += `<text x="${pl-5}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8b949e" font-size="10">${Math.round(lv/1000)}K</text>`;
+  }
+
+  // X labels
+  const step = Math.max(1, Math.floor(n/8));
+  for (let i = 0; i < n; i += step) {
+    svg += `<text x="${sx(i).toFixed(1)}" y="${(pt+ch+16).toFixed(1)}" text-anchor="middle" fill="#8b949e" font-size="9">${labels[i]}</text>`;
+  }
+
+  // Area + line
+  const pts = vols.map((v,i) => `${sx(i).toFixed(1)},${sy(v).toFixed(1)}`);
+  const lastX = sx(n-1), firstX = sx(0), bottom = pt + ch;
+  svg += `<polygon points="${pts.join(' ')} ${lastX.toFixed(1)},${bottom} ${firstX.toFixed(1)},${bottom}" fill="${color}" fill-opacity="0.1"/>`;
+  svg += `<polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>`;
+
+  svg += '</svg>';
+  return svg;
+}
+
+function buildScatterSVG(muscle, points, q1, q3, color) {
+  const W = 780, H = 320;
+  const pl = 60, pr = 30, pt = 30, pb = 50;
+  const cw = W - pl - pr, ch = H - pt - pb;
+  const maxDays = 7;
+
+  if (!points || points.length === 0) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" style="background:#0d1117;border-radius:8px;width:100%"><text x="${W/2}" y="${H/2}" text-anchor="middle" fill="#8b949e" font-size="14">No data for ${muscle}</text></svg>`;
+  }
+
+  const maxVol = Math.max(...points.map(p => p.vol)) * 1.1 || 1;
+  const sx = v => pl + (v / maxVol) * cw;
+  const sy = d => pt + ch - (d / maxDays) * ch;
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" style="background:#0d1117;border-radius:8px;width:100%">`;
+
+  // Optimal zone
+  if (q1 > 0 && q3 > 0) {
+    const zx1 = sx(q1), zx2 = sx(q3);
+    svg += `<rect x="${zx1.toFixed(1)}" y="${pt}" width="${(zx2-zx1).toFixed(1)}" height="${ch}" fill="#2ea043" fill-opacity="0.12" rx="3"/>`;
+    svg += `<line x1="${zx1.toFixed(1)}" y1="${pt}" x2="${zx1.toFixed(1)}" y2="${pt+ch}" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3"/>`;
+    svg += `<line x1="${zx2.toFixed(1)}" y1="${pt}" x2="${zx2.toFixed(1)}" y2="${pt+ch}" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,3"/>`;
+    svg += `<text x="${((zx1+zx2)/2).toFixed(1)}" y="${pt+14}" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="bold">Optimal Zone</text>`;
+  }
+
+  // Grid
+  for (let d = 1; d <= 7; d++) {
+    const y = sy(d);
+    svg += `<line x1="${pl}" y1="${y.toFixed(1)}" x2="${pl+cw}" y2="${y.toFixed(1)}" stroke="#21262d" stroke-width="1"/>`;
+    svg += `<text x="${pl-8}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8b949e" font-size="10">${d}d</text>`;
+  }
+  for (let t = 0; t <= 4; t++) {
+    const v = Math.round(maxVol * t / 4);
+    const x = sx(v);
+    svg += `<line x1="${x.toFixed(1)}" y1="${pt}" x2="${x.toFixed(1)}" y2="${pt+ch}" stroke="#21262d" stroke-width="1"/>`;
+    svg += `<text x="${x.toFixed(1)}" y="${(pt+ch+16).toFixed(1)}" text-anchor="middle" fill="#8b949e" font-size="10">${Math.round(v/1000)}K</text>`;
+  }
+
+  svg += `<text x="${pl+cw/2}" y="${pt+ch+35}" text-anchor="middle" fill="#8b949e" font-size="11">Weekly Volume (lbs)</text>`;
+  svg += `<text x="${pl-42}" y="${pt+ch/2}" text-anchor="middle" fill="#8b949e" font-size="11" transform="rotate(-90 ${pl-42} ${pt+ch/2})">Days Trained</text>`;
+
+  // Points
+  points.forEach(p => {
+    const x = sx(p.vol), y = sy(p.days);
+    svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${color}" fill-opacity="0.75" stroke="${color}" stroke-width="1"/>`;
+  });
+
+  svg += '</svg>';
+  return svg;
+}
+
+// Store the initial all-muscle chart
+document.getElementById('trend-chart-wrap').id = 'trend-chart-wrap';
+const trendAllContainer = document.createElement('div');
+trendAllContainer.id = 'trend-all-svg';
+trendAllContainer.style.display = 'none';
+trendAllContainer.innerHTML = document.getElementById('trend-chart-wrap').innerHTML;
+document.body.appendChild(trendAllContainer);
+
+// Init stats
+updateStats(null);
+</script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Consistency Score</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+a { color: #4fc3f7; text-decoration: none; }
+.card { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+h1 { color: #fff; margin-bottom: 5px; }
+h2 { color: #fff; font-size: 1.2rem; margin-bottom: 15px; }
+.subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+canvas { width: 100%; height: 250px; display: block; }
+.legend { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; font-size: 0.8rem; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-color { width: 12px; height: 12px; border-radius: 2px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.score { font-size: 2rem; font-weight: bold; color: #4fc3f7; }
+.label { color: #888; font-size: 0.85rem; }
+.streaks { display: flex; flex-direction: column; gap: 10px; }
+.streak-item { background: #252527; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+.streak-rank { color: #ffd700; font-weight: bold; margin-right: 10px; }
+.streak-dates { color: #aaa; }
+.streak-score { color: #4fc3f7; font-weight: bold; }
+</style>
+</head>
+<body>
+<a href="http://192.168.1.249:8082/">← Back to Reports</a>
+<h1>Training Consistency Score</h1>
+<p class="subtitle">Composite 0-100 score combining running frequency, workout count, sleep quality, and recovery</p>
+
+<div class="grid">
+<div class="card" style="grid-column: 1/-1">
+<h2>Current Week Score</h2>
+<div class="score">30.4</div>
+<p class="label">Week of 2026-02-23 • Max 100 pts</p>
+</div>
+
+<div class="card" style="grid-column: 1/-1">
+<h2>Consistency Score Over Time</h2>
+<canvas id="consistencyScoreChart"></canvas>
+<div class="legend">
+<div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Total Score</div>
+<div class="legend-item"><div class="legend-color" style="background:#ffd700"></div>7-day avg</div>
+</div>
+</div>
+
+<div class="card" style="grid-column: 1/-1">
+<h2>Component Breakdown (Last 8 Weeks)</h2>
+<canvas id="componentBreakdownChart"></canvas>
+<div class="legend">
+<div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Running (25)</div>
+<div class="legend-item"><div class="legend-color" style="background:#ffd700"></div>Workout (25)</div>
+<div class="legend-item"><div class="legend-color" style="background:#4caf50"></div>Sleep (25)</div>
+<div class="legend-item"><div class="legend-color" style="background:#ff9800"></div>Recovery (25)</div>
+</div>
+</div>
+
+<div class="card" style="grid-column: 1/-1">
+<h2>Streak Calendar (Last 90 Days)</h2>
+<canvas id="streakHeatmap"></canvas>
+</div>
+
+<div class="card">
+<h2>Best Streaks</h2>
+<div class="streaks" id="streakLeaderboard"></div>
+</div>
+
+<div class="card">
+<h2>Weekly Pattern</h2>
+<canvas id="weeklyPatternChart"></canvas>
+<div class="label" style="margin-top:10px">Best: Sun (43.5) • Worst: Fri/Sat (35.1)</div>
+</div>
+</div>
+
+<script>
+const weeklyData = [{week: '12-01', score: 11.6, running: 0, workout: 0, sleep: 0.0, recovery: 11.6}, {week: '12-08', score: 39.6, running: 0, workout: 0, sleep: 20.8, recovery: 18.8}, {week: '12-15', score: 39.4, running: 0, workout: 0, sleep: 20.7, recovery: 18.7}, {week: '12-22', score: 18.1, running: 0, workout: 0, sleep: 0.0, recovery: 18.1}, {week: '12-29', score: 20.2, running: 0, workout: 0, sleep: 0.5, recovery: 19.8}, {week: '01-05', score: 85.2, running: 25, workout: 25, sleep: 21.1, recovery: 14.1}, {week: '01-12', score: 74.4, running: 25, workout: 15.0, sleep: 19.9, recovery: 14.5}, {week: '01-19', score: 81.7, running: 25, workout: 20.0, sleep: 20.7, recovery: 16.0}, {week: '01-26', score: 77.1, running: 25, workout: 20.0, sleep: 20.7, recovery: 11.4}, {week: '02-02', score: 80.0, running: 25, workout: 25, sleep: 18.3, recovery: 11.8}, {week: '02-09', score: 73.1, running: 25, workout: 25, sleep: 13.2, recovery: 9.9}, {week: '02-16', score: 63.7, running: 25, workout: 15.0, sleep: 15.5, recovery: 8.2}, {week: '02-23', score: 30.4, running: 0, workout: 0, sleep: 20.4, recovery: 10.1}];
+const dailyData = [{date: '2025-12-01', score: 17.0}, {date: '2025-12-02', score: 0.0}, {date: '2025-12-03', score: 10.0}, {date: '2025-12-04', score: 2.0}, {date: '2025-12-05', score: 15.8}, {date: '2025-12-06', score: 0.0}, {date: '2025-12-07', score: 13.2}, {date: '2025-12-08', score: 41.8}, {date: '2025-12-09', score: 47.0}, {date: '2025-12-10', score: 45.5}, {date: '2025-12-11', score: 37.5}, {date: '2025-12-12', score: 30.0}, {date: '2025-12-13', score: 34.5}, {date: '2025-12-14', score: 41.0}, {date: '2025-12-15', score: 25.8}, {date: '2025-12-16', score: 37.8}, {date: '2025-12-17', score: 45.0}, {date: '2025-12-18', score: 43.8}, {date: '2025-12-19', score: 45.2}, {date: '2025-12-20', score: 44.2}, {date: '2025-12-21', score: 34.2}, {date: '2025-12-22', score: 2.8}, {date: '2025-12-23', score: 24.2}, {date: '2025-12-24', score: 15.8}, {date: '2025-12-25', score: 23.8}, {date: '2025-12-26', score: 20.0}, {date: '2025-12-27', score: 20.5}, {date: '2025-12-28', score: 20.0}, {date: '2025-12-29', score: 24.5}, {date: '2025-12-30', score: 24.5}, {date: '2025-12-31', score: 24.2}, {date: '2026-01-01', score: 15.5}, {date: '2026-01-02', score: 14.5}, {date: '2026-01-03', score: 15.2}, {date: '2026-01-04', score: 3.2}, {date: '2026-01-05', score: 71.1}, {date: '2026-01-06', score: 69.3}, {date: '2026-01-07', score: 82.2}, {date: '2026-01-08', score: 77.8}, {date: '2026-01-09', score: 26.2}, {date: '2026-01-10', score: 60.8}, {date: '2026-01-11', score: 34.0}, {date: '2026-01-12', score: 72.8}, {date: '2026-01-13', score: 66.8}, {date: '2026-01-14', score: 51.8}, {date: '2026-01-15', score: 34.5}, {date: '2026-01-16', score: 47.2}, {date: '2026-01-17', score: 31.0}, {date: '2026-01-18', score: 36.8}, {date: '2026-01-19', score: 78.6}, {date: '2026-01-20', score: 66.6}, {date: '2026-01-21', score: 69.1}, {date: '2026-01-22', score: 33.8}, {date: '2026-01-23', score: 34.5}, {date: '2026-01-24', score: 70.3}, {date: '2026-01-25', score: 37.5}, {date: '2026-01-26', score: 29.5}, {date: '2026-01-27', score: 66.3}, {date: '2026-01-28', score: 64.6}, {date: '2026-01-29', score: 26.5}, {date: '2026-01-30', score: 30.2}, {date: '2026-01-31', score: 78.1}, {date: '2026-02-01', score: 62.6}, {date: '2026-02-02', score: 65.3}, {date: '2026-02-03', score: 53.1}, {date: '2026-02-04', score: 17.5}, {date: '2026-02-05', score: 54.8}, {date: '2026-02-06', score: 71.1}, {date: '2026-02-07', score: 41.2}, {date: '2026-02-08', score: 73.8}, {date: '2026-02-09', score: 65.8}, {date: '2026-02-10', score: 73.6}, {date: '2026-02-11', score: 53.1}, {date: '2026-02-12', score: 49.6}, {date: '2026-02-13', score: 74.1}, {date: '2026-02-14', score: 6.2}, {date: '2026-02-15', score: 39.1}, {date: '2026-02-16', score: 42.1}, {date: '2026-02-17', score: 14.2}, {date: '2026-02-18', score: 64.1}, {date: '2026-02-19', score: 64.8}, {date: '2026-02-20', score: 28.8}, {date: '2026-02-21', score: 23.8}, {date: '2026-02-22', score: 28.2}, {date: '2026-02-23', score: 28.5}, {date: '2026-02-24', score: 32.0}, {date: '2026-02-25', score: 17.5}, {date: '2026-02-26', score: 37.8}, {date: '2026-02-27', score: 24.5}, {date: '2026-02-28', score: 30.0}, {date: '2026-03-01', score: 32.8}];
+const streaksData = [{start: '2026-01-05', days: 4, avg: 75.1}, {start: '2026-01-31', days: 4, avg: 64.8}, {start: '2026-02-08', days: 4, avg: 66.6}, {start: '2026-01-12', days: 3, avg: 63.8}, {start: '2026-01-19', days: 3, avg: 71.4}];
+const patternData = [{day: 'Mon', avg: 44.3}, {day: 'Tue', avg: 43.1}, {day: 'Wed', avg: 38.6}, {day: 'Thu', avg: 35.5}, {day: 'Fri', avg: 35.1}, {day: 'Sat', avg: 35.1}, {day: 'Sun', avg: 43.5}];
+
+// === Chart 1: Consistency Score Over Time ===
+function drawConsistencyChart() {
+    const canvas = document.getElementById('consistencyScoreChart');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const w = rect.width, h = rect.height;
+    
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(0, 0, w, h);
+    
+    const pad = {left: 45, right: 20, top: 20, bottom: 35};
+    const chartW = w - pad.left - pad.right;
+    const chartH = h - pad.top - pad.bottom;
+    
+    // Draw axes
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left, h - pad.bottom);
+    ctx.lineTo(w - pad.right, h - pad.bottom);
+    ctx.stroke();
+    
+    // Y-axis labels
+    ctx.fillStyle = '#888';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 100; i += 25) {
+        const y = pad.top + chartH * (1 - i / 100);
+        ctx.fillText(i.toString(), pad.left - 8, y + 4);
+    }
+    
+    // X-axis labels
+    ctx.textAlign = 'center';
+    const xStep = chartW / Math.max(weeklyData.length - 1, 1);
+    weeklyData.forEach((d, i) => {
+        if (i % 2 === 0) {
+            const x = pad.left + i * xStep;
+            ctx.fillText(d.week, x, h - pad.bottom + 15);
+        }
+    });
+    
+    if (weeklyData.length < 2) return;
+    
+    // Draw area fill
+    ctx.fillStyle = 'rgba(79, 195, 247, 0.15)';
+    ctx.beginPath();
+    ctx.moveTo(pad.left, h - pad.bottom);
+    weeklyData.forEach((d, i) => {
+        const x = pad.left + i * xStep;
+        const y = pad.top + chartH * (1 - d.score / 100);
+        ctx.lineTo(x, y);
+    });
+    ctx.lineTo(pad.left + (weeklyData.length - 1) * xStep, h - pad.bottom);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Draw line
+    ctx.strokeStyle = '#4fc3f7';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    weeklyData.forEach((d, i) => {
+        const x = pad.left + i * xStep;
+        const y = pad.top + chartH * (1 - d.score / 100);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    
+    // Draw 7-day rolling average
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    for (let i = 0; i < weeklyData.length; i++) {
+        let sum = 0, cnt = 0;
+        for (let j = Math.max(0, i - 3); j <= Math.min(weeklyData.length - 1, i + 3); j++) {
+            sum += weeklyData[j].score;
+            cnt++;
+        }
+        const avg = sum / cnt;
+        const x = pad.left + i * xStep;
+        const y = pad.top + chartH * (1 - avg / 100);
+        if (i === 0 || cnt === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+}
+
+// === Chart 2: Component Breakdown (Stacked Bar) ===
+function drawComponentChart() {
+    const canvas = document.getElementById('componentBreakdownChart');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const w = rect.width, h = rect.height;
+    
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(0, 0, w, h);
+    
+    const pad = {left: 45, right: 20, top: 20, bottom: 35};
+    const chartW = w - pad.left - pad.right;
+    const chartH = h - pad.top - pad.bottom;
+    
+    // Use last 8 weeks
+    const data = weeklyData.slice(-8);
+    const barW = Math.min(30, (chartW / data.length) * 0.7);
+    const gap = (chartW - barW * data.length) / (data.length + 1);
+    
+    // Y-axis
+    ctx.strokeStyle = '#333';
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left, h - pad.bottom);
+    ctx.lineTo(w - pad.right, h - pad.bottom);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#888';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 100; i += 25) {
+        const y = pad.top + chartH * (1 - i / 100);
+        ctx.fillText(i.toString(), pad.left - 8, y + 4);
+    }
+    
+    const colors = {running: '#4fc3f7', workout: '#ffd700', sleep: '#4caf50', recovery: '#ff9800'};
+    
+    data.forEach((d, i) => {
+        const x = pad.left + gap + i * (barW + gap);
+        let y = h - pad.bottom;
+        
+        // Stack: running, workout, sleep, recovery
+        const components = [
+            {val: d.running, color: colors.running},
+            {val: d.workout, color: colors.workout},
+            {val: d.sleep, color: colors.sleep},
+            {val: d.recovery, color: colors.recovery}
+        ];
+        
+        components.forEach(c => {
+            const barH = (c.val / 100) * chartH;
+            ctx.fillStyle = c.color;
+            ctx.fillRect(x, y - barH, barW, barH);
+            y -= barH;
+        });
+        
+        // X label
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.week, x + barW/2, h - pad.bottom + 15);
+    });
+}
+
+// === Chart 3: Streak Heatmap ===
+function drawHeatmap() {
+    const canvas = document.getElementById('streakHeatmap');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const w = rect.width, h = rect.height;
+    
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(0, 0, w, h);
+    
+    const pad = {left: 35, right: 10, top: 25, bottom: 20};
+    const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const cols = 13; // weeks
+    const rows = 7; // days
+    const cellW = (w - pad.left - pad.right) / cols;
+    const cellH = (h - pad.top - pad.bottom) / rows;
+    
+    // Day labels
+    ctx.fillStyle = '#888';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'right';
+    for (let r = 0; r < 7; r++) {
+        ctx.fillText(dayLabels[r], pad.left - 5, pad.top + r * cellH + cellH/2 + 3);
+    }
+    
+    // Get first Sunday to align properly
+    const dates = Object.keys(dailyData).map(d => d.date).sort();
+    if (dates.length === 0) return;
+    
+    const startDate = new Date(dates[0]);
+    const startDay = (startDate.getDay() + 6) % 7; // Monday = 0
+    
+    function getColor(score) {
+        if (score >= 75) return '#28a745';
+        if (score >= 50) return '#4caf50';
+        if (score >= 30) return '#ff9800';
+        if (score > 0) return '#dc3545';
+        return '#333';
+    }
+    
+    const dataMap = {};
+    dailyData.forEach(d => { dataMap[d.date] = d.score; });
+    
+    // Draw cells
+    for (let i = 0; i < dailyData.length; i++) {
+        const date = dailyData[i].date;
+        const score = dailyData[i].score;
+        const dt = new Date(date);
+        const dayOfWeek = (dt.getDay() + 6) % 7;
+        const daysSinceStart = Math.floor((dt - startDate) / (24*60*60*1000));
+        const week = Math.floor((daysSinceStart + startDay) / 7);
+        
+        const x = pad.left + week * cellW;
+        const y = pad.top + dayOfWeek * cellH;
+        
+        ctx.fillStyle = getColor(score);
+        ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2);
+    }
+    
+    // Legend
+    const legendY = h - 8;
+    ctx.fillStyle = '#888';
+    ctx.textAlign = 'left';
+    ctx.fillText('Low', pad.left, legendY);
+    const legendX = pad.left + 25;
+    const legendW = 80;
+    const lCellW = legendW / 4;
+    ctx.fillStyle = '#dc3545'; ctx.fillRect(legendX, legendY - 8, lCellW, 8);
+    ctx.fillStyle = '#ff9800'; ctx.fillRect(legendX + lCellW, legendY - 8, lCellW, 8);
+    ctx.fillStyle = '#4caf50'; ctx.fillRect(legendX + lCellW*2, legendY - 8, lCellW, 8);
+    ctx.fillStyle = '#28a745'; ctx.fillRect(legendX + lCellW*3, legendY - 8, lCellW, 8);
+    ctx.fillText('High', legendX + legendW + 5, legendY);
+}
+
+// === Chart 4: Streak Leaderboard ===
+function drawStreaks() {
+    const container = document.getElementById('streakLeaderboard');
+    streaksData.forEach((s, i) => {
+        const div = document.createElement('div');
+        div.className = 'streak-item';
+        div.innerHTML = '<div><span class="streak-rank">#' + (i+1) + '</span><span class="streak-dates">' + s.start + ' (' + s.days + ' days)</span></div><span class="streak-score">' + s.avg.toFixed(1) + '</span>';
+        container.appendChild(div);
+    });
+}
+
+// === Chart 5: Weekly Pattern ===
+function drawWeeklyPattern() {
+    const canvas = document.getElementById('weeklyPatternChart');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const w = rect.width, h = rect.height;
+    
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(0, 0, w, h);
+    
+    const pad = {left: 35, right: 15, top: 20, bottom: 30};
+    const chartW = w - pad.left - pad.right;
+    const chartH = h - pad.top - pad.bottom;
+    
+    // Y-axis
+    ctx.strokeStyle = '#333';
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left, h - pad.bottom);
+    ctx.lineTo(w - pad.right, h - pad.bottom);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#888';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 50; i += 10) {
+        const y = pad.top + chartH * (1 - i / 50);
+        ctx.fillText(i.toString(), pad.left - 8, y + 4);
+    }
+    
+    const barW = chartW / 7 * 0.6;
+    const gap = chartW / 7;
+    
+    patternData.forEach((d, i) => {
+        const x = pad.left + i * gap + gap/2 - barW/2;
+        const barH = (d.avg / 50) * chartH;
+        const y = h - pad.bottom - barH;
+        
+        // Bar
+        ctx.fillStyle = d.avg >= 40 ? '#4fc3f7' : (d.avg >= 36 ? '#ff9800' : '#dc3545');
+        ctx.fillRect(x, y, barW, barH);
+        
+        // Label
+        ctx.fillStyle = '#aaa';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.day, x + barW/2, h - pad.bottom + 15);
+        
+        // Value
+        ctx.fillStyle = '#fff';
+        ctx.fillText(d.avg.toString(), x + barW/2, y - 5);
+    });
+}
+
+// Draw all charts
+drawConsistencyChart();
+drawComponentChart();
+drawHeatmap();
+drawStreaks();
+drawWeeklyPattern();
+</script>
+</body>
+</html>

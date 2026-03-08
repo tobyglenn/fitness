@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workout Quality Predictor</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+h1 { color: white; margin-bottom: 6px; }
+h2 { color: #f39c12; margin-bottom: 16px; font-size: 1.1rem; }
+.hero { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 16px; }
+.stat { background: #21262d; border-radius: 8px; padding: 12px; text-align: center; }
+.stat-val { font-size: 1.8rem; font-weight: bold; }
+.stat-label { color: #8b949e; font-size: 0.8rem; margin-top: 4px; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; color: #8b949e; font-size: 0.85rem; padding: 8px 12px; border-bottom: 1px solid #30363d; }
+</style>
+</head>
+<body>
+<nav style="background:#161b22;padding:12px 20px;border-bottom:1px solid #30363d;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+  <a href="/index.html" style="color:#f39c12;font-weight:bold;text-decoration:none">🏠 Hub</a>
+  <a href="/calendars/2026-02-calendar.html" style="color:#8b949e;text-decoration:none">📅 Calendar</a>
+  <a href="/strength/index.html" style="color:#8b949e;text-decoration:none">💪 Strength</a>
+  <a href="/cardio/index.html" style="color:#8b949e;text-decoration:none">🏃 Cardio</a>
+  <a href="/recovery/index.html" style="color:#8b949e;text-decoration:none">🔋 Recovery</a>
+  <a href="/nutrition/index.html" style="color:#8b949e;text-decoration:none">🥗 Nutrition</a>
+  <a href="/training_load/index.html" style="color:#8b949e;text-decoration:none">⚡ Training Load</a>
+  <a href="/workout_quality_predictor/index.html" style="color:#8b949e;text-decoration:none">🔮 Predictor</a>
+</nav>
+<div class="container">
+  <div style="padding: 20px 0 8px">
+    <h1>🔮 Workout Quality Predictor</h1>
+    <p style="color:#8b949e">Predict tonight's workout quality based on recovery & sleep data</p>
+  </div>
+
+  <!-- Hero Card -->
+  <div class="card">
+    <h2>Tonight's Prediction</h2>
+    <div class="hero">
+      <div style="text-align:center">
+        <svg width="220" height="130" viewBox="0 0 220 130">
+  <path d="M 10,120 A 100,100 0 0,1 210,120" fill="none" stroke="#30363d" stroke-width="12" stroke-linecap="round"/>
+  <line x1="10.0" y1="120.0" x2="10.2" y2="113.7" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="10.2" y1="113.7" x2="10.8" y2="107.5" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="10.8" y1="107.5" x2="11.8" y2="101.3" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="11.8" y1="101.3" x2="13.1" y2="95.1" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="13.1" y1="95.1" x2="14.9" y2="89.1" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="14.9" y1="89.1" x2="17.0" y2="83.2" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="17.0" y1="83.2" x2="19.5" y2="77.4" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="19.5" y1="77.4" x2="22.4" y2="71.8" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="22.4" y1="71.8" x2="25.6" y2="66.4" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="25.6" y1="66.4" x2="29.1" y2="61.2" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="29.1" y1="61.2" x2="32.9" y2="56.3" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="32.9" y1="56.3" x2="37.1" y2="51.5" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="37.1" y1="51.5" x2="41.5" y2="47.1" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="41.5" y1="47.1" x2="46.3" y2="42.9" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="46.3" y1="42.9" x2="51.2" y2="39.1" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="51.2" y1="39.1" x2="56.4" y2="35.6" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="56.4" y1="35.6" x2="61.8" y2="32.4" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="61.8" y1="32.4" x2="67.4" y2="29.5" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="67.4" y1="29.5" x2="73.2" y2="27.0" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="73.2" y1="27.0" x2="79.1" y2="24.9" stroke="#f85149" stroke-width="12" stroke-linecap="round"/><line x1="79.1" y1="24.9" x2="85.1" y2="23.1" stroke="#f39c12" stroke-width="12" stroke-linecap="round"/><line x1="85.1" y1="23.1" x2="91.3" y2="21.8" stroke="#f39c12" stroke-width="12" stroke-linecap="round"/><line x1="91.3" y1="21.8" x2="96.2" y2="21.0" stroke="#f39c12" stroke-width="12" stroke-linecap="round"/>
+  <text x="110" y="112" text-anchor="middle" fill="#f39c12" font-size="50" font-weight="bold">45</text>
+  <text x="110" y="132" text-anchor="middle" fill="#8b949e" font-size="11">/100</text>
+</svg>
+        <div style="color:#f39c12;font-size:1.1rem;font-weight:bold;margin-top:4px">🔴 Recovery Day Advised</div>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-val" style="color:#0a84ff">12.6–78.7</div>
+            <div class="stat-label">Confidence Range</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:#f39c12">50%</div>
+            <div class="stat-label">Model Confidence</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:#2ea043">44.0</div>
+            <div class="stat-label">Yesterday Recovery</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val" style="color:#a78bfa">87.0</div>
+            <div class="stat-label">Last Night Sleep</div>
+          </div>
+        </div>
+        <p style="color:#8b949e;font-size:0.8rem;margin-top:10px">Based on 2026-03-01 data</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Factors -->
+  <div class="card">
+    <h2>Influencing Factors</h2>
+    <table>
+      <thead><tr>
+        <th>Factor</th><th>Value</th><th>Impact</th><th>Weight</th>
+      </tr></thead>
+      <tbody><tr>
+  <td style="padding:8px 12px;color:#c9d1d9">Resting HR</td>
+  <td style="padding:8px 12px;color:#8b949e">72.0</td>
+  <td style="padding:8px 12px;font-weight:bold;color:#f85149">↓ 8.5 pts</td>
+  <td style="padding:8px 12px">
+    <div style="background:#21262d;border-radius:4px;height:8px;width:120px">
+      <div style="background:#f85149;height:8px;border-radius:4px;width:15%"></div>
+    </div>
+  </td>
+</tr><tr>
+  <td style="padding:8px 12px;color:#c9d1d9">Sleep Score</td>
+  <td style="padding:8px 12px;color:#8b949e">87.0</td>
+  <td style="padding:8px 12px;font-weight:bold;color:#2ea043">↑ 8.1 pts</td>
+  <td style="padding:8px 12px">
+    <div style="background:#21262d;border-radius:4px;height:8px;width:120px">
+      <div style="background:#2ea043;height:8px;border-radius:4px;width:25%"></div>
+    </div>
+  </td>
+</tr><tr>
+  <td style="padding:8px 12px;color:#c9d1d9">HRV Level</td>
+  <td style="padding:8px 12px;color:#8b949e">26.3</td>
+  <td style="padding:8px 12px;font-weight:bold;color:#f85149">↓ 4.6 pts</td>
+  <td style="padding:8px 12px">
+    <div style="background:#21262d;border-radius:4px;height:8px;width:120px">
+      <div style="background:#f85149;height:8px;border-radius:4px;width:20%"></div>
+    </div>
+  </td>
+</tr><tr>
+  <td style="padding:8px 12px;color:#c9d1d9">Day of Week</td>
+  <td style="padding:8px 12px;color:#8b949e">Mon</td>
+  <td style="padding:8px 12px;font-weight:bold;color:#2ea043">↑ 3 pts</td>
+  <td style="padding:8px 12px">
+    <div style="background:#21262d;border-radius:4px;height:8px;width:120px">
+      <div style="background:#2ea043;height:8px;border-radius:4px;width:10%"></div>
+    </div>
+  </td>
+</tr><tr>
+  <td style="padding:8px 12px;color:#c9d1d9">Recovery Score</td>
+  <td style="padding:8px 12px;color:#8b949e">44.0</td>
+  <td style="padding:8px 12px;font-weight:bold;color:#f85149">↓ 2.4 pts</td>
+  <td style="padding:8px 12px">
+    <div style="background:#21262d;border-radius:4px;height:8px;width:120px">
+      <div style="background:#f85149;height:8px;border-radius:4px;width:30%"></div>
+    </div>
+  </td>
+</tr></tbody>
+    </table>
+  </div>
+
+  <!-- Historical Accuracy -->
+  <div class="card">
+    <h2>Historical Accuracy (Last 60 Days)</h2>
+    <div style="margin-bottom:10px">
+      <span style="color:#f39c12;font-weight:bold">48.0%</span>
+      <span style="color:#8b949e;margin-left:8px;font-size:0.9rem">correctly predicts above/below median workout quality</span>
+    </div>
+    <svg width="700" height="200" viewBox="0 0 700 200">
+  <text x="25" y="174.0" text-anchor="end" fill="#8b949e" font-size="10">0</text><line x1="30" y1="170.0" x2="670" y2="170.0" stroke="#21262d" stroke-width="1"/><text x="25" y="139.0" text-anchor="end" fill="#8b949e" font-size="10">25</text><line x1="30" y1="135.0" x2="670" y2="135.0" stroke="#21262d" stroke-width="1"/><text x="25" y="104.0" text-anchor="end" fill="#8b949e" font-size="10">50</text><line x1="30" y1="100.0" x2="670" y2="100.0" stroke="#21262d" stroke-width="1"/><text x="25" y="69.0" text-anchor="end" fill="#8b949e" font-size="10">75</text><line x1="30" y1="65.0" x2="670" y2="65.0" stroke="#21262d" stroke-width="1"/><text x="25" y="34.0" text-anchor="end" fill="#8b949e" font-size="10">100</text><line x1="30" y1="30.0" x2="670" y2="30.0" stroke="#21262d" stroke-width="1"/>
+  <polygon points="30.0,80.5 40.8,84.5 51.7,102.7 62.5,122.1 73.4,113.4 84.2,94.1 95.1,109.2 105.9,89.9 116.8,102.4 127.6,122.7 138.5,123.4 149.3,105.6 160.2,125.3 171.0,98.3 181.9,112.0 192.7,110.2 203.6,82.6 214.4,115.8 225.3,73.4 236.1,79.6 246.9,85.9 257.8,145.2 268.6,112.5 279.5,82.9 290.3,80.7 301.2,116.2 312.0,112.9 322.9,106.0 333.7,128.8 344.6,92.7 355.4,79.6 366.3,72.1 377.1,121.0 388.0,69.2 398.8,134.3 409.7,93.3 420.5,85.3 431.4,118.3 442.2,123.2 453.1,147.5 463.9,97.5 474.7,78.2 485.6,55.6 496.4,113.6 507.3,101.8 518.1,105.5 529.0,116.5 539.8,119.6 550.7,135.6 561.5,118.3 572.4,92.4 583.2,119.6 594.1,121.1 604.9,147.7 615.8,120.7 626.6,124.2 637.5,112.0 648.3,105.9 659.2,106.6 670.0,79.0 670.0,30.0 659.2,170.0 648.3,57.7 637.5,93.3 626.6,170.0 615.8,78.4 604.9,165.2 594.1,93.0 583.2,144.7 572.4,30.0 561.5,170.0 550.7,30.0 539.8,83.1 529.0,30.0 518.1,124.6 507.3,45.5 496.4,37.7 485.6,44.3 474.7,44.0 463.9,54.9 453.1,88.0 442.2,64.2 431.4,151.5 420.5,69.8 409.7,121.6 398.8,30.0 388.0,158.2 377.1,31.5 366.3,30.3 355.4,30.0 344.6,170.0 333.7,53.7 322.9,170.0 312.0,140.9 301.2,30.0 290.3,99.4 279.5,52.5 268.6,81.9 257.8,34.1 246.9,170.0 236.1,30.0 225.3,65.8 214.4,170.0 203.6,170.0 192.7,30.0 181.9,94.7 171.0,163.0 160.2,137.1 149.3,141.9 138.5,30.0 127.6,69.9 116.8,124.9 105.9,116.9 95.1,44.4 84.2,30.0 73.4,46.7 62.5,170.0 51.7,30.0 40.8,30.0 30.0,166.2" fill="#0a84ff" opacity="0.1"/>
+  <polyline points="30.0,80.5 40.8,84.5 51.7,102.7 62.5,122.1 73.4,113.4 84.2,94.1 95.1,109.2 105.9,89.9 116.8,102.4 127.6,122.7 138.5,123.4 149.3,105.6 160.2,125.3 171.0,98.3 181.9,112.0 192.7,110.2 203.6,82.6 214.4,115.8 225.3,73.4 236.1,79.6 246.9,85.9 257.8,145.2 268.6,112.5 279.5,82.9 290.3,80.7 301.2,116.2 312.0,112.9 322.9,106.0 333.7,128.8 344.6,92.7 355.4,79.6 366.3,72.1 377.1,121.0 388.0,69.2 398.8,134.3 409.7,93.3 420.5,85.3 431.4,118.3 442.2,123.2 453.1,147.5 463.9,97.5 474.7,78.2 485.6,55.6 496.4,113.6 507.3,101.8 518.1,105.5 529.0,116.5 539.8,119.6 550.7,135.6 561.5,118.3 572.4,92.4 583.2,119.6 594.1,121.1 604.9,147.7 615.8,120.7 626.6,124.2 637.5,112.0 648.3,105.9 659.2,106.6 670.0,79.0" fill="none" stroke="#0a84ff" stroke-width="2" stroke-dasharray="4,3"/>
+  <polyline points="30.0,166.2 40.8,30.0 51.7,30.0 62.5,170.0 73.4,46.7 84.2,30.0 95.1,44.4 105.9,116.9 116.8,124.9 127.6,69.9 138.5,30.0 149.3,141.9 160.2,137.1 171.0,163.0 181.9,94.7 192.7,30.0 203.6,170.0 214.4,170.0 225.3,65.8 236.1,30.0 246.9,170.0 257.8,34.1 268.6,81.9 279.5,52.5 290.3,99.4 301.2,30.0 312.0,140.9 322.9,170.0 333.7,53.7 344.6,170.0 355.4,30.0 366.3,30.3 377.1,31.5 388.0,158.2 398.8,30.0 409.7,121.6 420.5,69.8 431.4,151.5 442.2,64.2 453.1,88.0 463.9,54.9 474.7,44.0 485.6,44.3 496.4,37.7 507.3,45.5 518.1,124.6 529.0,30.0 539.8,83.1 550.7,30.0 561.5,170.0 572.4,30.0 583.2,144.7 594.1,93.0 604.9,165.2 615.8,78.4 626.6,170.0 637.5,93.3 648.3,57.7 659.2,170.0 670.0,30.0" fill="none" stroke="#2ea043" stroke-width="2"/>
+  <text x="30.0" y="195" text-anchor="middle" fill="#8b949e" font-size="10">12-23</text><text x="138.5" y="195" text-anchor="middle" fill="#8b949e" font-size="10">01-11</text><text x="246.9" y="195" text-anchor="middle" fill="#8b949e" font-size="10">01-31</text><text x="355.4" y="195" text-anchor="middle" fill="#8b949e" font-size="10">02-11</text><text x="463.9" y="195" text-anchor="middle" fill="#8b949e" font-size="10">02-24</text><text x="572.4" y="195" text-anchor="middle" fill="#8b949e" font-size="10">03-13</text>
+  <text x="40" y="20" fill="#0a84ff" font-size="11">— — Predicted</text>
+  <text x="140" y="20" fill="#2ea043" font-size="11">—— Actual</text>
+</svg>
+  </div>
+
+  <!-- Time of Day -->
+  <div class="card">
+    <h2>Best Training Times (Historical Quality by Hour)</h2>
+    <svg width="700" height="120" viewBox="0 0 700 120">
+  <rect x="0" y="30" width="41" height="50" rx="3" fill="rgb(33,113,50)"/>
+  <text x="21" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">73</text>
+  <text x="21" y="94" text-anchor="middle" fill="#8b949e" font-size="10">6am</text>
+
+  <rect x="43" y="30" width="41" height="50" rx="3" fill="rgb(48,95,50)"/>
+  <text x="64" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">62</text>
+  <text x="64" y="94" text-anchor="middle" fill="#8b949e" font-size="10">7am</text>
+
+  <rect x="86" y="30" width="41" height="50" rx="3" fill="rgb(44,99,50)"/>
+  <text x="107" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">65</text>
+  <text x="107" y="94" text-anchor="middle" fill="#8b949e" font-size="10">8am</text>
+
+  <rect x="129" y="30" width="41" height="50" rx="3" fill="rgb(43,100,50)"/>
+  <text x="150" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">65</text>
+  <text x="150" y="94" text-anchor="middle" fill="#8b949e" font-size="10">9am</text>
+
+  <rect x="172" y="30" width="41" height="50" rx="3" fill="rgb(51,91,50)"/>
+  <text x="193" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">59</text>
+  <text x="193" y="94" text-anchor="middle" fill="#8b949e" font-size="10">10am</text>
+
+  <rect x="215" y="30" width="41" height="50" rx="3" fill="rgb(57,83,50)"/>
+  <text x="236" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">54</text>
+  <text x="236" y="94" text-anchor="middle" fill="#8b949e" font-size="10">11am</text>
+
+  <rect x="258" y="30" width="41" height="50" rx="3" fill="rgb(40,103,50)"/>
+  <text x="279" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">67</text>
+  <text x="279" y="94" text-anchor="middle" fill="#8b949e" font-size="10">12pm</text>
+
+  <rect x="301" y="30" width="41" height="50" rx="3" fill="rgb(44,99,50)"/>
+  <text x="322" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">64</text>
+  <text x="322" y="94" text-anchor="middle" fill="#8b949e" font-size="10">1pm</text>
+
+  <rect x="344" y="30" width="41" height="50" rx="3" fill="rgb(54,87,50)"/>
+  <text x="365" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">57</text>
+  <text x="365" y="94" text-anchor="middle" fill="#8b949e" font-size="10">2pm</text>
+
+  <rect x="387" y="30" width="41" height="50" rx="3" fill="rgb(68,71,50)"/>
+  <text x="408" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">46</text>
+  <text x="408" y="94" text-anchor="middle" fill="#8b949e" font-size="10">3pm</text>
+
+  <rect x="430" y="30" width="41" height="50" rx="3" fill="rgb(66,72,50)"/>
+  <text x="451" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">47</text>
+  <text x="451" y="94" text-anchor="middle" fill="#8b949e" font-size="10">4pm</text>
+
+  <rect x="473" y="30" width="41" height="50" rx="3" fill="rgb(54,87,50)"/>
+  <text x="494" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">57</text>
+  <text x="494" y="94" text-anchor="middle" fill="#8b949e" font-size="10">5pm</text>
+
+  <rect x="516" y="30" width="41" height="50" rx="3" fill="rgb(51,91,50)"/>
+  <text x="537" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">60</text>
+  <text x="537" y="94" text-anchor="middle" fill="#8b949e" font-size="10">6pm</text>
+
+  <rect x="559" y="30" width="41" height="50" rx="3" fill="rgb(57,84,50)"/>
+  <text x="580" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">55</text>
+  <text x="580" y="94" text-anchor="middle" fill="#8b949e" font-size="10">7pm</text>
+
+  <rect x="602" y="30" width="41" height="50" rx="3" fill="rgb(74,63,50)"/>
+  <text x="623" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">41</text>
+  <text x="623" y="94" text-anchor="middle" fill="#8b949e" font-size="10">8pm</text>
+
+  <rect x="645" y="30" width="41" height="50" rx="3" fill="rgb(99,33,50)"/>
+  <text x="666" y="60" text-anchor="middle" fill="white" font-size="11" font-weight="bold">21</text>
+  <text x="666" y="94" text-anchor="middle" fill="#8b949e" font-size="10">9pm</text>
+</svg>
+    <p style="color:#8b949e;font-size:0.8rem;margin-top:10px">Numbers show average workout quality score at each time. Gray = no data.</p>
+  </div>
+</div>
+</body>
+</html>
