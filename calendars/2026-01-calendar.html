@@ -44,6 +44,34 @@
       .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
       .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
       .month-grid a.current{border-color:var(--accent);color:var(--accent)}
+    
+    /* === DRILLDOWN OVERLAY BADGES (v2) === */
+    .drilldown-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .drilldown-badges .badge {
+      display: inline-block;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: bold;
+      color: white;
+      line-height: 1.4;
+    }
+    .badge.whoop-green  { background: #2ea043; }
+    .badge.whoop-yellow { background: #f39c12; color: #000; }
+    .badge.whoop-red    { background: #f85149; }
+    .badge.sleep-green  { background: #1a6ea0; }
+    .badge.sleep-yellow { background: #6e60a8; color: #fff; }
+    .badge.sleep-red    { background: #7a3038; }
+    .badge.tonal        { background: #0a84ff; }
+    .badge.run          { background: #a371f7; }
+    /* legacy day-badges alias kept for backward compat */
+    .day-badges { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
+
     </style>
     
 </head>
@@ -63,6 +91,13 @@
   <div class="container">
     <div class="header">
       <h1>January 2026</h1>
+<div class="calendar-legend" style="display:flex;gap:12px;padding:8px 12px;background:#161b22;border-radius:6px;margin-bottom:12px;font-size:11px;color:#8b949e;flex-wrap:wrap;">
+  <strong style="color:#f39c12;margin-right:4px;">📊 Key:</strong>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2ea043;margin-right:3px;vertical-align:middle;"></span>WHOOP %</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1a6ea0;margin-right:3px;vertical-align:middle;"></span>8Sleep</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0a84ff;margin-right:3px;vertical-align:middle;"></span>Tonal lbs</span>
+  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a371f7;margin-right:3px;vertical-align:middle;"></span>Run mi</span>
+</div>
       <div class="meta">Generated on 2026-03-08 10:38 EDT</div>
     </div>
 
