@@ -1,49 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🏋️ Fitness Ecosystem · April 2025</title>
-  
-    <style>
-      :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--text:#fff;--muted:#8b949e;--accent:#f39c12;--blue:#58a6ff;--green:#2ea043;--good:#2ea043;--mid:#d29922;--poor:#f85149}
-      *{box-sizing:border-box}
-      body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text)}
-      .global-nav{position:sticky;top:0;z-index:20;background:#0b0f14;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px}
-      .global-nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.9rem}
-      .global-nav a.active,.global-nav a:hover{color:var(--accent);background:#161b22}
-      .container{max-width:1200px;margin:0 auto;padding:18px}
-      .header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-      .header h1{margin:0;font-size:2rem;color:var(--accent)}
-      .summary{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:10px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-      .summary .box{background:#0b0f14;padding:10px;border-radius:8px;border:1px solid #21262d}
-      .summary .label{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
-      .summary .value{font-size:1.45rem;font-weight:700;margin-top:6px}
-      .calendar-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
-      .month-title{font-size:1.5rem;margin:0 0 10px}
-      .meta{color:var(--muted);font-size:.9rem;margin-bottom:12px}
-      .pager{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap}
-      .pager a{color:var(--blue);text-decoration:none;padding:6px 10px;border:1px solid var(--line);border-radius:8px}
-      .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
-      .dow{font-size:.75rem;color:var(--muted);text-align:center;padding:8px 0}
-      .day{position:relative;min-height:88px;background:#0b0f14;border:1px solid #21262d;border-radius:8px;padding:8px 8px 6px}
-      .day.empty{opacity:0.85}
-      .day.future{opacity:0.45}
-      .day.today{outline:2px solid var(--accent);outline-offset:-2px}
-      .day.weekend{background:#111826}
-      .day .num{font-weight:700;font-size:.9rem}
-      .tone{margin-top:6px;color:var(--accent);font-size:.76rem;line-height:1.25}
-      .gar{margin-top:6px;color:var(--green);font-size:.76rem;line-height:1.25}
-      .reco{margin-top:6px;font-size:.74rem}
-      .reco .dot{display:inline-block;width:9px;height:9px;border-radius:99px;margin-right:6px;vertical-align:middle}
-      .whoop-good .dot{background:var(--good)}
-      .whoop-mid .dot{background:var(--mid)}
-      .whoop-poor .dot{background:var(--poor)}
-      .whoop{display:flex;align-items:center;margin-top:6px;font-size:.75rem;color:var(--muted)}
-      .footer{margin-top:20px;color:var(--muted);font-size:.88rem}
-      .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
-      .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
-      .month-grid a.current{border-color:var(--accent);color:var(--accent)}
+<meta charset='UTF-8'>
+<title>April 2025</title>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 20px; background: #0a0a0c; color: #e0e0e0; }
+        .container { max-width: 1000px; margin: auto; background: #1c1c1e; padding: 20px; border-radius: 12px; }
+        h1 { text-align: center; color: #4fc3f7; margin: 0; }
+        .nav { display:flex; justify-content:space-between; align-items:center; margin:15px 0; padding:12px; background:#2c2c2e; border-radius:8px; }
+        .nav a { color:#4fc3f7; text-decoration:none; font-size:1.2em; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        tbody tr:not(.weekly-summary) { height: 100px; }
+        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; min-height: 100px; }
+        th { background: #2c2c2e; color: #fff; font-weight: bold; text-transform: uppercase; }
+        td { background: #1c1c1e; height: 100px; overflow: hidden; }
+        .day-content { text-decoration: none; color: inherit; display: block; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding: 10px; box-sizing: border-box; }
+        .day-num { font-weight: bold; color: #888; text-align: right; display: block; margin-bottom: 6px; }
+        .acts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+        .acts li { color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.7em; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .strain-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+        .empty { background: #151517 !important; }
+        .streak { background: #2a2a1e !important; box-shadow: inset 0 0 0 2px #ffd700; }
+        .streak::after { content: "STREAK"; color: #ffd700; font-size: 9px; font-weight: bold; position: absolute; top: 2px; left: 2px; }
+        .legend { background: #2c2c2e; padding: 12px; border-radius: 8px; margin: 15px 0; }
+        .legend-title { font-weight: bold; margin-bottom: 8px; color: #4fc3f7; }
+        .legend-items { display: flex; flex-wrap: wrap; gap: 8px; }
+        .legend-item { font-size: 0.75em; padding: 3px 8px; color: white; border-radius: 3px; }
+        .weekly-summary { background: #2c2c2e; border-top: 2px solid #3c3c3e; }
+        .weekly-summary td { padding: 2px 8px; font-size: 15px; color: #aaa; height: 20px; line-height: 20px; }
     
     /* === DRILLDOWN OVERLAY BADGES (v2) === */
     .drilldown-badges {
@@ -73,24 +57,10 @@
     .day-badges { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
 
     </style>
-    
 </head>
 <body>
-  
-    <nav class="global-nav">
-      <a href="../index.html" class="">🏋️ Fitness Ecosystem</a>
-      <a href="../index.html" class="">Hub</a>
-      <a href="index.html" class="active">📅 Calendars</a>
-      <a href="../strength/index.html" class="">💪 Strength</a>
-      <a href="../running/index.html" class="">🏃 Cardio</a>
-      <a href="../balance/index.html" class="">⚖️ Balance</a>
-      <a href="../sleep/index.html" class="">😴 Recovery</a>
-      <a href="../nutrition/index.html" class="">🥗 Nutrition</a>
-    </nav>
-    
-  <div class="container">
-    <div class="header">
-      <h1>April 2025</h1>
+<div class='container'>
+<h1>Training Calendar</h1>
 <div class="calendar-legend" style="display:flex;gap:12px;padding:8px 12px;background:#161b22;border-radius:6px;margin-bottom:12px;font-size:11px;color:#8b949e;flex-wrap:wrap;">
   <strong style="color:#f39c12;margin-right:4px;">📊 Key:</strong>
   <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2ea043;margin-right:3px;vertical-align:middle;"></span>WHOOP %</span>
@@ -98,274 +68,272 @@
   <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0a84ff;margin-right:3px;vertical-align:middle;"></span>Tonal lbs</span>
   <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a371f7;margin-right:3px;vertical-align:middle;"></span>Run mi</span>
 </div>
-      <div class="meta">Generated on 2026-03-05 02:28 EST</div>
-    </div>
-
-    <section class="summary">
-      <div class="box"><div class="label">Total Tonal Volume</div><div class="value">37.4k lbs</div></div>
-      <div class="box"><div class="label">Total Running Dist.</div><div class="value">2.3 mi</div></div>
-      <div class="box"><div class="label">Running Activities</div><div class="value">2</div></div>
-      <div class="box"><div class="label">Month Coverage</div><div class="value">2025-04</div></div>
-    </section>
-
-    <section class="calendar-card">
-      <div class="pager"> 
-        <div><a href="2025-03-calendar.html">← March 2025</a></div>
-        <a href="index.html">← Back to Calendars</a>
-        <div><a href="2025-05-calendar.html">May 2025 →</a></div>
-      </div>
-      <div class="grid"><div class='dow'>Sun</div><div class='dow'>Mon</div><div class='dow'>Tue</div><div class='dow'>Wed</div><div class='dow'>Thu</div><div class='dow'>Fri</div><div class='dow'>Sat</div></div>
-      <div class="grid"><div class="day empty"></div>
-<div class="day empty"></div>
-
-                <div class='day'>
-                  <div class='num'>1</div>
-                  <div class='tone'>🏋️ 37.4k lbs</div>
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 84.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>2</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 88.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>3</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 81.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>4</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 88.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>5</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 61.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>6</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 56.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>7</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 63.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>8</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 46.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>9</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 72.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>10</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 98.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>11</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 78.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>12</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 72.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>13</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 82.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>14</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 65.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>15</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 61.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>16</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 89.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>17</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 82.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>18</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 69.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>19</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 48.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>20</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 90.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>21</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 43.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>22</div>
-                  
-                  <div class='gar'>🏃 2.3 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 52.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>23</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 64.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>24</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 22.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>25</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 38.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>26</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 42.0</div>
-                </div>
-                
-
-                <div class='day weekend'>
-                  <div class='num'>27</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 41.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>28</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 62.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>29</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 37.0</div>
-                </div>
-                
-
-                <div class='day'>
-                  <div class='num'>30</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 80.0</div>
-                </div>
-                
-<div class="day empty"></div>
-<div class="day empty"></div>
-<div class="day empty"></div></div>
-    </section>
-
-    <div class="footer">
-      <div>Month links:</div>
-      <div class="month-grid"><a href='2021-10-calendar.html'>October 2021</a><a href='2021-11-calendar.html'>November 2021</a><a href='2021-12-calendar.html'>December 2021</a><a href='2022-01-calendar.html'>January 2022</a><a href='2022-02-calendar.html'>February 2022</a><a href='2022-03-calendar.html'>March 2022</a><a href='2022-04-calendar.html'>April 2022</a><a href='2022-05-calendar.html'>May 2022</a><a href='2022-06-calendar.html'>June 2022</a><a href='2022-07-calendar.html'>July 2022</a><a href='2022-08-calendar.html'>August 2022</a><a href='2022-09-calendar.html'>September 2022</a><a href='2022-10-calendar.html'>October 2022</a><a href='2022-11-calendar.html'>November 2022</a><a href='2022-12-calendar.html'>December 2022</a><a href='2023-01-calendar.html'>January 2023</a><a href='2023-02-calendar.html'>February 2023</a><a href='2023-03-calendar.html'>March 2023</a><a href='2023-04-calendar.html'>April 2023</a><a href='2023-05-calendar.html'>May 2023</a><a href='2023-06-calendar.html'>June 2023</a><a href='2023-07-calendar.html'>July 2023</a><a href='2023-08-calendar.html'>August 2023</a><a href='2023-09-calendar.html'>September 2023</a><a href='2023-10-calendar.html'>October 2023</a><a href='2023-11-calendar.html'>November 2023</a><a href='2023-12-calendar.html'>December 2023</a><a href='2024-01-calendar.html'>January 2024</a><a href='2024-02-calendar.html'>February 2024</a><a href='2024-03-calendar.html'>March 2024</a><a href='2024-04-calendar.html'>April 2024</a><a href='2024-05-calendar.html'>May 2024</a><a href='2024-06-calendar.html'>June 2024</a><a href='2024-07-calendar.html'>July 2024</a><a href='2024-08-calendar.html'>August 2024</a><a href='2024-09-calendar.html'>September 2024</a><a href='2024-10-calendar.html'>October 2024</a><a href='2024-11-calendar.html'>November 2024</a><a href='2024-12-calendar.html'>December 2024</a><a href='2025-01-calendar.html'>January 2025</a><a href='2025-02-calendar.html'>February 2025</a><a href='2025-03-calendar.html'>March 2025</a><a href='2025-04-calendar.html'>April 2025</a><a href='2025-05-calendar.html'>May 2025</a><a href='2025-06-calendar.html'>June 2025</a><a href='2025-07-calendar.html'>July 2025</a><a href='2025-08-calendar.html'>August 2025</a><a href='2025-09-calendar.html'>September 2025</a><a href='2025-10-calendar.html'>October 2025</a><a href='2025-11-calendar.html'>November 2025</a><a href='2025-12-calendar.html'>December 2025</a><a href='2026-01-calendar.html'>January 2026</a><a href='2026-02-calendar.html'>February 2026</a></div>
-    </div>
-  </div>
+<div class='nav'>
+<a href='2025-03-calendar.html'>Prev</a>
+<span>April 2025</span>
+<a href='2025-05-calendar.html'>Next</a>
+</div>
+<div class='legend'>
+<div class='legend-title'>Activity Types</div>
+<div class='legend-items'>
+<span class='legend-item' style='background:#007bff'>BIKE</span>
+<span class='legend-item' style='background:#6f42c1'>BJJ</span>
+<span class='legend-item' style='background:#6f42c1'>BOX</span>
+<span class='legend-item' style='background:#6c757d'>ELIP</span>
+<span class='legend-item' style='background:#fd7e14'>HIIT</span>
+<span class='legend-item' style='background:#795548'>HIKE</span>
+<span class='legend-item' style='background:#6f42c1'>KBOX</span>
+<span class='legend-item' style='background:#dc3545'>LIFT</span>
+<span class='legend-item' style='background:#adb5bd'>OTHR</span>
+<span class='legend-item' style='background:#6c757d'>ROW</span>
+<span class='legend-item' style='background:#28a745'>RUN</span>
+<span class='legend-item' style='background:#007bff'>SPIN</span>
+<span class='legend-item' style='background:#17a2b8'>SWIM</span>
+<span class='legend-item' style='background:#6c757d'>TMIL</span>
+<span class='legend-item' style='background:#ffc107'>YOGA</span>
+</div>
+</div>
+<table>
+<thead>
+<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
+</thead>
+<tbody>
+<tr>
+<td class='empty'></td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>1</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>2</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>3</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>4</span>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>5</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>6</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class='weekly-summary'><td colspan='7'>Week 1: 4 workouts • LIFT: 4 • Avg strain: 5.7</td></tr>
+<tr>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>7</span>
+<ul class='acts'>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>8</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>9</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>10</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>11</span>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>12</span>
+<ul class='acts'>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>13</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class='weekly-summary'><td colspan='7'>Week 2: 6 workouts • LIFT: 4, BJJ: 2 • Avg strain: 6.5</td></tr>
+<tr>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>14</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>15</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>16</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>17</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>18</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>19</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>20</span>
+</div>
+</td>
+</tr>
+<tr class='weekly-summary'><td colspan='7'>Week 3: 3 workouts • LIFT: 2, BJJ: 1 • Avg strain: 6.0</td></tr>
+<tr>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>21</span>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>22</span>
+<ul class='acts'>
+<li style='background:#28a745'>RUN<span class='strain-dot' style='background:#ffc107'></span></li>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>23</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+</ul>
+</div>
+</td>
+<td class=''>
+<div class='day-content'>
+<span class='day-num'>24</span>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>25</span>
+<ul class='acts'>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>26</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>27</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class='weekly-summary'><td colspan='7'>Week 4: 8 workouts • LIFT: 4, RUN: 1, BJJ: 3 • Avg strain: 9.6</td></tr>
+<tr>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>28</span>
+<ul class='acts'>
+<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>29</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+</ul>
+</div>
+</td>
+<td class='streak'>
+<div class='day-content'>
+<span class='day-num'>30</span>
+<ul class='acts'>
+<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
+<li style='background:#007bff'>SPIN<span class='strain-dot' style='background:#ffc107'></span></li>
+</ul>
+</div>
+</td>
+<td class='empty'></td>
+<td class='empty'></td>
+<td class='empty'></td>
+<td class='empty'></td>
+</tr>
+<tr class='weekly-summary'><td colspan='7'>Week 5: 5 workouts • LIFT: 3, BJJ: 1, SPIN: 1 • Avg strain: 10.9</td></tr>
+</tbody>
+</table>
+</div>
 </body>
 </html>
