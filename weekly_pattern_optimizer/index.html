@@ -51,16 +51,18 @@
 </head>
 <body>
   <div class="container">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="calendars/index.html">Calendars</a>
-      <a href="strength/index.html">Strength</a>
-      <a href="cardio/index.html">Cardio</a>
-      <a href="recovery/index.html">Recovery</a>
-      <a href="nutrition/index.html">Nutrition</a>
-      <a href="training_rhythm/index.html">Training Rhythm</a>
-      <a href="time_of_day/index.html">Time of Day</a>
-    </nav>
+    <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
     
     <h1>Weekly Pattern Optimizer</h1>
     <p class="subtitle">Discover your optimal training days based on historical performance data</p>
@@ -168,9 +170,9 @@
       <div class="chart-container">
         <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
   <text x="300.0" y="20" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Avg Sleep Score by Day</text>
-  <rect x="50" y="29.231354160065933" width="70" height="230.76864583993407" rx="4" fill="#0a84ff" />
+  <rect x="50" y="28.75203485640742" width="70" height="231.24796514359258" rx="4" fill="#0a84ff" />
   <text x="85.0" y="275" text-anchor="middle" fill="white" font-size="10">Mon</text>
-  <text x="85.0" y="24.231354160065933" text-anchor="middle" fill="white" font-size="9">58</text>
+  <text x="85.0" y="23.75203485640742" text-anchor="middle" fill="white" font-size="9">58</text>
   <rect x="135" y="31.86236613649325" width="70" height="228.13763386350675" rx="4" fill="#0a84ff" />
   <text x="170.0" y="275" text-anchor="middle" fill="white" font-size="10">Tue</text>
   <text x="170.0" y="26.86236613649325" text-anchor="middle" fill="white" font-size="9">58</text>
@@ -255,8 +257,6 @@
     </div>
     
   </div>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

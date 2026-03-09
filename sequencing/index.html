@@ -34,15 +34,17 @@ td { border-bottom: 1px solid #21262d; }
 </style>
 </head>
 <body>
-<nav>
-  <span class="brand">🏋️ Fitness</span>
-  <a href="../hub_index.html">Hub</a>
-  <a href="../index.html">Overview</a>
-  <a href="../strength/index.html">Strength</a>
-  <a href="../cardio/index.html">Cardio</a>
-  <a href="../recovery/index.html">Recovery</a>
-  <a href="../sequencing/index.html" style="color:#f39c12;font-weight:600">Sequencing</a>
-  <a href="../calendars/2026-02-calendar.html">Calendar</a>
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
 </nav>
 <div class="container">
   <h1>🔄 Workout Sequencing Intelligence</h1>
@@ -81,7 +83,7 @@ td { border-bottom: 1px solid #21262d; }
     <div class="card">
       <h2>📅 This Week's Sequence Score</h2>
       <div class="card-sub">How optimal is your current 7-day pattern?</div>
-      <div class="score-circle">70</div>
+      <div class="score-circle">76</div>
       <div style="text-align:center;font-size:13px;color:#6e7681;margin-bottom:16px">vs 55% global avg recovery</div>
       <div class="week-seq"><div style="text-align:center">
       <div style="font-size:11px;color:#6e7681">Tue</div>
@@ -110,7 +112,7 @@ td { border-bottom: 1px solid #21262d; }
     </div><div style="text-align:center">
       <div style="font-size:11px;color:#6e7681">Mon</div>
       <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
-      
+      <span style="font-size:11px;color:#38a043">73% rec</span>
     </div></div>
       <div class="rec-box">Solid week. Maintain balance between intensity days and recovery.</div>
     </div>
@@ -146,7 +148,7 @@ td { border-bottom: 1px solid #21262d; }
           <td style="padding:10px 12px">🟢</td>
           <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#6e7681">Rest</span></td>
           <td style="padding:10px 12px;color:#f39c12;font-weight:700">56%</td>
-          <td style="padding:10px 12px;color:#6e7681;font-size:12px">122 samples</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">123 samples</td>
         </tr><tr>
           <td style="padding:10px 12px">🟢</td>
           <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#2ea043">Run</span></td>
@@ -192,7 +194,7 @@ td { border-bottom: 1px solid #21262d; }
           <td style="padding:10px 12px">🔴</td>
           <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#6e7681">Rest</span></td>
           <td style="padding:10px 12px;color:#f39c12;font-weight:700">56%</td>
-          <td style="padding:10px 12px;color:#6e7681;font-size:12px">122 samples</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">123 samples</td>
         </tr>
       </table>
       
@@ -283,11 +285,9 @@ td { border-bottom: 1px solid #21262d; }
   </div>
 
   <div style="text-align:center;color:#6e7681;font-size:12px;margin-top:32px">
-    Generated March 09, 2026 · Data: Tonal (690 days), Garmin (103 days), WHOOP (1127 days)
+    Generated March 09, 2026 · Data: Tonal (690 days), Garmin (103 days), WHOOP (1128 days)
   </div>
 </div>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

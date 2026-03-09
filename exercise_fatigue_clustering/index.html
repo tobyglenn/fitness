@@ -49,14 +49,18 @@
 </head>
 <body>
     <div class="container">
-        <nav>
-            <a href="/index.html">Home</a>
-            <a href="/muscle_groups/index.html">Muscle Groups</a>
-            <a href="/strength/index.html">Strength</a>
-            <a href="/cardio/index.html">Cardio</a>
-            <a href="/recovery/index.html">Recovery</a>
-            <a href="/nutrition/index.html">Nutrition</a>
-        </nav>
+        <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
         
         <a href="/muscle_groups/index.html" class="back-link">← Back to Muscle Groups</a>
         
@@ -684,14 +688,14 @@
             <svg width="500" height="280">
                 <rect x="50" y="20" width="500" height="250" fill="#21262d" rx="4"/>
                 <!-- Y axis labels -->
-                <text x="55" y="48" fill="#8b949e" font-size="9">Kneeling Dual-H...</text>
+                <text x="55" y="48" fill="#8b949e" font-size="9">Standing Single...</text>
                 <text x="55" y="78" fill="#8b949e" font-size="9">Dual Handle Alt...</text>
                 <text x="55" y="108" fill="#8b949e" font-size="9">Kneeling Dual-H...</text>
                 <text x="55" y="138" fill="#8b949e" font-size="9">Kneeling Dual-H...</text>
                 <text x="55" y="168" fill="#8b949e" font-size="9">Pallof Press</text>
-                <text x="55" y="198" fill="#8b949e" font-size="9">Standing Single...</text>
-                <text x="55" y="228" fill="#8b949e" font-size="9">HandsWU-1</text>
-                <text x="55" y="258" fill="#8b949e" font-size="9">Half Kneeling S...</text>
+                <text x="55" y="198" fill="#8b949e" font-size="9">Kneeling Dual-H...</text>
+                <text x="55" y="228" fill="#8b949e" font-size="9">Half Kneeling S...</text>
+                <text x="55" y="258" fill="#8b949e" font-size="9">Standing Altern...</text>
             </svg>
             <p style="color:#8b949e;font-size:0.85em;margin-top:10px;">Green = low interference, Red = high interference (avoid pairing)</p>
         </div>
@@ -731,8 +735,6 @@
             <p>Data sources: Speediance workouts + WHOOP recovery • Last 90 days</p>
         </div>
     </div>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

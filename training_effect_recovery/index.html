@@ -21,18 +21,18 @@
   </style>
 </head>
 <body>
-  <nav>
-    <div class="container" style="padding:0 0 0 0;"> 
-      <div class="nav-links">
-        <a href="/fitness/">index.html</a>
-        <a href="/fitness/calendars/">calendars/</a>
-        <a href="/fitness/strength/">strength/</a>
-        <a href="/fitness/cardio/">cardio/</a>
-        <a href="/fitness/recovery/">recovery/</a>
-        <a href="/fitness/nutrition/">nutrition/</a>
-      </div>
-    </div>
-  </nav>
+  <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
   <main class="container">
     <p class="badge">90-day window</p>
     <p class="badge">Data range: 2026-01-05 → 2026-02-19 (31 runs)</p>
@@ -239,8 +239,6 @@
       <p><a href="/running_recovery_correlation/">🏃→😴 Pace vs Recovery</a></p>
     </section>
   </main>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

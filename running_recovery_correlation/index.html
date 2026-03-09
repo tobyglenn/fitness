@@ -35,19 +35,23 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/fitness/">🏠 Hub</a>
-    <a href="/fitness/calendars/">📅 Calendars</a>
-    <a href="/fitness/strength/">💪 Strength</a>
-    <a href="/fitness/running/">🏃 Running</a>
-    <a href="/fitness/sleep/">🛏️ Sleep &amp; Recovery</a>
-    <a href="/fitness/nutrition/">🥗 Nutrition</a>
-  </nav>
+  <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#ffffff;font-weight:bold">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
 
   <div class="container">
     <h1>Running Pace vs Recovery Quality</h1>
     <div class="subtitle">How do your runs affect your sleep?</div>
-    <div class="meta">Garmin runs: <strong>1020</strong> · Sleep nights: <strong>72</strong> · WHOOP recovery days: <strong>1120</strong></div>
+    <div class="meta">Garmin runs: <strong>1020</strong> · Sleep nights: <strong>72</strong> · WHOOP recovery days: <strong>1121</strong></div>
 
     <section class="stats">
       <div class="stat"><div class="value">82.625</div><div class="label">Avg Sleep After Easy Runs</div></div>
@@ -180,8 +184,6 @@
       </div>
     </section>
   </div>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

@@ -27,12 +27,21 @@
   </style>
 </head>
 <body>
-<nav style="background:#0d1117;border-bottom:1px solid #21262d;padding:10px 20px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;position:sticky;top:0;z-index:100;">
-  <a href="../hub_index.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">🏠 Hub</a><a href="../strength/index.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">💪 Strength</a><a href="../cardio/index.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">🏃 Cardio</a><a href="../sleep_dashboard.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">😴 Sleep</a><a href="../recovery/index.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">❤️ Recovery</a><a href="index.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">⚡ Balance</a><a href="../nutrition/index.html" style="color:#ccc;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:13px;transition:background 0.2s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='transparent'">🍎 Nutrition</a>
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
 </nav>
 <div class="container">
   <h1>⚡ Recovery-Strain Balance</h1>
-  <p class="subtitle">Your daily readiness based on training load vs. recovery capacity &nbsp;·&nbsp; Updated March 09, 2026 at 03:25 AM</p>
+  <p class="subtitle">Your daily readiness based on training load vs. recovery capacity &nbsp;·&nbsp; Updated March 09, 2026 at 07:39 PM</p>
 
   <!-- Hero: Today's Balance -->
   <div class="card" style="text-align:center;">
@@ -48,23 +57,23 @@
   <path d="M 171.3 146.3 A 80 80 0 0 1 112.5 189.0" fill="none" stroke="#58a6ff" stroke-width="16" stroke-linecap="round" opacity="0.3"/>
   <path d="M 112.5 189.0 A 80 80 0 0 1 43.4 166.6" fill="none" stroke="#2ea043" stroke-width="16" stroke-linecap="round" opacity="0.3"/>
   <!-- Fill arc -->
-  <path d="M 43.4 53.4 A 80 80 0 0 1 180.0 110.0" fill="none" stroke="#888888" stroke-width="16" stroke-linecap="round"/>
+  <path d="M 43.4 53.4 A 80 80 0 1 1 43.4 166.6" fill="none" stroke="#2ea043" stroke-width="16" stroke-linecap="round"/>
   <!-- Score text -->
-  <text x="100" y="102" text-anchor="middle" fill="white" font-size="32" font-weight="bold" font-family="system-ui">—</text>
+  <text x="100" y="102" text-anchor="middle" fill="white" font-size="32" font-weight="bold" font-family="system-ui">+50</text>
   <text x="100" y="126" text-anchor="middle" fill="#888" font-size="12" font-family="system-ui">balance score</text>
-  <text x="100" y="144" text-anchor="middle" fill="#888888" font-size="11" font-weight="600" font-family="system-ui">Unknown</text>
+  <text x="100" y="144" text-anchor="middle" fill="#2ea043" font-size="11" font-weight="600" font-family="system-ui">Fully Recovered</text>
   <!-- Labels -->
   <text x="22" y="185" text-anchor="middle" fill="#555" font-size="10" font-family="system-ui">-50</text>
   <text x="178" y="185" text-anchor="middle" fill="#555" font-size="10" font-family="system-ui">+50</text>
   <text x="100" y="30" text-anchor="middle" fill="#555" font-size="10" font-family="system-ui">0</text>
 </svg></div>
       <div style="text-align:left;max-width:340px;">
-        <div style="font-size:28px;font-weight:700;color:#888888;margin-bottom:8px;">Unknown</div>
-        <div style="font-size:15px;color:#ccc;line-height:1.6;margin-bottom:16px;">No data available</div>
+        <div style="font-size:28px;font-weight:700;color:#2ea043;margin-bottom:8px;">Fully Recovered</div>
+        <div style="font-size:15px;color:#ccc;line-height:1.6;margin-bottom:16px;">Prime for a hard workout — push it today</div>
         <div style="background:#0d1117;border-radius:8px;padding:14px;font-size:13px;color:#8b949e;">
           <div style="margin-bottom:6px;">📊 Strain Score: <strong style="color:#ccc;">0/100</strong></div>
-          <div style="margin-bottom:6px;">💚 Capacity Score: <strong style="color:#ccc;">No data</strong></div>
-          <div>⚡ Balance: <strong style="color:#888888;">—</strong></div>
+          <div style="margin-bottom:6px;">💚 Capacity Score: <strong style="color:#ccc;">97/100</strong></div>
+          <div>⚡ Balance: <strong style="color:#2ea043;">+97</strong></div>
         </div>
       </div>
     </div>
@@ -99,26 +108,26 @@
     </div>
     <div class="card">
       <div class="card-title">💚 Recovery Capacity</div>
-      <div class="stat-value" style="color:#f85149;margin-bottom:12px;">—<span style="font-size:16px;color:#8b949e;">/100</span></div>
+      <div class="stat-value" style="color:#2ea043;margin-bottom:12px;">97<span style="font-size:16px;color:#8b949e;">/100</span></div>
       <div style="background:#21262d;border-radius:6px;height:12px;width:100%;overflow:hidden;">
-  <div style="background:#f85149;height:100%;width:0.0%;border-radius:6px;"></div>
+  <div style="background:#2ea043;height:100%;width:96.8%;border-radius:6px;"></div>
 </div>
       <div style="margin-top:16px;">
         <div class="component-row">
           <span>❤️ WHOOP Recovery</span>
-          <span class="component-value">—</span>
+          <span class="component-value">73%</span>
         </div>
         <div class="component-row">
           <span>😴 8Sleep Score</span>
-          <span class="component-value">—</span>
+          <span class="component-value">90/100</span>
         </div>
         <div class="component-row">
           <span>📈 HRV</span>
-          <span class="component-value">—</span>
+          <span class="component-value">37.7 ms</span>
         </div>
         <div class="component-row">
           <span>💤 Resting HR</span>
-          <span class="component-value">—</span>
+          <span class="component-value">60 bpm</span>
         </div>
       </div>
     </div>
@@ -137,8 +146,8 @@
   <!-- Reference lines -->
   <line x1="50" y1="70.0" x2="680" y2="70.0" stroke="#2ea043" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/><text x="46" y="74.0" text-anchor="end" fill="#2ea043" font-size="10" font-family="system-ui">+30</text><line x1="50" y1="103.3" x2="680" y2="103.3" stroke="#58a6ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/><text x="46" y="107.3" text-anchor="end" fill="#58a6ff" font-size="10" font-family="system-ui">+10</text><line x1="50" y1="120.0" x2="680" y2="120.0" stroke="#888" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/><text x="46" y="124.0" text-anchor="end" fill="#888" font-size="10" font-family="system-ui">0</text><line x1="50" y1="136.7" x2="680" y2="136.7" stroke="#f39c12" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/><text x="46" y="140.7" text-anchor="end" fill="#f39c12" font-size="10" font-family="system-ui">-10</text><line x1="50" y1="170.0" x2="680" y2="170.0" stroke="#f85149" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/><text x="46" y="174.0" text-anchor="end" fill="#f85149" font-size="10" font-family="system-ui">-30</text>
   <!-- Data line -->
-  <polyline points="50.0,21.2 71.7,128.0 93.4,102.7 115.2,162.7 136.9,126.0 158.6,23.0 180.3,166.3 202.1,169.8 223.8,161.0 245.5,136.8 267.2,101.5 289.0,104.5 310.7,64.0 332.4,47.8 354.1,26.3 375.9,18.2 397.6,3.5 419.3,64.2 441.0,-27.7 462.8,-43.3 484.5,19.8 506.2,21.7 527.9,30.3 549.7,21.0 571.4,39.3 593.1,18.3 614.8,-6.8 636.6,19.5 658.3,25.8" fill="none" stroke="#f39c12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-  <circle cx="50.0" cy="21.2" r="3" fill="#f39c12"/><circle cx="71.7" cy="128.0" r="3" fill="#f39c12"/><circle cx="93.4" cy="102.7" r="3" fill="#f39c12"/><circle cx="115.2" cy="162.7" r="3" fill="#f39c12"/><circle cx="136.9" cy="126.0" r="3" fill="#f39c12"/><circle cx="158.6" cy="23.0" r="3" fill="#f39c12"/><circle cx="180.3" cy="166.3" r="3" fill="#f39c12"/><circle cx="202.1" cy="169.8" r="3" fill="#f39c12"/><circle cx="223.8" cy="161.0" r="3" fill="#f39c12"/><circle cx="245.5" cy="136.8" r="3" fill="#f39c12"/><circle cx="267.2" cy="101.5" r="3" fill="#f39c12"/><circle cx="289.0" cy="104.5" r="3" fill="#f39c12"/><circle cx="310.7" cy="64.0" r="3" fill="#f39c12"/><circle cx="332.4" cy="47.8" r="3" fill="#f39c12"/><circle cx="354.1" cy="26.3" r="3" fill="#f39c12"/><circle cx="375.9" cy="18.2" r="3" fill="#f39c12"/><circle cx="397.6" cy="3.5" r="3" fill="#f39c12"/><circle cx="419.3" cy="64.2" r="3" fill="#f39c12"/><circle cx="441.0" cy="-27.7" r="3" fill="#f39c12"/><circle cx="462.8" cy="-43.3" r="3" fill="#f39c12"/><circle cx="484.5" cy="19.8" r="3" fill="#f39c12"/><circle cx="506.2" cy="21.7" r="3" fill="#f39c12"/><circle cx="527.9" cy="30.3" r="3" fill="#f39c12"/><circle cx="549.7" cy="21.0" r="3" fill="#f39c12"/><circle cx="571.4" cy="39.3" r="3" fill="#f39c12"/><circle cx="593.1" cy="18.3" r="3" fill="#f39c12"/><circle cx="614.8" cy="-6.8" r="3" fill="#f39c12"/><circle cx="636.6" cy="19.5" r="3" fill="#f39c12"/><circle cx="658.3" cy="25.8" r="3" fill="#f39c12"/>
+  <polyline points="50.0,21.2 71.7,128.0 93.4,102.7 115.2,162.7 136.9,126.0 158.6,23.0 180.3,166.3 202.1,169.8 223.8,161.0 245.5,136.8 267.2,101.5 289.0,104.5 310.7,64.0 332.4,47.8 354.1,26.3 375.9,18.2 397.6,3.5 419.3,64.2 441.0,-27.7 462.8,-43.3 484.5,19.8 506.2,21.7 527.9,30.3 549.7,21.0 571.4,39.3 593.1,18.3 614.8,-6.8 636.6,19.5 658.3,25.8 680.0,-41.3" fill="none" stroke="#f39c12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="50.0" cy="21.2" r="3" fill="#f39c12"/><circle cx="71.7" cy="128.0" r="3" fill="#f39c12"/><circle cx="93.4" cy="102.7" r="3" fill="#f39c12"/><circle cx="115.2" cy="162.7" r="3" fill="#f39c12"/><circle cx="136.9" cy="126.0" r="3" fill="#f39c12"/><circle cx="158.6" cy="23.0" r="3" fill="#f39c12"/><circle cx="180.3" cy="166.3" r="3" fill="#f39c12"/><circle cx="202.1" cy="169.8" r="3" fill="#f39c12"/><circle cx="223.8" cy="161.0" r="3" fill="#f39c12"/><circle cx="245.5" cy="136.8" r="3" fill="#f39c12"/><circle cx="267.2" cy="101.5" r="3" fill="#f39c12"/><circle cx="289.0" cy="104.5" r="3" fill="#f39c12"/><circle cx="310.7" cy="64.0" r="3" fill="#f39c12"/><circle cx="332.4" cy="47.8" r="3" fill="#f39c12"/><circle cx="354.1" cy="26.3" r="3" fill="#f39c12"/><circle cx="375.9" cy="18.2" r="3" fill="#f39c12"/><circle cx="397.6" cy="3.5" r="3" fill="#f39c12"/><circle cx="419.3" cy="64.2" r="3" fill="#f39c12"/><circle cx="441.0" cy="-27.7" r="3" fill="#f39c12"/><circle cx="462.8" cy="-43.3" r="3" fill="#f39c12"/><circle cx="484.5" cy="19.8" r="3" fill="#f39c12"/><circle cx="506.2" cy="21.7" r="3" fill="#f39c12"/><circle cx="527.9" cy="30.3" r="3" fill="#f39c12"/><circle cx="549.7" cy="21.0" r="3" fill="#f39c12"/><circle cx="571.4" cy="39.3" r="3" fill="#f39c12"/><circle cx="593.1" cy="18.3" r="3" fill="#f39c12"/><circle cx="614.8" cy="-6.8" r="3" fill="#f39c12"/><circle cx="636.6" cy="19.5" r="3" fill="#f39c12"/><circle cx="658.3" cy="25.8" r="3" fill="#f39c12"/><circle cx="680.0" cy="-41.3" r="3" fill="#f39c12"/>
   <!-- Axes -->
   <line x1="50" y1="20" x2="50" y2="220" stroke="#333" stroke-width="1"/>
   <line x1="50" y1="220" x2="680" y2="220" stroke="#333" stroke-width="1"/>
@@ -157,12 +166,12 @@
   <div class="grid-3">
     <div class="card" style="text-align:center;">
       <div class="card-title">🔥 Current Streak</div>
-      <div class="stat-value" style="color:#f39c12;">0</div>
+      <div class="stat-value" style="color:#f39c12;">18</div>
       <div style="font-size:13px;color:#8b949e;margin-top:4px;">consecutive balanced days</div>
     </div>
     <div class="card" style="text-align:center;">
       <div class="card-title">🏆 Longest Streak</div>
-      <div class="stat-value" style="color:#2ea043;">17</div>
+      <div class="stat-value" style="color:#2ea043;">18</div>
       <div style="font-size:13px;color:#8b949e;margin-top:4px;">balanced days in a row</div>
     </div>
     <div class="card" style="text-align:center;">
@@ -178,20 +187,20 @@
       <div class="card-title">📅 Avg Balance by Day of Week</div>
       <div style="overflow-x:auto;"><svg width="420" height="180" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
   <line x1="40" y1="98.0" x2="400" y2="98.0" stroke="#444" stroke-width="1"/>
-  <rect x="45.1" y="49.6" width="41.1" height="48.4" fill="#2ea043" opacity="0.85" rx="3"/><text x="65.7" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Sun</text><text x="65.7" y="45.6" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+37</text><rect x="96.6" y="63.1" width="41.1" height="34.9" fill="#58a6ff" opacity="0.85" rx="3"/><text x="117.1" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Mon</text><text x="117.1" y="59.1" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="600" font-family="system-ui">+27</text><rect x="148.0" y="77.0" width="41.1" height="21.0" fill="#58a6ff" opacity="0.85" rx="3"/><text x="168.6" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Tue</text><text x="168.6" y="73.0" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="600" font-family="system-ui">+16</text><rect x="199.4" y="92.7" width="41.1" height="5.3" fill="#f39c12" opacity="0.85" rx="3"/><text x="220.0" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Wed</text><text x="220.0" y="88.7" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="600" font-family="system-ui">+4</text><rect x="250.9" y="67.2" width="41.1" height="30.8" fill="#58a6ff" opacity="0.85" rx="3"/><text x="271.4" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Thu</text><text x="271.4" y="63.2" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="600" font-family="system-ui">+24</text><rect x="302.3" y="25.4" width="41.1" height="72.6" fill="#2ea043" opacity="0.85" rx="3"/><text x="322.9" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Fri</text><text x="322.9" y="21.4" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+56</text><rect x="353.7" y="48.3" width="41.1" height="49.7" fill="#2ea043" opacity="0.85" rx="3"/><text x="374.3" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Sat</text><text x="374.3" y="44.3" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+38</text>
+  <rect x="45.1" y="49.6" width="41.1" height="48.4" fill="#2ea043" opacity="0.85" rx="3"/><text x="65.7" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Sun</text><text x="65.7" y="45.6" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+37</text><rect x="96.6" y="53.0" width="41.1" height="45.0" fill="#2ea043" opacity="0.85" rx="3"/><text x="117.1" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Mon</text><text x="117.1" y="49.0" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+35</text><rect x="148.0" y="77.0" width="41.1" height="21.0" fill="#58a6ff" opacity="0.85" rx="3"/><text x="168.6" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Tue</text><text x="168.6" y="73.0" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="600" font-family="system-ui">+16</text><rect x="199.4" y="92.7" width="41.1" height="5.3" fill="#f39c12" opacity="0.85" rx="3"/><text x="220.0" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Wed</text><text x="220.0" y="88.7" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="600" font-family="system-ui">+4</text><rect x="250.9" y="67.2" width="41.1" height="30.8" fill="#58a6ff" opacity="0.85" rx="3"/><text x="271.4" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Thu</text><text x="271.4" y="63.2" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="600" font-family="system-ui">+24</text><rect x="302.3" y="25.4" width="41.1" height="72.6" fill="#2ea043" opacity="0.85" rx="3"/><text x="322.9" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Fri</text><text x="322.9" y="21.4" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+56</text><rect x="353.7" y="48.3" width="41.1" height="49.7" fill="#2ea043" opacity="0.85" rx="3"/><text x="374.3" y="164" text-anchor="middle" fill="#888" font-size="11" font-family="system-ui">Sat</text><text x="374.3" y="44.3" text-anchor="middle" fill="#2ea043" font-size="10" font-weight="600" font-family="system-ui">+38</text>
 </svg></div>
-      <div style="font-size:13px;color:#8b949e;margin-top:12px;">📌 After rest days, your next-day balance averages <strong style="color:#2ea043;">+48</strong></div>
+      <div style="font-size:13px;color:#8b949e;margin-top:12px;">📌 After rest days, your next-day balance averages <strong style="color:#2ea043;">+50</strong></div>
     </div>
     <div class="card">
       <div class="card-title">💡 Recovery Insights</div>
       <div style="display:flex;flex-direction:column;gap:12px;"><div style="background:#0d1117;border-left:3px solid #f39c12;padding:12px 16px;border-radius:0 8px 8px 0;font-size:14px;color:#ccc;line-height:1.5;">
-      💡 Your balance improves by 37 points after a rest day compared to after 2 consecutive training days.
+      💡 Your balance improves by 38 points after a rest day compared to after 2 consecutive training days.
     </div><div style="background:#0d1117;border-left:3px solid #f39c12;padding:12px 16px;border-radius:0 8px 8px 0;font-size:14px;color:#ccc;line-height:1.5;">
       💡 You typically recover best on Fris (avg balance: +56).
     </div><div style="background:#0d1117;border-left:3px solid #f39c12;padding:12px 16px;border-radius:0 8px 8px 0;font-size:14px;color:#ccc;line-height:1.5;">
-      💡 Nights with sleep score ≥ 80 give you 16 more balance points vs. nights under 70.
+      💡 Nights with sleep score ≥ 80 give you 20 more balance points vs. nights under 70.
     </div><div style="background:#0d1117;border-left:3px solid #f39c12;padding:12px 16px;border-radius:0 8px 8px 0;font-size:14px;color:#ccc;line-height:1.5;">
-      💡 Your HRV trend is strong (32 ms vs avg 25 ms) — your body is well-adapted.
+      💡 Your HRV trend is strong (34 ms vs avg 25 ms) — your body is well-adapted.
     </div></div>
     </div>
   </div>
@@ -214,9 +223,9 @@
           <tr>
           <td style="padding:8px 12px;color:#ccc;font-size:13px;">2026-03-09</td>
           <td style="padding:8px 12px;color:#ccc;font-size:13px;">0</td>
-          <td style="padding:8px 12px;color:#ccc;font-size:13px;">—</td>
-          <td style="padding:8px 12px;font-weight:600;font-size:13px;" style="color:#888888"><span style="color:#888888">—</span></td>
-          <td style="padding:8px 12px;font-size:12px;"><span style="background:#88888822;color:#888888;padding:2px 8px;border-radius:12px;">Unknown</span></td>
+          <td style="padding:8px 12px;color:#ccc;font-size:13px;">96.8</td>
+          <td style="padding:8px 12px;font-weight:600;font-size:13px;" style="color:#2ea043"><span style="color:#2ea043">+97</span></td>
+          <td style="padding:8px 12px;font-size:12px;"><span style="background:#2ea04322;color:#2ea043;padding:2px 8px;border-radius:12px;">Fully Recovered</span></td>
         </tr><tr>
           <td style="padding:8px 12px;color:#ccc;font-size:13px;">2026-03-08</td>
           <td style="padding:8px 12px;color:#ccc;font-size:13px;">0</td>
@@ -302,11 +311,9 @@
   </div>
 
   <div style="text-align:center;color:#444;font-size:12px;margin-top:32px;padding-bottom:24px;">
-    Generated by Fitness Ecosystem · 2026-03-09 03:25 ET
+    Generated by Fitness Ecosystem · 2026-03-09 19:39 ET
   </div>
 </div>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){

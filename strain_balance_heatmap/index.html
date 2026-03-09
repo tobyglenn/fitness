@@ -30,26 +30,27 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/fitness/">🏠 Home</a>
-    <a href="/fitness/calendars/">📅 Calendars</a>
-    <a href="/fitness/strength/">💪 Strength</a>
-    <a href="/fitness/cardio/">🏃 Cardio</a>
-    <a href="/fitness/recovery/">🫀 Recovery</a>
-    <a href="/fitness/nutrition/">🥗 Nutrition</a>
-    <a href="/training_load/">⚡ Training Load</a>
-    <a href="/strain_accumulation/">📈 Strain Accumulation</a>
-    <a href="/strain_balance_heatmap/">📊 Strain Balance Heatmap</a>
-  </nav>
+  <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
 
   <div class='container'>
     <h1>Weekly Strain Balance Heatmap</h1>
-    <div class='subtitle'>Current 4-week view · Last updated March 09, 2026 03:26 AM ET</div>
+    <div class='subtitle'>Current 4-week view · Last updated March 09, 2026 07:40 PM ET</div>
 
     <div class='stats'>
       <div class='stat'><h2>Current Week Avg Strain</h2><p>0.0</p><div class='small muted'>Last 7 days</div></div>
-      <div class='stat'><h2>Current Week Avg Recovery</h2><p>49</p><div class='small muted'>Last 7 days</div></div>
-      <div class='stat'><h2>Current Week Balance</h2><p class='muted'>Diff: <span class='warn'>+48.8</span></p><div class='small muted'>Recovery minus strain</div></div>
+      <div class='stat'><h2>Current Week Avg Recovery</h2><p>53</p><div class='small muted'>Last 7 days</div></div>
+      <div class='stat'><h2>Current Week Balance</h2><p class='muted'>Diff: <span class='warn'>+52.8</span></p><div class='small muted'>Recovery minus strain</div></div>
       <div class='stat'><h2>7d Trend</h2><p id='trendTag' class='ok'>Balanced</p><div class='small muted'>Based on recent 7-day rolling balance</div></div>
       <div class='stat'><h2>Zone Counts (28d)</h2><p><span class='ok'>Green 0</span> / <span class='warn'>Yellow 0</span> / <span class='bad'>Red 0</span></p><div class='small muted'>Daily color classification</div></div>
       <div class='stat'><h2>High Strain Risk</h2><p class='bad'>0 day stretch</p><div class='small muted'>Longest consecutive red run</div></div>
@@ -172,7 +173,7 @@
               <text x='596.0' y='340' text-anchor='middle' fill='white' font-size='18' font-weight='700'>08</text>
               <text x='596.0' y='358' text-anchor='middle' fill='white' font-size='11' opacity='0.9'>—</text>
             </g><g>
-              <rect x='648' y='306' width='96' height='76' rx='8' fill='#30363d' stroke='#21262d' stroke-width='1' data-tip="2026-03-09 | Strain: — | Recovery: — | Volume: — lbs | Status: —" class='heat-cell'/>
+              <rect x='648' y='306' width='96' height='76' rx='8' fill='#30363d' stroke='#21262d' stroke-width='1' data-tip="2026-03-09 | Strain: — | Recovery: 73 | Volume: — lbs | Status: —" class='heat-cell'/>
               <text x='696.0' y='340' text-anchor='middle' fill='white' font-size='18' font-weight='700'>09</text>
               <text x='696.0' y='358' text-anchor='middle' fill='white' font-size='11' opacity='0.9'>—</text>
             </g>
@@ -210,8 +211,6 @@
       });
     });
   </script>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
