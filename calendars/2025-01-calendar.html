@@ -1,377 +1,302 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset='UTF-8'>
-<title>January 2025</title>
-<style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 20px; background: #0a0a0c; color: #e0e0e0; }
-        .container { max-width: 1000px; margin: auto; background: #1c1c1e; padding: 20px; border-radius: 12px; }
-        h1 { text-align: center; color: #4fc3f7; margin: 0; }
-        .nav { display:flex; justify-content:space-between; align-items:center; margin:15px 0; padding:12px; background:#2c2c2e; border-radius:8px; }
-        .nav a { color:#4fc3f7; text-decoration:none; font-size:1.2em; }
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        tbody tr:not(.weekly-summary) { height: 100px; }
-        td, th { border: 1px solid #2c2c2e; padding: 10px; vertical-align: top; position: relative; min-height: 100px; }
-        th { background: #2c2c2e; color: #fff; font-weight: bold; text-transform: uppercase; }
-        td { background: #1c1c1e; height: 100px; overflow: hidden; }
-        .day-content { text-decoration: none; color: inherit; display: block; height: 100%; width: 100%; position: absolute; top: 0; left: 0; padding: 10px; box-sizing: border-box; }
-        .day-num { font-weight: bold; color: #888; text-align: right; display: block; margin-bottom: 6px; }
-        .acts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
-        .acts li { color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 0.7em; font-weight: bold; display: flex; align-items: center; gap: 4px; }
-        .strain-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-        .empty { background: #151517 !important; }
-        .streak { background: #2a2a1e !important; box-shadow: inset 0 0 0 2px #ffd700; }
-        .streak::after { content: "STREAK"; color: #ffd700; font-size: 9px; font-weight: bold; position: absolute; top: 2px; left: 2px; }
-        .legend { background: #2c2c2e; padding: 12px; border-radius: 8px; margin: 15px 0; }
-        .legend-title { font-weight: bold; margin-bottom: 8px; color: #4fc3f7; }
-        .legend-items { display: flex; flex-wrap: wrap; gap: 8px; }
-        .legend-item { font-size: 0.75em; padding: 3px 8px; color: white; border-radius: 3px; }
-        .weekly-summary { background: #2c2c2e; border-top: 2px solid #3c3c3e; }
-        .weekly-summary td { padding: 2px 8px; font-size: 15px; color: #aaa; height: 20px; line-height: 20px; }
-    
-    /* === DRILLDOWN OVERLAY BADGES (v2) === */
-    .drilldown-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-      margin-top: 3px;
-    }
-    .drilldown-badges .badge {
-      display: inline-block;
-      padding: 1px 3px;
-      border-radius: 3px;
-      font-size: 9px;
-      font-weight: bold;
-      color: white;
-      line-height: 1.4;
-    }
-    .badge.whoop-green  { background: #2ea043; }
-    .badge.whoop-yellow { background: #f39c12; color: #000; }
-    .badge.whoop-red    { background: #f85149; }
-    .badge.sleep-green  { background: #1a6ea0; }
-    .badge.sleep-yellow { background: #6e60a8; color: #fff; }
-    .badge.sleep-red    { background: #7a3038; }
-    .badge.tonal        { background: #0a84ff; }
-    .badge.run          { background: #a371f7; }
-    /* legacy day-badges alias kept for backward compat */
-    .day-badges { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 3px; }
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hub · January 2025</title>
+  
+    <style>
+      :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--text:#fff;--muted:#8b949e;--accent:#f39c12;--blue:#58a6ff;--green:#2ea043;--good:#2ea043;--mid:#d29922;--poor:#f85149}
+      *{box-sizing:border-box}
+      body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text)}
+      .global-nav{position:sticky;top:0;z-index:20;background:#0b0f14;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px}
+      .global-nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.9rem}
+      .global-nav a.active,.global-nav a:hover{color:var(--accent);background:#161b22}
+      .container{max-width:1200px;margin:0 auto;padding:18px}
+      .header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+      .header h1{margin:0;font-size:2rem;color:var(--accent)}
+      .summary{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:10px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+      .summary .box{background:#0b0f14;padding:10px;border-radius:8px;border:1px solid #21262d}
+      .summary .label{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+      .summary .value{font-size:1.45rem;font-weight:700;margin-top:6px}
+      .calendar-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+      .month-title{font-size:1.5rem;margin:0 0 10px}
+      .meta{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+      .pager{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+      .pager a{color:var(--blue);text-decoration:none;padding:6px 10px;border:1px solid var(--line);border-radius:8px}
+      .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+      .dow{font-size:.75rem;color:var(--muted);text-align:center;padding:8px 0}
+      .day{position:relative;min-height:88px;background:#0b0f14;border:1px solid #21262d;border-radius:8px;padding:8px 8px 6px}
+      .day.empty{opacity:0.85}
+      .day.future{opacity:0.45}
+      .day.today{outline:2px solid var(--accent);outline-offset:-2px}
+      .day.weekend{background:#111826}
+      .day .num{font-weight:700;font-size:.9rem}
+      .tone{margin-top:6px;color:var(--accent);font-size:.76rem;line-height:1.25}
+      .gar{margin-top:6px;color:var(--green);font-size:.76rem;line-height:1.25}
+      .reco{margin-top:6px;font-size:.74rem}
+      .reco .dot{display:inline-block;width:9px;height:9px;border-radius:99px;margin-right:6px;vertical-align:middle}
+      .whoop-good .dot{background:var(--good)}
+      .whoop-mid .dot{background:var(--mid)}
+      .whoop-poor .dot{background:var(--poor)}
+      .whoop{display:flex;align-items:center;margin-top:6px;font-size:.75rem;color:var(--muted)}
+      .footer{margin-top:20px;color:var(--muted);font-size:.88rem}
+      .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
+      .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
+      .month-grid a.current{border-color:var(--accent);color:var(--accent)}
+      /* --- Drilldown badge styles --- */
+      .badge{display:inline-block;font-size:.68rem;font-weight:600;padding:1px 5px;border-radius:4px;margin:1px 1px 0 0;white-space:nowrap;line-height:1.4}
+      .badge-whoop-green{background:#0d3321;color:#3fb950;border:1px solid #238636}
+      .badge-whoop-yellow{background:#2d2000;color:#e3b341;border:1px solid #9e6a03}
+      .badge-whoop-red{background:#3d0c0c;color:#f85149;border:1px solid #8e1519}
+      .badge-sleep{background:#0d1f3c;color:#58a6ff;border:1px solid #1f4b8e}
+      .badge-tonal{background:#0e2233;color:#79c0ff;border:1px solid #1a4a72}
+      .badge-run{background:#1f1040;color:#b392f0;border:1px solid #5a3ea1}
+      .drilldown-badges{margin-top:5px;line-height:1.6}
+      /* --- Badge legend --- */
+      .badge-legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;padding:8px 10px;background:#0b0f14;border:1px solid var(--line);border-radius:8px;font-size:.75rem;color:var(--muted)}
+      .badge-legend span{font-weight:600;color:var(--text);margin-right:2px}
+      /* --- Day link --- */
+      .day-link{display:block;text-decoration:none;color:inherit;height:100%}
+      .day-link:hover .num{text-decoration:underline;color:var(--blue)}
     </style>
+    
 </head>
 <body>
-<div class='container'>
-<h1>Training Calendar</h1>
-<div class="calendar-legend" style="display:flex;gap:12px;padding:8px 12px;background:#161b22;border-radius:6px;margin-bottom:12px;font-size:11px;color:#8b949e;flex-wrap:wrap;">
-  <strong style="color:#f39c12;margin-right:4px;">📊 Key:</strong>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2ea043;margin-right:3px;vertical-align:middle;"></span>WHOOP %</span>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1a6ea0;margin-right:3px;vertical-align:middle;"></span>8Sleep</span>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0a84ff;margin-right:3px;vertical-align:middle;"></span>Tonal lbs</span>
-  <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#a371f7;margin-right:3px;vertical-align:middle;"></span>Run mi</span>
-</div>
-<div class='nav'>
-<a href='2024-12-calendar.html'>Prev</a>
-<span>January 2025</span>
-<a href='2025-02-calendar.html'>Next</a>
-</div>
-<div class='legend'>
-<div class='legend-title'>Activity Types</div>
-<div class='legend-items'>
-<span class='legend-item' style='background:#007bff'>BIKE</span>
-<span class='legend-item' style='background:#6f42c1'>BJJ</span>
-<span class='legend-item' style='background:#6f42c1'>BOX</span>
-<span class='legend-item' style='background:#6c757d'>ELIP</span>
-<span class='legend-item' style='background:#fd7e14'>HIIT</span>
-<span class='legend-item' style='background:#795548'>HIKE</span>
-<span class='legend-item' style='background:#6f42c1'>KBOX</span>
-<span class='legend-item' style='background:#dc3545'>LIFT</span>
-<span class='legend-item' style='background:#adb5bd'>OTHR</span>
-<span class='legend-item' style='background:#6c757d'>ROW</span>
-<span class='legend-item' style='background:#28a745'>RUN</span>
-<span class='legend-item' style='background:#007bff'>SPIN</span>
-<span class='legend-item' style='background:#17a2b8'>SWIM</span>
-<span class='legend-item' style='background:#6c757d'>TMIL</span>
-<span class='legend-item' style='background:#ffc107'>YOGA</span>
-</div>
-</div>
-<table>
-<thead>
-<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
-</thead>
-<tbody>
-<tr>
-<td class='empty'></td>
-<td class='empty'></td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>1</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>2</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>3</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>4</span>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>5</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 1: 2 workouts • LIFT: 2 • Avg strain: 6.7</td></tr>
-<tr>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>6</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>7</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>8</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>9</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>10</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>11</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>12</span>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 2: 7 workouts • LIFT: 5, BJJ: 2 • Avg strain: 8.8</td></tr>
-<tr>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>13</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>14</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>15</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>16</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>17</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>18</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>19</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 3: 4 workouts • LIFT: 3, BJJ: 1 • Avg strain: 7.5</td></tr>
-<tr>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>20</span>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>21</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>22</span>
-<ul class='acts'>
-<li style='background:#adb5bd'>ACTI<span class='strain-dot' style='background:#28a745'></span></li>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>23</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>24</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>25</span>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>26</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-<li style='background:#007bff'>BIKE<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 4: 8 workouts • LIFT: 4, ACTI: 1, BIKE: 1, BJJ: 2 • Avg strain: 7.0</td></tr>
-<tr>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>27</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='streak'>
-<div class='day-content'>
-<span class='day-num'>28</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>29</span>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>30</span>
-<ul class='acts'>
-<li style='background:#6f42c1'>BJJ<span class='strain-dot' style='background:#ffc107'></span></li>
-</ul>
-</div>
-</td>
-<td class=''>
-<div class='day-content'>
-<span class='day-num'>31</span>
-<ul class='acts'>
-<li style='background:#dc3545'>LIFT<span class='strain-dot' style='background:#28a745'></span></li>
-</ul>
-</div>
-</td>
-<td class='empty'></td>
-<td class='empty'></td>
-</tr>
-<tr class='weekly-summary'><td colspan='7'>Week 5: 4 workouts • LIFT: 3, BJJ: 1 • Avg strain: 6.7</td></tr>
-</tbody>
-</table>
-</div>
-<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+  
+    <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#ffffff;font-weight:bold">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+    
+  <div class="container">
+    <div class="header">
+      <h1>January 2025</h1>
+      <div class="meta">Generated on 2026-03-10 11:40 EDT</div>
+    </div>
+
+    <section class="summary">
+      <div class="box"><div class="label">Total Lifting Volume</div><div class="value">286.7k lbs</div></div>
+      <div class="box"><div class="label">Total Running Dist.</div><div class="value">1.2 mi</div></div>
+      <div class="box"><div class="label">Running Activities</div><div class="value">1</div></div>
+      <div class="box"><div class="label">Month Coverage</div><div class="value">2025-01</div></div>
+    </section>
+
+    <section class="calendar-card">
+      <div class="pager"> 
+        <div><a href="2024-12-calendar.html">← December 2024</a></div>
+        <div></div>
+        <div><a href="2025-02-calendar.html">February 2025 →</a></div>
+      </div>
+      <div class='badge-legend'><span>Legend:</span><span class='badge badge-whoop-green'>💜 WHOOP %</span><span class='badge badge-sleep'>😴 8Sleep score</span><span class='badge badge-tonal'>💪 Lifting lbs</span><span class='badge badge-run'>🏃 Run mi</span></div>
+      <div class="grid"><div class='dow'>Sun</div><div class='dow'>Mon</div><div class='dow'>Tue</div><div class='dow'>Wed</div><div class='dow'>Thu</div><div class='dow'>Fri</div><div class='dow'>Sat</div></div>
+      <div class="grid"><div class="day empty"></div>
+<div class="day empty"></div>
+<div class="day empty"></div>
+
+                <div class='day'>
+                  <div class='num'>1</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜48</span><span class='badge badge-sleep'>😴62</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>2</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜33</span><span class='badge badge-sleep'>😴84</span><span class='badge badge-tonal'>💪18.4k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>3</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜24</span><span class='badge badge-sleep'>😴62</span></div>
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>4</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜75</span><span class='badge badge-sleep'>😴89</span></div>
+                </div>
+                
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of Jan 1 — 💪 1 workout  💚 45% recovery</div>
+
+                <div class='day weekend' style="border: 2px solid #f59e0b;">
+                  <div class='num'>5</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜55</span><span class='badge badge-sleep'>😴74</span><span class='badge badge-tonal'>💪35.8k</span></div>
+                </div>
+                
+
+                <div class='day' style="border: 2px solid #f59e0b;">
+                  <div class='num'>6</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜73</span><span class='badge badge-sleep'>😴85</span><span class='badge badge-tonal'>💪23.0k</span><span class='badge badge-run'>🏃1.2mi</span></div>
+                </div>
+                
+
+                <div class='day' style="border: 2px solid #f59e0b;">
+                  <div class='num'>7</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜68</span><span class='badge badge-sleep'>😴60</span><span class='badge badge-tonal'>💪14.0k</span></div>
+                </div>
+                
+
+                <div class='day' style="border: 2px solid #f59e0b;">
+                  <div class='num'>8</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜40</span><span class='badge badge-sleep'>😴80</span><span class='badge badge-tonal'>💪12.8k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>9</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜29</span><span class='badge badge-sleep'>😴85</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>10</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜36</span><span class='badge badge-sleep'>😴82</span><span class='badge badge-tonal'>💪19.7k</span></div>
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>11</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜74</span><span class='badge badge-sleep'>😴93</span><span class='badge badge-tonal'>💪25.5k</span></div>
+                </div>
+                
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of Jan 5 — 🏃 1.2 mi  💪 6 workouts  💚 53% recovery</div>
+
+                <div class='day weekend'>
+                  <div class='num'>12</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜60</span><span class='badge badge-sleep'>😴75</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>13</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜51</span><span class='badge badge-sleep'>😴86</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>14</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜43</span><span class='badge badge-sleep'>😴76</span><span class='badge badge-tonal'>💪11.3k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>15</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜52</span><span class='badge badge-sleep'>😴74</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>16</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜34</span><span class='badge badge-sleep'>😴82</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>17</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜60</span><span class='badge badge-sleep'>😴99</span><span class='badge badge-tonal'>💪11.7k</span></div>
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>18</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜78</span><span class='badge badge-sleep'>😴80</span></div>
+                </div>
+                
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of Jan 12 — 💪 2 workouts  💚 54% recovery</div>
+
+                <div class='day weekend'>
+                  <div class='num'>19</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜79</span><span class='badge badge-sleep'>😴92</span><span class='badge badge-tonal'>💪8.0k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>20</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜52</span><span class='badge badge-sleep'>😴83</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>21</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜82</span><span class='badge badge-sleep'>😴88</span><span class='badge badge-tonal'>💪16.9k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>22</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜53</span><span class='badge badge-sleep'>😴71</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>23</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜84</span><span class='badge badge-sleep'>😴87</span><span class='badge badge-tonal'>💪27.5k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>24</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜38</span><span class='badge badge-sleep'>😴84</span><span class='badge badge-tonal'>💪5.2k</span></div>
+                </div>
+                
+
+                <div class='day weekend'>
+                  <div class='num'>25</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜47</span><span class='badge badge-sleep'>😴86</span></div>
+                </div>
+                
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of Jan 19 — 💪 4 workouts  💚 62% recovery</div>
+
+                <div class='day weekend' style="border: 2px solid #f59e0b;">
+                  <div class='num'>26</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜90</span><span class='badge badge-sleep'>😴93</span><span class='badge badge-tonal'>💪4.3k</span></div>
+                </div>
+                
+
+                <div class='day' style="border: 2px solid #f59e0b;">
+                  <div class='num'>27</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜81</span><span class='badge badge-sleep'>😴89</span><span class='badge badge-tonal'>💪19.8k</span></div>
+                </div>
+                
+
+                <div class='day' style="border: 2px solid #f59e0b;">
+                  <div class='num'>28</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜69</span><span class='badge badge-sleep'>😴83</span><span class='badge badge-tonal'>💪27.6k</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>29</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜52</span><span class='badge badge-sleep'>😴78</span></div>
+                </div>
+                
+
+                <div class='day'>
+                  <div class='num'>30</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜75</span><span class='badge badge-sleep'>😴91</span></div>
+                </div>
+                
+
+                <div class='day' style="border: 2px solid #f59e0b;">
+                  <div class='num'>31</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜30</span><span class='badge badge-sleep'>😴44</span><span class='badge badge-tonal'>💪5.1k</span></div>
+                </div>
+                
+<div class="day empty"></div>
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of Jan 26 — 💪 4 workouts  💚 66% recovery</div></div>
+    </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </div>
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
@@ -386,5 +311,5 @@
   });
 })();
 </script>
-</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</body>
 </html>

@@ -44,30 +44,47 @@
       .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
       .month-grid a{color:var(--blue);text-decoration:none;background:#0b0f14;border:1px solid var(--line);border-radius:8px;padding:9px}
       .month-grid a.current{border-color:var(--accent);color:var(--accent)}
+      /* --- Drilldown badge styles --- */
+      .badge{display:inline-block;font-size:.68rem;font-weight:600;padding:1px 5px;border-radius:4px;margin:1px 1px 0 0;white-space:nowrap;line-height:1.4}
+      .badge-whoop-green{background:#0d3321;color:#3fb950;border:1px solid #238636}
+      .badge-whoop-yellow{background:#2d2000;color:#e3b341;border:1px solid #9e6a03}
+      .badge-whoop-red{background:#3d0c0c;color:#f85149;border:1px solid #8e1519}
+      .badge-sleep{background:#0d1f3c;color:#58a6ff;border:1px solid #1f4b8e}
+      .badge-tonal{background:#0e2233;color:#79c0ff;border:1px solid #1a4a72}
+      .badge-run{background:#1f1040;color:#b392f0;border:1px solid #5a3ea1}
+      .drilldown-badges{margin-top:5px;line-height:1.6}
+      /* --- Badge legend --- */
+      .badge-legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;padding:8px 10px;background:#0b0f14;border:1px solid var(--line);border-radius:8px;font-size:.75rem;color:var(--muted)}
+      .badge-legend span{font-weight:600;color:var(--text);margin-right:2px}
+      /* --- Day link --- */
+      .day-link{display:block;text-decoration:none;color:inherit;height:100%}
+      .day-link:hover .num{text-decoration:underline;color:var(--blue)}
     </style>
     
 </head>
 <body>
   
-    <nav class="global-nav">
-      <a href="../index.html" class="">Hub</a>
-      <a href="../index.html" class="">Hub</a>
-      <a href="index.html" class="active">📅 Calendars</a>
-      <a href="../strength/index.html" class="">💪 Strength</a>
-      <a href="../running/index.html" class="">🏃 Cardio</a>
-      <a href="../balance/index.html" class="">⚖️ Balance</a>
-      <a href="../sleep/index.html" class="">😴 Recovery</a>
-      <a href="../nutrition/index.html" class="">🥗 Nutrition</a>
-    </nav>
+    <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#ffffff;font-weight:bold">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
     
   <div class="container">
     <div class="header">
       <h1>May 2024</h1>
-      <div class="meta">Generated on 2026-03-05 02:28 EST</div>
+      <div class="meta">Generated on 2026-03-10 11:40 EDT</div>
     </div>
 
     <section class="summary">
-      <div class="box"><div class="label">Total Tonal Volume</div><div class="value">325.6k lbs</div></div>
+      <div class="box"><div class="label">Total Lifting Volume</div><div class="value">325.6k lbs</div></div>
       <div class="box"><div class="label">Total Running Dist.</div><div class="value">23.9 mi</div></div>
       <div class="box"><div class="label">Running Activities</div><div class="value">10</div></div>
       <div class="box"><div class="label">Month Coverage</div><div class="value">2024-05</div></div>
@@ -76,299 +93,210 @@
     <section class="calendar-card">
       <div class="pager"> 
         <div><a href="2024-04-calendar.html">← April 2024</a></div>
-        <a href="index.html">← Back to Calendars</a>
+        <div></div>
         <div><a href="2024-06-calendar.html">June 2024 →</a></div>
       </div>
+      <div class='badge-legend'><span>Legend:</span><span class='badge badge-whoop-green'>💜 WHOOP %</span><span class='badge badge-sleep'>😴 8Sleep score</span><span class='badge badge-tonal'>💪 Lifting lbs</span><span class='badge badge-run'>🏃 Run mi</span></div>
       <div class="grid"><div class='dow'>Sun</div><div class='dow'>Mon</div><div class='dow'>Tue</div><div class='dow'>Wed</div><div class='dow'>Thu</div><div class='dow'>Fri</div><div class='dow'>Sat</div></div>
       <div class="grid"><div class="day empty"></div>
 <div class="day empty"></div>
 <div class="day empty"></div>
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>1</div>
-                  <div class='tone'>🏋️ 28.7k lbs</div>
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 68.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜68</span><span class='badge badge-sleep'>😴75</span><span class='badge badge-tonal'>💪28.7k</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>2</div>
-                  <div class='tone'>🏋️ 39.2k lbs</div>
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 76.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜76</span><span class='badge badge-sleep'>😴90</span><span class='badge badge-tonal'>💪39.2k</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>3</div>
-                  <div class='tone'>🏋️ 22.1k lbs</div>
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 85.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜85</span><span class='badge badge-sleep'>😴97</span><span class='badge badge-tonal'>💪22.1k</span></div>
                 </div>
                 
 
-                <div class='day weekend'>
+                <div class='day weekend' style="border: 2px solid #f59e0b;">
                   <div class='num'>4</div>
-                  <div class='tone'>🏋️ 30.3k lbs</div>
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 53.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜53</span><span class='badge badge-sleep'>😴97</span><span class='badge badge-tonal'>💪30.3k</span></div>
                 </div>
                 
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of May 1 — 💪 4 workouts  💚 70% recovery</div>
 
                 <div class='day weekend'>
                   <div class='num'>5</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 34.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜34</span><span class='badge badge-sleep'>😴67</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>6</div>
-                  
-                  <div class='gar'>🏃 1.8 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 63.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜63</span><span class='badge badge-run'>🏃1.8mi</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>7</div>
-                  
-                  <div class='gar'>🏃 2.2 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 57.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜57</span><span class='badge badge-run'>🏃2.2mi</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>8</div>
-                  
-                  <div class='gar'>🏃 2.9 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 63.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜63</span><span class='badge badge-run'>🏃2.9mi</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>9</div>
-                  
-                  <div class='gar'>🏃 2.6 mi</div>
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 80.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜80</span><span class='badge badge-run'>🏃2.6mi</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>10</div>
-                  
-                  <div class='gar'>🏃 2.8 mi</div>
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 85.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜85</span><span class='badge badge-run'>🏃2.8mi</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>11</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 76.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜76</span></div>
                 </div>
                 
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of May 5 — 🏃 12.4 mi  💪 5 workouts  💚 65% recovery</div>
 
                 <div class='day weekend'>
                   <div class='num'>12</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 54.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜54</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>13</div>
-                  <div class='tone'>🏋️ 38.6k lbs</div>
-                  <div class='gar'>🏃 3.2 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 61.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜61</span><span class='badge badge-sleep'>😴87</span><span class='badge badge-tonal'>💪38.6k</span><span class='badge badge-run'>🏃3.2mi</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>14</div>
-                  <div class='tone'>🏋️ 26.0k lbs</div>
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 35.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜35</span><span class='badge badge-sleep'>😴89</span><span class='badge badge-tonal'>💪26.0k</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>15</div>
-                  <div class='tone'>🏋️ 14.7k lbs</div>
-                  <div class='gar'>🏃 1.8 mi</div>
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 38.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜38</span><span class='badge badge-sleep'>😴64</span><span class='badge badge-tonal'>💪14.7k</span><span class='badge badge-run'>🏃1.8mi</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>16</div>
-                  
-                  <div class='gar'>🏃 2.8 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 53.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜53</span><span class='badge badge-sleep'>😴86</span><span class='badge badge-run'>🏃2.8mi</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>17</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 52.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜52</span><span class='badge badge-sleep'>😴83</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>18</div>
-                  <div class='tone'>🏋️ 8.8k lbs</div>
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 72.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜72</span><span class='badge badge-sleep'>😴89</span><span class='badge badge-tonal'>💪8.8k</span></div>
                 </div>
                 
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of May 12 — 🏃 7.8 mi  💪 5 workouts  💚 52% recovery</div>
 
                 <div class='day weekend'>
                   <div class='num'>19</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 72.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜72</span><span class='badge badge-sleep'>😴82</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>20</div>
-                  <div class='tone'>🏋️ 16.8k lbs</div>
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 60.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜60</span><span class='badge badge-sleep'>😴91</span><span class='badge badge-tonal'>💪16.8k</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>21</div>
-                  <div class='tone'>🏋️ 12.8k lbs</div>
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 35.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜35</span><span class='badge badge-sleep'>😴87</span><span class='badge badge-tonal'>💪12.8k</span></div>
                 </div>
                 
 
-                <div class='day'>
+                <div class='day' style="border: 2px solid #f59e0b;">
                   <div class='num'>22</div>
-                  <div class='tone'>🏋️ 17.8k lbs</div>
-                  <div class='gar'>🏃 1.8 mi</div>
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 15.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜15</span><span class='badge badge-sleep'>😴85</span><span class='badge badge-tonal'>💪17.8k</span><span class='badge badge-run'>🏃1.8mi</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>23</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 31.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜31</span><span class='badge badge-sleep'>😴87</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>24</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 42.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜42</span><span class='badge badge-sleep'>😴84</span></div>
                 </div>
                 
 
                 <div class='day weekend'>
                   <div class='num'>25</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 65.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜65</span><span class='badge badge-sleep'>😴90</span></div>
                 </div>
                 
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of May 19 — 🏃 1.8 mi  💪 3 workouts  💚 45% recovery</div>
 
                 <div class='day weekend'>
                   <div class='num'>26</div>
-                  
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 74.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜74</span><span class='badge badge-sleep'>😴91</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>27</div>
-                  
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 6.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜6</span><span class='badge badge-sleep'>😴39</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>28</div>
-                  <div class='tone'>🏋️ 25.1k lbs</div>
-                  <div class='gar'>🏃 1.9 mi</div>
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 46.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜46</span><span class='badge badge-sleep'>😴90</span><span class='badge badge-tonal'>💪25.1k</span><span class='badge badge-run'>🏃1.9mi</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>29</div>
-                  
-                  
-                  <div class="whoop whoop-mid"><span class="dot"></span>WHOOP 64.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-yellow'>💜64</span><span class='badge badge-sleep'>😴81</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>30</div>
-                  <div class='tone'>🏋️ 39.4k lbs</div>
-                  
-                  <div class="whoop whoop-good"><span class="dot"></span>WHOOP 94.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-green'>💜94</span><span class='badge badge-sleep'>😴98</span><span class='badge badge-tonal'>💪39.4k</span></div>
                 </div>
                 
 
                 <div class='day'>
                   <div class='num'>31</div>
-                  <div class='tone'>🏋️ 5.3k lbs</div>
-                  
-                  <div class="whoop whoop-poor"><span class="dot"></span>WHOOP 29.0</div>
+                  <div class='drilldown-badges'><span class='badge badge-whoop-red'>💜29</span><span class='badge badge-sleep'>😴76</span><span class='badge badge-tonal'>💪5.3k</span></div>
                 </div>
                 
-<div class="day empty"></div></div>
+<div class="day empty"></div>
+<div style="grid-column:1/-1;background:#1a1a2e;padding:6px 12px;font-size:11px;color:#a0aec0;border-radius:4px;margin:2px 0">Week of May 26 — 🏃 1.9 mi  💪 3 workouts  💚 52% recovery</div></div>
     </section>
 
-    <div class="footer">
-      <div>Month links:</div>
-      <div class="month-grid"><a href='2021-10-calendar.html'>October 2021</a><a href='2021-11-calendar.html'>November 2021</a><a href='2021-12-calendar.html'>December 2021</a><a href='2022-01-calendar.html'>January 2022</a><a href='2022-02-calendar.html'>February 2022</a><a href='2022-03-calendar.html'>March 2022</a><a href='2022-04-calendar.html'>April 2022</a><a href='2022-05-calendar.html'>May 2022</a><a href='2022-06-calendar.html'>June 2022</a><a href='2022-07-calendar.html'>July 2022</a><a href='2022-08-calendar.html'>August 2022</a><a href='2022-09-calendar.html'>September 2022</a><a href='2022-10-calendar.html'>October 2022</a><a href='2022-11-calendar.html'>November 2022</a><a href='2022-12-calendar.html'>December 2022</a><a href='2023-01-calendar.html'>January 2023</a><a href='2023-02-calendar.html'>February 2023</a><a href='2023-03-calendar.html'>March 2023</a><a href='2023-04-calendar.html'>April 2023</a><a href='2023-05-calendar.html'>May 2023</a><a href='2023-06-calendar.html'>June 2023</a><a href='2023-07-calendar.html'>July 2023</a><a href='2023-08-calendar.html'>August 2023</a><a href='2023-09-calendar.html'>September 2023</a><a href='2023-10-calendar.html'>October 2023</a><a href='2023-11-calendar.html'>November 2023</a><a href='2023-12-calendar.html'>December 2023</a><a href='2024-01-calendar.html'>January 2024</a><a href='2024-02-calendar.html'>February 2024</a><a href='2024-03-calendar.html'>March 2024</a><a href='2024-04-calendar.html'>April 2024</a><a href='2024-05-calendar.html'>May 2024</a><a href='2024-06-calendar.html'>June 2024</a><a href='2024-07-calendar.html'>July 2024</a><a href='2024-08-calendar.html'>August 2024</a><a href='2024-09-calendar.html'>September 2024</a><a href='2024-10-calendar.html'>October 2024</a><a href='2024-11-calendar.html'>November 2024</a><a href='2024-12-calendar.html'>December 2024</a><a href='2025-01-calendar.html'>January 2025</a><a href='2025-02-calendar.html'>February 2025</a><a href='2025-03-calendar.html'>March 2025</a><a href='2025-04-calendar.html'>April 2025</a><a href='2025-05-calendar.html'>May 2025</a><a href='2025-06-calendar.html'>June 2025</a><a href='2025-07-calendar.html'>July 2025</a><a href='2025-08-calendar.html'>August 2025</a><a href='2025-09-calendar.html'>September 2025</a><a href='2025-10-calendar.html'>October 2025</a><a href='2025-11-calendar.html'>November 2025</a><a href='2025-12-calendar.html'>December 2025</a><a href='2026-01-calendar.html'>January 2026</a><a href='2026-02-calendar.html'>February 2026</a></div>
-    </div>
+
   </div>
-<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
@@ -383,5 +311,5 @@
   });
 })();
 </script>
-</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</body>
 </html>
