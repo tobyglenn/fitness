@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle PR Timeline</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d1117; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; line-height: 1.5; }
+    .container { max-width: 900px; margin: 0 auto; }
+    nav { background: #161b22; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; display: flex; gap: 20px; flex-wrap: wrap; }
+    nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+    nav a:hover { color: #f39c12; }
+    h1 { color: #f39c12; font-size: 28px; margin-bottom: 5px; }
+    .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 25px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px; }
+    .stat-card { background: #161b22; padding: 15px; border-radius: 8px; text-align: center; }
+    .stat-value { font-size: 24px; font-weight: bold; color: #f39c12; }
+    .stat-label { font-size: 12px; color: #8b949e; margin-top: 5px; }
+    .section { background: #161b22; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    .section h2 { font-size: 18px; margin-bottom: 15px; color: #fff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+    .region-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .region-card { background: #0d1117; padding: 15px; border-radius: 6px; }
+    .region-name { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 5px; }
+    .region-score { font-size: 28px; font-weight: bold; color: #f39c12; }
+    .region-meta { font-size: 12px; color: #8b949e; }
+    .chart-container { background: #0d1117; padding: 15px; border-radius: 6px; margin-bottom: 15px; }
+    .pr-list { display: grid; gap: 10px; }
+    .pr-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #0d1117; border-radius: 6px; }
+    .pr-muscle { font-weight: bold; color: #fff; }
+    .pr-score { color: #f39c12; font-weight: bold; }
+    .pr-date { color: #8b949e; font-size: 12px; }
+    .timeline-list { display: flex; flex-direction: column; gap: 8px; }
+    .timeline-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: #0d1117; border-radius: 6px; }
+    .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: #f39c12; }
+    .timeline-date { color: #8b949e; font-size: 12px; min-width: 80px; }
+    .timeline-content { flex: 1; }
+    .timeline-title { color: #fff; font-size: 14px; }
+    .timeline-value { color: #f39c12; font-size: 18px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="../index.html">← Back to Hub</a>
+      <a href="../day/index.html">Day</a>
+      <a href="../recovery/index.html">Recovery</a>
+      <a href="../strength/index.html">Strength</a>
+      <a href="../sleep/index.html">Sleep</a>
+      <a href="../training_frequency/index.html">Training</a>
+    </nav>
+    
+    <h1>🏋️ Muscle PR Timeline</h1>
+    <p class="subtitle">Track personal records by muscle group over time • 2021-10-02 to 2025-04-01</p>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value">1002</div>
+        <div class="stat-label">Total Workouts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Muscle Groups</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">10</div>
+        <div class="stat-label">Individual Muscles</div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>💪 Current Strength Scores</h2>
+      <div class="region-grid>
+        <div class="region-card">
+          <div class="region-name">Upper Body</div>
+          <div class="region-score">1591</div>
+          <div class="region-meta">Last PR: N/A</div>
+        </div>
+        <div class="region-card">
+          <div class="region-name">Overall</div>
+          <div class="region-score">1291</div>
+          <div class="region-meta">Last PR: N/A</div>
+        </div>
+        <div class="region-card">
+          <div class="region-name">Core</div>
+          <div class="region-score">1242</div>
+          <div class="region-meta">Last PR: N/A</div>
+        </div>
+        <div class="region-card">
+          <div class="region-name">Lower Body</div>
+          <div class="region-score">1040</div>
+          <div class="region-meta">Last PR: N/A</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>📈 PR Progression Over Time</h2>
+    </div>
+    
+    <div class="section">
+      <h2>🎯 Individual Muscle PRs</h2>
+      <div class="pr-list">
+
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Triceps</div>
+            <div class="pr-date">Upper Body • Updated 2025-04-01</div>
+          </div>
+          <div class="pr-score">1829</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Chest</div>
+            <div class="pr-date">Upper Body • Updated 2025-04-01</div>
+          </div>
+          <div class="pr-score">1664</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Biceps</div>
+            <div class="pr-date">Upper Body • Updated 2025-04-01</div>
+          </div>
+          <div class="pr-score">1582</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Back</div>
+            <div class="pr-date">Upper Body • Updated 2025-04-01</div>
+          </div>
+          <div class="pr-score">1502</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Shoulders</div>
+            <div class="pr-date">Upper Body • Updated 2025-04-01</div>
+          </div>
+          <div class="pr-score">1446</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Abs</div>
+            <div class="pr-date">Core • Updated 2025-03-27</div>
+          </div>
+          <div class="pr-score">1243</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Obliques</div>
+            <div class="pr-date">Core • Updated 2025-04-01</div>
+          </div>
+          <div class="pr-score">1242</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Hamstrings</div>
+            <div class="pr-date">Lower Body • Updated 2025-03-05</div>
+          </div>
+          <div class="pr-score">1105</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Glutes</div>
+            <div class="pr-date">Lower Body • Updated 2025-03-20</div>
+          </div>
+          <div class="pr-score">1065</div>
+        </div>
+        <div class="pr-item">
+          <div>
+            <div class="pr-muscle">Quads</div>
+            <div class="pr-date">Lower Body • Updated 2025-03-20</div>
+          </div>
+          <div class="pr-score">950</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>📜 Recent PR Achievements</h2>
+      <div class="timeline-list">
+
+      </div>
+    </div>
+  </div>
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
