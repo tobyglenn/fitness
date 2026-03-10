@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cardio-Strength Interference</title>
+<title>Cross-Modal Interference Radar</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
@@ -23,6 +23,9 @@
   ul.recs li:last-child{border-bottom:none;}
   ul.recs li::before{content:"→";color:#f39c12;font-weight:700;}
   .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:0.8rem;font-weight:600;}
+  .highlight-box{background:#1a2332;border-left:4px solid #f39c12;padding:16px;margin:16px 0;border-radius:0 8px 8px 0;}
+  .warning-box{background:#2d1f1f;border-left:4px solid #f85149;padding:16px;margin:16px 0;border-radius:0 8px 8px 0;}
+  .safe-box{background:#1f2d1f;border-left:4px solid #2ea043;padding:16px;margin:16px 0;border-radius:0 8px 8px 0;}
 </style>
 </head>
 <body>
@@ -34,37 +37,40 @@
   </div>
   <div style="display:flex;justify-content:center;gap:20px;width:100%;">
     <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
-    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep & Recovery</a>
     <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
   </div>
 </nav>
 <div class="container">
-  <h1>Cardio-Strength Interference</h1>
-  <p class="subtitle">When does running hurt your lifting?</p>
+  <h1>Cross-Modal Interference Radar</h1>
+  <p class="subtitle">When does training mode A hurt training mode B? — WHOOP-Calibrated</p>
 
-  <!-- Section 1: Summary -->
+  <!-- Section 1: WHOOP-Calibrated Interference Summary -->
   <div class="metric-row">
     <div class="metric">
       <div class="metric-val" style="color:#2ea043">0<span style="font-size:1.2rem">/100</span></div>
-      <div class="metric-label">Interference Score</div>
-      <div class="metric-sub">Low impact</div>
+      <div class="metric-label">Base Interference</div>
+      <div class="metric-sub">Without recovery calibration</div>
     </div>
     <div class="metric">
-      <div class="metric-val" style="color:#2ea043">N/A</div>
-      <div class="metric-label">Same-Day Impact</div>
-      <div class="metric-sub">Volume when cardio HR &gt;140</div>
+      <div class="metric-val" style="color:#2ea043">0<span style="font-size:1.2rem">/100</span></div>
+      <div class="metric-label">WHOOP-Adjusted</div>
+      <div class="metric-sub">With recovery calibration</div>
     </div>
     <div class="metric">
-      <div class="metric-val" style="color:#2ea043">N/A</div>
-      <div class="metric-label">Next-Day Impact</div>
-      <div class="metric-sub">Volume after hard runs</div>
+      <div class="metric-val" style="color:#0a84ff">50%</div>
+      <div class="metric-label">Current Recovery</div>
+      <div class="metric-sub">Moderate — 1.0x injury risk</div>
     </div>
     <div class="metric">
-      <div class="metric-val" style="color:#0a84ff">0</div>
-      <div class="metric-label">Baseline Volume</div>
-      <div class="metric-sub">lbs — rest days before lifting</div>
+      <div class="metric-val" style="color:#f39c12">1.0x</div>
+      <div class="metric-label">Injury Risk Multiplier</div>
+      <div class="metric-sub">✅ Normal</div>
     </div>
   </div>
+
+  <!-- Recovery status box -->
+  <div class='safe-box'><strong>✅ Good zone:</strong> Recovery is solid and interference is low. Train as planned!</div>
 
   <!-- Section 2: Same-day -->
   <div class="card">
@@ -80,7 +86,42 @@
     <div class="chart-wrap"><svg width="800" height="400"><text x="400" y="200" fill="#888" text-anchor="middle">No data available</text></svg></div>
   </div>
 
-  <!-- Section 4: Weekly pattern -->
+  <!-- Section 4: Post-Leg Day Running Impact -->
+  <div class="card">
+    <h2>🦵 Post-Leg Day Running Impact — 0 data points</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">How does heavy leg day affect your running pace the next 1-2 days?</p>
+    <div class="chart-wrap"><svg width="800" height="400"><text x="400" y="200" fill="#888" text-anchor="middle">No data available</text></svg></div>
+    <p style='color:#8b949e;margin-top:12px;'>Need more data on leg day + running combinations.</p>
+  </div>
+
+  <!-- Section 5: Upper Lift + HRV Risk Matrix -->
+  <div class="card">
+    <h2>⚠️ Upper Lift + HRV Risk Matrix</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">When does high upper body volume + low HRV = elevated injury risk?</p>
+    <div class="chart-wrap"><svg width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="400" fill="#161b22" rx="8"/>
+  <text x="250" y="20" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">Upper Lift + HRV Risk Matrix</text>
+  <text x="75" y="200.0" fill="#8b949e" font-size="11" text-anchor="end" transform="rotate(-90,75,200.0)">Volume</text>
+  <text x="275.0" y="390" fill="#8b949e" font-size="11" text-anchor="middle">HRV</text>
+  <rect x="137.5" y="85.0" width="80.0" height="80.0" fill="#f85149" fill-opacity="0.3" stroke="#f85149" stroke-width="2" rx="8"/><text x="177.5" y="120.0" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">0%</text><text x="177.5" y="140.0" fill="#8b949e" font-size="10" text-anchor="middle">High Vol</text><text x="177.5" y="152.0" fill="#8b949e" font-size="10" text-anchor="middle">Low HRV</text><rect x="332.5" y="85.0" width="80.0" height="80.0" fill="#2ea043" fill-opacity="0.3" stroke="#2ea043" stroke-width="2" rx="8"/><text x="372.5" y="120.0" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">0%</text><text x="372.5" y="140.0" fill="#8b949e" font-size="10" text-anchor="middle">High Vol</text><text x="372.5" y="152.0" fill="#8b949e" font-size="10" text-anchor="middle">High HRV</text><rect x="137.5" y="235.0" width="80.0" height="80.0" fill="#f39c12" fill-opacity="0.3" stroke="#f39c12" stroke-width="2" rx="8"/><text x="177.5" y="270.0" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">0%</text><text x="177.5" y="290.0" fill="#8b949e" font-size="10" text-anchor="middle">Low Vol</text><text x="177.5" y="302.0" fill="#8b949e" font-size="10" text-anchor="middle">Low HRV</text><rect x="332.5" y="235.0" width="80.0" height="80.0" fill="#2ea043" fill-opacity="0.3" stroke="#2ea043" stroke-width="2" rx="8"/><text x="372.5" y="270.0" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">0%</text><text x="372.5" y="290.0" fill="#8b949e" font-size="10" text-anchor="middle">Low Vol</text><text x="372.5" y="302.0" fill="#8b949e" font-size="10" text-anchor="middle">High HRV</text>
+</svg></div>
+  </div>
+
+  <!-- Section 6: Training Mode Conflict Matrix -->
+  <div class="card">
+    <h2>🔄 Training Mode Conflict Matrix — 7x7 Heatmap</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">Which training mode pairs work together (green) vs. interfere (red)?</p>
+    <div class="chart-wrap"><svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="600" fill="#161b22" rx="8"/>
+  <text x="300" y="18" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">Training Mode Conflict Matrix</text>
+  <text x="300" y="592" fill="#8b949e" font-size="11" text-anchor="middle">Current Day</text>
+  <text x="18" y="300" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,18,300)">Prior Day</text>
+  <rect x="70.0" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="40.0" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="70.0" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="114.3" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="70.0" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="188.6" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="70.0" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="262.9" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="70.0" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="337.1" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="70.0" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="411.4" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="70.0" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="144.3" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="218.6" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="292.9" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="367.1" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="441.4" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/><rect x="515.7" y="485.7" width="72.3" height="72.3" fill="#30363d" rx="3"/>
+  <text x="107.1" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,107.1,28)">Running</text><text x="60" y="81.1" fill="#8b949e" font-size="10" text-anchor="end">Running</text><text x="181.4" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,181.4,28)">Cycling</text><text x="60" y="155.4" fill="#8b949e" font-size="10" text-anchor="end">Cycling</text><text x="255.7" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,255.7,28)">Swimming</text><text x="60" y="229.7" fill="#8b949e" font-size="10" text-anchor="end">Swimming</text><text x="330.0" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,330.0,28)">Upper Lift</text><text x="60" y="304.0" fill="#8b949e" font-size="10" text-anchor="end">Upper Lift</text><text x="404.3" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,404.3,28)">Lower Lift</text><text x="60" y="378.3" fill="#8b949e" font-size="10" text-anchor="end">Lower Lift</text><text x="478.6" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,478.6,28)">Full Body</text><text x="60" y="452.6" fill="#8b949e" font-size="10" text-anchor="end">Full Body</text><text x="552.9" y="28" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-45,552.9,28)">Rest</text><text x="60" y="526.9" fill="#8b949e" font-size="10" text-anchor="end">Rest</text>
+</svg></div>
+  </div>
+
+  <!-- Section 7: Weekly pattern -->
   <div class="card">
     <h2>📅 Weekly Pattern — Avg Strength Volume by Cardio Frequency</h2>
     <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">Does running frequency per week correlate with total lifting volume?</p>
@@ -91,68 +132,23 @@
 </svg></div>
   </div>
 
-  <!-- Section 5: Recommendations -->
+  <!-- Section 8: Recovery-Calibrated Recommendations -->
   <div class="card">
-    <h2>💡 Recommendations</h2>
+    <h2>💡 Recovery-Calibrated Recommendations</h2>
     <ul class="recs">
+      <li>Today your interference risk is <strong>0% lower</strong> due to your current recovery state (50%)</li>
       <li>Best day for heavy lifting: <strong>Mon</strong> — historically your highest volume day</li>
       <li>Same-day cardio: keep avg HR below <strong>140 bpm</strong> to preserve strength output</li>
-      <li>If you run hard (&gt;140 bpm), consider scheduling Tonal for the <strong>following day</strong> rather than same day</li>
+      <li>If you run hard (>140 bpm), consider scheduling Tonal for the <strong>following day</strong> rather than same day</li>
       <li>Weeks with <strong>0 runs</strong> average 0 lbs vs. 0 lbs on 3+ run weeks</li>
-      <li>Your interference score is <strong>0/100</strong> — cardio and lifting coexist well ✅</li>
+      <li>Your base interference score is <strong>0/100</strong> — cardio and lifting coexist well ✅</li>
     </ul>
   </div>
 
   <p style="color:#30363d;font-size:0.75rem;text-align:right;margin-top:8px;">
-    Generated 2026-03-10 09:47 ET · Last 90 days · 30 training days analyzed
+    Generated 2026-03-10 19:13 ET · Last 90 days · 30 training days analyzed · WHOOP data: 0 days
   </p>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- morning_report_link_injected --><script>
 (function(){
