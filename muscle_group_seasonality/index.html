@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muscle Group Seasonality | Fitness Ecosystem</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { color: white; margin-bottom: 8px; }
+h2 { color: #f39c12; margin: 24px 0 16px; font-size: 18px; }
+.subtitle { color: #8b949e; margin-bottom: 24px; }
+.stats-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.heatmap-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; }
+th { color: #8b949e; font-weight: normal; border-bottom: 1px solid #30363d; }
+</style>
+</head>
+<body>
+<nav style="background:#161b22;padding:12px 20px;border-bottom:1px solid #30363d;">
+<a href="/index.html" style="color:#58a6ff;text-decoration:none;margin-right:20px;">🏠 Home</a>
+<a href="/muscle_groups/index.html" style="color:#58a6ff;text-decoration:none;margin-right:20px;">💪 Muscle Groups</a>
+<a href="/strength/index.html" style="color:#58a6ff;text-decoration:none;margin-right:20px;">🏋️ Strength</a>
+<a href="/training_phase/index.html" style="color:#58a6ff;text-decoration:none;">📅 Training Phase</a>
+</nav>
+<div class="container">
+<h1>💪 Muscle Group Seasonality</h1>
+<p class="subtitle">Volume distribution by muscle group across seasons (2021-2025)</p>
+
+<div class="stats-row">
+
+<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:8px;flex:1;min-width:200px;">
+<div style="color:#8b949e;font-size:12px;text-transform:uppercase;">Winter</div>
+<div style="color:#f39c12;font-size:24px;font-weight:bold;">2,283,096</div>
+<div style="color:#8b949e;font-size:12px;">lbs (25.8% of total)</div>
+<div style="color:white;margin-top:8px;">Focus: <strong>Core</strong></div>
+</div>
+<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:8px;flex:1;min-width:200px;">
+<div style="color:#8b949e;font-size:12px;text-transform:uppercase;">Spring</div>
+<div style="color:#f39c12;font-size:24px;font-weight:bold;">2,286,920</div>
+<div style="color:#8b949e;font-size:12px;">lbs (25.9% of total)</div>
+<div style="color:white;margin-top:8px;">Focus: <strong>Core</strong></div>
+</div>
+<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:8px;flex:1;min-width:200px;">
+<div style="color:#8b949e;font-size:12px;text-transform:uppercase;">Summer</div>
+<div style="color:#f39c12;font-size:24px;font-weight:bold;">1,997,737</div>
+<div style="color:#8b949e;font-size:12px;">lbs (22.6% of total)</div>
+<div style="color:white;margin-top:8px;">Focus: <strong>Core</strong></div>
+</div>
+<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:8px;flex:1;min-width:200px;">
+<div style="color:#8b949e;font-size:12px;text-transform:uppercase;">Fall</div>
+<div style="color:#f39c12;font-size:24px;font-weight:bold;">2,268,179</div>
+<div style="color:#8b949e;font-size:12px;">lbs (25.7% of total)</div>
+<div style="color:white;margin-top:8px;">Focus: <strong>Triceps</strong></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Seasonal Volume Heatmap</h2>
+<div class="heatmap-container">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" style="font-family: sans-serif;"><rect x="0" y="0" width="520" height="50" fill="#0d1117"/><text x="260.0" y="30" fill="white" font-size="14" font-weight="bold" text-anchor="middle">Season</text><text x="160.0" y="30" fill="white" font-size="12" font-weight="bold" text-anchor="middle">Winter</text><text x="260.0" y="30" fill="white" font-size="12" font-weight="bold" text-anchor="middle">Spring</text><text x="360.0" y="30" fill="white" font-size="12" font-weight="bold" text-anchor="middle">Summer</text><text x="460.0" y="30" fill="white" font-size="12" font-weight="bold" text-anchor="middle">Fall</text><rect x="0" y="50" width="520" height="50" fill="#161b22"/><text x="10" y="80" fill="white" font-size="12" font-weight="bold" text-anchor="start">Chest</text><rect x="110" y="55" width="90" height="45" rx="4" fill="#865c19" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="75" fill="white" font-size="10" text-anchor="middle">302,908 lbs</text>
+<text x="160.0" y="90" fill="#8b949e" font-size="9" text-anchor="middle">25.5%</text><rect x="210" y="55" width="90" height="45" rx="4" fill="#8b5f19" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="75" fill="white" font-size="10" text-anchor="middle">317,475 lbs</text>
+<text x="260.0" y="90" fill="#8b949e" font-size="9" text-anchor="middle">26.7%</text><rect x="310" y="55" width="90" height="45" rx="4" fill="#77531a" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="75" fill="white" font-size="10" text-anchor="middle">262,833 lbs</text>
+<text x="360.0" y="90" fill="#8b949e" font-size="9" text-anchor="middle">22.1%</text><rect x="410" y="55" width="90" height="45" rx="4" fill="#875d19" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="75" fill="white" font-size="10" text-anchor="middle">306,799 lbs</text>
+<text x="460.0" y="90" fill="#8b949e" font-size="9" text-anchor="middle">25.8%</text><rect x="0" y="100" width="520" height="50" fill="#161b22"/><text x="10" y="130" fill="white" font-size="12" font-weight="bold" text-anchor="start">Back</text><rect x="110" y="105" width="90" height="45" rx="4" fill="#885d19" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="125" fill="white" font-size="10" text-anchor="middle">278,744 lbs</text>
+<text x="160.0" y="140" fill="#8b949e" font-size="9" text-anchor="middle">25.9%</text><rect x="210" y="105" width="90" height="45" rx="4" fill="#845b19" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="125" fill="white" font-size="10" text-anchor="middle">269,561 lbs</text>
+<text x="260.0" y="140" fill="#8b949e" font-size="9" text-anchor="middle">25.0%</text><rect x="310" y="105" width="90" height="45" rx="4" fill="#77531a" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="125" fill="white" font-size="10" text-anchor="middle">236,961 lbs</text>
+<text x="360.0" y="140" fill="#8b949e" font-size="9" text-anchor="middle">22.0%</text><rect x="410" y="105" width="90" height="45" rx="4" fill="#8d6019" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="125" fill="white" font-size="10" text-anchor="middle">290,898 lbs</text>
+<text x="460.0" y="140" fill="#8b949e" font-size="9" text-anchor="middle">27.0%</text><rect x="0" y="150" width="520" height="50" fill="#161b22"/><text x="10" y="180" fill="white" font-size="12" font-weight="bold" text-anchor="start">Legs</text><rect x="110" y="155" width="90" height="45" rx="4" fill="#825a1a" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="175" fill="white" font-size="10" text-anchor="middle">203,496 lbs</text>
+<text x="160.0" y="190" fill="#8b949e" font-size="9" text-anchor="middle">24.5%</text><rect x="210" y="155" width="90" height="45" rx="4" fill="#a16c17" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="175" fill="white" font-size="10" text-anchor="middle">261,038 lbs</text>
+<text x="260.0" y="190" fill="#8b949e" font-size="9" text-anchor="middle">31.5%</text><rect x="310" y="155" width="90" height="45" rx="4" fill="#7a551a" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="175" fill="white" font-size="10" text-anchor="middle">188,538 lbs</text>
+<text x="360.0" y="190" fill="#8b949e" font-size="9" text-anchor="middle">22.7%</text><rect x="410" y="155" width="90" height="45" rx="4" fill="#74511b" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="175" fill="white" font-size="10" text-anchor="middle">176,785 lbs</text>
+<text x="460.0" y="190" fill="#8b949e" font-size="9" text-anchor="middle">21.3%</text><rect x="0" y="200" width="520" height="50" fill="#161b22"/><text x="10" y="230" fill="white" font-size="12" font-weight="bold" text-anchor="start">Shoulders</text><rect x="110" y="205" width="90" height="45" rx="4" fill="#7f581a" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="225" fill="white" font-size="10" text-anchor="middle">263,563 lbs</text>
+<text x="160.0" y="240" fill="#8b949e" font-size="9" text-anchor="middle">23.8%</text><rect x="210" y="205" width="90" height="45" rx="4" fill="#8e6119" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="225" fill="white" font-size="10" text-anchor="middle">301,045 lbs</text>
+<text x="260.0" y="240" fill="#8b949e" font-size="9" text-anchor="middle">27.2%</text><rect x="310" y="205" width="90" height="45" rx="4" fill="#7f581a" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="225" fill="white" font-size="10" text-anchor="middle">263,002 lbs</text>
+<text x="360.0" y="240" fill="#8b949e" font-size="9" text-anchor="middle">23.8%</text><rect x="410" y="205" width="90" height="45" rx="4" fill="#855c19" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="225" fill="white" font-size="10" text-anchor="middle">279,109 lbs</text>
+<text x="460.0" y="240" fill="#8b949e" font-size="9" text-anchor="middle">25.2%</text><rect x="0" y="250" width="520" height="50" fill="#161b22"/><text x="10" y="280" fill="white" font-size="12" font-weight="bold" text-anchor="start">Biceps</text><rect x="110" y="255" width="90" height="45" rx="4" fill="#8c6019" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="275" fill="white" font-size="10" text-anchor="middle">331,518 lbs</text>
+<text x="160.0" y="290" fill="#8b949e" font-size="9" text-anchor="middle">26.8%</text><rect x="210" y="255" width="90" height="45" rx="4" fill="#835a1a" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="275" fill="white" font-size="10" text-anchor="middle">305,763 lbs</text>
+<text x="260.0" y="290" fill="#8b949e" font-size="9" text-anchor="middle">24.7%</text><rect x="310" y="255" width="90" height="45" rx="4" fill="#75521b" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="275" fill="white" font-size="10" text-anchor="middle">268,397 lbs</text>
+<text x="360.0" y="290" fill="#8b949e" font-size="9" text-anchor="middle">21.7%</text><rect x="410" y="255" width="90" height="45" rx="4" fill="#8c6019" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="275" fill="white" font-size="10" text-anchor="middle">331,338 lbs</text>
+<text x="460.0" y="290" fill="#8b949e" font-size="9" text-anchor="middle">26.8%</text><rect x="0" y="300" width="520" height="50" fill="#161b22"/><text x="10" y="330" fill="white" font-size="12" font-weight="bold" text-anchor="start">Triceps</text><rect x="110" y="305" width="90" height="45" rx="4" fill="#895e19" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="325" fill="white" font-size="10" text-anchor="middle">343,144 lbs</text>
+<text x="160.0" y="340" fill="#8b949e" font-size="9" text-anchor="middle">26.2%</text><rect x="210" y="305" width="90" height="45" rx="4" fill="#80591a" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="325" fill="white" font-size="10" text-anchor="middle">316,274 lbs</text>
+<text x="260.0" y="340" fill="#8b949e" font-size="9" text-anchor="middle">24.2%</text><rect x="310" y="305" width="90" height="45" rx="4" fill="#7a551a" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="325" fill="white" font-size="10" text-anchor="middle">298,368 lbs</text>
+<text x="360.0" y="340" fill="#8b949e" font-size="9" text-anchor="middle">22.8%</text><rect x="410" y="305" width="90" height="45" rx="4" fill="#8c6019" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="325" fill="white" font-size="10" text-anchor="middle">350,132 lbs</text>
+<text x="460.0" y="340" fill="#8b949e" font-size="9" text-anchor="middle">26.8%</text><rect x="0" y="350" width="520" height="50" fill="#161b22"/><text x="10" y="380" fill="white" font-size="12" font-weight="bold" text-anchor="start">Core</text><rect x="110" y="355" width="90" height="45" rx="4" fill="#8d6019" stroke="#30363d" stroke-width="1"/>
+<text x="160.0" y="375" fill="white" font-size="10" text-anchor="middle">371,959 lbs</text>
+<text x="160.0" y="390" fill="#8b949e" font-size="9" text-anchor="middle">27.1%</text><rect x="210" y="355" width="90" height="45" rx="4" fill="#845b19" stroke="#30363d" stroke-width="1"/>
+<text x="260.0" y="375" fill="white" font-size="10" text-anchor="middle">344,786 lbs</text>
+<text x="260.0" y="390" fill="#8b949e" font-size="9" text-anchor="middle">25.1%</text><rect x="310" y="355" width="90" height="45" rx="4" fill="#7a551a" stroke="#30363d" stroke-width="1"/>
+<text x="360.0" y="375" fill="white" font-size="10" text-anchor="middle">312,763 lbs</text>
+<text x="360.0" y="390" fill="#8b949e" font-size="9" text-anchor="middle">22.8%</text><rect x="410" y="355" width="90" height="45" rx="4" fill="#845b19" stroke="#30363d" stroke-width="1"/>
+<text x="460.0" y="375" fill="white" font-size="10" text-anchor="middle">344,782 lbs</text>
+<text x="460.0" y="390" fill="#8b949e" font-size="9" text-anchor="middle">25.1%</text></svg>
+</div>
+</div>
+
+<div class="card">
+<h2>Total Volume by Season</h2>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="font-family: sans-serif;"><rect x="0" y="0" width="400" height="240" fill="#0d1117"/><rect x="30" y="40.26760871932129" width="70" height="159.7323912806787" rx="4" fill="#f39c12"/><text x="65.0" y="32.26760871932129" fill="white" font-size="11" text-anchor="middle">2,283,096</text><text x="65.0" y="220" fill="white" font-size="12" text-anchor="middle">Winter</text><rect x="130" y="40.0" width="70" height="160.0" rx="4" fill="#f39c12"/><text x="165.0" y="32.0" fill="white" font-size="11" text-anchor="middle">2,286,920</text><text x="165.0" y="220" fill="white" font-size="12" text-anchor="middle">Spring</text><rect x="230" y="60.23219866361762" width="70" height="139.76780133638238" rx="4" fill="#f39c12"/><text x="265.0" y="52.23219866361762" fill="white" font-size="11" text-anchor="middle">1,997,737</text><text x="265.0" y="220" fill="white" font-size="12" text-anchor="middle">Summer</text><rect x="330" y="41.311247743144236" width="70" height="158.68875225685576" rx="4" fill="#f39c12"/><text x="365.0" y="33.311247743144236" fill="white" font-size="11" text-anchor="middle">2,268,179</text><text x="365.0" y="220" fill="white" font-size="12" text-anchor="middle">Fall</text></svg>
+</div>
+
+<div class="card">
+<h2>Seasonal Imbalances</h2>
+
+<div style="background:#161b22;border-left:3px solid #f39c12;padding:12px;margin:4px 0;border-radius:0 4px 4px 0;">
+💪 <strong>Back</strong> under-trained in Spring — 11.8% of season volume
+</div>
+<div style="background:#161b22;border-left:3px solid #f39c12;padding:12px;margin:4px 0;border-radius:0 4px 4px 0;">
+💪 <strong>Legs</strong> under-trained in Spring — 11.4% of season volume
+</div>
+<div style="background:#161b22;border-left:3px solid #f39c12;padding:12px;margin:4px 0;border-radius:0 4px 4px 0;">
+💪 <strong>Arms</strong> under-trained in Spring — 7.5% of season volume
+</div>
+<div style="background:#161b22;border-left:3px solid #f39c12;padding:12px;margin:4px 0;border-radius:0 4px 4px 0;">
+💪 <strong>Back</strong> under-trained in Winter — 12.2% of season volume
+</div>
+<div style="background:#161b22;border-left:3px solid #f39c12;padding:12px;margin:4px 0;border-radius:0 4px 4px 0;">
+💪 <strong>Shoulders</strong> under-trained in Winter — 11.5% of season volume
+</div>
+<div style="background:#161b22;border-left:3px solid #f39c12;padding:12px;margin:4px 0;border-radius:0 4px 4px 0;">
+💪 <strong>Legs</strong> under-trained in Winter — 8.9% of season volume
+</div>
+</div>
+
+<div class="card">
+<h2>Year-over-Year Trends</h2>
+<table>
+<thead>
+<tr>
+<th style="width:150px;">Muscle Group</th>
+<th style="width:120px;">Trend</th>
+<th>Volume Change</th>
+</tr>
+</thead>
+<tbody>
+
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Chest</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,28.0 20.0,25.710612604750157 40.0,21.409641021987515 60.0,2.0 80.0,25.46874460108112" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">76,429 → 131,090</td>
+</tr>
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Back</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,28.0 20.0,24.536831118224203 40.0,20.136548803642256 60.0,2.0 80.0,24.569086553276936" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">57,537 → 123,910</td>
+</tr>
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Legs</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,25.00749599450675 20.0,24.189917601281756 40.0,28.0 60.0,2.0 80.0,22.26287479972534" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">83,564 → 131,529</td>
+</tr>
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Shoulders</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,28.0 20.0,23.608792994212372 40.0,26.103003424377995 60.0,2.0 80.0,26.00169081092847" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">85,636 → 125,183</td>
+</tr>
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Biceps</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,28.0 20.0,24.64604961098759 40.0,19.076554489653155 60.0,2.0 80.0,23.549185684868746" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">47,245 → 151,493</td>
+</tr>
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Triceps</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,28.0 20.0,26.243408270404334 40.0,18.559620640827212 60.0,2.0 80.0,25.703916821064418" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">86,303 → 137,256</td>
+</tr>
+<tr style="border-bottom:1px solid #30363d;">
+<td style="padding:10px;color:white;">Core</td>
+<td style="padding:10px;"><svg width="80" height="30" xmlns="http://www.w3.org/2000/svg">
+<polyline points="0.0,28.0 20.0,24.803242003948125 40.0,23.580092367080404 60.0,2.0 80.0,27.04642892459374" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg></td>
+<td style="padding:10px;color:#8b949e;">129,641 → 149,669</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>Recommendations</h2>
+<p style="color:#8b949e;margin:8px 0;">💪 Add more Arms, Back, Legs work in Spring to balance your macrocycle.</p><p style="color:#8b949e;margin:8px 0;">📅 Winter: Your training naturally focuses on Core. Plan your periodization accordingly.</p><p style="color:#8b949e;margin:8px 0;">📅 Spring: Your training naturally focuses on Core. Plan your periodization accordingly.</p><p style="color:#8b949e;margin:8px 0;">📅 Summer: Your training naturally focuses on Core. Plan your periodization accordingly.</p><p style="color:#8b949e;margin:8px 0;">📅 Fall: Your training naturally focuses on Triceps. Plan your periodization accordingly.</p>
+</div>
+
+</div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
