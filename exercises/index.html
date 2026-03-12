@@ -45,7 +45,181 @@ tr:last-child td { border-bottom: none; }
 
   <input class="search-bar" type="text" id="search" placeholder="Search exercises…" oninput="filterTable()">
 
-  <div class="card">
+  
+    <div class="card" id="recovery-impact-panel" style="margin-top: 20px; border-left: 4px solid #f39c12;">
+        <h2 style="color: #f39c12; margin-bottom: 12px;">📉 Recovery Impact Summary</h2>
+        <p style="color: #8b949e; font-size: 13px; margin-bottom: 16px;">
+            View estimated recovery time and optimal sleep needs for each exercise. 
+            Click any exercise to see detailed impact.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">1 Set Warrior 3</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> General
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=General" 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Chest and Back Drop Sets</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> back, chest
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=back," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Overhead/Biceps</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> shoulders, biceps
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 36hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 75min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=shoulders," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #30363d;">
+            <a href="../recovery_forecaster/index.html" style="color: #f39c12; text-decoration: none; font-size: 14px;">
+                → View Full Recovery Forecaster
+            </a>
+        </div>
+    </div>
+
+    <div class="card" id="recovery-impact-panel" style="margin-top: 20px; border-left: 4px solid #f39c12;">
+        <h2 style="color: #f39c12; margin-bottom: 12px;">📉 Recovery Impact Summary</h2>
+        <p style="color: #8b949e; font-size: 13px; margin-bottom: 16px;">
+            View estimated recovery time and optimal sleep needs for each exercise. 
+            Click any exercise to see detailed impact.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">1 Set Warrior 3</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> General
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=General" 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Chest and Back Drop Sets</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> chest, back
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=chest," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Overhead/Biceps</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> biceps, shoulders
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 36hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 75min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=biceps," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #30363d;">
+            <a href="../recovery_forecaster/index.html" style="color: #f39c12; text-decoration: none; font-size: 14px;">
+                → View Full Recovery Forecaster
+            </a>
+        </div>
+    </div>
+
+    <div class="card" id="recovery-impact-panel" style="margin-top: 20px; border-left: 4px solid #f39c12;">
+        <h2 style="color: #f39c12; margin-bottom: 12px;">📉 Recovery Impact Summary</h2>
+        <p style="color: #8b949e; font-size: 13px; margin-bottom: 16px;">
+            View estimated recovery time and optimal sleep needs for each exercise. 
+            Click any exercise to see detailed impact.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">1 Set Warrior 3</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> General
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=General" 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Chest and Back Drop Sets</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> back, chest
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=back," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Overhead/Biceps</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> biceps, shoulders
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 36hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 75min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=biceps," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #30363d;">
+            <a href="../recovery_forecaster/index.html" style="color: #f39c12; text-decoration: none; font-size: 14px;">
+                → View Full Recovery Forecaster
+            </a>
+        </div>
+    </div>
+<div class="card">
     <table id="exTable">
       <thead>
         <tr>
@@ -1834,6 +2008,7 @@ function sortTable(col) {
             </tbody>
         </table>
     </div>
+
 
 <!-- morning_report_link_injected --><script>
 (function(){
