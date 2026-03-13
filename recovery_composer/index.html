@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery Score Composer</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: white; min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        nav { background: #161b22; padding: 12px 20px; border-radius: 8px; margin-bottom: 24px; display: flex; gap: 20px; flex-wrap: wrap; }
+        nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+        nav a:hover { color: #f39c12; }
+        header { text-align: center; margin-bottom: 32px; }
+        header h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 8px; background: linear-gradient(90deg, #f39c12, #e74c3c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: #8b949e; font-size: 1.1rem; }
+        .card { background: #161b22; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .card h2 { font-size: 1.2rem; margin-bottom: 16px; color: #f39c12; }
+        .weight-controls { display: grid; gap: 16px; }
+        .weight-row { display: flex; align-items: center; gap: 16px; padding: 12px; background: #0d1117; border-radius: 8px; }
+        .weight-row .source { width: 140px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .source-icon { width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .whoop-icon { background: #0a84ff; } .eight-icon { background: #bf5af2; } .garmin-icon { background: #30d158; } .custom-icon { background: #8b949e; }
+        .weight-slider { flex: 1; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #21262d; }
+        .weight-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #f39c12; cursor: pointer; }
+        .weight-value { width: 60px; text-align: right; font-weight: 600; color: #f39c12; }
+        .total-weight { text-align: center; padding: 12px; margin-top: 8px; border-radius: 8px; font-weight: 600; }
+        .total-weight.valid { background: rgba(48, 209, 88, 0.2); color: #30d158; }
+        .total-weight.invalid { background: rgba(234, 57, 67, 0.2); color: #ea3943; }
+        .gauge-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .gauge { position: relative; width: 200px; height: 200px; }
+        .gauge svg { transform: rotate(-90deg); }
+        .gauge-bg { fill: none; stroke: #21262d; stroke-width: 12; }
+        .gauge-fill { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+        .gauge-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .gauge-value .number { font-size: 3rem; font-weight: 700; }
+        .gauge-value .label { font-size: 0.9rem; color: #8b949e; }
+        .comparison { display: flex; gap: 24px; margin-top: 16px; font-size: 0.95rem; }
+        .comparison span { color: #8b949e; } .comparison strong { color: white; }
+        .source-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .source-card { background: #0d1117; padding: 16px; border-radius: 8px; border-left: 4px solid; }
+        .source-card.whoop { border-color: #0a84ff; } .source-card.eight { border-color: #bf5af2; } .source-card.garmin { border-color: #30d158; } .source-card.custom { border-color: #8b949e; }
+        .source-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .source-card .name { font-weight: 600; } .source-card .trend { font-size: 1.2rem; } .source-card .score { font-size: 2rem; font-weight: 700; margin-bottom: 4px; } .source-card .contribution { font-size: 0.85rem; color: #8b949e; }
+        .chart-container { position: relative; height: 320px; padding: 20px 0; }
+        .chart-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; justify-content: center; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: #8b949e; }
+        .legend-color { width: 16px; height: 3px; border-radius: 2px; }
+        .insights { display: grid; gap: 12px; }
+        .insight { padding: 16px; background: #0d1117; border-radius: 8px; border-left: 3px solid #f39c12; }
+        .insight-label { font-size: 0.8rem; color: #8b949e; margin-bottom: 4px; } .insight-value { font-weight: 600; }
+        .recommendations { display: flex; flex-direction: column; gap: 12px; }
+        .rec-item { padding: 16px; background: #0d1117; border-radius: 8px; display: flex; align-items: center; gap: 12px; }
+        .rec-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .rec-high { background: rgba(48, 209, 88, 0.2); } .rec-medium { background: rgba(255, 204, 0, 0.2); } .rec-low { background: rgba(234, 57, 67, 0.2); }
+        @media (max-width: 768px) { header h1 { font-size: 1.8rem; } .weight-row { flex-wrap: wrap; } .weight-row .source { width: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/calendars/index.html">Calendars</a>
+            <a href="/strength/index.html">Strength</a>
+            <a href="/cardio/index.html">Cardio</a>
+            <a href="/recovery/index.html">Recovery</a>
+            <a href="/nutrition/index.html">Nutrition</a>
+            <a href="/recovery_composer/index.html">Recovery Composer</a>
+        </nav>
+        <header>
+            <h1>Recovery Score Composer</h1>
+            <p>Find your optimal recovery weighting</p>
+        </header>
+        <div class="card">
+            <h2>⚖️ Weight Controls</h2>
+            <div class="weight-controls">
+                <div class="weight-row"><div class="source"><span class="source-icon whoop-icon">W</span>WHOOP</div><input type="range" class="weight-slider" id="whoopWeight" min="0" max="100" value="35" oninput="updateWeights()"><span class="weight-value" id="whoopWeightVal">35%</span></div>
+                <div class="weight-row"><div class="source"><span class="source-icon eight-icon">8</span>8Sleep</div><input type="range" class="weight-slider" id="eightWeight" min="0" max="100" value="35" oninput="updateWeights()"><span class="weight-value" id="eightWeightVal">35%</span></div>
+                <div class="weight-row"><div class="source"><span class="source-icon garmin-icon">G</span>Garmin HRV</div><input type="range" class="weight-slider" id="garminWeight" min="0" max="100" value="20" oninput="updateWeights()"><span class="weight-value" id="garminWeightVal">20%</span></div>
+                <div class="weight-row"><div class="source"><span class="source-icon custom-icon">T</span>Training Load</div><input type="range" class="weight-slider" id="customWeight" min="0" max="100" value="10" oninput="updateWeights()"><span class="weight-value" id="customWeightVal">10%</span></div>
+            </div>
+            <div class="total-weight valid" id="totalWeight">Total: 100%</div>
+        </div>
+        <div class="card">
+            <h2>📊 Today's Composite Score</h2>
+            <div class="gauge-container">
+                <div class="gauge">
+                    <svg width="200" height="200" viewBox="0 0 200 200"><circle class="gauge-bg" cx="100" cy="100" r="85"/><circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534"/></svg>
+                    <div class="gauge-value"><div class="number" id="compositeScore">--</div><div class="label">Weighted</div></div>
+                </div>
+                <div class="comparison"><span>Weighted: <strong id="weightedScore">--</strong></span><span>Unweighted: <strong id="unweightedScore">--</strong></span><span>Delta: <strong id="deltaScore">--</strong></span></div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>📈 Source Breakdown</h2>
+            <div class="source-cards">
+                <div class="source-card whoop"><div class="header"><span class="name">🔵 WHOOP</span><span class="trend" id="whoopTrend">→</span></div><div class="score" id="whoopScore">--</div><div class="contribution" id="whoopContrib">-- pts</div></div>
+                <div class="source-card eight"><div class="header"><span class="name">🟣 8Sleep</span><span class="trend" id="eightTrend">→</span></div><div class="score" id="eightScore">--</div><div class="contribution" id="eightContrib">-- pts</div></div>
+                <div class="source-card garmin"><div class="header"><span class="name">🟢 Garmin HRV</span><span class="trend" id="garminTrend">→</span></div><div class="score" id="garminScore">--</div><div class="contribution" id="garminContrib">-- pts</div></div>
+                <div class="source-card custom"><div class="header"><span class="name">⚪ Training</span><span class="trend" id="customTrend">→</span></div><div class="score" id="customScore">--</div><div class="contribution" id="customContrib">-- pts</div></div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>📉 Historical Trends (45 Days)</h2>
+            <div class="chart-legend">
+                <div class="legend-item"><span class="legend-color" style="background:#f39c12;"></span> Weighted</div>
+                <div class="legend-item"><span class="legend-color" style="background:#0a84ff;"></span> WHOOP</div>
+                <div class="legend-item"><span class="legend-color" style="background:#bf5af2;"></span> 8Sleep</div>
+                <div class="legend-item"><span class="legend-color" style="background:#30d158;"></span> Garmin</div>
+                <div class="legend-item"><span class="legend-color" style="background:#8b949e;"></span> Unweighted</div>
+            </div>
+            <div class="chart-container"><svg id="historicalChart" width="100%" height="300" viewBox="0 0 800 300"></svg></div>
+        </div>
+        <div class="card">
+            <h2>💡 Insights</h2>
+            <div class="insights">
+                <div class="insight"><div class="insight-label">Best Recovery Source</div><div class="insight-value" id="bestSource">--</div></div>
+                <div class="insight"><div class="insight-label">Recent Trend</div><div class="insight-value" id="trendInsight">--</div></div>
+                <div class="insight"><div class="insight-label">Training Impact</div><div class="insight-value" id="trainingImpact">--</div></div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>🎯 Recommendations</h2>
+            <div class="recommendations" id="recommendations"></div>
+        </div>
+    </div>
+    <script>
+        const whoopHistory = [{"date": "2026-01-28", "score": 44.0}, {"date": "2026-01-29", "score": 29.0}, {"date": "2026-01-30", "score": 38.0}, {"date": "2026-01-31", "score": 89.0}, {"date": "2026-02-01", "score": 31.0}, {"date": "2026-02-02", "score": 47.0}, {"date": "2026-02-03", "score": 15.0}, {"date": "2026-02-04", "score": 10.0}, {"date": "2026-02-05", "score": 14.0}, {"date": "2026-02-06", "score": 73.0}, {"date": "2026-02-07", "score": 87.0}, {"date": "2026-02-08", "score": 83.0}, {"date": "2026-02-09", "score": 44.0}, {"date": "2026-02-10", "score": 63.0}, {"date": "2026-02-11", "score": 18.0}, {"date": "2026-02-12", "score": 18.0}, {"date": "2026-02-13", "score": 85.0}, {"date": "2026-02-14", "score": 25.0}, {"date": "2026-02-15", "score": 23.0}, {"date": "2026-02-16", "score": 35.0}, {"date": "2026-02-17", "score": 7.0}, {"date": "2026-02-18", "score": 35.0}, {"date": "2026-02-19", "score": 38.0}, {"date": "2026-02-20", "score": 38.0}, {"date": "2026-02-21", "score": 41.0}, {"date": "2026-02-22", "score": 35.0}, {"date": "2026-02-23", "score": 39.0}, {"date": "2026-02-24", "score": 46.0}, {"date": "2026-02-25", "score": 15.0}, {"date": "2026-02-26", "score": 59.0}, {"date": "2026-02-27", "score": 0}, {"date": "2026-02-28", "score": 39.0}, {"date": "2026-03-01", "score": 44.0}, {"date": "2026-03-02", "score": 43.0}, {"date": "2026-03-03", "score": 44.0}, {"date": "2026-03-04", "score": 37.0}, {"date": "2026-03-05", "score": 0}, {"date": "2026-03-06", "score": 58.0}, {"date": "2026-03-07", "score": 57.0}, {"date": "2026-03-08", "score": 48.0}, {"date": "2026-03-09", "score": 73.0}, {"date": "2026-03-10", "score": 97.0}, {"date": "2026-03-11", "score": 72.0}, {"date": "2026-03-12", "score": 56.0}, {"date": "2026-03-13", "score": 0}];
+        const eightHistory = [{"date": "2026-01-28", "score": 0}, {"date": "2026-01-29", "score": 0}, {"date": "2026-01-30", "score": 0}, {"date": "2026-01-31", "score": 0}, {"date": "2026-02-01", "score": 0}, {"date": "2026-02-02", "score": 0}, {"date": "2026-02-03", "score": 0}, {"date": "2026-02-04", "score": 0}, {"date": "2026-02-05", "score": 0}, {"date": "2026-02-06", "score": 0}, {"date": "2026-02-07", "score": 0}, {"date": "2026-02-08", "score": 0}, {"date": "2026-02-09", "score": 0}, {"date": "2026-02-10", "score": 0}, {"date": "2026-02-11", "score": 61}, {"date": "2026-02-12", "score": 47}, {"date": "2026-02-13", "score": 78}, {"date": "2026-02-14", "score": 0}, {"date": "2026-02-15", "score": 0}, {"date": "2026-02-16", "score": 0}, {"date": "2026-02-17", "score": 50}, {"date": "2026-02-18", "score": 88}, {"date": "2026-02-19", "score": 88}, {"date": "2026-02-20", "score": 77}, {"date": "2026-02-21", "score": 54}, {"date": "2026-02-22", "score": 0}, {"date": "2026-02-23", "score": 75}, {"date": "2026-02-24", "score": 82}, {"date": "2026-02-25", "score": 55}, {"date": "2026-02-26", "score": 0}, {"date": "2026-02-27", "score": 0}, {"date": "2026-02-28", "score": 0}, {"date": "2026-03-01", "score": 0}, {"date": "2026-03-02", "score": 0}, {"date": "2026-03-03", "score": 0}, {"date": "2026-03-04", "score": 0}, {"date": "2026-03-05", "score": 0}, {"date": "2026-03-06", "score": 0}, {"date": "2026-03-07", "score": 0}, {"date": "2026-03-08", "score": 0}, {"date": "2026-03-09", "score": 0}, {"date": "2026-03-10", "score": 0}, {"date": "2026-03-11", "score": 0}, {"date": "2026-03-12", "score": 0}, {"date": "2026-03-13", "score": 0}];
+        const garminHistory = [{"date": "2026-01-28", "score": 2.5}, {"date": "2026-01-29", "score": 0}, {"date": "2026-01-30", "score": 0}, {"date": "2026-01-31", "score": 24.1}, {"date": "2026-02-01", "score": 0}, {"date": "2026-02-02", "score": 0}, {"date": "2026-02-03", "score": 0}, {"date": "2026-02-04", "score": 0}, {"date": "2026-02-05", "score": 16.8}, {"date": "2026-02-06", "score": 22.8}, {"date": "2026-02-07", "score": 67.0}, {"date": "2026-02-08", "score": 21.2}, {"date": "2026-02-09", "score": 0}, {"date": "2026-02-10", "score": 7.8}, {"date": "2026-02-11", "score": 0}, {"date": "2026-02-12", "score": 0}, {"date": "2026-02-13", "score": 100}, {"date": "2026-02-14", "score": 0}, {"date": "2026-02-15", "score": 0}, {"date": "2026-02-16", "score": 0}, {"date": "2026-02-17", "score": 0}, {"date": "2026-02-18", "score": 4.7}, {"date": "2026-02-19", "score": 8.3}, {"date": "2026-02-20", "score": 10.9}, {"date": "2026-02-21", "score": 7.3}, {"date": "2026-02-22", "score": 4.1}, {"date": "2026-02-23", "score": 9.1}, {"date": "2026-02-24", "score": 13.4}, {"date": "2026-02-25", "score": 9.6}, {"date": "2026-02-26", "score": 25.3}, {"date": "2026-02-27", "score": 0}, {"date": "2026-02-28", "score": 14.4}, {"date": "2026-03-01", "score": 10.5}, {"date": "2026-03-02", "score": 9.9}, {"date": "2026-03-03", "score": 9.7}, {"date": "2026-03-04", "score": 3.4}, {"date": "2026-03-05", "score": 0}, {"date": "2026-03-06", "score": 23.0}, {"date": "2026-03-07", "score": 23.3}, {"date": "2026-03-08", "score": 15.7}, {"date": "2026-03-09", "score": 29.6}, {"date": "2026-03-10", "score": 37.1}, {"date": "2026-03-11", "score": 15.5}, {"date": "2026-03-12", "score": 7.5}, {"date": "2026-03-13", "score": 0}];
+        const customHistory = [{"date": "2026-01-28", "score": 100, "volume": 0}, {"date": "2026-01-29", "score": 100, "volume": 0}, {"date": "2026-01-30", "score": 100, "volume": 0}, {"date": "2026-01-31", "score": 100, "volume": 0}, {"date": "2026-02-01", "score": 100, "volume": 0}, {"date": "2026-02-02", "score": 100, "volume": 0}, {"date": "2026-02-03", "score": 100, "volume": 0}, {"date": "2026-02-04", "score": 100, "volume": 0}, {"date": "2026-02-05", "score": 100, "volume": 0}, {"date": "2026-02-06", "score": 100, "volume": 0}, {"date": "2026-02-07", "score": 100, "volume": 0}, {"date": "2026-02-08", "score": 100, "volume": 0}, {"date": "2026-02-09", "score": 100, "volume": 0}, {"date": "2026-02-10", "score": 100, "volume": 0}, {"date": "2026-02-11", "score": 100, "volume": 0}, {"date": "2026-02-12", "score": 100, "volume": 0}, {"date": "2026-02-13", "score": 100, "volume": 0}, {"date": "2026-02-14", "score": 100, "volume": 0}, {"date": "2026-02-15", "score": 100, "volume": 0}, {"date": "2026-02-16", "score": 100, "volume": 0}, {"date": "2026-02-17", "score": 100, "volume": 0}, {"date": "2026-02-18", "score": 100, "volume": 0}, {"date": "2026-02-19", "score": 100, "volume": 0}, {"date": "2026-02-20", "score": 100, "volume": 0}, {"date": "2026-02-21", "score": 100, "volume": 0}, {"date": "2026-02-22", "score": 100, "volume": 0}, {"date": "2026-02-23", "score": 100, "volume": 0}, {"date": "2026-02-24", "score": 100, "volume": 0}, {"date": "2026-02-25", "score": 100, "volume": 0}, {"date": "2026-02-26", "score": 100, "volume": 0}, {"date": "2026-02-27", "score": 100, "volume": 0}, {"date": "2026-02-28", "score": 100, "volume": 0}, {"date": "2026-03-01", "score": 100, "volume": 0}, {"date": "2026-03-02", "score": 100, "volume": 0}, {"date": "2026-03-03", "score": 100, "volume": 0}, {"date": "2026-03-04", "score": 100, "volume": 0}, {"date": "2026-03-05", "score": 100, "volume": 0}, {"date": "2026-03-06", "score": 100, "volume": 0}, {"date": "2026-03-07", "score": 100, "volume": 0}, {"date": "2026-03-08", "score": 100, "volume": 0}, {"date": "2026-03-09", "score": 100, "volume": 0}, {"date": "2026-03-10", "score": 100, "volume": 0}, {"date": "2026-03-11", "score": 100, "volume": 0}, {"date": "2026-03-12", "score": 100, "volume": 0}, {"date": "2026-03-13", "score": 100, "volume": 0}];
+        const todayWhoop = 0;
+        const todayEight = 0;
+        const todayGarmin = 0;
+        const todayCustom = 100;
+        const whoopTrend = "↑";
+        const eightTrend = "→";
+        const garminTrend = "↑";
+        const customTrend = "→";
+        
+        function calcRecentTrend(history) {
+            if (history.length < 8) return 'stable';
+            const recent = history.slice(-7).reduce((a,b) => a + (b.score || 0), 0) / 7;
+            const prev = history.slice(-14, -7).reduce((a,b) => a + (b.score || 0), 0) / 7;
+            if (recent > prev + 5) return 'up';
+            if (recent < prev - 5) return 'down';
+            return 'stable';
+        }
+        
+        function updateWeights() {
+            const whoopW = parseInt(document.getElementById('whoopWeight').value);
+            const eightW = parseInt(document.getElementById('eightWeight').value);
+            const garminW = parseInt(document.getElementById('garminWeight').value);
+            const customW = parseInt(document.getElementById('customWeight').value);
+            document.getElementById('whoopWeightVal').textContent = whoopW + '%';
+            document.getElementById('eightWeightVal').textContent = eightW + '%';
+            document.getElementById('garminWeightVal').textContent = garminW + '%';
+            document.getElementById('customWeightVal').textContent = customW + '%';
+            const total = whoopW + eightW + garminW + customW;
+            const totalEl = document.getElementById('totalWeight');
+            totalEl.textContent = 'Total: ' + total + '%';
+            totalEl.className = 'total-weight ' + (total === 100 ? 'valid' : 'invalid');
+            calculateComposite(whoopW, eightW, garminW, customW);
+            drawChart();
+        }
+        
+        function calculateComposite(whoopW, eightW, garminW, customW) {
+            const totalW = whoopW + eightW + garminW + customW;
+            const w1 = whoopW / totalW || 0;
+            const w2 = eightW / totalW || 0;
+            const w3 = garminW / totalW || 0;
+            const w4 = customW / totalW || 0;
+            const weighted = todayWhoop * w1 + todayEight * w2 + todayGarmin * w3 + todayCustom * w4;
+            const unweighted = (todayWhoop + todayEight + todayGarmin + todayCustom) / 4;
+            const delta = weighted - unweighted;
+            const gauge = document.getElementById('gaugeFill');
+            gauge.style.strokeDashoffset = 534 - (534 * weighted / 100);
+            let color = '#ea3943';
+            if (weighted >= 70) color = '#30d158';
+            else if (weighted >= 40) color = '#ffcc00';
+            gauge.style.stroke = color;
+            document.getElementById('compositeScore').textContent = Math.round(weighted);
+            document.getElementById('weightedScore').textContent = Math.round(weighted);
+            document.getElementById('unweightedScore').textContent = Math.round(unweighted);
+            document.getElementById('deltaScore').textContent = (delta >= 0 ? '+' : '') + Math.round(delta);
+            document.getElementById('whoopScore').textContent = todayWhoop || '--';
+            document.getElementById('whoopContrib').textContent = Math.round(todayWhoop * w1) + ' pts';
+            document.getElementById('whoopTrend').textContent = whoopTrend;
+            document.getElementById('eightScore').textContent = todayEight || '--';
+            document.getElementById('eightContrib').textContent = Math.round(todayEight * w2) + ' pts';
+            document.getElementById('eightTrend').textContent = eightTrend;
+            document.getElementById('garminScore').textContent = todayGarmin || '--';
+            document.getElementById('garminContrib').textContent = Math.round(todayGarmin * w3) + ' pts';
+            document.getElementById('garminTrend').textContent = garminTrend;
+            document.getElementById('customScore').textContent = todayCustom || '--';
+            document.getElementById('customContrib').textContent = Math.round(todayCustom * w4) + ' pts';
+            document.getElementById('customTrend').textContent = customTrend;
+            const scores = [{name: 'WHOOP', score: todayWhoop, weight: whoopW}, {name: '8Sleep', score: todayEight, weight: eightW}, {name: 'Garmin HRV', score: todayGarmin, weight: garminW}, {name: 'Training', score: todayCustom, weight: customW}].filter(s => s.weight > 0);
+            const best = scores.reduce((a, b) => (a.score * a.weight > b.score * b.weight) ? a : b, scores[0]);
+            document.getElementById('bestSource').textContent = best ? best.name + ' (' + Math.round(best.score) + ')' : '--';
+            const recentTrend = calcRecentTrend(whoopHistory);
+            document.getElementById('trendInsight').textContent = 'Recovery is ' + recentTrend + ' (7-day avg)';
+            const recentLoad = customHistory.slice(-3).reduce((a,b) => a + (b.volume || 0), 0);
+            let impact = 'Low';
+            if (recentLoad > 3000) impact = 'High';
+            else if (recentLoad > 1500) impact = 'Medium';
+            document.getElementById('trainingImpact').textContent = 'Workout intensity suggests recovery need: ' + impact;
+            const recs = document.getElementById('recommendations');
+            if (weighted > 75) recs.innerHTML = '<div class="rec-item"><div class="rec-icon rec-high">🔥</div><div><strong>Push hard</strong> — you're fully recovered</div></div>';
+            else if (weighted >= 50) recs.innerHTML = '<div class="rec-item"><div class="rec-icon rec-medium">⚖️</div><div><strong>Moderate training</strong> — mix intensity today</div></div>';
+            else recs.innerHTML = '<div class="rec-item"><div class="rec-icon rec-low">😴</div><div><strong>Active recovery or rest day</strong> — prioritize sleep</div></div>';
+        }
+        
+        function drawChart() {
+            const svg = document.getElementById('historicalChart');
+            const width = 800, height = 300, padding = 40;
+            const xScale = (i) => padding + (i / (whoopHistory.length - 1)) * (width - 2 * padding);
+            const yScale = (s) => height - padding - (s / 100) * (height - 2 * padding);
+            const sources = [{key: 'whoop', color: '#0a84ff', data: whoopHistory}, {key: 'eight', color: '#bf5af2', data: eightHistory}, {key: 'garmin', color: '#30d158', data: garminHistory}];
+            let paths = '';
+            sources.forEach(src => {
+                let d = '';
+                src.data.forEach((point, i) => { d += (i === 0 ? 'M' : 'L') + xScale(i) + ',' + yScale(point.score || 0); });
+                paths += '<path d="' + d + '" fill="none" stroke="' + src.color + '" stroke-width="2"/>';
+            });
+            const whoopW = parseInt(document.getElementById('whoopWeight').value) / 100;
+            const eightW = parseInt(document.getElementById('eightWeight').value) / 100;
+            const garminW = parseInt(document.getElementById('garminWeight').value) / 100;
+            const customW = parseInt(document.getElementById('customWeight').value) / 100;
+            const totalW = whoopW + eightW + garminW + customW || 1;
+            let weightedD = '', unweightedD = '';
+            whoopHistory.forEach((h, i) => {
+                const whoop = h.score || 0, eight = eightHistory[i]?.score || 0, garmin = garminHistory[i]?.score || 0, custom = customHistory[i]?.score || 0;
+                const w = (whoop * whoopW + eight * eightW + garmin * garminW + custom * customW) / totalW;
+                const u = (whoop + eight + garmin + custom) / 4;
+                weightedD += (i === 0 ? 'M' : 'L') + xScale(i) + ',' + yScale(w);
+                unweightedD += (i === 0 ? 'M' : 'L') + xScale(i) + ',' + yScale(u);
+            });
+            paths += '<path d="' + weightedD + '" fill="none" stroke="#f39c12" stroke-width="3"/>';
+            paths += '<path d="' + unweightedD + '" fill="none" stroke="#8b949e" stroke-width="2" stroke-dasharray="4,4"/>';
+            let labels = '';
+            for (let y = 0; y <= 100; y += 25) labels += '<text x="30" y="' + (yScale(y) + 4) + '" fill="#8b949e" font-size="12">' + y + '</text>';
+            svg.innerHTML = labels + paths;
+        }
+        
+        updateWeights();
+    <\/script>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
