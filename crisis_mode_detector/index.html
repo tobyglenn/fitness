@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Mode Detector</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117; color: #e6edf3; min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Nav */
+        nav {
+            background: #161b22; border-radius: 8px; padding: 12px 20px; margin-bottom: 24px;
+            display: flex; gap: 20px; align-items: center;
+        }
+        nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+        nav a:hover { color: #f39c12; }
+        
+        h1 { color: #f39c12; margin-bottom: 8px; font-size: 28px; }
+        .subtitle { color: #8b949e; margin-bottom: 24px; }
+        
+        /* Summary Cards */
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .card {
+            background: #161b22; border-radius: 12px; padding: 20px;
+            border: 1px solid #30363d;
+        }
+        .card-label { color: #8b949e; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .card-value { font-size: 32px; font-weight: 700; margin: 8px 0; }
+        .card-value.ok { color: #3fb950; }
+        .card-value.warning { color: #f39c12; }
+        .card-value.critical { color: #f85149; }
+        
+        /* Timeline */
+        .timeline { display: flex; flex-direction: column; gap: 12px; }
+        .day-row {
+            background: #161b22; border-radius: 8px; padding: 16px;
+            display: grid; grid-template-columns: 80px 1fr 120px 80px; gap: 16px; align-items: center;
+            border: 1px solid #30363d;
+        }
+        .day-row.critical { border-color: #f85149; background: rgba(248, 81, 73, 0.1); }
+        .day-row.warning { border-color: #f39c12; background: rgba(243, 156, 18, 0.1); }
+        
+        .date { font-weight: 600; }
+        .day { color: #8b949e; font-size: 12px; }
+        
+        .signals { display: flex; gap: 8px; flex-wrap: wrap; }
+        .signal {
+            padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;
+        }
+        .signal.high { background: rgba(248, 81, 73, 0.2); color: #f85149; }
+        .signal.medium { background: rgba(243, 156, 18, 0.2); color: #f39c12; }
+        
+        .score { text-align: right; font-weight: 700; font-size: 18px; }
+        .status { text-align: right; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .metrics {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; font-size: 12px;
+            margin-top: 8px;
+        }
+        .metric { color: #8b949e; }
+        .metric span { color: #e6edf3; }
+        
+        /* Legend */
+        .legend {
+            display: flex; gap: 24px; margin-top: 32px; padding: 16px;
+            background: #161b22; border-radius: 8px; justify-content: center;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #8b949e; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        
+        /* Insights */
+        .insights {
+            background: #161b22; border-radius: 12px; padding: 24px; margin-top: 32px;
+            border: 1px solid #30363d;
+        }
+        .insights h2 { color: #f39c12; margin-bottom: 16px; font-size: 18px; }
+        .insight-item { padding: 12px 0; border-bottom: 1px solid #30363d; }
+        .insight-item:last-child { border: none; }
+        
+        /* Status badges */
+        .status-badge {
+            padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-badge.critical { background: #f85149; color: #fff; }
+        .status-badge.warning { background: #f39c12; color: #000; }
+        .status-badge.elevated { background: #8b949e; color: #fff; }
+        .status-badge.ok { background: #3fb950; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">← Dashboard</a>
+            <a href="/balance">Balance</a>
+            <a href="/autonomic">Autonomic</a>
+            <a href="/fatigue">Fatigue</a>
+        </nav>
+        
+        <h1>🛡️ Crisis Mode Detector</h1>
+        <p class="subtitle">Multi-device recovery monitoring • Last 14 days • Baseline recovery: 55% • Baseline HRV: 34.4ms</p>
+        
+        <div class="summary">
+            <div class="card">
+                <div class="card-label">Crisis Days</div>
+                <div class="card-value critical">7</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Critical Days</div>
+                <div class="card-value critical">3</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Warning Days</div>
+                <div class="card-value warning">4</div>
+            </div>
+            <div class="card">
+                <div class="card-label">OK Days</div>
+                <div class="card-value ok">2</div>
+            </div>
+        </div>
+        
+        <h2 style="color: #e6edf3; margin-bottom: 16px; font-size: 18px;">14-Day Timeline</h2>
+        
+        <div class="timeline">
+
+            <div class="day-row ok">
+                <div>
+                    <div class="date">03-16</div>
+                    <div class="day">Mon</div>
+                </div>
+                <div class="signals"><span style="color: #3fb950">✓ All clear</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>-</span></div>
+                        <div class="metric">8Sleep: <span>-</span></div>
+                        <div class="metric">BB: <span>-</span></div>
+                        <div class="metric">HRV: <span>-</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">0</div>
+                    <span class="status-badge ok">ok</span>
+                </div>
+            </div>
+
+            <div class="day-row warning">
+                <div>
+                    <div class="date">03-15</div>
+                    <div class="day">Sun</div>
+                </div>
+                <div class="signals"><span class="signal high">hrv: 24.832298</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>48%</span></div>
+                        <div class="metric">8Sleep: <span>-</span></div>
+                        <div class="metric">BB: <span>None</span></div>
+                        <div class="metric">HRV: <span>25</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">3</div>
+                    <span class="status-badge warning">warning</span>
+                </div>
+            </div>
+
+            <div class="day-row ok">
+                <div>
+                    <div class="date">03-14</div>
+                    <div class="day">Sat</div>
+                </div>
+                <div class="signals"><span style="color: #3fb950">✓ All clear</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>68%</span></div>
+                        <div class="metric">8Sleep: <span>-</span></div>
+                        <div class="metric">BB: <span>None</span></div>
+                        <div class="metric">HRV: <span>32</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">0</div>
+                    <span class="status-badge ok">ok</span>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item"><div class="dot" style="background: #f85149;"></div> High severity</div>
+            <div class="legend-item"><div class="dot" style="background: #f39c12;"></div> Medium severity</div>
+            <div class="legend-item"><div class="dot" style="background: #3fb950;"></div> Normal</div>
+        </div>
+
+        <div class="insights">
+            <h2>💡 Insights</h2>
+            <div class="insight-item">⚠️ You've had 7 crisis/warning days in the last 3 days. Consider deload or extra recovery.</div><div class="insight-item">🔋 Garmin Body Battery has been depleted (< 40) for 3+ days this week.</div>
+        </div>
+    </div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
