@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muscle Asset Rebalancer | Fitness Ecosystem</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d1117; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    h1 { color: #f39c12; font-size: 28px; margin-bottom: 8px; }
+    h2 { color: #ffffff; font-size: 20px; margin: 24px 0 16px; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+    .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+    .card { background: #161b22; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-box { background: #161b22; border-radius: 8px; padding: 16px; text-align: center; }
+    .stat-value { font-size: 24px; font-weight: 700; color: #f39c12; }
+    .stat-label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+    .chart-container { background: #161b22; border-radius: 12px; padding: 20px; overflow-x: auto; }
+    .heatmap-container { display: flex; justify-content: center; overflow-x: auto; }
+    .legend { display: flex; gap: 20px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
+    .legend-color { width: 16px; height: 16px; border-radius: 4px; }
+    a { color: #f39c12; }
+  </style>
+</head>
+<body>
+  
+<nav style="background: #161b22; padding: 12px 20px; border-bottom: 1px solid #30363d; display: flex; gap: 20px; flex-wrap: wrap;">
+  <a href="../../index.html" style="color: #f39c12; text-decoration: none; font-weight: 600;">Home</a>
+  <a href="../../calendars/index.html" style="color: #ffffff; text-decoration: none;">Calendars</a>
+  <a href="../../strength/index.html" style="color: #ffffff; text-decoration: none;">Strength</a>
+  <a href="../../cardio/index.html" style="color: #ffffff; text-decoration: none;">Cardio</a>
+  <a href="../../recovery/index.html" style="color: #ffffff; text-decoration: none;">Recovery</a>
+  <a href="../../nutrition/index.html" style="color: #ffffff; text-decoration: none;">Nutrition</a>
+  <a href="index.html" style="color: #f39c12; text-decoration: none; font-weight: 600;">Muscle Rebalancer</a>
+</nav>
+
+  <div class="container">
+    <h1>💪 Muscle Asset Rebalancer</h1>
+    <p class="subtitle">Analyze volume distribution across muscle groups and get personalized rebalancing recommendations</p>
+    
+    <!-- Summary Stats -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">30-Day Volume</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">60-Day Volume</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">90-Day Volume</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Imbalances Found</div>
+      </div>
+    </div>
+    
+    <!-- Volume Distribution Chart -->
+    <h2>📊 Volume Distribution by Muscle Group</h2>
+    <div class="chart-container">
+      <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bar { fill: #f39c12; rx: 4; }
+      .bar-label { fill: #ffffff; font-size: 13px; font-family: system-ui, sans-serif; }
+      .bar-value { fill: #8b949e; font-size: 12px; font-family: system-ui, sans-serif; }
+      .toggle-btn { fill: #161b22; stroke: #8b949e; cursor: pointer; }
+      .toggle-btn:hover { stroke: #f39c12; }
+      .toggle-active { fill: #f39c12; stroke: #f39c12; }
+    </style>
+  </defs>
+  <rect width="800" height="400" fill="#0d1117"/>
+  
+  <!-- Toggle buttons -->
+  <g transform="translate(350, 10)">
+    <rect class="toggle-btn toggle-active" x="0" y="0" width="60" height="28" rx="4" data-period="30"/>
+    <text x="30" y="19" text-anchor="middle" fill="#0d1117" font-size="12" font-weight="bold">30D</text>
+    <rect class="toggle-btn" x="65" y="0" width="60" height="28" rx="4" data-period="60"/>
+    <text x="95" y="19" text-anchor="middle" fill="#ffffff" font-size="12">60D</text>
+    <rect class="toggle-btn" x="130" y="0" width="60" height="28" rx="4" data-period="90"/>
+    <text x="160" y="19" text-anchor="middle" fill="#ffffff" font-size="12">90D</text>
+  </g>
+
+  <text x="80" y="82" class="bar-label" text-anchor="end">Chest</text>
+  <rect x="90" y="60" width="0.0" height="35" class="bar" fill="#f85149"/>
+  <text x="98.0" y="82" class="bar-value">0 lbs</text>
+
+  <text x="80" y="132" class="bar-label" text-anchor="end">Back</text>
+  <rect x="90" y="110" width="0.0" height="35" class="bar" fill="#0a84ff"/>
+  <text x="98.0" y="132" class="bar-value">0 lbs</text>
+
+  <text x="80" y="182" class="bar-label" text-anchor="end">Legs</text>
+  <rect x="90" y="160" width="0.0" height="35" class="bar" fill="#2ea043"/>
+  <text x="98.0" y="182" class="bar-value">0 lbs</text>
+
+  <text x="80" y="232" class="bar-label" text-anchor="end">Shoulders</text>
+  <rect x="90" y="210" width="0.0" height="35" class="bar" fill="#f39c12"/>
+  <text x="98.0" y="232" class="bar-value">0 lbs</text>
+
+  <text x="80" y="282" class="bar-label" text-anchor="end">Biceps</text>
+  <rect x="90" y="260" width="0.0" height="35" class="bar" fill="#a855f7"/>
+  <text x="98.0" y="282" class="bar-value">0 lbs</text>
+
+  <text x="80" y="332" class="bar-label" text-anchor="end">Triceps</text>
+  <rect x="90" y="310" width="0.0" height="35" class="bar" fill="#06b6d4"/>
+  <text x="98.0" y="332" class="bar-value">0 lbs</text>
+
+  <text x="80" y="382" class="bar-label" text-anchor="end">Core</text>
+  <rect x="90" y="360" width="0.0" height="35" class="bar" fill="#3fb950"/>
+  <text x="98.0" y="382" class="bar-value">0 lbs</text>
+</svg>
+    </div>
+    
+    <!-- Imbalance Heatmap -->
+    <h2>🔬 Muscle Balance Heatmap</h2>
+    <div class="card">
+      <p style="color: #8b949e; margin-bottom: 16px; font-size: 14px;">
+        Volume ratios between muscle pairs. <span style="color: #f85149;">Red</span> = over-trained, 
+        <span style="color: #0a84ff;">Blue</span> = under-trained, 
+        <span style="color: #2ea043;">Green</span> = balanced.
+      </p>
+      <div class="heatmap-container">
+        <svg viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .cell-label { fill: #ffffff; font-size: 11px; font-family: system-ui, sans-serif; text-anchor: middle; }
+      .cell-value { fill: #ffffff; font-size: 12px; font-family: system-ui, sans-serif; text-anchor: middle; font-weight: bold; }
+    </style>
+  </defs>
+  <rect width="560" height="560" fill="#0d1117"/>
+<text x="72" y="114.0" class="cell-label" text-anchor="end">Chest</text>
+<text x="72" y="174.0" class="cell-label" text-anchor="end">Back</text>
+<text x="72" y="234.0" class="cell-label" text-anchor="end">Legs</text>
+<text x="72" y="294.0" class="cell-label" text-anchor="end">Should</text>
+<text x="72" y="354.0" class="cell-label" text-anchor="end">Biceps</text>
+<text x="72" y="414.0" class="cell-label" text-anchor="end">Tricep</text>
+<text x="72" y="474.0" class="cell-label" text-anchor="end">Core</text>
+<text x="110.0" y="72" class="cell-label" text-anchor="middle">Chest</text>
+<text x="170.0" y="72" class="cell-label" text-anchor="middle">Back</text>
+<text x="230.0" y="72" class="cell-label" text-anchor="middle">Legs</text>
+<text x="290.0" y="72" class="cell-label" text-anchor="middle">Should</text>
+<text x="350.0" y="72" class="cell-label" text-anchor="middle">Biceps</text>
+<text x="410.0" y="72" class="cell-label" text-anchor="middle">Tricep</text>
+<text x="470.0" y="72" class="cell-label" text-anchor="middle">Core</text>
+<rect x="82" y="82" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="110.0" y="114.0" class="cell-value" fill="#8b949e">0.00</text>
+<rect x="142" y="82" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="170.0" y="114.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="202" y="82" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="230.0" y="114.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="262" y="82" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="290.0" y="114.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="322" y="82" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="350.0" y="114.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="382" y="82" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="410.0" y="114.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="442" y="82" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="470.0" y="114.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="82" y="142" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="110.0" y="174.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="142" y="142" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="170.0" y="174.0" class="cell-value" fill="#8b949e">0.00</text>
+<rect x="202" y="142" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="230.0" y="174.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="262" y="142" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="290.0" y="174.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="322" y="142" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="350.0" y="174.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="382" y="142" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="410.0" y="174.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="442" y="142" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="470.0" y="174.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="82" y="202" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="110.0" y="234.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="142" y="202" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="170.0" y="234.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="202" y="202" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="230.0" y="234.0" class="cell-value" fill="#8b949e">0.00</text>
+<rect x="262" y="202" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="290.0" y="234.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="322" y="202" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="350.0" y="234.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="382" y="202" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="410.0" y="234.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="442" y="202" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="470.0" y="234.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="82" y="262" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="110.0" y="294.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="142" y="262" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="170.0" y="294.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="202" y="262" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="230.0" y="294.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="262" y="262" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="290.0" y="294.0" class="cell-value" fill="#8b949e">0.00</text>
+<rect x="322" y="262" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="350.0" y="294.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="382" y="262" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="410.0" y="294.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="442" y="262" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="470.0" y="294.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="82" y="322" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="110.0" y="354.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="142" y="322" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="170.0" y="354.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="202" y="322" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="230.0" y="354.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="262" y="322" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="290.0" y="354.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="322" y="322" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="350.0" y="354.0" class="cell-value" fill="#8b949e">0.00</text>
+<rect x="382" y="322" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="410.0" y="354.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="442" y="322" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="470.0" y="354.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="82" y="382" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="110.0" y="414.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="142" y="382" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="170.0" y="414.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="202" y="382" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="230.0" y="414.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="262" y="382" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="290.0" y="414.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="322" y="382" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="350.0" y="414.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="382" y="382" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="410.0" y="414.0" class="cell-value" fill="#8b949e">0.00</text>
+<rect x="442" y="382" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="470.0" y="414.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="82" y="442" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="110.0" y="474.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="142" y="442" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="170.0" y="474.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="202" y="442" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="230.0" y="474.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="262" y="442" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="290.0" y="474.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="322" y="442" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="350.0" y="474.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="382" y="442" width="56" height="56" fill="#0a84ff" rx="4"/>
+  <text x="410.0" y="474.0" class="cell-value" fill="#fff">0.00</text>
+<rect x="442" y="442" width="56" height="56" fill="#161b22" rx="4"/>
+  <text x="470.0" y="474.0" class="cell-value" fill="#8b949e">0.00</text>
+</svg>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background: #2ea043;"></div> Balanced (0.67-1.5x)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #f85149;"></div> Over-trained (&gt;1.5x)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #0a84ff;"></div> Under-trained (&lt;0.67x)</div>
+      </div>
+    </div>
+    
+    <!-- Recommendations -->
+    <h2>🎯 Rebalancing Recommendations</h2>
+    <p style="color: #2ea043; text-align: center; padding: 20px;">✅ Your muscle balance looks great! No major imbalances detected.</p>
+    
+    <footer style="text-align: center; padding: 24px; color: #8b949e; font-size: 12px;">
+      <p>Data from Tonal workouts • Last updated: 2026-03-15 19:11 EDT</p>
+    </footer>
+  </div>
+  
+  <script>
+    // Toggle functionality for 30/60/90 day views
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.toggle-btn').forEach(b => {
+          b.classList.remove('toggle-active');
+          b.querySelector('text').setAttribute('fill', '#ffffff');
+        });
+        this.classList.add('toggle-active');
+        this.querySelector('text').setAttribute('fill', '#0d1117');
+      });
+    });
+  </script>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
