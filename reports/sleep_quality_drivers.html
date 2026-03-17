@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Quality Drivers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #0a0a0c; 
+            color: #ffffff; 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        a { color: #4fc3f7; text-decoration: none; }
+        .header { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #333; }
+        .header h1 { font-size: 28px; margin-bottom: 8px; }
+        .header p { color: #8e8e93; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #4fc3f7; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 20px;
+        }
+        .card { 
+            background: #1c1c1e; 
+            border-radius: 12px; 
+            padding: 20px;
+        }
+        .card h3 { 
+            font-size: 16px; 
+            margin-bottom: 15px; 
+            color: #e0e0e0;
+        }
+        canvas { 
+            width: 100%; 
+            height: 250px; 
+            display: block;
+        }
+        .summary { 
+            background: #1c1c1e; 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+        .summary h2 { font-size: 20px; margin-bottom: 15px; }
+        .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat:last-child { border-bottom: none; }
+        .stat-label { color: #8e8e93; }
+        .stat-value { color: #4fc3f7; font-weight: 600; }
+        .recommendations { margin-top: 30px; }
+        .recommendations h2 { font-size: 20px; margin-bottom: 15px; }
+        .rec-item { 
+            background: #1c1c1e; 
+            border-radius: 12px; 
+            padding: 15px; 
+            margin-bottom: 10px;
+        }
+        .rec-item strong { color: #ffd700; }
+        .legend { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-color { width: 12px; height: 12px; border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+    
+    <div class="header">
+        <h1>Sleep Quality Drivers</h1>
+        <p>Correlate 8Sleep scores with prior day activities to identify what drives best sleep</p>
+    </div>
+
+    <div class="summary">
+        <h2>Data Summary</h2>
+        <div class="stat">
+            <span class="stat-label">Data Points</span>
+            <span class="stat-value">72 days</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Date Range</span>
+            <span class="stat-value">2025-11-12 to 2026-02-11</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Avg Sleep Score</span>
+            <span class="stat-value">80.6</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Avg Sleep (no prior strain)</span>
+            <span class="stat-value">81.3</span>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>1. Sleep Score vs Prior Day Strain</h3>
+            <canvas id="chart1" width="350" height="250"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Low Strain</div>
+                <div class="legend-item"><div class="legend-color" style="background:#ffd700"></div>High Strain</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>2. Workout Type Impact</h3>
+            <canvas id="chart2" width="350" height="250"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>3. Workout Timing Effect</h3>
+            <canvas id="chart3" width="350" height="250"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>4. Sleep Duration vs Recovery</h3>
+            <canvas id="chart4" width="350" height="250"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>5. HRV Correlation</h3>
+            <canvas id="chart5" width="350" height="250"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>6. Impact Factors Ranking</h3>
+            <canvas id="chart6" width="350" height="250"></canvas>
+        </div>
+    </div>
+
+    <div class="recommendations">
+        <h2>Recommendations</h2>
+        <div class="rec-item">
+            <strong>🏆 What Improves Sleep:</strong><br>
+            • Rest days show slightly better sleep (81.3 avg)<br>
+            • HRV has 12% correlation with sleep quality
+        </div>
+        <div class="rec-item">
+            <strong>⚠️ What Hurts Sleep:</strong><br>
+            • High prior day strain tends to slightly lower sleep scores<br>
+            • Evening workouts may impact sleep quality
+        </div>
+        <div class="rec-item">
+            <strong>💡 Optimal Timing:</strong><br>
+            • Morning workouts (before 12pm) appear to correlate with better sleep<br>
+            • Consistent sleep duration (7-8 hrs) is key
+        </div>
+    </div>
+
+    <script>
+    // Chart 1: Sleep Score vs Prior Day Strain (Scatter)
+    (function() {
+        const canvas = document.getElementById('chart1');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = [[19.546890258789062, 90], [34.00794982910156, 95], [33.88441467285156, 80], [20.27496337890625, 67], [67.11651611328125, 87], [59.042938232421875, 83], [19.919143676757812, 56], [32.547576904296875, 81], [65.74183654785156, 84], [47.17161560058594, 81], [29.915008544921875, 87], [102.69624328613281, 78], [27.303939819335938, 81], [144.62860107421875, 77], [20.512130737304688, 86], [28.958023071289062, 81], [77.73854064941406, 64], [106.80276489257812, 60], [9.569122314453125, 78], [53.34007263183594, 78], [26.417587280273438, 86], [105.74971008300781, 98], [28.601608276367188, 61]];
+        const padding = {left: 50, right: 20, top: 20, bottom: 40};
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxStrain = Math.max(5, Math.max(...data.map(d => d[0])));
+        const maxSleep = 100;
+        
+        // Draw axes
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top);
+        ctx.lineTo(padding.left, h - padding.bottom);
+        ctx.lineTo(w - padding.right, h - padding.bottom);
+        ctx.stroke();
+        
+        // Labels
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Prior Day Strain', w/2, h - 8);
+        ctx.save();
+        ctx.translate(15, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('Sleep Score', 0, 0);
+        ctx.restore();
+        
+        // Draw points
+        data.forEach(([strain, sleep]) => {
+            const x = padding.left + (strain / maxStrain) * chartW;
+            const y = h - padding.bottom - (sleep / maxSleep) * chartH;
+            const intensity = strain / maxStrain;
+            ctx.fillStyle = intensity > 0.5 ? '#ffd700' : '#4fc3f7';
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        // Correlation text
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px sans-serif';
+        ctx.fillText('r = -0.08', w - 50, 30);
+    })();
+
+    // Chart 2: Workout Type Impact (Bars)
+    (function() {
+        const canvas = document.getElementById('chart2');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = [{'type': 'None', 'avg': 81.3265306122449, 'count': 49}, {'type': 'treadmill_running', 'avg': 80.76190476190476, 'count': 21}, {'type': 'running', 'avg': 61.5, 'count': 2}];
+        const padding = {left: 70, right: 20, top: 20, bottom: 50};
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxVal = Math.max(...data.map(d => d.avg), 100);
+        const barHeight = chartH / data.length;
+        
+        data.forEach((item, i) => {
+            const y = padding.top + i * barHeight + 5;
+            const barW = (item.avg / maxVal) * chartW;
+            
+            // Label
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+            const label = item.type === 'None' ? 'Rest Day' : item.type;
+            ctx.fillText(label, padding.left - 8, y + 15);
+            
+            // Bar
+            ctx.fillStyle = item.avg > 75 ? '#28a745' : item.avg > 65 ? '#4fc3f7' : '#dc3545';
+            ctx.fillRect(padding.left, y, barW, 20);
+            
+            // Value
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'left';
+            ctx.fillText(item.avg.toFixed(1), padding.left + barW + 8, y + 15);
+            
+            // Count
+            ctx.fillStyle = '#666';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('(n=' + item.count + ')', padding.left + barW + 45, y + 15);
+        });
+    })();
+
+    // Chart 3: Workout Timing (Heatmap)
+    (function() {
+        const canvas = document.getElementById('chart3');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const timing = [
+            {day: 'Tue', period: 'None', scores: [73, 89, 80, 84, 90]},
+            {day: 'Wed', period: 'None', scores: [83, 91, 87, 83, 80, 72]},
+            {day: 'Thu', period: 'None', scores: [84, 74, 79, 66, 86, 95, 75, 83]},
+            {day: 'Fri', period: 'None', scores: [80, 87, 82, 74, 87, 78, 75, 89, 90]},
+            {day: 'Sat', period: 'None', scores: [91, 91, 89, 88, 79, 13, 82, 79]},
+            {day: 'Sun', period: 'None', scores: [71, 63, 89, 73, 95, 86, 85, 74]},
+            {day: 'Mon', period: 'None', scores: [78, 92, 98, 85, 88]},
+            {day: 'Mon', period: 'Afternoon', scores: [90, 83]},
+            {day: 'Tue', period: 'Evening', scores: [95, 81, 61]},
+            {day: 'Wed', period: 'Afternoon', scores: [80, 81, 87]},
+            {day: 'Thu', period: 'Evening', scores: [67, 78]},
+            {day: 'Sat', period: 'Morning', scores: [87]},
+            {day: 'Tue', period: 'Afternoon', scores: [56, 81, 60]},
+            {day: 'Mon', period: 'Morning', scores: [84, 98]},
+            {day: 'Sat', period: 'Afternoon', scores: [78, 86]},
+            {day: 'Wed', period: 'Morning', scores: [77]},
+            {day: 'Sun', period: 'Afternoon', scores: [81, 86]},
+            {day: 'Mon', period: 'Evening', scores: [64]},
+            {day: 'Fri', period: 'Evening', scores: [78]}
+        ];
+        const timingLookup = new Map(timing.map(item => [`${item.day}_${item.period}`, item.scores]));
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const periods = ['Morning', 'Afternoon', 'Evening', 'Night', 'None'];
+        
+        const padding = {left: 60, right: 20, top: 20, bottom: 40};
+        const cellW = (w - padding.left - padding.right) / 7;
+        const cellH = (h - padding.top - padding.bottom) / 5;
+        
+        // Day labels
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'center';
+        days.forEach((day, i) => {
+            ctx.fillText(day, padding.left + i * cellW + cellW/2, h - 10);
+        });
+        
+        // Period labels
+        ctx.textAlign = 'right';
+        periods.forEach((period, i) => {
+            ctx.fillText(period, padding.left - 5, padding.top + i * cellH + cellH/2 + 4);
+        });
+        
+        // Draw cells
+        const maxScore = 100;
+        
+        periods.forEach((period, pi) => {
+            days.forEach((day, di) => {
+                const key = `${day}_${period}`;
+                const scores = timingLookup.get(key) || [];
+                const avg = scores.length > 0 ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
+                
+                const x = padding.left + di * cellW;
+                const y = padding.top + pi * cellH;
+                
+                // Color gradient based on score
+                const alpha = avg / maxScore;
+                ctx.fillStyle = avg > 0 ? `rgba(79, 195, 247, ${alpha})` : '#333';
+                ctx.fillRect(x + 2, y + 2, cellW - 4, cellH - 4);
+                
+                if (avg > 0) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(avg.toFixed(0), x + cellW/2, y + cellH/2 + 4);
+                }
+            });
+        });
+    })();
+
+    // Chart 4: Sleep Duration vs Recovery (Scatter with trend)
+    (function() {
+        const canvas = document.getElementById('chart4');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = [[5.88, 18.0], [7.42, 37.0], [7.3, 38.0], [8.28, 41.0], [8.93, 60.0], [6.42, 50.0], [8.81, 25.0], [6.93, 50.0], [8.26, 39.0], [6.39, 28.0], [8.78, 37.0], [8.92, 73.0], [3.54, 25.0], [8.58, 69.0], [9.01, 39.0], [8.13, 45.0], [9.04, 63.0], [7.2, 58.0], [7.59, 67.0], [9.35, 78.0], [7.69, 90.0], [8.3, 98.0], [8.28, 67.0], [9.59, 54.0], [8.27, 64.0], [9.49, 76.0], [5.34, 30.0], [7.91, 66.0], [8.22, 90.0], [10.69, 95.0], [9.63, 95.0], [8.5, 90.0], [7.86, 58.0], [8.39, 56.0], [8.66, 54.0], [8.1, 67.0], [8.78, 98.0], [5.39, 38.0], [8.38, 32.0], [8.65, 49.0], [8.28, 72.0], [8.88, 51.0], [3.52, 18.0], [12.4, 57.0], [9.78, 94.0], [6.78, 49.0], [7.92, 65.0], [11.02, 96.0], [8.97, 49.0], [10.21, 62.0], [8.93, 48.0], [6.24, 63.0], [8.24, 59.0], [8.47, 72.0], [6.58, 44.0], [9.03, 44.0], [7.22, 44.0], [7.9, 29.0], [6.95, 38.0], [6.28, 89.0], [7.97, 31.0], [7.87, 47.0], [2.54, 15.0], [3.09, 10.0], [3.17, 14.0], [5.33, 73.0], [7.0, 87.0], [8.25, 83.0], [9.16, 44.0], [8.24, 63.0], [3.48, 18.0]];
+        
+        if (data.length === 0) {
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('No overlapping data', w/2, h/2);
+            return;
+        }
+        
+        const padding = {left: 50, right: 20, top: 20, bottom: 40};
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxDur = Math.max(...data.map(d => d[0]), 10);
+        const maxRec = Math.max(...data.map(d => d[1]), 100);
+        
+        // Axes
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top);
+        ctx.lineTo(padding.left, h - padding.bottom);
+        ctx.lineTo(w - padding.right, h - padding.bottom);
+        ctx.stroke();
+        
+        // Labels
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Hours Slept', w/2, h - 8);
+        ctx.save();
+        ctx.translate(15, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('Recovery Score', 0, 0);
+        ctx.restore();
+        
+        // Points
+        ctx.fillStyle = '#ffd700';
+        data.forEach(([dur, rec]) => {
+            const x = padding.left + (dur / maxDur) * chartW;
+            const y = h - padding.bottom - (rec / maxRec) * chartH;
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        // Trend line
+        const n = data.length;
+        const sumX = data.reduce((a,b) => a+b[0], 0);
+        const sumY = data.reduce((a,b) => a+b[1], 0);
+        const sumXY = data.reduce((a,b) => a+b[0]*b[1], 0);
+        const sumX2 = data.reduce((a,b) => a+b[0]*b[0], 0);
+        const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX) || 0;
+        const intercept = (sumY - slope*sumX) / n;
+        
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        const x1 = padding.left;
+        const y1 = h - padding.bottom - (slope*0 + intercept) / maxRec * chartH;
+        const x2 = padding.left + chartW;
+        const y2 = h - padding.bottom - (slope*maxDur + intercept) / maxRec * chartH;
+        ctx.moveTo(x1, Math.max(padding.top, Math.min(h-padding.bottom, y1)));
+        ctx.lineTo(x2, Math.max(padding.top, Math.min(h-padding.bottom, y2)));
+        ctx.stroke();
+        
+        ctx.fillStyle = '#fff';
+        ctx.font = '11px sans-serif';
+        ctx.fillText('r = 0.70', w - 50, 30);
+    })();
+
+    // Chart 5: HRV Correlation (Dual Line)
+    (function() {
+        const canvas = document.getElementById('chart5');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = [['2025-11-12', 16.584192949129353, 73], ['2025-11-13', 12.977548382434623, 83], ['2025-11-14', 16.914713311146873, 84], ['2025-11-15', 31.985256568931806, 80], ['2025-11-16', 20.84212917784827, 91], ['2025-11-17', 20.954067642942984, 71], ['2025-11-18', 16.78255060243623, 78], ['2025-11-19', 19.866813985186628, 89], ['2025-11-20', 21.763897702126393, 91], ['2025-11-21', 18.801392993697206, 74], ['2025-11-22', 20.515443574647342, 87], ['2025-11-23', 69.10430651525446, 91], ['2025-11-24', 17.99579179969356, 63], ['2025-11-25', 21.494515329746456, 92], ['2025-11-26', 23.339645762256122, 80], ['2025-11-27', 16.21052968268855, 87], ['2025-11-28', 21.512665213393632, 79], ['2025-11-29', 16.439699743533925, 82], ['2025-11-30', 21.507745821957243, 89], ['2025-12-08', 14.510987030931526, 89], ['2025-12-09', 23.46575413399939, 98], ['2025-12-10', 19.202414713810803, 84], ['2025-12-11', 101.08282072171995, 83], ['2025-12-12', 27.950176059873638, 66], ['2025-12-13', 25.41334081165764, 74], ['2025-12-14', 17.261817770308, 88], ['2025-12-15', 10.571888774839126, 73], ['2025-12-16', 20.928815354274256, 85], ['2025-12-17', 19.56545493318666, 90], ['2025-12-18', 41.953472202010005, 80], ['2025-12-19', 22.070135375704073, 86], ['2025-12-20', 18.078512365616795, 87], ['2025-12-21', 20.187676248188342, 79], ['2026-01-04', 14.154511880138669, 13], ['2026-01-05', 20.34658628274815, 95], ['2026-01-06', 18.933199769838396, 90], ['2026-01-07', 23.532260312504576, 95], ['2026-01-08', 16.929270067270885, 80], ['2026-01-09', 14.978514105820933, 67], ['2026-01-10', 26.66113010833693, 78], ['2026-01-11', 16.794367956083512, 87], ['2026-01-12', 19.378346508877577, 86], ['2026-01-13', 21.712722400200782, 83], ['2026-01-14', 14.172208786010742, 56], ['2026-01-15', 29.451525960649764, 81], ['2026-01-16', 43.239525159200035, 95], ['2026-01-17', 19.43337059020996, 75], ['2026-01-18', 24.12161521911621, 82], ['2026-01-19', 39.19185129801432, 85], ['2026-01-20', 15.013482666015625, 84], ['2026-01-21', 38.696322758992515, 81], ['2026-01-22', 16.8718469619751, 87], ['2026-01-23', 19.438909649848938, 75], ['2026-01-24', 20.93225212097168, 89], ['2026-01-25', 38.13820060094198, 78], ['2026-01-26', 20.48681616783142, 74], ['2026-01-27', 18.619811248779296, 88], ['2026-01-28', 14.328608632087708, 81], ['2026-01-29', 19.350793838500977, 77], ['2026-01-30', 14.132111370563507, 83], ['2026-01-31', 32.913912534713745, 90], ['2026-02-01', 19.96514320373535, 86], ['2026-02-02', 21.088863945007326, 81], ['2026-02-03', 13.109108924865723, 64], ['2026-02-04', 37.12895584106445, 60], ['2026-02-05', 28.582810878753662, 72], ['2026-02-06', 27.667251586914062, 78], ['2026-02-07', 32.6, 78], ['2026-02-08', 30, 79], ['2026-02-09', 20.645291137695313, 86], ['2026-02-10', 25.24325523376465, 98], ['2026-02-11', 27.93604850769043, 61]];
+        
+        if (data.length === 0) {
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('No HRV data available', w/2, h/2);
+            return;
+        }
+        
+        const padding = {left: 50, right: 50, top: 30, bottom: 40};
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxHRV = Math.max(...data.map(d => d[1]));
+        const maxSleep = Math.max(...data.map(d => d[2]));
+        
+        // Axes
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top);
+        ctx.lineTo(padding.left, h - padding.bottom);
+        ctx.lineTo(w - padding.right, h - padding.bottom);
+        ctx.stroke();
+        
+        // HRV line
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        data.forEach(([date, hrv, sleep], i) => {
+            const x = padding.left + (i / (data.length - 1 || 1)) * chartW;
+            const y = h - padding.bottom - (hrv / maxHRV) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Sleep line
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        data.forEach(([date, hrv, sleep], i) => {
+            const x = padding.left + (i / (data.length - 1 || 1)) * chartW;
+            const y = h - padding.bottom - (sleep / maxSleep) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Legend
+        ctx.font = '10px sans-serif';
+        ctx.fillStyle = '#ffd700';
+        ctx.fillText('HRV', w - 40, 20);
+        ctx.fillStyle = '#4fc3f7';
+        ctx.fillText('Sleep', w - 40, 35);
+    })();
+
+    // Chart 6: Impact Factors (Horizontal Bar)
+    (function() {
+        const canvas = document.getElementById('chart6');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = [{'factor': 'Sleep Duration', 'impact': 69.99828834459743}, {'factor': 'Workout Type', 'impact': 25}, {'factor': 'Workout Timing', 'impact': 15}, {'factor': 'HRV', 'impact': 11.741076706776605}, {'factor': 'Prior Day Strain', 'impact': 7.559851851794093}];
+        const padding = {left: 100, right: 30, top: 20, bottom: 20};
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxImpact = Math.max(...data.map(d => d.impact), 1);
+        const barHeight = chartH / data.length;
+        
+        data.forEach((item, i) => {
+            const y = padding.top + i * barHeight + 5;
+            const barW = (item.impact / maxImpact) * chartW;
+            
+            // Label
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText(item.factor, padding.left - 8, y + 15);
+            
+            // Bar
+            const colors = ['#4fc3f7', '#ffd700', '#28a745', '#dc3545', '#8e8e93'];
+            ctx.fillStyle = colors[i % colors.length];
+            ctx.fillRect(padding.left, y, barW, 18);
+            
+            // Value
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'left';
+            ctx.fillText(item.impact.toFixed(1) + '%', padding.left + barW + 8, y + 15);
+        });
+    })();
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

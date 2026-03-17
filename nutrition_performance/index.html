@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Nutrition ↔ Performance Bridge</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+nav{background:#161b22;border-bottom:1px solid #21262d;padding:12px 24px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;position:sticky;top:0;z-index:100}
+nav a{color:#8b949e;text-decoration:none;font-size:13px;transition:color .2s}
+nav a:hover,nav a:last-child{color:#f39c12}
+.container{max-width:1100px;margin:0 auto;padding:32px 20px}
+.hero{text-align:center;margin-bottom:40px}
+.hero h1{font-size:2.2rem;font-weight:700;color:#f39c12;margin-bottom:8px}
+.hero p{color:#8b949e;font-size:1rem}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:36px}
+.stat-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;text-align:center}
+.stat-val{font-size:2rem;font-weight:700;color:#f39c12}
+.stat-lbl{color:#8b949e;font-size:.85rem;margin-top:4px}
+.section{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:28px}
+.section h2{font-size:1.1rem;font-weight:600;color:#e6edf3;margin-bottom:16px;border-left:3px solid #f39c12;padding-left:10px}
+.corr-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.corr-item{background:#0d1117;border-radius:8px;padding:14px}
+.corr-item label{display:block;color:#8b949e;font-size:.8rem;margin-bottom:8px}
+.impact-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.impact-card{background:#0d1117;border-radius:10px;padding:20px;text-align:center;border:1px solid #21262d}
+.impact-card .val{font-size:1.8rem;font-weight:700;color:#f39c12}
+.impact-card .sub{color:#8b949e;font-size:.8rem;margin-top:4px}
+.delta{font-size:1rem;font-weight:600;padding:5px 12px;border-radius:20px;display:inline-block;margin-top:10px}
+.pos{background:rgba(46,160,67,.2);color:#2ea043}.neg{background:rgba(248,81,73,.2);color:#f85149}
+footer{text-align:center;color:#30363d;font-size:.75rem;padding:32px 0}
+</style>
+</head>
+<body>
+<nav><a href="../index.html">🏠 Home</a>
+<a href="../calendars/">📅 Calendars</a>
+<a href="../strength/">💪 Strength</a>
+<a href="../cardio/">🏃 Cardio</a>
+<a href="../recovery/">💤 Recovery</a>
+<a href="../nutrition/">🥗 Nutrition</a>
+<a href="../nutrition_performance/">🔗 Nutrition Bridge</a></nav>
+<div class="container">
+  <div class="hero">
+    <h1>🥗 Nutrition ↔ Performance Bridge</h1>
+    <p>How your macros fuel (or limit) your training output — correlations across protein, carbs, sleep &amp; Tonal volume</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val">277g</div><div class="stat-lbl">Avg Daily Protein</div></div>
+    <div class="stat-card"><div class="stat-val">2415</div><div class="stat-lbl">Avg Daily Calories</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#8b949e">+0.00</div><div class="stat-lbl">Protein → Volume Correlation</div></div>
+    <div class="stat-card"><div class="stat-val">712</div><div class="stat-lbl">Days with Data</div></div>
+  </div>
+
+  <div class="section">
+    <h2>A. Protein Intake → Next-Day Tonal Volume</h2>
+    <p style="color:#8b949e;font-size:.85rem;margin-bottom:16px">0 paired data points. Dashed blue = trend line.</p>
+    <p style="color:#8b949e;text-align:center;padding:40px">No paired data</p>
+  </div>
+
+  <div class="section">
+    <h2>Correlation Coefficients</h2>
+    <div class="corr-row">
+      <div class="corr-item"><label>Protein (g) → Next-Day Volume (lbs)</label><div style="display:flex;align-items:center;gap:12px"><div style="flex:1;background:#21262d;border-radius:4px;height:8px"><div style="width:0.0%;background:#8b949e;height:8px;border-radius:4px"></div></div><span style="color:#8b949e;font-weight:600;min-width:70px">+0.00 (Minimal)</span></div></div>
+      <div class="corr-item"><label>Carbs (g) → Next-Day Volume (lbs)</label><div style="display:flex;align-items:center;gap:12px"><div style="flex:1;background:#21262d;border-radius:4px;height:8px"><div style="width:0.0%;background:#8b949e;height:8px;border-radius:4px"></div></div><span style="color:#8b949e;font-weight:600;min-width:70px">+0.00 (Minimal)</span></div></div>
+      <div class="corr-item"><label>Sleep Score → Next-Day Volume (lbs)</label><div style="display:flex;align-items:center;gap:12px"><div style="flex:1;background:#21262d;border-radius:4px;height:8px"><div style="width:0.0%;background:#8b949e;height:8px;border-radius:4px"></div></div><span style="color:#8b949e;font-weight:600;min-width:70px">+0.00 (Minimal)</span></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>B. Macro Breakdown + Training Days (Last 30)</h2>
+    <p style="color:#8b949e;font-size:.85rem;margin-bottom:16px">Green dot = training day. Bars show protein / carbs / fat caloric split.</p>
+    <svg viewBox="0 0 800 235" width="100%" style="max-width:800px;display:block;margin:0 auto"><rect width="800" height="235" fill="#0d1117" rx="8"/><rect x="100" y="20" width="125.4" height="13" fill="#f39c12"><title>2026-02-05: 189g protein</title></rect><rect x="225.4" y="20" width="139.5" height="13" fill="#0a84ff"><title>2026-02-05: 211g carbs</title></rect><rect x="364.8" y="20" width="68.0" height="13" fill="#2ea043"><title>2026-02-05: 46g fat</title></rect><text x="82" y="31" fill="#555" font-size="9" text-anchor="end">02-05</text><rect x="100" y="37" width="138.9" height="13" fill="#f39c12"><title>2026-02-06: 210g protein</title></rect><rect x="238.9" y="37" width="33.1" height="13" fill="#0a84ff"><title>2026-02-06: 50g carbs</title></rect><rect x="272.0" y="37" width="43.5" height="13" fill="#2ea043"><title>2026-02-06: 29g fat</title></rect><text x="82" y="48" fill="#555" font-size="9" text-anchor="end">02-06</text><rect x="100" y="54" width="173.3" height="13" fill="#f39c12"><title>2026-02-08: 262g protein</title></rect><rect x="273.3" y="54" width="161.8" height="13" fill="#0a84ff"><title>2026-02-08: 244g carbs</title></rect><rect x="435.1" y="54" width="161.0" height="13" fill="#2ea043"><title>2026-02-08: 108g fat</title></rect><text x="82" y="65" fill="#555" font-size="9" text-anchor="end">02-08</text><rect x="100" y="71" width="176.9" height="13" fill="#f39c12"><title>2026-02-09: 267g protein</title></rect><rect x="276.9" y="71" width="174.7" height="13" fill="#0a84ff"><title>2026-02-09: 264g carbs</title></rect><rect x="451.6" y="71" width="154.9" height="13" fill="#2ea043"><title>2026-02-09: 104g fat</title></rect><text x="82" y="82" fill="#555" font-size="9" text-anchor="end">02-09</text><rect x="100" y="88" width="135.9" height="13" fill="#f39c12"><title>2026-02-10: 205g protein</title></rect><rect x="235.9" y="88" width="73.5" height="13" fill="#0a84ff"><title>2026-02-10: 111g carbs</title></rect><rect x="309.4" y="88" width="49.6" height="13" fill="#2ea043"><title>2026-02-10: 33g fat</title></rect><text x="82" y="99" fill="#555" font-size="9" text-anchor="end">02-10</text><rect x="100" y="105" width="311.1" height="13" fill="#f39c12"><title>2026-02-11: 470g protein</title></rect><rect x="411.1" y="105" width="82.7" height="13" fill="#0a84ff"><title>2026-02-11: 125g carbs</title></rect><rect x="493.8" y="105" width="286.2" height="13" fill="#2ea043"><title>2026-02-11: 192g fat</title></rect><text x="82" y="116" fill="#555" font-size="9" text-anchor="end">02-11</text><rect x="100" y="122" width="197.2" height="13" fill="#f39c12"><title>2026-02-12: 298g protein</title></rect><rect x="297.2" y="122" width="95.8" height="13" fill="#0a84ff"><title>2026-02-12: 145g carbs</title></rect><rect x="393.0" y="122" width="109.0" height="13" fill="#2ea043"><title>2026-02-12: 73g fat</title></rect><text x="82" y="133" fill="#555" font-size="9" text-anchor="end">02-12</text><rect x="100" y="139" width="190.2" height="13" fill="#f39c12"><title>2026-02-17: 287g protein</title></rect><rect x="290.2" y="139" width="124.1" height="13" fill="#0a84ff"><title>2026-02-17: 187g carbs</title></rect><rect x="414.3" y="139" width="85.5" height="13" fill="#2ea043"><title>2026-02-17: 57g fat</title></rect><text x="82" y="150" fill="#555" font-size="9" text-anchor="end">02-17</text><rect x="100" y="156" width="198.6" height="13" fill="#f39c12"><title>2026-02-18: 300g protein</title></rect><rect x="298.6" y="156" width="140.3" height="13" fill="#0a84ff"><title>2026-02-18: 212g carbs</title></rect><rect x="438.9" y="156" width="102.8" height="13" fill="#2ea043"><title>2026-02-18: 69g fat</title></rect><text x="82" y="167" fill="#555" font-size="9" text-anchor="end">02-18</text><rect x="100" y="173" width="184.9" height="13" fill="#f39c12"><title>2026-02-19: 279g protein</title></rect><rect x="284.9" y="173" width="35.1" height="13" fill="#0a84ff"><title>2026-02-19: 53g carbs</title></rect><rect x="320.0" y="173" width="89.5" height="13" fill="#2ea043"><title>2026-02-19: 60g fat</title></rect><text x="82" y="184" fill="#555" font-size="9" text-anchor="end">02-19</text><rect x="100" y="213" width="10" height="10" fill="#f39c12"/><text x="114" y="222" fill="#aaa" font-size="11">Protein</text><rect x="172" y="213" width="10" height="10" fill="#0a84ff"/><text x="186" y="222" fill="#aaa" font-size="11">Carbs</text><rect x="235" y="213" width="10" height="10" fill="#2ea043"/><text x="249" y="222" fill="#aaa" font-size="11">Fat</text><circle cx="305" cy="218" r="4" fill="#2ea043"/><text x="313" y="222" fill="#aaa" font-size="11">Training day</text></svg>
+  </div>
+
+  <div class="section">
+    <h2>C. Recovery Chain (Last 90 Days)</h2>
+    <p style="color:#8b949e;font-size:.85rem;margin-bottom:16px">All metrics normalized to 0–100 scale for comparison.</p>
+    <svg viewBox="0 0 800 350" width="100%" style="max-width:800px;display:block;margin:0 auto"><rect width="800" height="350" fill="#0d1117" rx="8"/><line x1="55" y1="30" x2="55" y2="305" stroke="#21262d"/><line x1="55" y1="305" x2="770" y2="305" stroke="#21262d"/><line x1="55" y1="305.0" x2="50" y2="305.0" stroke="#333"/><text x="47" y="309.0" fill="#555" font-size="10" text-anchor="end">0</text><line x1="55" y1="236.2" x2="50" y2="236.2" stroke="#333"/><text x="47" y="240.2" fill="#555" font-size="10" text-anchor="end">25</text><line x1="55" y1="167.5" x2="50" y2="167.5" stroke="#333"/><text x="47" y="171.5" fill="#555" font-size="10" text-anchor="end">50</text><line x1="55" y1="98.8" x2="50" y2="98.8" stroke="#333"/><text x="47" y="102.8" fill="#555" font-size="10" text-anchor="end">75</text><line x1="55" y1="30.0" x2="50" y2="30.0" stroke="#333"/><text x="47" y="34.0" fill="#555" font-size="10" text-anchor="end">100</text><text x="55.0" y="319" fill="#555" font-size="10" text-anchor="middle">12-01</text><text x="175.5" y="319" fill="#555" font-size="10" text-anchor="middle">01-07</text><text x="296.0" y="319" fill="#555" font-size="10" text-anchor="middle">02-02</text><text x="416.5" y="319" fill="#555" font-size="10" text-anchor="middle">02-20</text><text x="537.0" y="319" fill="#555" font-size="10" text-anchor="middle">03-20</text><text x="657.5" y="319" fill="#555" font-size="10" text-anchor="middle">02-12</text><path d="M 649.5,229.5 L 657.5,305.0 L 665.6,137.8 L 689.7,288.8 L 697.7,83.9 L 705.7,83.9 L 713.8,143.2 L 721.8,267.3 L 729.8,137.8 L 737.9,154.0 L 745.9,116.3 L 753.9,261.9 L 762.0,62.4 L 770.0,30.0" stroke="#0a84ff" stroke-width="2" fill="none" opacity="0.9"/><circle cx="770.0" cy="30.0" r="4" fill="#0a84ff"/><text x="775.0" y="34.0" fill="#0a84ff" font-size="10">98</text><path d="M 55.0,63.2 L 63.0,33.0 L 71.1,135.8 L 79.1,259.7 L 87.1,111.6 L 103.2,126.7 L 111.2,96.5 L 119.3,229.5 L 127.3,150.9 L 135.3,208.3 L 143.4,166.0 L 151.4,226.4 L 159.4,159.9 L 167.5,105.5 L 175.5,120.7 L 183.5,205.3 L 191.6,217.4 L 199.6,102.5 L 207.6,196.2 L 215.7,144.8 L 223.7,87.4 L 231.7,78.4 L 239.8,72.3 L 247.8,211.3 L 255.8,54.2 L 263.9,81.4 L 271.9,117.6 L 279.9,235.5 L 288.0,178.1 L 296.0,72.3 L 304.0,54.2 L 312.1,265.7 L 320.1,163.0 L 328.1,138.8 L 336.2,132.7 L 344.2,105.5 L 352.2,63.2 L 360.3,42.1 L 368.3,190.2 L 376.3,45.1 L 384.4,262.7 L 392.4,111.6 L 408.5,217.4 L 416.5,223.4 L 424.6,250.6 L 432.6,93.5 L 440.6,60.2 L 448.7,30.0 L 456.7,87.4 L 464.7,175.1 L 472.8,132.7 L 480.8,187.1 L 488.8,181.1 L 496.9,129.7 L 504.9,175.1 L 512.9,232.5 L 521.0,262.7 L 529.0,235.5 L 537.0,217.4 L 545.1,166.0 L 553.1,199.2 L 561.1,156.9 L 569.2,253.6 L 577.2,135.8 L 585.2,138.8 L 593.3,72.3 L 601.3,283.8 L 609.3,105.5 L 617.4,63.2 L 625.4,75.3 L 633.4,193.2 L 641.5,135.8 L 649.5,271.8 L 657.5,271.8 L 665.6,69.3 L 673.6,250.6 L 681.6,256.6 L 689.7,305.0 L 697.7,220.4 L 705.7,211.3 L 713.8,211.3 L 721.8,202.3 L 729.8,220.4 L 737.9,208.3 L 745.9,187.1 L 753.9,280.8 L 762.0,147.9" stroke="#f85149" stroke-width="2" fill="none" opacity="0.9"/><circle cx="762.0" cy="147.9" r="4" fill="#f85149"/><text x="767.0" y="151.9" fill="#f85149" font-size="10">59</text><path d="M 601.3,305.0 L 609.3,285.0 L 625.4,234.0 L 633.4,228.8 L 641.5,289.5 L 649.5,30.0 L 657.5,198.7 L 689.7,209.1 L 697.7,196.6 L 705.7,216.8" stroke="#f39c12" stroke-width="2" fill="none" opacity="0.9"/><circle cx="705.7" cy="216.8" r="4" fill="#f39c12"/><text x="710.7" y="220.8" fill="#f39c12" font-size="10">279</text><line x1="55" y1="336" x2="75" y2="336" stroke="#0a84ff" stroke-width="2"/><text x="79" y="340" fill="#aaa" font-size="11">Sleep Score</text><line x1="160" y1="336" x2="180" y2="336" stroke="#f85149" stroke-width="2"/><text x="184" y="340" fill="#aaa" font-size="11">WHOOP Recovery</text><line x1="295" y1="336" x2="315" y2="336" stroke="#f39c12" stroke-width="2"/><text x="319" y="340" fill="#aaa" font-size="11">Protein (normalized)</text></svg>
+  </div>
+
+  <div class="section">
+    <h2>D. High-Protein Days Impact (threshold: 150g)</h2>
+    <div class="impact-cards">
+      <div class="impact-card">
+        <div class="val">10</div><div class="sub">High-Protein Days (&gt;150g)</div>
+        <div style="color:#8b949e;font-size:.85rem;margin-top:8px">Avg next-day volume: <strong style="color:#f39c12">0 lbs</strong></div>
+      </div>
+      <div class="impact-card">
+        <div class="val">0</div><div class="sub">Regular Days (≤150g)</div>
+        <div style="color:#8b949e;font-size:.85rem;margin-top:8px">Avg next-day volume: <strong style="color:#8b949e">0 lbs</strong></div>
+      </div>
+      <div class="impact-card">
+        <div class="val">↑0.0%</div>
+        <div class="sub">Volume Delta</div>
+        <div class="delta pos">High-protein days boost output by 0.0%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>E. Weekly Protein Heatmap</h2>
+    <p style="color:#8b949e;font-size:.85rem;margin-bottom:16px">Cell brightness = protein intake (g). Green dot = training day.</p>
+    <svg viewBox="0 0 364 176" width="100%" style="max-width:364px;display:block;margin:0 auto"><rect width="364" height="176" fill="#0d1117" rx="8"/><text x="69" y="16" fill="#555" font-size="11" text-anchor="middle">Mon</text><text x="111" y="16" fill="#555" font-size="11" text-anchor="middle">Tue</text><text x="153" y="16" fill="#555" font-size="11" text-anchor="middle">Wed</text><text x="195" y="16" fill="#555" font-size="11" text-anchor="middle">Thu</text><text x="237" y="16" fill="#555" font-size="11" text-anchor="middle">Fri</text><text x="279" y="16" fill="#555" font-size="11" text-anchor="middle">Sat</text><text x="321" y="16" fill="#555" font-size="11" text-anchor="middle">Sun</text><text x="0" y="49" fill="#555" font-size="11">W6</text><rect x="50" y="25" width="38" height="38" rx="4" fill="#161b22"/><rect x="92" y="25" width="38" height="38" rx="4" fill="#161b22"/><rect x="134" y="25" width="38" height="38" rx="4" fill="#161b22"/><rect x="176" y="25" width="38" height="38" rx="4" fill="#6f4e1b"><title>2026-02-05: 189g</title></rect><text x="195" y="49" fill="#ccc" font-size="10" text-anchor="middle">189</text><rect x="218" y="25" width="38" height="38" rx="4" fill="#78541a"><title>2026-02-06: 210g</title></rect><text x="237" y="49" fill="#ccc" font-size="10" text-anchor="middle">210</text><rect x="260" y="25" width="38" height="38" rx="4" fill="#161b22"/><rect x="302" y="25" width="38" height="38" rx="4" fill="#916219"><title>2026-02-08: 262g</title></rect><text x="321" y="49" fill="#ccc" font-size="10" text-anchor="middle">262</text><text x="0" y="91" fill="#555" font-size="11">W7</text><rect x="50" y="67" width="38" height="38" rx="4" fill="#936418"><title>2026-02-09: 267g</title></rect><text x="69" y="91" fill="#ccc" font-size="10" text-anchor="middle">267</text><rect x="92" y="67" width="38" height="38" rx="4" fill="#76531b"><title>2026-02-10: 205g</title></rect><text x="111" y="91" fill="#ccc" font-size="10" text-anchor="middle">205</text><rect x="134" y="67" width="38" height="38" rx="4" fill="#f39c12"><title>2026-02-11: 470g</title></rect><text x="153" y="91" fill="#000" font-size="10" text-anchor="middle">470</text><rect x="176" y="67" width="38" height="38" rx="4" fill="#a26c17"><title>2026-02-12: 298g</title></rect><text x="195" y="91" fill="#ccc" font-size="10" text-anchor="middle">298</text><rect x="218" y="67" width="38" height="38" rx="4" fill="#161b22"/><rect x="260" y="67" width="38" height="38" rx="4" fill="#161b22"/><rect x="302" y="67" width="38" height="38" rx="4" fill="#161b22"/><text x="0" y="133" fill="#555" font-size="11">W8</text><rect x="50" y="109" width="38" height="38" rx="4" fill="#161b22"/><rect x="92" y="109" width="38" height="38" rx="4" fill="#9d6918"><title>2026-02-17: 287g</title></rect><text x="111" y="133" fill="#ccc" font-size="10" text-anchor="middle">287</text><rect x="134" y="109" width="38" height="38" rx="4" fill="#a36d17"><title>2026-02-18: 300g</title></rect><text x="153" y="133" fill="#ccc" font-size="10" text-anchor="middle">300</text><rect x="176" y="109" width="38" height="38" rx="4" fill="#996718"><title>2026-02-19: 279g</title></rect><text x="195" y="133" fill="#ccc" font-size="10" text-anchor="middle">279</text><rect x="218" y="109" width="38" height="38" rx="4" fill="#161b22"/><rect x="260" y="109" width="38" height="38" rx="4" fill="#161b22"/><rect x="302" y="109" width="38" height="38" rx="4" fill="#161b22"/></svg>
+  </div>
+</div>
+<footer>Generated 2026-02-27 22:54 · Nutrition ↔ Performance Bridge</footer>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

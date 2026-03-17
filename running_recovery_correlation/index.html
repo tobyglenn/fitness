@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Running Pace vs Recovery Quality</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #0d1117; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Arial, sans-serif; }
+    nav { padding: 12px 16px; display: flex; gap: 12px; flex-wrap: wrap; background: #161b22; border-bottom: 1px solid #30363d; }
+    nav a { color: #8b949e; text-decoration: none; font-size: 13px; padding: 5px 9px; border-radius: 8px; }
+    nav a:hover { color: #ffffff; background: #21262d; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 22px 16px 32px; }
+    h1 { margin: 4px 0 6px; font-size: 28px; }
+    .subtitle { color: #8b949e; margin-bottom: 16px; }
+    .meta { color: #8b949e; font-size: 13px; margin-bottom: 18px; }
+    .meta strong { color: #e6edf3; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(120px, 1fr)); gap: 12px; }
+    .stat { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 14px; }
+    .stat .value { font-size: 24px; font-weight: 700; color: #f39c12; }
+    .stat .label { margin-top: 4px; font-size: 12px; color: #8b949e; }
+    .panel { margin-top: 16px; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 16px; }
+    .panel h2 { margin: 0 0 8px; font-size: 20px; }
+    .panel p { color: #8b949e; line-height: 1.45; }
+    .card-row { display: grid; grid-template-columns: repeat(4, minmax(180px,1fr)); gap: 12px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 14px; }
+    .card .card-title { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+    .card .card-value { font-size: 20px; font-weight: 700; color: #e6edf3; }
+    .links { margin-top: 14px; color: #8b949e; }
+    .links a { color: #f39c12; margin-right: 12px; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    svg { width: min(100%, 1000px); height: auto; border: 1px solid #30363d; border-radius: 10px; display: block; }
+    .tooltip-note { font-size: 12px; color: #8b949e; }
+    @media (max-width: 900px) { .stats { grid-template-columns: 1fr 1fr; } .card-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#ffffff;font-weight:bold">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+
+  <div class="container">
+    <h1>Running Pace vs Recovery Quality</h1>
+    <div class="subtitle">How do your runs affect your sleep?</div>
+    <div class="meta">Garmin runs: <strong>1023</strong> · Sleep nights: <strong>72</strong> · WHOOP recovery days: <strong>1128</strong></div>
+
+    <section class="stats">
+      <div class="stat"><div class="value">82.625</div><div class="label">Avg Sleep After Easy Runs</div></div>
+      <div class="stat"><div class="value">N/A</div><div class="label">Avg Sleep After Hard Runs</div></div>
+      <div class="stat"><div class="value">-0.116</div><div class="label">Correlation Coefficient</div></div>
+      <div class="stat"><div class="value">15:15–15:45</div><div class="label">Best Pace for Sleep</div></div>
+    </section>
+
+    <section class="panel">
+      <h2>Scatter Plot</h2>
+      <p class="tooltip-note">Each point represents one run date. X=pace (min/mile), Y=sleep score, color = next-day recovery.</p>
+      <p class="tooltip-note">Hover a point for date, pace, sleep score, and recovery score.</p>
+      <svg width="900" height="500" viewBox="0 0 900 500" role="img" aria-label="Running pace vs sleep score scatter plot">
+<rect x="0" y="0" width="900" height="500" fill="#0d1117" />
+<text x="450.0" y="20" fill="#e6edf3" text-anchor="middle" font-size="14" font-weight="700">Running Pace vs Sleep Score</text>
+<line x1="72.0" y1="28" x2="72.0" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="72.0" y="480" fill="#8b949e" font-size="11" text-anchor="middle">5:00</text>
+<line x1="129.1" y1="28" x2="129.1" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="129.1" y="480" fill="#8b949e" font-size="11" text-anchor="middle">5:30</text>
+<line x1="186.3" y1="28" x2="186.3" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="186.3" y="480" fill="#8b949e" font-size="11" text-anchor="middle">6:00</text>
+<line x1="243.4" y1="28" x2="243.4" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="243.4" y="480" fill="#8b949e" font-size="11" text-anchor="middle">6:30</text>
+<line x1="300.6" y1="28" x2="300.6" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="300.6" y="480" fill="#8b949e" font-size="11" text-anchor="middle">7:00</text>
+<line x1="357.7" y1="28" x2="357.7" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="357.7" y="480" fill="#8b949e" font-size="11" text-anchor="middle">7:30</text>
+<line x1="414.9" y1="28" x2="414.9" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="414.9" y="480" fill="#8b949e" font-size="11" text-anchor="middle">8:00</text>
+<line x1="472.0" y1="28" x2="472.0" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="472.0" y="480" fill="#8b949e" font-size="11" text-anchor="middle">8:30</text>
+<line x1="529.1" y1="28" x2="529.1" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="529.1" y="480" fill="#8b949e" font-size="11" text-anchor="middle">9:00</text>
+<line x1="586.3" y1="28" x2="586.3" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="586.3" y="480" fill="#8b949e" font-size="11" text-anchor="middle">9:30</text>
+<line x1="643.4" y1="28" x2="643.4" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="643.4" y="480" fill="#8b949e" font-size="11" text-anchor="middle">10:00</text>
+<line x1="700.6" y1="28" x2="700.6" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="700.6" y="480" fill="#8b949e" font-size="11" text-anchor="middle">10:30</text>
+<line x1="757.7" y1="28" x2="757.7" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="757.7" y="480" fill="#8b949e" font-size="11" text-anchor="middle">11:00</text>
+<line x1="814.9" y1="28" x2="814.9" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="814.9" y="480" fill="#8b949e" font-size="11" text-anchor="middle">11:30</text>
+<line x1="872.0" y1="28" x2="872.0" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="872.0" y="480" fill="#8b949e" font-size="11" text-anchor="middle">12:00</text>
+<line x1="929.1" y1="28" x2="929.1" y2="452" stroke="#30363d" stroke-width="1" />
+<text x="929.1" y="480" fill="#8b949e" font-size="11" text-anchor="middle">12:30</text>
+<line x1="72" y1="28.0" x2="872" y2="28.0" stroke="#30363d" stroke-width="1" />
+<text x="64" y="28.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">100</text>
+<line x1="72" y1="70.4" x2="872" y2="70.4" stroke="#30363d" stroke-width="1" />
+<text x="64" y="70.4" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">90</text>
+<line x1="72" y1="112.8" x2="872" y2="112.8" stroke="#30363d" stroke-width="1" />
+<text x="64" y="112.8" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">80</text>
+<line x1="72" y1="155.2" x2="872" y2="155.2" stroke="#30363d" stroke-width="1" />
+<text x="64" y="155.2" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">70</text>
+<line x1="72" y1="197.6" x2="872" y2="197.6" stroke="#30363d" stroke-width="1" />
+<text x="64" y="197.6" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">60</text>
+<line x1="72" y1="240.0" x2="872" y2="240.0" stroke="#30363d" stroke-width="1" />
+<text x="64" y="240.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">50</text>
+<line x1="72" y1="282.4" x2="872" y2="282.4" stroke="#30363d" stroke-width="1" />
+<text x="64" y="282.4" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">40</text>
+<line x1="72" y1="324.8" x2="872" y2="324.8" stroke="#30363d" stroke-width="1" />
+<text x="64" y="324.8" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">30</text>
+<line x1="72" y1="367.2" x2="872" y2="367.2" stroke="#30363d" stroke-width="1" />
+<text x="64" y="367.2" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">20</text>
+<line x1="72" y1="409.6" x2="872" y2="409.6" stroke="#30363d" stroke-width="1" />
+<text x="64" y="409.6" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">10</text>
+<line x1="72" y1="452.0" x2="872" y2="452.0" stroke="#30363d" stroke-width="1" />
+<text x="64" y="452.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">0</text>
+<line x1="72" y1="28" x2="72" y2="452" stroke="#9ba3ad" stroke-width="2" />
+<line x1="72" y1="452" x2="872" y2="452" stroke="#9ba3ad" stroke-width="2" />
+<text x="472.0" y="494" fill="#8b949e" font-size="12" text-anchor="middle">Pace (min/mile, lower=faster)</text>
+<text x="18" y="240.0" fill="#8b949e" font-size="12" text-anchor="middle" transform="rotate(-90,18,240.0)">Sleep Score (0-100)</text>
+<rect x="472.0" y="28" width="114.3" height="424.0" fill="#2ea043" opacity="0.09" />
+<text x="529.1" y="44" fill="#2ea043" font-size="11" text-anchor="middle">Sweet spot target</text>
+<circle cx="1090.09" cy="49.20" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-05: Pace 13:54/mi, Sleep 95.0, Recovery 54 | Recovery</title></circle>
+<circle cx="989.05" cy="70.40" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-06: Pace 13:01/mi, Sleep 90.0, Recovery 67 | Treadmill Running</title></circle>
+<circle cx="927.38" cy="49.20" r="6" fill="#2ea043" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-07: Pace 12:29/mi, Sleep 95.0, Recovery 98 | Treadmill Running</title></circle>
+<circle cx="796.93" cy="112.80" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-08: Pace 11:21/mi, Sleep 80.0, Recovery 38 | Camp Hill Running</title></circle>
+<circle cx="1005.72" cy="121.28" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-10: Pace 13:10/mi, Sleep 78.0, Recovery 49 | Base</title></circle>
+<circle cx="981.24" cy="87.36" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-12: Pace 12:57/mi, Sleep 86.0, Recovery 51 | Base</title></circle>
+<circle cx="1091.04" cy="100.08" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-13: Pace 13:55/mi, Sleep 83.0, Recovery 18 | Camp Hill Running</title></circle>
+<circle cx="1394.90" cy="214.56" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-14: Pace 16:35/mi, Sleep 56.0, Recovery 57 | Recovery</title></circle>
+<circle cx="996.11" cy="91.60" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-19: Pace 13:05/mi, Sleep 85.0, Recovery 49 | Base</title></circle>
+<circle cx="1110.77" cy="95.84" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-20: Pace 14:05/mi, Sleep 84.0, Recovery 62 | Tempo</title></circle>
+<circle cx="1383.31" cy="108.56" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-21: Pace 16:28/mi, Sleep 81.0, Recovery 48 | Tempo</title></circle>
+<circle cx="1011.79" cy="74.64" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-24: Pace 13:13/mi, Sleep 89.0, Recovery 72 | Base</title></circle>
+<circle cx="1261.09" cy="78.88" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-27: Pace 15:24/mi, Sleep 88.0, Recovery 44 | Recovery</title></circle>
+<circle cx="904.26" cy="108.56" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-28: Pace 12:17/mi, Sleep 81.0, Recovery 29 | Tempo</title></circle>
+<circle cx="1028.42" cy="70.40" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-01-31: Pace 13:22/mi, Sleep 90.0, Recovery 31 | Recovery</title></circle>
+<circle cx="1279.35" cy="87.36" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-01: Pace 15:34/mi, Sleep 86.0, Recovery 47 | Recovery</title></circle>
+<circle cx="991.20" cy="108.56" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-02: Pace 13:03/mi, Sleep 81.0, Recovery 15 | Threshold</title></circle>
+<circle cx="1010.64" cy="180.64" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-03: Pace 13:13/mi, Sleep 64.0, Recovery 10 | Base</title></circle>
+<circle cx="1232.28" cy="146.72" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-05: Pace 15:09/mi, Sleep 72.0, Recovery 73 | Treadmill Running</title></circle>
+<circle cx="1138.25" cy="121.28" r="6" fill="#2ea043" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-06: Pace 14:20/mi, Sleep 78.0, Recovery 87 | Base</title></circle>
+<circle cx="1182.85" cy="44.96" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-08: Pace 14:43/mi, Sleep 96.0, Recovery 44 | Recovery</title></circle>
+<circle cx="940.23" cy="87.36" r="6" fill="#f39c12" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-09: Pace 12:36/mi, Sleep 86.0, Recovery 63 | Threshold</title></circle>
+<circle cx="1267.13" cy="36.48" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-10: Pace 15:27/mi, Sleep 98.0, Recovery 18 | Recovery</title></circle>
+<circle cx="994.76" cy="193.36" r="6" fill="#f85149" stroke="#ffffff" stroke-width="1" opacity="0.7"><title>2026-02-11: Pace 13:04/mi, Sleep 61.0, Recovery 18 | Recovery</title></circle>
+<line x1="72.0" y1="67.1" x2="872.0" y2="94.4" stroke="#f39c12" stroke-width="2" stroke-dasharray="7,4" opacity="0.85" />
+</svg>
+      <div class="links"><a href="/running/">🏃 Running</a> · <a href="/recovery/">🔄 Recovery</a> · <a href="/recovery/">Running impact on sleep</a></div>
+    </section>
+
+    <section class="panel">
+      <h2>Trend Insight</h2>
+      <p>A weak negative pace↔sleep correlation (r=-0.116) was found. Running faster appears associated with slightly better sleep in this window. Need at least a few matching easy and hard runs for stronger category averages.</p>
+    </section>
+
+    <section class="card-row">
+      <div class="card">
+        <div class="card-title">Runs in Window</div>
+        <div class="card-value">24</div>
+        <div class="tooltip-note">90-day trailing runs with all data matches: 24</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Fastest Avg Pace</div>
+        <div class="card-value">11:21</div>
+        <div class="tooltip-note">Best (fastest) observed pace in the paired set</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Best Pace Sleep</div>
+        <div class="card-value">90.7</div>
+        <div class="tooltip-note">Avg sleep score around best pacing band</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Range</div>
+        <div class="card-value">11:21–16:35</div>
+        <div class="tooltip-note">Lower pace is faster</div>
+      </div>
+    </section>
+  </div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

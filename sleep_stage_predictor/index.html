@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleep Stage Predictor</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5}
+nav{background:#161b22;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+nav a{color:#8b949e;text-decoration:none;font-size:13px;transition:color .2s}
+nav a:hover,nav a.active{color:#f39c12}
+nav .brand{color:#e6edf3;font-weight:600;margin-right:8px}
+.container{max-width:1100px;margin:0 auto;padding:24px 16px}
+h1{font-size:1.8rem;font-weight:700;margin-bottom:4px}
+.subtitle{color:#8b949e;font-size:14px;margin-bottom:32px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;margin-bottom:20px}
+.card h2{font-size:1.1rem;font-weight:600;margin-bottom:16px;color:#f39c12}
+.card h3{font-size:.95rem;font-weight:600;margin-bottom:12px;color:#c9d1d9}
+.slider-row{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.slider-label{font-size:13px;color:#8b949e;display:flex;justify-content:space-between}
+.slider-label span{color:#e6edf3;font-weight:600}
+input[type=range]{width:100%;accent-color:#f39c12;height:6px;cursor:pointer}
+.duration-display{text-align:center;font-size:13px;color:#8b949e;margin-bottom:16px}
+.duration-display strong{color:#f39c12;font-size:16px}
+.prediction-bar-wrap{background:#0d1117;border-radius:8px;padding:16px;margin-bottom:16px}
+.pred-bar-outer{height:60px;border-radius:6px;overflow:hidden;display:flex;margin-bottom:8px}
+.pred-seg-deep{background:#f39c12;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;transition:width .4s ease}
+.pred-seg-rem{background:#0a84ff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;transition:width .4s ease}
+.pred-seg-light{background:#4a5568;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e6edf3;transition:width .4s ease}
+.pred-nums{display:flex;gap:20px;flex-wrap:wrap}
+.pred-num{display:flex;align-items:center;gap:6px;font-size:13px}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.confidence{margin-top:12px;font-size:12px;color:#8b949e}
+.conf-bar-outer{background:#0d1117;border-radius:4px;height:6px;margin-top:4px}
+.conf-bar-inner{height:6px;border-radius:4px;background:#2ea043;transition:width .4s ease}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.chart-card{background:#0d1117;border-radius:8px;padding:16px}
+.chart-card h4{font-size:12px;color:#8b949e;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.legend{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#8b949e}
+.optimal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.optimal-box{background:#0d1117;border-radius:8px;padding:14px;border-left:3px solid #f39c12}
+.optimal-box.rem{border-left-color:#0a84ff}
+.optimal-box .label{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.optimal-box .value{font-size:15px;font-weight:600;color:#e6edf3}
+.stats-row{display:flex;gap:24px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat .val{font-size:1.4rem;font-weight:700;color:#f39c12}
+.stat .lbl{font-size:11px;color:#8b949e;margin-top:2px}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">🏋️ Fitness</span>
+  <a href="/fitness/index.html">Hub</a>
+  <a href="/fitness/sleep_dashboard.html">Sleep Dashboard</a>
+  <a href="/fitness/sleep_stage_predictor/index.html" class="active">Stage Predictor</a>
+  <a href="/fitness/recovery/index.html">Recovery</a>
+  <a href="/fitness/hrv_analysis/index.html">HRV</a>
+  <a href="/fitness/sleep_fusion/index.html">Sleep Fusion</a>
+</nav>
+
+<div class="container">
+  <h1>🌙 Sleep Stage Predictor</h1>
+  <p class="subtitle">Predict your deep / REM / light split based on historical patterns from 1365 nights of data.</p>
+
+  <!-- Interactive Predictor -->
+  <div class="card">
+    <h2>Interactive Predictor</h2>
+
+    <div class="slider-row">
+      <div class="slider-label">Bedtime <span id="bedtime-label">11:00 PM</span></div>
+      <input type="range" id="bedtime-slider" min="0" max="12" step="1" value="4">
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-label">Wake Time <span id="wake-label">7:00 AM</span></div>
+      <input type="range" id="wake-slider" min="0" max="14" step="1" value="4">
+    </div>
+
+    <div class="duration-display">Sleep duration: <strong id="duration-display">8.0h</strong></div>
+
+    <div class="prediction-bar-wrap">
+      <div class="pred-bar-outer">
+        <div class="pred-seg-deep" id="seg-deep" style="width:25%">Deep</div>
+        <div class="pred-seg-rem" id="seg-rem" style="width:22%">REM</div>
+        <div class="pred-seg-light" id="seg-light" style="width:53%">Light</div>
+      </div>
+      <div class="pred-nums">
+        <div class="pred-num"><div class="dot" style="background:#f39c12"></div> Deep: <strong id="pred-deep">~1.2h</strong></div>
+        <div class="pred-num"><div class="dot" style="background:#0a84ff"></div> REM: <strong id="pred-rem">~1.0h</strong></div>
+        <div class="pred-num"><div class="dot" style="background:#4a5568"></div> Light: <strong id="pred-light">~2.4h</strong></div>
+      </div>
+      <div class="confidence">
+        Confidence — based on <span id="sample-count">?</span> similar nights
+        <div class="conf-bar-outer"><div class="conf-bar-inner" id="conf-bar" style="width:50%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historical Patterns -->
+  <div class="card">
+    <h2>Historical Patterns</h2>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h4>Bedtime vs Deep Sleep (hours)</h4>
+        <svg width="360" height="160" viewBox="0 0 360 160"><line x1="50" y1="20" x2="50" y2="130" stroke="#30363d" stroke-width="1"/><line x1="50" y1="130" x2="340" y2="130" stroke="#30363d" stroke-width="1"/><text x="8" y="80" fill="#8b949e" font-size="10" transform="rotate(-90,8,80)">hrs</text><text x="50.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">0</text><text x="98.3" y="144" fill="#8b949e" font-size="8" text-anchor="middle">2</text><text x="146.7" y="144" fill="#8b949e" font-size="8" text-anchor="middle">4</text><text x="195.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">6</text><text x="243.3" y="144" fill="#8b949e" font-size="8" text-anchor="middle">8</text><text x="291.7" y="144" fill="#8b949e" font-size="8" text-anchor="middle">10</text><text x="340.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">12</text><polyline points="50.0,20.0 74.2,23.3 98.3,24.2 122.5,30.8 146.7,26.7 170.8,35.8 195.0,34.2 219.2,46.7 243.3,50.0 267.5,65.0 291.7,70.0 315.8,60.0 340.0,45.8" fill="none" stroke="#f39c12" stroke-width="2" stroke-linejoin="round"/></svg>
+        <div class="legend"><div class="legend-item"><div class="dot" style="background:#f39c12"></div> Deep sleep hrs</div></div>
+      </div>
+      <div class="chart-card">
+        <h4>Bedtime vs REM Sleep (hours)</h4>
+        <svg width="360" height="160" viewBox="0 0 360 160"><line x1="50" y1="20" x2="50" y2="130" stroke="#30363d" stroke-width="1"/><line x1="50" y1="130" x2="340" y2="130" stroke="#30363d" stroke-width="1"/><text x="8" y="80" fill="#8b949e" font-size="10" transform="rotate(-90,8,80)">hrs</text><text x="50.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">0</text><text x="98.3" y="144" fill="#8b949e" font-size="8" text-anchor="middle">2</text><text x="146.7" y="144" fill="#8b949e" font-size="8" text-anchor="middle">4</text><text x="195.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">6</text><text x="243.3" y="144" fill="#8b949e" font-size="8" text-anchor="middle">8</text><text x="291.7" y="144" fill="#8b949e" font-size="8" text-anchor="middle">10</text><text x="340.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">12</text><polyline points="50.0,20.0 74.2,34.6 98.3,40.1 122.5,51.0 146.7,54.6 170.8,68.6 195.0,77.1 219.2,74.7 243.3,82.0 267.5,61.9 291.7,51.0 315.8,78.3 340.0,76.5" fill="none" stroke="#0a84ff" stroke-width="2" stroke-linejoin="round"/></svg>
+        <div class="legend"><div class="legend-item"><div class="dot" style="background:#0a84ff"></div> REM hrs</div></div>
+      </div>
+      <div class="chart-card">
+        <h4>Duration Impact on Sleep Stages</h4>
+        <svg width="280" height="160" viewBox="0 0 280 160"><line x1="50" y1="20" x2="50" y2="130" stroke="#30363d" stroke-width="1"/><line x1="50" y1="130" x2="260" y2="130" stroke="#30363d" stroke-width="1"/><rect x="51.0" y="99.9" width="40.0" height="30.1" fill="#8b949e"/><rect x="51.0" y="89.4" width="40.0" height="10.5" fill="#0a84ff"/><rect x="51.0" y="77.5" width="40.0" height="11.9" fill="#f39c12"/><rect x="93.0" y="88.4" width="40.0" height="41.6" fill="#8b949e"/><rect x="93.0" y="72.3" width="40.0" height="16.1" fill="#0a84ff"/><rect x="93.0" y="58.5" width="40.0" height="13.7" fill="#f39c12"/><rect x="135.0" y="82.0" width="40.0" height="48.0" fill="#8b949e"/><rect x="135.0" y="62.3" width="40.0" height="19.8" fill="#0a84ff"/><rect x="135.0" y="47.8" width="40.0" height="14.5" fill="#f39c12"/><rect x="177.0" y="75.0" width="40.0" height="55.0" fill="#8b949e"/><rect x="177.0" y="52.4" width="40.0" height="22.6" fill="#0a84ff"/><rect x="177.0" y="37.6" width="40.0" height="14.8" fill="#f39c12"/><rect x="219.0" y="62.7" width="40.0" height="67.3" fill="#8b949e"/><rect x="219.0" y="36.6" width="40.0" height="26.1" fill="#0a84ff"/><rect x="219.0" y="20.0" width="40.0" height="16.6" fill="#f39c12"/><text x="70.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle"><6h</text><text x="154.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">7–8h</text><text x="238.0" y="144" fill="#8b949e" font-size="8" text-anchor="middle">9h+</text></svg>
+        <div class="legend">
+          <div class="legend-item"><div class="dot" style="background:#f39c12"></div> Deep</div>
+          <div class="legend-item"><div class="dot" style="background:#0a84ff"></div> REM</div>
+          <div class="legend-item"><div class="dot" style="background:#8b949e"></div> Light</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optimal Windows -->
+  <div class="card">
+    <h2>Your Optimal Sleep Windows</h2>
+    <div class="optimal-grid">
+      <div class="optimal-box">
+        <div class="label">🟡 Best bedtime for Deep Sleep</div>
+        <div class="value">9:00 PM – 9:30 PM</div>
+      </div>
+      <div class="optimal-box rem">
+        <div class="label">🔵 Best bedtime for REM Sleep</div>
+        <div class="value">9:00 PM – 9:30 PM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Summary -->
+  <div class="card">
+    <h2>Data Summary</h2>
+    <div class="stats-row">
+      <div class="stat"><div class="val">1365</div><div class="lbl">Nights Analyzed</div></div>
+      <div class="stat"><div class="val">1.28h</div><div class="lbl">Avg Deep</div></div>
+      <div class="stat"><div class="val">1.67h</div><div class="lbl">Avg REM</div></div>
+      <div class="stat"><div class="val">4.22h</div><div class="lbl">Avg Light</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LOOKUP = {"0": {"deep": 1.32, "rem": 1.81, "light": 4.5, "n": 899}, "1": {"deep": 1.28, "rem": 1.57, "light": 3.99, "n": 175}, "2": {"deep": 1.27, "rem": 1.48, "light": 3.9, "n": 99}, "3": {"deep": 1.19, "rem": 1.3, "light": 3.63, "n": 74}, "4": {"deep": 1.24, "rem": 1.24, "light": 3.42, "n": 41}, "5": {"deep": 1.13, "rem": 1.01, "light": 3.49, "n": 22}, "6": {"deep": 1.15, "rem": 0.87, "light": 2.86, "n": 15}, "7": {"deep": 1.0, "rem": 0.91, "light": 3.0, "n": 15}, "8": {"deep": 0.96, "rem": 0.79, "light": 1.8, "n": 4}, "9": {"deep": 0.78, "rem": 1.12, "light": 3.02, "n": 5}, "10": {"deep": 0.72, "rem": 1.3, "light": 2.34, "n": 5}, "11": {"deep": 0.84, "rem": 0.85, "light": 1.79, "n": 3}, "12": {"deep": 1.01, "rem": 0.88, "light": 2.54, "n": 8}};
+const BEDTIME_SLOTS = ["9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM", "12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM"];
+const WAKE_SLOTS = ["5:00 AM", "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM"];
+
+// Bedtime hours in decimal (21=9PM through 27=3AM)
+const BEDTIME_HOURS = [];
+for (let i = 0; i < 13; i++) {
+  let h = 21 + i * 0.5;
+  if (h >= 24) h -= 24;
+  BEDTIME_HOURS.push(h);
+}
+
+// Wake hours (5AM=5 to 12PM=12)
+const WAKE_HOURS = [];
+for (let i = 0; i < 15; i++) {
+  WAKE_HOURS.push(5 + i * 0.5);
+}
+
+function bedtimeBucket(h) {
+  return h < 6 ? h + 24 : h;
+}
+
+function bucketIdx(h) {
+  const bh = bedtimeBucket(h);
+  const idx = Math.round((bh - 21) / 0.5);
+  return Math.max(0, Math.min(12, idx));
+}
+
+function update() {
+  const btIdx = parseInt(document.getElementById('bedtime-slider').value);
+  const wkIdx = parseInt(document.getElementById('wake-slider').value);
+
+  const btH = BEDTIME_HOURS[btIdx];
+  const wkH = WAKE_HOURS[wkIdx];
+
+  document.getElementById('bedtime-label').textContent = BEDTIME_SLOTS[btIdx];
+  document.getElementById('wake-label').textContent = WAKE_SLOTS[wkIdx];
+
+  // Duration
+  let btHext = bedtimeBucket(btH);
+  let wkHext = wkH < 6 ? wkH + 24 : wkH;
+  // Wake is always after bedtime
+  if (wkHext <= btHext) wkHext += 24;
+  const dur = wkHext - btHext;
+  document.getElementById('duration-display').textContent = dur.toFixed(1) + 'h';
+
+  // Lookup prediction
+  const bi = bucketIdx(btH);
+  const entry = LOOKUP[bi] || {deep: 1.28, rem: 1.67, light: 4.22, n: 0};
+
+  // Scale by duration ratio if needed
+  const baseTotal = entry.deep + entry.rem + entry.light;
+  const scale = baseTotal > 0 ? Math.min(dur / baseTotal, 1.4) : 1;
+  const predDeep = Math.min(entry.deep * scale, dur * 0.4);
+  const predRem = Math.min(entry.rem * scale, dur * 0.35);
+  const predLight = Math.max(dur - predDeep - predRem, 0);
+
+  const total = predDeep + predRem + predLight;
+  const pDeep = total > 0 ? (predDeep / total * 100).toFixed(0) : 0;
+  const pRem = total > 0 ? (predRem / total * 100).toFixed(0) : 0;
+  const pLight = total > 0 ? (predLight / total * 100).toFixed(0) : 0;
+
+  document.getElementById('seg-deep').style.width = pDeep + '%';
+  document.getElementById('seg-rem').style.width = pRem + '%';
+  document.getElementById('seg-light').style.width = pLight + '%';
+  document.getElementById('pred-deep').textContent = '~' + predDeep.toFixed(1) + 'h';
+  document.getElementById('pred-rem').textContent = '~' + predRem.toFixed(1) + 'h';
+  document.getElementById('pred-light').textContent = '~' + predLight.toFixed(1) + 'h';
+
+  // Confidence
+  const n = entry.n || 0;
+  const confPct = Math.min(100, Math.round(n / 20 * 100));
+  document.getElementById('sample-count').textContent = n;
+  document.getElementById('conf-bar').style.width = confPct + '%';
+  document.getElementById('conf-bar').style.background = confPct > 60 ? '#2ea043' : confPct > 30 ? '#f39c12' : '#f85149';
+}
+
+document.getElementById('bedtime-slider').addEventListener('input', update);
+document.getElementById('wake-slider').addEventListener('input', update);
+update();
+</script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

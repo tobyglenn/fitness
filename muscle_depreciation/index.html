@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muscle Group Depreciation</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 13px; white-space: nowrap; }
+  nav a:hover { color: #f39c12; }
+  nav a.active { color: #f39c12; font-weight: 600; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+  .header { margin-bottom: 32px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #f39c12; margin-bottom: 8px; }
+  .header p { color: #8b949e; font-size: 15px; }
+  .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .section h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #e6edf3; }
+  .meta { color: #8b949e; font-size: 12px; margin-top: 8px; }
+  .tab-btn { background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; margin: 2px; }
+  .tab-btn.active { background: #f39c12; color: #0d1117; font-weight: 600; border-color: #f39c12; }
+  .tab-btn:hover { color: #f39c12; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #21262d; color: #8b949e; font-size: 12px; text-align: left; padding: 10px 12px; border-bottom: 1px solid #30363d; }
+  tr:nth-child(even) { background: #1c2128; }
+  tr:hover { background: #21262d; }
+  .stat-pill { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .stat-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+  .stat-card { background: #21262d; border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 160px; }
+  .stat-card .label { color: #8b949e; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .stat-card .value { font-size: 22px; font-weight: 700; color: #f39c12; }
+  svg { display: block; max-width: 100%; overflow: visible; }
+  @media (max-width: 600px) { .container { padding: 16px; } .section { padding: 16px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/fitness/index.html">🏠 Hub</a>
+  <a href="/fitness/calendars/">📅 Calendars</a>
+  <a href="/fitness/strength/">💪 Strength</a>
+  <a href="/fitness/cardio/">🏃 Cardio</a>
+  <a href="/fitness/recovery/">💤 Recovery</a>
+  <a href="/fitness/nutrition/">🥗 Nutrition</a>
+  <a href="/fitness/muscle_recovery/">🔴 Muscle Recovery</a>
+  <a href="/fitness/muscle_depreciation/" class="active">📉 Depreciation</a>
+  <a href="/fitness/muscle_synergy_map/muscle_groups/">🗺️ Muscle Groups</a>
+</nav>
+
+<div class="container">
+
+  <div class="header">
+    <h1>📉 Muscle Group Depreciation</h1>
+    <p>Your personalized recovery windows — how long until each muscle group is ready to train again?</p>
+    <p class="meta">Generated March 01, 2026 at 11:52 AM EST · 3388 muscle-session data points · Today's WHOOP recovery: <span style="color:#8b949e">N/A</span></p>
+  </div>
+
+  <!-- Section 1: Current Readiness -->
+  <div class="section">
+    <h2>🟢 Current Recovery Status</h2>
+    <p style="color:#8b949e;font-size:13px;margin-bottom:16px">
+      Readiness based on time since last trained vs. your personal optimal rest window.
+      Green = ready · Yellow = approaching · Red = still recovering.
+    </p>
+    <svg width="720" height="288" viewBox="0 0 720 288" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="16" width="160" height="120" rx="8" fill="#1c2128" stroke="#f39c12" stroke-width="1.5"/><path d="M 68.3 58.0 A 32 32 0 1 1 68.3 90.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><text x="96" y="79" text-anchor="middle" font-size="14" font-weight="bold" fill="white">0%</text><text x="96" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Chest</text><text x="96" y="116" text-anchor="middle" font-size="10" fill="#8b949e">334d ago</text><rect x="192" y="16" width="160" height="120" rx="8" fill="#1c2128" stroke="#2ea043" stroke-width="1.5"/><path d="M 244.3 58.0 A 32 32 0 1 1 244.3 90.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><path d="M 244.3 58.0 A 32 32 0 1 1 244.3 90.0" fill="none" stroke="#2ea043" stroke-width="6" stroke-linecap="round"/><text x="272" y="79" text-anchor="middle" font-size="14" font-weight="bold" fill="white">100%</text><text x="272" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Back</text><text x="272" y="116" text-anchor="middle" font-size="10" fill="#8b949e">334d ago</text><rect x="368" y="16" width="160" height="120" rx="8" fill="#1c2128" stroke="#f39c12" stroke-width="1.5"/><path d="M 420.3 58.0 A 32 32 0 1 1 420.3 90.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><text x="448" y="79" text-anchor="middle" font-size="14" font-weight="bold" fill="white">0%</text><text x="448" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Shoulders</text><text x="448" y="116" text-anchor="middle" font-size="10" fill="#8b949e">334d ago</text><rect x="544" y="16" width="160" height="120" rx="8" fill="#1c2128" stroke="#2ea043" stroke-width="1.5"/><path d="M 596.3 58.0 A 32 32 0 1 1 596.3 90.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><path d="M 596.3 58.0 A 32 32 0 1 1 596.3 90.0" fill="none" stroke="#2ea043" stroke-width="6" stroke-linecap="round"/><text x="624" y="79" text-anchor="middle" font-size="14" font-weight="bold" fill="white">100%</text><text x="624" y="34" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Biceps</text><text x="624" y="116" text-anchor="middle" font-size="10" fill="#8b949e">334d ago</text><rect x="16" y="152" width="160" height="120" rx="8" fill="#1c2128" stroke="#2ea043" stroke-width="1.5"/><path d="M 68.3 194.0 A 32 32 0 1 1 68.3 226.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><path d="M 68.3 194.0 A 32 32 0 1 1 68.3 226.0" fill="none" stroke="#2ea043" stroke-width="6" stroke-linecap="round"/><text x="96" y="215" text-anchor="middle" font-size="14" font-weight="bold" fill="white">100%</text><text x="96" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Triceps</text><text x="96" y="252" text-anchor="middle" font-size="10" fill="#8b949e">334d ago</text><rect x="192" y="152" width="160" height="120" rx="8" fill="#1c2128" stroke="#2ea043" stroke-width="1.5"/><path d="M 244.3 194.0 A 32 32 0 1 1 244.3 226.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><path d="M 244.3 194.0 A 32 32 0 1 1 244.3 226.0" fill="none" stroke="#2ea043" stroke-width="6" stroke-linecap="round"/><text x="272" y="215" text-anchor="middle" font-size="14" font-weight="bold" fill="white">100%</text><text x="272" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Legs</text><text x="272" y="252" text-anchor="middle" font-size="10" fill="#8b949e">334d ago</text><rect x="368" y="152" width="160" height="120" rx="8" fill="#1c2128" stroke="#2ea043" stroke-width="1.5"/><path d="M 420.3 194.0 A 32 32 0 1 1 420.3 226.0" fill="none" stroke="#30363d" stroke-width="6" stroke-linecap="round"/><path d="M 420.3 194.0 A 32 32 0 1 1 420.3 226.0" fill="none" stroke="#2ea043" stroke-width="6" stroke-linecap="round"/><text x="448" y="215" text-anchor="middle" font-size="14" font-weight="bold" fill="white">100%</text><text x="448" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Core</text><text x="448" y="252" text-anchor="middle" font-size="10" fill="#8b949e">490d ago</text></svg>
+  </div>
+
+  <!-- Section 2: Optimal Rest Windows -->
+  <div class="section">
+    <h2>⏱️ Your Optimal Rest Windows</h2>
+    <p style="color:#8b949e;font-size:13px;margin-bottom:16px">
+      Derived from your actual performance data — the rest period where you historically lift the highest volume.
+    </p>
+    <svg width="680" height="292" viewBox="0 0 680 292" xmlns="http://www.w3.org/2000/svg"><line x1="211" y1="20" x2="211" y2="272" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/><text x="211" y="16" text-anchor="middle" font-size="9" fill="#8b949e">24h</text><line x1="322" y1="20" x2="322" y2="272" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/><text x="322" y="16" text-anchor="middle" font-size="9" fill="#8b949e">48h</text><line x1="433" y1="20" x2="433" y2="272" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/><text x="433" y="16" text-anchor="middle" font-size="9" fill="#8b949e">72h</text><line x1="544" y1="20" x2="544" y2="272" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/><text x="544" y="16" text-anchor="middle" font-size="9" fill="#8b949e">96h</text><text x="92" y="38" text-anchor="end" font-size="12" fill="#e6edf3">Chest</text><rect x="100" y="20" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="20" width="389" height="28" rx="4" fill="#f39c12"/><text x="494.8888888888889" y="38" font-size="11" fill="#f39c12">84h (3d 12h)</text><text x="92" y="74" text-anchor="end" font-size="12" fill="#e6edf3">Back</text><rect x="100" y="56" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="56" width="500" height="28" rx="4" fill="#f39c12"/><text x="606.0" y="74" font-size="11" fill="#f39c12">108h (4d 12h)</text><text x="92" y="110" text-anchor="end" font-size="12" fill="#e6edf3">Shoulders</text><rect x="100" y="92" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="92" width="500" height="28" rx="4" fill="#f39c12"/><text x="606.0" y="110" font-size="11" fill="#f39c12">108h (4d 12h)</text><text x="92" y="146" text-anchor="end" font-size="12" fill="#e6edf3">Biceps</text><rect x="100" y="128" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="128" width="500" height="28" rx="4" fill="#f39c12"/><text x="606.0" y="146" font-size="11" fill="#f39c12">108h (4d 12h)</text><text x="92" y="182" text-anchor="end" font-size="12" fill="#e6edf3">Triceps</text><rect x="100" y="164" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="164" width="500" height="28" rx="4" fill="#f39c12"/><text x="606.0" y="182" font-size="11" fill="#f39c12">108h (4d 12h)</text><text x="92" y="218" text-anchor="end" font-size="12" fill="#e6edf3">Legs</text><rect x="100" y="200" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="200" width="500" height="28" rx="4" fill="#f39c12"/><text x="606.0" y="218" font-size="11" fill="#f39c12">108h (4d 12h)</text><text x="92" y="254" text-anchor="end" font-size="12" fill="#e6edf3">Core</text><rect x="100" y="236" width="500" height="28" rx="4" fill="#1c2128"/><rect x="100" y="236" width="500" height="28" rx="4" fill="#f39c12"/><text x="606.0" y="254" font-size="11" fill="#f39c12">108h (4d 12h)</text></svg>
+    <p class="meta" style="margin-top:12px">Bars show the rest period (hours) that correlates with peak session volume for each muscle group.</p>
+  </div>
+
+  <!-- Section 3: Volume vs Rest Scatter -->
+  <div class="section">
+    <h2>📊 Volume vs. Rest Period</h2>
+    <p style="color:#8b949e;font-size:13px;margin-bottom:16px">
+      Each dot = one training session. X-axis = rest days before that session. Y-axis = volume ratio vs. rolling average.
+      🟡 Vertical line = your optimal rest window.
+    </p>
+    <div style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:4px">
+      <button class="tab-btn active" onclick="showScatter('Chest')">Chest</button><button class="tab-btn" onclick="showScatter('Back')">Back</button><button class="tab-btn" onclick="showScatter('Shoulders')">Shoulders</button><button class="tab-btn" onclick="showScatter('Biceps')">Biceps</button><button class="tab-btn" onclick="showScatter('Triceps')">Triceps</button><button class="tab-btn" onclick="showScatter('Legs')">Legs</button><button class="tab-btn" onclick="showScatter('Core')">Core</button>
+    </div>
+    
+    <div id="scatter-Chest" style="display:block">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Chest — Optimal rest: 84h |
+            Depreciation: 2.8%/day |
+            Sessions: 578
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="227" y1="20" x2="227" y2="210" stroke="#21262d" stroke-width="1"/><text x="227" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="403" y1="20" x2="403" y2="210" stroke="#21262d" stroke-width="1"/><text x="403" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="50" y1="184" x2="580" y2="184" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="187" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="166" x2="580" y2="166" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="169" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="148" x2="580" y2="148" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="151" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="131" x2="580" y2="131" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="134" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="113" x2="580" y2="113" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="116" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="148" x2="580" y2="148" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="359" y1="20" x2="359" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="362" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="403.3" cy="147.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="189.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="98.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="102.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="203.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="125.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="38.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="142.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="172.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="80.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="166.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="151.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="185.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="180.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="192.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="130.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="90.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="195.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="193.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="111.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="92.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="197.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="80.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="135.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="151.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="109.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="185.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="200.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="131.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="191.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="89.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="99.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="116.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="190.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="96.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="154.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="187.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="149.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="132.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="140.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="177.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="159.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="124.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="197.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="90.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="183.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="152.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="189.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="193.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="120.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="104.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="202.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="70.3" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+    <div id="scatter-Back" style="display:none">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Back — Optimal rest: 108h |
+            Depreciation: 0.0%/day |
+            Sessions: 574
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="227" y1="20" x2="227" y2="210" stroke="#21262d" stroke-width="1"/><text x="227" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="403" y1="20" x2="403" y2="210" stroke="#21262d" stroke-width="1"/><text x="403" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="50" y1="184" x2="580" y2="184" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="187" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="166" x2="580" y2="166" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="169" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="148" x2="580" y2="148" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="151" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="131" x2="580" y2="131" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="134" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="113" x2="580" y2="113" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="116" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="148" x2="580" y2="148" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="448" y1="20" x2="448" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="450" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="403.3" cy="147.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="189.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="98.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="102.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="203.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="125.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="38.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="142.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="172.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="80.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="166.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="151.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="185.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="180.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="192.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="130.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="90.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="195.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="193.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="111.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="92.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="197.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="80.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="135.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="151.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="109.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="185.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="200.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="131.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="191.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="89.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="99.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="116.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="190.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="96.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="154.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="187.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="149.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="132.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="140.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="177.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="159.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="124.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="197.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="90.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="183.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="152.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="189.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="193.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="120.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="104.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="202.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="70.3" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+    <div id="scatter-Shoulders" style="display:none">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Shoulders — Optimal rest: 108h |
+            Depreciation: 2.5%/day |
+            Sessions: 559
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="227" y1="20" x2="227" y2="210" stroke="#21262d" stroke-width="1"/><text x="227" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="403" y1="20" x2="403" y2="210" stroke="#21262d" stroke-width="1"/><text x="403" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="50" y1="181" x2="580" y2="181" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="184" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="164" x2="580" y2="164" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="167" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="147" x2="580" y2="147" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="150" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="130" x2="580" y2="130" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="133" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="113" x2="580" y2="113" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="116" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="147" x2="580" y2="147" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="448" y1="20" x2="448" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="450" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="403.3" cy="37.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="194.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="129.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="132.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="203.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="148.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="39.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="141.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="169.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="145.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="183.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="172.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="181.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="129.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="90.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="191.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="190.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="111.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="92.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="194.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="81.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="137.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="133.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="149.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="109.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="182.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="196.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="129.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="188.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="89.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="99.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="115.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="187.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="96.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="93.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="159.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="188.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="148.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="165.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="143.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="131.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="175.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="122.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="157.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="124.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="193.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="90.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="180.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="150.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="186.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="190.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="119.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="104.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="198.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="71.1" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+    <div id="scatter-Biceps" style="display:none">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Biceps — Optimal rest: 108h |
+            Depreciation: 0.0%/day |
+            Sessions: 562
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="227" y1="20" x2="227" y2="210" stroke="#21262d" stroke-width="1"/><text x="227" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="403" y1="20" x2="403" y2="210" stroke="#21262d" stroke-width="1"/><text x="403" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="50" y1="181" x2="580" y2="181" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="184" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="164" x2="580" y2="164" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="167" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="147" x2="580" y2="147" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="150" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="130" x2="580" y2="130" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="133" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="113" x2="580" y2="113" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="116" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="147" x2="580" y2="147" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="448" y1="20" x2="448" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="450" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="403.3" cy="37.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="194.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="129.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="132.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="203.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="148.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="39.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="141.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="169.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="145.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="183.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="172.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="181.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="129.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="90.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="191.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="190.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="111.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="92.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="194.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="81.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="137.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="133.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="149.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="109.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="182.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="196.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="129.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="188.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="89.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="99.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="115.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="187.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="96.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="93.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="159.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="188.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="148.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="165.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="143.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="131.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="175.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="122.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="157.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="124.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="193.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="90.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="180.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="150.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="186.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="190.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="119.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="104.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="198.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="71.1" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+    <div id="scatter-Triceps" style="display:none">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Triceps — Optimal rest: 108h |
+            Depreciation: 0.0%/day |
+            Sessions: 539
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="227" y1="20" x2="227" y2="210" stroke="#21262d" stroke-width="1"/><text x="227" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="403" y1="20" x2="403" y2="210" stroke="#21262d" stroke-width="1"/><text x="403" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="50" y1="184" x2="580" y2="184" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="187" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="166" x2="580" y2="166" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="169" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="148" x2="580" y2="148" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="151" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="131" x2="580" y2="131" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="134" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="113" x2="580" y2="113" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="116" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="148" x2="580" y2="148" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="448" y1="20" x2="448" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="450" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="138.3" cy="161.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="403.3" cy="147.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="189.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="98.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="102.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="203.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="125.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="38.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="142.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="172.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="147.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="139.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="185.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="174.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="184.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="130.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="90.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="195.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="193.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="111.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="92.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="197.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="80.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="135.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="151.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="109.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="185.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="200.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="131.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="191.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="89.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="99.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="116.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="190.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="96.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="154.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="187.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="149.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="138.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="132.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="140.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="177.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="123.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="159.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="124.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="197.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="90.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="491.7" cy="183.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="152.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="189.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="124.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="193.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="138.3" cy="120.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="104.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="226.7" cy="202.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="70.3" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+    <div id="scatter-Legs" style="display:none">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Legs — Optimal rest: 108h |
+            Depreciation: 0.0%/day |
+            Sessions: 544
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="126" y1="20" x2="126" y2="210" stroke="#21262d" stroke-width="1"/><text x="126" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="201" y1="20" x2="201" y2="210" stroke="#21262d" stroke-width="1"/><text x="201" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="277" y1="20" x2="277" y2="210" stroke="#21262d" stroke-width="1"/><text x="277" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="353" y1="20" x2="353" y2="210" stroke="#21262d" stroke-width="1"/><text x="353" y="224" text-anchor="middle" font-size="9" fill="#8b949e">8d</text><line x1="429" y1="20" x2="429" y2="210" stroke="#21262d" stroke-width="1"/><text x="429" y="224" text-anchor="middle" font-size="9" fill="#8b949e">10d</text><line x1="504" y1="20" x2="504" y2="210" stroke="#21262d" stroke-width="1"/><text x="504" y="224" text-anchor="middle" font-size="9" fill="#8b949e">12d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">14d</text><line x1="50" y1="178" x2="580" y2="178" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="181" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="157" x2="580" y2="157" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="160" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="137" x2="580" y2="137" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="140" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="117" x2="580" y2="117" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="120" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="97" x2="580" y2="97" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="100" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="137" x2="580" y2="137" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="220" y1="20" x2="220" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="223" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="87.9" cy="161.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="542.1" cy="85.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="143.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="239.3" cy="181.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="76.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="96.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="201.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="109.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="85.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="117.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="156.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="122.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="114.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="175.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="167.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="178.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="189.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="38.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="184.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="79.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="48.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="194.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="100.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="125.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="121.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="192.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="71.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="175.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="193.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="99.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="181.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="69.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="80.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="100.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="185.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="142.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="133.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="176.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="109.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="123.8" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="110.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="109.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="109.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="239.3" cy="118.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="127.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="170.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="107.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="149.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="109.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="193.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="124.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="239.3" cy="172.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="130.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="178.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="88.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="184.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="105.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="86.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="198.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="47.0" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+    <div id="scatter-Core" style="display:none">
+        <h4 style="color:#8b949e;margin:0 0 12px">
+            Core — Optimal rest: 108h |
+            Depreciation: 0.0%/day |
+            Sessions: 32
+        </h4>
+        <svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="20" x2="50" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="210" x2="580" y2="210" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20" x2="50" y2="210" stroke="#21262d" stroke-width="1"/><text x="50" y="224" text-anchor="middle" font-size="9" fill="#8b949e">0d</text><line x1="126" y1="20" x2="126" y2="210" stroke="#21262d" stroke-width="1"/><text x="126" y="224" text-anchor="middle" font-size="9" fill="#8b949e">2d</text><line x1="201" y1="20" x2="201" y2="210" stroke="#21262d" stroke-width="1"/><text x="201" y="224" text-anchor="middle" font-size="9" fill="#8b949e">4d</text><line x1="277" y1="20" x2="277" y2="210" stroke="#21262d" stroke-width="1"/><text x="277" y="224" text-anchor="middle" font-size="9" fill="#8b949e">6d</text><line x1="353" y1="20" x2="353" y2="210" stroke="#21262d" stroke-width="1"/><text x="353" y="224" text-anchor="middle" font-size="9" fill="#8b949e">8d</text><line x1="429" y1="20" x2="429" y2="210" stroke="#21262d" stroke-width="1"/><text x="429" y="224" text-anchor="middle" font-size="9" fill="#8b949e">10d</text><line x1="504" y1="20" x2="504" y2="210" stroke="#21262d" stroke-width="1"/><text x="504" y="224" text-anchor="middle" font-size="9" fill="#8b949e">12d</text><line x1="580" y1="20" x2="580" y2="210" stroke="#21262d" stroke-width="1"/><text x="580" y="224" text-anchor="middle" font-size="9" fill="#8b949e">14d</text><line x1="50" y1="199" x2="580" y2="199" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="202" text-anchor="end" font-size="9" fill="#8b949e">0.50</text><line x1="50" y1="190" x2="580" y2="190" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="193" text-anchor="end" font-size="9" fill="#8b949e">0.75</text><line x1="50" y1="181" x2="580" y2="181" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="184" text-anchor="end" font-size="9" fill="#8b949e">1.00</text><line x1="50" y1="172" x2="580" y2="172" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="175" text-anchor="end" font-size="9" fill="#8b949e">1.25</text><line x1="50" y1="163" x2="580" y2="163" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/><text x="46" y="166" text-anchor="end" font-size="9" fill="#8b949e">1.50</text><line x1="50" y1="181" x2="580" y2="181" stroke="#2ea043" stroke-width="1" stroke-dasharray="5,3" opacity="0.6"/><line x1="220" y1="20" x2="220" y2="210" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="6,3"/><text x="223" y="32" font-size="9" fill="#f39c12">Optimal</text><circle cx="542.1" cy="184.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="184.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="189.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="206.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="315.0" cy="179.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="196.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="192.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="188.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="184.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="199.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="168.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="178.7" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="196.1" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="175.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="201.4" cy="190.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="174.3" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="203.9" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="168.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="192.2" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="87.9" cy="188.5" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="239.3" cy="187.4" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="125.7" cy="205.6" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="201.4" cy="38.0" r="4" fill="#0a84ff" opacity="0.65"/><circle cx="163.6" cy="75.1" r="4" fill="#0a84ff" opacity="0.65"/><text x="315" y="248" text-anchor="middle" font-size="10" fill="#8b949e">Days of Rest Before Session</text><text x="10" y="115" text-anchor="middle" font-size="10" fill="#8b949e" transform="rotate(-90, 10, 115)">Volume Ratio</text></svg>
+    </div>
+  </div>
+
+  <!-- Section 4: Depreciation Rate Table -->
+  <div class="section">
+    <h2>📉 Depreciation Rate by Muscle Group</h2>
+    <p style="color:#8b949e;font-size:13px;margin-bottom:16px">
+      How much performance drops for every day beyond your optimal rest window. Sparkline shows the decay curve over 7 days.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Muscle Group</th>
+          <th>Optimal Rest</th>
+          <th>Depreciation Rate</th>
+          <th>Total Sessions</th>
+          <th>Decay Curve (7 days post-optimal)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Chest</td>
+            <td style="padding:12px;color:#f39c12">3d 12h</td>
+            <td style="padding:12px;color:#da3633">2.8% / day</td>
+            <td style="padding:12px;color:#8b949e">578</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,5.0 17.1,5.0 34.3,5.0 51.4,5.0 68.6,9.3 85.7,17.9 102.9,26.4 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Back</td>
+            <td style="padding:12px;color:#f39c12">4d 12h</td>
+            <td style="padding:12px;color:#da3633">0.0% / day</td>
+            <td style="padding:12px;color:#8b949e">574</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,35.0 17.1,35.0 34.3,35.0 51.4,35.0 68.6,35.0 85.7,35.0 102.9,35.0 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Shoulders</td>
+            <td style="padding:12px;color:#f39c12">4d 12h</td>
+            <td style="padding:12px;color:#da3633">2.5% / day</td>
+            <td style="padding:12px;color:#8b949e">559</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,5.0 17.1,5.0 34.3,5.0 51.4,5.0 68.6,5.0 85.7,11.0 102.9,23.0 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Biceps</td>
+            <td style="padding:12px;color:#f39c12">4d 12h</td>
+            <td style="padding:12px;color:#da3633">0.0% / day</td>
+            <td style="padding:12px;color:#8b949e">562</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,35.0 17.1,35.0 34.3,35.0 51.4,35.0 68.6,35.0 85.7,35.0 102.9,35.0 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Triceps</td>
+            <td style="padding:12px;color:#f39c12">4d 12h</td>
+            <td style="padding:12px;color:#da3633">0.0% / day</td>
+            <td style="padding:12px;color:#8b949e">539</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,35.0 17.1,35.0 34.3,35.0 51.4,35.0 68.6,35.0 85.7,35.0 102.9,35.0 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Legs</td>
+            <td style="padding:12px;color:#f39c12">4d 12h</td>
+            <td style="padding:12px;color:#da3633">0.0% / day</td>
+            <td style="padding:12px;color:#8b949e">544</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,35.0 17.1,35.0 34.3,35.0 51.4,35.0 68.6,35.0 85.7,35.0 102.9,35.0 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+        <tr>
+            <td style="padding:12px;font-weight:600;color:#e6edf3">Core</td>
+            <td style="padding:12px;color:#f39c12">4d 12h</td>
+            <td style="padding:12px;color:#da3633">0.0% / day</td>
+            <td style="padding:12px;color:#8b949e">32</td>
+            <td style="padding:12px"><svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="35" x2="120" y2="35" stroke="#30363d" stroke-width="1"/><polyline points="0.0,35.0 17.1,35.0 34.3,35.0 51.4,35.0 68.6,35.0 85.7,35.0 102.9,35.0 120.0,35.0" fill="none" stroke="#f39c12" stroke-width="2"/></svg></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Legend -->
+  <div class="section" style="background:#0d1117;border-color:#21262d">
+    <h2 style="font-size:14px;color:#8b949e">📖 How to Read This</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:12px">
+      <div>
+        <div style="color:#f39c12;font-weight:600;margin-bottom:4px">Readiness %</div>
+        <div style="color:#8b949e;font-size:13px">If you trained less than your optimal rest window ago, readiness = (hours elapsed / optimal hours) × 100%. Once past optimal, small performance loss accrues.</div>
+      </div>
+      <div>
+        <div style="color:#f39c12;font-weight:600;margin-bottom:4px">Optimal Rest</div>
+        <div style="color:#8b949e;font-size:13px">The rest duration that historically correlates with your highest volume sessions for that muscle group. Your personal data, not generic guidelines.</div>
+      </div>
+      <div>
+        <div style="color:#f39c12;font-weight:600;margin-bottom:4px">Depreciation Rate</div>
+        <div style="color:#8b949e;font-size:13px">Estimated % performance drop per extra day beyond optimal rest. Low rate = muscle maintains readiness long after optimal window.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showScatter(muscle) {
+  document.querySelectorAll('[id^="scatter-"]').forEach(el => el.style.display = 'none');
+  document.getElementById('scatter-' + muscle).style.display = 'block';
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

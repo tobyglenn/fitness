@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modality Freshness Matrix</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: white; min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Navigation */
+        nav { background: #161b22; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
+        nav a { color: #8b949e; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #f39c12; }
+        
+        /* Header */
+        h1 { font-size: 2rem; margin-bottom: 8px; }
+        .subtitle { color: #8b949e; margin-bottom: 30px; }
+        
+        /* Summary Cards */
+        .summary-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: #161b22; border-radius: 12px; padding: 20px; }
+        .card h3 { color: #8b949e; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .card .value { font-size: 2.5rem; font-weight: bold; margin-bottom: 5px; }
+        .card .status { font-size: 0.9rem; }
+        
+        /* Matrix Grid */
+        .matrix-section { background: #161b22; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+        .matrix-section h2 { margin-bottom: 20px; }
+        
+        .matrix-grid { display: grid; grid-template-columns: 100px repeat(4, 1fr); gap: 3px; background: #0d1117; border-radius: 8px; overflow: hidden; }
+        .matrix-header { background: #21262d; padding: 12px; text-align: center; font-weight: bold; }
+        .matrix-cell { background: #161b22; padding: 15px; text-align: center; }
+        .matrix-cell.score { font-weight: bold; font-size: 1.2rem; }
+        
+        /* Recommendation */
+        .recommendation { background: linear-gradient(135deg, #161b22 0%, #21262d 100%); border-radius: 12px; padding: 30px; margin-bottom: 30px; border-left: 4px solid #f39c12; }
+        .recommendation h2 { color: #f39c12; margin-bottom: 10px; }
+        .recommendation .best-bet { font-size: 1.5rem; font-weight: bold; }
+        
+        /* Detailed Breakdown */
+        .breakdown-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .breakdown-card { background: #161b22; border-radius: 12px; padding: 20px; }
+        .breakdown-card h3 { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #30363d; }
+        .breakdown-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-label { color: #8b949e; }
+        .breakdown-value { font-weight: bold; }
+        
+        /* Factors */
+        .factors { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
+        .factor { background: #21262d; padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; }
+        
+        /* Legend */
+        .legend { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #8b949e; }
+        .legend-color { width: 20px; height: 20px; border-radius: 4px; }
+        
+        /* Metrics bar */
+        .metrics-bar { display: flex; gap: 30px; margin-bottom: 30px; background: #161b22; padding: 20px; border-radius: 12px; }
+        .metric { text-align: center; }
+        .metric-value { font-size: 1.8rem; font-weight: bold; color: #f39c12; }
+        .metric-label { color: #8b949e; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/hub_index.html">Hub</a>
+            <a href="/strength/index.html">Strength</a>
+            <a href="/cardio/index.html">Cardio</a>
+            <a href="/recovery/index.html">Recovery</a>
+            <a href="/nutrition/index.html">Nutrition</a>
+            <a href="/calendars/index.html">Calendars</a>
+        </nav>
+        
+        <h1>Modality Freshness Matrix</h1>
+        <p class="subtitle">Which training modality are you ready for?</p>
+        
+        <div class="metrics-bar">
+            <div class="metric">
+                <div class="metric-value">49.0%</div>
+                <div class="metric-label">WHOOP Recovery</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">85%</div>
+                <div class="metric-label">8Sleep Score</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">Lifting</div>
+                <div class="metric-label">Best Bet</div>
+            </div>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="summary-row">
+            <div class="card">
+                <h3>Lifting Freshness</h3>
+                <div class="value" style="color: #f85149">38%</div>
+                <div class="status"><span style="background:#f85149;color:white;padding:2px 8px;border-radius:4px;font-size:12px;">NOT READY</span></div>
+            </div>
+            <div class="card">
+                <h3>Running Freshness</h3>
+                <div class="value" style="color: #f85149">38%</div>
+                <div class="status"><span style="background:#f85149;color:white;padding:2px 8px;border-radius:4px;font-size:12px;">NOT READY</span></div>
+            </div>
+            <div class="card">
+                <h3>HIIT/Cardio Freshness</h3>
+                <div class="value" style="color: #f85149">38%</div>
+                <div class="status"><span style="background:#f85149;color:white;padding:2px 8px;border-radius:4px;font-size:12px;">NOT READY</span></div>
+            </div>
+            <div class="card">
+                <h3>BJJ Freshness</h3>
+                <div class="value" style="color: #f85149">38%</div>
+                <div class="status"><span style="background:#f85149;color:white;padding:2px 8px;border-radius:4px;font-size:12px;">NOT READY</span></div>
+            </div>
+        </div>
+        
+        <!-- Matrix -->
+        <div class="matrix-section">
+            <h2>Freshness Matrix</h2>
+            <div class="matrix-grid">
+                <div class="matrix-header"></div>
+                <div class="matrix-header">Lifting</div>
+                <div class="matrix-header">Running</div>
+                <div class="matrix-header">HIIT</div>
+                <div class="matrix-header">BJJ</div>
+                
+                <div class="matrix-cell" style="background:#21262d;font-weight:bold;">Time Factor</div>
+                <div class="matrix-cell score" style="color:#f85149">0%</div>
+                <div class="matrix-cell score" style="color:#f85149">0%</div>
+                <div class="matrix-cell score" style="color:#f85149">0%</div>
+                <div class="matrix-cell score" style="color:#f85149">0%</div>
+                
+                <div class="matrix-cell" style="background:#21262d;font-weight:bold;">Recovery</div>
+                <div class="matrix-cell">49%</div>
+                <div class="matrix-cell">49%</div>
+                <div class="matrix-cell">49%</div>
+                <div class="matrix-cell">49%</div>
+                
+                <div class="matrix-cell" style="background:#21262d;font-weight:bold;">Sleep</div>
+                <div class="matrix-cell">85%</div>
+                <div class="matrix-cell">85%</div>
+                <div class="matrix-cell">85%</div>
+                <div class="matrix-cell">85%</div>
+                
+                <div class="matrix-cell" style="background:#21262d;font-weight:bold;">Combined</div>
+                <div class="matrix-cell score" style="color:#f85149;font-size:1.4rem;">38%</div>
+                <div class="matrix-cell score" style="color:#f85149;font-size:1.4rem;">38%</div>
+                <div class="matrix-cell score" style="color:#f85149;font-size:1.4rem;">38%</div>
+                <div class="matrix-cell score" style="color:#f85149;font-size:1.4rem;">38%</div>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background:#2ea043;"></div>
+                    <span>Fresh (&gt;70%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background:#f39c12;"></div>
+                    <span>Moderate (40-70%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background:#f85149;"></div>
+                    <span>Stale (&lt;40%)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Best Bet -->
+        <div class="recommendation">
+            <h2>🎯 Today's Best Bet</h2>
+            <div class="best-bet">Lifting</div>
+            <p style="color:#8b949e;margin-top:10px;">Combined freshness score: 38% — Consider recovery work or lighter activity.</p>
+        </div>
+        
+        <!-- Detailed Breakdown -->
+        <h2 style="margin-bottom:20px;">Detailed Breakdown</h2>
+        <div class="breakdown-grid">
+            <div class="breakdown-card">
+                <h3>🏋️ Lifting</h3>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Last Session</span>
+                    <span class="breakdown-value">2025-04-01</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Hours Ago</span>
+                    <span class="breakdown-value">8389.422633427223h</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Volume</span>
+                    <span class="breakdown-value">24,091 lbs</span>
+                </div>
+                <div class="factors">
+                    <span class="factor">Time: 0%</span>
+                    <span class="factor">Recovery: 49%</span>
+                    <span class="factor">Sleep: 85%</span>
+                </div>
+            </div>
+            
+            <div class="breakdown-card">
+                <h3>🏃 Running</h3>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Last Session</span>
+                    <span class="breakdown-value">2026-03-11</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Hours Ago</span>
+                    <span class="breakdown-value">125.10534251583333h</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Last Distance</span>
+                    <span class="breakdown-value">1.77 mi</span>
+                </div>
+                <div class="factors">
+                    <span class="factor">Time: 0%</span>
+                    <span class="factor">Recovery: 49%</span>
+                    <span class="factor">Sleep: 85%</span>
+                </div>
+            </div>
+            
+            <div class="breakdown-card">
+                <h3>🔥 HIIT/Cardio</h3>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Last Session</span>
+                    <span class="breakdown-value">None</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Hours Ago</span>
+                    <span class="breakdown-value">—h</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Status</span>
+                    <span class="breakdown-value">Need recovery</span>
+                </div>
+                <div class="factors">
+                    <span class="factor">Time: 0%</span>
+                    <span class="factor">Recovery: 49%</span>
+                    <span class="factor">Sleep: 85%</span>
+                </div>
+            </div>
+            
+            <div class="breakdown-card">
+                <h3>🥋 BJJ</h3>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Last Session</span>
+                    <span class="breakdown-value">None</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Hours Ago</span>
+                    <span class="breakdown-value">—h</span>
+                </div>
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Status</span>
+                    <span class="breakdown-value">No recent data</span>
+                </div>
+                <div class="factors">
+                    <span class="factor">Time: 0%</span>
+                    <span class="factor">Recovery: 49%</span>
+                    <span class="factor">Sleep: 85%</span>
+                </div>
+            </div>
+        </div>
+        
+        <p style="color:#8b949e;margin-top:30px;text-align:center;font-size:0.85rem;">
+            Last updated: 2026-03-17 03:02 EDT
+        </p>
+    </div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

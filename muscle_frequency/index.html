@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Muscle Frequency & Recovery</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:0 0 60px}
+nav{background:#161b22;border-bottom:1px solid #21262d;padding:10px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+nav a{color:#8b949e;text-decoration:none;font-size:13px;padding:4px 8px;border-radius:6px;transition:background .15s,color .15s}
+nav a:hover{background:#21262d;color:#e6edf3}
+.container{max-width:900px;margin:0 auto;padding:28px 20px}
+h1{font-size:26px;font-weight:700;margin-bottom:4px}
+.subtitle{color:#8b949e;font-size:13px;margin-bottom:28px}
+h2{font-size:17px;font-weight:600;margin-bottom:14px;color:#e6edf3}
+.section{margin-bottom:36px}
+.card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px 20px}
+.muscle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.muscle-grid{grid-template-columns:repeat(2,1fr)}}
+.muscle-card{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:12px 14px}
+.muscle-name{font-weight:600;font-size:14px;margin-bottom:3px}
+.muscle-days{font-size:13px;font-weight:500;margin-bottom:4px}
+.muscle-meta{font-size:11px;color:#8b949e;margin-bottom:6px}
+.rec-row{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:10px}
+.rec-label{font-size:13px;font-weight:600;min-width:110px;flex-shrink:0;padding-top:4px}
+.chart-wrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">🏠 Home</a>
+  <a href="../strength/index.html">💪 Strength</a>
+  <a href="../cardio/index.html">🏃 Cardio</a>
+  <a href="../recovery/index.html">🛌 Recovery</a>
+  <a href="../nutrition/index.html">🥗 Nutrition</a>
+  <a href="../muscle_recovery/index.html">🗺️ Muscle Map</a>
+  <a href="../training_scheduler/index.html">📅 Scheduler</a>
+</nav>
+<div class="container">
+  <h1>💪 Muscle Frequency &amp; Recovery</h1>
+  <p class="subtitle">Training frequency by muscle group + recovery-based recommendations &nbsp;·&nbsp; Generated Saturday, February 28 2026 at 01:54 AM ET</p>
+
+  <div class="section">
+    <h2>🎯 Today's Recommendation</h2>
+    <div class="card">
+      <div style="font-size:14px;margin-bottom:14px">Today's WHOOP recovery: <strong style='color:#f39c12'>50%</strong></div>
+      <div class="rec-row"><div class="rec-label" style="color:#2ea043">✅ Train:</div><div><span style="background:#e74c3c22;color:#e74c3c;border:1px solid #e74c3c44;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Chest</span><span style="background:#3498db22;color:#3498db;border:1px solid #3498db44;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Back</span><span style="background:#9b59b622;color:#9b59b6;border:1px solid #9b59b644;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Shoulders</span><span style="background:#1abc9c22;color:#1abc9c;border:1px solid #1abc9c44;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Biceps</span><span style="background:#16a08522;color:#16a085;border:1px solid #16a08544;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Triceps</span><span style="background:#f39c1222;color:#f39c12;border:1px solid #f39c1244;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Quads</span><span style="background:#e67e2222;color:#e67e22;border:1px solid #e67e2244;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Hamstrings</span><span style="background:#d3540022;color:#d35400;border:1px solid #d3540044;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Glutes</span><span style="background:#27ae6022;color:#27ae60;border:1px solid #27ae6044;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Calves</span><span style="background:#2980b922;color:#2980b9;border:1px solid #2980b944;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Core</span><span style="background:#8e44ad22;color:#8e44ad;border:1px solid #8e44ad44;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Forearms</span><span style="background:#f1c40f22;color:#f1c40f;border:1px solid #f1c40f44;border-radius:12px;padding:2px 10px;margin:2px;display:inline-block;font-size:13px">Abs</span></div></div>
+      <div class="rec-row"><div class="rec-label" style="color:#f39c12">🔄 Maybe:</div><div><span style="color:#8b949e">None</span></div></div>
+      <div class="rec-row"><div class="rec-label" style="color:#f85149">😴 Rest:</div><div><span style="color:#8b949e">None</span></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🏋️ Muscle Group Status — Last 30 Days</h2>
+    <div class="muscle-grid">
+    <div class="muscle-card" style="border-top:3px solid #e74c3c">
+      <div class="muscle-name">Chest</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #3498db">
+      <div class="muscle-name">Back</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #9b59b6">
+      <div class="muscle-name">Shoulders</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #1abc9c">
+      <div class="muscle-name">Biceps</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #16a085">
+      <div class="muscle-name">Triceps</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #f39c12">
+      <div class="muscle-name">Quads</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #e67e22">
+      <div class="muscle-name">Hamstrings</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #d35400">
+      <div class="muscle-name">Glutes</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #27ae60">
+      <div class="muscle-name">Calves</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #2980b9">
+      <div class="muscle-name">Core</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #8e44ad">
+      <div class="muscle-name">Forearms</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div>
+    <div class="muscle-card" style="border-top:3px solid #f1c40f">
+      <div class="muscle-name">Abs</div>
+      <div class="muscle-days" style="color:#2ea043">Never</div>
+      <div class="muscle-meta">0 sets &nbsp;·&nbsp; — &nbsp;·&nbsp; 0d/30d</div>
+      <div style="margin-top:6px"><span style="background:#2ea04322;color:#2ea043;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">✅ Ready</span></div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Training Frequency — Sets per Muscle Group</h2>
+    <div class="card"><div class="chart-wrap"><svg width="700" height="340" style="display:block;max-width:100%">
+  <text x="102" y="36.2" text-anchor="end" fill="#ccc" font-size="12">Chest</text>
+  <rect x="110" y="23.0" width="2.0" height="19.0" fill="#e74c3c" rx="3"/>
+  <text x="102" y="61.2" text-anchor="end" fill="#ccc" font-size="12">Back</text>
+  <rect x="110" y="48.0" width="2.0" height="19.0" fill="#3498db" rx="3"/>
+  <text x="102" y="86.2" text-anchor="end" fill="#ccc" font-size="12">Shoulders</text>
+  <rect x="110" y="73.0" width="2.0" height="19.0" fill="#9b59b6" rx="3"/>
+  <text x="102" y="111.2" text-anchor="end" fill="#ccc" font-size="12">Biceps</text>
+  <rect x="110" y="98.0" width="2.0" height="19.0" fill="#1abc9c" rx="3"/>
+  <text x="102" y="136.2" text-anchor="end" fill="#ccc" font-size="12">Triceps</text>
+  <rect x="110" y="123.0" width="2.0" height="19.0" fill="#16a085" rx="3"/>
+  <text x="102" y="161.2" text-anchor="end" fill="#ccc" font-size="12">Quads</text>
+  <rect x="110" y="148.0" width="2.0" height="19.0" fill="#f39c12" rx="3"/>
+  <text x="102" y="186.2" text-anchor="end" fill="#ccc" font-size="12">Hamstrings</text>
+  <rect x="110" y="173.0" width="2.0" height="19.0" fill="#e67e22" rx="3"/>
+  <text x="102" y="211.2" text-anchor="end" fill="#ccc" font-size="12">Glutes</text>
+  <rect x="110" y="198.0" width="2.0" height="19.0" fill="#d35400" rx="3"/>
+  <text x="102" y="236.2" text-anchor="end" fill="#ccc" font-size="12">Calves</text>
+  <rect x="110" y="223.0" width="2.0" height="19.0" fill="#27ae60" rx="3"/>
+  <text x="102" y="261.2" text-anchor="end" fill="#ccc" font-size="12">Core</text>
+  <rect x="110" y="248.0" width="2.0" height="19.0" fill="#2980b9" rx="3"/>
+  <text x="102" y="286.2" text-anchor="end" fill="#ccc" font-size="12">Forearms</text>
+  <rect x="110" y="273.0" width="2.0" height="19.0" fill="#8e44ad" rx="3"/>
+  <text x="102" y="311.2" text-anchor="end" fill="#ccc" font-size="12">Abs</text>
+  <rect x="110" y="298.0" width="2.0" height="19.0" fill="#f1c40f" rx="3"/>
+</svg></div></div>
+  </div>
+
+  <div class="section">
+    <h2>💚 WHOOP Recovery Score — Last 14 Days</h2>
+    <div class="card"><div class="chart-wrap"><svg width="700" height="200" style="display:block;max-width:100%">
+  <line x1="40" x2="680" y1="135.0" y2="135.0" stroke="#21262d" stroke-width="1"/>
+  <text x="35" y="139.0" text-anchor="end" fill="#8b949e" font-size="10">25</text>
+  <line x1="40" x2="680" y1="95.0" y2="95.0" stroke="#21262d" stroke-width="1"/>
+  <text x="35" y="99.0" text-anchor="end" fill="#8b949e" font-size="10">50</text>
+  <line x1="40" x2="680" y1="55.0" y2="55.0" stroke="#21262d" stroke-width="1"/>
+  <text x="35" y="59.0" text-anchor="end" fill="#8b949e" font-size="10">75</text>
+  <line x1="40" x2="680" y1="15.0" y2="15.0" stroke="#21262d" stroke-width="1"/>
+  <text x="35" y="19.0" text-anchor="end" fill="#8b949e" font-size="10">100</text>
+</svg></div></div>
+  </div>
+
+  <div class="section">
+    <h2>🌡️ Volume Heatmap — Last 8 Weeks</h2>
+    <p style="color:#8b949e;font-size:12px;margin-bottom:12px">Color intensity = volume (lbs). Most recent week on left.</p>
+    <div class="card"><div class="chart-wrap"><svg width="700" height="294" style="display:block;max-width:100%">
+  <text x="137" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Feb 28</text>
+  <text x="212" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Feb 21</text>
+  <text x="287" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Feb 14</text>
+  <text x="362" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Feb 07</text>
+  <text x="437" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Jan 31</text>
+  <text x="512" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Jan 24</text>
+  <text x="587" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Jan 17</text>
+  <text x="662" y="14" text-anchor="middle" fill="#8b949e" font-size="9">Jan 10</text>
+  <text x="95" y="34.3" text-anchor="end" fill="#ccc" font-size="11">Chest</text>
+  <rect x="102" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="20" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="56.3" text-anchor="end" fill="#ccc" font-size="11">Back</text>
+  <rect x="102" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="42" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="78.3" text-anchor="end" fill="#ccc" font-size="11">Shoulders</text>
+  <rect x="102" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="64" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="100.3" text-anchor="end" fill="#ccc" font-size="11">Biceps</text>
+  <rect x="102" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="86" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="122.3" text-anchor="end" fill="#ccc" font-size="11">Triceps</text>
+  <rect x="102" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="108" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="144.3" text-anchor="end" fill="#ccc" font-size="11">Quads</text>
+  <rect x="102" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="130" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="166.3" text-anchor="end" fill="#ccc" font-size="11">Hamstrings</text>
+  <rect x="102" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="152" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="188.3" text-anchor="end" fill="#ccc" font-size="11">Glutes</text>
+  <rect x="102" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="174" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="210.3" text-anchor="end" fill="#ccc" font-size="11">Calves</text>
+  <rect x="102" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="196" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="232.3" text-anchor="end" fill="#ccc" font-size="11">Core</text>
+  <rect x="102" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="218" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="254.3" text-anchor="end" fill="#ccc" font-size="11">Forearms</text>
+  <rect x="102" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="240" width="71" height="19" fill="#21262d" rx="2"/>
+  <text x="95" y="276.3" text-anchor="end" fill="#ccc" font-size="11">Abs</text>
+  <rect x="102" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="177" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="252" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="327" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="402" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="477" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="552" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+  <rect x="627" y="262" width="71" height="19" fill="#21262d" rx="2"/>
+</svg></div></div>
+  </div>
+</div>
+
+<!-- =================== SYNERGY FREQ INJECTION =================== -->
+<div id="synergy-breakdown-section" style="margin-top:40px">
+  <h2 style="font-size:18px;font-weight:600;margin-bottom:4px;color:#e6edf3">🔀 Synergy Breakdown by Workout Type</h2>
+  <p style="color:#8b949e;font-size:13px;margin-bottom:16px">Auto-detected workout categories and their primary/secondary muscle targets</p>
+  <div style="background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:14px 16px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:#f39c12;font-weight:700;font-size:15px">Push Day</span><span style="color:#8b949e;font-size:12px">39 workouts (4%)</span></div><div style="color:#e6edf3;font-size:13px">Primary: <strong>Chest</strong></div><div style="color:#8b949e;font-size:12px;margin-top:4px">Secondary: Triceps, Shoulders</div></div><div style="background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:14px 16px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:#f39c12;font-weight:700;font-size:15px">Pull Day</span><span style="color:#8b949e;font-size:12px">54 workouts (5%)</span></div><div style="color:#e6edf3;font-size:13px">Primary: <strong>Biceps</strong></div><div style="color:#8b949e;font-size:12px;margin-top:4px">Secondary: Back, Triceps</div></div><div style="background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:14px 16px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:#f39c12;font-weight:700;font-size:15px">Legs Day</span><span style="color:#8b949e;font-size:12px">17 workouts (2%)</span></div><div style="color:#e6edf3;font-size:13px">Primary: <strong>Quads</strong></div><div style="color:#8b949e;font-size:12px;margin-top:4px">Secondary: Glutes, Hamstrings</div></div><div style="background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:14px 16px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:#f39c12;font-weight:700;font-size:15px">Upper Body Day</span><span style="color:#8b949e;font-size:12px">876 workouts (87%)</span></div><div style="color:#e6edf3;font-size:13px">Primary: <strong>Chest</strong></div><div style="color:#8b949e;font-size:12px;margin-top:4px">Secondary: Shoulders, Biceps</div></div><div style="background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:14px 16px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:#f39c12;font-weight:700;font-size:15px">Full Body Day</span><span style="color:#8b949e;font-size:12px">16 workouts (2%)</span></div><div style="color:#e6edf3;font-size:13px">Primary: <strong>Shoulders</strong></div><div style="color:#8b949e;font-size:12px;margin-top:4px">Secondary: Core, Glutes</div></div>
+</div>
+<div id="neglected-muscles-section" style="margin-top:24px">
+  <h2 style="font-size:18px;font-weight:600;margin-bottom:12px;color:#e6edf3">⚠️ Neglected Muscles</h2>
+  <p style="color:#8b949e;font-size:13px;margin-bottom:16px">Muscles receiving less than 15% of your dominant muscle group's volume</p>
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px"><span style="background:#f39c12;width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0"></span><span style="color:#e6edf3;font-weight:600;min-width:100px">Quads</span><span style="color:#f85149;font-size:12px">0.8% of dominant volume</span></div><div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px"><span style="background:#e67e22;width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0"></span><span style="color:#e6edf3;font-weight:600;min-width:100px">Hamstrings</span><span style="color:#f85149;font-size:12px">0.5% of dominant volume</span></div><div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px"><span style="background:#d35400;width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0"></span><span style="color:#e6edf3;font-weight:600;min-width:100px">Glutes</span><span style="color:#f85149;font-size:12px">1.4% of dominant volume</span></div><div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px"><span style="background:#27ae60;width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0"></span><span style="color:#e6edf3;font-weight:600;min-width:100px">Calves</span><span style="color:#f85149;font-size:12px">0.5% of dominant volume</span></div><div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px"><span style="background:#2980b9;width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0"></span><span style="color:#e6edf3;font-weight:600;min-width:100px">Core</span><span style="color:#f85149;font-size:12px">0.5% of dominant volume</span></div>
+</div>
+<p style="color:#6e7681;font-size:11px;margin-top:8px">Synergy data generated Mar 01, 2026 04:53 AM ET</p>
+<!-- =================== END SYNERGY FREQ INJECTION =================== -->
+
+
+
+
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ===== VARIETY TREND SECTION ===== -->
+<div id="variety-trend-section" style="max-width:900px;margin:0 auto;padding:0 20px 40px;">
+  <h2 style="font-size:17px;font-weight:600;margin-bottom:4px;color:#e6edf3">🎲 Training Variety Index</h2>
+  <p style="color:#8b949e;font-size:12px;margin-bottom:16px">Weekly variety = unique movements ÷ total sets · Threshold 0.4 = stagnation risk · Mar 17, 2026 03:02 AM ET</p>
+  <div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px 20px;">
+    <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;margin:auto">
+<line x1="50" y1="200.0" x2="580" y2="200.0" stroke="#30363d" stroke-width="1" />
+<text x="46" y="204.0" fill="#8b949e" font-size="10" text-anchor="end">0.0</text>
+<line x1="50" y1="157.5" x2="580" y2="157.5" stroke="#30363d" stroke-width="1" />
+<text x="46" y="161.5" fill="#8b949e" font-size="10" text-anchor="end">0.25</text>
+<line x1="50" y1="132.0" x2="580" y2="132.0" stroke="#f85149" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="46" y="136.0" fill="#f85149" font-size="10" text-anchor="end">0.4</text>
+<line x1="50" y1="115.0" x2="580" y2="115.0" stroke="#30363d" stroke-width="1" />
+<text x="46" y="119.0" fill="#8b949e" font-size="10" text-anchor="end">0.5</text>
+<line x1="50" y1="72.5" x2="580" y2="72.5" stroke="#30363d" stroke-width="1" />
+<text x="46" y="76.5" fill="#8b949e" font-size="10" text-anchor="end">0.75</text>
+<line x1="50" y1="30.0" x2="580" y2="30.0" stroke="#30363d" stroke-width="1" />
+<text x="46" y="34.0" fill="#8b949e" font-size="10" text-anchor="end">1.0</text>
+<text x="578" y="128.0" fill="#f85149" font-size="9" text-anchor="end">stagnation</text>
+<rect x="52.0" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 12/29: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="72.1" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">12/29</text>
+<rect x="96.2" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 01/05: 0.00 (0 exercises / 0 sets)</title></rect>
+<rect x="140.3" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 01/12: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="160.4" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">01/12</text>
+<rect x="184.5" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 01/19: 0.00 (0 exercises / 0 sets)</title></rect>
+<rect x="228.7" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 01/26: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="248.8" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">01/26</text>
+<rect x="272.8" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 02/02: 0.00 (0 exercises / 0 sets)</title></rect>
+<rect x="317.0" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 02/09: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="337.1" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">02/09</text>
+<rect x="361.2" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 02/16: 0.00 (0 exercises / 0 sets)</title></rect>
+<rect x="405.3" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 02/23: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="425.4" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">02/23</text>
+<rect x="449.5" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 03/02: 0.00 (0 exercises / 0 sets)</title></rect>
+<rect x="493.7" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 03/09: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="513.8" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">03/09</text>
+<rect x="537.8" y="198.0" width="40.2" height="2" fill="#30363d" rx="1"><title>Week of 03/16: 0.00 (0 exercises / 0 sets)</title></rect>
+<text x="557.9" y="245.0" fill="#8b949e" font-size="9" text-anchor="middle">03/16</text>
+</svg>
+    <div style="margin-top:16px;padding:12px;background:#0d1117;border-radius:8px;border:1px solid #30363d;">
+      <div style="font-size:13px;color:#e6edf3;margin-bottom:6px">⚠️ High stagnation risk — try adding Romanian Deadlifts, Face Pulls, or Bulgarian Split Squats this week.</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:#8b949e;">
+        <span>Current: <strong style="color:#f85149">0.00</strong></span>
+        <span>4-wk avg: <strong style="color:#f85149">0.00</strong></span>
+        <span>Trend: <strong>→</strong></span>
+        <span><a href="../strength/index.html#variety-score-section" style="color:#f39c12;text-decoration:none">→ Strength Dashboard</a></span>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#6e7681;display:flex;gap:14px;flex-wrap:wrap;">
+      <span style="color:#2ea043">■</span> &gt; 0.5 High variety &nbsp;
+      <span style="color:#f39c12">■</span> 0.3–0.5 Moderate &nbsp;
+      <span style="color:#f85149">■</span> &lt; 0.3 Low (stagnation risk) &nbsp;
+      <span style="color:#f85149">- - -</span> Threshold 0.4
+    </div>
+  </div>
+</div>
+<!-- ===== END VARIETY TREND SECTION ===== -->
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Run Training Effect vs Recovery Capacity</title>
+  <style>
+    body { margin:0; font-family:Inter,system-ui,Arial,sans-serif; background:#0d1117; color:#fff; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px 18px 80px; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:999px; border:1px solid #30363d; color:#8b949e; font-size:12px; margin-right: 10px; }
+    a { color: #f39c12; text-decoration: none; }
+    .card { background:#161b22; border:1px solid #30363d; border-radius:16px; padding: 18px; margin-top:18px; }
+    .muted { color:#8b949e; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
+    .stat { background:#161b22; border:1px solid #30363d; border-radius:12px; padding: 12px; }
+    nav { background:#161b22; border-bottom:1px solid #30363d; padding: 10px 16px; position: sticky; top:0; z-index:20; }
+    nav a { margin-right:12px; color:#8b949e; }
+    svg { display:block; width:100%; height:auto; }
+    .nav-links{display:flex;flex-wrap:wrap;gap:12px;}
+    .hero-title{font-size:30px;font-weight:700;}
+  </style>
+</head>
+<body>
+  <nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+  <main class="container">
+    <p class="badge">90-day window</p>
+    <p class="badge">Data range: 2026-01-05 → 2026-02-19 (31 runs)</p>
+    <h1 class="hero-title">Run Training Effect vs Recovery Capacity</h1>
+    <p class="muted">How do your Garmin training effects impact your WHOOP recovery?</p>
+
+    <section class="grid" style="margin-top:18px;">
+      <div class="stat"><div class="muted">Avg Recovery After High TE (≥3.5)</div><div style="font-size:28px; margin-top:6px;">40.5% (4 runs)</div></div>
+      <div class="stat"><div class="muted">Avg Recovery After Low TE (<2.0)</div><div style="font-size:28px; margin-top:6px;">38.0% (5 runs)</div></div>
+      <div class="stat"><div class="muted">Correlation Coefficient</div><div style="font-size:28px; margin-top:6px;">0.07</div></div>
+      <div class="stat"><div class="muted">Sweet Spot TE</div><div style="font-size:28px; margin-top:6px;">2.0–3.0</div></div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;">Main Scatter Chart (same-day recovery)</h2>
+      <p class="muted">X-axis = Garmin Aerobic Training Effect, Y-axis = WHOOP Recovery (%)</p>
+      <svg viewBox="0 0 900 500" width="900" height="500" aria-label="Run training effect vs same-day recovery">
+        <rect x="0" y="0" width="900" height="500" fill="#0d1117" />
+        <text x="70" y="22" fill="#8b949e" font-size="11">TE</text>
+        <text x="860" y="492" fill="#8b949e" font-size="11" text-anchor="end">Recovery</text>
+        <line x1="70" y1="30" x2="70" y2="450" stroke="#30363d" stroke-width="1"/>
+<line x1="70" y1="450" x2="860" y2="450" stroke="#30363d" stroke-width="1"/>
+<line x1="70.0" y1="30" x2="70.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="70.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">1.0</text>
+<line x1="228.0" y1="30" x2="228.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="228.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">2.0</text>
+<line x1="386.0" y1="30" x2="386.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="386.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">3.0</text>
+<line x1="544.0" y1="30" x2="544.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="544.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">4.0</text>
+<line x1="702.0" y1="30" x2="702.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="702.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">5.0</text>
+<line x1="860.0" y1="30" x2="860.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="860.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">6.0</text>
+<line x1="70" y1="30.0" x2="860" y2="30.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="34.0" text-anchor="end" fill="#8b949e" font-size="11">100</text>
+<line x1="70" y1="114.0" x2="860" y2="114.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="118.0" text-anchor="end" fill="#8b949e" font-size="11">80</text>
+<line x1="70" y1="198.0" x2="860" y2="198.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="202.0" text-anchor="end" fill="#8b949e" font-size="11">60</text>
+<line x1="70" y1="282.0" x2="860" y2="282.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="286.0" text-anchor="end" fill="#8b949e" font-size="11">40</text>
+<line x1="70" y1="366.0" x2="860" y2="366.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="370.0" text-anchor="end" fill="#8b949e" font-size="11">20</text>
+<line x1="70" y1="450.0" x2="860" y2="450.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="454.0" text-anchor="end" fill="#8b949e" font-size="11">0</text>
+<line x1="371.3467723707999" x2="371.3467723707999" y1="30" y2="450" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="6 6" />
+<line x1="70" x2="860" y1="235.93548387096774" y2="235.93548387096774" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="6 6" />
+<text x="769.25" y="156.0" fill="#ffffff" font-size="12" font-weight="700">High Effort / Low Recovery</text>
+<text x="366.25" y="282.0" fill="#ffffff" font-size="12" font-weight="700">Easy Effort / High Recovery</text>
+<text x="860" y="227.93548387096774" fill="#ffffff" font-size="11" text-anchor="end">Mean TE/Recovery</text>
+<text x="377.3467723707999" y="44" fill="#ffffff" font-size="11">Mean TE/Recovery</text>
+<g><circle cx="247.75" cy="214.80" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-05 • TE 1.90 • Recovery 56.0 • Recovery • 1.58mi • 23m</title></g>
+<g><circle cx="326.75" cy="223.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-06 • TE 2.30 • Recovery 54.0 • Treadmill Running • 2.25mi • 30m</title></g>
+<g><circle cx="267.50" cy="168.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-07 • TE 2.00 • Recovery 67.0 • Camp Hill Running • 0.92mi • 12m</title></g>
+<g><circle cx="149.00" cy="168.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-07 • TE 1.40 • Recovery 67.0 • Treadmill Running • 0.51mi • 7m</title></g>
+<g><circle cx="267.50" cy="38.40" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-08 • TE 2.00 • Recovery 98.0 • Camp Hill Running • 0.56mi • 6m</title></g>
+<g><circle cx="504.50" cy="315.60" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-10 • TE 3.20 • Recovery 32.0 • Base • 2.00mi • 27m</title></g>
+<g><circle cx="484.75" cy="147.60" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-12 • TE 3.10 • Recovery 72.0 • Base • 3.05mi • 40m</title></g>
+<g><circle cx="267.50" cy="235.80" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-13 • TE 2.00 • Recovery 51.0 • Camp Hill Running • 0.92mi • 13m</title></g>
+<g><circle cx="326.75" cy="374.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-14 • TE 2.30 • Recovery 18.0 • Recovery • 1.09mi • 18m</title></g>
+<g><circle cx="504.50" cy="46.80" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-19 • TE 3.20 • Recovery 96.0 • Base • 3.01mi • 40m</title></g>
+<g><circle cx="405.75" cy="244.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-20 • TE 2.70 • Recovery 49.0 • Tempo • 2.06mi • 30m</title></g>
+<g><circle cx="326.75" cy="189.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-21 • TE 2.30 • Recovery 62.0 • Tempo • 1.91mi • 33m</title></g>
+<g><circle cx="583.50" cy="202.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-24 • TE 3.60 • Recovery 59.0 • Base • 3.05mi • 42m</title></g>
+<g><circle cx="307.00" cy="265.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-27 • TE 2.20 • Recovery 44.0 • Recovery • 1.21mi • 19m</title></g>
+<g><circle cx="682.25" cy="265.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-28 • TE 4.10 • Recovery 44.0 • Tempo • 3.55mi • 44m</title></g>
+<g><circle cx="267.50" cy="76.20" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-31 • TE 2.00 • Recovery 89.0 • Recovery • 1.32mi • 18m</title></g>
+<g><circle cx="326.75" cy="319.80" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-01 • TE 2.30 • Recovery 31.0 • Recovery • 1.21mi • 19m</title></g>
+<g><circle cx="504.50" cy="252.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-02 • TE 3.20 • Recovery 47.0 • Threshold • 2.70mi • 36m</title></g>
+<g><circle cx="623.00" cy="387.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-03 • TE 3.80 • Recovery 15.0 • Base • 3.09mi • 41m</title></g>
+<g><circle cx="50.25" cy="391.20" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-05 • TE 0.90 • Recovery 14.0 • Treadmill Running • 0.66mi • 10m</title></g>
+<g><circle cx="445.25" cy="143.40" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-06 • TE 2.90 • Recovery 73.0 • Base • 2.76mi • 40m</title></g>
+<g><circle cx="307.00" cy="101.40" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-08 • TE 2.20 • Recovery 83.0 • Recovery • 1.25mi • 19m</title></g>
+<g><circle cx="603.25" cy="265.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-09 • TE 3.70 • Recovery 44.0 • Threshold • 2.82mi • 36m</title></g>
+<g><circle cx="326.75" cy="185.40" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-10 • TE 2.30 • Recovery 63.0 • Recovery • 1.52mi • 24m</title></g>
+<g><circle cx="267.50" cy="374.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-11 • TE 2.00 • Recovery 18.0 • Recovery • 1.38mi • 18m</title></g>
+<g><circle cx="168.75" cy="374.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-12 • TE 1.50 • Recovery 18.0 • Treadmill Running • 0.53mi • 8m</title></g>
+<g><circle cx="504.50" cy="93.00" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-13 • TE 3.20 • Recovery 85.0 • Anaerobic • 3.86mi • 54m</title></g>
+<g><circle cx="366.25" cy="353.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-15 • TE 2.50 • Recovery 23.0 • Tampa - Base • 3.22mi • 46m</title></g>
+<g><circle cx="149.00" cy="303.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-16 • TE 1.40 • Recovery 35.0 • Tampa - Recovery • 1.58mi • 24m</title></g>
+<g><circle cx="465.00" cy="303.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-18 • TE 3.00 • Recovery 35.0 • Base • 2.33mi • 28m</title></g>
+<g><circle cx="484.75" cy="290.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-19 • TE 3.10 • Recovery 38.0 • Base • 3.02mi • 36m</title></g>
+      </svg>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;">Day-After Analysis</h2>
+      <p class="muted">Training effect compared to next-day recovery score (where available).</p>
+      <div class="muted" style="margin-bottom:8px;">Correlation (TE vs next-day recovery): <strong>-0.23</strong></div>
+      <svg viewBox="0 0 900 500" width="900" height="500" aria-label="Run training effect vs next-day recovery">
+        <rect x="0" y="0" width="900" height="500" fill="#0d1117" />
+        <text x="70" y="22" fill="#8b949e" font-size="11">TE</text>
+        <text x="860" y="492" fill="#8b949e" font-size="11" text-anchor="end">Recovery</text>
+        <line x1="70" y1="30" x2="70" y2="450" stroke="#30363d" stroke-width="1"/>
+<line x1="70" y1="450" x2="860" y2="450" stroke="#30363d" stroke-width="1"/>
+<line x1="70.0" y1="30" x2="70.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="70.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">1.0</text>
+<line x1="228.0" y1="30" x2="228.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="228.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">2.0</text>
+<line x1="386.0" y1="30" x2="386.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="386.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">3.0</text>
+<line x1="544.0" y1="30" x2="544.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="544.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">4.0</text>
+<line x1="702.0" y1="30" x2="702.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="702.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">5.0</text>
+<line x1="860.0" y1="30" x2="860.0" y2="450" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="860.0" y="468" text-anchor="middle" fill="#8b949e" font-size="12">6.0</text>
+<line x1="70" y1="30.0" x2="860" y2="30.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="34.0" text-anchor="end" fill="#8b949e" font-size="11">100</text>
+<line x1="70" y1="114.0" x2="860" y2="114.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="118.0" text-anchor="end" fill="#8b949e" font-size="11">80</text>
+<line x1="70" y1="198.0" x2="860" y2="198.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="202.0" text-anchor="end" fill="#8b949e" font-size="11">60</text>
+<line x1="70" y1="282.0" x2="860" y2="282.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="286.0" text-anchor="end" fill="#8b949e" font-size="11">40</text>
+<line x1="70" y1="366.0" x2="860" y2="366.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="370.0" text-anchor="end" fill="#8b949e" font-size="11">20</text>
+<line x1="70" y1="450.0" x2="860" y2="450.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6" />
+<text x="60" y="454.0" text-anchor="end" fill="#8b949e" font-size="11">0</text>
+<line x1="371.3467723707999" x2="371.3467723707999" y1="30" y2="450" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="6 6" />
+<line x1="70" x2="860" y1="251.10967741935485" y2="251.10967741935485" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="6 6" />
+<text x="860" y="243.10967741935485" fill="#ffffff" font-size="11" text-anchor="end">Mean TE/Recovery</text>
+<text x="377.3467723707999" y="44" fill="#ffffff" font-size="11">Mean TE/Recovery</text>
+<g><circle cx="247.75" cy="223.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-05 • TE 1.90 • Recovery 54.0 • Recovery • 1.58mi • 23m</title></g>
+<g><circle cx="326.75" cy="168.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-06 • TE 2.30 • Recovery 67.0 • Treadmill Running • 2.25mi • 30m</title></g>
+<g><circle cx="267.50" cy="38.40" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-07 • TE 2.00 • Recovery 98.0 • Camp Hill Running • 0.92mi • 12m</title></g>
+<g><circle cx="149.00" cy="38.40" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-07 • TE 1.40 • Recovery 98.0 • Treadmill Running • 0.51mi • 7m</title></g>
+<g><circle cx="267.50" cy="290.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-08 • TE 2.00 • Recovery 38.0 • Camp Hill Running • 0.56mi • 6m</title></g>
+<g><circle cx="504.50" cy="244.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-10 • TE 3.20 • Recovery 49.0 • Base • 2.00mi • 27m</title></g>
+<g><circle cx="484.75" cy="235.80" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-12 • TE 3.10 • Recovery 51.0 • Base • 3.05mi • 40m</title></g>
+<g><circle cx="267.50" cy="374.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-13 • TE 2.00 • Recovery 18.0 • Camp Hill Running • 0.92mi • 13m</title></g>
+<g><circle cx="326.75" cy="210.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-14 • TE 2.30 • Recovery 57.0 • Recovery • 1.09mi • 18m</title></g>
+<g><circle cx="504.50" cy="244.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-19 • TE 3.20 • Recovery 49.0 • Base • 3.01mi • 40m</title></g>
+<g><circle cx="405.75" cy="189.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-20 • TE 2.70 • Recovery 62.0 • Tempo • 2.06mi • 30m</title></g>
+<g><circle cx="326.75" cy="248.40" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-21 • TE 2.30 • Recovery 48.0 • Tempo • 1.91mi • 33m</title></g>
+<g><circle cx="583.50" cy="147.60" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-24 • TE 3.60 • Recovery 72.0 • Base • 3.05mi • 42m</title></g>
+<g><circle cx="307.00" cy="265.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-27 • TE 2.20 • Recovery 44.0 • Recovery • 1.21mi • 19m</title></g>
+<g><circle cx="682.25" cy="328.20" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-28 • TE 4.10 • Recovery 29.0 • Tempo • 3.55mi • 44m</title></g>
+<g><circle cx="267.50" cy="319.80" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-01-31 • TE 2.00 • Recovery 31.0 • Recovery • 1.32mi • 18m</title></g>
+<g><circle cx="326.75" cy="252.60" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-01 • TE 2.30 • Recovery 47.0 • Recovery • 1.21mi • 19m</title></g>
+<g><circle cx="504.50" cy="387.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-02 • TE 3.20 • Recovery 15.0 • Threshold • 2.70mi • 36m</title></g>
+<g><circle cx="623.00" cy="408.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-03 • TE 3.80 • Recovery 10.0 • Base • 3.09mi • 41m</title></g>
+<g><circle cx="50.25" cy="143.40" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-05 • TE 0.90 • Recovery 73.0 • Treadmill Running • 0.66mi • 10m</title></g>
+<g><circle cx="445.25" cy="84.60" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-06 • TE 2.90 • Recovery 87.0 • Base • 2.76mi • 40m</title></g>
+<g><circle cx="307.00" cy="265.20" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-08 • TE 2.20 • Recovery 44.0 • Recovery • 1.25mi • 19m</title></g>
+<g><circle cx="603.25" cy="185.40" r="8" fill="#f39c12" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-09 • TE 3.70 • Recovery 63.0 • Threshold • 2.82mi • 36m</title></g>
+<g><circle cx="326.75" cy="374.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-10 • TE 2.30 • Recovery 18.0 • Recovery • 1.52mi • 24m</title></g>
+<g><circle cx="267.50" cy="374.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-11 • TE 2.00 • Recovery 18.0 • Recovery • 1.38mi • 18m</title></g>
+<g><circle cx="168.75" cy="93.00" r="8" fill="#2ea043" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-12 • TE 1.50 • Recovery 85.0 • Treadmill Running • 0.53mi • 8m</title></g>
+<g><circle cx="504.50" cy="345.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-13 • TE 3.20 • Recovery 25.0 • Anaerobic • 3.86mi • 54m</title></g>
+<g><circle cx="366.25" cy="303.00" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-15 • TE 2.50 • Recovery 35.0 • Tampa - Base • 3.22mi • 46m</title></g>
+<g><circle cx="149.00" cy="420.60" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-16 • TE 1.40 • Recovery 7.0 • Tampa - Recovery • 1.58mi • 24m</title></g>
+<g><circle cx="465.00" cy="290.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-18 • TE 3.00 • Recovery 38.0 • Base • 2.33mi • 28m</title></g>
+<g><circle cx="484.75" cy="290.40" r="8" fill="#f85149" fill-opacity="0.75" stroke="#ffffff" stroke-width="1"/><title>2026-02-19 • TE 3.10 • Recovery 38.0 • Base • 3.02mi • 36m</title></g>
+      </svg>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;">Recovery Threshold Analysis</h2>
+      <p class="muted">Average same-day recovery grouped by training effect band.</p>
+      <svg viewBox="0 0 900 260" width="900" height="260" aria-label="Recovery threshold analysis">
+        <rect x="0" y="0" width="900" height="260" fill="#0d1117" />
+        <line x1="80" y1="210" x2="860" y2="210" stroke="#30363d"/>
+<line x1="80" y1="20" x2="80" y2="210" stroke="#30363d"/>
+<rect x="99.5" y="73.7" width="156.0" height="136.3" rx="6" fill="#f39c12" fill-opacity="0.85"/>
+<text x="177.5" y="230" text-anchor="middle" fill="#c9d1d9" font-size="12">1.0–2.0</text>
+<text x="177.5" y="67.7" text-anchor="middle" fill="#8b949e" font-size="11">44.0 (4)</text>
+<rect x="294.5" y="40.0" width="156.0" height="170.0" rx="6" fill="#f39c12" fill-opacity="0.85"/>
+<text x="372.5" y="230" text-anchor="middle" fill="#c9d1d9" font-size="12">2.0–3.0</text>
+<text x="372.5" y="34.0" text-anchor="middle" fill="#8b949e" font-size="11">54.9 (15)</text>
+<rect x="489.5" y="48.0" width="156.0" height="162.0" rx="6" fill="#f39c12" fill-opacity="0.85"/>
+<text x="567.5" y="230" text-anchor="middle" fill="#c9d1d9" font-size="12">3.0–4.0</text>
+<text x="567.5" y="42.0" text-anchor="middle" fill="#8b949e" font-size="11">52.3 (10)</text>
+<rect x="684.5" y="73.7" width="156.0" height="136.3" rx="6" fill="#f39c12" fill-opacity="0.85"/>
+<text x="762.5" y="230" text-anchor="middle" fill="#c9d1d9" font-size="12">4.0–5.0</text>
+<text x="762.5" y="67.7" text-anchor="middle" fill="#8b949e" font-size="11">44.0 (1)</text>
+<line x1="80" y1="20.0" x2="860" y2="20.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6"/>
+<text x="72" y="24.0" text-anchor="end" fill="#8b949e" font-size="10">100</text>
+<line x1="80" y1="58.0" x2="860" y2="58.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6"/>
+<text x="72" y="62.0" text-anchor="end" fill="#8b949e" font-size="10">80</text>
+<line x1="80" y1="96.0" x2="860" y2="96.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6"/>
+<text x="72" y="100.0" text-anchor="end" fill="#8b949e" font-size="10">60</text>
+<line x1="80" y1="134.0" x2="860" y2="134.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6"/>
+<text x="72" y="138.0" text-anchor="end" fill="#8b949e" font-size="10">40</text>
+<line x1="80" y1="172.0" x2="860" y2="172.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6"/>
+<text x="72" y="176.0" text-anchor="end" fill="#8b949e" font-size="10">20</text>
+<line x1="80" y1="210.0" x2="860" y2="210.0" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 6"/>
+<text x="72" y="214.0" text-anchor="end" fill="#8b949e" font-size="10">0</text>
+      </svg>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;">Insight</h2>
+      <p>High TE runs (≥3.5) recover about 2.5 points better than low TE in this sample.</p>
+      <p class="muted">High-Effort / Low-Recovery zone: high TE points that coincide with low WHOOP recovery are often best moved to recovery-first days.</p>
+      <p class="muted">Easy-Effort / High-Recovery zone: lower TE with strong recovery tends to preserve consistency.</p>
+      <p class="muted">High Effort / Low Recovery mean position: TE=2.53, Recovery=51.0%</p>
+      <p class="muted">Next-day mean position: TE=2.53, Recovery=47.4%</p>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0;">Navigation</h2>
+      <p><a href="/running_recovery_correlation/">🏃→😴 Pace vs Recovery</a></p>
+    </section>
+  </main>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

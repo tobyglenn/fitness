@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Nightly Report - 2026-02-03</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #0a0a0c; color: white; padding: 40px; max-width: 1200px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .card { background: #1c1c1e; padding: 20px; border-radius: 12px; border: 1px solid #2c2c2e; }
+        .value { font-size: 24px; font-weight: bold; color: #0a84ff; display: block; margin-top: 10px; }
+        h1 { color: #0a84ff; }
+        .note { background: #1c1c1e; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #2c2c2e; }
+        
+        /* Expandable Card Styles */
+        .expandable-card {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .card-toggle {
+            display: none;
+        }
+        
+        .card-clickable {
+            cursor: pointer;
+            display: block;
+            user-select: none;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .expand-icon {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+            color: #8e8e93;
+        }
+        
+        .card-toggle:checked + .card-clickable .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+        
+        .card-toggle:checked ~ .card-details {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 15px;
+        }
+        
+        .detail-summary {
+            background: #0a0a0c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #3c3c3e;
+        }
+        
+        .workout-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .workout-detail-item {
+            background: #0a0a0c;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #2c2c2e;
+        }
+        
+        .workout-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #2c2c2e;
+        }
+        
+        .workout-detail-header strong {
+            color: #0a84ff;
+            font-size: 14px;
+        }
+        
+        .workout-time {
+            color: #8e8e93;
+            font-size: 12px;
+        }
+        
+        .workout-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+        
+        .stat-label {
+            color: #8e8e93;
+        }
+        
+        .stat-value {
+            color: white;
+            font-weight: 500;
+        }
+        
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .workout-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-details {
+                font-size: 14px;
+            }
+        }
+        
+        /* Hover effect for clickable cards */
+        .card-clickable:hover {
+            opacity: 0.9;
+        }
+        
+        .expandable-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 132, 255, 0.2);
+        }
+    
+    </style>
+</head>
+<body>
+    <h1>Interactive Nightly Report: 2026-02-03</h1>
+    
+    <div class="note">
+        <strong>📱 Interactive Workout Cards</strong><br>
+        Click/tap the LIFTING and RUNNING cards below to expand and see full workout details!
+    </div>
+    
+    <div class="grid">
+        
+    <div class="card expandable-card">
+        <input type="checkbox" id="lifting-toggle" class="card-toggle">
+        <label for="lifting-toggle" class="card-clickable">
+            <div class="card-header">
+                <span>LIFTING</span>
+                <span class="expand-icon">▼</span>
+            </div>
+            <span class="value">25,814 lbs</span>
+        </label>
+        <div class="card-details">
+            <div class="detail-summary">
+                <div class="stat-item">
+                    <span class="stat-label">Total Workouts:</span>
+                    <span class="stat-value">5</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Time:</span>
+                    <span class="stat-value">79:39</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Calories:</span>
+                    <span class="stat-value">577 kcal</span>
+                </div>
+            </div>
+            <div class="workout-list">
+                
+        <div class="workout-detail-item">
+            <div class="workout-detail-header">
+                <strong>Workout</strong>
+                <span class="workout-time">0:10</span>
+            </div>
+            <div class="workout-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Volume:</span>
+                    <span class="stat-value">18 lbs (8 kg)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Exercises:</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Calories:</span>
+                    <span class="stat-value">0 kcal</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workout-detail-item">
+            <div class="workout-detail-header">
+                <strong>Back Barbell</strong>
+                <span class="workout-time">2:07</span>
+            </div>
+            <div class="workout-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Volume:</span>
+                    <span class="stat-value">194 lbs (88 kg)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Exercises:</span>
+                    <span class="stat-value">22</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Calories:</span>
+                    <span class="stat-value">13 kcal</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workout-detail-item">
+            <div class="workout-detail-header">
+                <strong>Chest handles</strong>
+                <span class="workout-time">15:31</span>
+            </div>
+            <div class="workout-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Volume:</span>
+                    <span class="stat-value">3,134 lbs (1,422 kg)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Exercises:</span>
+                    <span class="stat-value">26</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Calories:</span>
+                    <span class="stat-value">114 kcal</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workout-detail-item">
+            <div class="workout-detail-header">
+                <strong>one arm</strong>
+                <span class="workout-time">8:09</span>
+            </div>
+            <div class="workout-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Volume:</span>
+                    <span class="stat-value">0 lbs (0 kg)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Exercises:</span>
+                    <span class="stat-value">40</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Calories:</span>
+                    <span class="stat-value">44 kcal</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workout-detail-item">
+            <div class="workout-detail-header">
+                <strong>Chest handles</strong>
+                <span class="workout-time">53:42</span>
+            </div>
+            <div class="workout-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Volume:</span>
+                    <span class="stat-value">22,468 lbs (10,192 kg)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Exercises:</span>
+                    <span class="stat-value">26</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Calories:</span>
+                    <span class="stat-value">406 kcal</span>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+        </div>
+    </div>
+    
+        <div class="card">RUNNING<br><span class="value">No data</span></div>
+        <div class="card">BJJ STRAIN<br><span class="value">0.00</span></div>
+    </div>
+    
+    <div class="note">
+        <h3>Data Sources</h3>
+        <ul>
+            <li><strong>Speediance:</strong> 5 workouts found</li>
+            <li><strong>Garmin:</strong> 0 runs found</li>
+            <li><strong>WHOOP:</strong> Heart rate zones (coming soon)</li>
+        </ul>
+    </div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recovery Staleness Detector</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0d1117; color: white; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    
+    /* Navigation */
+    nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 0; margin-bottom: 30px; }
+    nav .container { display: flex; gap: 24px; align-items: center; padding: 0 20px; }
+    nav a { color: #8b949e; text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: #f39c12; }
+    nav .brand { font-weight: 600; color: white; margin-right: auto; }
+    
+    /* Header */
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .header .subtitle { color: #8b949e; font-size: 16px; }
+    
+    /* Gauge Section */
+    .gauge-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 50px; }
+    .gauge-container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; }
+    .gauge-svg { flex-shrink: 0; }
+    .gauge-info { text-align: left; }
+    .gauge-info .status { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .gauge-info .score { font-size: 48px; font-weight: 700; color: #f39c12; }
+    .gauge-info .label { color: #8b949e; font-size: 14px; }
+    
+    /* Contributing Factors */
+    .section-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+    .factors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .factor-card { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; }
+    .factor-name { font-weight: 600; margin-bottom: 4px; }
+    .factor-desc { color: #8b949e; font-size: 12px; margin-bottom: 12px; }
+    .factor-bar-bg { background: #30363d; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+    .factor-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
+    .factor-value { font-size: 24px; font-weight: 700; text-align: right; }
+    
+    /* Trend Chart */
+    .trend-section { background: #161b22; border-radius: 12px; padding: 24px; border: 1px solid #30363d; margin-bottom: 40px; }
+    .trend-chart { width: 100%; overflow-x: auto; }
+    
+    /* Recommendations */
+    .recs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .rec-card { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; display: flex; gap: 16px; align-items: flex-start; }
+    .rec-icon { font-size: 28px; flex-shrink: 0; }
+    .rec-content { flex: 1; }
+    .rec-title { font-weight: 600; margin-bottom: 4px; }
+    .rec-desc { color: #8b949e; font-size: 14px; }
+    .rec-priority { font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    
+    /* Footer */
+    .footer { text-align: center; color: #8b949e; font-size: 12px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #30363d; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="../../../index.html" class="brand">🏋️ Fitness Ecosystem</a>
+      <a href="../../../index.html">Home</a>
+      <a href="../../calendars/index.html">Calendars</a>
+      <a href="../../strength/index.html">Strength</a>
+      <a href="../../cardio/index.html">Cardio</a>
+      <a href="../../recovery/index.html">Recovery</a>
+      <a href="../../nutrition/index.html">Nutrition</a>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="header">
+      <h1>Recovery Staleness Detector</h1>
+      <p class="subtitle">When your body adapts and stops responding</p>
+    </div>
+    
+    <!-- Staleness Gauge -->
+    <div class="gauge-section">
+      <div class="gauge-container">
+        <div class="gauge-svg">
+          <svg viewBox="0 0 200 120" width="200" height="120">
+  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#30363d" stroke-width="16" stroke-linecap="round"/>
+  <path d="M 20 100 A 80 80 0 0 1 158.31749019371293 45.23623152570491" fill="none" stroke="#2ea043" stroke-width="16" stroke-linecap="round"/>
+  <text x="100" y="85" text-anchor="middle" fill="white" font-size="28" font-weight="bold">26</text>
+  <text x="100" y="108" text-anchor="middle" fill="#8b949e" font-size="12">/ 100</text>
+</svg>
+        </div>
+        <div class="gauge-info">
+          <div class="score">26</div>
+          <div class="label">Current Staleness Index</div>
+          <div class="status" style="color:#2ea043;">Fresh & Responsive</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contributing Factors -->
+    <h2 class="section-title">Contributing Factors</h2>
+    <div class="factors-grid">
+      
+    <div class="factor-card">
+      <div class="factor-name">Recovery-Performance Gap</div>
+      <div class="factor-desc">Recovery score vs actual gains</div>
+      <div class="factor-bar-bg">
+        <div class="factor-bar" style="width:0%;background:#2ea043;"></div>
+      </div>
+      <div class="factor-value">0%</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-name">Volume Adaptation</div>
+      <div class="factor-desc">How long volume has been stagnant</div>
+      <div class="factor-bar-bg">
+        <div class="factor-bar" style="width:25%;background:#2ea043;"></div>
+      </div>
+      <div class="factor-value">25%</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-name">HRV Trend</div>
+      <div class="factor-desc">Acute vs chronic HRV</div>
+      <div class="factor-bar-bg">
+        <div class="factor-bar" style="width:0%;background:#2ea043;"></div>
+      </div>
+      <div class="factor-value">0%</div>
+    </div>
+    <div class="factor-card">
+      <div class="factor-name">Exercise Variety</div>
+      <div class="factor-desc">New exercises introduced</div>
+      <div class="factor-bar-bg">
+        <div class="factor-bar" style="width:100%;background:#f85149;"></div>
+      </div>
+      <div class="factor-value">100%</div>
+    </div>
+    </div>
+    
+    <!-- Trend Chart -->
+    <h2 class="section-title">30-Day Staleness Trend</h2>
+    <div class="trend-section">
+      <div class="trend-chart">
+        <svg viewBox="0 0 800 250" width="800" height="250" style="background:transparent;">
+  <defs>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f39c12" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#f39c12" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <line x1="40" y1="-60.74074074074076" x2="760" y2="-60.74074074074076" stroke="#30363d" stroke-width="1" stroke-dasharray="4"/>
+  <text x="760" y="-65.74074074074076" text-anchor="end" fill="#8b949e" font-size="10">threshold</text>
+  <polygon points="40,210 40.0,40.0 64.8,121.9 89.7,96.7 114.5,109.3 139.3,58.9 164.1,159.6 189.0,147.0 213.8,147.0 238.6,165.9 263.4,140.7 288.3,71.5 313.1,128.1 337.9,140.7 362.8,147.0 387.6,178.5 412.4,134.4 437.2,121.9 462.1,210.0 486.9,191.1 511.7,103.0 536.6,147.0 561.4,115.6 586.2,121.9 611.0,197.4 635.9,147.0 660.7,197.4 685.5,184.8 710.3,172.2 735.2,197.4 760.0,165.9 760,210" fill="url(#areaGrad)"/>
+  <polyline points="40.0,40.0 64.8,121.9 89.7,96.7 114.5,109.3 139.3,58.9 164.1,159.6 189.0,147.0 213.8,147.0 238.6,165.9 263.4,140.7 288.3,71.5 313.1,128.1 337.9,140.7 362.8,147.0 387.6,178.5 412.4,134.4 437.2,121.9 462.1,210.0 486.9,191.1 511.7,103.0 536.6,147.0 561.4,115.6 586.2,121.9 611.0,197.4 635.9,147.0 660.7,197.4 685.5,184.8 710.3,172.2 735.2,197.4 760.0,165.9" fill="none" stroke="#f39c12" stroke-width="2.5"/>
+  <text x="40.0" y="240" text-anchor="middle" fill="#8b949e" font-size="10">02/07</text><text x="164.13793103448276" y="240" text-anchor="middle" fill="#8b949e" font-size="10">02/12</text><text x="288.2758620689655" y="240" text-anchor="middle" fill="#8b949e" font-size="10">02/17</text><text x="412.4137931034483" y="240" text-anchor="middle" fill="#8b949e" font-size="10">02/22</text><text x="536.551724137931" y="240" text-anchor="middle" fill="#8b949e" font-size="10">02/27</text><text x="660.6896551724137" y="240" text-anchor="middle" fill="#8b949e" font-size="10">03/04</text><text x="760.0" y="240" text-anchor="middle" fill="#8b949e" font-size="10">03/08</text>
+  <!-- Y-axis labels -->
+  <text x="30" y="40" text-anchor="middle" fill="#8b949e" font-size="10">100</text>
+  <text x="30" y="210" text-anchor="middle" fill="#8b949e" font-size="10">0</text>
+</svg>
+      </div>
+    </div>
+    
+    <!-- Recommendations -->
+    <h2 class="section-title">Recommendations</h2>
+    <div class="recs-grid">
+      
+    <div class="rec-card">
+      <div class="rec-icon">✅</div>
+      <div class="rec-content">
+        <div class="rec-title">Keep It Up</div>
+        <div class="rec-desc">You're in a responsive state. Continue progressive overload.</div>
+      </div>
+      <div class="rec-priority" style="color:#2ea043;">LOW</div>
+    </div>
+    </div>
+    
+    <div class="footer">
+      Data updated: 2026-03-08 14:23
+    </div>
+  </div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

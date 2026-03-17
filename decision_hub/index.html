@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Decision Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: white; line-height: 1.6; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    /* Navigation */
+    nav { background: #161b22; border-radius: 8px; padding: 12px 20px; margin-bottom: 24px; display: flex; gap: 20px; flex-wrap: wrap; }
+    nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+    nav a:hover { color: #f39c12; }
+    
+    /* Header */
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 { font-size: 32px; margin-bottom: 8px; }
+    .header p { color: #8b949e; font-size: 16px; }
+    
+    /* Big Decision Card */
+    .decision-card { background: #0a84ff; border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 24px; }
+    .decision-card h2 { font-size: 48px; margin-bottom: 8px; }
+    .decision-card .confidence { font-size: 18px; opacity: 0.9; }
+    .decision-card .subtitle { font-size: 16px; opacity: 0.8; margin-top: 8px; }
+    
+    /* Components Grid */
+    .components { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { background: #161b22; border-radius: 12px; padding: 20px; }
+    .card h3 { font-size: 14px; color: #8b949e; text-transform: uppercase; margin-bottom: 12px; }
+    .card .value { font-size: 36px; font-weight: bold; }
+    .card .sub { font-size: 14px; color: #8b949e; }
+    .card .trend { font-size: 14px; }
+    .trend.up { color: #2ea043; }
+    .trend.down { color: #f85149; }
+    
+    /* Three column */
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    @media (max-width: 768px) { .three-col { grid-template-columns: 1fr; } }
+    
+    /* Gauge */
+    .gauge-container { text-align: center; }
+    .gauge-container svg { max-width: 200px; }
+    
+    /* HRV Bar */
+    .bar-container { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+    .bar-label { width: 80px; font-size: 12px; color: #8b949e; }
+    .bar-track { flex: 1; height: 20px; background: #30363d; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: #2ea043; }
+    .bar-value { width: 50px; text-align: right; font-size: 14px; }
+    
+    /* Weather Card */
+    .weather-card { background: #161b22; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .weather-card .temp { font-size: 48px; font-weight: bold; }
+    .weather-card .condition { color: #8b949e; }
+    .outdoor-viable { background: #238636; color: white; padding: 8px 16px; border-radius: 8px; display: inline-block; margin-top: 12px; }
+    .outdoor-not { background: #30363d; color: #8b949e; padding: 8px 16px; border-radius: 8px; display: inline-block; margin-top: 12px; }
+    
+    /* Sparkline */
+    .sparkline { height: 60px; }
+    
+    /* Week outlook */
+    .outlook-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .outlook-day { background: #161b22; border-radius: 8px; padding: 16px; text-align: center; }
+    .outlook-day .day { color: #8b949e; font-size: 12px; }
+    .outlook-day .rec { font-weight: bold; margin-top: 4px; }
+    
+    /* Footer */
+    .footer { text-align: center; padding: 20px; color: #8b949e; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/">Home</a>
+      <a href="/calendars/">Calendars</a>
+      <a href="/strength/">Strength</a>
+      <a href="/cardio/">Cardio</a>
+      <a href="/recovery/">Recovery</a>
+      <a href="/nutrition/">Nutrition</a>
+      <a href="/live_today/">Live Today</a>
+      <a href="/readiness_composite/">Readiness</a>
+      <a href="/decision_hub/">Decision Hub</a>
+    </nav>
+    
+    <div class="header">
+      <h1>Training Decision Hub</h1>
+      <p>Today's recommended training approach based on all your data</p>
+    </div>
+    
+    <!-- Big Decision Card -->
+    <div class="decision-card">
+      <h2>MAINTAIN</h2>
+      <div class="confidence">Confidence: 50%</div>
+      <div class="subtitle">Composite readiness score: 50/100</div>
+    </div>
+    
+    <!-- Readiness Gauge -->
+    <div class="three-col">
+      <div class="card gauge-container">
+        <h3>Readiness Score</h3>
+        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background arc -->
+  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#30363d" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Colored segments -->
+  <path d="M 20 100 A 80 80 0 0 1 60 31" fill="none" stroke="#f85149" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 60 31 A 80 80 0 0 1 100 20" fill="none" stroke="#f39c12" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 100 20 A 80 80 0 0 1 140 31" fill="none" stroke="#0a84ff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M 140 31 A 80 80 0 0 1 180 100" fill="none" stroke="#2ea043" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Needle -->
+  <line x1="100" y1="100" x2="100" y2="30" stroke="#f39c12" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="100" cy="100" r="8" fill="#f39c12"/>
+  
+  <!-- Score text -->
+  <text x="100" y="85" text-anchor="middle" fill="white" font-size="24" font-weight="bold">50</text>
+  <text x="100" y="105" text-anchor="middle" fill="#8b949e" font-size="10">READINESS</text>
+</svg>
+      </div>
+      
+      <div class="card">
+        <h3>HRV Status</h3>
+        <div class="value">0 <span style="font-size:16px">ms</span></div>
+        <div class="bar-container">
+          <span class="bar-label">Baseline</span>
+          <div class="bar-track"><div class="bar-fill" style="width: 0.0%"></div></div>
+          <span class="bar-value">55</span>
+        </div>
+        <div class="trend up">
+          ↑ 0.0% vs baseline
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>Sleep Performance</h3>
+        <div class="value">0<span style="font-size:16px">%</span></div>
+        <div class="sub">Last night's sleep</div>
+      </div>
+    </div>
+    
+    <!-- Components -->
+    <div class="components">
+      <div class="card">
+        <h3>Recovery Score</h3>
+        <div class="value">0<span style="font-size:20px">%</span></div>
+        <div class="sub">WHOOP Recovery</div>
+      </div>
+      
+      <div class="card">
+        <h3>Resting Heart Rate</h3>
+        <div class="value">0 <span style="font-size:16px">bpm</span></div>
+        <div class="trend up">
+          ↓ 0.0% vs baseline (55)
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>Recent Training Load</h3>
+        <div class="sparkline"><svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <polyline points="30,50.0 100,50.0 170,50.0" fill="none" stroke="#f39c12" stroke-width="2"/>
+  <circle cx="30" cy="50.0" r="3" fill="#f39c12"/><circle cx="100" cy="50.0" r="3" fill="#f39c12"/><circle cx="170" cy="50.0" r="3" fill="#f39c12"/>
+</svg></div>
+        <div class="sub">Last 3 days volume: 0 lbs</div>
+      </div>
+    </div>
+    
+    <!-- Weather Context -->
+    <div class="weather-card">
+      <h3>Weather Context</h3>
+      <div class="temp">52°F</div>
+      <div class="condition">Clear</div>
+      <div class="outdoor-viable">✓ Outdoor workout viable</div>
+    </div>
+    
+    <!-- Week Outlook -->
+    <div class="card">
+      <h3>3-Day Outlook</h3>
+      <div class="outlook-grid">
+        <div class="outlook-day">
+          <div class="day">Tomorrow</div>
+          <div class="rec" style="color: #0a84ff">MAINTAIN</div>
+        </div>
+        <div class="outlook-day">
+          <div class="day">Day 3</div>
+          <div class="rec" style="color: #2ea043">PUSH DAY</div>
+        </div>
+        <div class="outlook-day">
+          <div class="day">Day 4</div>
+          <div class="rec" style="color: #f39c12">DELOAD</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      Updated: 2026-03-17 03:02 AM EDT
+    </div>
+  </div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

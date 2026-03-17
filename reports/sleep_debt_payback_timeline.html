@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Debt Payback Timeline</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0a0a0c; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .back-link { display: inline-block; color: #4fc3f7; text-decoration: none; margin-bottom: 20px; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { font-size: 24px; margin-bottom: 8px; font-weight: 600; }
+        .subtitle { color: #888; font-size: 14px; margin-bottom: 24px; }
+        .chart-card { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .chart-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        canvas { width: 100%; height: 300px; display: block; }
+        #chart6 { height: 250px; }
+        .scorecard { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+        .metric { background: #2a2a2c; border-radius: 8px; padding: 16px; text-align: center; }
+        .metric-value { font-size: 24px; font-weight: 700; color: #4fc3f7; }
+        .metric-label { font-size: 12px; color: #888; margin-top: 4px; }
+        .metric-value.danger { color: #ef5350; }
+        .metric-value.success { color: #66bb6a; }
+        .alert { background: #ef5350; color: #fff; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .chart-card { padding: 12px; }
+            h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+        <h1>Sleep Debt Payback Timeline</h1>
+        <p class="subtitle">Analyzing 14-day rolling sleep debt with HRV baseline correlation</p>
+<div class="alert">⚠️ Debt is increasing. Focus on recovery sleep to reverse the trend.</div>
+        <div class="chart-card">
+            <div class="chart-title">Cumulative Sleep Debt (14-Day Rolling)</div>
+            <canvas id="chart1"></canvas>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-title">HRV Baseline vs Actual</div>
+            <canvas id="chart2"></canvas>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-title">Weekly Debt Accumulation</div>
+            <canvas id="chart3"></canvas>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-title">Debt vs WHOOP Recovery Score</div>
+            <canvas id="chart4"></canvas>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-title">Debt Trend & Forecast</div>
+            <canvas id="chart5"></canvas>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-title">Debt Scorecard</div>
+            <canvas id="chart6"></canvas>
+        </div>
+    </div>
+
+    <script>
+    const data = [{"date": "2026-01-15", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 57.0, "whoop_hrv": 19.954685, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 19.954685}, {"date": "2026-01-16", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 94.0, "whoop_hrv": 37.570698, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 28.762691500000003}, {"date": "2026-01-17", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 49.0, "whoop_hrv": 18.648682, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.391355}, {"date": "2026-01-18", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 65.0, "whoop_hrv": 22.43132, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.65134625}, {"date": "2026-01-19", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 96.0, "whoop_hrv": 36.207523, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 26.9625816}, {"date": "2026-01-20", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 49.0, "whoop_hrv": 19.3541, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.694501333333335}, {"date": "2026-01-21", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 62.0, "whoop_hrv": 23.61305, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.397151142857144}, {"date": "2026-01-22", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 48.0, "whoop_hrv": 19.177525, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.619697875}, {"date": "2026-01-23", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 63.0, "whoop_hrv": 25.254513, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.69023288888889}, {"date": "2026-01-24", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 59.0, "whoop_hrv": 23.54958, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.576167599999998}, {"date": "2026-01-25", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 72.0, "whoop_hrv": 26.050348, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.710184}, {"date": "2026-01-26", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 44.0, "whoop_hrv": 19.062115, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.239511583333336}, {"date": "2026-01-27", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 44.0, "whoop_hrv": 20.563528, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 23.956743615384614}, {"date": "2026-01-28", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 44.0, "whoop_hrv": 21.484774, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 23.780174357142858}, {"date": "2026-01-29", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 29.0, "whoop_hrv": 16.624405, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 23.542297214285714}, {"date": "2026-01-30", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 38.0, "whoop_hrv": 18.245022, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 22.161891785714285}, {"date": "2026-01-31", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 89.0, "whoop_hrv": 34.45769, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 23.29110664285714}, {"date": "2026-02-01", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 31.0, "whoop_hrv": 15.916133, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 22.825736142857146}, {"date": "2026-02-02", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 47.0, "whoop_hrv": 19.417759, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 21.626467285714284}, {"date": "2026-02-03", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 15.0, "whoop_hrv": 12.884704, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 21.164367571428574}, {"date": "2026-02-04", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 10.0, "whoop_hrv": 19.134262, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 20.844454142857142}, {"date": "2026-02-05", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 14.0, "whoop_hrv": 30.071331, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 21.622583142857142}, {"date": "2026-02-06", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 73.0, "whoop_hrv": 33.68769, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 22.22495292857143}, {"date": "2026-02-07", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 87.0, "whoop_hrv": 60.17599, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 24.84112507142857}, {"date": "2026-02-08", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 83.0, "whoop_hrv": 32.700188, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.316113642857143}, {"date": "2026-02-09", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 44.0, "whoop_hrv": 18.483486, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.274783000000003}, {"date": "2026-02-10", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 63.0, "whoop_hrv": 24.664766, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.56772857142857}, {"date": "2026-02-11", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 18.0, "whoop_hrv": 18.718916, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 0, "hrv_baseline": 25.370167285714285}, {"date": "2026-02-12", "time_slept_hours": 5.87, "sleep_score": 47, "hrv": 21.8, "whoop_recovery": 18.0, "whoop_hrv": 16.80657, "whoop_strain": 0, "daily_debt": 2.13, "rolling_14d_debt": 2.13, "hrv_baseline": 25.38317907142857}, {"date": "2026-02-13", "time_slept_hours": 6.31, "sleep_score": 78, "hrv": 174.7, "whoop_recovery": 85.0, "whoop_hrv": 104.77237, "whoop_strain": 0, "daily_debt": 1.6900000000000004, "rolling_14d_debt": 3.8200000000000003, "hrv_baseline": 31.56370392857143}, {"date": "2026-02-14", "time_slept_hours": 0, "sleep_score": null, "hrv": 0, "whoop_recovery": 25.0, "whoop_hrv": 16.04099, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 3.8200000000000003, "hrv_baseline": 30.248225357142854}, {"date": "2026-02-15", "time_slept_hours": 0, "sleep_score": null, "hrv": 0, "whoop_recovery": 23.0, "whoop_hrv": 15.25637, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 3.8200000000000003, "hrv_baseline": 30.20109942857143}, {"date": "2026-02-16", "time_slept_hours": 0, "sleep_score": null, "hrv": 0, "whoop_recovery": 35.0, "whoop_hrv": 16.227386, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 3.8200000000000003, "hrv_baseline": 29.973215642857145}, {"date": "2026-02-17", "time_slept_hours": 4.77, "sleep_score": 50, "hrv": 56.8, "whoop_recovery": 7.0, "whoop_hrv": 14.630932, "whoop_strain": 0, "daily_debt": 3.2300000000000004, "rolling_14d_debt": 7.050000000000001, "hrv_baseline": 30.097946214285713}, {"date": "2026-02-18", "time_slept_hours": 6.7, "sleep_score": 88, "hrv": 22.7, "whoop_recovery": 35.0, "whoop_hrv": 22.805332, "whoop_strain": 0, "daily_debt": 1.2999999999999998, "rolling_14d_debt": 8.350000000000001, "hrv_baseline": 30.360165499999997}, {"date": "2026-02-19", "time_slept_hours": 6.66, "sleep_score": 88, "hrv": 26.3, "whoop_recovery": 38.0, "whoop_hrv": 24.996542, "whoop_strain": 0, "daily_debt": 1.3399999999999999, "rolling_14d_debt": 9.690000000000001, "hrv_baseline": 29.99768057142857}, {"date": "2026-02-20", "time_slept_hours": 5.63, "sleep_score": 77, "hrv": 24.8, "whoop_recovery": 38.0, "whoop_hrv": 26.566427, "whoop_strain": 0, "daily_debt": 2.37, "rolling_14d_debt": 12.06, "hrv_baseline": 29.48901892857143}, {"date": "2026-02-21", "time_slept_hours": 4.82, "sleep_score": 54, "hrv": 22.6, "whoop_recovery": 41.0, "whoop_hrv": 24.38755, "whoop_strain": 0, "daily_debt": 3.1799999999999997, "rolling_14d_debt": 15.24, "hrv_baseline": 26.932701785714283}, {"date": "2026-02-22", "time_slept_hours": 6.52, "sleep_score": 78, "hrv": 22.9, "whoop_recovery": 35.0, "whoop_hrv": 22.442207, "whoop_strain": 0, "daily_debt": 1.4800000000000004, "rolling_14d_debt": 16.72, "hrv_baseline": 26.19998885714286}, {"date": "2026-02-23", "time_slept_hours": 5.87, "sleep_score": 75, "hrv": 24, "whoop_recovery": 39.0, "whoop_hrv": 25.488049, "whoop_strain": 0, "daily_debt": 2.13, "rolling_14d_debt": 18.85, "hrv_baseline": 26.700314785714287}, {"date": "2026-02-24", "time_slept_hours": 7.28, "sleep_score": 82, "hrv": 18.4, "whoop_recovery": 46.0, "whoop_hrv": 28.064613, "whoop_strain": 0, "daily_debt": 0.7199999999999998, "rolling_14d_debt": 19.57, "hrv_baseline": 26.943161}, {"date": "2026-02-25", "time_slept_hours": 5.17, "sleep_score": 55, "hrv": 68.7, "whoop_recovery": 15.0, "whoop_hrv": 25.749737, "whoop_strain": 0, "daily_debt": 2.83, "rolling_14d_debt": 22.4, "hrv_baseline": 27.445362499999998}, {"date": "2026-02-26", "time_slept_hours": 4.88, "sleep_score": 92, "hrv": 32.8, "whoop_recovery": 59.0, "whoop_hrv": 35.16584, "whoop_strain": 0, "daily_debt": 3.12, "rolling_14d_debt": 23.39, "hrv_baseline": 28.756738928571426}, {"date": "2026-02-27", "time_slept_hours": 7.91, "sleep_score": 98, "hrv": 24.1, "whoop_recovery": 0, "whoop_hrv": 0, "whoop_strain": 0, "daily_debt": 0.08999999999999986, "rolling_14d_debt": 21.79, "hrv_baseline": 22.909382692307695}, {"date": "2026-02-28", "time_slept_hours": 5.7, "sleep_score": 81, "hrv": 27.8, "whoop_recovery": 39.0, "whoop_hrv": 28.63912, "whoop_strain": 0, "daily_debt": 2.3, "rolling_14d_debt": 24.09, "hrv_baseline": 23.878469615384613}, {"date": "2026-03-01", "time_slept_hours": 9.35, "sleep_score": 87, "hrv": 22.5, "whoop_recovery": 44.0, "whoop_hrv": 26.293297, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 24.09, "hrv_baseline": 24.727464}, {"date": "2026-03-02", "time_slept_hours": 6.16, "sleep_score": 78, "hrv": 21.4, "whoop_recovery": 43.0, "whoop_hrv": 25.925224, "whoop_strain": 0, "daily_debt": 1.8399999999999999, "rolling_14d_debt": 25.93, "hrv_baseline": 25.47345153846154}, {"date": "2026-03-03", "time_slept_hours": 4.69, "sleep_score": 89, "hrv": 19.6, "whoop_recovery": 44.0, "whoop_hrv": 25.830162, "whoop_strain": 0, "daily_debt": 3.3099999999999996, "rolling_14d_debt": 26.009999999999998, "hrv_baseline": 26.33493076923077}, {"date": "2026-03-04", "time_slept_hours": 7.79, "sleep_score": 88, "hrv": 23.5, "whoop_recovery": 37.0, "whoop_hrv": 22.065317, "whoop_strain": 0, "daily_debt": 0.20999999999999996, "rolling_14d_debt": 24.919999999999998, "hrv_baseline": 26.278006538461536}, {"date": "2026-03-05", "time_slept_hours": 3.5, "sleep_score": 61, "hrv": 126, "whoop_recovery": 0, "whoop_hrv": 0, "whoop_strain": 0, "daily_debt": 4.5, "rolling_14d_debt": 28.08, "hrv_baseline": 26.38479525}, {"date": "2026-03-06", "time_slept_hours": 0, "sleep_score": 0, "hrv": 0, "whoop_recovery": 58.0, "whoop_hrv": 33.826553, "whoop_strain": 0, "daily_debt": 0, "rolling_14d_debt": 25.71, "hrv_baseline": 26.989805750000002}];
+    const weeklyData = [{"week_start": "2026-01-15", "debt": 0}, {"week_start": "2026-01-22", "debt": 0}, {"week_start": "2026-01-29", "debt": 0}, {"week_start": "2026-02-05", "debt": 0}, {"week_start": "2026-02-12", "debt": 8.350000000000001}, {"week_start": "2026-02-19", "debt": 14.05}, {"week_start": "2026-02-26", "debt": 10.87}, {"week_start": "2026-03-05", "debt": 4.5}];
+    
+    const colors = {
+        bg: '#0a0a0c',
+        card: '#1c1c1e',
+        accent: '#4fc3f7',
+        text: '#ffffff',
+        danger: '#ef5350',
+        success: '#66bb6a',
+        grid: '#333',
+        baseline: '#ffa726'
+    };
+    
+    function setupCanvas(id) {
+        const canvas = document.getElementById(id);
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        return { canvas, ctx, width: rect.width, height: rect.height };
+    }
+    
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return (d.getMonth() + 1) + '/' + d.getDate();
+    }
+    
+    // Chart 1: Cumulative Sleep Debt
+    (function() {
+        const { ctx, width, height } = setupCanvas('chart1');
+        const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+        const chartW = width - padding.left - padding.right;
+        const chartH = height - padding.top - padding.bottom;
+        
+        const debtData = data.map(d => d.rolling_14d_debt);
+        const maxDebt = Math.max(...debtData, 30);
+        const minDebt = 0;
+        
+        ctx.fillStyle = colors.card;
+        ctx.fillRect(0, 0, width, height);
+        
+        // Grid
+        ctx.strokeStyle = colors.grid;
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (chartH * i / 5);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        }
+        
+        // Area
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top + chartH);
+        debtData.forEach((v, i) => {
+            const x = padding.left + (i / (debtData.length - 1)) * chartW;
+            const y = padding.top + chartH - ((v - minDebt) / (maxDebt - minDebt)) * chartH;
+            if (i === 0) ctx.lineTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.lineTo(width - padding.right, padding.top + chartH);
+        ctx.closePath();
+        ctx.fillStyle = colors.accent + '40';
+        ctx.fill();
+        
+        // Line
+        ctx.beginPath();
+        debtData.forEach((v, i) => {
+            const x = padding.left + (i / (debtData.length - 1)) * chartW;
+            const y = padding.top + chartH - ((v - minDebt) / (maxDebt - minDebt)) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = colors.accent;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Labels
+        ctx.fillStyle = '#888';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        data.forEach((d, i) => {
+            if (i % 7 === 0) {
+                const x = padding.left + (i / (debtData.length - 1)) * chartW;
+                ctx.fillText(formatDate(d.date), x, height - 10);
+            }
+        });
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+            const v = maxDebt - (i * (maxDebt / 5));
+            const y = padding.top + (chartH * i / 5);
+            ctx.fillText(v.toFixed(0) + 'h', padding.left - 8, y + 4);
+        }
+    })();
+    
+    // Chart 2: HRV Baseline vs Actual
+    (function() {
+        const { ctx, width, height } = setupCanvas('chart2');
+        const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+        const chartW = width - padding.left - padding.right;
+        const chartH = height - padding.top - padding.bottom;
+        
+        const hrvActual = data.map(d => d.whoop_hrv);
+        const hrvBaseline = data.map(d => d.hrv_baseline);
+        const allHRV = [...hrvActual, ...hrvBaseline].filter(v => v > 0);
+        const maxHRV = Math.max(...allHRV, 60);
+        const minHRV = Math.min(...allHRV, 10);
+        
+        ctx.fillStyle = colors.card;
+        ctx.fillRect(0, 0, width, height);
+        
+        ctx.strokeStyle = colors.grid;
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (chartH * i / 5);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        }
+        
+        // Baseline line
+        ctx.beginPath();
+        hrvBaseline.forEach((v, i) => {
+            if (v > 0) {
+                const x = padding.left + (i / (hrvBaseline.length - 1)) * chartW;
+                const y = padding.top + chartH - ((v - minHRV) / (maxHRV - minHRV)) * chartH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+        });
+        ctx.strokeStyle = colors.baseline;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Actual line
+        ctx.beginPath();
+        hrvActual.forEach((v, i) => {
+            if (v > 0) {
+                const x = padding.left + (i / (hrvActual.length - 1)) * chartW;
+                const y = padding.top + chartH - ((v - minHRV) / (maxHRV - minHRV)) * chartH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+        });
+        ctx.strokeStyle = colors.success;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Legend
+        ctx.font = '11px sans-serif';
+        ctx.fillStyle = colors.baseline;
+        ctx.fillText('--- 14-day Baseline', width - 140, 15);
+        ctx.fillStyle = colors.success;
+        ctx.fillText('— Daily HRV', width - 60, 15);
+        
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'center';
+        data.forEach((d, i) => {
+            if (i % 7 === 0) {
+                const x = padding.left + (i / (data.length - 1)) * chartW;
+                ctx.fillText(formatDate(d.date), x, height - 10);
+            }
+        });
+    })();
+    
+    // Chart 3: Weekly Debt
+    (function() {
+        const { ctx, width, height } = setupCanvas('chart3');
+        const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+        const chartW = width - padding.left - padding.right;
+        const chartH = height - padding.top - padding.bottom;
+        
+        const barWidth = chartW / weeklyData.length * 0.7;
+        const maxDebt = Math.max(...weeklyData.map(d => d.debt), 40);
+        
+        ctx.fillStyle = colors.card;
+        ctx.fillRect(0, 0, width, height);
+        
+        ctx.strokeStyle = colors.grid;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (chartH * i / 5);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        }
+        
+        weeklyData.forEach((d, i) => {
+            const x = padding.left + (i / weeklyData.length) * chartW + (chartW / weeklyData.length) * 0.15;
+            const barH = (d.debt / maxDebt) * chartH;
+            const y = padding.top + chartH - barH;
+            
+            ctx.fillStyle = d.debt > 20 ? colors.danger : colors.accent;
+            ctx.fillRect(x, y, barWidth, barH);
+        });
+        
+        ctx.fillStyle = '#888';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'center';
+        weeklyData.forEach((d, i) => {
+            const x = padding.left + (i / weeklyData.length) * chartW + (chartW / weeklyData.length) * 0.5;
+            ctx.fillText(formatDate(d.week_start), x, height - 10);
+        });
+        
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+            const v = maxDebt - (i * (maxDebt / 5));
+            const y = padding.top + (chartH * i / 5);
+            ctx.fillText(v.toFixed(0) + 'h', padding.left - 8, y + 4);
+        }
+    })();
+    
+    // Chart 4: Debt vs Recovery
+    (function() {
+        const { ctx, width, height } = setupCanvas('chart4');
+        const padding = { top: 20, right: 60, bottom: 40, left: 50 };
+        const chartW = width - padding.left - padding.right;
+        const chartH = height - padding.top - padding.bottom;
+        
+        const debtData = data.map(d => d.rolling_14d_debt);
+        const recoveryData = data.map(d => d.whoop_recovery);
+        const maxDebt = Math.max(...debtData, 30);
+        const maxRecovery = 100;
+        
+        ctx.fillStyle = colors.card;
+        ctx.fillRect(0, 0, width, height);
+        
+        // Left axis (debt)
+        ctx.strokeStyle = colors.grid;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (chartH * i / 5);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        }
+        
+        // Bars for debt
+        const barW = chartW / data.length * 0.7;
+        data.forEach((d, i) => {
+            const x = padding.left + (i / data.length) * chartW + (chartW / data.length) * 0.15;
+            const barH = (d.rolling_14d_debt / maxDebt) * chartH;
+            const y = padding.top + chartH - barH;
+            ctx.fillStyle = d.rolling_14d_debt > 20 ? colors.danger : colors.accent;
+            ctx.fillRect(x, y, barW, barH);
+        });
+        
+        // Line for recovery
+        ctx.beginPath();
+        recoveryData.forEach((v, i) => {
+            if (v > 0) {
+                const x = padding.left + (i / (recoveryData.length - 1)) * chartW;
+                const y = padding.top + chartH - (v / maxRecovery) * chartH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+        });
+        ctx.strokeStyle = colors.success;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Right axis labels
+        ctx.fillStyle = colors.success;
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'left';
+        for (let i = 0; i <= 5; i++) {
+            const v = maxRecovery - (i * (maxRecovery / 5));
+            const y = padding.top + (chartH * i / 5);
+            ctx.fillText(v, width - padding.right + 5, y + 4);
+        }
+        
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'center';
+        data.forEach((d, i) => {
+            if (i % 7 === 0) {
+                const x = padding.left + (i / data.length) * chartW;
+                ctx.fillText(formatDate(d.date), x, height - 10);
+            }
+        });
+        
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+            const v = maxDebt - (i * (maxDebt / 5));
+            const y = padding.top + (chartH * i / 5);
+            ctx.fillText(v.toFixed(0) + 'h', padding.left - 8, y + 4);
+        }
+    })();
+    
+    // Chart 5: Trend & Forecast
+    (function() {
+        const { ctx, width, height } = setupCanvas('chart5');
+        const padding = { top: 30, right: 20, bottom: 40, left: 50 };
+        const chartW = width - padding.left - padding.right;
+        const chartH = height - padding.top - padding.bottom;
+        
+        const recent30 = data.slice(-30);
+        const debtData = recent30.map(d => d.rolling_14d_debt);
+        const maxDebt = Math.max(...debtData, 30);
+        
+        // Calculate trend
+        const n = debtData.length;
+        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+        for (let i = 0; i < n; i++) {
+            sumX += i;
+            sumY += debtData[i];
+            sumXY += i * debtData[i];
+            sumX2 += i * i;
+        }
+        const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+        
+        // Projection
+        const projectionDays = 14;
+        const projected = [];
+        for (let i = 0; i < projectionDays; i++) {
+            const projVal = intercept + slope * (n + i);
+            projected.push(Math.max(0, projVal));
+        }
+        
+        const allVals = [...debtData, ...projected];
+        const overallMax = Math.max(...allVals, 30);
+        
+        ctx.fillStyle = colors.card;
+        ctx.fillRect(0, 0, width, height);
+        
+        ctx.strokeStyle = colors.grid;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (chartH * i / 5);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        }
+        
+        // Historical area
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top + chartH);
+        debtData.forEach((v, i) => {
+            const x = padding.left + (i / (allVals.length - 1)) * chartW;
+            const y = padding.top + chartH - (v / overallMax) * chartH;
+            ctx.lineTo(x, y);
+        });
+        ctx.lineTo(padding.left + ((n - 1) / (allVals.length - 1)) * chartW, padding.top + chartH);
+        ctx.closePath();
+        ctx.fillStyle = colors.accent + '40';
+        ctx.fill();
+        
+        // Historical line
+        ctx.beginPath();
+        debtData.forEach((v, i) => {
+            const x = padding.left + (i / (allVals.length - 1)) * chartW;
+            const y = padding.top + chartH - (v / overallMax) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = colors.accent;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Projected line
+        ctx.beginPath();
+        const startX = padding.left + ((n - 1) / (allVals.length - 1)) * chartW;
+        ctx.moveTo(startX, padding.top + chartH - (debtData[n-1] / overallMax) * chartH);
+        projected.forEach((v, i) => {
+            const x = padding.left + ((n + i) / (allVals.length - 1)) * chartW;
+            const y = padding.top + chartH - (v / overallMax) * chartH;
+            ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = colors.danger;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Divider line
+        ctx.strokeStyle = '#666';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(startX, padding.top);
+        ctx.lineTo(startX, padding.top + chartH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Forecast annotation
+        const lastDebt = debtData[debtData.length - 1];
+        if (slope < 0 && lastDebt > 0) {
+            const daysToZero = lastDebt / (-slope);
+            const clearDate = new Date();
+            clearDate.setDate(clearDate.getDate() + daysToZero);
+            ctx.fillStyle = colors.success;
+            ctx.font = '12px sans-serif';
+            ctx.fillText('Debt clears ~' + (clearDate.getMonth()+1) + '/' + clearDate.getDate(), width/2, 20);
+        } else if (slope >= 0) {
+            ctx.fillStyle = colors.danger;
+            ctx.font = '12px sans-serif';
+            ctx.fillText('Debt increasing', width/2, 20);
+        }
+        
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'center';
+        recent30.forEach((d, i) => {
+            if (i % 5 === 0) {
+                const x = padding.left + (i / (allVals.length - 1)) * chartW;
+                ctx.fillText(formatDate(d.date), x, height - 10);
+            }
+        });
+    })();
+    
+    // Chart 6: Scorecard
+    (function() {
+        const { ctx, width, height } = setupCanvas('chart6');
+        
+        ctx.fillStyle = colors.card;
+        ctx.fillRect(0, 0, width, height);
+        
+        const metrics = [
+            { label: '14-Day Debt', value: 25.7, unit: 'hrs', danger: true },
+            { label: 'Daily Avg Debt', value: 1.8, unit: 'hrs', danger: true },
+            { label: 'Days to Clear', value: Infinity, unit: 'days', danger: true },
+            { label: 'HRV Baseline', value: 27.0, unit: 'ms', danger: false },
+            { label: 'Current HRV', value: 33.8, unit: 'ms', danger: false }
+        ];
+        
+        const cols = 5;
+        const cellW = width / cols;
+        const cellH = height;
+        
+        metrics.forEach((m, i) => {
+            const x = i * cellW;
+            const centerX = x + cellW / 2;
+            
+            // Value
+            ctx.fillStyle = m.danger ? colors.danger : colors.accent;
+            ctx.font = 'bold 22px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(m.value, centerX, cellH / 2 - 5);
+            
+            // Unit
+            ctx.fillStyle = '#888';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(m.unit, centerX, cellH / 2 + 12);
+            
+            // Label
+            ctx.fillStyle = '#aaa';
+            ctx.font = '11px sans-serif';
+            ctx.fillText(m.label, centerX, cellH - 20);
+        });
+    })();
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

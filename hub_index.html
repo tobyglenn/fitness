@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Hub — Quick Stats</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d1117;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+  }
+  nav {
+    background: #161b22;
+    padding: 12px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid #30363d;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    color: #8b949e;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  nav a:hover { background: #21262d; color: #fff; }
+  nav a.active { background: #21262d; color: #f39c12; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #f39c12;
+  }
+  .page-subtitle {
+    color: #8b949e;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  /* Quick Stats Row */
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .stat-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card:hover {
+    border-color: #f39c12;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(243,156,18,0.15);
+  }
+  .stat-card::after {
+    content: "→";
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: #30363d;
+    font-size: 16px;
+    transition: color 0.2s;
+  }
+  .stat-card:hover::after { color: #f39c12; }
+  .card-icon { font-size: 28px; }
+  .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; }
+  .card-value { font-size: 32px; font-weight: 700; line-height: 1; }
+  .card-unit { font-size: 14px; color: #8b949e; }
+  .card-meta { font-size: 12px; color: #8b949e; }
+  .card-delta { margin-top: 2px; }
+  .freshness-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  /* Hub sections */
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #21262d;
+  }
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .dash-link {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px;
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .dash-link:hover {
+    border-color: #f39c12;
+    background: #1c2128;
+  }
+  .dash-link .dash-icon { font-size: 24px; }
+  .dash-link .dash-name { font-size: 14px; font-weight: 600; }
+  .dash-link .dash-desc { font-size: 11px; color: #8b949e; }
+
+  /* Quick actions */
+  .actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .action-btn {
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .action-btn:hover { background: #f39c12; color: #000; border-color: #f39c12; }
+  .action-btn.primary { background: #f39c12; color: #000; border-color: #f39c12; font-weight: 700; }
+  .action-btn.primary:hover { background: #e08e0b; }
+  .no-data { color: #8b949e; font-size: 14px; font-style: italic; }
+</style>
+
+</head>
+<body>
+<nav>
+  <a href="hub_index.html" class="active">🏠 Hub</a>
+  <a href="calendars/2026-02-calendar.html">📅 Calendar</a>
+  <a href="strength/index.html">💪 Strength</a>
+  <a href="cardio/index.html">🏃 Cardio</a>
+  <a href="recovery/index.html">🔋 Recovery</a>
+  <a href="nutrition/index.html">🥗 Nutrition</a>
+  <a href="velocity/index.html">⚡ Velocity</a>
+  <a href="training_rhythm/index.html">🎵 Rhythm</a>
+  <a href="heatmap/index.html">🗓️ Heatmap</a>
+  <a href="records/index.html">🏆 Records</a>
+  <a href="training_recommender/index.html">🎯 Recommender</a>
+  <a href="day/index.html">📊 Day</a>
+  <a href="training_frequency/index.html">📊 Frequency</a>
+</nav>
+
+<div class="container">
+  <div class="page-title">🏠 Fitness Hub</div>
+  <div class="page-subtitle">Quick Stats — Updated February 27, 2026 at 07:51 PM ET</div>
+
+  <!-- Quick Stats Row -->
+  <div class="section-title">Today's Vitals</div>
+  <div class="quick-stats">
+    <a href="recovery/index.html" class="stat-card">
+  <div class="card-icon">💜</div>
+  <div class="card-label">WHOOP Recovery</div>
+  <div class="card-value" style="color:#f39c12;">59<span class="card-unit">%</span></div>
+  <div class="card-meta">HRV 35 • RHR 69 bpm</div>
+  <div class="card-delta"><span style="color:#2ea043; font-size:12px;">▲ 18.3 vs 30d avg</span></div>
+  <div class="card-meta"><span class="freshness-dot" style="background:#2ea043;"></span>yesterday</div>
+</a>
+    <a href="sleep_dashboard.html" class="stat-card">
+  <div class="card-icon">😴</div>
+  <div class="card-label">8Sleep Score</div>
+  <div class="card-value" style="color:#2ea043;">98<span class="card-unit">/100</span></div>
+  <div class="card-meta">7.9h sleep</div>
+  <div class="card-delta"><span style="color:#2ea043; font-size:12px;">▲ 24.0 vs 30d avg</span></div>
+  <div class="card-meta"><span class="freshness-dot" style="background:#2ea043;"></span>today</div>
+</a>
+    <a href="recovery/index.html" class="stat-card">
+  <div class="card-icon">❤️</div>
+  <div class="card-label">Resting HR</div>
+  <div class="card-value" style="color:#2ea043;">69<span class="card-unit"> bpm</span></div>
+  <div class="card-meta">30d avg: 75 bpm avg</div>
+  <div class="card-delta"><span style="color:#2ea043; font-size:12px;">▼ 5.9 vs 30d avg</span></div>
+  <div class="card-meta"><span class="freshness-dot" style="background:#2ea043;"></span>yesterday</div>
+</a>
+    <a href="cardio/index.html" class="stat-card">
+  <div class="card-icon">🏃</div>
+  <div class="card-label">Last Run</div>
+  <div class="card-value">3.0 mi</div>
+  <div class="card-meta">11:47/mi</div>
+  <div class="card-meta"><span class="freshness-dot" style="background:#f85149;"></span>8d ago</div>
+</a>
+    <a href="strength/index.html" class="stat-card">
+  <div class="card-icon">💪</div>
+  <div class="card-label">Last Tonal</div>
+  <div class="card-value" style="font-size:24px;">24,091 lbs</div>
+  <div class="card-meta">Workout</div>
+  <div class="card-meta"><span class="freshness-dot" style="background:#f85149;"></span>332d ago</div>
+</a>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="section-title">Quick Actions</div>
+  <div class="actions-row">
+    <a href="day/index.html" class="action-btn primary">📊 View Today's Detail</a>
+    <a href="training_recommender/index.html" class="action-btn">🎯 Training Recommender</a>
+    <a href="records/index.html" class="action-btn">🏆 Personal Records</a>
+    <a href="heatmap/index.html" class="action-btn">🗓️ Activity Heatmap</a>
+  </div>
+
+  <!-- Dashboards -->
+  <div class="section-title">Dashboards</div>
+  <div class="dashboard-grid">
+    <a href="strength/index.html" class="dash-link">
+      <div class="dash-icon">💪</div>
+      <div class="dash-name">Strength</div>
+      <div class="dash-desc">Tonal workouts, volume trends</div>
+    </a>
+    <a href="cardio/index.html" class="dash-link">
+      <div class="dash-icon">🏃</div>
+      <div class="dash-name">Cardio</div>
+      <div class="dash-desc">Runs, pace, distance</div>
+    </a>
+    <a href="polarized_training/index.html" class="dash-link">
+      <div class="dash-icon">⚖️</div>
+      <div class="dash-name">Polarized Training</div>
+      <div class="dash-desc">Zone 1-2 vs 4-5 balance and trend</div>
+    </a>
+    <a href="recovery/index.html" class="dash-link">
+      <div class="dash-icon">🔋</div>
+      <div class="dash-name">Recovery</div>
+      <div class="dash-desc">WHOOP, HRV, strain</div>
+    </a>
+    <a href="recovery_weekly_pattern/index.html" class="dash-link">
+      <div class="dash-icon">📊</div>
+      <div class="dash-name">Recovery Patterns</div>
+      <div class="dash-desc">Weekly day-of-week analysis</div>
+    </a>
+    <a href="hrv_triage/index.html" class="dash-link">
+      <div class="dash-icon">🧬</div>
+      <div class="dash-name">HRV Triage</div>
+      <div class="dash-desc">Root-cause HRV dip analysis</div>
+    </a>
+    <a href="sleep_dashboard.html" class="dash-link">
+      <div class="dash-icon">😴</div>
+      <div class="dash-name">Sleep</div>
+      <div class="dash-desc">8Sleep insights</div>
+    </a>
+    <a href="nutrition/index.html" class="dash-link">
+      <div class="dash-icon">🥗</div>
+      <div class="dash-name">Nutrition</div>
+      <div class="dash-desc">Macros, calories, trends</div>
+    </a>
+    <a href="velocity/index.html" class="dash-link">
+      <div class="dash-icon">⚡</div>
+      <div class="dash-name">Velocity</div>
+      <div class="dash-desc">Training load & adaptation</div>
+    </a>
+    <a href="training_rhythm/index.html" class="dash-link">
+      <div class="dash-icon">🎵</div>
+      <div class="dash-name">Rhythm</div>
+      <div class="dash-desc">Consistency patterns</div>
+    </a>
+    <a href="heatmap/index.html" class="dash-link">
+      <div class="dash-icon">🗓️</div>
+      <div class="dash-name">Heatmap</div>
+      <div class="dash-desc">Activity calendar view</div>
+    </a>
+    <a href="records/index.html" class="dash-link">
+      <div class="dash-icon">🏆</div>
+      <div class="dash-name">Records</div>
+      <div class="dash-desc">PRs & milestones</div>
+    </a>
+    <a href="training_recommender/index.html" class="dash-link">
+      <div class="dash-icon">🎯</div>
+      <div class="dash-name">Recommender</div>
+      <div class="dash-desc">AI-powered training advice</div>
+    </a>
+    <a href="day/index.html" class="dash-link">
+      <div class="dash-icon">📊</div>
+      <div class="dash-name">Day Detail</div>
+      <div class="dash-desc">Full daily breakdown</div>
+    </a>
+  </div>
+
+  <!-- Calendar Links -->
+  <div class="section-title">Recent Calendars</div>
+  <div class="dashboard-grid">
+    <a href="calendars/2026-02-calendar.html" class="dash-link">
+      <div class="dash-icon">📅</div>
+      <div class="dash-name">Feb 2026</div>
+    </a>
+    <a href="calendars/2026-01-calendar.html" class="dash-link">
+      <div class="dash-icon">📅</div>
+      <div class="dash-name">Jan 2026</div>
+    </a>
+    <a href="calendars/2025-12-calendar.html" class="dash-link">
+      <div class="dash-icon">📅</div>
+      <div class="dash-name">Dec 2025</div>
+    </a>
+    <a href="calendars/2025-11-calendar.html" class="dash-link">
+      <div class="dash-icon">📅</div>
+      <div class="dash-name">Nov 2025</div>
+    </a>
+  </div>
+
+</div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

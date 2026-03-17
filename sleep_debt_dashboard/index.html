@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleep Debt Impact Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  nav a:hover { color: #f39c12; }
+  nav a.active { color: #f39c12; font-weight: 600; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  h1 { font-size: 26px; font-weight: 700; color: #f39c12; margin-bottom: 6px; }
+  .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 4px; }
+  .date-range { color: #6e7681; font-size: 12px; margin-bottom: 24px; }
+  .section { margin-bottom: 32px; }
+  .section h2 { font-size: 16px; font-weight: 600; color: #e6edf3; margin-bottom: 14px; border-left: 3px solid #f39c12; padding-left: 10px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; }
+  .card .label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .card .value { font-size: 32px; font-weight: 700; }
+  .card .sub { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .chart-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; }
+  .chart-card .chart-title { font-size: 13px; font-weight: 600; color: #8b949e; margin-bottom: 12px; }
+  .full-chart { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1c2128; color: #8b949e; padding: 10px 12px; text-align: left; font-weight: 500; border-bottom: 1px solid #30363d; }
+  td { padding: 9px 12px; border-bottom: 1px solid #21262d; }
+  tr:hover { background: rgba(255,255,255,0.03); }
+  .rec-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; font-size: 14px; line-height: 1.7; }
+  @media (max-width: 700px) {
+    .cards { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/fitness/index.html">🏠 Hub</a>
+  <a href="/fitness/calendars/">📅 Calendars</a>
+  <a href="/fitness/strength/">💪 Strength</a>
+  <a href="/fitness/cardio/">🏃 Cardio</a>
+  <a href="/fitness/recovery/">🫀 Recovery</a>
+  <a href="/fitness/nutrition/">🥗 Nutrition</a>
+  <a href="/fitness/sleep_dashboard.html">😴 Sleep</a>
+  <a href="/fitness/sleep_debt_dashboard/" class="active">😴 Sleep Debt</a>
+</nav>
+<div class="container">
+  <h1>Sleep Debt Impact Dashboard</h1>
+  <div class="subtitle">How sleep debt affects your training performance</div>
+  <div class="date-range">📅 Feb 16 – Mar 1, 2026 &nbsp;·&nbsp; Baseline: 8h/night &nbsp;·&nbsp; Generated Mar 1, 2026 4:52 PM ET</div>
+
+  <!-- Section 2: KPI Cards -->
+  <div class="section">
+    <h2>Performance Tax Metrics</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="label">Current Sleep Debt</div>
+        <div class="value" style="color:#f85149">30.7h</div>
+        <div class="sub">Critical — over last 14 days</div>
+      </div>
+      <div class="card">
+        <div class="label">Estimated Performance Tax</div>
+        <div class="value" style="color:#f85149">40.0%</div>
+        <div class="sub">~3% reduction per hour of debt</div>
+      </div>
+      <div class="card">
+        <div class="label">Recovery Days Needed</div>
+        <div class="value" style="color:#f85149">31</div>
+        <div class="sub">nights of 8+ hours sleep</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Area Chart -->
+  <div class="section">
+    <h2>Sleep Debt Accumulation — 14 Days</h2>
+    <div class="full-chart">
+      <div style="font-size:11px;color:#8b949e;margin-bottom:8px">Cumulative hours of sleep debt (orange area). Bars = nightly sleep duration.</div>
+      <svg width="100%" viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg" style="max-width:900px">
+  <defs>
+    <linearGradient id="debtGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f39c12" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#f39c12" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="900" height="390" fill="#161b22" rx="8"/>
+  <!-- Y grid lines and labels -->
+  <line x1="45" y1="266.6" x2="855" y2="266.6" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="270.6" fill="#8b949e" font-size="11" text-anchor="end">-4</text>
+  <line x1="45" y1="243.4" x2="855" y2="243.4" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="247.4" fill="#8b949e" font-size="11" text-anchor="end">0</text>
+  <line x1="45" y1="220.1" x2="855" y2="220.1" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="224.1" fill="#8b949e" font-size="11" text-anchor="end">4</text>
+  <line x1="45" y1="196.8" x2="855" y2="196.8" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="200.8" fill="#8b949e" font-size="11" text-anchor="end">8</text>
+  <line x1="45" y1="173.5" x2="855" y2="173.5" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="177.5" fill="#8b949e" font-size="11" text-anchor="end">12</text>
+  <line x1="45" y1="150.3" x2="855" y2="150.3" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="154.3" fill="#8b949e" font-size="11" text-anchor="end">16</text>
+  <line x1="45" y1="127.0" x2="855" y2="127.0" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="131.0" fill="#8b949e" font-size="11" text-anchor="end">20</text>
+  <line x1="45" y1="103.7" x2="855" y2="103.7" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="107.7" fill="#8b949e" font-size="11" text-anchor="end">24</text>
+  <line x1="45" y1="80.4" x2="855" y2="80.4" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="84.4" fill="#8b949e" font-size="11" text-anchor="end">28</text>
+  <line x1="45" y1="57.2" x2="855" y2="57.2" stroke="#30363d" stroke-width="1"/>
+  <text x="37" y="61.2" fill="#8b949e" font-size="11" text-anchor="end">32</text>
+  <line x1="45" y1="243.4" x2="855" y2="243.4" stroke="white" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <path d="M 45.0,196.8 L 107.3,178.0 L 169.6,170.5 L 231.9,162.7 L 294.2,148.9 L 356.5,130.4 L 418.8,121.7 L 481.2,109.4 L 543.5,105.2 L 605.8,88.7 L 668.1,70.5 L 730.4,70.0 L 792.7,56.6 L 855.0,64.5 L 855.0,255 L 45.0,255 Z" fill="url(#debtGrad)"/>
+  <path d="M 45.0,196.8 L 107.3,178.0 L 169.6,170.5 L 231.9,162.7 L 294.2,148.9 L 356.5,130.4 L 418.8,121.7 L 481.2,109.4 L 543.5,105.2 L 605.8,88.7 L 668.1,70.5 L 730.4,70.0 L 792.7,56.6 L 855.0,64.5" fill="none" stroke="#f39c12" stroke-width="2.5"/>
+  <circle cx="45.0" cy="196.8" r="4" fill="#f39c12"/>
+  <circle cx="107.3" cy="178.0" r="4" fill="#f39c12"/>
+  <circle cx="169.6" cy="170.5" r="4" fill="#f39c12"/>
+  <circle cx="231.9" cy="162.7" r="4" fill="#f39c12"/>
+  <circle cx="294.2" cy="148.9" r="4" fill="#f39c12"/>
+  <circle cx="356.5" cy="130.4" r="4" fill="#f39c12"/>
+  <circle cx="418.8" cy="121.7" r="4" fill="#f39c12"/>
+  <circle cx="481.2" cy="109.4" r="4" fill="#f39c12"/>
+  <circle cx="543.5" cy="105.2" r="4" fill="#f39c12"/>
+  <circle cx="605.8" cy="88.7" r="4" fill="#f39c12"/>
+  <circle cx="668.1" cy="70.5" r="4" fill="#f39c12"/>
+  <circle cx="730.4" cy="70.0" r="4" fill="#f39c12"/>
+  <circle cx="792.7" cy="56.6" r="4" fill="#f39c12"/>
+  <circle cx="855.0" cy="64.5" r="4" fill="#f39c12"/>
+  <text x="45.0" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/16</text>
+  <text x="169.6" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/18</text>
+  <text x="294.2" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/20</text>
+  <text x="418.8" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/22</text>
+  <text x="543.5" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/24</text>
+  <text x="668.1" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/26</text>
+  <text x="792.7" y="315" fill="#8b949e" font-size="10" text-anchor="middle">2/28</text>
+  <text x="855.0" y="315" fill="#8b949e" font-size="10" text-anchor="middle">3/1</text>
+  <!-- Sleep bars -->
+  <rect x="26.3" y="350.0" width="37.4" height="0.0" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="88.6" y="328.5" width="37.4" height="21.5" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="150.9" y="319.9" width="37.4" height="30.2" fill="#f39c12" opacity="0.8" rx="2"/>
+  <rect x="213.2" y="320.0" width="37.4" height="30.0" fill="#f39c12" opacity="0.8" rx="2"/>
+  <rect x="275.5" y="324.7" width="37.4" height="25.3" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="337.8" y="328.3" width="37.4" height="21.7" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="400.2" y="320.7" width="37.4" height="29.3" fill="#f39c12" opacity="0.8" rx="2"/>
+  <rect x="462.5" y="323.6" width="37.4" height="26.4" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="524.8" y="317.2" width="37.4" height="32.8" fill="#f39c12" opacity="0.8" rx="2"/>
+  <rect x="587.1" y="326.7" width="37.4" height="23.3" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="649.4" y="328.0" width="37.4" height="22.0" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="711.7" y="314.4" width="37.4" height="35.6" fill="#f39c12" opacity="0.8" rx="2"/>
+  <rect x="774.0" y="324.4" width="37.4" height="25.7" fill="#f85149" opacity="0.8" rx="2"/>
+  <rect x="836.3" y="307.9" width="37.4" height="42.1" fill="#2ea043" opacity="0.8" rx="2"/>
+  <text x="45" y="370" fill="#8b949e" font-size="11">Sleep Duration (bars)</text>
+</svg>
+    </div>
+  </div>
+
+  <!-- Section 3+4: Scatter + Volume -->
+  <div class="section">
+    <h2>Performance Correlations</h2>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Debt vs Recovery Score &nbsp;<span style="color:#8b949e;font-weight:400;font-size:11px">(r = 0.41)</span></div>
+        <svg width="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="max-width:400px">
+  <rect width="400" height="300" fill="#161b22" rx="8"/>
+  <line x1="50" y1="256.5" x2="350" y2="256.5" stroke="#30363d" stroke-width="1"/>
+  <text x="44" y="260.5" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+  <line x1="50" y1="191.9" x2="350" y2="191.9" stroke="#30363d" stroke-width="1"/>
+  <text x="44" y="195.9" fill="#8b949e" font-size="10" text-anchor="end">20</text>
+  <line x1="50" y1="127.4" x2="350" y2="127.4" stroke="#30363d" stroke-width="1"/>
+  <text x="44" y="131.4" fill="#8b949e" font-size="10" text-anchor="end">40</text>
+  <line x1="50" y1="62.9" x2="350" y2="62.9" stroke="#30363d" stroke-width="1"/>
+  <text x="44" y="66.9" fill="#8b949e" font-size="10" text-anchor="end">60</text>
+  <line x1="50.0" y1="168.0" x2="350.0" y2="113.6" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+  <circle cx="56.0" cy="143.5" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="94.6" cy="233.9" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="110.1" cy="143.5" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="126.2" cy="133.9" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="154.5" cy="133.9" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="192.5" cy="124.2" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="210.2" cy="143.5" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="235.7" cy="130.6" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="244.3" cy="108.1" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="278.1" cy="208.1" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="315.4" cy="66.1" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="344.0" cy="130.6" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <circle cx="327.9" cy="114.5" r="4" fill="#8b949e" opacity="0.75" stroke="#161b22" stroke-width="1"/>
+  <text x="200" y="292" fill="#8b949e" font-size="11" text-anchor="middle">Cumulative Sleep Debt (hrs)</text>
+  <text x="12" y="150" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,12,150)">Recovery Score</text>
+  <text x="350" y="20" fill="#8b949e" font-size="10" text-anchor="end">r = 0.41</text>
+</svg>
+        <div style="font-size:11px;color:#8b949e;margin-top:8px">Point size = workout volume. Green = high volume, red = low.</div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Workout Volume vs Sleep Debt</div>
+        <svg width="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="max-width:400px">
+  <rect width="400" height="300" fill="#161b22" rx="8"/>
+  <rect x="43.7" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="66.7" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="89.8" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="112.9" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="136.0" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="159.0" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="182.1" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="205.2" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="228.3" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="251.3" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="274.4" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="297.5" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="320.6" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <rect x="343.7" y="250.0" width="12.7" height="0.0" fill="#0a84ff" opacity="0.7" rx="2"/>
+  <path d="M 50.0,198.6 L 73.1,179.1 L 96.2,171.2 L 119.2,163.1 L 142.3,148.8 L 165.4,129.6 L 188.5,120.7 L 211.5,107.8 L 234.6,103.4 L 257.7,86.3 L 280.8,67.5 L 303.8,66.9 L 326.9,53.0 L 350.0,61.2" fill="none" stroke="#f39c12" stroke-width="2" stroke-dasharray="4,2"/>
+  <circle cx="50.0" cy="198.6" r="3" fill="#f39c12"/>
+  <circle cx="73.1" cy="179.1" r="3" fill="#f39c12"/>
+  <circle cx="96.2" cy="171.2" r="3" fill="#f39c12"/>
+  <circle cx="119.2" cy="163.1" r="3" fill="#f39c12"/>
+  <circle cx="142.3" cy="148.8" r="3" fill="#f39c12"/>
+  <circle cx="165.4" cy="129.6" r="3" fill="#f39c12"/>
+  <circle cx="188.5" cy="120.7" r="3" fill="#f39c12"/>
+  <circle cx="211.5" cy="107.8" r="3" fill="#f39c12"/>
+  <circle cx="234.6" cy="103.4" r="3" fill="#f39c12"/>
+  <circle cx="257.7" cy="86.3" r="3" fill="#f39c12"/>
+  <circle cx="280.8" cy="67.5" r="3" fill="#f39c12"/>
+  <circle cx="303.8" cy="66.9" r="3" fill="#f39c12"/>
+  <circle cx="326.9" cy="53.0" r="3" fill="#f39c12"/>
+  <circle cx="350.0" cy="61.2" r="3" fill="#f39c12"/>
+  <text x="50.0" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/16</text>
+  <text x="96.2" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/18</text>
+  <text x="142.3" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/20</text>
+  <text x="188.5" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/22</text>
+  <text x="234.6" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/24</text>
+  <text x="280.8" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/26</text>
+  <text x="326.9" y="290" fill="#8b949e" font-size="9" text-anchor="middle">2/28</text>
+  <text x="20" y="20" fill="#0a84ff" font-size="10">■ Volume</text>
+  <text x="80" y="20" fill="#f39c12" font-size="10">-- Debt</text>
+</svg>
+        <div style="font-size:11px;color:#8b949e;margin-top:8px">Blue bars = Tonal volume (lbs). Orange line = cumulative debt.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Daily Breakdown -->
+  <div class="section">
+    <h2>Daily Breakdown</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Sleep Hours</th>
+            <th>Debt Added</th>
+            <th>Cumulative Debt</th>
+            <th>Recovery Score</th>
+            <th>Workout Volume</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="">
+      <td>Sun Mar 1</td>
+      <td>9.3h</td>
+      <td style="color:#2ea043">-1.3h</td>
+      <td style="color:#f85149">30.7h</td>
+      <td>44</td>
+      <td>—</td>
+      <td>✅ Surplus</td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Sat Feb 28</td>
+      <td>5.7h</td>
+      <td style="color:#f85149">+2.3h</td>
+      <td style="color:#f85149">32.1h</td>
+      <td>39</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="">
+      <td>Fri Feb 27</td>
+      <td>7.9h</td>
+      <td style="color:#f85149">+0.1h</td>
+      <td style="color:#f85149">29.8h</td>
+      <td>—</td>
+      <td>—</td>
+      <td></td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Thu Feb 26</td>
+      <td>4.9h</td>
+      <td style="color:#f85149">+3.1h</td>
+      <td style="color:#f85149">29.7h</td>
+      <td>59</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Wed Feb 25</td>
+      <td>5.2h</td>
+      <td style="color:#f85149">+2.8h</td>
+      <td style="color:#f85149">26.6h</td>
+      <td>15</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="">
+      <td>Tue Feb 24</td>
+      <td>7.3h</td>
+      <td style="color:#f85149">+0.7h</td>
+      <td style="color:#f85149">23.8h</td>
+      <td>46</td>
+      <td>—</td>
+      <td></td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Mon Feb 23</td>
+      <td>5.9h</td>
+      <td style="color:#f85149">+2.1h</td>
+      <td style="color:#f85149">23.0h</td>
+      <td>39</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="">
+      <td>Sun Feb 22</td>
+      <td>6.5h</td>
+      <td style="color:#f85149">+1.5h</td>
+      <td style="color:#f85149">20.9h</td>
+      <td>35</td>
+      <td>—</td>
+      <td></td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Sat Feb 21</td>
+      <td>4.8h</td>
+      <td style="color:#f85149">+3.2h</td>
+      <td style="color:#f85149">19.4h</td>
+      <td>41</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Fri Feb 20</td>
+      <td>5.6h</td>
+      <td style="color:#f85149">+2.4h</td>
+      <td style="color:#f85149">16.2h</td>
+      <td>38</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="">
+      <td>Thu Feb 19</td>
+      <td>6.7h</td>
+      <td style="color:#f85149">+1.3h</td>
+      <td style="color:#f85149">13.9h</td>
+      <td>38</td>
+      <td>—</td>
+      <td></td>
+    </tr><tr style="">
+      <td>Wed Feb 18</td>
+      <td>6.7h</td>
+      <td style="color:#f85149">+1.3h</td>
+      <td style="color:#f85149">12.5h</td>
+      <td>35</td>
+      <td>—</td>
+      <td></td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Tue Feb 17</td>
+      <td>4.8h</td>
+      <td style="color:#f85149">+3.2h</td>
+      <td style="color:#f85149">11.2h</td>
+      <td>7</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr><tr style="background:rgba(248,81,73,0.12);">
+      <td>Mon Feb 16</td>
+      <td>—</td>
+      <td style="color:#f85149">+8.0h</td>
+      <td style="color:#f39c12">8.0h</td>
+      <td>35</td>
+      <td>—</td>
+      <td>⚠️ High debt</td>
+    </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 6: Recommendation -->
+  <div class="section">
+    <h2>Recommendation</h2>
+    <div class="rec-box">
+      🚨 <strong>Critical Sleep Debt</strong> — Prioritize sleep above all else. Consider active recovery only. Avoid high-intensity training until debt drops below 5 hours.
+      <div style="margin-top:12px;font-size:12px;color:#6e7681">
+        Based on 14-day accumulated sleep debt of <strong style="color:#f85149">30.7 hours</strong> 
+        (baseline: 8h/night). Estimated performance tax: <strong>40.0%</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

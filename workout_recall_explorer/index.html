@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workout Recall Explorer</title>
+<style>
+body {background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;margin:0;padding:0;}
+nav {background:#161b22;padding:1rem;display:flex;gap:1rem;flex-wrap:wrap;border-bottom:1px solid #30363d;}
+nav a {color:#f39c12;text-decoration:none;font-weight:bold;}
+nav a:hover {text-decoration:underline;}
+.container {padding:2rem;max-width:1400px;margin:auto;}
+h1 {color:#f39c12;margin-bottom:0.5rem;}
+h2 {color:#e6edf3;margin-top:2rem;}
+.subtitle {color:#8b949e;margin-bottom:2rem;}
+.card {background:#161b22;padding:1.5rem;margin:1rem 0;border-radius:8px;border:1px solid #30363d;}
+.grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;}
+.stats-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0;}
+.stat {background:#161b22;padding:1rem;border-radius:8px;text-align:center;border:1px solid #30363d;}
+.stat-value {font-size:2rem;font-weight:bold;color:#f39c12;}
+.stat-label {color:#8b949e;font-size:0.9rem;}
+.search-bar {display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0;align-items:center;}
+input,select {background:#0d1117;color:#e6edf3;border:1px solid #30363d;padding:0.5rem;border-radius:4px;font-size:1rem;}
+input::placeholder {color:#6e7681;}
+input:focus,select:focus {outline:none;border-color:#f39c12;}
+.workout-card {cursor:pointer;transition:background 0.2s;}
+.workout-card:hover {background:#1f2937;}
+.workout-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;}
+.workout-date {font-size:1.1rem;font-weight:bold;color:#e6edf3;}
+.workout-day {color:#8b949e;font-size:0.9rem;}
+.badge {background:#f39c12;color:#0d1117;padding:0.2rem 0.5rem;border-radius:4px;font-size:0.8rem;font-weight:bold;}
+.badge-pr {background:#2ea043;color:#fff;padding:0.2rem 0.5rem;border-radius:4px;font-size:0.8rem;font-weight:bold;}
+.exercise-list {margin-top:0.5rem;padding-left:1rem;}
+.exercise-item {color:#8b949e;font-size:0.9rem;}
+.exercise-details {display:none;margin-top:0.5rem;padding:0.5rem;background:#0d1117;border-radius:4px;}
+.exercise-details.show {display:block;}
+.exercise-row {display:flex;justify-content:space-between;padding:0.2rem 0;color:#c9d1d9;font-size:0.85rem;}
+.exercise-row.header {color:#8b949e;font-weight:bold;border-bottom:1px solid #30363d;}
+.pr-badge {color:#2ea043;font-weight:bold;}
+table {width:100%;border-collapse:collapse;margin:1rem 0;}
+th,td {padding:0.75rem;text-align:left;border-bottom:1px solid #30363d;}
+th {color:#8d949e;font-weight:bold;}
+td {color:#e6edf3;}
+tr:hover {background:#1f2937;}
+.chart-container {margin:1rem 0;padding:1rem;background:#161b22;border-radius:8px;}
+.back-link {color:#f39c12;text-decoration:none;display:inline-block;margin-bottom:1rem;}
+.back-link:hover {text-decoration:underline;}
+.pr-panel {display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:1rem 0;}
+.pr-item {background:#0d1117;padding:1rem;border-radius:8px;text-align:center;}
+.pr-item .value {font-size:1.5rem;font-weight:bold;color:#f39c12;}
+.pr-item .label {color:#8d949e;font-size:0.85rem;}
+footer {text-align:center;padding:2rem;color:#6e7681;border-top:1px solid #30363d;margin-top:2rem;}
+.hidden {display:none !important;}
+@media (max-width:768px) {
+  .search-bar {flex-direction:column;align-items:stretch;}
+  .stats-grid {grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="../calendars/index.html">Calendars</a>
+<a href="../strength/index.html">Strength</a>
+<a href="../cardio/index.html">Cardio</a>
+<a href="../recovery/index.html">Recovery</a>
+<a href="../nutrition/index.html">Nutrition</a>
+</nav>
+
+<div class="container">
+<h1>🏋️ Workout Recall Explorer</h1>
+<p class="subtitle">Browse your complete Tonal workout history with exercise-level details</p>
+
+<div class="stats-grid">
+<div class="stat">
+<div class="stat-value">1002</div>
+<div class="stat-label">Total Workouts</div>
+</div>
+<div class="stat">
+<div class="stat-value">205</div>
+<div class="stat-label">Unique Exercises</div>
+</div>
+<div class="stat">
+<div class="stat-value">8,844,120</div>
+<div class="stat-label">Total Volume (lbs)</div>
+</div>
+</div>
+
+<div class="search-bar">
+<input type="text" id="searchInput" placeholder="Search exercises..." style="flex:1;min-width:200px;">
+<select id="muscleGroupFilter">
+<option value="">All Muscle Groups</option>
+<option value="Chest">Chest</option><option value="Back">Back</option><option value="Legs">Legs</option><option value="Shoulders">Shoulders</option><option value="Arms">Arms</option><option value="Core">Core</option><option value="Other">Other</option>
+</select>
+<input type="date" id="dateFrom" placeholder="From">
+<input type="date" id="dateTo" placeholder="To">
+</div>
+
+<div class="grid" id="workoutGrid">
+<div class="card workout-card" data-date="2025-04-01" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Apr 01, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">24,091 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-04-01" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Apr 01, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">21 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">13,288 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-29" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 29, 2025 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">4 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">4,457 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-27" data-exercises="Seated Lat Pulldown" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 27, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Seated Lat Pulldown</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">2 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">2,722 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-27" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 27, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">25,786 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-25" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 25, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">22,109 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-24" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 24, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">16 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">8,100 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-23" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 23, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">25,381 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-22" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 22, 2025 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">14 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">9,901 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-20" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 20, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">22,161 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-18" data-exercises="Barbell Squat to Press,Barbell Biceps Curl,Standing Overhead Press,Seated Biceps Curl,Front Raise,Seated Alternating Biceps Curl,Lateral Raise,Upright Row" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 18, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Squat to Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Standing Overhead Press</div><div class="exercise-item">• Seated Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 3 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">27 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">13,736 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-13" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 13, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">12,530 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-13" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 13, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">25,477 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-10" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 10, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">16 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">7,994 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-09" data-exercises="Barbell Skull Crusher,Barbell Bench Press,Barbell Pullover,Standing Incline Press,Resisted Calf Raise,Bench Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Decline Chest Fly,X-Pulldown w/ Triceps Extension" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 09, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Skull Crusher</div><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Standing Incline Press</div><div class="exercise-item">• Resisted Calf Raise</div><div class="exercise-item">...and 5 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">33 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">33,154 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-07" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 07, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">21,842 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-06" data-exercises="Barbell Straight Arm Pulldown,Reverse Grip Barbell Triceps Extension,Barbell Chinup,Barbell Pullover,Barbell Hip Thrust,Barbell Bench Press,Barbell Front Raise,Reverse Grip Barbell Biceps Curl,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Close Grip Barbell Bench Press,Barbell Skull Crusher,Barbell Lying Glute Bridge,Barbell Bent Over Row,Standing Barbell Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 06, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Straight Arm Pulldown</div><div class="exercise-item">• Reverse Grip Barbell Triceps Extension</div><div class="exercise-item">• Barbell Chinup</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Barbell Hip Thrust</div><div class="exercise-item">...and 10 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">30 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">26,708 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-06" data-exercises="Barbell Front Squat,Barbell Lying Glute Bridge" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 06, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Front Squat</div><div class="exercise-item">• Barbell Lying Glute Bridge</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">6 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">6,136 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-05" data-exercises="Overhead Triceps Extension,Rotational Chop,Standing Face Pull,Seated Cable Crunch,Y-Pull,Pull Through,Rotational Lift,Bench Press,Bench Chest Fly,Seated Biceps Curl,Lateral Raise" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 05, 2025 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Overhead Triceps Extension</div><div class="exercise-item">• Rotational Chop</div><div class="exercise-item">• Standing Face Pull</div><div class="exercise-item">• Seated Cable Crunch</div><div class="exercise-item">• Y-Pull</div><div class="exercise-item">...and 6 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">24 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">14,988 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-04" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Reverse Grip Triceps Extension,Standing Pallof Press,Single Arm Rotational Punch,Standing Chest Press,Alternating Bench Press,Seated Alternating Overhead Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 04, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Single Arm Pullover w/ Single Leg Hip Thrust</div><div class="exercise-item">...and 10 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">26,793 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-03-03" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Mar 03, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">27,784 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-26" data-exercises="Barbell Front Squat,Barbell Hip Thrust,Barbell Deadlift,Alternating Bench Press,Resisted Calf Raise,Seated Alternating Biceps Curl,Barbell Straight Arm Pulldown,Overhead Triceps Extension,Seated Cable Crunch,Barbell Seated Lat Pulldown" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 26, 2025 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Front Squat</div><div class="exercise-item">• Barbell Hip Thrust</div><div class="exercise-item">• Barbell Deadlift</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Resisted Calf Raise</div><div class="exercise-item">...and 5 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">23 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">26,091 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-25" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 25, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">24,933 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-24" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 24, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,101 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-23" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 23, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">17,932 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-21" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 21, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">21,466 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-20" data-exercises="Overhead Triceps Extension,Rotational Chop,Standing Face Pull,Seated Cable Crunch,Y-Pull,Pull Through,Rotational Lift,Bench Press,Bench Chest Fly,Seated Biceps Curl,Lateral Raise" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 20, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Overhead Triceps Extension</div><div class="exercise-item">• Rotational Chop</div><div class="exercise-item">• Standing Face Pull</div><div class="exercise-item">• Seated Cable Crunch</div><div class="exercise-item">• Y-Pull</div><div class="exercise-item">...and 6 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">20 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">9,665 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-19" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 19, 2025 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">20,907 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-18" data-exercises="Standing Barbell Overhead Press,Barbell Biceps Curl,Barbell Sumo Deadlift,Reverse Grip Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 18, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Standing Barbell Overhead Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Barbell Sumo Deadlift</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">13,535 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-16" data-exercises="Barbell Lying Glute Bridge,Barbell Bent Over Row" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 16, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Lying Glute Bridge</div><div class="exercise-item">• Barbell Bent Over Row</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">7,076 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-16" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 16, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">12,060 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-16" data-exercises="Barbell Deadlift,Standing Barbell Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 16, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Deadlift</div><div class="exercise-item">• Standing Barbell Overhead Press</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">4 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">4,866 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-16" data-exercises="Barbell Biceps Curl,Barbell Front Squat" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 16, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Barbell Front Squat</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">7 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">4,715 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-14" data-exercises="Barbell Sumo Deadlift,Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 14, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Sumo Deadlift</div><div class="exercise-item">• Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">6 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">8,353 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-13" data-exercises="Seated Biceps Curl,Alternating Bench Press,Barbell Pullover,Standing Incline Press,Resisted Calf Raise,Bench Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 13, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Seated Biceps Curl</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Standing Incline Press</div><div class="exercise-item">• Resisted Calf Raise</div><div class="exercise-item">...and 3 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">27 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">24,329 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-12" data-exercises="Barbell Straight Arm Pulldown,Reverse Grip Barbell Triceps Extension,Barbell Chinup,Barbell Pullover,Barbell Hip Thrust,Barbell Bench Press,Barbell Front Raise,Reverse Grip Barbell Biceps Curl,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Close Grip Barbell Bench Press,Barbell Skull Crusher,Barbell Lying Glute Bridge,Barbell Bent Over Row,Standing Barbell Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 12, 2025 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Straight Arm Pulldown</div><div class="exercise-item">• Reverse Grip Barbell Triceps Extension</div><div class="exercise-item">• Barbell Chinup</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Barbell Hip Thrust</div><div class="exercise-item">...and 10 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">30 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,914 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-11" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Reverse Grip Triceps Extension,Standing Pallof Press,Single Arm Rotational Punch,Standing Chest Press,Alternating Bench Press,Seated Alternating Overhead Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 11, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Single Arm Pullover w/ Single Leg Hip Thrust</div><div class="exercise-item">...and 10 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">26,446 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-10" data-exercises="Overhead Triceps Extension,Rotational Chop,Standing Face Pull,Seated Cable Crunch,Y-Pull,Pull Through,Rotational Lift,Bench Press,Bench Chest Fly,Seated Biceps Curl,Lateral Raise" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 10, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Overhead Triceps Extension</div><div class="exercise-item">• Rotational Chop</div><div class="exercise-item">• Standing Face Pull</div><div class="exercise-item">• Seated Cable Crunch</div><div class="exercise-item">• Y-Pull</div><div class="exercise-item">...and 6 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">6,520 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-09" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 09, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">21,459 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-08" data-exercises="Barbell Biceps Curl,Barbell Front Squat" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 08, 2025 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Barbell Front Squat</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">7 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,285 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-07" data-exercises="Barbell Front Squat,Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 07, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Front Squat</div><div class="exercise-item">• Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">6 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">4,759 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-07" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 07, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,966 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-06" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 06, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">28,068 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-04" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 04, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">10,600 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-04" data-exercises="Barbell Front Squat,Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 04, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Front Squat</div><div class="exercise-item">• Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">6,225 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-03" data-exercises="Barbell Straight Arm Pulldown,Reverse Grip Barbell Triceps Extension,Barbell Chinup,Barbell Biceps Curl,Reverse Grip Barbell Biceps Curl,Barbell Bench Press,Wide Grip Barbell Bench Press,Close Grip Barbell Bench Press,Barbell Skull Crusher,Barbell Bent Over Row,Barbell Front Raise,Standing Barbell Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 03, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Straight Arm Pulldown</div><div class="exercise-item">• Reverse Grip Barbell Triceps Extension</div><div class="exercise-item">• Barbell Chinup</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">...and 7 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">25 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">22,917 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-02" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 02, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">41 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">18,824 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-02-01" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Feb 01, 2025 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">24,754 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-31" data-exercises="Overhead Triceps Extension,Rotational Chop,Standing Face Pull,Seated Cable Crunch,Y-Pull,Pull Through,Rotational Lift,Bench Press,Bench Chest Fly,Seated Biceps Curl,Lateral Raise" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 31, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Overhead Triceps Extension</div><div class="exercise-item">• Rotational Chop</div><div class="exercise-item">• Standing Face Pull</div><div class="exercise-item">• Seated Cable Crunch</div><div class="exercise-item">• Y-Pull</div><div class="exercise-item">...and 6 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">9 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,099 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-28" data-exercises="Barbell Front Squat,Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 28, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Front Squat</div><div class="exercise-item">• Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">4 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">2,809 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-28" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Reverse Grip Triceps Extension,Standing Pallof Press,Single Arm Rotational Punch,Standing Chest Press,Alternating Bench Press,Seated Alternating Overhead Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 28, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Single Arm Pullover w/ Single Leg Hip Thrust</div><div class="exercise-item">...and 10 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">24,810 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-27" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 27, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">19,831 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-26" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 26, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">6 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">4,315 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-24" data-exercises="X-Pulldown,Straight Arm Pulldown" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 24, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• X-Pulldown</div><div class="exercise-item">• Straight Arm Pulldown</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,237 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-23" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 23, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">27,543 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-21" data-exercises="Barbell Front Squat,Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 21, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Front Squat</div><div class="exercise-item">• Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,476 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-21" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 21, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">11,418 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-19" data-exercises="Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm Pulldown" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 19, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Chinup</div><div class="exercise-item">• Reverse Grip Barbell Triceps Extension</div><div class="exercise-item">• Barbell Seated Lat Pulldown</div><div class="exercise-item">• Barbell Straight Arm Pulldown</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">10 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">8,048 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-17" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 17, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">24 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">11,715 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-14" data-exercises="Single Arm Incline Chest Fly,Single Arm Bench Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 14, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Single Arm Incline Chest Fly</div><div class="exercise-item">• Single Arm Bench Press</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">2,976 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-14" data-exercises="Tall Kneeling Single Arm Lat Pulldown,Single Arm Decline Chest Fly,Seated Single Arm Lat Pulldown" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 14, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Tall Kneeling Single Arm Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">18 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">8,280 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-11" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 11, 2025 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">40 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">25,481 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-10" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Neutral Lat Pulldown,Seated Single Arm Lat Pulldown,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,X-Pulldown,Reverse Fly,Tall Kneeling Single Arm Chest Press,Standing Chest Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 10, 2025 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">19,711 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-08" data-exercises="Alternating Bench Press,Seated Alternating Row,Bench Press,Seated Row" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 08, 2025 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Row</div><div class="exercise-item">• Bench Press</div><div class="exercise-item">• Seated Row</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">10 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">12,767 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-07" data-exercises="Overhead Triceps Extension,Rotational Chop,Standing Face Pull,Seated Cable Crunch,Y-Pull,Pull Through,Rotational Lift,Bench Press,Bench Chest Fly,Seated Biceps Curl,Lateral Raise" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 07, 2025 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Overhead Triceps Extension</div><div class="exercise-item">• Rotational Chop</div><div class="exercise-item">• Standing Face Pull</div><div class="exercise-item">• Seated Cable Crunch</div><div class="exercise-item">• Y-Pull</div><div class="exercise-item">...and 6 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">24 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">14,010 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-06" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 06, 2025 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,044 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-05" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 05, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">11,503 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-05" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 05, 2025 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">24,249 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2025-01-02" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Jan 02, 2025 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">18,406 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-30" data-exercises="Seated Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 30, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Seated Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">3 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">2,038 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-30" data-exercises="Seated Biceps Curl,Skull Crusher,Bench Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 30, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Seated Biceps Curl</div><div class="exercise-item">• Skull Crusher</div><div class="exercise-item">• Bench Chest Fly</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">3 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">1,508 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-29" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 29, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">22,744 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-26" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 26, 2024 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,601 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-23" data-exercises="Reverse Grip Barbell Biceps Curl,Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 23, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">10 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,768 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-22" data-exercises="Standing Barbell Overhead Press,Barbell Biceps Curl,Barbell Sumo Deadlift,Reverse Grip Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 22, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Standing Barbell Overhead Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Barbell Sumo Deadlift</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">8,372 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-22" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 22, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">11,216 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-18" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 18, 2024 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">34 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">13,215 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-17" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 17, 2024 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">10,784 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-15" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 15, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,504 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-14" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 14, 2024 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">7 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,957 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-03" data-exercises="Standing Barbell Overhead Press,Barbell Biceps Curl,Barbell Sumo Deadlift,Reverse Grip Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 03, 2024 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Standing Barbell Overhead Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Barbell Sumo Deadlift</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">8 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">5,779 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-02" data-exercises="Standing Barbell Overhead Press,Barbell Biceps Curl,Barbell Sumo Deadlift,Reverse Grip Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 02, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Standing Barbell Overhead Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Barbell Sumo Deadlift</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">9,380 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-01" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 01, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">15,824 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-12-01" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Dec 01, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">10,406 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-30" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 30, 2024 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">1 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">1,142 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-28" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 28, 2024 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">22,268 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-26" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 26, 2024 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,424 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-25" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 25, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">11,693 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-24" data-exercises="Barbell Biceps Curl,Standing Barbell Overhead Press,Reverse Grip Barbell Biceps Curl" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 24, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Standing Barbell Overhead Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">9 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">4,905 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-23" data-exercises="Barbell Bench Press,Barbell Biceps Curl,Wide Grip Barbell Bench Press,Reverse Grip Barbell Biceps Curl,Close Grip Barbell Bench Press,Barbell Skull Crusher" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 23, 2024 <span class="workout-day">(Saturday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Biceps Curl</div><div class="exercise-item">• Wide Grip Barbell Bench Press</div><div class="exercise-item">• Reverse Grip Barbell Biceps Curl</div><div class="exercise-item">• Close Grip Barbell Bench Press</div><div class="exercise-item">...and 1 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">12 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">10,185 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-22" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 22, 2024 <span class="workout-day">(Friday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">16,528 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-21" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 21, 2024 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,369 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-20" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 20, 2024 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">20,323 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-19" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 19, 2024 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">14,476 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-18" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 18, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">21 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">12,482 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-14" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 14, 2024 <span class="workout-day">(Thursday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">22,280 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-13" data-exercises="Neutral Lat Pulldown,Half Kneeling Chop,Reverse Grip Triceps Extension,Standing Decline Chest Press,Seated Single Arm Lat Pulldown,Single Arm Pullover w/ Single Leg Hip Thrust,Half Kneeling Single Arm Row,Single Arm Rotational Punch,Standing Chest Press,Seated Pallof Press,Alternating Bench Press,Bench Chest Fly,Front Raise,Resisted Calf Raise,Lying Biceps Curl,Seated Alternating Overhead Press" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 13, 2024 <span class="workout-day">(Wednesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Neutral Lat Pulldown</div><div class="exercise-item">• Half Kneeling Chop</div><div class="exercise-item">• Reverse Grip Triceps Extension</div><div class="exercise-item">• Standing Decline Chest Press</div><div class="exercise-item">• Seated Single Arm Lat Pulldown</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">44 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">19,624 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-12" data-exercises="Alternating Neutral Lat Pulldown,Decline Chest Fly,Lying Face Curl,Seated Lat Pulldown,Single Arm Decline Chest Fly,Tall Kneeling Single Arm Lat Pulldown,X-Pulldown w/ Triceps Extension,Standing Chop,Reverse Fly,Tall Kneeling Single Arm Chest Press,Bench Press,Seated Overhead Press,Bird Dog w/ Row,Seated Biceps Curl,Biceps Curl,Incline Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 12, 2024 <span class="workout-day">(Tuesday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Alternating Neutral Lat Pulldown</div><div class="exercise-item">• Decline Chest Fly</div><div class="exercise-item">• Lying Face Curl</div><div class="exercise-item">• Seated Lat Pulldown</div><div class="exercise-item">• Single Arm Decline Chest Fly</div><div class="exercise-item">...and 11 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">42 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">23,116 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-11" data-exercises="Barbell Bench Press,Barbell Pullover,Alternating Bench Press,Seated Alternating Biceps Curl,Front Raise,Farmer March,Biceps Curl,Lateral Raise,Goblet Squat,Incline Chest Fly,Barbell Chinup,Reverse Grip Barbell Triceps Extension,Barbell Seated Lat Pulldown,Barbell Straight Arm March" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 11, 2024 <span class="workout-day">(Monday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Barbell Bench Press</div><div class="exercise-item">• Barbell Pullover</div><div class="exercise-item">• Alternating Bench Press</div><div class="exercise-item">• Seated Alternating Biceps Curl</div><div class="exercise-item">• Front Raise</div><div class="exercise-item">...and 9 more</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">28 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">15,897 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="card workout-card" data-date="2024-11-10" data-exercises="Bench Press,Seated Biceps Curl,Skull Crusher,Bench Chest Fly" onclick="this.classList.toggle('expanded')">
+<div class="workout-header">
+<div>
+<div class="workout-date">Nov 10, 2024 <span class="workout-day">(Sunday)</span></div>
+<div style="margin-top:0.25rem;"><div class="exercise-item">• Bench Press</div><div class="exercise-item">• Seated Biceps Curl</div><div class="exercise-item">• Skull Crusher</div><div class="exercise-item">• Bench Chest Fly</div></div>
+</div>
+<div style="text-align:right;">
+<span class="badge">16 sets</span>
+<span class="badge" style="background:#8b949e;color:#0d1117;">11,516 lbs</span>
+<span class="badge-pr">PR</span>
+</div>
+</div>
+<div class="exercise-details">
+<div class="exercise-row header">
+<span>Exercise</span>
+<span>Sets</span>
+<span>Reps</span>
+<span>Weight</span>
+<span>Volume</span>
+</div>
+<div class="exercise-row">
+<span>Bench Press</span>
+<span>4</span>
+<span>36</span>
+<span>71 lbs</span>
+<span>4,608</span>
+</div><div class="exercise-row">
+<span>Seated Biceps Curl</span>
+<span>4</span>
+<span>37</span>
+<span>40 lbs</span>
+<span>2,634</span>
+</div><div class="exercise-row">
+<span>Skull Crusher</span>
+<span>4</span>
+<span>37</span>
+<span>32 lbs</span>
+<span>2,096</span>
+</div><div class="exercise-row">
+<span>Bench Chest Fly</span>
+<span>4</span>
+<span>36</span>
+<span>36 lbs</span>
+<span>2,178</span>
+</div></div></div>
+</div>
+
+<div style="text-align:center;margin:2rem 0;">
+<button onclick="loadMore()" style="background:#f39c12;color:#0d1117;border:none;padding:0.75rem 2rem;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:bold;">Load More</button>
+</div>
+
+<footer>
+<p>Data from Tonal workouts • Volume in pounds</p>
+</footer>
+</div>
+
+<script>
+let allWorkouts = document.querySelectorAll('.workout-card');
+let visibleCount = 100;
+
+function filterWorkouts() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const muscleGroup = document.getElementById('muscleGroupFilter').value;
+    const dateFrom = document.getElementById('dateFrom').value;
+    const dateTo = document.getElementById('dateTo').value;
+    
+    allWorkouts.forEach(card => {
+        const date = card.dataset.date;
+        const exercises = card.dataset.exercises.toLowerCase();
+        
+        let show = true;
+        if (search && !exercises.includes(search)) show = false;
+        if (dateFrom && date < dateFrom) show = false;
+        if (dateTo && date > dateTo) show = false;
+        
+        card.classList.toggle('hidden', !show);
+    });
+}
+
+document.getElementById('searchInput').addEventListener('input', debounce(filterWorkouts, 200));
+document.getElementById('muscleGroupFilter').addEventListener('change', filterWorkouts);
+document.getElementById('dateFrom').addEventListener('change', filterWorkouts);
+document.getElementById('dateTo').addEventListener('change', filterWorkouts);
+
+function debounce(fn, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
+function loadMore() {
+    const hidden = document.querySelectorAll('.workout-card.hidden');
+    let shown = 0;
+    hidden.forEach(card => {
+        if (shown < 50) {
+            card.classList.remove('hidden');
+            shown++;
+        }
+    });
+}
+</script>
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

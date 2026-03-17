@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hypertrophy Volume Tracker</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  nav a:hover, nav a.active { color: #f39c12; }
+  nav .brand { color: #f39c12; font-weight: 700; font-size: 16px; margin-right: 12px; }
+  .container { max-width: 980px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 1.8em; font-weight: 700; color: #f39c12; margin-bottom: 4px; }
+  .subtitle { color: #8b949e; font-size: 0.95em; margin-bottom: 28px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+  .card-label { color: #8b949e; font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .card-value { font-size: 1.8em; font-weight: 700; color: #f39c12; }
+  .card-sub { color: #8b949e; font-size: 0.82em; margin-top: 4px; }
+  section { margin-bottom: 36px; }
+  h2 { font-size: 1.2em; font-weight: 600; color: #e6edf3; margin-bottom: 14px; border-left: 3px solid #f39c12; padding-left: 10px; }
+  .svg-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.93em; }
+  th { background: #21262d; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.78em; padding: 10px 14px; text-align: left; }
+  tr { border-bottom: 1px solid #21262d; }
+  .recs { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+  .recs li { margin-bottom: 10px; line-height: 1.5; list-style: none; padding-left: 0; }
+  .zone-legend { display: flex; gap: 20px; margin-bottom: 12px; font-size: 0.85em; }
+  .zone-legend span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">🏋️ Fitness</span>
+  <a href="/fitness/index.html">Hub</a>
+  <a href="/fitness/calendars/">Calendars</a>
+  <a href="/fitness/strength/">Strength</a>
+  <a href="/fitness/cardio/">Cardio</a>
+  <a href="/fitness/recovery/">Recovery</a>
+  <a href="/fitness/nutrition/">Nutrition</a>
+  <a href="/fitness/training_load/">Training Load</a>
+  <a href="/fitness/training_hypertrophy/" class="active">Hypertrophy</a>
+</nav>
+
+<div class="container">
+  <h1>Hypertrophy Volume Tracker</h1>
+  <p class="subtitle">📅 Dec 07, 2025 → Mar 01, 2026 &nbsp;|&nbsp; Last 12 weeks &nbsp;|&nbsp; Based on Tonal workout data</p>
+
+  <!-- Section 1: Summary Cards -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Total Volume (This Week)</div>
+      <div class="card-value">0</div>
+      <div class="card-sub">lbs lifted</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Muscles in Optimal Zone</div>
+      <div class="card-value">0 / 10</div>
+      <div class="card-sub">10–20 sets/week</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Most Trained</div>
+      <div class="card-value" style="font-size:1.3em">Chest</div>
+      <div class="card-sub">0 lbs this week</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Underworked Muscles</div>
+      <div class="card-value" style="font-size:1em;color:#f85149">10</div>
+      <div class="card-sub" style="color:#f85149">Chest, Back, Shoulders, Biceps, Triceps, Quads, Hamstrings, Glutes, Calves, Core</div>
+    </div>
+  </div>
+
+  <!-- Section 2: Weekly Volume Trend -->
+  <section>
+    <h2>Weekly Volume Trend (Last 12 Weeks)</h2>
+    <div class="svg-wrap">
+      <svg width="900" height="350" style="background:#0d1117;border-radius:8px;display:block;">
+  <!-- Axes -->
+  <line x1="70" y1="20" x2="70" y2="290" stroke="#444"/>
+  <line x1="70" y1="290" x2="740" y2="290" stroke="#444"/>
+  <!-- Y ticks -->
+  <line x1="65" y1="290.0" x2="70" y2="290.0" stroke="#444"/><text x="62" y="294.0" text-anchor="end" fill="#aaa" font-size="11">0k</text><line x1="70" y1="290.0" x2="740" y2="290.0" stroke="#21262d" stroke-dasharray="4,3"/><line x1="65" y1="222.5" x2="70" y2="222.5" stroke="#444"/><text x="62" y="226.5" text-anchor="end" fill="#aaa" font-size="11">0k</text><line x1="70" y1="222.5" x2="740" y2="222.5" stroke="#21262d" stroke-dasharray="4,3"/><line x1="65" y1="155.0" x2="70" y2="155.0" stroke="#444"/><text x="62" y="159.0" text-anchor="end" fill="#aaa" font-size="11">0k</text><line x1="70" y1="155.0" x2="740" y2="155.0" stroke="#21262d" stroke-dasharray="4,3"/><line x1="65" y1="87.5" x2="70" y2="87.5" stroke="#444"/><text x="62" y="91.5" text-anchor="end" fill="#aaa" font-size="11">1k</text><line x1="70" y1="87.5" x2="740" y2="87.5" stroke="#21262d" stroke-dasharray="4,3"/><line x1="65" y1="20.0" x2="70" y2="20.0" stroke="#444"/><text x="62" y="24.0" text-anchor="end" fill="#aaa" font-size="11">1k</text><line x1="70" y1="20.0" x2="740" y2="20.0" stroke="#21262d" stroke-dasharray="4,3"/>
+  <!-- Bars -->
+  
+  <!-- X labels -->
+  
+  <!-- Y axis label -->
+  <text x="16" y="155" text-anchor="middle" fill="#aaa" font-size="12" transform="rotate(-90,16,155)">Volume (lbs)</text>
+  <!-- Legend -->
+  <rect x="750" y="20" width="12" height="12" fill="#e74c3c" rx="2"/><text x="766" y="30" fill="#ccc" font-size="11">Chest</text><rect x="750" y="42" width="12" height="12" fill="#3498db" rx="2"/><text x="766" y="52" fill="#ccc" font-size="11">Back</text><rect x="750" y="64" width="12" height="12" fill="#9b59b6" rx="2"/><text x="766" y="74" fill="#ccc" font-size="11">Shoulders</text><rect x="750" y="86" width="12" height="12" fill="#1abc9c" rx="2"/><text x="766" y="96" fill="#ccc" font-size="11">Biceps</text><rect x="750" y="108" width="12" height="12" fill="#16a085" rx="2"/><text x="766" y="118" fill="#ccc" font-size="11">Triceps</text><rect x="750" y="130" width="12" height="12" fill="#f39c12" rx="2"/><text x="766" y="140" fill="#ccc" font-size="11">Quads</text><rect x="750" y="152" width="12" height="12" fill="#e67e22" rx="2"/><text x="766" y="162" fill="#ccc" font-size="11">Hamstrings</text><rect x="750" y="174" width="12" height="12" fill="#d35400" rx="2"/><text x="766" y="184" fill="#ccc" font-size="11">Glutes</text><rect x="750" y="196" width="12" height="12" fill="#27ae60" rx="2"/><text x="766" y="206" fill="#ccc" font-size="11">Calves</text><rect x="750" y="218" width="12" height="12" fill="#2980b9" rx="2"/><text x="766" y="228" fill="#ccc" font-size="11">Core</text>
+</svg>
+    </div>
+    <p style="color:#8b949e;font-size:0.8em;margin-top:8px">Current week highlighted in gold. Volume distributed across muscle groups inferred from workout titles.</p>
+  </section>
+
+  <!-- Section 3: Muscle Group Breakdown -->
+  <section>
+    <h2>Muscle Group Breakdown — Current Week</h2>
+    <div class="zone-legend">
+      <span><span class="dot" style="background:#f85149"></span> Low (&lt;10 sets)</span>
+      <span><span class="dot" style="background:#2ea043"></span> Optimal (10–20 sets)</span>
+      <span><span class="dot" style="background:#f39c12"></span> High (&gt;20 sets)</span>
+    </div>
+    <div class="svg-wrap">
+      <svg width="900" height="420" style="background:#0d1117;border-radius:8px;display:block;">
+  <line x1="110" y1="15" x2="110" y2="400" stroke="#444"/>
+  <text x="104" y="36" text-anchor="end" fill="#ccc" font-size="12">Chest</text><rect x="110" y="15" width="0.0" height="34" fill="#e74c3c" opacity="0.8" rx="3"/><text x="116.0" y="36" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="74" text-anchor="end" fill="#ccc" font-size="12">Back</text><rect x="110" y="53" width="0.0" height="34" fill="#3498db" opacity="0.8" rx="3"/><text x="116.0" y="74" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="112" text-anchor="end" fill="#ccc" font-size="12">Shoulders</text><rect x="110" y="91" width="0.0" height="34" fill="#9b59b6" opacity="0.8" rx="3"/><text x="116.0" y="112" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="150" text-anchor="end" fill="#ccc" font-size="12">Biceps</text><rect x="110" y="129" width="0.0" height="34" fill="#1abc9c" opacity="0.8" rx="3"/><text x="116.0" y="150" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="188" text-anchor="end" fill="#ccc" font-size="12">Triceps</text><rect x="110" y="167" width="0.0" height="34" fill="#16a085" opacity="0.8" rx="3"/><text x="116.0" y="188" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="226" text-anchor="end" fill="#ccc" font-size="12">Quads</text><rect x="110" y="205" width="0.0" height="34" fill="#f39c12" opacity="0.8" rx="3"/><text x="116.0" y="226" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="264" text-anchor="end" fill="#ccc" font-size="12">Hamstrings</text><rect x="110" y="243" width="0.0" height="34" fill="#e67e22" opacity="0.8" rx="3"/><text x="116.0" y="264" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="302" text-anchor="end" fill="#ccc" font-size="12">Glutes</text><rect x="110" y="281" width="0.0" height="34" fill="#d35400" opacity="0.8" rx="3"/><text x="116.0" y="302" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="340" text-anchor="end" fill="#ccc" font-size="12">Calves</text><rect x="110" y="319" width="0.0" height="34" fill="#27ae60" opacity="0.8" rx="3"/><text x="116.0" y="340" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text><text x="104" y="378" text-anchor="end" fill="#ccc" font-size="12">Core</text><rect x="110" y="357" width="0.0" height="34" fill="#2980b9" opacity="0.8" rx="3"/><text x="116.0" y="378" fill="#f85149" font-size="11" font-weight="bold">0 lbs | 0 sets | Low</text>
+  <text x="405" y="416" text-anchor="middle" fill="#aaa" font-size="11">Volume (lbs) — Current Week</text>
+</svg>
+    </div>
+  </section>
+
+  <!-- Section 4: Zone Status Table -->
+  <section>
+    <h2>Hypertrophy Zone Status</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Muscle</th>
+          <th>Volume (lbs)</th>
+          <th>Sets</th>
+          <th>Zone</th>
+          <th>Trend</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#e74c3c">Chest</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#3498db">Back</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#9b59b6">Shoulders</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#1abc9c">Biceps</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#16a085">Triceps</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#f39c12">Quads</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#e67e22">Hamstrings</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#d35400">Glutes</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#27ae60">Calves</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      <tr style="background:rgba(248,81,73,0.1)">
+        <td style="padding:10px 14px;font-weight:600;color:#2980b9">Core</td>
+        <td style="padding:10px 14px;color:#ccc">0 lbs</td>
+        <td style="padding:10px 14px;color:#ccc">0 sets</td>
+        <td style="padding:10px 14px"><span style="color:#f85149;font-weight:700">Low</span></td>
+        <td style="padding:10px 14px;font-size:1.2em">→</td>
+      </tr>
+      </tbody>
+    </table>
+    <p style="color:#8b949e;font-size:0.8em;margin-top:8px">Trend compares current week sets vs previous week. ↑ increasing, ↓ decreasing, → stable.</p>
+  </section>
+
+  <!-- Section 5: Recommendations -->
+  <section>
+    <h2>Recommendations</h2>
+    <div class="recs">
+      <ul>
+        <li><span style='color:#f85149'>⚠ Chest</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Back</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Shoulders</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Biceps</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Triceps</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Quads</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Hamstrings</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Glutes</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Calves</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li><li><span style='color:#f85149'>⚠ Core</span>: Only 0 sets this week — add 10 more sets to reach optimal hypertrophy zone.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

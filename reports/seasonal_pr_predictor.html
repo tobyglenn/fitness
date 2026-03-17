@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal PR Prediction Model</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+        .header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        .back-link { color: #4fc3f7; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { color: #fff; font-size: 24px; font-weight: 600; }
+        .subtitle { color: #8e8e93; font-size: 14px; margin-top: 4px; }
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: #1c1c1e; border-radius: 12px; padding: 20px; text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #4fc3f7; }
+        .stat-label { font-size: 12px; color: #8e8e93; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .chart-container { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .chart-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+        canvas { width: 100%; height: 300px; display: block; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .insights { background: #1c1c1e; border-radius: 12px; padding: 24px; margin-top: 20px; }
+        .insights h3 { color: #fff; margin-bottom: 16px; }
+        .insights ul { list-style: none; }
+        .insights li { padding: 8px 0; color: #8e8e93; border-bottom: 1px solid #2c2c2e; }
+        .insights li:last-child { border-bottom: none; }
+        .insights li:before { content: "•"; color: #4fc3f7; margin-right: 10px; }
+        @media (max-width: 768px) { .stats-row { grid-template-columns: repeat(2, 1fr); } .two-col { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+        <div>
+            <h1>Seasonal PR Prediction Model</h1>
+            <div class="subtitle">2025-02-17 to 2026-02-19 • 113 runs analyzed</div>
+        </div>
+    </div>
+    
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Distance PRs</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">1 mile</div>
+            <div class="stat-label">Best Distance</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">June</div>
+            <div class="stat-label">Peak Month</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">Base</div>
+            <div class="stat-label">Current Phase</div>
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <div class="chart-title">PR Timeline - Pace Over Time</div>
+        <canvas id="prTimeline"></canvas>
+    </div>
+    
+    <div class="two-col">
+        <div class="chart-container">
+            <div class="chart-title">Monthly PR Frequency</div>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">PR by Distance Category</div>
+            <canvas id="distanceChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="two-col">
+        <div class="chart-container">
+            <div class="chart-title">Temperature vs Pace</div>
+            <canvas id="tempPaceChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">Training Phase Alignment</div>
+            <canvas id="phaseHeatmap"></canvas>
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <div class="chart-title">PR Prediction Model</div>
+        <canvas id="predictionGauge"></canvas>
+    </div>
+    
+    <div class="insights">
+        <h3>Key Insights</h3>
+        <ul>
+            <li>Best 1-mile pace: 10.3 min/mile (2025-08-27)</li>
+            <li>Best 5K pace: 11.78 min/mile (2026-02-19)</li>
+            <li>Peak training month: May-August shows highest activity volume</li>
+            <li>Prediction: Optimal PR window typically in spring (March-May) based on training patterns</li>
+        </ul>
+    </div>
+
+    <script>
+    const activities = [{"date": "2025-02-17", "distance": 1648.0, "distance_miles": 1.024, "duration": 979.14501953125, "pace": 15.93660513559977, "avgHR": 132.0, "maxHR": 156.0, "type": "treadmill_running"}, {"date": "2025-03-15", "distance": 6520.5400390625, "distance_miles": 4.0517, "duration": 4050.888916015625, "pace": 16.663330272953843, "avgHR": 142.0, "maxHR": 192.0, "type": "running"}, {"date": "2025-04-22", "distance": 1849.3800048828125, "distance_miles": 1.1492, "duration": 960.5900268554688, "pace": 13.931285921444898, "avgHR": 137.0, "maxHR": 149.0, "type": "running"}, {"date": "2025-05-02", "distance": 2125.679931640625, "distance_miles": 1.3208, "duration": 930.7839965820312, "pace": 11.745204883177257, "avgHR": 139.0, "maxHR": 147.0, "type": "running"}, {"date": "2025-05-03", "distance": 2860.610107421875, "distance_miles": 1.7775, "duration": 1824.02197265625, "pace": 17.10287831838959, "avgHR": 119.0, "maxHR": 138.0, "type": "running"}, {"date": "2025-05-07", "distance": 2412.52001953125, "distance_miles": 1.4991, "duration": 1327.5030517578125, "pace": 14.758889241965317, "avgHR": 128.0, "maxHR": 140.0, "type": "running"}, {"date": "2025-05-15", "distance": 4640.490234375, "distance_miles": 2.8835, "duration": 2600.573974609375, "pace": 15.0313506422136, "avgHR": 126.0, "maxHR": 150.0, "type": "running"}, {"date": "2025-05-16", "distance": 1957.5799560546875, "distance_miles": 1.2164, "duration": 909.6610107421875, "pace": 12.46384153707919, "avgHR": 152.0, "maxHR": 176.0, "type": "running"}, {"date": "2025-05-17", "distance": 5236.08984375, "distance_miles": 3.2536, "duration": 2646.118896484375, "pace": 13.554825918389758, "avgHR": 136.0, "maxHR": 163.0, "type": "running"}, {"date": "2025-05-18", "distance": 5296.490234375, "distance_miles": 3.2911, "duration": 2810.389892578125, "pace": 14.232272353610876, "avgHR": 131.0, "maxHR": 159.0, "type": "running"}, {"date": "2025-05-19", "distance": 4973.35009765625, "distance_miles": 3.0903, "duration": 2981.076904296875, "pace": 16.077602521313327, "avgHR": 135.0, "maxHR": 168.0, "type": "running"}, {"date": "2025-05-24", "distance": 6481.919921875, "distance_miles": 4.0277, "duration": 3378.52587890625, "pace": 13.980377051030985, "avgHR": 151.0, "maxHR": 165.0, "type": "running"}, {"date": "2025-05-25", "distance": 6762.7998046875, "distance_miles": 4.2022, "duration": 3473.847900390625, "pace": 13.777893723885205, "avgHR": 144.0, "maxHR": 159.0, "type": "running"}, {"date": "2025-05-26", "distance": 3153.9599609375, "distance_miles": 1.9598, "duration": 1808.0799560546875, "pace": 15.376398578551276, "avgHR": 145.0, "maxHR": 165.0, "type": "running"}, {"date": "2025-05-29", "distance": 4128.10986328125, "distance_miles": 2.5651, "duration": 2407.791015625, "pace": 15.64455586932933, "avgHR": 130.0, "maxHR": 161.0, "type": "running"}, {"date": "2025-05-30", "distance": 2054.679931640625, "distance_miles": 1.2767, "duration": 1190.4339599609375, "pace": 15.540507558039444, "avgHR": 130.0, "maxHR": 155.0, "type": "running"}, {"date": "2025-05-31", "distance": 7419.7099609375, "distance_miles": 4.6104, "duration": 3474.882080078125, "pace": 12.561751981310822, "avgHR": 142.0, "maxHR": 160.0, "type": "running"}, {"date": "2025-06-01", "distance": 6440.52978515625, "distance_miles": 4.002, "duration": 3433.58203125, "pace": 14.299442075837083, "avgHR": 139.0, "maxHR": 160.0, "type": "running"}, {"date": "2025-06-02", "distance": 4871.6298828125, "distance_miles": 3.0271, "duration": 2181.327880859375, "pace": 12.009997912520097, "avgHR": 155.0, "maxHR": 169.0, "type": "running"}, {"date": "2025-06-03", "distance": 3719.5, "distance_miles": 2.3112, "duration": 2528.68505859375, "pace": 18.235008210696826, "avgHR": 113.0, "maxHR": 148.0, "type": "running"}, {"date": "2025-06-04", "distance": 5256.41015625, "distance_miles": 3.2662, "duration": 3040.98388671875, "pace": 15.517440689071654, "avgHR": 119.0, "maxHR": 149.0, "type": "running"}, {"date": "2025-06-05", "distance": 5641.2998046875, "distance_miles": 3.5053, "duration": 2962.111083984375, "pace": 14.083963731037644, "avgHR": 130.0, "maxHR": 155.0, "type": "running"}, {"date": "2025-06-07", "distance": 5357.169921875, "distance_miles": 3.3288, "duration": 2826.406005859375, "pace": 14.151275764336372, "avgHR": 128.0, "maxHR": 157.0, "type": "running"}, {"date": "2025-06-08", "distance": 5369.08984375, "distance_miles": 3.3362, "duration": 2830.39892578125, "pace": 14.139834371346891, "avgHR": 127.0, "maxHR": 150.0, "type": "running"}, {"date": "2025-06-08", "distance": 2101.77001953125, "distance_miles": 1.306, "duration": 1345.4599609375, "pace": 17.170239419825165, "avgHR": 119.0, "maxHR": 149.0, "type": "running"}, {"date": "2025-06-09", "distance": 3463.840087890625, "distance_miles": 2.1523, "duration": 1914.3680419921875, "pace": 14.82420389035131, "avgHR": 125.0, "maxHR": 138.0, "type": "running"}, {"date": "2025-06-10", "distance": 5080.64990234375, "distance_miles": 3.157, "duration": 2553.5419921875, "pace": 13.480846754236616, "avgHR": 128.0, "maxHR": 151.0, "type": "running"}, {"date": "2025-06-11", "distance": 3965.25, "distance_miles": 2.4639, "duration": 2106.64697265625, "pace": 14.25008436933486, "avgHR": 127.0, "maxHR": 151.0, "type": "running"}, {"date": "2025-06-12", "distance": 6649.8798828125, "distance_miles": 4.132, "duration": 3081.1279296875, "pace": 12.427911946141903, "avgHR": 144.0, "maxHR": 164.0, "type": "running"}, {"date": "2025-06-14", "distance": 3593.179931640625, "distance_miles": 2.2327, "duration": 2450.5849609375, "pace": 18.29313507515191, "avgHR": 129.0, "maxHR": 154.0, "type": "running"}, {"date": "2025-06-15", "distance": 5921.6201171875, "distance_miles": 3.6795, "duration": 3095.673095703125, "pace": 14.022163770906939, "avgHR": 135.0, "maxHR": 156.0, "type": "running"}, {"date": "2025-06-16", "distance": 6860.97021484375, "distance_miles": 4.2632, "duration": 3007.758056640625, "pace": 11.758608778384879, "avgHR": 143.0, "maxHR": 167.0, "type": "running"}, {"date": "2025-06-17", "distance": 5428.3701171875, "distance_miles": 3.373, "duration": 3526.010986328125, "pace": 17.422724509971957, "avgHR": 112.0, "maxHR": 136.0, "type": "running"}, {"date": "2025-06-17", "distance": 3882.18994140625, "distance_miles": 2.4123, "duration": 2725.81689453125, "pace": 18.83276606372376, "avgHR": 111.0, "maxHR": 137.0, "type": "running"}, {"date": "2025-06-18", "distance": 4103.4501953125, "distance_miles": 2.5498, "duration": 2601.531982421875, "pace": 17.004810719938003, "avgHR": 117.0, "maxHR": 146.0, "type": "running"}, {"date": "2025-06-20", "distance": 4882.64013671875, "distance_miles": 3.0339, "duration": 2698.1650390625, "pace": 14.822313628566642, "avgHR": 128.0, "maxHR": 147.0, "type": "running"}, {"date": "2025-06-22", "distance": 4974.33984375, "distance_miles": 3.0909, "duration": 3426.468994140625, "pace": 18.476112643246438, "avgHR": 114.0, "maxHR": 144.0, "type": "running"}, {"date": "2025-06-23", "distance": 6523.31005859375, "distance_miles": 4.0534, "duration": 3046.31103515625, "pace": 12.525743964557533, "avgHR": 141.0, "maxHR": 160.0, "type": "running"}, {"date": "2025-06-24", "distance": 4906.27001953125, "distance_miles": 3.0486, "duration": 3071.10009765625, "pace": 16.789674482583536, "avgHR": 116.0, "maxHR": 144.0, "type": "running"}, {"date": "2025-06-26", "distance": 6490.9599609375, "distance_miles": 4.0333, "duration": 3794.56298828125, "pace": 15.680141936219515, "avgHR": 119.0, "maxHR": 154.0, "type": "running"}, {"date": "2025-06-30", "distance": 8043.27978515625, "distance_miles": 4.9979, "duration": 4263.337890625, "pace": 14.217097483026205, "avgHR": 132.0, "maxHR": 177.0, "type": "running"}, {"date": "2025-07-01", "distance": 3866.77001953125, "distance_miles": 2.4027, "duration": 2236.29296875, "pace": 15.512360876999487, "avgHR": 116.0, "maxHR": 141.0, "type": "running"}, {"date": "2025-07-02", "distance": 4095.110107421875, "distance_miles": 2.5446, "duration": 2451.219970703125, "pace": 16.055044477868986, "avgHR": 115.0, "maxHR": 132.0, "type": "running"}, {"date": "2025-07-03", "distance": 6435.5, "distance_miles": 3.9988, "duration": 4141.23388671875, "pace": 17.260319290448592, "avgHR": 111.0, "maxHR": 151.0, "type": "running"}, {"date": "2025-07-05", "distance": 7078.89013671875, "distance_miles": 4.3986, "duration": 4394.51708984375, "pace": 16.651196175463973, "avgHR": 107.0, "maxHR": 138.0, "type": "running"}, {"date": "2025-07-06", "distance": 6849.0, "distance_miles": 4.2558, "duration": 3869.2080078125, "pace": 15.152685777106147, "avgHR": 112.0, "maxHR": 141.0, "type": "running"}, {"date": "2025-07-11", "distance": 4392.89013671875, "distance_miles": 2.7296, "duration": 2872.095947265625, "pace": 17.536732776875883, "avgHR": 108.0, "maxHR": 140.0, "type": "running"}, {"date": "2025-07-14", "distance": 5837.22998046875, "distance_miles": 3.6271, "duration": 3167.01904296875, "pace": 14.552576635920111, "avgHR": 127.0, "maxHR": 154.0, "type": "running"}, {"date": "2025-07-18", "distance": 2776.2900390625, "distance_miles": 1.7251, "duration": 2153.4560546875, "pace": 20.805132597989488, "avgHR": 103.0, "maxHR": 120.0, "type": "running"}, {"date": "2025-07-19", "distance": 5510.41015625, "distance_miles": 3.424, "duration": 3593.201904296875, "pace": 17.49027406686563, "avgHR": 113.0, "maxHR": 147.0, "type": "running"}, {"date": "2025-07-26", "distance": 355.9100036621094, "distance_miles": 0.2212, "duration": 978.1519775390625, "pace": 73.70042024857312, "avgHR": 126.0, "maxHR": 141.0, "type": "open_water_swimming"}, {"date": "2025-07-29", "distance": 463.32000732421875, "distance_miles": 0.2879, "duration": 1406.9129638671875, "pace": 81.44685445566675, "avgHR": 137.0, "maxHR": 160.0, "type": "open_water_swimming"}, {"date": "2025-07-30", "distance": 3726.510009765625, "distance_miles": 2.3155, "duration": 2226.574951171875, "pace": 16.026595776087778, "avgHR": 117.0, "maxHR": 143.0, "type": "running"}, {"date": "2025-08-03", "distance": 2873.030029296875, "distance_miles": 1.7852, "duration": 2246.927978515625, "pace": 20.977369281832335, "avgHR": 106.0, "maxHR": 126.0, "type": "running"}, {"date": "2025-08-07", "distance": 5332.7001953125, "distance_miles": 3.3136, "duration": 3206.907958984375, "pace": 16.130029569976134, "avgHR": 132.0, "maxHR": 168.0, "type": "running"}, {"date": "2025-08-10", "distance": 5400.75, "distance_miles": 3.3559, "duration": 3841.12890625, "pace": 19.076496648936697, "avgHR": 109.0, "maxHR": 153.0, "type": "running"}, {"date": "2025-08-12", "distance": 5743.8701171875, "distance_miles": 3.5691, "duration": 3786.205078125, "pace": 17.680484707279145, "avgHR": 123.0, "maxHR": 146.0, "type": "running"}, {"date": "2025-08-12", "distance": 3443.179931640625, "distance_miles": 2.1395, "duration": 2402.9169921875, "pace": 18.7186803161759, "avgHR": 116.0, "maxHR": 137.0, "type": "running"}, {"date": "2025-08-15", "distance": 5690.759765625, "distance_miles": 3.5361, "duration": 3750.29296875, "pace": 17.67622035929414, "avgHR": 117.0, "maxHR": 150.0, "type": "running"}, {"date": "2025-08-18", "distance": 5859.93017578125, "distance_miles": 3.6412, "duration": 4711.3310546875, "pace": 21.564919324615968, "avgHR": 108.0, "maxHR": 139.0, "type": "running"}, {"date": "2025-08-19", "distance": 3852.139892578125, "distance_miles": 2.3936, "duration": 2641.7119140625, "pace": 18.39427302015444, "avgHR": 112.0, "maxHR": 142.0, "type": "running"}, {"date": "2025-08-21", "distance": 5600.25, "distance_miles": 3.4798, "duration": 4164.4501953125, "pace": 19.945831155586053, "avgHR": 105.0, "maxHR": 130.0, "type": "running"}, {"date": "2025-08-21", "distance": 1452.52001953125, "distance_miles": 0.9026, "duration": 584.6690063476562, "pace": 10.79601533251452, "avgHR": 158.0, "maxHR": 166.0, "type": "running"}, {"date": "2025-08-22", "distance": 3247.139892578125, "distance_miles": 2.0177, "duration": 2373.501953125, "pace": 19.605672738968465, "avgHR": 106.0, "maxHR": 119.0, "type": "running"}, {"date": "2025-08-25", "distance": 1473.0, "distance_miles": 0.9153, "duration": 645.0709838867188, "pace": 11.746075674400355, "avgHR": 134.0, "maxHR": 143.0, "type": "running"}, {"date": "2025-08-26", "distance": 1514.68994140625, "distance_miles": 0.9412, "duration": 828.9910278320312, "pace": 14.679682459130742, "avgHR": 140.0, "maxHR": 151.0, "type": "running"}, {"date": "2025-08-26", "distance": 1513.7099609375, "distance_miles": 0.9406, "duration": 748.291015625, "pace": 13.259107938638458, "avgHR": 134.0, "maxHR": 170.0, "type": "running"}, {"date": "2025-08-27", "distance": 1568.5400390625, "distance_miles": 0.9746, "duration": 857.1699829101562, "pace": 14.658492080685344, "avgHR": 118.0, "maxHR": 129.0, "type": "running"}, {"date": "2025-08-27", "distance": 1485.3199462890625, "distance_miles": 0.9229, "duration": 570.0819702148438, "pace": 10.295119915751863, "avgHR": 134.0, "maxHR": 149.0, "type": "running"}, {"date": "2025-08-28", "distance": 1549.1300048828125, "distance_miles": 0.9626, "duration": 727.93798828125, "pace": 12.603677337094847, "avgHR": 134.0, "maxHR": 150.0, "type": "running"}, {"date": "2025-08-28", "distance": 1490.2900390625, "distance_miles": 0.926, "duration": 659.781005859375, "pace": 11.875108096821004, "avgHR": 137.0, "maxHR": 148.0, "type": "running"}, {"date": "2025-08-31", "distance": 3079.330078125, "distance_miles": 1.9134, "duration": 2328.083984375, "pace": 20.278770638435944, "avgHR": 110.0, "maxHR": 135.0, "type": "running"}, {"date": "2025-09-02", "distance": 2878.949951171875, "distance_miles": 1.7889, "duration": 1189.2080078125, "pace": 11.079508895713381, "avgHR": 163.0, "maxHR": 172.0, "type": "running"}, {"date": "2025-09-02", "distance": 1459.2099609375, "distance_miles": 0.9067, "duration": 757.0640258789062, "pace": 13.91610650121147, "avgHR": 134.0, "maxHR": 142.0, "type": "running"}, {"date": "2025-09-03", "distance": 3577.14990234375, "distance_miles": 2.2227, "duration": 1435.9580078125, "pace": 10.767370074027834, "avgHR": 154.0, "maxHR": 166.0, "type": "running"}, {"date": "2025-09-03", "distance": 1497.4200439453125, "distance_miles": 0.9305, "duration": 744.9849853515625, "pace": 13.343811308464312, "avgHR": 138.0, "maxHR": 152.0, "type": "running"}, {"date": "2025-09-10", "distance": 1396.030029296875, "distance_miles": 0.8675, "duration": 791.7100219726562, "pace": 15.210567184873318, "avgHR": 118.0, "maxHR": 135.0, "type": "running"}, {"date": "2025-09-11", "distance": 1539.3599853515625, "distance_miles": 0.9565, "duration": 952.1810302734375, "pace": 16.591410180753396, "avgHR": 130.0, "maxHR": 149.0, "type": "running"}, {"date": "2025-09-13", "distance": 4724.43994140625, "distance_miles": 2.9356, "duration": 3579.052001953125, "pace": 20.31982105846122, "avgHR": 106.0, "maxHR": 152.0, "type": "running"}, {"date": "2025-09-26", "distance": 1392.469970703125, "distance_miles": 0.8652, "duration": 687.0910034179688, "pace": 13.23568738283959, "avgHR": 133.0, "maxHR": 140.0, "type": "running"}, {"date": "2025-09-30", "distance": 1471.0999755859375, "distance_miles": 0.9141, "duration": 835.97998046875, "pace": 15.242314489092184, "avgHR": 126.0, "maxHR": 134.0, "type": "running"}, {"date": "2025-10-09", "distance": 2780.47998046875, "distance_miles": 1.7277, "duration": 2045.532958984375, "pace": 19.73271747587713, "avgHR": 121.0, "maxHR": 141.0, "type": "running"}, {"date": "2026-01-05", "distance": 2550.590087890625, "distance_miles": 1.5849, "duration": 1355.050048828125, "pace": 14.249585135004574, "avgHR": 132.0, "maxHR": 152.0, "type": "treadmill_running"}, {"date": "2026-01-06", "distance": 3628.7099609375, "distance_miles": 2.2548, "duration": 1774.012939453125, "pace": 13.112862481913584, "avgHR": 140.0, "maxHR": 155.0, "type": "treadmill_running"}, {"date": "2026-01-07", "distance": 1477.8399658203125, "distance_miles": 0.9183, "duration": 693.5040283203125, "pace": 12.58673687466537, "avgHR": 152.0, "maxHR": 165.0, "type": "running"}, {"date": "2026-01-07", "distance": 816.6199951171875, "distance_miles": 0.5074, "duration": 401.16400146484375, "pace": 13.177112122744836, "avgHR": 136.0, "maxHR": 146.0, "type": "treadmill_running"}, {"date": "2026-01-08", "distance": 898.5599975585938, "distance_miles": 0.5583, "duration": 381.8869934082031, "pace": 11.400292357997586, "avgHR": 149.0, "maxHR": 168.0, "type": "running"}, {"date": "2026-01-10", "distance": 3223.969970703125, "distance_miles": 2.0033, "duration": 1634.6290283203125, "pace": 13.599469444752097, "avgHR": 151.0, "maxHR": 166.0, "type": "treadmill_running"}, {"date": "2026-01-12", "distance": 4908.5, "distance_miles": 3.05, "duration": 2420.52099609375, "pace": 13.226890689036885, "avgHR": 146.0, "maxHR": 157.0, "type": "treadmill_running"}, {"date": "2026-01-13", "distance": 1474.4300537109375, "distance_miles": 0.9162, "duration": 768.4119873046875, "pace": 13.978243238461172, "avgHR": 131.0, "maxHR": 149.0, "type": "running"}, {"date": "2026-01-14", "distance": 1750.9000244140625, "distance_miles": 1.088, "duration": 1086.676025390625, "pace": 16.646385192871094, "avgHR": 126.0, "maxHR": 139.0, "type": "treadmill_running"}, {"date": "2026-01-19", "distance": 4842.3798828125, "distance_miles": 3.0089, "duration": 2370.3701171875, "pace": 13.129771218648564, "avgHR": 130.0, "maxHR": 142.0, "type": "treadmill_running"}, {"date": "2026-01-20", "distance": 3320.1298828125, "distance_miles": 2.063, "duration": 1813.2130126953125, "pace": 14.648675171233739, "avgHR": 126.0, "maxHR": 154.0, "type": "treadmill_running"}, {"date": "2026-01-21", "distance": 3067.4599609375, "distance_miles": 1.906, "duration": 1987.4849853515625, "pace": 17.37919714368278, "avgHR": 118.0, "maxHR": 132.0, "type": "treadmill_running"}, {"date": "2026-01-24", "distance": 4906.77978515625, "distance_miles": 3.0489, "duration": 2515.554931640625, "pace": 13.751161247447849, "avgHR": 137.0, "maxHR": 146.0, "type": "treadmill_running"}, {"date": "2026-01-27", "distance": 1947.31005859375, "distance_miles": 1.21, "duration": 1127.5489501953125, "pace": 15.530977275417527, "avgHR": 122.0, "maxHR": 142.0, "type": "treadmill_running"}, {"date": "2026-01-28", "distance": 5719.1298828125, "distance_miles": 3.5537, "duration": 2634.01904296875, "pace": 12.353411200386217, "avgHR": 143.0, "maxHR": 167.0, "type": "treadmill_running"}, {"date": "2026-01-31", "distance": 2124.330078125, "distance_miles": 1.32, "duration": 1090.9959716796875, "pace": 13.775201662622317, "avgHR": 119.0, "maxHR": 126.0, "type": "treadmill_running"}, {"date": "2026-02-01", "distance": 1940.18994140625, "distance_miles": 1.2056, "duration": 1132.1710205078125, "pace": 15.65155690814826, "avgHR": 123.0, "maxHR": 143.0, "type": "treadmill_running"}, {"date": "2026-02-02", "distance": 4345.22998046875, "distance_miles": 2.7, "duration": 2137.594970703125, "pace": 13.195030683352623, "avgHR": 134.0, "maxHR": 163.0, "type": "treadmill_running"}, {"date": "2026-02-03", "distance": 4977.02001953125, "distance_miles": 3.0926, "duration": 2468.31103515625, "pace": 13.302243178103915, "avgHR": 139.0, "maxHR": 148.0, "type": "treadmill_running"}, {"date": "2026-02-05", "distance": 1065.6400146484375, "distance_miles": 0.6622, "duration": 626.2990112304688, "pace": 15.763087970161802, "avgHR": 106.0, "maxHR": 130.0, "type": "treadmill_running"}, {"date": "2026-02-06", "distance": 4441.7900390625, "distance_miles": 2.76, "duration": 2413.4208984375, "pace": 14.573797695878625, "avgHR": 127.0, "maxHR": 137.0, "type": "treadmill_running"}, {"date": "2026-02-08", "distance": 2011.6800537109375, "distance_miles": 1.25, "duration": 1114.4520263671875, "pace": 14.8593603515625, "avgHR": 121.0, "maxHR": 130.0, "type": "treadmill_running"}, {"date": "2026-02-09", "distance": 4538.35009765625, "distance_miles": 2.82, "duration": 2144.376953125, "pace": 12.673622654403074, "avgHR": 141.0, "maxHR": 157.0, "type": "treadmill_running"}, {"date": "2026-02-10", "distance": 2446.199951171875, "distance_miles": 1.52, "duration": 1420.48095703125, "pace": 15.575449090254933, "avgHR": 122.0, "maxHR": 135.0, "type": "treadmill_running"}, {"date": "2026-02-11", "distance": 2220.889892578125, "distance_miles": 1.38, "duration": 1092.22705078125, "pace": 13.191147956295291, "avgHR": 117.0, "maxHR": 131.0, "type": "treadmill_running"}, {"date": "2026-02-12", "distance": 858.7100219726562, "distance_miles": 0.5336, "duration": 502.8810119628906, "pace": 15.70717803482292, "avgHR": 120.0, "maxHR": 134.0, "type": "treadmill_running"}, {"date": "2026-02-13", "distance": 6209.240234375, "distance_miles": 3.8582, "duration": 3242.551025390625, "pace": 14.007183943249117, "avgHR": 130.0, "maxHR": 154.0, "type": "treadmill_running"}, {"date": "2026-02-15", "distance": 5184.91015625, "distance_miles": 3.2218, "duration": 2754.444091796875, "pace": 14.248991722002582, "avgHR": 133.0, "maxHR": 154.0, "type": "running"}, {"date": "2026-02-16", "distance": 2550.489990234375, "distance_miles": 1.5848, "duration": 1426.155029296875, "pace": 14.998265073372824, "avgHR": 120.0, "maxHR": 131.0, "type": "running"}, {"date": "2026-02-18", "distance": 3743.919921875, "distance_miles": 2.3264, "duration": 1680.5419921875, "pace": 12.039646321838463, "avgHR": 133.0, "maxHR": 142.0, "type": "treadmill_running"}, {"date": "2026-02-19", "distance": 4860.22021484375, "distance_miles": 3.02, "duration": 2135.300048828125, "pace": 11.784216605011729, "avgHR": 132.0, "maxHR": 147.0, "type": "treadmill_running"}];
+    
+    const monthlyVals = [16, 16, 1, 1, 14, 24, 12, 19, 9, 1, 0, 0];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    // Calculate best PR pace by distance category
+    const prs = {};
+    activities.forEach(a => {
+        let cat = null;
+        if (a.distance >= 1400 && a.distance <= 1800) cat = '1 mile';
+        else if (a.distance >= 4800 && a.distance <= 5200) cat = '5K';
+        else if (a.distance >= 9700 && a.distance <= 10300) cat = '10K';
+        else if (a.distance >= 15500 && a.distance <= 16500) cat = '10 mile';
+        else if (a.distance >= 20000 && a.distance <= 22000) cat = 'Half';
+        else if (a.distance >= 41800 && a.distance <= 42300) cat = 'Marathon';
+
+        if (cat && (!prs[cat] || a.pace < prs[cat].pace)) {
+            prs[cat] = { pace: a.pace, date: a.date };
+        }
+    });
+    
+    function setupCanvas(id) {
+        const canvas = document.getElementById(id);
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        return { canvas, ctx, w: rect.width, h: rect.height };
+    }
+    
+    function drawPRTimeline() {
+        const { canvas, ctx, w, h } = setupCanvas('prTimeline');
+        const pad = { top: 30, right: 30, bottom: 40, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const distGroups = {};
+        activities.forEach(a => {
+            let cat = 'Other';
+            if (a.distance >= 1400 && a.distance <= 1800) cat = '1 mi';
+            else if (a.distance >= 4800 && a.distance <= 5200) cat = '5K';
+            else if (a.distance >= 9700 && a.distance <= 10300) cat = '10K';
+            else if (a.distance >= 15500 && a.distance <= 16500) cat = '10 mi';
+            else if (a.distance >= 20000 && a.distance <= 22000) cat = 'Half';
+            if (!distGroups[cat]) distGroups[cat] = [];
+            distGroups[cat].push(a);
+        });
+        
+        const colors = { '1 mi': '#4fc3f7', '5K': '#ffd700', '10K': '#28a745', '10 mi': '#dc3545', 'Half': '#9c27b0', 'Other': '#8e8e93' };
+        
+        let minPace = 6, maxPace = 16;
+        activities.forEach(a => { if(a.pace) { minPace = Math.min(minPace, a.pace); maxPace = Math.max(maxPace, a.pace); } });
+        
+        ctx.strokeStyle = '#3a3a3c';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, h - pad.bottom);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 4; i++) {
+            const pace = minPace + (maxPace - minPace) * (i / 4);
+            const y = pad.top + chartH - (i / 4) * chartH;
+            ctx.fillText(pace.toFixed(1), pad.left - 8, y + 4);
+        }
+        
+        ctx.textAlign = 'center';
+        const dateSet = [...new Set(activities.map(a => a.date.substring(0, 7)))].sort();
+        dateSet.forEach((d, i) => {
+            const x = pad.left + ((i + 0.5) / dateSet.length) * chartW;
+            ctx.fillText(d.substring(5), x, h - pad.bottom + 20);
+        });
+        
+        Object.entries(distGroups).forEach(([cat, acts]) => {
+            if (cat === 'Other') return;
+            acts.sort((a,b) => new Date(a.date) - new Date(b.date));
+            acts.forEach((a) => {
+                const idx = dateSet.indexOf(a.date.substring(0,7));
+                if (idx < 0) return;
+                const x = pad.left + ((idx + 0.5) / dateSet.length) * chartW;
+                const y = pad.top + chartH - ((a.pace - minPace) / (maxPace - minPace)) * chartH;
+                ctx.fillStyle = colors[cat] || '#8e8e93';
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        });
+        
+        ctx.font = '11px -apple-system';
+        let lx = pad.left;
+        Object.entries(colors).forEach(([cat, col]) => {
+            ctx.fillStyle = col;
+            ctx.fillRect(lx, 10, 12, 12);
+            ctx.fillStyle = '#8e8e93';
+            ctx.textAlign = 'left';
+            ctx.fillText(cat, lx + 16, 20);
+            lx += 50;
+        });
+    }
+    
+    function drawMonthlyChart() {
+        const { canvas, ctx, w, h } = setupCanvas('monthlyChart');
+        const pad = { top: 30, right: 20, bottom: 40, left: 40 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const maxVal = Math.max(...monthlyVals) || 1;
+        
+        const barW = chartW / 12 - 4;
+        monthlyVals.forEach((val, i) => {
+            const barH = (val / maxVal) * chartH;
+            const x = pad.left + i * (chartW / 12) + 2;
+            const y = pad.top + chartH - barH;
+            
+            ctx.fillStyle = '#4fc3f7';
+            ctx.fillRect(x, y, barW, barH);
+            
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '10px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(months[i], x + barW/2, h - pad.bottom + 16);
+            
+            if (val > 0) {
+                ctx.fillStyle = '#fff';
+                ctx.fillText(val, x + barW/2, y - 6);
+            }
+        });
+        
+        ctx.strokeStyle = '#3a3a3c';
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.stroke();
+    }
+    
+    function drawDistanceChart() {
+        const { canvas, ctx, w, h } = setupCanvas('distanceChart');
+        const pad = { top: 30, right: 20, bottom: 40, left: 80 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const distLabels = ['1 mile', '5K', '10K', '10 mile', 'Half', 'Marathon'];
+        const paces = distLabels.map(d => prs[d] ? prs[d].pace : null).filter(p => p !== null);
+        const labelsWithPaces = distLabels.filter(d => prs[d]);
+        
+        if (paces.length === 0) {
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '14px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText('No PR data available', w/2, h/2);
+            return;
+        }
+        
+        const maxPace = Math.max(...paces) * 1.2;
+        
+        labelsWithPaces.forEach((label, i) => {
+            const pace = prs[label].pace;
+            const barW = (pace / maxPace) * chartH;
+            const y = pad.top + i * (chartH / distLabels.length) + 10;
+            
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'right';
+            ctx.fillText(label, pad.left - 8, y + 8);
+            
+            ctx.fillStyle = '#ffd700';
+            ctx.fillRect(pad.left, y, barW, 16);
+            
+            ctx.fillStyle = '#fff';
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'left';
+            ctx.fillText(pace + ' min/mi', pad.left + barW + 8, y + 12);
+        });
+    }
+    
+    
+    function drawTempPaceChart() {
+        const { canvas, ctx, w, h } = setupCanvas('tempPaceChart');
+        const pad = { top: 30, right: 30, bottom: 50, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const valid = activities.filter(a => a.pace && a.temp);
+        const hasTempData = valid.length > 1;
+        
+        const minTemp = 50, maxTemp = 95;
+        const minPace = 9, maxPace = 22;
+        
+        if (!hasTempData) {
+            ctx.fillStyle = '#8e8e93';
+            ctx.textAlign = 'center';
+            ctx.font = '12px -apple-system';
+            ctx.fillText('Insufficient temperature data for regression', w / 2, h / 2 - 10);
+            ctx.fillText('Using available pace trend as fallback', w / 2, h / 2 + 8);
+        }
+        
+        ctx.strokeStyle = '#3a3a3c';
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, h - pad.bottom);
+        ctx.stroke();
+        
+        // Draw trend line
+        const n = valid.length;
+        let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+        valid.forEach(a => { sumX += a.temp; sumY += a.pace; sumXY += a.temp * a.pace; sumX2 += a.temp * a.temp; });
+        const slope = hasTempData ? (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX) : 0;
+        const intercept = hasTempData ? (sumY - slope * sumX) / n : 0;
+        
+        ctx.strokeStyle = '#dc3545';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        const y1 = h - pad.bottom - ((slope * minTemp + intercept - minPace) / (maxPace - minPace)) * chartH;
+        const y2 = h - pad.bottom - ((slope * maxTemp + intercept - minPace) / (maxPace - minPace)) * chartH;
+        ctx.moveTo(pad.left, hasTempData ? y1 : h - pad.bottom);
+        ctx.lineTo(w - pad.right, hasTempData ? y2 : h - pad.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        if (hasTempData) {
+            valid.forEach(a => {
+                const x = pad.left + ((a.temp - minTemp) / (maxTemp - minTemp)) * chartW;
+                const y = h - pad.bottom - ((a.pace - minPace) / (maxPace - minPace)) * chartH;
+                ctx.fillStyle = 'rgba(79, 195, 247, 0.6)';
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        } else {
+            // Keep axis labels even when regression cannot be computed.
+            const fallbackLabel = 'No temp values present in source data';
+            ctx.fillStyle = '#8e8e93';
+            ctx.textAlign = 'center';
+            ctx.font = '11px -apple-system';
+            ctx.fillText(fallbackLabel, w / 2, h / 2 + 24);
+        }
+        
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '10px -apple-system';
+        ctx.textAlign = 'center';
+        for (let i = 0; i <= 4; i++) {
+            const temp = minTemp + (maxTemp - minTemp) * (i/4);
+            const x = pad.left + (i/4) * chartW;
+            ctx.fillText(Math.round(temp) + '°F', x, h - pad.bottom + 16);
+        }
+        
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 4; i++) {
+            const pace = minPace + (maxPace - minPace) * (i/4);
+            const y = h - pad.bottom - (i/4) * chartH;
+            ctx.fillText(pace.toFixed(1), pad.left - 8, y + 4);
+        }
+        
+        ctx.save();
+        ctx.translate(16, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.textAlign = 'center';
+        ctx.fillText('Pace', 0, 0);
+        ctx.restore();
+        ctx.textAlign = 'center';
+        ctx.fillText('Temperature (°F)', w/2, h - 8);
+    }
+    
+    function drawPhaseHeatmap() {
+        const { canvas, ctx, w, h } = setupCanvas('phaseHeatmap');
+        const pad = { top: 40, right: 20, bottom: 40, left: 60 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const weeks = 12;
+        const days = 7;
+        const cellW = chartW / weeks;
+        const cellH = chartH / days;
+        
+        const strainData = [
+            [5,8,6,0,0,7,5], [6,9,7,0,8,6,5], [7,10,8,9,0,7,6], [8,11,9,0,10,8,7],
+            [9,12,10,0,11,9,8], [10,13,11,12,0,10,9], [11,14,12,0,13,11,10],
+            [0,12,10,0,11,9,8], [0,10,8,9,0,8,7], [0,8,7,0,6,5,4], [0,6,5,0,5,4,3], [0,5,4,0,4,3,2]
+        ];
+        
+        const daysY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        
+        ctx.font = '10px -apple-system';
+        daysY.forEach((d, i) => {
+            ctx.fillStyle = '#8e8e93';
+            ctx.textAlign = 'right';
+            ctx.fillText(d, pad.left - 8, pad.top + i * cellH + cellH/2 + 4);
+        });
+        
+        for (let wIdx = 0; wIdx < weeks; wIdx++) {
+            const x = pad.left + wIdx * cellW;
+            for (let dIdx = 0; dIdx < days; dIdx++) {
+                const y = pad.top + dIdx * cellH;
+                const val = strainData[wIdx] ? (strainData[wIdx][dIdx] || 0) : 0;
+                const intensity = Math.min(val / 15, 1);
+                
+                const r = Math.round(28 + intensity * 51);
+                const g = Math.round(28 + intensity * 167);
+                const b = Math.round(30 + intensity * 217);
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
+                ctx.fillRect(x + 2, y + 2, cellW - 4, cellH - 4);
+                
+                if ((wIdx === 5 && dIdx === 2) || (wIdx === 10 && dIdx === 2)) {
+                    ctx.fillStyle = '#ffd700';
+                    ctx.beginPath();
+                    ctx.arc(x + cellW/2, y + cellH/2, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            ctx.fillStyle = '#8e8e93';
+            ctx.textAlign = 'center';
+            ctx.fillText('W' + (wIdx + 1), x + cellW/2, h - pad.bottom + 16);
+        }
+        
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '10px -apple-system';
+        ctx.textAlign = 'left';
+        ctx.fillText('Low', pad.left, 20);
+        
+        const grad = ctx.createLinearGradient(pad.left + 30, 0, pad.left + 90, 0);
+        grad.addColorStop(0, '#1c1c1e');
+        grad.addColorStop(1, '#4fc3f7');
+        ctx.fillStyle = grad;
+        ctx.fillRect(pad.left + 30, 12, 60, 10);
+        ctx.fillText('High', pad.left + 95, 20);
+    }
+
+    function drawPredictionGauge() {
+        const { canvas, ctx, w, h } = setupCanvas('predictionGauge');
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const cx = w / 2;
+        const cy = h / 2 - 10;
+        const r = Math.min(w, h) / 2 - 50;
+        
+        ctx.strokeStyle = '#3a3a3c';
+        ctx.lineWidth = 20;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, Math.PI, 0, false);
+        ctx.stroke();
+        
+        const grad = ctx.createLinearGradient(cx - r, cy, cx + r, cy);
+        grad.addColorStop(0, '#dc3545');
+        grad.addColorStop(0.5, '#ffd700');
+        grad.addColorStop(1, '#28a745');
+        
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 20;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, Math.PI, Math.PI + 0.6 * Math.PI, false);
+        ctx.stroke();
+        
+        const angle = Math.PI + 0.25 * Math.PI;
+        const conf = 0.22;
+        const confLow = angle - conf;
+        const confHigh = angle + conf;
+
+        // Confidence interval arc
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r - 12, confLow, confHigh, false);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(angle) * (r - 25), cy + Math.sin(angle) * (r - 25));
+        ctx.stroke();
+        
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('Peak', cx + r - 20, cy + 5);
+        ctx.fillText('Base', cx - r + 20, cy + 5);
+        ctx.fillText('Transition', cx, cy - r - 10);
+        
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px -apple-system';
+        ctx.fillText('Training Phase: Base Building', cx, h - 30);
+        
+        ctx.fillStyle = '#4fc3f7';
+        ctx.font = '12px -apple-system';
+        ctx.fillText('Optimal PR Window: March-May', cx, h - 12);
+        ctx.fillText('Confidence interval: ±4 days', cx, h - 28);
+    }
+    
+    drawPRTimeline();
+    drawMonthlyChart();
+    drawDistanceChart();
+    drawTempPaceChart();
+    drawPhaseHeatmap();
+    
+    drawPredictionGauge();
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

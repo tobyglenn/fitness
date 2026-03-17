@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Sleep Sensitivity</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117; color: white; min-height: 100vh;
+        }
+        .nav {
+            background: #161b22; padding: 1rem 2rem; display: flex; gap: 2rem;
+            border-bottom: 1px solid #30363d; flex-wrap: wrap;
+        }
+        .nav a {
+            color: #8b949e; text-decoration: none; font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav a:hover, .nav a.active { color: #f39c12; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #f39c12; }
+        .subtitle { color: #8b949e; margin-bottom: 1rem; }
+        .description { color: #8b949e; margin-bottom: 2rem; max-width: 800px; }
+        
+        .summary-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem; margin-bottom: 2rem;
+        }
+        .card {
+            background: #161b22; border-radius: 12px; padding: 1.5rem;
+            border: 1px solid #30363d;
+        }
+        .card-label { color: #8b949e; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-value { font-size: 1.8rem; font-weight: 600; margin-top: 0.5rem; color: #f39c12; }
+        .card-sub { color: #8b949e; font-size: 0.9rem; margin-top: 0.25rem; }
+        
+        .section { margin-bottom: 2.5rem; }
+        .section-title { font-size: 1.3rem; margin-bottom: 1rem; color: #f39c12; }
+        
+        table { width: 100%; border-collapse: collapse; background: #161b22; border-radius: 12px; overflow: hidden; }
+        th { background: #21262d; padding: 1rem; text-align: left; color: #8b949e; font-weight: 500; font-size: 0.85rem; }
+        td { padding: 1rem; border-top: 1px solid #30363d; }
+        tr:hover { background: #1c2128; }
+        
+        .sensitivity-high { color: #f85149; font-weight: 600; }
+        .sensitivity-med { color: #f39c12; }
+        .sensitivity-low { color: #2ea043; }
+        
+        .charts-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        }
+        @media (max-width: 900px) { .charts-row { grid-template-columns: 1fr; } }
+        
+        .chart-container {
+            background: #161b22; border-radius: 12px; padding: 1.5rem; border: 1px solid #30363d;
+        }
+        
+        .heatmap-container { background: #161b22; border-radius: 12px; padding: 1.5rem; border: 1px solid #30363d; }
+        
+        .legend {
+            display: flex; gap: 1rem; margin-top: 1rem; justify-content: center;
+        }
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #8b949e; }
+        .legend-color { width: 12px; height: 12px; border-radius: 2px; }
+        
+        .detail-cards {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;
+        }
+        .detail-card {
+            background: #161b22; border-radius: 12px; padding: 1.5rem; border: 1px solid #30363d;
+        }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .detail-title { font-weight: 600; font-size: 1.1rem; }
+        .detail-score { font-size: 1.3rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 6px; }
+        
+        .scatter-point { fill: #f39c12; opacity: 0.6; }
+        .bar-great { fill: #2ea043; }
+        .bar-poor { fill: #f85149; }
+        
+        .recommendation {
+            margin-top: 1rem; padding: 0.75rem; border-radius: 6px; font-size: 0.85rem;
+        }
+        .rec-sensitive { background: rgba(248, 81, 73, 0.15); color: #f85149; }
+        .rec-resilient { background: rgba(46, 160, 67, 0.15); color: #2ea043; }
+        
+        .insight-box {
+            background: #161b22; border-left: 3px solid #f39c12; padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem; border-radius: 0 8px 8px 0;
+        }
+        .insight-title { color: #f39c12; font-weight: 600; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/index.html">Home</a>
+        <a href="/calendars/index.html">Calendars</a>
+        <a href="/strength/index.html">Strength</a>
+        <a href="/cardio/index.html">Cardio</a>
+        <a href="/recovery/index.html">Recovery</a>
+        <a href="/nutrition/index.html">Nutrition</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Exercise Sleep Sensitivity</h1>
+        <p class="subtitle">Which exercises need sleep — and which don't care</p>
+        <p class="description">We analyzed how your sleep quality affects performance on each exercise. Higher sensitivity means your performance on that exercise varies more with sleep quality.</p>
+        
+        <div class="summary-cards">
+            <div class="card">
+                <div class="card-label">Most Sleep-Sensitive</div>
+                <div class="card-value">Barbell Bench Press</div>
+                <div class="card-sub">Score: 85/100</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Most Sleep-Resilient</div>
+                <div class="card-value">Pull Through</div>
+                <div class="card-sub">Score: 51/100</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Average Sensitivity</div>
+                <div class="card-value">78</div>
+                <div class="card-sub">Across 25 exercises</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Sensitivity Ranking</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Muscle Group</th>
+                        <th>Sleep Sensitivity</th>
+                        <th>Avg Volume (Great Sleep)</th>
+                        <th>Avg Volume (Poor Sleep)</th>
+                        <th>Variance %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Barbell Bench Press</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>473 lbs</td>
+                        <td>0 lbs</td>
+                        <td>5.9%</td>
+                    </tr>
+                    <tr>
+                        <td>Floor Slide</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>473 lbs</td>
+                        <td>0 lbs</td>
+                        <td>5.9%</td>
+                    </tr>
+                    <tr>
+                        <td>Standing Overhead Press</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>256 lbs</td>
+                        <td>0 lbs</td>
+                        <td>5.3%</td>
+                    </tr>
+                    <tr>
+                        <td>Front Raise</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>55 lbs</td>
+                        <td>0 lbs</td>
+                        <td>13.5%</td>
+                    </tr>
+                    <tr>
+                        <td>Pushup</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>55 lbs</td>
+                        <td>0 lbs</td>
+                        <td>13.5%</td>
+                    </tr>
+                    <tr>
+                        <td>Tall Kneeling Single Arm Chest Press</td>
+                        <td>Obliques</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>528 lbs</td>
+                        <td>0 lbs</td>
+                        <td>8.0%</td>
+                    </tr>
+                    <tr>
+                        <td>Pushup to Plank</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>264 lbs</td>
+                        <td>0 lbs</td>
+                        <td>8.0%</td>
+                    </tr>
+                    <tr>
+                        <td>Bulgarian Split Squat</td>
+                        <td>Quads</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>582 lbs</td>
+                        <td>0 lbs</td>
+                        <td>3.2%</td>
+                    </tr>
+                    <tr>
+                        <td>Elevated Single Leg Glute Bridge</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>582 lbs</td>
+                        <td>0 lbs</td>
+                        <td>3.2%</td>
+                    </tr>
+                    <tr>
+                        <td>X-Pulldown w/ Triceps Extension</td>
+                        <td>Biceps</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>168 lbs</td>
+                        <td>0 lbs</td>
+                        <td>8.9%</td>
+                    </tr>
+                    <tr>
+                        <td>Upright Row</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>270 lbs</td>
+                        <td>0 lbs</td>
+                        <td>2.2%</td>
+                    </tr>
+                    <tr>
+                        <td>Sprinter Crunch</td>
+                        <td>Quads</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>534 lbs</td>
+                        <td>0 lbs</td>
+                        <td>2.2%</td>
+                    </tr>
+                    <tr>
+                        <td>Elevated Glute Bridge</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>68 lbs</td>
+                        <td>0 lbs</td>
+                        <td>81.2%</td>
+                    </tr>
+                    <tr>
+                        <td>Standing Single Arm Row</td>
+                        <td>Biceps</td>
+                        <td class="sensitivity-high">85</td>
+                        <td>0 lbs</td>
+                        <td>783 lbs</td>
+                        <td>18.8%</td>
+                    </tr>
+                    <tr>
+                        <td>Triceps Extension</td>
+                        <td>Triceps</td>
+                        <td class="sensitivity-high">82</td>
+                        <td>318 lbs</td>
+                        <td>0 lbs</td>
+                        <td>21.6%</td>
+                    </tr>
+                    <tr>
+                        <td>Hammer Curl</td>
+                        <td>Forearms</td>
+                        <td class="sensitivity-high">81</td>
+                        <td>534 lbs</td>
+                        <td>180 lbs</td>
+                        <td>34.2%</td>
+                    </tr>
+                    <tr>
+                        <td>f1910308</td>
+                        <td>General</td>
+                        <td class="sensitivity-high">76</td>
+                        <td>570 lbs</td>
+                        <td>0 lbs</td>
+                        <td>3.3%</td>
+                    </tr>
+                    <tr>
+                        <td>Neutral Lat Pulldown</td>
+                        <td>Biceps</td>
+                        <td class="sensitivity-high">75</td>
+                        <td>628 lbs</td>
+                        <td>916 lbs</td>
+                        <td>19.4%</td>
+                    </tr>
+                    <tr>
+                        <td>Bird Dog w/ Row</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-high">70</td>
+                        <td>537 lbs</td>
+                        <td>0 lbs</td>
+                        <td>9.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Barbell Sumo Deadlift</td>
+                        <td>Hamstrings</td>
+                        <td class="sensitivity-high">68</td>
+                        <td>1154 lbs</td>
+                        <td>0 lbs</td>
+                        <td>34.5%</td>
+                    </tr>
+                    <tr>
+                        <td>Reach and Rotate Opener</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-high">68</td>
+                        <td>1438 lbs</td>
+                        <td>0 lbs</td>
+                        <td>5.5%</td>
+                    </tr>
+                    <tr>
+                        <td>Barbell Bent Over Row</td>
+                        <td>Biceps</td>
+                        <td class="sensitivity-med">65</td>
+                        <td>884 lbs</td>
+                        <td>0 lbs</td>
+                        <td>27.9%</td>
+                    </tr>
+                    <tr>
+                        <td>Middle Chest Fly</td>
+                        <td>Shoulders</td>
+                        <td class="sensitivity-med">62</td>
+                        <td>135 lbs</td>
+                        <td>150 lbs</td>
+                        <td>6.3%</td>
+                    </tr>
+                    <tr>
+                        <td>Bench Press</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-med">62</td>
+                        <td>292 lbs</td>
+                        <td>0 lbs</td>
+                        <td>53.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Pull Through</td>
+                        <td>Abs</td>
+                        <td class="sensitivity-med">51</td>
+                        <td>444 lbs</td>
+                        <td>0 lbs</td>
+                        <td>13.0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="charts-row">
+            <div class="heatmap-container">
+                <h3 class="section-title">Muscle Group Sensitivity</h3>
+                <svg viewBox="0 0 500 250" width="100%">
+                    <rect x="20" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="48.0" y="58" fill="white" font-size="9" text-anchor="middle">Obliques</text>
+                    <text x="48.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">85</text>
+                    <rect x="80" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="108.0" y="58" fill="white" font-size="9" text-anchor="middle">Quads</text>
+                    <text x="108.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">85</text>
+                    <rect x="140" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="168.0" y="58" fill="white" font-size="9" text-anchor="middle">Triceps</text>
+                    <text x="168.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">82</text>
+                    <rect x="200" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="228.0" y="58" fill="white" font-size="9" text-anchor="middle">Forearms</text>
+                    <text x="228.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">81</text>
+                    <rect x="260" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="288.0" y="58" fill="white" font-size="9" text-anchor="middle">Shoulder</text>
+                    <text x="288.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">79</text>
+                    <rect x="320" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="348.0" y="58" fill="white" font-size="9" text-anchor="middle">Biceps</text>
+                    <text x="348.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">77</text>
+                    <rect x="380" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="408.0" y="58" fill="white" font-size="9" text-anchor="middle">General</text>
+                    <text x="408.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">76</text>
+                    <rect x="440" y="40" width="55" height="30" fill="#f85149" rx="4"/>
+                    <text x="468.0" y="58" fill="white" font-size="9" text-anchor="middle">Abs</text>
+                    <text x="468.0" y="80" fill="#8b949e" font-size="10" text-anchor="middle">74</text>
+                </svg>
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background:#2ea043"></div>Low (0-35)</div>
+                    <div class="legend-item"><div class="legend-color" style="background:#f39c12"></div>Medium (35-65)</div>
+                    <div class="legend-item"><div class="legend-color" style="background:#f85149"></div>High (65-100)</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="section-title">Sleep Quality Impact (Top 10)</h3>
+                <svg viewBox="0 0 450 300" width="100%">
+                    <rect class="bar-great" x="30" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="67" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="65" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 65, 272)">Barbell Benc</text>
+                    <rect class="bar-great" x="112" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="149" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="147" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 147, 272)">Floor Slide</text>
+                    <rect class="bar-great" x="194" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="231" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="229" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 229, 272)">Standing Ove</text>
+                    <rect class="bar-great" x="276" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="313" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="311" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 311, 272)">Front Raise</text>
+                    <rect class="bar-great" x="358" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="395" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="393" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 393, 272)">Pushup</text>
+                    <rect class="bar-great" x="440" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="477" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="475" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 475, 272)">Tall Kneelin</text>
+                    <rect class="bar-great" x="522" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="559" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="557" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 557, 272)">Pushup to Pl</text>
+                    <rect class="bar-great" x="604" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="641" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="639" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 639, 272)">Bulgarian Sp</text>
+                    <rect class="bar-great" x="686" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="723" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="721" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 721, 272)">Elevated Sin</text>
+                    <rect class="bar-great" x="768" y="110.0" width="35" height="150.0" rx="3"/>
+                        <rect class="bar-poor" x="805" y="260.0" width="35" height="0.0" rx="3"/>
+                        <text x="803" y="272" fill="#8b949e" font-size="7" text-anchor="middle" transform="rotate(-45, 803, 272)">X-Pulldown w</text>
+                    <line x1="20" y1="260" x2="430" y2="260" stroke="#30363d" stroke-width="1"/>
+                    <text x="25" y="25" fill="#2ea043" font-size="10">Great Sleep</text>
+                    <text x="85" y="25" fill="#f85149" font-size="10">Poor Sleep</text>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Detailed Analysis</h2>
+            <div class="detail-cards">
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Barbell Bench Press</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Abs • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Floor Slide</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Shoulders • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Standing Overhead Press</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Shoulders • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Front Raise</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Shoulders • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Pushup</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Abs • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Tall Kneeling Single Arm Chest Press</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Obliques • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Pushup to Plank</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Shoulders • 42 workouts • Corr: -1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/><circle cx="20.0" cy="20.0" r="4" class="scatter-point"/><circle cx="260.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Bulgarian Split Squat</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Quads • 42 workouts • Corr: 1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Elevated Single Leg Glute Bridge</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Abs • 42 workouts • Corr: 1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">X-Pulldown w/ Triceps Extension</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Biceps • 42 workouts • Corr: 1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Upright Row</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Shoulders • 42 workouts • Corr: 1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <div class="detail-title">Sprinter Crunch</div>
+                        <div class="detail-score" style="background:rgba(248, 81, 73, 0.15);color:#f85149">85</div>
+                    </div>
+                    <div style="color:#8b949e;font-size:0.85rem;margin-bottom:0.5rem;">
+                        Quads • 42 workouts • Corr: 1.00
+                    </div>
+                    <svg viewBox="0 0 280 150" width="100%" style="background:#0d1117;border-radius:6px;">
+                        <line x1="20" y1="130" x2="270" y2="130" stroke="#30363d"/>
+                        <line x1="20" y1="10" x2="20" y2="130" stroke="#30363d"/>
+                        <text x="140.0" y="145" fill="#8b949e" font-size="8" text-anchor="middle">Sleep Quality</text>
+                        <text x="8" y="75.0" fill="#8b949e" font-size="8" text-anchor="middle" transform="rotate(-90, 8, 75.0)">Volume</text>
+                        <circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/><circle cx="260.0" cy="20.0" r="4" class="scatter-point"/><circle cx="20.0" cy="130.0" r="4" class="scatter-point"/>
+                    </svg>
+                    <div class="recommendation rec-sensitive">Sleep matters for this exercise</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍎 Nutrition & Recovery Insights</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 0.75rem 1.5rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+  nav a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; padding: 0.3rem 0.6rem; border-radius: 6px; transition: background 0.2s; }
+  nav>div>a { padding: 0; border-radius: 0; font-size: 14px; }
+  nav a:hover { background: #21262d; }
+  nav a.active { color: #f39c12; background: #21262d; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .subtitle { color: #8b949e; margin-bottom: 2rem; font-size: 0.95rem; }
+  .section-title { font-size: 1.1rem; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 1rem; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.2rem; text-align: center; }
+  .card .label { font-size: 0.8rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+  .card .value { font-size: 1.9rem; font-weight: 700; }
+  .card .unit  { font-size: 0.85rem; color: #8b949e; margin-top: 0.2rem; }
+  .insights-box { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.4rem; margin-bottom: 1.5rem; }
+  .insight-row { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.8rem 0; border-bottom: 1px solid #21262d; }
+  .insight-row:last-child { border-bottom: none; }
+  .insight-icon { font-size: 1.3rem; min-width: 28px; }
+  .insight-text .main { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .insight-text .sub  { font-size: 0.85rem; color: #8b949e; }
+  .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .chart-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.2rem; overflow: hidden; }
+  .chart-card svg { max-width: 100%; height: auto; }
+  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+  .badge-green { background: #1a3a2a; color: #2ea043; }
+  .badge-orange { background: #3a2a1a; color: #f39c12; }
+  .badge-red { background: #3a1a1a; color: #f85149; }
+  .badge-blue { background: #1a2a3a; color: #58a6ff; }
+  footer { text-align: center; color: #484f58; font-size: 0.8rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #21262d; }
+  @media (max-width: 700px) { .charts-2col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#ffffff;font-weight:bold">🥗 Nutrition</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>🍎 Nutrition & Recovery Insights</h1>
+  <p class="subtitle">How what you eat affects how you recover — 16 days of data analyzed</p>
+
+  <div class="section-title">Nutrition Summary</div>
+  <div class="cards">
+    <div class="card">
+      <div class="label">Avg Calories</div>
+      <div class="value" style="color:#f39c12">2,099</div>
+      <div class="unit">kcal/day</div>
+    </div>
+    <div class="card">
+      <div class="label">Avg Protein</div>
+      <div class="value" style="color:#2ea043">250g</div>
+      <div class="unit">per day</div>
+    </div>
+    <div class="card">
+      <div class="label">Avg Carbs</div>
+      <div class="value" style="color:#0a84ff">129g</div>
+      <div class="unit">per day</div>
+    </div>
+    <div class="card">
+      <div class="label">Avg Fat</div>
+      <div class="value" style="color:#f85149">68g</div>
+      <div class="unit">per day</div>
+    </div>
+  </div>
+
+  <div class="section-title">Recovery Summary</div>
+  <div class="cards">
+    <div class="card">
+      <div class="label">Avg WHOOP Recovery</div>
+      <div class="value" style="color:#f85149">0%</div>
+      <div class="unit">recovery score</div>
+    </div>
+    <div class="card">
+      <div class="label">Avg HRV</div>
+      <div class="value" style="color:#58a6ff">0</div>
+      <div class="unit">ms (rmssd)</div>
+    </div>
+    <div class="card">
+      <div class="label">Avg Resting HR</div>
+      <div class="value" style="color:#f85149">0</div>
+      <div class="unit">bpm</div>
+    </div>
+    <div class="card">
+      <div class="label">Avg 8Sleep Score</div>
+      <div class="value" style="color:#8b5cf6">79</div>
+      <div class="unit">sleep score</div>
+    </div>
+  </div>
+
+  <div class="section-title">Correlation Insights</div>
+  <div class="insights-box">
+    <div class="insight-row">
+      <div class="insight-icon">🔗</div>
+      <div class="insight-text">
+        <div class="main">Protein → WHOOP Recovery: <span class="badge badge-blue">None (0.00)</span></div>
+        <div class="sub">0 days with both protein and WHOOP data</div>
+      </div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-icon">🥩</div>
+      <div class="insight-text">
+        <div class="main">High-Protein Days (&gt;150g) Avg Recovery: <span style="color:#2ea043;font-weight:700">0%</span></div>
+        <div class="sub">vs Normal Days: <span style="color:#f39c12">0%</span> — 0 high-protein days recorded</div>
+      </div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-icon">🛌</div>
+      <div class="insight-text">
+        <div class="main">Calories → 8Sleep Score: <span class="badge badge-green">↓ Moderate (-0.33)</span></div>
+        <div class="sub">16 days with both calorie and 8Sleep data</div>
+      </div>
+    </div>
+    <div class="insight-row">
+      <div class="insight-icon">📅</div>
+      <div class="insight-text">
+        <div class="main">Data range: 2026-02-05 → 2026-03-16</div>
+        <div class="sub">WHOOP: 1 days · 8Sleep: 1463 days · Tonal: 690 sessions · Cronometer: 16 days</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Scatter Plots</div>
+  <div class="charts-2col">
+    <div class="chart-card">
+      <svg width="450" height="320"><text x="50%" y="50%" fill="#8b949e" text-anchor="middle">No data</text></svg>
+    </div>
+    <div class="chart-card">
+      <svg width="450" height="320" style="overflow:visible">
+      <text x="225" y="16" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">Calories vs 8Sleep Score</text>
+      
+      <line x1="55" y1="30" x2="55" y2="275" stroke="#30363d" stroke-width="1"/>
+      <line x1="55" y1="275" x2="430" y2="275" stroke="#30363d" stroke-width="1"/>
+    <line x1="51" y1="275.0" x2="430" y2="275.0" stroke="#21262d" stroke-width="1"/><text x="47" y="279.0" fill="#8b949e" font-size="10" text-anchor="end">0</text><line x1="51" y1="226.0" x2="430" y2="226.0" stroke="#21262d" stroke-width="1"/><text x="47" y="230.0" fill="#8b949e" font-size="10" text-anchor="end">20</text><line x1="51" y1="177.0" x2="430" y2="177.0" stroke="#21262d" stroke-width="1"/><text x="47" y="181.0" fill="#8b949e" font-size="10" text-anchor="end">40</text><line x1="51" y1="128.0" x2="430" y2="128.0" stroke="#21262d" stroke-width="1"/><text x="47" y="132.0" fill="#8b949e" font-size="10" text-anchor="end">60</text><line x1="51" y1="79.0" x2="430" y2="79.0" stroke="#21262d" stroke-width="1"/><text x="47" y="83.0" fill="#8b949e" font-size="10" text-anchor="end">80</text><line x1="51" y1="30.0" x2="430" y2="30.0" stroke="#21262d" stroke-width="1"/><text x="47" y="34.0" fill="#8b949e" font-size="10" text-anchor="end">100</text><text x="55.0" y="290" fill="#8b949e" font-size="10" text-anchor="middle">140</text><text x="242.5" y="290" fill="#8b949e" font-size="10" text-anchor="middle">2136</text><text x="430.0" y="290" fill="#8b949e" font-size="10" text-anchor="middle">4133</text><line x1="55.0" y1="57.1" x2="430.0" y2="105.1" stroke="#0a84ff" stroke-width="2" stroke-dasharray="4,3"/><circle cx="226.9" cy="98.6" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 1970, 8Sleep Score: 72.0</title></circle><circle cx="160.5" cy="83.9" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 1263, 8Sleep Score: 78.0</title></circle><circle cx="324.2" cy="39.8" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 3006, 8Sleep Score: 96.0</title></circle><circle cx="327.7" cy="64.3" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 3044, 8Sleep Score: 86.0</title></circle><circle cx="186.5" cy="34.9" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 1540, 8Sleep Score: 98.0</title></circle><circle cx="430.0" cy="125.6" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 4133, 8Sleep Score: 61.0</title></circle><circle cx="269.6" cy="159.9" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 2425, 8Sleep Score: 47.0</title></circle><circle cx="267.9" cy="152.5" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 2406, 8Sleep Score: 50.0</title></circle><circle cx="280.4" cy="59.4" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 2540, 8Sleep Score: 88.0</title></circle><circle cx="213.5" cy="59.4" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 1828, 8Sleep Score: 88.0</title></circle><circle cx="55.0" cy="76.5" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 140, 8Sleep Score: 81.0</title></circle><circle cx="90.6" cy="61.8" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 519, 8Sleep Score: 87.0</title></circle><circle cx="160.9" cy="34.9" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 1268, 8Sleep Score: 98.0</title></circle><circle cx="205.2" cy="76.5" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 1739, 8Sleep Score: 81.0</title></circle><circle cx="342.4" cy="96.2" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 3200, 8Sleep Score: 73.0</title></circle><circle cx="282.3" cy="66.8" r="5" fill="#8b5cf6" opacity="0.7"><title>Calories: 2560, 8Sleep Score: 85.0</title></circle>
+      <text x="242" y="318" fill="#8b949e" font-size="11" text-anchor="middle">Calories</text>
+      <text x="12" y="152" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,12,152)">8Sleep Score</text>
+    </svg>
+    </div>
+  </div>
+
+  <div class="section-title">Daily Trends (Last 90 Days)</div>
+  <div class="charts-2col">
+    <div class="chart-card">
+      <svg width="450" height="180" style="overflow:visible">
+      <defs>
+        <linearGradient id="grad_f39c12" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f39c12" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#f39c12" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <text x="225" y="14" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">90-Day Calorie Trend</text>
+      <line x1="55" y1="145.0" x2="435" y2="145.0" stroke="#21262d" stroke-width="1"/><text x="50" y="149.0" fill="#8b949e" font-size="9" text-anchor="end">126</text><line x1="55" y1="115.0" x2="435" y2="115.0" stroke="#21262d" stroke-width="1"/><text x="50" y="119.0" fill="#8b949e" font-size="9" text-anchor="end">1179</text><line x1="55" y1="85.0" x2="435" y2="85.0" stroke="#21262d" stroke-width="1"/><text x="50" y="89.0" fill="#8b949e" font-size="9" text-anchor="end">2233</text><line x1="55" y1="55.0" x2="435" y2="55.0" stroke="#21262d" stroke-width="1"/><text x="50" y="59.0" fill="#8b949e" font-size="9" text-anchor="end">3286</text><line x1="55" y1="25.0" x2="435" y2="25.0" stroke="#21262d" stroke-width="1"/><text x="50" y="29.0" fill="#8b949e" font-size="9" text-anchor="end">4340</text>
+      <polygon points="55,145 55.0,92.5 80.3,112.6 105.7,63.0 131.0,61.9 156.3,104.7 181.7,30.9 207.0,79.5 232.3,80.1 257.7,76.2 283.0,96.5 308.3,144.6 333.7,133.8 359.0,112.5 384.3,99.1 409.7,57.5 435.0,75.7 435.0,145" fill="url(#grad_f39c12)"/>
+      <polyline points="55.0,92.5 80.3,112.6 105.7,63.0 131.0,61.9 156.3,104.7 181.7,30.9 207.0,79.5 232.3,80.1 257.7,76.2 283.0,96.5 308.3,144.6 333.7,133.8 359.0,112.5 384.3,99.1 409.7,57.5 435.0,75.7" fill="none" stroke="#f39c12" stroke-width="2"/>
+      <text x="55.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-05</text><text x="131.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-09</text><text x="207.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-12</text><text x="283.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-19</text><text x="359.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">03-10</text><text x="435.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">03-16</text>
+    </svg>
+    </div>
+    <div class="chart-card">
+      <svg width="450" height="180" style="overflow:visible">
+      <defs>
+        <linearGradient id="grad_2ea043" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2ea043" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#2ea043" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <text x="225" y="14" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">90-Day Protein Trend</text>
+      <line x1="55" y1="145.0" x2="435" y2="145.0" stroke="#21262d" stroke-width="1"/><text x="50" y="149.0" fill="#8b949e" font-size="9" text-anchor="end">27</text><line x1="55" y1="115.0" x2="435" y2="115.0" stroke="#21262d" stroke-width="1"/><text x="50" y="119.0" fill="#8b949e" font-size="9" text-anchor="end">144</text><line x1="55" y1="85.0" x2="435" y2="85.0" stroke="#21262d" stroke-width="1"/><text x="50" y="89.0" fill="#8b949e" font-size="9" text-anchor="end">260</text><line x1="55" y1="55.0" x2="435" y2="55.0" stroke="#21262d" stroke-width="1"/><text x="50" y="59.0" fill="#8b949e" font-size="9" text-anchor="end">377</text><line x1="55" y1="25.0" x2="435" y2="25.0" stroke="#21262d" stroke-width="1"/><text x="50" y="29.0" fill="#8b949e" font-size="9" text-anchor="end">493</text>
+      <polygon points="55,145 55.0,103.2 80.3,98.0 105.7,84.6 131.0,83.2 156.3,99.1 181.7,31.0 207.0,75.3 232.3,78.0 257.7,74.8 283.0,80.1 308.3,144.2 333.7,132.4 359.0,115.4 384.3,90.2 409.7,57.8 435.0,54.8 435.0,145" fill="url(#grad_2ea043)"/>
+      <polyline points="55.0,103.2 80.3,98.0 105.7,84.6 131.0,83.2 156.3,99.1 181.7,31.0 207.0,75.3 232.3,78.0 257.7,74.8 283.0,80.1 308.3,144.2 333.7,132.4 359.0,115.4 384.3,90.2 409.7,57.8 435.0,54.8" fill="none" stroke="#2ea043" stroke-width="2"/>
+      <text x="55.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-05</text><text x="131.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-09</text><text x="207.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-12</text><text x="283.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">02-19</text><text x="359.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">03-10</text><text x="435.0" y="159" fill="#8b949e" font-size="9" text-anchor="middle">03-16</text>
+    </svg>
+    </div>
+  </div>
+
+  <footer>
+    Generated by OpenClaw 🤖 · 2026-03-17 03:02 EDT ·
+    <a href="../index.html" style="color:#58a6ff">← Back to Hub</a>
+  </footer>
+</div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

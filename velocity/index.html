@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Velocity 📈</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+  body { background:#0d1117; color:#e6edf3; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; }
+  a { color:#58a6ff; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+
+  /* NAV */
+  nav { background:#161b22; border-bottom:1px solid #30363d; padding:12px 24px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+  nav a { color:#8b949e; font-size:.85rem; font-weight:500; padding:4px 8px; border-radius:6px; transition:all .2s; }
+  nav a:hover, nav a.active { color:#f39c12; background:#f39c1218; text-decoration:none; }
+
+  /* LAYOUT */
+  .container { max-width:1100px; margin:0 auto; padding:24px; }
+  h1 { font-size:2rem; font-weight:700; }
+  h2 { font-size:1.2rem; font-weight:600; color:#8b949e; margin-bottom:16px; text-transform:uppercase; letter-spacing:.05em; }
+  .subtitle { color:#8b949e; margin:6px 0 24px; }
+  .section { margin-bottom:40px; }
+
+  /* CARDS */
+  .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  @media(max-width:700px) { .cards { grid-template-columns:1fr 1fr; } }
+  .card { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; }
+  .card-title { font-size:.8rem; color:#8b949e; text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px; }
+  .card-value { font-size:1.8rem; font-weight:700; margin-bottom:4px; }
+  .card-delta { font-size:.9rem; }
+  .card-momentum { font-size:1.4rem; margin-top:6px; }
+  .pos { color:#2ea043; }
+  .neg { color:#f85149; }
+  .neu { color:#8b949e; }
+
+  /* CHART */
+  .chart-wrap { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; overflow-x:auto; }
+  .chart-legend { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:12px; font-size:.85rem; }
+  .leg-dot { width:12px; height:12px; border-radius:50%; display:inline-block; margin-right:6px; }
+
+  /* TABLE */
+  .table-wrap { background:#161b22; border:1px solid #30363d; border-radius:12px; overflow:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; }
+  th { background:#0d1117; color:#8b949e; font-weight:600; padding:10px 12px; text-align:left; border-bottom:1px solid #30363d; font-size:.75rem; text-transform:uppercase; }
+  td { padding:10px 12px; border-bottom:1px solid #21262d; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:#1c2128; }
+
+  /* GAUGE */
+  .gauge-wrap { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:28px; text-align:center; }
+  .gauge-score { font-size:4rem; font-weight:700; line-height:1; }
+  .gauge-label { font-size:1.1rem; font-weight:600; margin-top:8px; }
+  .gauge-bar-bg { background:#21262d; border-radius:999px; height:14px; margin:16px auto; max-width:400px; }
+  .gauge-bar { height:14px; border-radius:999px; transition:width .5s; }
+  .gauge-desc { color:#8b949e; font-size:.9rem; margin-top:8px; }
+
+  /* INSIGHTS */
+  .insights-card { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; }
+  .insights-card ul { list-style:none; padding:0; }
+  .insights-card li { padding:8px 0; border-bottom:1px solid #21262d; font-size:.95rem; line-height:1.5; }
+  .insights-card li:last-child { border-bottom:none; }
+
+  /* RECOMMENDATIONS */
+  .rec-card { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; display:flex; gap:16px; align-items:flex-start; margin-bottom:12px; }
+  .rec-emoji { font-size:1.8rem; flex-shrink:0; }
+  .rec-card strong { display:block; font-size:1rem; margin-bottom:4px; }
+  .rec-card p { color:#8b949e; font-size:.9rem; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html">🏠 Home</a>
+  <a href="../fitness_overview.html">📊 Overview</a>
+  <a href="../strength/index.html">💪 Strength</a>
+  <a href="../cardio/index.html">🏃 Cardio</a>
+  <a href="../sleep_dashboard.html">😴 Sleep</a>
+  <a href="../calendars/2026-02-calendar.html">📅 Calendar</a>
+  <a href="index.html" class="active">📈 Velocity</a>
+</nav>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div style="margin-bottom:32px;padding-top:8px">
+    <h1>📈 Training Velocity</h1>
+    <p class="subtitle">Your fitness momentum at a glance &nbsp;·&nbsp; Last 12 Weeks: Dec 01 – Feb 16, 2026</p>
+  </div>
+
+  <!-- SECTION 1: Velocity Cards -->
+  <div class="section">
+    <h2>Velocity Summary</h2>
+    <div class="cards">
+      <div class="card" style="border-top:3px solid #f39c12">
+        <div class="card-title">Volume Velocity</div>
+        <div class="card-value" style="color:#f39c12">11,447<small style="font-size:.9rem;font-weight:400;color:#8b949e"> lbs</small></div>
+        <div class="card-delta neg">-65.3% vs last week</div>
+        <div class="card-momentum">↓ <span style="font-size:.9rem;color:#8b949e">Declining</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid #0a84ff">
+        <div class="card-title">Cardio Velocity</div>
+        <div class="card-value" style="color:#0a84ff">6.9<small style="font-size:.9rem;font-weight:400;color:#8b949e"> mi</small></div>
+        <div class="card-delta neg">-48.0% vs last week</div>
+        <div class="card-momentum">→ <span style="font-size:.9rem;color:#8b949e">Steady</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid #2ea043">
+        <div class="card-title">Recovery Velocity</div>
+        <div class="card-value" style="color:#2ea043">33<small style="font-size:.9rem;font-weight:400;color:#8b949e">%</small></div>
+        <div class="card-delta neg">-17.0% vs last week</div>
+        <div class="card-momentum">↓ <span style="font-size:.9rem;color:#8b949e">Declining</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid #a371f7">
+        <div class="card-title">Sleep Velocity</div>
+        <div class="card-value" style="color:#a371f7">71<small style="font-size:.9rem;font-weight:400;color:#8b949e"> score</small></div>
+        <div class="card-delta pos">+15.2% vs last week</div>
+        <div class="card-momentum">↑ <span style="font-size:.9rem;color:#8b949e">Accelerating</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 12-Week Momentum Chart -->
+  <div class="section">
+    <h2>12-Week Momentum Chart</h2>
+    <div class="chart-wrap">
+      <div class="chart-legend">
+        <span><span class="leg-dot" style="background:#f39c12"></span>Volume (normalized)</span>
+        <span><span class="leg-dot" style="background:#0a84ff"></span>Cardio Miles</span>
+        <span><span class="leg-dot" style="background:#2ea043"></span>WHOOP Recovery</span>
+        <span><span class="leg-dot" style="background:#a371f7"></span>Sleep Score</span>
+      </div>
+      <svg viewBox="0 0 800 320" width="800" height="320" style="max-width:100%">
+        <!-- Grid lines -->
+        <line x1="50" y1="280.0" x2="780" y2="280.0" stroke="#30363d" stroke-width="1"/><line x1="50" y1="215.0" x2="780" y2="215.0" stroke="#30363d" stroke-width="1"/><line x1="50" y1="150.0" x2="780" y2="150.0" stroke="#30363d" stroke-width="1"/><line x1="50" y1="85.0" x2="780" y2="85.0" stroke="#30363d" stroke-width="1"/><line x1="50" y1="20.0" x2="780" y2="20.0" stroke="#30363d" stroke-width="1"/>
+        <!-- X grid -->
+        <line x1="50.0" y1="20" x2="50.0" y2="280" stroke="#21262d" stroke-width="1"/><line x1="116.4" y1="20" x2="116.4" y2="280" stroke="#21262d" stroke-width="1"/><line x1="182.7" y1="20" x2="182.7" y2="280" stroke="#21262d" stroke-width="1"/><line x1="249.1" y1="20" x2="249.1" y2="280" stroke="#21262d" stroke-width="1"/><line x1="315.5" y1="20" x2="315.5" y2="280" stroke="#21262d" stroke-width="1"/><line x1="381.8" y1="20" x2="381.8" y2="280" stroke="#21262d" stroke-width="1"/><line x1="448.2" y1="20" x2="448.2" y2="280" stroke="#21262d" stroke-width="1"/><line x1="514.5" y1="20" x2="514.5" y2="280" stroke="#21262d" stroke-width="1"/><line x1="580.9" y1="20" x2="580.9" y2="280" stroke="#21262d" stroke-width="1"/><line x1="647.3" y1="20" x2="647.3" y2="280" stroke="#21262d" stroke-width="1"/><line x1="713.6" y1="20" x2="713.6" y2="280" stroke="#21262d" stroke-width="1"/><line x1="780.0" y1="20" x2="780.0" y2="280" stroke="#21262d" stroke-width="1"/>
+        <!-- X labels -->
+        <text x="50.0" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W1</text><text x="116.4" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W2</text><text x="182.7" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W3</text><text x="249.1" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W4</text><text x="315.5" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W5</text><text x="381.8" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W6</text><text x="448.2" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W7</text><text x="514.5" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W8</text><text x="580.9" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W9</text><text x="647.3" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W10</text><text x="713.6" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W11</text><text x="780.0" y="294" text-anchor="middle" fill="#8b949e" font-size="11">W12</text>
+        <!-- Y labels -->
+        <text x="44" y="280.0" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="10">0</text><text x="44" y="215.0" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="10">25</text><text x="44" y="150.0" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="10">50</text><text x="44" y="85.0" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="10">75</text><text x="44" y="20.0" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="10">100</text>
+        <!-- Shaded areas -->
+        <path d="M 50.0 280 L 50.0 235.8 L 116.4 69.4 L 182.7 48.6 L 249.1 280.0 L 315.5 280.0 L 381.8 20.0 L 448.2 170.8 L 514.5 152.6 L 580.9 61.6 L 647.3 118.8 L 713.6 178.6 L 780.0 243.6 L 780.0 280 Z" fill="#f39c12" fill-opacity="0.08"/>
+        <path d="M 50.0 280 L 50.0 280.0 L 116.4 280.0 L 182.7 280.0 L 249.1 280.0 L 315.5 280.0 L 381.8 126.6 L 448.2 181.2 L 514.5 85.0 L 580.9 137.0 L 647.3 77.2 L 713.6 20.0 L 780.0 144.8 L 780.0 280 Z" fill="#0a84ff" fill-opacity="0.08"/>
+        <path d="M 50.0 280 L 50.0 202.0 L 116.4 40.8 L 182.7 43.4 L 249.1 56.4 L 315.5 20.0 L 381.8 147.4 L 448.2 137.0 L 514.5 103.2 L 580.9 207.2 L 647.3 199.4 L 713.6 243.6 L 780.0 280.0 L 780.0 280 Z" fill="#2ea043" fill-opacity="0.08"/>
+        <path d="M 713.6 280 L 713.6 280.0 L 780.0 20.0 L 780.0 280 Z" fill="#a371f7" fill-opacity="0.08"/>
+        <!-- Lines -->
+        <path d="M 50.0 235.8 L 116.4 69.4 L 182.7 48.6 L 249.1 280.0 L 315.5 280.0 L 381.8 20.0 L 448.2 170.8 L 514.5 152.6 L 580.9 61.6 L 647.3 118.8 L 713.6 178.6 L 780.0 243.6" stroke="#f39c12" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+        <path d="M 50.0 280.0 L 116.4 280.0 L 182.7 280.0 L 249.1 280.0 L 315.5 280.0 L 381.8 126.6 L 448.2 181.2 L 514.5 85.0 L 580.9 137.0 L 647.3 77.2 L 713.6 20.0 L 780.0 144.8" stroke="#0a84ff" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+        <path d="M 50.0 202.0 L 116.4 40.8 L 182.7 43.4 L 249.1 56.4 L 315.5 20.0 L 381.8 147.4 L 448.2 137.0 L 514.5 103.2 L 580.9 207.2 L 647.3 199.4 L 713.6 243.6 L 780.0 280.0" stroke="#2ea043" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+        <path d="M 713.6 280.0 L 780.0 20.0" stroke="#a371f7" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+        <!-- Dots -->
+        <circle cx="50.0" cy="235.8" r="4" fill="#f39c12"/><circle cx="116.4" cy="69.4" r="4" fill="#f39c12"/><circle cx="182.7" cy="48.6" r="4" fill="#f39c12"/><circle cx="249.1" cy="280.0" r="4" fill="#f39c12"/><circle cx="315.5" cy="280.0" r="4" fill="#f39c12"/><circle cx="381.8" cy="20.0" r="4" fill="#f39c12"/><circle cx="448.2" cy="170.8" r="4" fill="#f39c12"/><circle cx="514.5" cy="152.6" r="4" fill="#f39c12"/><circle cx="580.9" cy="61.6" r="4" fill="#f39c12"/><circle cx="647.3" cy="118.8" r="4" fill="#f39c12"/><circle cx="713.6" cy="178.6" r="4" fill="#f39c12"/><circle cx="780.0" cy="243.6" r="4" fill="#f39c12"/>
+        <circle cx="50.0" cy="280.0" r="4" fill="#0a84ff"/><circle cx="116.4" cy="280.0" r="4" fill="#0a84ff"/><circle cx="182.7" cy="280.0" r="4" fill="#0a84ff"/><circle cx="249.1" cy="280.0" r="4" fill="#0a84ff"/><circle cx="315.5" cy="280.0" r="4" fill="#0a84ff"/><circle cx="381.8" cy="126.6" r="4" fill="#0a84ff"/><circle cx="448.2" cy="181.2" r="4" fill="#0a84ff"/><circle cx="514.5" cy="85.0" r="4" fill="#0a84ff"/><circle cx="580.9" cy="137.0" r="4" fill="#0a84ff"/><circle cx="647.3" cy="77.2" r="4" fill="#0a84ff"/><circle cx="713.6" cy="20.0" r="4" fill="#0a84ff"/><circle cx="780.0" cy="144.8" r="4" fill="#0a84ff"/>
+        <circle cx="50.0" cy="202.0" r="4" fill="#2ea043"/><circle cx="116.4" cy="40.8" r="4" fill="#2ea043"/><circle cx="182.7" cy="43.4" r="4" fill="#2ea043"/><circle cx="249.1" cy="56.4" r="4" fill="#2ea043"/><circle cx="315.5" cy="20.0" r="4" fill="#2ea043"/><circle cx="381.8" cy="147.4" r="4" fill="#2ea043"/><circle cx="448.2" cy="137.0" r="4" fill="#2ea043"/><circle cx="514.5" cy="103.2" r="4" fill="#2ea043"/><circle cx="580.9" cy="207.2" r="4" fill="#2ea043"/><circle cx="647.3" cy="199.4" r="4" fill="#2ea043"/><circle cx="713.6" cy="243.6" r="4" fill="#2ea043"/><circle cx="780.0" cy="280.0" r="4" fill="#2ea043"/>
+        <circle cx="713.6" cy="280.0" r="4" fill="#a371f7"/><circle cx="780.0" cy="20.0" r="4" fill="#a371f7"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Week-over-Week Table -->
+  <div class="section">
+    <h2>Week-over-Week Δ (Last 8 Weeks)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Volume (lbs)</th><th>Δ%</th>
+            <th>Miles</th><th>Δ%</th>
+            <th>Recovery</th><th>Δ%</th>
+            <th>Sleep</th><th>Δ%</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td><strong>W5</strong><br><small style="color:#8b949e">Dec 29</small></td>
+          <td>—</td>
+          <td >—</td>
+          <td>—</td>
+          <td >—</td>
+          <td>79%</td>
+          <td style="color:#2ea043">+8.8%</td>
+          <td>—</td>
+          <td >—</td>
+        </tr>
+        <tr>
+          <td><strong>W6</strong><br><small style="color:#8b949e">Jan 05</small></td>
+          <td>83,972</td>
+          <td >—</td>
+          <td>7.8</td>
+          <td >—</td>
+          <td>56%</td>
+          <td style="color:#f85149">-28.7%</td>
+          <td>—</td>
+          <td >—</td>
+        </tr>
+        <tr>
+          <td><strong>W7</strong><br><small style="color:#8b949e">Jan 12</small></td>
+          <td>35,210</td>
+          <td style="color:#f85149">-58.1%</td>
+          <td>5.0</td>
+          <td style="color:#f85149">-35.5%</td>
+          <td>58%</td>
+          <td style="color:#2ea043">+3.0%</td>
+          <td>—</td>
+          <td >—</td>
+        </tr>
+        <tr>
+          <td><strong>W8</strong><br><small style="color:#8b949e">Jan 19</small></td>
+          <td>41,184</td>
+          <td style="color:#2ea043">+17.0%</td>
+          <td>10.0</td>
+          <td style="color:#2ea043">+98.6%</td>
+          <td>64%</td>
+          <td style="color:#2ea043">+10.5%</td>
+          <td>—</td>
+          <td >—</td>
+        </tr>
+        <tr>
+          <td><strong>W9</strong><br><small style="color:#8b949e">Jan 26</small></td>
+          <td>70,519</td>
+          <td style="color:#2ea043">+71.2%</td>
+          <td>7.3</td>
+          <td style="color:#f85149">-27.3%</td>
+          <td>46%</td>
+          <td style="color:#f85149">-28.9%</td>
+          <td>—</td>
+          <td >—</td>
+        </tr>
+        <tr>
+          <td><strong>W10</strong><br><small style="color:#8b949e">Feb 02</small></td>
+          <td>52,441</td>
+          <td style="color:#f85149">-25.6%</td>
+          <td>10.5</td>
+          <td style="color:#2ea043">+43.5%</td>
+          <td>47%</td>
+          <td style="color:#2ea043">+3.1%</td>
+          <td>—</td>
+          <td >—</td>
+        </tr>
+        <tr>
+          <td><strong>W11</strong><br><small style="color:#8b949e">Feb 09</small></td>
+          <td>33,008</td>
+          <td style="color:#f85149">-37.1%</td>
+          <td>13.3</td>
+          <td style="color:#2ea043">+27.4%</td>
+          <td>39%</td>
+          <td style="color:#f85149">-16.2%</td>
+          <td>62</td>
+          <td >—</td>
+        </tr>
+        <tr style="background:#1c2128;border-left:3px solid #f39c12">
+          <td><strong>W12</strong><br><small style="color:#8b949e">Feb 16</small></td>
+          <td>11,447</td>
+          <td style="color:#f85149">-65.3%</td>
+          <td>6.9</td>
+          <td style="color:#f85149">-48.0%</td>
+          <td>33%</td>
+          <td style="color:#f85149">-17.0%</td>
+          <td>71</td>
+          <td style="color:#2ea043">+15.2%</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Momentum Score -->
+  <div class="section">
+    <h2>Momentum Score</h2>
+    <div class="gauge-wrap">
+      <div class="gauge-score" style="color:#f39c12">66</div>
+      <div class="gauge-label" style="color:#f39c12">Building</div>
+      <div class="gauge-bar-bg">
+        <div class="gauge-bar" style="width:66%;background:#f39c12"></div>
+      </div>
+      <div class="gauge-desc">
+        Composite of Volume, Cardio, Recovery & Sleep velocity trends &nbsp;·&nbsp;
+        <span style="color:#2ea043">Accelerating 70+</span> &nbsp;
+        <span style="color:#f39c12">Building 50–69</span> &nbsp;
+        <span style="color:#58a6ff">Steady 30–49</span> &nbsp;
+        <span style="color:#f85149">Declining &lt;30</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Insights -->
+  <div class="section">
+    <h2>Insights & Observations</h2>
+    <div class="insights-card">
+      <ul>
+        <li>⚠️ Volume is down 72% vs 4 weeks ago — check your training load</li>
+<li>🔴 Recovery scores trending down (avg 40%) — consider a deload week</li>
+<li>🌙 Sleep quality improving (avg 67) — expect better performance this week</li>
+<li>🏃 Cardio volume building — averaging 8.7 mi/week with upward trend</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 6: Recommendations -->
+  <div class="section">
+    <h2>Recommendations</h2>
+    
+    <div class="rec-card">
+      <div class="rec-emoji">⚡</div>
+      <div><strong>Break through the plateau</strong><p>Introduce variation — try interval training, new exercises, or adjust weekly structure.</p></div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-emoji">🎯</div>
+      <div><strong>Set a 4-week target</strong><p>Pick one metric to improve and track it weekly. Focus builds momentum.</p></div>
+    </div>
+  </div>
+
+  <p style="color:#30363d;font-size:.75rem;text-align:center;padding:20px 0">
+    Generated 2026-02-27 10:25 · Training Velocity Dashboard
+  </p>
+</div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

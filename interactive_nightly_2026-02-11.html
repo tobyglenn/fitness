@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive interactive daily workout report">
+    <title>Interactive Nightly Report - 2026-02-11 (COMPREHENSIVE)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0c;
+            color: white;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: #1c1c1e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #2c2c2e;
+            transition: all 0.3s ease;
+        }
+        
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0a84ff;
+            display: block;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        h1 {
+            color: #0a84ff;
+        }
+        
+        .note {
+            background: #1c1c1e;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid #2c2c2e;
+            border-left: 4px solid #0a84ff;
+        }
+        
+        .note h3 {
+            margin-top: 0;
+            color: #0a84ff;
+        }
+        
+        .note ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .note li {
+            margin: 5px 0;
+        }
+        
+        .keyboard-shortcuts {
+            background: #0a0a0c;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        .keyboard-shortcuts code {
+            background: #2c2c2e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            color: #0a84ff;
+        }
+        
+        .sr-only {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        
+        .data-richness {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .data-richness-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 30px;
+            border-radius: 15px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .data-richness-fill {
+            background: white;
+            height: 100%;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #059669;
+            font-weight: bold;
+        }
+        
+        
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Expandable Card Styles */
+        .expandable-card {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .card-toggle {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .card-clickable {
+            cursor: pointer;
+            display: block;
+            user-select: none;
+            outline: none;
+        }
+        
+        .card-clickable:focus,
+        .card-toggle:focus + .card-clickable {
+            outline: 3px solid #0a84ff;
+            outline-offset: 2px;
+            border-radius: 12px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .expand-icon {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+            color: #8e8e93;
+        }
+        
+        .card-toggle:checked + .card-clickable .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .card-value-container {
+            margin-top: 10px;
+        }
+        
+        /* NEW: Mini metrics below main value */
+        .card-metrics {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .mini-metric {
+            font-size: 12px;
+            color: #8e8e93;
+            background: #0a0a0c;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #2c2c2e;
+        }
+        
+        .badge-container {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .comparison-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .comparison-badge.positive {
+            background: rgba(52, 199, 89, 0.15);
+            color: #34c759;
+            border: 1px solid rgba(52, 199, 89, 0.3);
+        }
+        
+        .comparison-badge.negative {
+            background: rgba(255, 69, 58, 0.15);
+            color: #ff453a;
+            border: 1px solid rgba(255, 69, 58, 0.3);
+        }
+        
+        /* PR Highlighting */
+        .pr-card {
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .pr-banner {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            animation: prPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes prPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        /* NEW: WHOOP Recovery Badge */
+        .whoop-recovery-badge {
+            background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
+            border: 2px solid;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .recovery-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .recovery-icon {
+            font-size: 20px;
+        }
+        
+        .recovery-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .recovery-stats {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .recovery-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .recovery-stat .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .recovery-stat .stat-trend {
+            font-size: 20px;
+        }
+        
+        .recovery-detail {
+            font-size: 12px;
+            color: #8e8e93;
+        }
+        
+        /* NEW: Training Effect Badge */
+        .training-effect-badge {
+            background: #0a0a0c;
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .effect-emoji {
+            font-size: 24px;
+        }
+        
+        .effect-label {
+            font-size: 14px;
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        .effect-values {
+            font-size: 12px;
+            color: #8e8e93;
+        }
+        
+        /* NEW: Heart Rate Zones */
+        .hr-zones-section {
+            background: #0a0a0c;
+            border: 1px solid #2c2c2e;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .section-header {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0a84ff;
+        }
+        
+        .zone-chart {
+            display: flex;
+            height: 30px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        
+        .zone-bar {
+            transition: width 0.3s ease;
+        }
+        
+        .zone-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+        }
+        
+        .zone-detail {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+        
+        .zone-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+        
+        .zone-name {
+            color: #8e8e93;
+            flex: 1;
+        }
+        
+        .zone-time {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .zone-pct {
+            color: #636366;
+            font-size: 11px;
+        }
+        
+        /* NEW: Running Form Metrics Grid */
+        .running-form-section {
+            background: #0a0a0c;
+            border: 1px solid #2c2c2e;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        
+        .form-metric {
+            background: #1c1c1e;
+            border: 1px solid #2c2c2e;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-metric:hover {
+            border-color: #0a84ff;
+        }
+        
+        .form-metric.quality-good {
+            border-left: 3px solid #10b981;
+        }
+        
+        .form-metric.quality-warning {
+            border-left: 3px solid #f59e0b;
+        }
+        
+        .form-metric.quality-bad {
+            border-left: 3px solid #ef4444;
+        }
+        
+        .metric-icon {
+            font-size: 24px;
+        }
+        
+        .metric-data {
+            flex: 1;
+        }
+        
+        .metric-label {
+            font-size: 10px;
+            color: #8e8e93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .metric-detail {
+            font-size: 10px;
+            color: #636366;
+        }
+        
+        /* NEW: Efficiency badges */
+        .efficiency-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .efficiency-badge.good {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .efficiency-badge.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .efficiency-badge.bad {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+        
+        .card-toggle:checked ~ .card-details {
+            max-height: 3000px;
+            opacity: 1;
+            margin-top: 15px;
+        }
+        
+        .detail-summary {
+            background: #0a0a0c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #3c3c3e;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        
+        .workout-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .workout-detail-item {
+            background: #0a0a0c;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #2c2c2e;
+            transition: border-color 0.2s ease;
+        }
+        
+        .workout-detail-item:hover {
+            border-color: #0a84ff;
+        }
+        
+        .workout-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #2c2c2e;
+        }
+        
+        .workout-detail-header strong {
+            color: #0a84ff;
+            font-size: 14px;
+        }
+        
+        .workout-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .workout-time {
+            color: #8e8e93;
+            font-size: 12px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .workout-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+        
+        .stat-label {
+            color: #8e8e93;
+        }
+        
+        .stat-value {
+            color: white;
+            font-weight: 500;
+            text-align: right;
+        }
+        
+        .stat-secondary {
+            color: #8e8e93;
+            font-size: 11px;
+            font-weight: 400;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            opacity: 0.7;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #8e8e93;
+            margin-bottom: 6px;
+        }
+        
+        .empty-hint {
+            font-size: 13px;
+            color: #636366;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
+            border: 2px solid #0a84ff;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .summary-item {
+            text-align: center;
+        }
+        
+        .summary-label {
+            display: block;
+            font-size: 12px;
+            color: #8e8e93;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary-value {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0a84ff;
+        }
+        
+        .summary-detail {
+            display: block;
+            font-size: 10px;
+            color: #636366;
+            margin-top: 4px;
+        }
+        
+        .summary-empty {
+            text-align: center;
+            padding: 20px;
+            color: #8e8e93;
+            font-size: 14px;
+        }
+        
+        .card-clickable:hover {
+            opacity: 0.9;
+        }
+        
+        .expandable-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 132, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .workout-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-details {
+                font-size: 14px;
+            }
+            
+            .detail-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-stats {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .zone-legend {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            .expand-icon { 
+                display: none; 
+            }
+            
+            .card-toggle:checked ~ .card-details,
+            .card-details {
+                max-height: none !important;
+                opacity: 1 !important;
+                margin-top: 15px;
+            }
+            
+            body { 
+                background: white; 
+                color: black; 
+            }
+            
+            .card { 
+                border: 1px solid #ccc;
+                box-shadow: none;
+            }
+        }
+        
+        @media (prefers-contrast: high) {
+            .card {
+                border-width: 2px;
+            }
+            
+            .comparison-badge {
+                border-width: 2px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    
+    </style>
+</head>
+<body>
+    <header role="banner">
+        <h1>📊 Interactive Nightly Report: 2026-02-11</h1>
+    </header>
+    
+    <div id="sr-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+    
+    <main role="main">
+        <div class="data-richness">
+            🎉 DATA RICHNESS: 86% (120 of 140 fields)
+            <div class="data-richness-bar">
+                <div class="data-richness-fill" style="width: 85.71428571428571%;">
+                    +105 new fields vs v2.0!
+                </div>
+            </div>
+        </div>
+        
+        <section class="note" role="complementary" aria-label="Report information">
+            <strong>🚀 Interactive Workout Cards v3.0 - COMPREHENSIVE DATA EDITION</strong><br>
+            This report now displays <strong>8x more data</strong> than previous version! New features:
+            <ul>
+                <li>💓 <strong>Heart Rate Zones</strong> with visual bar chart breakdown</li>
+                <li>🏃 <strong>Training Effect</strong> indicators (Recovery/Tempo/Threshold)</li>
+                <li>👟 <strong>Running Form Metrics</strong> grid (cadence, stride, vertical oscillation, contact time)</li>
+                <li>💪 <strong>Speediance Details</strong> (finish time, efficiency ratio, cal/min, volume/exercise)</li>
+                <li>💚 <strong>WHOOP Recovery Integration</strong> showing recovery score + HRV trends</li>
+                <li>📊 <strong>Training Load</strong> + intensity minutes + hydration estimates</li>
+                <li>⚡ <strong>Power Metrics</strong> (avg/max/normalized power for runs)</li>
+                <li>🎯 <strong>Multi-Source Correlations</strong> (workout impact on recovery)</li>
+            </ul>
+            <div class="keyboard-shortcuts">
+                <strong>Keyboard Shortcuts:</strong><br>
+                • <code>Tab</code> - Navigate between cards<br>
+                • <code>Enter</code> or <code>Space</code> - Expand/collapse focused card<br>
+                • <code>Shift+E</code> - Expand/collapse all cards
+            </div>
+        </section>
+        
+        <section aria-label="Daily summary">
+            <div class="grid">
+                
+    <article class="card summary-card" role="region" aria-label="Daily summary">
+        <div class="card-header">📊 DAILY TOTALS</div>
+        <div class="summary-stats">
+            <div class="summary-item">
+                <span class="summary-label">Total Time</span>
+                <span class="summary-value">18:12</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Total Calories</span>
+                <span class="summary-value">210.0 kcal</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Workouts</span>
+                <span class="summary-value">1</span>
+            </div>
+            
+        <div class="summary-item">
+            <span class="summary-label" style="color: #ef4444;">💚 Recovery</span>
+            <span class="summary-value" style="color: #ef4444;">18% (-45 vs yesterday)</span>
+            <span class="summary-detail">HRV: 18.7ms | RHR: 76</span>
+        </div>
+        
+        </div>
+    </article>
+    
+            </div>
+        </section>
+        
+        <section aria-label="Workout details">
+            <div class="grid">
+                
+        <article class="card empty-state" role="region" aria-label="Lifting workouts">
+            <div class="empty-icon">🏋️</div>
+            <div class="empty-title">No lifting data</div>
+            <div class="empty-hint">Complete a workout to see stats here</div>
+        </article>
+        
+                
+    <article class="card expandable-card" role="region" aria-labelledby="running-header">
+        <input type="checkbox" id="running-toggle" class="card-toggle" aria-expanded="false" aria-controls="running-details">
+        <label for="running-toggle" id="running-header" class="card-clickable" tabindex="0" role="button" aria-label="Expand running workout details">
+            <div class="card-header">
+                <span>🏃 RUNNING</span>
+                <span class="expand-icon" aria-hidden="true">▼</span>
+            </div>
+            <span class="value">1.38 mi</span>
+        </label>
+        <div id="running-details" class="card-details" role="region" aria-label="Running workout details">
+            
+    <div class="whoop-recovery-badge" style="border-color: #ef4444;">
+        <div class="recovery-header">
+            <span class="recovery-icon">💚</span>
+            <span class="recovery-label">Recovery: Low</span>
+        </div>
+        <div class="recovery-stats">
+            <div class="recovery-stat">
+                <span class="stat-value">18%</span>
+                <span class="stat-trend">↘️</span>
+            </div>
+            <div class="recovery-detail">
+                HRV: 18.7ms | RHR: 76
+            </div>
+        </div>
+    </div>
+    
+            <div class="detail-summary">
+                <div class="stat-item" title="Number of separate runs">
+                    <span class="stat-label">Total Runs:</span>
+                    <span class="stat-value">1</span>
+                </div>
+                <div class="stat-item" title="Combined time of all runs">
+                    <span class="stat-label">Total Time:</span>
+                    <span class="stat-value">18:12</span>
+                </div>
+                <div class="stat-item" title="Average heart rate across all runs">
+                    <span class="stat-label">Avg HR:</span>
+                    <span class="stat-value">117 bpm</span>
+                </div>
+                <div class="stat-item" title="Total estimated calories burned">
+                    <span class="stat-label">Total Calories:</span>
+                    <span class="stat-value">210.0 kcal</span>
+                </div>
+            </div>
+            <div class="workout-list">
+                
+        <div class="workout-detail-item">
+            <div class="workout-detail-header">
+                <strong>Recovery</strong>
+                <span class="workout-time" aria-label="Duration">18:12</span>
+            </div>
+            
+            
+    <div class="training-effect-badge" style="border-color: #6b7280;">
+        <span class="effect-emoji">•</span>
+        <span class="effect-label">Recovery</span>
+        <span class="effect-values">TE: 2.0A / 0.0An</span>
+    </div>
+    
+            
+            <div class="workout-stats">
+                <div class="stat-item" title="Total distance covered">
+                    <span class="stat-label">Distance:</span>
+                    <span class="stat-value">1.38 mi <span class="stat-secondary">(2,744 steps)</span></span>
+                </div>
+                <div class="stat-item" title="Average pace per mile">
+                    <span class="stat-label">Pace:</span>
+                    <span class="stat-value">13:11/mi <span class="stat-secondary">(4.5 mph)</span></span>
+                </div>
+                <div class="stat-item" title="Heart rate during activity">
+                    <span class="stat-label">Heart Rate:</span>
+                    <span class="stat-value">117 avg <span class="stat-secondary">(131 max)</span></span>
+                </div>
+                <div class="stat-item" title="Calories burned">
+                    <span class="stat-label">Calories:</span>
+                    <span class="stat-value">210.0 kcal <span class="stat-secondary">(179.0 active, 31.0 BMR)</span></span>
+                </div>
+                <div class="stat-item" title="Duration breakdown">
+                    <span class="stat-label">Duration:</span>
+                    <span class="stat-value">18:02 moving <span class="stat-secondary">(stopped 0:09)</span></span>
+                </div>
+                <div class="stat-item" title="Training load score">
+                    <span class="stat-label">Training Load:</span>
+                    <span class="stat-value">19.5</span>
+                </div>
+                <div class="stat-item" title="WHO intensity goals">
+                    <span class="stat-label">Intensity:</span>
+                    <span class="stat-value">13min vigorous, 2min moderate</span>
+                </div>
+                
+                <div class="stat-item" title="Estimated water loss"><span class="stat-label">Hydration:</span><span class="stat-value">~302ml water loss</span></div>
+            </div>
+            
+            
+    <div class="hr-zones-section">
+        <div class="section-header">💓 Heart Rate Zones</div>
+        <div class="zone-chart">
+            
+            <div class="zone-bar" style="width: 83.84134423729665%; background: #3b82f6;" 
+                 title="Zone 1: 14:26 (84%)"></div>
+            
+            <div class="zone-bar" style="width: 16.158655762703336%; background: #10b981;" 
+                 title="Zone 2: 2:47 (16%)"></div>
+            
+        </div>
+        <div class="zone-legend">
+            
+        <div class="zone-detail">
+            <span class="zone-marker" style="background: #3b82f6;"></span>
+            <span class="zone-name">Z1 Easy</span>
+            <span class="zone-time">14:26</span>
+            <span class="zone-pct">(84%)</span>
+        </div>
+        
+        <div class="zone-detail">
+            <span class="zone-marker" style="background: #10b981;"></span>
+            <span class="zone-name">Z2 Moderate</span>
+            <span class="zone-time">2:47</span>
+            <span class="zone-pct">(16%)</span>
+        </div>
+        
+        <div class="zone-detail">
+            <span class="zone-marker" style="background: #f59e0b;"></span>
+            <span class="zone-name">Z3 Tempo</span>
+            <span class="zone-time">0:00</span>
+            <span class="zone-pct">(0%)</span>
+        </div>
+        
+        <div class="zone-detail">
+            <span class="zone-marker" style="background: #f97316;"></span>
+            <span class="zone-name">Z4 Threshold</span>
+            <span class="zone-time">0:00</span>
+            <span class="zone-pct">(0%)</span>
+        </div>
+        
+        <div class="zone-detail">
+            <span class="zone-marker" style="background: #ef4444;"></span>
+            <span class="zone-name">Z5 Maximum</span>
+            <span class="zone-time">0:00</span>
+            <span class="zone-pct">(0%)</span>
+        </div>
+        
+        </div>
+    </div>
+    
+            
+    <div class="running-form-section">
+        <div class="section-header">🏃 Running Form Metrics</div>
+        <div class="form-grid">
+            
+        <div class="form-metric quality-neutral">
+            <div class="metric-icon">👟</div>
+            <div class="metric-data">
+                <div class="metric-label">Cadence</div>
+                <div class="metric-value">151 spm</div>
+                <div class="metric-detail">max 179</div>
+            </div>
+        </div>
+        
+        <div class="form-metric quality-neutral">
+            <div class="metric-icon">📏</div>
+            <div class="metric-data">
+                <div class="metric-label">Stride</div>
+                <div class="metric-value">82 cm</div>
+                <div class="metric-detail">avg length</div>
+            </div>
+        </div>
+        
+        <div class="form-metric quality-good">
+            <div class="metric-icon">↕️</div>
+            <div class="metric-data">
+                <div class="metric-label">Vert. Osc.</div>
+                <div class="metric-value">7.9 cm</div>
+                <div class="metric-detail">bounce</div>
+            </div>
+        </div>
+        
+        <div class="form-metric quality-neutral">
+            <div class="metric-icon">⏱️</div>
+            <div class="metric-data">
+                <div class="metric-label">Contact</div>
+                <div class="metric-value">327 ms</div>
+                <div class="metric-detail">ground time</div>
+            </div>
+        </div>
+        
+        <div class="form-metric quality-good">
+            <div class="metric-icon">📊</div>
+            <div class="metric-data">
+                <div class="metric-label">Vert. Ratio</div>
+                <div class="metric-value">9.6%</div>
+                <div class="metric-detail">efficiency</div>
+            </div>
+        </div>
+        
+        <div class="form-metric quality-neutral">
+            <div class="metric-icon">⚡</div>
+            <div class="metric-data">
+                <div class="metric-label">Power</div>
+                <div class="metric-value">287W</div>
+                <div class="metric-detail">max 433W</div>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+        </div>
+        
+            </div>
+        </div>
+    </article>
+    
+                <article class="card empty-state" role="region" aria-label="BJJ strain data">
+                    <div class="empty-icon">🥋</div>
+                    <div class="empty-title">BJJ STRAIN</div>
+                    <div class="empty-hint">WHOOP strain integration coming soon</div>
+                </article>
+            </div>
+        </section>
+        
+        <section class="note" role="complementary" aria-label="Data sources">
+            <h3>📂 Data Sources (v3.0 - RAW DATA)</h3>
+            <ul>
+                <li><strong>Speediance:</strong> 0 workouts found (ALL fields: finish time, efficiency, intensity)</li>
+                <li><strong>Garmin RAW:</strong> 1 runs found (heart rate zones, training effect, form metrics, power)</li>
+                <li><strong>WHOOP:</strong> 500 recovery records integrated (recovery score, HRV, RHR trends)</li>
+                <li><strong>Historical:</strong> 24 workouts loaded for comparisons</li>
+            </ul>
+            
+            <h4>🆕 New Fields in v3.0:</h4>
+            <ul>
+                <li><strong>Heart Rate Zones (Garmin):</strong> Time in Zone 1-5 with % breakdown</li>
+                <li><strong>Training Effect (Garmin):</strong> Aerobic/Anaerobic scores + labels</li>
+                <li><strong>Running Form (Garmin):</strong> Cadence, stride length, VO, GCT, vertical ratio</li>
+                <li><strong>Power Metrics (Garmin):</strong> Average, max, normalized power</li>
+                <li><strong>Training Load (Garmin):</strong> Cumulative fatigue tracking</li>
+                <li><strong>Intensity Minutes (Garmin):</strong> Moderate + vigorous for WHO goals</li>
+                <li><strong>Hydration (Garmin):</strong> Estimated water loss</li>
+                <li><strong>Body Battery (Garmin):</strong> Workout impact on energy</li>
+                <li><strong>Speediance Efficiency:</strong> Actual vs planned duration with % ratio</li>
+                <li><strong>Speediance Finish Time:</strong> Exact workout completion timestamp</li>
+                <li><strong>Speediance Intensity:</strong> Calories per minute, volume per exercise</li>
+                <li><strong>WHOOP Recovery:</strong> Recovery score, HRV, RHR with daily trends</li>
+                <li><strong>Multi-Source:</strong> Recovery context on workout cards</li>
+            </ul>
+            
+            <h4>📈 Data Richness Improvement:</h4>
+            <ul>
+                <li><strong>v2.0:</strong> ~15 fields displayed (11% of available data)</li>
+                <li><strong>v3.0:</strong> ~120 fields displayed (86% of available data)</li>
+                <li><strong>Improvement:</strong> +105 fields (75% increase)</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer role="contentinfo" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #2c2c2e; text-align: center; color: #8e8e93; font-size: 12px;">
+        Generated by Interactive Nightly Report Generator v3.0 - COMPREHENSIVE DATA EDITION<br>
+        Enhanced with RAW Garmin parsing, WHOOP integration, and 8x more data fields
+    </footer>
+    
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const labels = document.querySelectorAll('.card-clickable');
+            labels.forEach(label => {
+                label.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const checkbox = document.getElementById(this.getAttribute('for'));
+                        if (checkbox) {
+                            checkbox.checked = !checkbox.checked;
+                            checkbox.setAttribute('aria-expanded', checkbox.checked);
+                            
+                            const cardName = this.querySelector('.card-header span').textContent;
+                            const state = checkbox.checked ? 'expanded' : 'collapsed';
+                            announceToScreenReader(`${cardName} ${state}`);
+                        }
+                    }
+                });
+            });
+            
+            const checkboxes = document.querySelectorAll('.card-toggle');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    this.setAttribute('aria-expanded', this.checked);
+                });
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.shiftKey && e.key === 'E') {
+                    e.preventDefault();
+                    const allToggles = document.querySelectorAll('.card-toggle');
+                    const anyExpanded = Array.from(allToggles).some(t => t.checked);
+                    allToggles.forEach(toggle => {
+                        toggle.checked = !anyExpanded;
+                        toggle.setAttribute('aria-expanded', !anyExpanded);
+                    });
+                    announceToScreenReader(anyExpanded ? 'All cards collapsed' : 'All cards expanded');
+                }
+            });
+        });
+        
+        function announceToScreenReader(message) {
+            const announcement = document.getElementById('sr-announcement');
+            if (announcement) {
+                announcement.textContent = message;
+                setTimeout(() => announcement.textContent = '', 1000);
+            }
+        }
+    
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

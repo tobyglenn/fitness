@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Muscle Symmetry Score</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    a { color:#58a6ff; }
+    nav { background:#161b22; border-bottom:1px solid #30363d; display:flex; gap:14px; padding:14px 20px; flex-wrap:wrap }
+    nav a { color:#8b949e; text-decoration:none; font-size:14px }
+    nav a:hover { color:#f39c12 }
+    nav a.active { color:#f39c12; font-weight:700 }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 20px; }
+    h1 { font-size:30px; color:#f39c12; margin:16px 0 4px }
+    .sub { color:#8b949e; margin-bottom:18px }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top: 16px; }
+    .card { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:16px 18px; }
+    .card h2 { margin-bottom:8px; color:#e6edf3; font-size:18px }
+    .note { color:#8b949e; font-size:13px; margin-bottom:12px }
+    .alerts { background:#0d1117; border-radius:8px; border:1px solid #30363d; padding:10px 12px; margin-top:8px; font-size:13px }
+    @media (max-width: 700px) { .wrap { padding: 10px } h1 { font-size:24px } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/fitness/index.html">🏠 Home</a>
+    <a href="/fitness/calendars/">📅 Calendars</a>
+    <a href="/fitness/strength/">💪 Strength</a>
+    <a href="/fitness/cardio/">🏃 Cardio</a>
+    <a href="/fitness/recovery/">💤 Recovery</a>
+    <a href="/fitness/nutrition/">🥗 Nutrition</a>
+    <a href="/fitness/muscle_symmetry/" class="active">⚖️ Symmetry</a>
+  </nav>
+  <div class="wrap">
+    <h1>Muscle Symmetry Score</h1>
+    <p class="sub">Balance analysis from your training data</p>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Overall Score</h2>
+        <p class="note">Higher is better. Green is balanced, amber is moderate drift, red needs action.</p>
+        
+    <svg width="320" height="190" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .score { font: 600 38px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+          .label { font: 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #8b949e; }
+          .muted { fill: #8b949e; }
+        </style>
+      </defs>
+      <rect x="0" y="0" width="300" height="190" fill="none"/>
+      <path d="M 40 150 A 110 110 0 1 1 260 150" fill="none" stroke="#30363d" stroke-width="14" stroke-linecap="round"/>
+      <path d="M 83.1 229.7 A 104 104 0 1 1 230.9 84.6" fill="none" stroke="#f39c12" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="150" cy="150" r="4" fill="#f39c12"/>
+      <text x="150" y="82" text-anchor="middle" fill="white" class="score">68</text>
+      <text x="150" y="106" text-anchor="middle" fill="#8b949e" class="label" font-size="11">Symmetry Score</text>
+      <line x1="150" y1="150" x2="88.9" y2="222.8" stroke="#f39c12" stroke-width="3"/>
+      <text x="150" y="170" text-anchor="middle" class="label">0</text>
+      <text x="26" y="160" text-anchor="middle" class="label">0</text>
+      <text x="274" y="160" text-anchor="middle" class="label">100</text>
+      <line x1="150" y1="150" x2="230.9" y2="84.6" stroke="#e6edf3" stroke-width="3"/>
+      <text x="150" y="186" text-anchor="middle" class="muted" font-size="11">Live balance (0-100)</text>
+    </svg>
+      </div>
+      <div class="card">
+        <h2>Push / Pull Ratio</h2>
+        <p class="note">Target is ~50/50 between push and pull workloads.</p>
+        
+    <div style="margin:10px 0 14px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#8b949e;margin-bottom:6px"><span>Push = chest + shoulders + triceps</span><span>60%</span></div>
+      <div style="height:12px;background:#21262d;border-radius:8px;overflow:hidden"><div style="height:100%;width:60%;background:#f39c12"></div></div>
+    </div></div>
+      <div class="card">
+        <h2>Upper / Lower Split</h2>
+        <p class="note">Higher upper may indicate upper-dominant training.</p>
+        
+    <div style="margin:10px 0 14px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#8b949e;margin-bottom:6px"><span>Upper body</span><span>99%</span></div>
+      <div style="height:12px;background:#21262d;border-radius:8px;overflow:hidden"><div style="height:100%;width:99%;background:#f39c12"></div></div>
+    </div>
+      </div>
+      <div class="card">
+        <h2>Upper / Lower</h2>
+        <p class="note">Upper score: 2%</p>
+        
+      <div style="margin:12px 0; background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:12px;">
+        <div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:8px;"><span>Upper body aggregate</span><span>0 / 0 lbs</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;height:24px;border-radius:8px;overflow:hidden;background:#21262d;">
+          <div style="width:0.0%;background:#2ea043;"></div>
+          <div style="width:0.0%;background:#58a6ff;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;color:#c9d1d9;font-size:11px;margin-top:6px;"><span>Left 0%</span><span style="color:#f85149">Δ 50%</span><span>Right 0%</span></div>
+      </div>
+      </div>
+      <div class="card">
+        <h2>Balance by Workout Volume</h2>
+        <p class="note">Dominance above/below 50% per muscle indicates imbalance risk.</p>
+        
+      <div style="margin:12px 0; background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:12px;">
+        <div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:8px;"><span>Legs (placeholder)</span><span>0 / 0 lbs</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;height:24px;border-radius:8px;overflow:hidden;background:#21262d;">
+          <div style="width:0.0%;background:#2ea043;"></div>
+          <div style="width:0.0%;background:#58a6ff;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;color:#c9d1d9;font-size:11px;margin-top:6px;"><span>Left 0%</span><span style="color:#f85149">Δ 50%</span><span>Right 0%</span></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2>Left / Right Distribution</h2>
+      <p class="note">Bilateral differences >15% are flagged as warnings.</p>
+      <div style='margin-bottom:12px'><strong>Chest</strong> — Balanced (50% left)</div><div style='margin-bottom:12px'><strong>Back</strong> — Balanced (50% left)</div><div style='margin-bottom:12px'><strong>Shoulders</strong> — Balanced (50% left)</div><div style='margin-bottom:12px'><strong>Legs</strong> — Balanced (50% left)</div><div style='margin-bottom:12px'><strong>Core</strong> — Balanced (50% left)</div>
+    </div>
+
+    <div class="grid" style="margin-top:16px">
+      <div class="card">
+        <h2>Muscle Group Detail Cards</h2>
+        <div style="display:grid; gap:10px; margin-top:10px">
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Chest</h4>
+          <span style="color:#2ea043;font-weight:700">100%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 1,726,207 lbs · vs target: 1,715,857</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:100%;background:#2ea043"></div>
+        </div>
+      </div>
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Back</h4>
+          <span style="color:#2ea043;font-weight:700">99%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 1,705,504 lbs · vs target: 1,715,857</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:99%;background:#2ea043"></div>
+        </div>
+      </div>
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Shoulders</h4>
+          <span style="color:#2ea043;font-weight:700">100%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 1,805,873 lbs · vs target: 1,756,950</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:100%;background:#2ea043"></div>
+        </div>
+      </div>
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Biceps</h4>
+          <span style="color:#2ea043;font-weight:700">100%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 1,765,263 lbs · vs target: 867,692</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:100%;background:#2ea043"></div>
+        </div>
+      </div>
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Triceps</h4>
+          <span style="color:#2ea043;font-weight:700">100%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 1,730,458 lbs · vs target: 1,315,635</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:100%;background:#2ea043"></div>
+        </div>
+      </div>
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Legs</h4>
+          <span style="color:#2ea043;font-weight:700">100%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 57,777 lbs · vs target: 57,777</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:100%;background:#2ea043"></div>
+        </div>
+      </div>
+      <div style="border:1px solid #30363d;background:#0d1117;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <h4 style="color:#e6edf3;font-size:14px;margin:0">Core</h4>
+          <span style="color:#2ea043;font-weight:700">100%</span>
+        </div>
+        <p style="margin:0;color:#8b949e;font-size:12px">Volume: 53,038 lbs · vs target: 53,038</p>
+        <div style="height:10px;background:#21262d;border-radius:6px;margin-top:8px;overflow:hidden">
+          <div style="height:100%;width:100%;background:#2ea043"></div>
+        </div>
+      </div></div>
+      </div>
+      <div class="card">
+        <h2>Asymmetry Alerts</h2>
+        <div style="margin-top:10px"><div class="alerts" style="border-left:4px solid #2ea043;">✅ Good bilateral balance — no large asymmetries found.</div></div>
+        <h2 style="margin-top:14px">Trend Over Time (90 days)</h2>
+        
+    <svg width="100%" height="260" viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect x="0" y="0" width="760" height="260" rx="10" fill="#0d1117"/>
+      <line x1="50" y1="228" x2="742" y2="228" stroke="#30363d" stroke-width="1"/>
+      <line x1="50" y1="16" x2="50" y2="228" stroke="#30363d" stroke-width="1"/>
+      <line x1="50" y1="1818.0" x2="742" y2="1818.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/><text x="42" y="1821.0" text-anchor="end" fill="#8b949e" font-size="10">0</text><line x1="50" y1="1288.0" x2="742" y2="1288.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/><text x="42" y="1291.0" text-anchor="end" fill="#8b949e" font-size="10">25</text><line x1="50" y1="758.0" x2="742" y2="758.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/><text x="42" y="761.0" text-anchor="end" fill="#8b949e" font-size="10">50</text><line x1="50" y1="228.0" x2="742" y2="228.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/><text x="42" y="231.0" text-anchor="end" fill="#8b949e" font-size="10">75</text><line x1="50" y1="-302.0" x2="742" y2="-302.0" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/><text x="42" y="-299.0" text-anchor="end" fill="#8b949e" font-size="10">100</text>
+      <polyline points="50.0,122.0 73.1,122.0 96.1,122.0 119.2,122.0 142.3,122.0 165.3,122.0 188.4,122.0 211.5,122.0 234.5,122.0 257.6,122.0 280.7,122.0 303.7,122.0 326.8,122.0 349.9,122.0 372.9,122.0 396.0,122.0 419.1,122.0 442.1,122.0 465.2,122.0 488.3,122.0 511.3,122.0 534.4,122.0 557.5,122.0 580.5,122.0 603.6,122.0 626.7,122.0 649.7,122.0 672.8,122.0 695.9,122.0 718.9,122.0 742.0,122.0" fill="none" stroke="#f39c12" stroke-width="2.6"/>
+      <circle cx="50.0" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-04: 80</title></circle><circle cx="73.1" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-07: 80</title></circle><circle cx="96.1" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-10: 80</title></circle><circle cx="119.2" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-13: 80</title></circle><circle cx="142.3" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-16: 80</title></circle><circle cx="165.3" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-19: 80</title></circle><circle cx="188.4" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-22: 80</title></circle><circle cx="211.5" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-25: 80</title></circle><circle cx="234.5" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-28: 80</title></circle><circle cx="257.6" cy="122.0" r="3" fill="#58a6ff"><title>2025-12-31: 80</title></circle><circle cx="280.7" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-03: 80</title></circle><circle cx="303.7" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-06: 80</title></circle><circle cx="326.8" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-09: 80</title></circle><circle cx="349.9" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-12: 80</title></circle><circle cx="372.9" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-15: 80</title></circle><circle cx="396.0" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-18: 80</title></circle><circle cx="419.1" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-21: 80</title></circle><circle cx="442.1" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-24: 80</title></circle><circle cx="465.2" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-27: 80</title></circle><circle cx="488.3" cy="122.0" r="3" fill="#58a6ff"><title>2026-01-30: 80</title></circle><circle cx="511.3" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-02: 80</title></circle><circle cx="534.4" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-05: 80</title></circle><circle cx="557.5" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-08: 80</title></circle><circle cx="580.5" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-11: 80</title></circle><circle cx="603.6" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-14: 80</title></circle><circle cx="626.7" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-17: 80</title></circle><circle cx="649.7" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-20: 80</title></circle><circle cx="672.8" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-23: 80</title></circle><circle cx="695.9" cy="122.0" r="3" fill="#58a6ff"><title>2026-02-26: 80</title></circle><circle cx="718.9" cy="122.0" r="3" fill="#58a6ff"><title>2026-03-01: 80</title></circle><circle cx="742.0" cy="122.0" r="3" fill="#58a6ff"><title>2026-03-04: 80</title></circle>
+      <text x="50.0" y="250" text-anchor="middle" fill="#8b949e" font-size="10">12/04</text><text x="165.3" y="250" text-anchor="middle" fill="#8b949e" font-size="10">12/19</text><text x="280.7" y="250" text-anchor="middle" fill="#8b949e" font-size="10">01/03</text><text x="396.0" y="250" text-anchor="middle" fill="#8b949e" font-size="10">01/18</text><text x="511.3" y="250" text-anchor="middle" fill="#8b949e" font-size="10">02/02</text><text x="626.7" y="250" text-anchor="middle" fill="#8b949e" font-size="10">02/17</text><text x="742.0" y="250" text-anchor="middle" fill="#8b949e" font-size="10">03/04</text>
+    </svg>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>How it is calculated</h2>
+      <p class="note">Uses Tonal totalVolume (lbs), inferred movement groups, and UTC→America/New_York local times from workout start.</p>
+    </div>
+  </div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

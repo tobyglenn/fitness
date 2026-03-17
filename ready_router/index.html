@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏋️ Daily Readiness Router</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; }
+  
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  nav a { color: #8b949e; text-decoration: none; padding: 4px 10px; border-radius: 6px; font-size: 13px; transition: all 0.2s; }
+  nav a:hover { background: #21262d; color: #e6edf3; }
+  nav a.active { background: #f39c12; color: #0d1117; font-weight: 600; }
+  
+  .container { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
+  
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+  
+  .readiness-banner { border-radius: 12px; padding: 32px; margin-bottom: 24px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .readiness-banner.optimal { background: linear-gradient(135deg, #0f2a1a, #1a3a2a); border: 1px solid #2ea043; }
+  .readiness-banner.good    { background: linear-gradient(135deg, #0f1f3a, #1a2d4a); border: 1px solid #58a6ff; }
+  .readiness-banner.light   { background: linear-gradient(135deg, #2a1f0f, #3a2f1a); border: 1px solid #f39c12; }
+  .readiness-banner.rest    { background: linear-gradient(135deg, #2a0f0f, #3a1a1a); border: 1px solid #f85149; }
+  .banner-gauge { flex-shrink: 0; }
+  .banner-text h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .banner-text p  { font-size: 16px; color: #8b949e; }
+  .level-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+  
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+  .card h3 { font-size: 14px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+  
+  .mini-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 500px) { .mini-scores { grid-template-columns: repeat(2, 1fr); } }
+  .mini-score { text-align: center; }
+  .mini-score .ms-label { font-size: 11px; color: #8b949e; margin-top: 6px; }
+  .mini-score .ms-value { font-size: 12px; font-weight: 600; color: #e6edf3; }
+  .mini-score .ms-trend { font-size: 18px; }
+  
+  .rec-options { list-style: none; }
+  .rec-options li { padding: 12px 0; border-bottom: 1px solid #21262d; font-size: 15px; }
+  .rec-options li:last-child { border-bottom: none; padding-bottom: 0; }
+  
+  .alt-section { background: #21262d; border-radius: 8px; padding: 16px; margin-top: 16px; border-left: 3px solid #f39c12; }
+  .alt-section h3 { font-size: 14px; margin-bottom: 8px; color: #f39c12; }
+  .alt-section p  { font-size: 14px; color: #8b949e; }
+  
+  .training-item { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid #21262d; align-items: center; font-size: 13px; }
+  .training-item:last-child { border-bottom: none; }
+  .ti-date  { color: #8b949e; width: 50px; flex-shrink: 0; }
+  .ti-label { color: #f39c12; font-weight: 600; width: 60px; flex-shrink: 0; }
+  .ti-val   { color: #e6edf3; }
+  .no-data  { color: #8b949e; font-size: 13px; font-style: italic; }
+  
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; color: #8b949e; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #30363d; }
+  td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
+  tr:last-child td { border-bottom: none; }
+  tr.today-row td { background: #1c2128; }
+  
+  .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 14px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: #8b949e; }
+  .stat-val   { font-weight: 600; }
+  
+  .bars-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>🏋️ Daily Readiness Router</h1>
+  <p class="subtitle">Updated Tuesday, March 17, 2026 at 3:02 AM</p>
+
+  <!-- ── Readiness Banner ── -->
+  <div class="readiness-banner good">
+    <div class="banner-gauge"><svg width="200" height="130" viewBox="0 0 200 130">
+  <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#30363d" stroke-width="16" stroke-linecap="round"/>
+  <path d="M 20 110 A 80 80 0 0 1 151.0 171.6" fill="none" stroke="#58a6ff" stroke-width="16" stroke-linecap="round"/>
+  <text x="100" y="106" text-anchor="middle" fill="white" font-size="28" font-weight="bold">72</text>
+  <text x="100" y="126" text-anchor="middle" fill="#8b949e" font-size="11">/ 100</text>
+</svg></div>
+    <div class="banner-text">
+      <div class="level-badge" style="background:#58a6ff22;color:#58a6ff;border:1px solid #58a6ff55">
+        🟡 GOOD
+      </div>
+      <h2 style="color:#58a6ff">Readiness Score: 72</h2>
+      <p>Solid readiness. Standard workout day.</p>
+    </div>
+  </div>
+
+  <!-- ── Sub-scores ── -->
+  <div class="card" style="margin-bottom:24px">
+    <h3>Score Breakdown</h3>
+    <div class="mini-scores">
+      <div class="mini-score">
+        <svg width="56" height="56">
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#30363d" stroke-width="6"/>
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#2ea043" stroke-width="6"
+    stroke-dasharray="67.7 138.2"
+    stroke-dashoffset="34.6"
+    transform="rotate(-90 28 28)"/>
+  <text x="28" y="32" text-anchor="middle" fill="white" font-size="11" font-weight="bold">49</text>
+</svg>
+        <div class="ms-label">Recovery</div>
+        <div class="ms-value">WHOOP 49% →</div>
+      </div>
+      <div class="mini-score">
+        <svg width="56" height="56">
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#30363d" stroke-width="6"/>
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#58a6ff" stroke-width="6"
+    stroke-dasharray="117.5 138.2"
+    stroke-dashoffset="34.6"
+    transform="rotate(-90 28 28)"/>
+  <text x="28" y="32" text-anchor="middle" fill="white" font-size="11" font-weight="bold">85</text>
+</svg>
+        <div class="ms-label">Sleep</div>
+        <div class="ms-value">8Sleep 85%</div>
+      </div>
+      <div class="mini-score">
+        <svg width="56" height="56">
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#30363d" stroke-width="6"/>
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#f39c12" stroke-width="6"
+    stroke-dasharray="138.2 138.2"
+    stroke-dashoffset="34.6"
+    transform="rotate(-90 28 28)"/>
+  <text x="28" y="32" text-anchor="middle" fill="white" font-size="11" font-weight="bold">100</text>
+</svg>
+        <div class="ms-label">Training Load</div>
+        <div class="ms-value">Light</div>
+      </div>
+      <div class="mini-score">
+        <svg width="56" height="56">
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#30363d" stroke-width="6"/>
+  <circle cx="28" cy="28" r="22" fill="none" stroke="#a371f7" stroke-width="6"
+    stroke-dasharray="89.8 138.2"
+    stroke-dashoffset="34.6"
+    transform="rotate(-90 28 28)"/>
+  <text x="28" y="32" text-anchor="middle" fill="white" font-size="11" font-weight="bold">65</text>
+</svg>
+        <div class="ms-label">Resting HR</div>
+        <div class="ms-value">72 bpm (stable)</div>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #21262d;">
+      <div class="stat-row"><span class="stat-label">7-day avg recovery</span><span class="stat-val">68%</span></div>
+      <div class="stat-row"><span class="stat-label">7-day avg sleep score</span><span class="stat-val">81%</span></div>
+      <div class="stat-row"><span class="stat-label">HRV</span><span class="stat-val">24.8 ms</span></div>
+      <div class="stat-row"><span class="stat-label">Training load (7d)</span><span class="stat-val">0/100</span></div>
+    </div>
+  </div>
+
+  <!-- ── Recommendation ── -->
+  <div class="grid-2">
+    <div class="card">
+      <h3>🟡 Today's Recommendation — Good</h3>
+      <ul class="rec-options">
+        <li>🏋️ Standard Tonal session — normal weights</li><li>🏃 5-6 mile moderate run</li><li>💪 Upper/lower split at 80% effort</li>
+      </ul>
+      
+    </div>
+
+    <div class="card">
+      <h3>📊 Recent Training (7d)</h3>
+      <div style="margin-bottom:12px">
+        <div style="font-size:12px;color:#8b949e;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Tonal</div>
+        <p class="no-data">No Tonal sessions in last 7 days</p>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#8b949e;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Garmin</div>
+        <p class="no-data">No Garmin activities in last 7 days</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sparklines ── -->
+  <div class="grid-2">
+    <div class="card">
+      <h3>💚 Recovery Trend (14d)</h3>
+      <div style="display:flex;align-items:center;gap:12px">
+        <svg width="80" height="30"><polyline points="5.0,23.0 10.4,22.7 15.8,25.0 21.2,18.0 26.5,18.3 31.9,21.3 37.3,13.0 42.7,5.0 48.1,13.3 53.5,18.7 58.8,9.3 64.2,14.7 69.6,21.3 75.0,21.0" fill="none" stroke="#2ea043" stroke-width="2" stroke-linejoin="round"/></svg>
+        <div>
+          <div style="font-size:20px;font-weight:700;color:#2ea043">49%</div>
+          <div style="font-size:12px;color:#8b949e">Today vs avg 68%</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>💤 Sleep Trend (14d)</h3>
+      <div style="display:flex;align-items:center;gap:12px">
+        <svg width="80" height="30"><polyline points="5.0,8.2 10.4,8.6 15.8,18.2 21.2,15.0 26.5,25.0 31.9,17.5 37.3,7.9 42.7,5.0 48.1,11.1 53.5,13.9 58.8,8.6 64.2,15.0 69.6,15.0 75.0,9.6" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linejoin="round"/></svg>
+        <div>
+          <div style="font-size:20px;font-weight:700;color:#58a6ff">85%</div>
+          <div style="font-size:12px;color:#8b949e">Today vs avg 81%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Historical Readiness ── -->
+  <div class="card" style="margin-top:24px">
+    <h3>📅 10-Day Readiness History</h3>
+    <div class="bars-wrap" style="margin-bottom:20px">
+      <svg width="480" height="140">
+<rect x="30.0" y="70.0" width="38.0" height="50.0" fill="#f39c12" rx="2"/>
+<text x="49.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/7</text>
+<text x="49.0" y="67.0" text-anchor="middle" fill="#ccc" font-size="9">50</text>
+<rect x="72.0" y="65.0" width="38.0" height="55.0" fill="#f39c12" rx="2"/>
+<text x="91.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/8</text>
+<text x="91.0" y="62.0" text-anchor="middle" fill="#ccc" font-size="9">55</text>
+<rect x="114.0" y="39.0" width="38.0" height="81.0" fill="#2ea043" rx="2"/>
+<text x="133.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/9</text>
+<text x="133.0" y="36.0" text-anchor="middle" fill="#ccc" font-size="9">81</text>
+<rect x="156.0" y="23.0" width="38.0" height="97.0" fill="#2ea043" rx="2"/>
+<text x="175.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/10</text>
+<text x="175.0" y="20.0" text-anchor="middle" fill="#ccc" font-size="9">97</text>
+<rect x="198.0" y="44.0" width="38.0" height="76.0" fill="#58a6ff" rx="2"/>
+<text x="217.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/11</text>
+<text x="217.0" y="41.0" text-anchor="middle" fill="#ccc" font-size="9">76</text>
+<rect x="240.0" y="56.0" width="38.0" height="64.0" fill="#58a6ff" rx="2"/>
+<text x="259.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/12</text>
+<text x="259.0" y="53.0" text-anchor="middle" fill="#ccc" font-size="9">64</text>
+<rect x="282.0" y="34.0" width="38.0" height="86.0" fill="#2ea043" rx="2"/>
+<text x="301.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/13</text>
+<text x="301.0" y="31.0" text-anchor="middle" fill="#ccc" font-size="9">86</text>
+<rect x="324.0" y="51.0" width="38.0" height="69.0" fill="#58a6ff" rx="2"/>
+<text x="343.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/14</text>
+<text x="343.0" y="48.0" text-anchor="middle" fill="#ccc" font-size="9">69</text>
+<rect x="366.0" y="62.0" width="38.0" height="58.0" fill="#f39c12" rx="2"/>
+<text x="385.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/15</text>
+<text x="385.0" y="59.0" text-anchor="middle" fill="#ccc" font-size="9">58</text>
+<rect x="408.0" y="55.0" width="38.0" height="65.0" fill="#58a6ff" rx="2"/>
+<text x="427.0" y="135" text-anchor="middle" fill="#8b949e" font-size="9">3/16</text>
+<text x="427.0" y="52.0" text-anchor="middle" fill="#ccc" font-size="9">65</text>
+</svg>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Score</th>
+          <th>Recommendation</th>
+          <th>Recovery</th>
+          <th>Sleep</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="">
+          <td>3/16</td>
+          <td><span style="color:#58a6ff;font-weight:bold">65</span></td>
+          <td>🟡 Good</td>
+          <td>49.0</td>
+          <td>85</td>
+        </tr><tr class="">
+          <td>3/15</td>
+          <td><span style="color:#f39c12;font-weight:bold">58</span></td>
+          <td>🟠 Light</td>
+          <td>48.0</td>
+          <td>70</td>
+        </tr><tr class="">
+          <td>3/14</td>
+          <td><span style="color:#58a6ff;font-weight:bold">69</span></td>
+          <td>🟡 Good</td>
+          <td>68.0</td>
+          <td>70</td>
+        </tr><tr class="">
+          <td>3/13</td>
+          <td><span style="color:#2ea043;font-weight:bold">86</span></td>
+          <td>🟢 Optimal</td>
+          <td>84.0</td>
+          <td>88</td>
+        </tr><tr class="">
+          <td>3/12</td>
+          <td><span style="color:#58a6ff;font-weight:bold">64</span></td>
+          <td>🟡 Good</td>
+          <td>56.0</td>
+          <td>73</td>
+        </tr><tr class="">
+          <td>3/11</td>
+          <td><span style="color:#58a6ff;font-weight:bold">76</span></td>
+          <td>🟡 Good</td>
+          <td>72.0</td>
+          <td>81</td>
+        </tr><tr class="">
+          <td>3/10</td>
+          <td><span style="color:#2ea043;font-weight:bold">97</span></td>
+          <td>🟢 Optimal</td>
+          <td>97.0</td>
+          <td>98</td>
+        </tr><tr class="">
+          <td>3/9</td>
+          <td><span style="color:#2ea043;font-weight:bold">81</span></td>
+          <td>🟢 Optimal</td>
+          <td>73.0</td>
+          <td>90</td>
+        </tr><tr class="">
+          <td>3/8</td>
+          <td><span style="color:#f39c12;font-weight:bold">55</span></td>
+          <td>🟠 Light</td>
+          <td>48.0</td>
+          <td>63</td>
+        </tr><tr class="">
+          <td>3/7</td>
+          <td><span style="color:#f39c12;font-weight:bold">50</span></td>
+          <td>🟠 Light</td>
+          <td>57.0</td>
+          <td>42</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Cross-page links ── -->
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+    <a href="../recovery/index.html" style="color:#8b949e;font-size:13px;text-decoration:none;padding:8px 14px;border:1px solid #30363d;border-radius:6px;transition:border-color 0.2s" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#30363d'">💚 Full Recovery Data →</a>
+    <a href="../day/index.html" style="color:#8b949e;font-size:13px;text-decoration:none;padding:8px 14px;border:1px solid #30363d;border-radius:6px;transition:border-color 0.2s" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#30363d'">📅 Today's Full Detail →</a>
+    <a href="../training_rhythm/index.html" style="color:#8b949e;font-size:13px;text-decoration:none;padding:8px 14px;border:1px solid #30363d;border-radius:6px;transition:border-color 0.2s" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#30363d'">🎯 Weekly Patterns →</a>
+  </div>
+</div>
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

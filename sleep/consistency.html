@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Consistency Score</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #0d1117; color: white; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { color: #f39c12; margin-bottom: 5px; }
+        h2 { color: white; font-size: 1.2rem; margin-bottom: 15px; }
+        .subtitle { color: #8b949e; margin-bottom: 30px; }
+        
+        .card { background: #161b22; border-radius: 8px; padding: 20px; margin-bottom: 20px; border: 1px solid #30363d; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        
+        .gauge-container { text-align: center; padding: 20px; }
+        
+        .metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #30363d; }
+        .metric:last-child { border-bottom: none; }
+        .metric-label { color: #8b949e; }
+        .metric-value { color: white; font-weight: bold; }
+        
+        .stat-box { text-align: center; padding: 15px; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: #f39c12; }
+        .stat-label { color: #8b949e; font-size: 0.9rem; }
+        
+        .comparison { display: flex; justify-content: space-around; margin-top: 15px; }
+        .compare-item { text-align: center; }
+        .compare-value { font-size: 1.5rem; font-weight: bold; }
+        .compare-label { color: #8b949e; font-size: 0.85rem; }
+        .high { color: #2ea043; }
+        .low { color: #f85149; }
+        
+        .streak-list { list-style: none; padding: 0; margin: 0; }
+        .streak-list li { padding: 8px 0; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; }
+        .streak-list li:last-child { border-bottom: none; }
+        
+        .recommendations ul { margin: 0; padding-left: 20px; }
+        .recommendations li { color: #8b949e; margin-bottom: 8px; }
+        
+        .nav-breadcrumb { padding: 10px 20px; background: #161b22; border-bottom: 1px solid #30363d; }
+        .nav-breadcrumb a { color: #8b949e; text-decoration: none; }
+        .nav-breadcrumb a:hover { color: #f39c12; }
+    </style>
+</head>
+<body>
+
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#ffffff;font-weight:bold">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+
+<div class="container">
+    <h1>Sleep Consistency Score</h1>
+    <p class="subtitle">How stable are your sleep patterns?</p>
+    
+    <!-- Gauge Section -->
+    <div class="card">
+        <div class="gauge-container">
+            <svg width="200" height="140" viewBox="0 0 200 140">
+  <defs>
+    <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f85149"/>
+      <stop offset="50%" style="stop-color:#f39c12"/>
+      <stop offset="100%" style="stop-color:#2ea043"/>
+    </linearGradient>
+  </defs>
+  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#30363d" stroke-width="20" stroke-linecap="round"/>
+  <path d="M 20 100 A 80 80 0 0 1 129.56532355686878 25.663658665645514" fill="none" stroke="#f39c12" stroke-width="20" stroke-linecap="round"/>
+  <text x="100" y="110" text-anchor="middle" fill="white" font-family="system-ui,sans-serif" font-size="48" font-weight="bold">62</text>
+  <text x="100" y="135" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="14">Consistency Score</text>
+</svg>
+        </div>
+    </div>
+    
+    <!-- Consistency Breakdown -->
+    <div class="card">
+        <h2>📊 Consistency Breakdown</h2>
+        <div class="metric">
+            <span class="metric-label">Bedtime Consistency (7-day std dev)</span>
+            <span class="metric-value">1h 1m</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Wake Time Consistency (7-day std dev)</span>
+            <span class="metric-value">1h 19m</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Duration Consistency (std dev)</span>
+            <span class="metric-value">1.4 hrs</span>
+        </div>
+    </div>
+    
+    <!-- Trend -->
+    <div class="card">
+        <h2>📈 30-Day Trend</h2>
+        <svg width="800" height="300" viewBox="0 0 800 300">
+  <rect width="800" height="300" fill="#0d1117"/>
+  <line x1="50" y1="50" x2="50" y2="250" stroke="#30363d" stroke-width="1"/>
+  <line x1="50" y1="250" x2="750" y2="250" stroke="#30363d" stroke-width="1"/>
+  <path d="M 50.0,250.0 L 83.3,250.0 L 116.7,250.0 L 150.0,76.7 L 183.3,113.7 L 216.7,130.5 L 250.0,116.6 L 283.3,119.2 L 316.7,137.0 L 350.0,135.8 L 383.3,184.5 L 416.7,178.9 L 450.0,177.1 L 483.3,200.9 L 516.7,189.8 L 550.0,180.3 L 583.3,175.3 L 616.7,155.6 L 650.0,163.3 L 683.3,143.1 L 716.7,90.1 L 750.0,84.2" fill="none" stroke="#f39c12" stroke-width="3"/>
+  <circle cx="50.0" cy="250.0" r="4" fill="#0a84ff"/><circle cx="116.7" cy="250.0" r="4" fill="#0a84ff"/><circle cx="183.3" cy="113.7" r="4" fill="#0a84ff"/><circle cx="250.0" cy="116.6" r="4" fill="#0a84ff"/><circle cx="316.7" cy="137.0" r="4" fill="#0a84ff"/><circle cx="383.3" cy="184.5" r="4" fill="#0a84ff"/><circle cx="450.0" cy="177.1" r="4" fill="#0a84ff"/><circle cx="516.7" cy="189.8" r="4" fill="#0a84ff"/><circle cx="583.3" cy="175.3" r="4" fill="#0a84ff"/><circle cx="650.0" cy="163.3" r="4" fill="#0a84ff"/><circle cx="716.7" cy="90.1" r="4" fill="#0a84ff"/><circle cx="750.0" cy="84.2" r="4" fill="#0a84ff"/>
+  <text x="50.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">02-21</text><text x="150.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">02-24</text><text x="250.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">02-27</text><text x="350.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">03-02</text><text x="450.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">03-05</text><text x="550.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">03-08</text><text x="650.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">03-11</text><text x="750.0" y="285" text-anchor="middle" fill="#8b949e" font-size="11">03-16</text>
+  <text x="40" y="50" text-anchor="end" fill="#8b949e" font-size="11">100</text>
+  <text x="40" y="250" text-anchor="end" fill="#8b949e" font-size="11">0</text>
+</svg>
+    </div>
+    
+    <!-- Correlation -->
+    <div class="card">
+        <h2>🔗 Consistency vs Recovery</h2>
+        <svg width="600" height="400" viewBox="0 0 600 400">
+  <rect width="600" height="400" fill="#0d1117"/>
+  <line x1="50" y1="50" x2="50" y2="350" stroke="#30363d" stroke-width="1"/>
+  <line x1="50" y1="350" x2="550" y2="350" stroke="#30363d" stroke-width="1"/>
+  <line x1="50.0" y1="217.4" x2="550.0" y2="172.0" stroke="#f39c12" stroke-width="2" stroke-dasharray="5,5"/>
+  <circle cx="50.0" cy="236.3" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="50.0" cy="255.3" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="50.0" cy="242.6" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="374.3" cy="220.5" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="305.0" cy="318.4" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="273.7" cy="179.5" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="294.8" cy="242.6" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="261.4" cy="226.8" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="263.7" cy="230.0" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="172.5" cy="226.8" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="183.1" cy="248.9" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="141.9" cy="182.6" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="162.6" cy="185.8" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="180.5" cy="214.2" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="189.8" cy="135.3" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="226.7" cy="59.5" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="212.2" cy="138.4" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="250.0" cy="188.9" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="349.1" cy="100.5" r="5" fill="#0a84ff" opacity="0.7"/><circle cx="360.2" cy="211.1" r="5" fill="#0a84ff" opacity="0.7"/>
+  <text x="300" y="25" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Correlation: r = 0.15</text>
+  <text x="50" y="385" text-anchor="middle" fill="#8b949e" font-size="12">Consistency Score</text>
+  <text x="15" y="200" text-anchor="middle" fill="#8b949e" font-size="12" transform="rotate(-90,15,200)">WHOOP Recovery</text>
+</svg>
+        <div class="comparison">
+            <div class="compare-item">
+                <div class="compare-value high">0%</div>
+                <div class="compare-label">High Consistency (>80)<br>Avg Recovery</div>
+            </div>
+            <div class="compare-item">
+                <div class="compare-value low">53%</div>
+                <div class="compare-label">Low Consistency (<50)<br>Avg Recovery</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Best/Worst Periods -->
+    <div class="card-grid">
+        <div class="card">
+            <h2>🏆 Best Consistency Periods</h2>
+            <ul class="streak-list">
+                <li><span>02/21 - 03/13</span><span class="high">33</span></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2>⚠️ Worst Consistency Periods</h2>
+            <ul class="streak-list">
+                <li>Not enough data</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Weekly Patterns -->
+    <div class="card">
+        <h2>📅 Weekly Patterns</h2>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div><svg width="350" height="200" viewBox="0 0 350 200">
+  <rect width="350" height="200" fill="#0d1117"/>
+  <text x="175" y="20" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Avg Bedtime (min from noon)</text>
+  <rect x="45.8" y="51.3" width="27.0" height="108.7" fill="#0a84ff" rx="2"/><rect x="84.4" y="50.9" width="27.0" height="109.1" fill="#0a84ff" rx="2"/><rect x="122.9" y="54.7" width="27.0" height="105.3" fill="#0a84ff" rx="2"/><rect x="161.5" y="54.6" width="27.0" height="105.4" fill="#0a84ff" rx="2"/><rect x="200.1" y="58.1" width="27.0" height="101.9" fill="#0a84ff" rx="2"/><rect x="238.6" y="52.1" width="27.0" height="107.9" fill="#0a84ff" rx="2"/><rect x="277.2" y="56.5" width="27.0" height="103.5" fill="#0a84ff" rx="2"/>
+  <text x="59.3" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Mon</text><text x="97.9" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Tue</text><text x="136.4" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Wed</text><text x="175.0" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Thu</text><text x="213.6" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Fri</text><text x="252.1" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Sat</text><text x="290.7" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Sun</text>
+</svg></div>
+            <div><svg width="350" height="200" viewBox="0 0 350 200">
+  <rect width="350" height="200" fill="#0d1117"/>
+  <text x="175" y="20" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Avg Wake Time (min from midnight)</text>
+  <rect x="45.8" y="55.6" width="27.0" height="104.4" fill="#0a84ff" rx="2"/><rect x="84.4" y="55.4" width="27.0" height="104.6" fill="#0a84ff" rx="2"/><rect x="122.9" y="63.5" width="27.0" height="96.5" fill="#0a84ff" rx="2"/><rect x="161.5" y="64.2" width="27.0" height="95.8" fill="#0a84ff" rx="2"/><rect x="200.1" y="79.3" width="27.0" height="80.7" fill="#0a84ff" rx="2"/><rect x="238.6" y="50.9" width="27.0" height="109.1" fill="#0a84ff" rx="2"/><rect x="277.2" y="51.4" width="27.0" height="108.6" fill="#0a84ff" rx="2"/>
+  <text x="59.3" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Mon</text><text x="97.9" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Tue</text><text x="136.4" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Wed</text><text x="175.0" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Thu</text><text x="213.6" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Fri</text><text x="252.1" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Sat</text><text x="290.7" y="180" text-anchor="middle" fill="#8b949e" font-size="10">Sun</text>
+</svg></div>
+        </div>
+    </div>
+    
+    <!-- Recommendations -->
+    <div class="card recommendations">
+        <h2>💡 Recommendations</h2>
+        <ul>
+            <li>Your bedtime varies by 61 min — try to standardize within 30 min</li>
+        </ul>
+    </div>
+</div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

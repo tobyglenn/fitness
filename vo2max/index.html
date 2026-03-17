@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VO2 Max & Running Performance — Fitness Ecosystem</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 768px) {
+      .grid-2, .grid-4 { grid-template-columns: 1fr; }
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 10px 14px; text-align: left; color: #8b949e; font-weight: 600; font-size: .85rem; border-bottom: 1px solid #30363d; }
+    th.center { text-align: center; }
+    td { border-bottom: 1px solid #21262d; }
+    .tooltip-box {
+      position: fixed; background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+      padding: 10px 14px; font-size: .82rem; pointer-events: none; z-index: 999;
+      display: none; min-width: 170px; box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    }
+  </style>
+</head>
+<body>
+<nav style="position:sticky;top:0;z-index:100;background:#0d1117;border-bottom:1px solid #30363d;padding:12px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+  <span style="font-weight:700;color:#f39c12;font-size:1rem">Hub</span>
+  <a href="../index.html" style="color:#8b949e;font-size:.9rem">🏠 Hub</a>
+  <a href="../calendars/" style="color:#8b949e;font-size:.9rem">📅 Calendars</a>
+  <a href="../strength/" style="color:#8b949e;font-size:.9rem">💪 Strength</a>
+  <a href="../cardio/" style="color:#8b949e;font-size:.9rem">🏃 Cardio</a>
+  <a href="../recovery/" style="color:#8b949e;font-size:.9rem">😴 Recovery</a>
+  <a href="../nutrition/" style="color:#8b949e;font-size:.9rem">🥗 Nutrition</a>
+  <a href="../vo2max/" style="color:#f39c12;font-size:.9rem;font-weight:700;border-bottom:2px solid #f39c12;padding-bottom:2px">❤️ VO2 Max</a>
+</nav>
+<main style="max-width:1100px;margin:0 auto;padding:24px 16px">
+  <div style="margin-bottom:28px">
+    <h1 style="font-size:2rem;font-weight:700;margin-bottom:4px">❤️ VO2 Max &amp; Running Performance</h1>
+    <p style="color:#8b949e">Cardiovascular fitness trends and drivers · Generated March 01, 2026 at 12:24 PM ET</p>
+  </div>
+
+  <!-- Hero Cards -->
+  <div class="grid-4" style="margin-bottom:24px">
+    <div class="card" style="text-align:center">
+      <div style="color:#8b949e;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Current VO2 Max</div>
+      <div style="font-size:3rem;font-weight:800;color:#f39c12;line-height:1">41.0</div>
+      <div style="font-size:.8rem;color:#8b949e;margin-top:4px">mL/kg/min (estimated)</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="color:#8b949e;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">30-Day Trend</div>
+      <div style="font-size:2.5rem;font-weight:800;color:#2ea043;line-height:1">↑ 7.9%</div>
+      <div style="font-size:.8rem;color:#8b949e;margin-top:4px">vs 30 days ago</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="color:#8b949e;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Personal Best</div>
+      <div style="font-size:2.5rem;font-weight:800;color:#f39c12;line-height:1">49.8</div>
+      <div style="font-size:.8rem;color:#8b949e;margin-top:4px">Aug 27, 2025</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="color:#8b949e;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Runs Analyzed</div>
+      <div style="font-size:2.5rem;font-weight:800;color:white;line-height:1">111</div>
+      <div style="font-size:.8rem;color:#8b949e;margin-top:4px">of 111 total runs</div>
+    </div>
+  </div>
+
+  <!-- Main Chart -->
+  <div class="card" style="margin-bottom:24px;padding:20px 16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div>
+        <h2 style="font-size:1.1rem;font-weight:700">VO2 Max Trend (Last 12 Months)</h2>
+        <p style="color:#8b949e;font-size:.82rem;margin-top:2px">Estimated using ACSM submaximal formula (pace + HR)</p>
+      </div>
+      <div style="display:flex;gap:16px;font-size:.78rem">
+        <span><span style="display:inline-block;width:12px;height:3px;background:#f39c12;border-radius:2px;vertical-align:middle;margin-right:4px"></span>VO2 Max</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:#0a84ff;opacity:.4;border-radius:2px;vertical-align:middle;margin-right:4px"></span>Recovery</span>
+        <span><span style="display:inline-block;width:8px;height:8px;background:#2ea043;border-radius:50%;vertical-align:middle;margin-right:4px"></span>Sleep</span>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <svg id="vo2chart" viewBox="0 0 960 380" style="width:100%;min-width:400px;height:380px">
+        <!-- Grid lines -->
+        <line x1="60" y1="330.0" x2="930" y2="330.0" stroke="#21262d" stroke-width="1"/><line x1="60" y1="292.7" x2="930" y2="292.7" stroke="#21262d" stroke-width="1"/><line x1="60" y1="255.5" x2="930" y2="255.5" stroke="#21262d" stroke-width="1"/><line x1="60" y1="218.2" x2="930" y2="218.2" stroke="#21262d" stroke-width="1"/><line x1="60" y1="180.9" x2="930" y2="180.9" stroke="#21262d" stroke-width="1"/><line x1="60" y1="143.7" x2="930" y2="143.7" stroke="#21262d" stroke-width="1"/><line x1="60" y1="106.4" x2="930" y2="106.4" stroke="#21262d" stroke-width="1"/><line x1="60" y1="69.1" x2="930" y2="69.1" stroke="#21262d" stroke-width="1"/><line x1="60" y1="31.9" x2="930" y2="31.9" stroke="#21262d" stroke-width="1"/>
+        <!-- Recovery area -->
+        <path d="M 60.0 330 L 60.0 165.0 L 68.0 174.0 L 76.0 144.0 L 83.9 93.0 L 91.9 198.0 L 99.9 135.0 L 107.9 114.0 L 115.9 132.0 L 123.9 186.0 L 131.8 45.0 L 139.8 117.0 L 147.8 39.0 L 155.8 57.0 L 163.8 114.0 L 171.7 177.0 L 179.7 216.0 L 187.7 216.0 L 195.7 195.0 L 203.7 252.0 L 211.7 90.0 L 219.6 126.0 L 227.6 186.0 L 235.6 81.0 L 243.6 81.0 L 251.6 147.0 L 259.5 192.0 L 267.5 144.0 L 275.5 177.0 L 283.5 234.0 L 291.5 165.0 L 299.4 153.0 L 307.4 126.0 L 315.4 126.0 L 323.4 171.0 L 331.4 231.0 L 339.4 213.0 L 347.3 84.0 L 355.3 186.0 L 363.3 66.0 L 371.3 63.0 L 379.3 168.0 L 387.2 63.0 L 395.2 180.0 L 403.2 204.0 L 411.2 120.0 L 419.2 54.0 L 427.2 162.0 L 435.1 198.0 L 443.1 261.0 L 451.1 258.0 L 459.1 264.0 L 467.1 210.0 L 475.0 180.0 L 483.0 201.0 L 491.0 201.0 L 499.0 75.0 L 507.0 198.0 L 515.0 201.0 L 522.9 123.0 L 530.9 123.0 L 538.9 75.0 L 546.9 141.0 L 554.9 162.0 L 562.8 162.0 L 570.8 204.0 L 578.8 204.0 L 586.8 285.0 L 594.8 285.0 L 602.8 198.0 L 610.7 63.0 L 618.7 63.0 L 626.7 240.0 L 634.7 240.0 L 642.7 102.0 L 650.6 189.0 L 658.6 243.0 L 666.6 183.0 L 674.6 255.0 L 682.6 252.0 L 690.6 162.0 L 698.5 168.0 L 706.5 129.0 L 714.5 129.0 L 722.5 36.0 L 730.5 234.0 L 738.4 114.0 L 746.4 177.0 L 754.4 276.0 L 762.4 42.0 L 770.4 183.0 L 778.3 144.0 L 786.3 153.0 L 794.3 198.0 L 802.3 198.0 L 810.3 63.0 L 818.3 237.0 L 826.2 189.0 L 834.2 285.0 L 842.2 288.0 L 850.2 111.0 L 858.2 81.0 L 866.1 198.0 L 874.1 141.0 L 882.1 276.0 L 890.1 276.0 L 898.1 75.0 L 906.1 261.0 L 914.0 225.0 L 922.0 225.0 L 930.0 216.0 L 930.0 330 Z" fill="#0a84ff" opacity="0.15"/>
+        <!-- Sleep dots -->
+        <circle cx="690.6" cy="45.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="698.5" cy="60.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="706.5" cy="45.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="714.5" cy="45.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="722.5" cy="90.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="730.5" cy="157.5" r="3" fill="#f85149" opacity="0.7"/><circle cx="738.4" cy="72.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="746.4" cy="163.5" r="3" fill="#f85149" opacity="0.7"/><circle cx="754.4" cy="195.0" r="3" fill="#f85149" opacity="0.7"/><circle cx="762.4" cy="97.5" r="3" fill="#f39c12" opacity="0.7"/><circle cx="770.4" cy="78.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="778.3" cy="135.0" r="3" fill="#f39c12" opacity="0.7"/><circle cx="786.3" cy="63.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="794.3" cy="66.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="802.3" cy="87.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="810.3" cy="144.0" r="3" fill="#f39c12" opacity="0.7"/><circle cx="818.3" cy="72.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="826.2" cy="151.5" r="3" fill="#f85149" opacity="0.7"/><circle cx="834.2" cy="138.0" r="3" fill="#f39c12" opacity="0.7"/><circle cx="842.2" cy="114.0" r="3" fill="#f39c12" opacity="0.7"/><circle cx="850.2" cy="96.0" r="3" fill="#f39c12" opacity="0.7"/><circle cx="858.2" cy="54.6" r="3" fill="#2ea043" opacity="0.7"/><circle cx="866.1" cy="154.5" r="3" fill="#f85149" opacity="0.7"/><circle cx="874.1" cy="36.0" r="3" fill="#2ea043" opacity="0.7"/><circle cx="882.1" cy="147.0" r="3" fill="#f39c12" opacity="0.7"/>
+        <!-- VO2 line -->
+        <polyline points="60.0,281.6 68.0,251.7 76.0,212.6 83.9,212.6 91.9,199.6 99.9,173.5 107.9,175.3 115.9,190.2 123.9,180.9 131.8,197.7 139.8,214.5 147.8,218.2 155.8,242.4 163.8,251.7 171.7,242.4 179.7,221.9 187.7,221.9 195.7,203.3 203.7,201.4 211.7,188.4 219.6,190.2 227.6,177.2 235.6,169.8 243.6,169.8 251.6,171.6 259.5,162.3 267.5,162.3 275.5,164.2 283.5,180.9 291.5,186.5 299.4,184.7 307.4,190.2 315.4,203.3 323.4,184.7 331.4,182.8 339.4,207.0 347.3,199.6 355.3,192.1 363.3,184.7 371.3,182.8 379.3,166.0 387.2,167.9 395.2,164.2 403.2,156.7 411.2,139.9 419.2,143.7 427.2,145.5 435.1,156.7 443.1,171.6 451.1,184.7 459.1,203.3 467.1,220.1 475.0,218.2 483.0,231.2 491.0,246.1 499.0,240.6 507.0,246.1 515.0,246.1 522.9,238.7 530.9,214.5 538.9,212.6 546.9,169.8 554.9,175.3 562.8,160.4 570.8,156.7 578.8,106.4 586.8,115.7 594.8,85.9 602.8,108.3 610.7,119.4 618.7,162.3 626.7,162.3 634.7,179.1 642.7,156.7 650.6,173.5 658.6,184.7 666.6,190.2 674.6,194.0 682.6,225.7 690.6,210.7 698.5,197.7 706.5,210.7 714.5,203.3 722.5,167.9 730.5,180.9 738.4,188.4 746.4,179.1 754.4,197.7 762.4,195.8 770.4,179.1 778.3,182.8 786.3,186.5 794.3,173.5 802.3,180.9 810.3,164.2 818.3,156.7 826.2,149.3 834.2,147.4 842.2,134.3 850.2,151.1 858.2,143.7 866.1,145.5 874.1,147.4 882.1,138.1 890.1,138.1 898.1,141.8 906.1,147.4 914.0,139.9 922.0,149.3 930.0,125.0" fill="none" stroke="#f39c12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- VO2 dots -->
+        <circle class="vo2-dot" cx="60.0" cy="281.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="0" style="cursor:pointer"/><circle class="vo2-dot" cx="68.0" cy="251.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="1" style="cursor:pointer"/><circle class="vo2-dot" cx="76.0" cy="212.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="2" style="cursor:pointer"/><circle class="vo2-dot" cx="83.9" cy="212.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="3" style="cursor:pointer"/><circle class="vo2-dot" cx="91.9" cy="199.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="4" style="cursor:pointer"/><circle class="vo2-dot" cx="99.9" cy="173.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="5" style="cursor:pointer"/><circle class="vo2-dot" cx="107.9" cy="175.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="6" style="cursor:pointer"/><circle class="vo2-dot" cx="115.9" cy="190.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="7" style="cursor:pointer"/><circle class="vo2-dot" cx="123.9" cy="180.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="8" style="cursor:pointer"/><circle class="vo2-dot" cx="131.8" cy="197.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="9" style="cursor:pointer"/><circle class="vo2-dot" cx="139.8" cy="214.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="10" style="cursor:pointer"/><circle class="vo2-dot" cx="147.8" cy="218.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="11" style="cursor:pointer"/><circle class="vo2-dot" cx="155.8" cy="242.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="12" style="cursor:pointer"/><circle class="vo2-dot" cx="163.8" cy="251.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="13" style="cursor:pointer"/><circle class="vo2-dot" cx="171.7" cy="242.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="14" style="cursor:pointer"/><circle class="vo2-dot" cx="179.7" cy="221.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="15" style="cursor:pointer"/><circle class="vo2-dot" cx="187.7" cy="221.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="16" style="cursor:pointer"/><circle class="vo2-dot" cx="195.7" cy="203.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="17" style="cursor:pointer"/><circle class="vo2-dot" cx="203.7" cy="201.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="18" style="cursor:pointer"/><circle class="vo2-dot" cx="211.7" cy="188.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="19" style="cursor:pointer"/><circle class="vo2-dot" cx="219.6" cy="190.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="20" style="cursor:pointer"/><circle class="vo2-dot" cx="227.6" cy="177.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="21" style="cursor:pointer"/><circle class="vo2-dot" cx="235.6" cy="169.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="22" style="cursor:pointer"/><circle class="vo2-dot" cx="243.6" cy="169.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="23" style="cursor:pointer"/><circle class="vo2-dot" cx="251.6" cy="171.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="24" style="cursor:pointer"/><circle class="vo2-dot" cx="259.5" cy="162.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="25" style="cursor:pointer"/><circle class="vo2-dot" cx="267.5" cy="162.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="26" style="cursor:pointer"/><circle class="vo2-dot" cx="275.5" cy="164.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="27" style="cursor:pointer"/><circle class="vo2-dot" cx="283.5" cy="180.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="28" style="cursor:pointer"/><circle class="vo2-dot" cx="291.5" cy="186.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="29" style="cursor:pointer"/><circle class="vo2-dot" cx="299.4" cy="184.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="30" style="cursor:pointer"/><circle class="vo2-dot" cx="307.4" cy="190.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="31" style="cursor:pointer"/><circle class="vo2-dot" cx="315.4" cy="203.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="32" style="cursor:pointer"/><circle class="vo2-dot" cx="323.4" cy="184.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="33" style="cursor:pointer"/><circle class="vo2-dot" cx="331.4" cy="182.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="34" style="cursor:pointer"/><circle class="vo2-dot" cx="339.4" cy="207.0" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="35" style="cursor:pointer"/><circle class="vo2-dot" cx="347.3" cy="199.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="36" style="cursor:pointer"/><circle class="vo2-dot" cx="355.3" cy="192.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="37" style="cursor:pointer"/><circle class="vo2-dot" cx="363.3" cy="184.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="38" style="cursor:pointer"/><circle class="vo2-dot" cx="371.3" cy="182.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="39" style="cursor:pointer"/><circle class="vo2-dot" cx="379.3" cy="166.0" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="40" style="cursor:pointer"/><circle class="vo2-dot" cx="387.2" cy="167.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="41" style="cursor:pointer"/><circle class="vo2-dot" cx="395.2" cy="164.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="42" style="cursor:pointer"/><circle class="vo2-dot" cx="403.2" cy="156.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="43" style="cursor:pointer"/><circle class="vo2-dot" cx="411.2" cy="139.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="44" style="cursor:pointer"/><circle class="vo2-dot" cx="419.2" cy="143.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="45" style="cursor:pointer"/><circle class="vo2-dot" cx="427.2" cy="145.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="46" style="cursor:pointer"/><circle class="vo2-dot" cx="435.1" cy="156.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="47" style="cursor:pointer"/><circle class="vo2-dot" cx="443.1" cy="171.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="48" style="cursor:pointer"/><circle class="vo2-dot" cx="451.1" cy="184.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="49" style="cursor:pointer"/><circle class="vo2-dot" cx="459.1" cy="203.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="50" style="cursor:pointer"/><circle class="vo2-dot" cx="467.1" cy="220.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="51" style="cursor:pointer"/><circle class="vo2-dot" cx="475.0" cy="218.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="52" style="cursor:pointer"/><circle class="vo2-dot" cx="483.0" cy="231.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="53" style="cursor:pointer"/><circle class="vo2-dot" cx="491.0" cy="246.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="54" style="cursor:pointer"/><circle class="vo2-dot" cx="499.0" cy="240.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="55" style="cursor:pointer"/><circle class="vo2-dot" cx="507.0" cy="246.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="56" style="cursor:pointer"/><circle class="vo2-dot" cx="515.0" cy="246.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="57" style="cursor:pointer"/><circle class="vo2-dot" cx="522.9" cy="238.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="58" style="cursor:pointer"/><circle class="vo2-dot" cx="530.9" cy="214.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="59" style="cursor:pointer"/><circle class="vo2-dot" cx="538.9" cy="212.6" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="60" style="cursor:pointer"/><circle class="vo2-dot" cx="546.9" cy="169.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="61" style="cursor:pointer"/><circle class="vo2-dot" cx="554.9" cy="175.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="62" style="cursor:pointer"/><circle class="vo2-dot" cx="562.8" cy="160.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="63" style="cursor:pointer"/><circle class="vo2-dot" cx="570.8" cy="156.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="64" style="cursor:pointer"/><circle class="vo2-dot" cx="578.8" cy="106.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="65" style="cursor:pointer"/><circle class="vo2-dot" cx="586.8" cy="115.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="66" style="cursor:pointer"/><circle class="vo2-dot" cx="594.8" cy="85.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="67" style="cursor:pointer"/><circle class="vo2-dot" cx="602.8" cy="108.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="68" style="cursor:pointer"/><circle class="vo2-dot" cx="610.7" cy="119.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="69" style="cursor:pointer"/><circle class="vo2-dot" cx="618.7" cy="162.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="70" style="cursor:pointer"/><circle class="vo2-dot" cx="626.7" cy="162.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="71" style="cursor:pointer"/><circle class="vo2-dot" cx="634.7" cy="179.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="72" style="cursor:pointer"/><circle class="vo2-dot" cx="642.7" cy="156.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="73" style="cursor:pointer"/><circle class="vo2-dot" cx="650.6" cy="173.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="74" style="cursor:pointer"/><circle class="vo2-dot" cx="658.6" cy="184.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="75" style="cursor:pointer"/><circle class="vo2-dot" cx="666.6" cy="190.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="76" style="cursor:pointer"/><circle class="vo2-dot" cx="674.6" cy="194.0" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="77" style="cursor:pointer"/><circle class="vo2-dot" cx="682.6" cy="225.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="78" style="cursor:pointer"/><circle class="vo2-dot" cx="690.6" cy="210.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="79" style="cursor:pointer"/><circle class="vo2-dot" cx="698.5" cy="197.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="80" style="cursor:pointer"/><circle class="vo2-dot" cx="706.5" cy="210.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="81" style="cursor:pointer"/><circle class="vo2-dot" cx="714.5" cy="203.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="82" style="cursor:pointer"/><circle class="vo2-dot" cx="722.5" cy="167.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="83" style="cursor:pointer"/><circle class="vo2-dot" cx="730.5" cy="180.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="84" style="cursor:pointer"/><circle class="vo2-dot" cx="738.4" cy="188.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="85" style="cursor:pointer"/><circle class="vo2-dot" cx="746.4" cy="179.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="86" style="cursor:pointer"/><circle class="vo2-dot" cx="754.4" cy="197.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="87" style="cursor:pointer"/><circle class="vo2-dot" cx="762.4" cy="195.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="88" style="cursor:pointer"/><circle class="vo2-dot" cx="770.4" cy="179.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="89" style="cursor:pointer"/><circle class="vo2-dot" cx="778.3" cy="182.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="90" style="cursor:pointer"/><circle class="vo2-dot" cx="786.3" cy="186.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="91" style="cursor:pointer"/><circle class="vo2-dot" cx="794.3" cy="173.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="92" style="cursor:pointer"/><circle class="vo2-dot" cx="802.3" cy="180.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="93" style="cursor:pointer"/><circle class="vo2-dot" cx="810.3" cy="164.2" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="94" style="cursor:pointer"/><circle class="vo2-dot" cx="818.3" cy="156.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="95" style="cursor:pointer"/><circle class="vo2-dot" cx="826.2" cy="149.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="96" style="cursor:pointer"/><circle class="vo2-dot" cx="834.2" cy="147.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="97" style="cursor:pointer"/><circle class="vo2-dot" cx="842.2" cy="134.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="98" style="cursor:pointer"/><circle class="vo2-dot" cx="850.2" cy="151.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="99" style="cursor:pointer"/><circle class="vo2-dot" cx="858.2" cy="143.7" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="100" style="cursor:pointer"/><circle class="vo2-dot" cx="866.1" cy="145.5" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="101" style="cursor:pointer"/><circle class="vo2-dot" cx="874.1" cy="147.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="102" style="cursor:pointer"/><circle class="vo2-dot" cx="882.1" cy="138.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="103" style="cursor:pointer"/><circle class="vo2-dot" cx="890.1" cy="138.1" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="104" style="cursor:pointer"/><circle class="vo2-dot" cx="898.1" cy="141.8" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="105" style="cursor:pointer"/><circle class="vo2-dot" cx="906.1" cy="147.4" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="106" style="cursor:pointer"/><circle class="vo2-dot" cx="914.0" cy="139.9" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="107" style="cursor:pointer"/><circle class="vo2-dot" cx="922.0" cy="149.3" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="108" style="cursor:pointer"/><circle class="vo2-dot" cx="930.0" cy="125.0" r="4" fill="#f39c12" stroke="#0d1117" stroke-width="1.5" data-i="109" style="cursor:pointer"/>
+        <!-- Y-axis labels -->
+        <text x="54" y="330.0" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">30</text><text x="54" y="292.7" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">32</text><text x="54" y="255.5" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">34</text><text x="54" y="218.2" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">36</text><text x="54" y="180.9" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">38</text><text x="54" y="143.7" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">40</text><text x="54" y="106.4" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">42</text><text x="54" y="69.1" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">44</text><text x="54" y="31.9" text-anchor="end" dominant-baseline="middle" fill="#8b949e" font-size="11">46</text>
+        <!-- Y-axis title -->
+        <text x="14" y="190" text-anchor="middle" fill="#8b949e" font-size="11" transform="rotate(-90, 14, 190)">mL/kg/min</text>
+        <!-- X-axis labels -->
+        <text x="60.0" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Mar '25</text><text x="68.0" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Apr '25</text><text x="76.0" y="348" text-anchor="middle" fill="#8b949e" font-size="10">May '25</text><text x="187.7" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Jun '25</text><text x="379.3" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Jul '25</text><text x="459.1" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Aug '25</text><text x="610.7" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Sep '25</text><text x="682.6" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Oct '25</text><text x="690.6" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Jan '26</text><text x="818.3" y="348" text-anchor="middle" fill="#8b949e" font-size="10">Feb '26</text>
+        <!-- Axes -->
+        <line x1="60" y1="30" x2="60" y2="330" stroke="#30363d" stroke-width="1"/>
+        <line x1="60" y1="330" x2="930" y2="330" stroke="#30363d" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Tooltip -->
+  <div id="tooltip" class="tooltip-box"></div>
+
+  <!-- Correlations Grid -->
+  <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:16px">Correlation Insights</h2>
+  <div class="grid-4" style="margin-bottom:24px">
+    <div class="card">
+      <div style="font-size:1.5rem;margin-bottom:8px">😴</div>
+      <div style="font-size:.8rem;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Sleep Impact</div>
+      <div style="font-size:1.6rem;font-weight:800;color:#8b949e">+0.10</div>
+      <div style="font-size:.78rem;color:#8b949e;margin-top:6px">Weak correlation</div>
+      <div style="font-size:.8rem;color:#c9d1d9;margin-top:8px">
+        Runs after high sleep (80+) avg 39.7 vs 36.9 after poor sleep
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:1.5rem;margin-bottom:8px">💚</div>
+      <div style="font-size:.8rem;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Recovery Score</div>
+      <div style="font-size:1.6rem;font-weight:800;color:#8b949e">+0.01</div>
+      <div style="font-size:.78rem;color:#8b949e;margin-top:6px">No correlation</div>
+      <div style="font-size:.8rem;color:#c9d1d9;margin-top:8px">WHOOP recovery score vs next-run VO2 estimate</div>
+    </div>
+    <div class="card">
+      <div style="font-size:1.5rem;margin-bottom:8px">⚡</div>
+      <div style="font-size:.8rem;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Training Strain</div>
+      <div style="font-size:1.6rem;font-weight:800;color:#8b949e">-0.06</div>
+      <div style="font-size:.78rem;color:#8b949e;margin-top:6px">No correlation</div>
+      <div style="font-size:.8rem;color:#c9d1d9;margin-top:8px">WHOOP daily strain vs next-run performance</div>
+    </div>
+    <div class="card">
+      <div style="font-size:1.5rem;margin-bottom:8px">📈</div>
+      <div style="font-size:.8rem;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Max HR Used</div>
+      <div style="font-size:1.6rem;font-weight:800;color:#f39c12">192</div>
+      <div style="font-size:.78rem;color:#8b949e;margin-top:6px">bpm (observed max)</div>
+      <div style="font-size:.8rem;color:#c9d1d9;margin-top:8px">Used as HRmax denominator in VO2 estimation</div>
+    </div>
+  </div>
+
+  <!-- Best Performances Table -->
+  <div class="card" style="margin-bottom:24px">
+    <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:16px">🏆 Top 5 VO2 Max Estimates</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th class="center">VO2 Max</th>
+            <th>Activity</th>
+            <th class="center">Sleep Score</th>
+            <th class="center">Recovery</th>
+            <th class="center">Distance</th>
+          </tr>
+        </thead>
+        <tbody>
+      <tr style="background:#1c2128">
+        <td style="padding:10px 14px;color:#f39c12;font-weight:700">Aug 27, 2025 <span style="background:#f39c12;color:#000;border-radius:4px;padding:1px 6px;font-size:.7rem;font-weight:700">PB</span></td>
+        <td style="padding:10px 14px;text-align:center;font-size:1.1rem;font-weight:700;color:#f39c12">49.8</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e;font-size:.85rem">Camp Hill Running</td>
+        <td style="padding:10px 14px;text-align:center;color:#2ea043">—</td>
+        <td style="padding:10px 14px;text-align:center;color:#58a6ff">42</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e">0.9 mi</td>
+      </tr>
+      <tr style="background:#161b22">
+        <td style="padding:10px 14px;color:white;font-weight:400">Feb 11, 2026</td>
+        <td style="padding:10px 14px;text-align:center;font-size:1.1rem;font-weight:700;color:#f39c12">45.8</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e;font-size:.85rem">Recovery</td>
+        <td style="padding:10px 14px;text-align:center;color:#2ea043">61</td>
+        <td style="padding:10px 14px;text-align:center;color:#58a6ff">18</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e">1.4 mi</td>
+      </tr>
+      <tr style="background:#1c2128">
+        <td style="padding:10px 14px;color:white;font-weight:400">Feb 19, 2026</td>
+        <td style="padding:10px 14px;text-align:center;font-size:1.1rem;font-weight:700;color:#f39c12">44.8</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e;font-size:.85rem">Base</td>
+        <td style="padding:10px 14px;text-align:center;color:#2ea043">—</td>
+        <td style="padding:10px 14px;text-align:center;color:#58a6ff">38</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e">3.0 mi</td>
+      </tr>
+      <tr style="background:#161b22">
+        <td style="padding:10px 14px;color:white;font-weight:400">Aug 25, 2025</td>
+        <td style="padding:10px 14px;text-align:center;font-size:1.1rem;font-weight:700;color:#f39c12">44.3</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e;font-size:.85rem">Camp Hill Running</td>
+        <td style="padding:10px 14px;text-align:center;color:#2ea043">—</td>
+        <td style="padding:10px 14px;text-align:center;color:#58a6ff">63</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e">0.9 mi</td>
+      </tr>
+      <tr style="background:#1c2128">
+        <td style="padding:10px 14px;color:white;font-weight:400">Feb 18, 2026</td>
+        <td style="padding:10px 14px;text-align:center;font-size:1.1rem;font-weight:700;color:#f39c12">43.6</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e;font-size:.85rem">Base</td>
+        <td style="padding:10px 14px;text-align:center;color:#2ea043">—</td>
+        <td style="padding:10px 14px;text-align:center;color:#58a6ff">35</td>
+        <td style="padding:10px 14px;text-align:center;color:#8b949e">2.3 mi</td>
+      </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Insights Summary -->
+  <div class="card" style="margin-bottom:24px">
+    <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:14px">💡 Key Insights</h2>
+    <ul style="list-style:none;padding:0">
+      <li style="margin-bottom:8px;color:#c9d1d9">VO2 max is trending upward (+7.9% over 30 days) — your cardiovascular fitness is improving.</li><li style="margin-bottom:8px;color:#c9d1d9">High-quality sleep (80+) is associated with 7.6% higher VO2 max estimates — sleep is a key performance driver.</li><li style="margin-bottom:8px;color:#c9d1d9">Estimates based on ACSM submaximal formula using average HR and pace. Maximum HR used: 192 bpm.</li>
+    </ul>
+  </div>
+
+  <!-- Methodology Note -->
+  <div style="color:#484f58;font-size:.78rem;text-align:center;padding-bottom:32px">
+    VO2 Max estimated via ACSM submaximal running formula. Values are estimates — for clinical accuracy use a lab test or Garmin's GPS-based measurement.
+    HRmax = 192 bpm (highest recorded). 111 runs analyzed.
+  </div>
+</main>
+
+<script>
+const tooltipData = [{"x": 60.0, "date": "2025-03-15", "vo2": 32.6, "raw_vo2": 30.8, "recovery": 55.0, "sleep": "", "distance": 4.0517, "activity": "Running"}, {"x": 68.0, "date": "2025-04-22", "vo2": 34.2, "raw_vo2": 37.3, "recovery": 52.0, "sleep": "", "distance": 1.1492, "activity": "Running"}, {"x": 76.0, "date": "2025-05-02", "vo2": 36.3, "raw_vo2": 42.7, "recovery": 62.0, "sleep": "", "distance": 1.3208, "activity": "Running"}, {"x": 83.9, "date": "2025-05-03", "vo2": 36.3, "raw_vo2": 36.0, "recovery": 79.0, "sleep": "", "distance": 1.7775, "activity": "Running"}, {"x": 91.9, "date": "2025-05-07", "vo2": 37.0, "raw_vo2": 38.0, "recovery": 44.0, "sleep": "", "distance": 1.4991, "activity": "Running"}, {"x": 99.9, "date": "2025-05-15", "vo2": 38.4, "raw_vo2": 38.0, "recovery": 65.0, "sleep": "", "distance": 2.8835, "activity": "Running"}, {"x": 107.9, "date": "2025-05-16", "vo2": 38.3, "raw_vo2": 37.0, "recovery": 72.0, "sleep": "", "distance": 1.2164, "activity": "Running"}, {"x": 115.9, "date": "2025-05-17", "vo2": 37.5, "raw_vo2": 38.5, "recovery": 66.0, "sleep": "", "distance": 3.2536, "activity": "Running"}, {"x": 123.9, "date": "2025-05-18", "vo2": 38.0, "raw_vo2": 38.3, "recovery": 48.0, "sleep": "", "distance": 3.2911, "activity": "Running"}, {"x": 131.8, "date": "2025-05-19", "vo2": 37.1, "raw_vo2": 33.5, "recovery": 95.0, "sleep": "", "distance": 3.0903, "activity": "Running"}, {"x": 139.8, "date": "2025-05-24", "vo2": 36.2, "raw_vo2": 33.7, "recovery": 71.0, "sleep": "", "distance": 4.0277, "activity": "Running"}, {"x": 147.8, "date": "2025-05-25", "vo2": 36.0, "raw_vo2": 35.8, "recovery": 97.0, "sleep": "", "distance": 4.2022, "activity": "Running"}, {"x": 155.8, "date": "2025-05-26", "vo2": 34.7, "raw_vo2": 32.4, "recovery": 91.0, "sleep": "", "distance": 1.9598, "activity": "Running"}, {"x": 163.8, "date": "2025-05-29", "vo2": 34.2, "raw_vo2": 35.6, "recovery": 72.0, "sleep": "", "distance": 2.5651, "activity": "Running"}, {"x": 171.7, "date": "2025-05-30", "vo2": 34.7, "raw_vo2": 35.8, "recovery": 51.0, "sleep": "", "distance": 1.2767, "activity": "Running"}, {"x": 179.7, "date": "2025-05-31", "vo2": 35.8, "raw_vo2": 39.4, "recovery": 38.0, "sleep": "", "distance": 4.6104, "activity": "Running"}, {"x": 187.7, "date": "2025-06-01", "vo2": 35.8, "raw_vo2": 35.9, "recovery": 38.0, "sleep": "", "distance": 4.002, "activity": "Running"}, {"x": 195.7, "date": "2025-06-02", "vo2": 36.8, "raw_vo2": 37.5, "recovery": 45.0, "sleep": "", "distance": 3.0271, "activity": "Running"}, {"x": 203.7, "date": "2025-06-03", "vo2": 36.9, "raw_vo2": 35.9, "recovery": 26.0, "sleep": "", "distance": 2.3112, "activity": "Running"}, {"x": 211.7, "date": "2025-06-04", "vo2": 37.6, "raw_vo2": 39.1, "recovery": 80.0, "sleep": "", "distance": 3.2662, "activity": "Running"}, {"x": 219.6, "date": "2025-06-05", "vo2": 37.5, "raw_vo2": 38.9, "recovery": 68.0, "sleep": "", "distance": 3.5053, "activity": "Running"}, {"x": 227.6, "date": "2025-06-07", "vo2": 38.2, "raw_vo2": 39.4, "recovery": 48.0, "sleep": "", "distance": 3.3288, "activity": "Running"}, {"x": 235.6, "date": "2025-06-08", "vo2": 38.6, "raw_vo2": 39.7, "recovery": 83.0, "sleep": "", "distance": 3.3362, "activity": "Running"}, {"x": 243.6, "date": "2025-06-08", "vo2": 38.6, "raw_vo2": 35.9, "recovery": 83.0, "sleep": "", "distance": 1.306, "activity": "Running"}, {"x": 251.6, "date": "2025-06-09", "vo2": 38.5, "raw_vo2": 38.7, "recovery": 61.0, "sleep": "", "distance": 2.1523, "activity": "Running"}, {"x": 259.5, "date": "2025-06-10", "vo2": 39.0, "raw_vo2": 41.1, "recovery": 46.0, "sleep": "", "distance": 3.157, "activity": "Running"}, {"x": 267.5, "date": "2025-06-11", "vo2": 39.0, "raw_vo2": 39.4, "recovery": 62.0, "sleep": "", "distance": 2.4639, "activity": "Running"}, {"x": 275.5, "date": "2025-06-12", "vo2": 38.9, "raw_vo2": 39.2, "recovery": 51.0, "sleep": "", "distance": 4.132, "activity": "Running"}, {"x": 283.5, "date": "2025-06-14", "vo2": 38.0, "raw_vo2": 31.4, "recovery": 32.0, "sleep": "", "distance": 2.2327, "activity": "Running"}, {"x": 291.5, "date": "2025-06-15", "vo2": 37.7, "raw_vo2": 37.6, "recovery": 55.0, "sleep": "", "distance": 3.6795, "activity": "Running"}, {"x": 299.4, "date": "2025-06-16", "vo2": 37.8, "raw_vo2": 41.5, "recovery": 59.0, "sleep": "", "distance": 4.2632, "activity": "Running"}, {"x": 307.4, "date": "2025-06-17", "vo2": 37.5, "raw_vo2": 37.7, "recovery": 68.0, "sleep": "", "distance": 3.373, "activity": "Running"}, {"x": 315.4, "date": "2025-06-17", "vo2": 36.8, "raw_vo2": 35.6, "recovery": 68.0, "sleep": "", "distance": 2.4123, "activity": "Running"}, {"x": 323.4, "date": "2025-06-18", "vo2": 37.8, "raw_vo2": 36.8, "recovery": 53.0, "sleep": "", "distance": 2.5498, "activity": "Running"}, {"x": 331.4, "date": "2025-06-20", "vo2": 37.9, "raw_vo2": 37.8, "recovery": 33.0, "sleep": "", "distance": 3.0339, "activity": "Running"}, {"x": 339.4, "date": "2025-06-22", "vo2": 36.6, "raw_vo2": 35.2, "recovery": 39.0, "sleep": "", "distance": 3.0909, "activity": "Running"}, {"x": 347.3, "date": "2025-06-23", "vo2": 37.0, "raw_vo2": 39.8, "recovery": 82.0, "sleep": "", "distance": 4.0534, "activity": "Running"}, {"x": 355.3, "date": "2025-06-24", "vo2": 37.4, "raw_vo2": 37.5, "recovery": 48.0, "sleep": "", "distance": 3.0486, "activity": "Running"}, {"x": 363.3, "date": "2025-06-26", "vo2": 37.8, "raw_vo2": 38.8, "recovery": 88.0, "sleep": "", "distance": 4.0333, "activity": "Running"}, {"x": 371.3, "date": "2025-06-30", "vo2": 37.9, "raw_vo2": 38.0, "recovery": 89.0, "sleep": "", "distance": 4.9979, "activity": "Running"}, {"x": 379.3, "date": "2025-07-01", "vo2": 38.8, "raw_vo2": 40.1, "recovery": 54.0, "sleep": "", "distance": 2.4027, "activity": "Running"}, {"x": 387.2, "date": "2025-07-02", "vo2": 38.7, "raw_vo2": 39.3, "recovery": 89.0, "sleep": "", "distance": 2.5446, "activity": "Running"}, {"x": 395.2, "date": "2025-07-03", "vo2": 38.9, "raw_vo2": 38.3, "recovery": 50.0, "sleep": "", "distance": 3.9988, "activity": "Running"}, {"x": 403.2, "date": "2025-07-05", "vo2": 39.3, "raw_vo2": 41.0, "recovery": 42.0, "sleep": "", "distance": 4.3986, "activity": "Running"}, {"x": 411.2, "date": "2025-07-06", "vo2": 40.2, "raw_vo2": 42.4, "recovery": 70.0, "sleep": "", "distance": 4.2558, "activity": "Running"}, {"x": 419.2, "date": "2025-07-11", "vo2": 40.0, "raw_vo2": 38.9, "recovery": 92.0, "sleep": "", "distance": 2.7296, "activity": "Running"}, {"x": 427.2, "date": "2025-07-14", "vo2": 39.9, "raw_vo2": 38.7, "recovery": 56.0, "sleep": "", "distance": 3.6271, "activity": "Running"}, {"x": 435.1, "date": "2025-07-18", "vo2": 39.3, "raw_vo2": 35.4, "recovery": 44.0, "sleep": "", "distance": 1.7251, "activity": "Running"}, {"x": 443.1, "date": "2025-07-19", "vo2": 38.5, "raw_vo2": 37.2, "recovery": 23.0, "sleep": "", "distance": 3.424, "activity": "Running"}, {"x": 451.1, "date": "2025-07-30", "vo2": 37.8, "raw_vo2": 38.7, "recovery": 24.0, "sleep": "", "distance": 2.3155, "activity": "Running"}, {"x": 459.1, "date": "2025-08-03", "vo2": 36.8, "raw_vo2": 34.1, "recovery": 22.0, "sleep": "", "distance": 1.7852, "activity": "Running"}, {"x": 467.1, "date": "2025-08-07", "vo2": 35.9, "raw_vo2": 34.1, "recovery": 40.0, "sleep": "", "distance": 3.3136, "activity": "Running"}, {"x": 475.0, "date": "2025-08-10", "vo2": 36.0, "raw_vo2": 35.9, "recovery": 50.0, "sleep": "", "distance": 3.3559, "activity": "Running"}, {"x": 483.0, "date": "2025-08-12", "vo2": 35.3, "raw_vo2": 33.9, "recovery": 43.0, "sleep": "", "distance": 3.5691, "activity": "Running"}, {"x": 491.0, "date": "2025-08-12", "vo2": 34.5, "raw_vo2": 34.3, "recovery": 43.0, "sleep": "", "distance": 2.1395, "activity": "Running"}, {"x": 499.0, "date": "2025-08-15", "vo2": 34.8, "raw_vo2": 35.6, "recovery": 85.0, "sleep": "", "distance": 3.5361, "activity": "Running"}, {"x": 507.0, "date": "2025-08-18", "vo2": 34.5, "raw_vo2": 32.8, "recovery": 44.0, "sleep": "", "distance": 3.6412, "activity": "Running"}, {"x": 515.0, "date": "2025-08-19", "vo2": 34.5, "raw_vo2": 36.0, "recovery": 43.0, "sleep": "", "distance": 2.3936, "activity": "Running"}, {"x": 522.9, "date": "2025-08-21", "vo2": 34.9, "raw_vo2": 35.9, "recovery": 69.0, "sleep": "", "distance": 3.4798, "activity": "Running"}, {"x": 530.9, "date": "2025-08-21", "vo2": 36.2, "raw_vo2": 40.5, "recovery": 69.0, "sleep": "", "distance": 0.9026, "activity": "Running"}, {"x": 538.9, "date": "2025-08-22", "vo2": 36.3, "raw_vo2": 36.1, "recovery": 85.0, "sleep": "", "distance": 2.0177, "activity": "Running"}, {"x": 546.9, "date": "2025-08-25", "vo2": 38.6, "raw_vo2": 44.3, "recovery": 63.0, "sleep": "", "distance": 0.9153, "activity": "Running"}, {"x": 554.9, "date": "2025-08-26", "vo2": 38.3, "raw_vo2": 34.9, "recovery": 56.0, "sleep": "", "distance": 0.9412, "activity": "Running"}, {"x": 562.8, "date": "2025-08-26", "vo2": 39.1, "raw_vo2": 39.8, "recovery": 56.0, "sleep": "", "distance": 0.9406, "activity": "Running"}, {"x": 570.8, "date": "2025-08-27", "vo2": 39.3, "raw_vo2": 41.4, "recovery": 42.0, "sleep": "", "distance": 0.9746, "activity": "Running"}, {"x": 578.8, "date": "2025-08-27", "vo2": 42.0, "raw_vo2": 49.8, "recovery": 42.0, "sleep": "", "distance": 0.9229, "activity": "Running"}, {"x": 586.8, "date": "2025-08-28", "vo2": 41.5, "raw_vo2": 41.6, "recovery": 15.0, "sleep": "", "distance": 0.9626, "activity": "Running"}, {"x": 594.8, "date": "2025-08-28", "vo2": 43.1, "raw_vo2": 42.9, "recovery": 15.0, "sleep": "", "distance": 0.926, "activity": "Running"}, {"x": 602.8, "date": "2025-08-31", "vo2": 41.9, "raw_vo2": 33.8, "recovery": 44.0, "sleep": "", "distance": 1.9134, "activity": "Running"}, {"x": 610.7, "date": "2025-09-02", "vo2": 41.3, "raw_vo2": 38.3, "recovery": 89.0, "sleep": "", "distance": 1.7889, "activity": "Running"}, {"x": 618.7, "date": "2025-09-02", "vo2": 39.0, "raw_vo2": 38.2, "recovery": 89.0, "sleep": "", "distance": 0.9067, "activity": "Running"}, {"x": 626.7, "date": "2025-09-03", "vo2": 39.0, "raw_vo2": 41.6, "recovery": 30.0, "sleep": "", "distance": 2.2227, "activity": "Running"}, {"x": 634.7, "date": "2025-09-03", "vo2": 38.1, "raw_vo2": 38.4, "recovery": 30.0, "sleep": "", "distance": 0.9305, "activity": "Running"}, {"x": 642.7, "date": "2025-09-10", "vo2": 39.3, "raw_vo2": 40.1, "recovery": 76.0, "sleep": "", "distance": 0.8675, "activity": "Running"}, {"x": 650.6, "date": "2025-09-11", "vo2": 38.4, "raw_vo2": 33.8, "recovery": 47.0, "sleep": "", "distance": 0.9565, "activity": "Running"}, {"x": 658.6, "date": "2025-09-13", "vo2": 37.8, "raw_vo2": 35.0, "recovery": 29.0, "sleep": "", "distance": 2.9356, "activity": "Running"}, {"x": 666.6, "date": "2025-09-26", "vo2": 37.5, "raw_vo2": 40.2, "recovery": 49.0, "sleep": "", "distance": 0.8652, "activity": "Running"}, {"x": 674.6, "date": "2025-09-30", "vo2": 37.3, "raw_vo2": 37.5, "recovery": 25.0, "sleep": "", "distance": 0.9141, "activity": "Running"}, {"x": 682.6, "date": "2025-10-09", "vo2": 35.6, "raw_vo2": 31.4, "recovery": 26.0, "sleep": "", "distance": 1.7277, "activity": "Running"}, {"x": 690.6, "date": "2026-01-05", "vo2": 36.4, "raw_vo2": 37.9, "recovery": 56.0, "sleep": 95.0, "distance": 1.5849, "activity": "Treadmill Running"}, {"x": 698.5, "date": "2026-01-06", "vo2": 37.1, "raw_vo2": 38.5, "recovery": 54.0, "sleep": 90.0, "distance": 2.2548, "activity": "Treadmill Running"}, {"x": 706.5, "date": "2026-01-07", "vo2": 36.4, "raw_vo2": 36.7, "recovery": 67.0, "sleep": 95.0, "distance": 0.9183, "activity": "Running"}, {"x": 714.5, "date": "2026-01-07", "vo2": 36.8, "raw_vo2": 39.4, "recovery": 67.0, "sleep": 95.0, "distance": 0.5074, "activity": "Treadmill Running"}, {"x": 722.5, "date": "2026-01-08", "vo2": 38.7, "raw_vo2": 40.9, "recovery": 98.0, "sleep": 80.0, "distance": 0.5583, "activity": "Running"}, {"x": 730.5, "date": "2026-01-10", "vo2": 38.0, "raw_vo2": 34.5, "recovery": 32.0, "sleep": 57.5, "distance": 2.0033, "activity": "Treadmill Running"}, {"x": 738.4, "date": "2026-01-12", "vo2": 37.6, "raw_vo2": 36.6, "recovery": 72.0, "sleep": 86.0, "distance": 3.05, "activity": "Treadmill Running"}, {"x": 746.4, "date": "2026-01-13", "vo2": 38.1, "raw_vo2": 38.9, "recovery": 51.0, "sleep": 55.5, "distance": 0.9162, "activity": "Running"}, {"x": 754.4, "date": "2026-01-14", "vo2": 37.1, "raw_vo2": 34.8, "recovery": 18.0, "sleep": 45.0, "distance": 1.088, "activity": "Treadmill Running"}, {"x": 762.4, "date": "2026-01-19", "vo2": 37.2, "raw_vo2": 41.4, "recovery": 96.0, "sleep": 77.5, "distance": 3.0089, "activity": "Treadmill Running"}, {"x": 770.4, "date": "2026-01-20", "vo2": 38.1, "raw_vo2": 38.8, "recovery": 49.0, "sleep": 84.0, "distance": 2.063, "activity": "Treadmill Running"}, {"x": 778.3, "date": "2026-01-21", "vo2": 37.9, "raw_vo2": 35.8, "recovery": 62.0, "sleep": 65.0, "distance": 1.906, "activity": "Treadmill Running"}, {"x": 786.3, "date": "2026-01-24", "vo2": 37.7, "raw_vo2": 37.7, "recovery": 59.0, "sleep": 89.0, "distance": 3.0489, "activity": "Treadmill Running"}, {"x": 794.3, "date": "2026-01-27", "vo2": 38.4, "raw_vo2": 38.1, "recovery": 44.0, "sleep": 88.0, "distance": 1.21, "activity": "Treadmill Running"}, {"x": 802.3, "date": "2026-01-28", "vo2": 38.0, "raw_vo2": 39.7, "recovery": 44.0, "sleep": 81.0, "distance": 3.5537, "activity": "Treadmill Running"}, {"x": 810.3, "date": "2026-01-31", "vo2": 38.9, "raw_vo2": 43.3, "recovery": 89.0, "sleep": 62.0, "distance": 1.32, "activity": "Treadmill Running"}, {"x": 818.3, "date": "2026-02-01", "vo2": 39.3, "raw_vo2": 37.6, "recovery": 31.0, "sleep": 86.0, "distance": 1.2056, "activity": "Treadmill Running"}, {"x": 826.2, "date": "2026-02-02", "vo2": 39.7, "raw_vo2": 40.0, "recovery": 47.0, "sleep": 59.5, "distance": 2.7, "activity": "Treadmill Running"}, {"x": 834.2, "date": "2026-02-03", "vo2": 39.8, "raw_vo2": 38.3, "recovery": 15.0, "sleep": 64.0, "distance": 3.0926, "activity": "Treadmill Running"}, {"x": 842.2, "date": "2026-02-05", "vo2": 40.5, "raw_vo2": 43.3, "recovery": 14.0, "sleep": 72.0, "distance": 0.6622, "activity": "Treadmill Running"}, {"x": 850.2, "date": "2026-02-06", "vo2": 39.6, "raw_vo2": 38.7, "recovery": 73.0, "sleep": 78.0, "distance": 2.76, "activity": "Treadmill Running"}, {"x": 858.2, "date": "2026-02-08", "vo2": 40.0, "raw_vo2": 39.9, "recovery": 83.0, "sleep": 91.8, "distance": 1.25, "activity": "Treadmill Running"}, {"x": 866.1, "date": "2026-02-09", "vo2": 39.9, "raw_vo2": 39.3, "recovery": 44.0, "sleep": 58.5, "distance": 2.82, "activity": "Treadmill Running"}, {"x": 874.1, "date": "2026-02-10", "vo2": 39.8, "raw_vo2": 38.0, "recovery": 63.0, "sleep": 98.0, "distance": 1.52, "activity": "Treadmill Running"}, {"x": 882.1, "date": "2026-02-11", "vo2": 40.3, "raw_vo2": 45.8, "recovery": 18.0, "sleep": 61.0, "distance": 1.38, "activity": "Treadmill Running"}, {"x": 890.1, "date": "2026-02-12", "vo2": 40.3, "raw_vo2": 38.4, "recovery": 18.0, "sleep": "", "distance": 0.5336, "activity": "Treadmill Running"}, {"x": 898.1, "date": "2026-02-13", "vo2": 40.1, "raw_vo2": 39.1, "recovery": 85.0, "sleep": "", "distance": 3.8582, "activity": "Treadmill Running"}, {"x": 906.1, "date": "2026-02-15", "vo2": 39.8, "raw_vo2": 37.7, "recovery": 23.0, "sleep": "", "distance": 3.2218, "activity": "Running"}, {"x": 914.0, "date": "2026-02-16", "vo2": 40.2, "raw_vo2": 39.9, "recovery": 35.0, "sleep": "", "distance": 1.5848, "activity": "Running"}, {"x": 922.0, "date": "2026-02-18", "vo2": 39.7, "raw_vo2": 43.6, "recovery": 35.0, "sleep": "", "distance": 2.3264, "activity": "Treadmill Running"}, {"x": 930.0, "date": "2026-02-19", "vo2": 41.0, "raw_vo2": 44.8, "recovery": 38.0, "sleep": "", "distance": 3.02, "activity": "Treadmill Running"}];
+const tooltip = document.getElementById('tooltip');
+const dots = document.querySelectorAll('.vo2-dot');
+
+dots.forEach(dot => {
+  dot.addEventListener('mouseenter', (e) => {
+    const i = parseInt(dot.getAttribute('data-i'));
+    const d = tooltipData[i];
+    if (!d) return;
+    let html = `<div style="font-weight:700;margin-bottom:6px;color:#f39c12">${d.date}</div>`;
+    html += `<div>VO2 Max: <span style="color:#f39c12;font-weight:700">${d.vo2}</span> mL/kg/min</div>`;
+    html += `<div style="color:#8b949e;font-size:.78rem">Raw: ${d.raw_vo2}</div>`;
+    if (d.recovery !== '') html += `<div>Recovery: <span style="color:#58a6ff">${d.recovery}</span></div>`;
+    if (d.sleep !== '') html += `<div>Sleep: <span style="color:#2ea043">${d.sleep}</span></div>`;
+    html += `<div style="color:#8b949e;font-size:.78rem">${d.distance} mi · ${d.activity}</div>`;
+    tooltip.innerHTML = html;
+    tooltip.style.display = 'block';
+  });
+  dot.addEventListener('mousemove', (e) => {
+    tooltip.style.left = (e.clientX + 14) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  });
+  dot.addEventListener('mouseleave', () => {
+    tooltip.style.display = 'none';
+  });
+});
+</script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

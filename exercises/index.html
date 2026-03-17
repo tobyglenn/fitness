@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exercise Library — Fitness Dashboard</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; }
+nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+nav a { color: #8b949e; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 14px; transition: all 0.2s; }
+nav a:hover { background: #21262d; color: #e6edf3; }
+nav a.active { background: #f39c12; color: #000; font-weight: 600; }
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+h1 { font-size: 28px; font-weight: 700; color: #f39c12; margin-bottom: 8px; }
+.sub { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+.search-bar { width: 100%; max-width: 400px; background: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 10px 16px; color: #e6edf3; font-size: 15px; margin-bottom: 16px; outline: none; }
+.search-bar:focus { border-color: #f39c12; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; margin-bottom: 20px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { background: #21262d; color: #8b949e; font-size: 12px; font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 1px solid #30363d; cursor: pointer; user-select: none; }
+th:hover { color: #e6edf3; }
+td { padding: 10px 12px; border-bottom: 1px solid #21262d; }
+tr:hover td { background: #1c2128; }
+tr:last-child td { border-bottom: none; }
+.ex-link { color: #f39c12; text-decoration: none; font-weight: 500; }
+.ex-link:hover { text-decoration: underline; }
+.detail-btn { color: #0a84ff; text-decoration: none; font-size: 13px; }
+.detail-btn:hover { color: #f39c12; }
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html" >🏠 Home</a>
+<a href="../calendars/2026-02-calendar.html" >📅 Calendars</a>
+<a href="../strength/index.html" >💪 Strength</a>
+<a href="../cardio/index.html" >🏃 Cardio</a>
+<a href="../recovery/index.html" >🛌 Recovery</a>
+<a href="../nutrition/index.html" >🥗 Nutrition</a>
+<a href="#" class="active">🏋️ Exercises</a>
+</nav>
+<div class="container">
+  <h1>🏋️ Exercise Library</h1>
+  <div class="sub">205 unique exercises tracked • Click any row to view full history &amp; charts</div>
+
+  <input class="search-bar" type="text" id="search" placeholder="Search exercises…" oninput="filterTable()">
+
+  
+    <div class="card" id="recovery-impact-panel" style="margin-top: 20px; border-left: 4px solid #f39c12;">
+        <h2 style="color: #f39c12; margin-bottom: 12px;">📉 Recovery Impact Summary</h2>
+        <p style="color: #8b949e; font-size: 13px; margin-bottom: 16px;">
+            View estimated recovery time and optimal sleep needs for each exercise. 
+            Click any exercise to see detailed impact.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">1 Set Warrior 3</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> General
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=General" 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Chest and Back Drop Sets</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> back, chest
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 48hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 90min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=back," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+            <div style="background: #0d1117; border-radius: 8px; padding: 14px; border: 1px solid #30363d;">
+                <div style="font-weight: 600; color: #e6edf3; margin-bottom: 6px;">Overhead/Biceps</div>
+                <div style="font-size: 12px; color: #8b949e; margin-bottom: 8px;">
+                    <span style="color: #f39c12;">Muscles:</span> biceps, shoulders
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 12px;">
+                    <div><span style="color: #2ea043;">⏱</span> 36hr recovery</div>
+                    <div><span style="color: #f39c12;">🌙</span> 75min deep sleep</div>
+                </div>
+                <a href="../recovery_forecaster/index.html?highlight=biceps," 
+                   style="display: inline-block; margin-top: 10px; font-size: 12px; color: #f39c12; text-decoration: none;">
+                    View Recovery Forecast →</a>
+            </div>
+
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #30363d;">
+            <a href="../recovery_forecaster/index.html" style="color: #f39c12; text-decoration: none; font-size: 14px;">
+                → View Full Recovery Forecaster
+            </a>
+        </div>
+    </div>
+<div class="card">
+    <table id="exTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Exercise ↕</th>
+          <th onclick="sortTable(1)">All-Time PR ↕</th>
+          <th onclick="sortTable(2)">Total Volume ↕</th>
+          <th onclick="sortTable(3)">Sessions ↕</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody id="exBody">
+        <tr>
+    <td><a class="ex-link" href="1-set-warrior-3-1.html">1 Set Warrior 3</a></td>
+    <td>100 lbs</td>
+    <td>940K lbs</td>
+    <td>186</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-2.html">1 Set Warrior 3</a></td>
+    <td>100 lbs</td>
+    <td>473K lbs</td>
+    <td>134</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-1.html">1set Warrior</a></td>
+    <td>83 lbs</td>
+    <td>444K lbs</td>
+    <td>115</td>
+    <td><a class="detail-btn" href="1set-warrior-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="barbell-blast-1.html">Barbell Blast</a></td>
+    <td>90 lbs</td>
+    <td>391K lbs</td>
+    <td>108</td>
+    <td><a class="detail-btn" href="barbell-blast-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="barbell-blast-2.html">Barbell Blast</a></td>
+    <td>50 lbs</td>
+    <td>272K lbs</td>
+    <td>122</td>
+    <td><a class="detail-btn" href="barbell-blast-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-3.html">1 Set Warrior 3</a></td>
+    <td>80 lbs</td>
+    <td>265K lbs</td>
+    <td>90</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2.html">1set Warrior</a></td>
+    <td>55 lbs</td>
+    <td>264K lbs</td>
+    <td>131</td>
+    <td><a class="detail-btn" href="1set-warrior-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-4.html">1 Set Warrior 3</a></td>
+    <td>89 lbs</td>
+    <td>248K lbs</td>
+    <td>117</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-1.html">1set Warrior 2</a></td>
+    <td>95 lbs</td>
+    <td>241K lbs</td>
+    <td>109</td>
+    <td><a class="detail-btn" href="1set-warrior-2-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-wedsat.html">TPS Wed/Sat</a></td>
+    <td>100 lbs</td>
+    <td>212K lbs</td>
+    <td>69</td>
+    <td><a class="detail-btn" href="tps-wedsat.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-3.html">1set Warrior</a></td>
+    <td>84 lbs</td>
+    <td>211K lbs</td>
+    <td>77</td>
+    <td><a class="detail-btn" href="1set-warrior-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-bb-dropsets-1.html">1 Set Warrior BB Dropsets</a></td>
+    <td>50 lbs</td>
+    <td>208K lbs</td>
+    <td>100</td>
+    <td><a class="detail-btn" href="1-set-warrior-bb-dropsets-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-2.html">1set Warrior 2</a></td>
+    <td>50 lbs</td>
+    <td>188K lbs</td>
+    <td>112</td>
+    <td><a class="detail-btn" href="1set-warrior-2-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="chest-and-back-drop-sets-1.html">Chest and Back Drop Sets</a></td>
+    <td>83 lbs</td>
+    <td>170K lbs</td>
+    <td>54</td>
+    <td><a class="detail-btn" href="chest-and-back-drop-sets-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-4.html">1set Warrior</a></td>
+    <td>43 lbs</td>
+    <td>161K lbs</td>
+    <td>123</td>
+    <td><a class="detail-btn" href="1set-warrior-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-5.html">1 Set Warrior 3</a></td>
+    <td>46 lbs</td>
+    <td>161K lbs</td>
+    <td>96</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-tues-1.html">TPS Tues</a></td>
+    <td>39 lbs</td>
+    <td>150K lbs</td>
+    <td>89</td>
+    <td><a class="detail-btn" href="tps-tues-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-6.html">1 Set Warrior 3</a></td>
+    <td>41 lbs</td>
+    <td>150K lbs</td>
+    <td>89</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-3.html">1set Warrior 2</a></td>
+    <td>83 lbs</td>
+    <td>145K lbs</td>
+    <td>58</td>
+    <td><a class="detail-btn" href="1set-warrior-2-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-7.html">1 Set Warrior 3</a></td>
+    <td>100 lbs</td>
+    <td>144K lbs</td>
+    <td>103</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-monthu.html">TPS Mon/Thu</a></td>
+    <td>41 lbs</td>
+    <td>118K lbs</td>
+    <td>60</td>
+    <td><a class="detail-btn" href="tps-monthu.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-bb-dropsets-2.html">1 Set Warrior BB Dropsets</a></td>
+    <td>34 lbs</td>
+    <td>115K lbs</td>
+    <td>87</td>
+    <td><a class="detail-btn" href="1-set-warrior-bb-dropsets-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-5.html">1set Warrior</a></td>
+    <td>58 lbs</td>
+    <td>109K lbs</td>
+    <td>78</td>
+    <td><a class="detail-btn" href="1set-warrior-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-tues-2.html">TPS Tues</a></td>
+    <td>46 lbs</td>
+    <td>108K lbs</td>
+    <td>42</td>
+    <td><a class="detail-btn" href="tps-tues-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-6.html">1set Warrior</a></td>
+    <td>43 lbs</td>
+    <td>107K lbs</td>
+    <td>71</td>
+    <td><a class="detail-btn" href="1set-warrior-6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-8.html">1 Set Warrior 3</a></td>
+    <td>40 lbs</td>
+    <td>107K lbs</td>
+    <td>87</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-8.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-9.html">1 Set Warrior 3</a></td>
+    <td>85 lbs</td>
+    <td>102K lbs</td>
+    <td>43</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-9.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-7.html">1set Warrior</a></td>
+    <td>70 lbs</td>
+    <td>91K lbs</td>
+    <td>44</td>
+    <td><a class="detail-btn" href="1set-warrior-7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-8.html">1set Warrior</a></td>
+    <td>63 lbs</td>
+    <td>89K lbs</td>
+    <td>47</td>
+    <td><a class="detail-btn" href="1set-warrior-8.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-tues-3.html">TPS Tues</a></td>
+    <td>72 lbs</td>
+    <td>89K lbs</td>
+    <td>63</td>
+    <td><a class="detail-btn" href="tps-tues-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-9.html">1set Warrior</a></td>
+    <td>43 lbs</td>
+    <td>88K lbs</td>
+    <td>62</td>
+    <td><a class="detail-btn" href="1set-warrior-9.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-f2f15034.html">Custom</a></td>
+    <td>85 lbs</td>
+    <td>84K lbs</td>
+    <td>46</td>
+    <td><a class="detail-btn" href="exercise-f2f15034.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-10.html">1 Set Warrior 3</a></td>
+    <td>24 lbs</td>
+    <td>77K lbs</td>
+    <td>123</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-10.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-bb-dropsets-3.html">1 Set Warrior BB Dropsets</a></td>
+    <td>63 lbs</td>
+    <td>75K lbs</td>
+    <td>39</td>
+    <td><a class="detail-btn" href="1-set-warrior-bb-dropsets-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-4.html">1set Warrior 2</a></td>
+    <td>55 lbs</td>
+    <td>73K lbs</td>
+    <td>40</td>
+    <td><a class="detail-btn" href="1set-warrior-2-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-frisun-1.html">TPS Fri/Sun</a></td>
+    <td>29 lbs</td>
+    <td>73K lbs</td>
+    <td>57</td>
+    <td><a class="detail-btn" href="tps-frisun-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-5.html">1set Warrior 2</a></td>
+    <td>63 lbs</td>
+    <td>72K lbs</td>
+    <td>40</td>
+    <td><a class="detail-btn" href="1set-warrior-2-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tpblue-wedsat-1.html">TPBlue Wed/Sat</a></td>
+    <td>70 lbs</td>
+    <td>71K lbs</td>
+    <td>33</td>
+    <td><a class="detail-btn" href="tpblue-wedsat-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tpblue-monthu-1.html">TPBlue Mon/Thu</a></td>
+    <td>44 lbs</td>
+    <td>70K lbs</td>
+    <td>37</td>
+    <td><a class="detail-btn" href="tpblue-monthu-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-10.html">1set Warrior</a></td>
+    <td>56 lbs</td>
+    <td>66K lbs</td>
+    <td>41</td>
+    <td><a class="detail-btn" href="1set-warrior-10.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-11.html">1set Warrior</a></td>
+    <td>40 lbs</td>
+    <td>65K lbs</td>
+    <td>59</td>
+    <td><a class="detail-btn" href="1set-warrior-11.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-12.html">1set Warrior</a></td>
+    <td>49 lbs</td>
+    <td>62K lbs</td>
+    <td>46</td>
+    <td><a class="detail-btn" href="1set-warrior-12.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-13.html">1set Warrior</a></td>
+    <td>31 lbs</td>
+    <td>56K lbs</td>
+    <td>65</td>
+    <td><a class="detail-btn" href="1set-warrior-13.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-tues-4.html">TPS Tues</a></td>
+    <td>39 lbs</td>
+    <td>56K lbs</td>
+    <td>54</td>
+    <td><a class="detail-btn" href="tps-tues-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-6.html">1set Warrior 2</a></td>
+    <td>44 lbs</td>
+    <td>55K lbs</td>
+    <td>45</td>
+    <td><a class="detail-btn" href="1set-warrior-2-6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-14.html">1set Warrior</a></td>
+    <td>20 lbs</td>
+    <td>54K lbs</td>
+    <td>98</td>
+    <td><a class="detail-btn" href="1set-warrior-14.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tpblue-wedsat-2.html">TPBlue Wed/Sat</a></td>
+    <td>94 lbs</td>
+    <td>51K lbs</td>
+    <td>21</td>
+    <td><a class="detail-btn" href="tpblue-wedsat-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tps-frisun-2.html">TPS Fri/Sun</a></td>
+    <td>100 lbs</td>
+    <td>51K lbs</td>
+    <td>17</td>
+    <td><a class="detail-btn" href="tps-frisun-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="barbell-blast-3.html">Barbell Blast</a></td>
+    <td>71 lbs</td>
+    <td>48K lbs</td>
+    <td>21</td>
+    <td><a class="detail-btn" href="barbell-blast-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="overheadbiceps.html">Overhead/Biceps</a></td>
+    <td>100 lbs</td>
+    <td>47K lbs</td>
+    <td>10</td>
+    <td><a class="detail-btn" href="overheadbiceps.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-7.html">1set Warrior 2</a></td>
+    <td>48 lbs</td>
+    <td>47K lbs</td>
+    <td>32</td>
+    <td><a class="detail-btn" href="1set-warrior-2-7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-15.html">1set Warrior</a></td>
+    <td>40 lbs</td>
+    <td>45K lbs</td>
+    <td>44</td>
+    <td><a class="detail-btn" href="1set-warrior-15.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-bb-dropsets-4.html">1 Set Warrior BB Dropsets</a></td>
+    <td>82 lbs</td>
+    <td>45K lbs</td>
+    <td>14</td>
+    <td><a class="detail-btn" href="1-set-warrior-bb-dropsets-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="barbell-blast-4.html">Barbell Blast</a></td>
+    <td>31 lbs</td>
+    <td>44K lbs</td>
+    <td>33</td>
+    <td><a class="detail-btn" href="barbell-blast-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-1.html">1 Set Warrior 4</a></td>
+    <td>68 lbs</td>
+    <td>43K lbs</td>
+    <td>38</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tpblue-monthu-2.html">TPBlue Mon/Thu</a></td>
+    <td>41 lbs</td>
+    <td>42K lbs</td>
+    <td>21</td>
+    <td><a class="detail-btn" href="tpblue-monthu-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-bb-dropsets-5.html">1 Set Warrior BB Dropsets</a></td>
+    <td>23 lbs</td>
+    <td>41K lbs</td>
+    <td>46</td>
+    <td><a class="detail-btn" href="1-set-warrior-bb-dropsets-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-16.html">1set Warrior</a></td>
+    <td>31 lbs</td>
+    <td>41K lbs</td>
+    <td>44</td>
+    <td><a class="detail-btn" href="1set-warrior-16.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-2.html">1 Set Warrior 4</a></td>
+    <td>97 lbs</td>
+    <td>40K lbs</td>
+    <td>22</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-3.html">1 Set Warrior 4</a></td>
+    <td>96 lbs</td>
+    <td>40K lbs</td>
+    <td>29</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-11.html">1 Set Warrior 3</a></td>
+    <td>20 lbs</td>
+    <td>40K lbs</td>
+    <td>74</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-11.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-8.html">1set Warrior 2</a></td>
+    <td>39 lbs</td>
+    <td>38K lbs</td>
+    <td>35</td>
+    <td><a class="detail-btn" href="1set-warrior-2-8.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-52f1a3a8.html">Custom</a></td>
+    <td>43 lbs</td>
+    <td>36K lbs</td>
+    <td>20</td>
+    <td><a class="detail-btn" href="exercise-52f1a3a8.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-9.html">1set Warrior 2</a></td>
+    <td>48 lbs</td>
+    <td>34K lbs</td>
+    <td>29</td>
+    <td><a class="detail-btn" href="1set-warrior-2-9.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-10.html">1set Warrior 2</a></td>
+    <td>31 lbs</td>
+    <td>33K lbs</td>
+    <td>35</td>
+    <td><a class="detail-btn" href="1set-warrior-2-10.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="bcep-dead-bug-fraise.html">Bcep, Dead Bug, FRaise</a></td>
+    <td>31 lbs</td>
+    <td>31K lbs</td>
+    <td>30</td>
+    <td><a class="detail-btn" href="bcep-dead-bug-fraise.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-1.html">Week 2 - Day 2</a></td>
+    <td>100 lbs</td>
+    <td>30K lbs</td>
+    <td>16</td>
+    <td><a class="detail-btn" href="week-2-day-2-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-11.html">1set Warrior 2</a></td>
+    <td>38 lbs</td>
+    <td>29K lbs</td>
+    <td>36</td>
+    <td><a class="detail-btn" href="1set-warrior-2-11.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-12.html">1set Warrior 2</a></td>
+    <td>31 lbs</td>
+    <td>28K lbs</td>
+    <td>34</td>
+    <td><a class="detail-btn" href="1set-warrior-2-12.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-13.html">1set Warrior 2</a></td>
+    <td>39 lbs</td>
+    <td>27K lbs</td>
+    <td>35</td>
+    <td><a class="detail-btn" href="1set-warrior-2-13.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="handles-bench.html">Handles Bench</a></td>
+    <td>57 lbs</td>
+    <td>26K lbs</td>
+    <td>8</td>
+    <td><a class="detail-btn" href="handles-bench.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tpblue-wed-1.html">TPBlue Wed</a></td>
+    <td>48 lbs</td>
+    <td>22K lbs</td>
+    <td>14</td>
+    <td><a class="detail-btn" href="tpblue-wed-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-2.html">Week 2 - Day 2</a></td>
+    <td>36 lbs</td>
+    <td>22K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="week-2-day-2-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-4.html">1 Set Warrior 4</a></td>
+    <td>75 lbs</td>
+    <td>21K lbs</td>
+    <td>15</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-dropsets.html">1set Warrior Dropsets</a></td>
+    <td>51 lbs</td>
+    <td>20K lbs</td>
+    <td>10</td>
+    <td><a class="detail-btn" href="1set-warrior-dropsets.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-a906fa8b.html">Custom</a></td>
+    <td>40 lbs</td>
+    <td>19K lbs</td>
+    <td>20</td>
+    <td><a class="detail-btn" href="exercise-a906fa8b.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-3.html">Week 2 - Day 2</a></td>
+    <td>38 lbs</td>
+    <td>19K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="week-2-day-2-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-14.html">1set Warrior 2</a></td>
+    <td>25 lbs</td>
+    <td>18K lbs</td>
+    <td>30</td>
+    <td><a class="detail-btn" href="1set-warrior-2-14.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-6143f6f7.html">Custom</a></td>
+    <td>53 lbs</td>
+    <td>18K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="exercise-6143f6f7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="bicepssumo.html">Biceps/Sumo</a></td>
+    <td>96 lbs</td>
+    <td>16K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="bicepssumo.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-bb-dropsets-6.html">1 Set Warrior BB Dropsets</a></td>
+    <td>68 lbs</td>
+    <td>15K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="1-set-warrior-bb-dropsets-6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-5.html">1 Set Warrior 4</a></td>
+    <td>61 lbs</td>
+    <td>14K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-1-1.html">Week 1 - Day 1</a></td>
+    <td>25 lbs</td>
+    <td>14K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="week-1-day-1-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-1-1.html">Week 2 - Day 1</a></td>
+    <td>45 lbs</td>
+    <td>13K lbs</td>
+    <td>13</td>
+    <td><a class="detail-btn" href="week-2-day-1-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-3-1.html">Week 2 - Day 3</a></td>
+    <td>63 lbs</td>
+    <td>13K lbs</td>
+    <td>8</td>
+    <td><a class="detail-btn" href="week-2-day-3-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="less-is-more-1.html">Less Is More</a></td>
+    <td>82 lbs</td>
+    <td>11K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="less-is-more-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="blueprint-saturday.html">Blueprint Saturday</a></td>
+    <td>38 lbs</td>
+    <td>11K lbs</td>
+    <td>9</td>
+    <td><a class="detail-btn" href="blueprint-saturday.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-2-1.html">Week 4 - Day 2</a></td>
+    <td>39 lbs</td>
+    <td>11K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="week-4-day-2-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="ng-deadliftdead-bugraise.html">NG Deadlift/Dead Bug/raise</a></td>
+    <td>38 lbs</td>
+    <td>10K lbs</td>
+    <td>9</td>
+    <td><a class="detail-btn" href="ng-deadliftdead-bugraise.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1set-warrior-2-dropsets.html">1set Warrior 2 Dropsets</a></td>
+    <td>34 lbs</td>
+    <td>10K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="1set-warrior-2-dropsets.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="rip-and-rotate-1.html">Rip and Rotate</a></td>
+    <td>36 lbs</td>
+    <td>9K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="rip-and-rotate-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="less-is-more-2.html">Less Is More</a></td>
+    <td>72 lbs</td>
+    <td>9K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="less-is-more-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-3-1.html">Week 1 - Day 3</a></td>
+    <td>73 lbs</td>
+    <td>9K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="week-1-day-3-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-4.html">Week 2 - Day 2</a></td>
+    <td>36 lbs</td>
+    <td>9K lbs</td>
+    <td>8</td>
+    <td><a class="detail-btn" href="week-2-day-2-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="blueprint-friday.html">Blueprint Friday</a></td>
+    <td>29 lbs</td>
+    <td>8K lbs</td>
+    <td>10</td>
+    <td><a class="detail-btn" href="blueprint-friday.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-5.html">Week 2 - Day 2</a></td>
+    <td>39 lbs</td>
+    <td>8K lbs</td>
+    <td>9</td>
+    <td><a class="detail-btn" href="week-2-day-2-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-3-12.html">1 Set Warrior 3</a></td>
+    <td>22 lbs</td>
+    <td>8K lbs</td>
+    <td>20</td>
+    <td><a class="detail-btn" href="1-set-warrior-3-12.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-92eb9caf.html">Custom</a></td>
+    <td>36 lbs</td>
+    <td>7K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="exercise-92eb9caf.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-3-2.html">Week 2 - Day 3</a></td>
+    <td>61 lbs</td>
+    <td>7K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="week-2-day-3-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-1-2.html">Week 2 - Day 1</a></td>
+    <td>37 lbs</td>
+    <td>7K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="week-2-day-1-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="strength-essentials.html">Strength Essentials</a></td>
+    <td>76 lbs</td>
+    <td>7K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="strength-essentials.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-1-3.html">Week 2 - Day 1</a></td>
+    <td>68 lbs</td>
+    <td>7K lbs</td>
+    <td>8</td>
+    <td><a class="detail-btn" href="week-2-day-1-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-6.html">Week 2 - Day 2</a></td>
+    <td>37 lbs</td>
+    <td>7K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="week-2-day-2-6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="quick-refresh-1.html">Quick Refresh</a></td>
+    <td>91 lbs</td>
+    <td>6K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="quick-refresh-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-4-1.html">Week 1 - Day 4</a></td>
+    <td>100 lbs</td>
+    <td>6K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="week-1-day-4-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-4172950f.html">Custom</a></td>
+    <td>24 lbs</td>
+    <td>6K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="exercise-4172950f.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-2-2.html">Week 4 - Day 2</a></td>
+    <td>95 lbs</td>
+    <td>6K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="week-4-day-2-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-2-3.html">Week 4 - Day 2</a></td>
+    <td>22 lbs</td>
+    <td>6K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="week-4-day-2-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-4-2.html">Week 1 - Day 4</a></td>
+    <td>38 lbs</td>
+    <td>6K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="week-1-day-4-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-6.html">1 Set Warrior 4</a></td>
+    <td>39 lbs</td>
+    <td>5K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="chest-and-back-drop-sets-2.html">Chest and Back Drop Sets</a></td>
+    <td>50 lbs</td>
+    <td>5K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="chest-and-back-drop-sets-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-3-1.html">Week 4 - Day 3</a></td>
+    <td>39 lbs</td>
+    <td>5K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="week-4-day-3-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="core-1.html">Core</a></td>
+    <td>29 lbs</td>
+    <td>5K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="core-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-1c432cc6.html">Custom</a></td>
+    <td>48 lbs</td>
+    <td>4K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-1c432cc6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-1-2.html">Week 1 - Day 1</a></td>
+    <td>56 lbs</td>
+    <td>4K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="week-1-day-1-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="efficient-upper-body-1.html">Efficient Upper Body</a></td>
+    <td>26 lbs</td>
+    <td>4K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="efficient-upper-body-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-3-2.html">Week 4 - Day 3</a></td>
+    <td>5 lbs</td>
+    <td>4K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="week-4-day-3-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-656d4ed1.html">Custom</a></td>
+    <td>53 lbs</td>
+    <td>4K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-656d4ed1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-0cbe3d68.html">Custom</a></td>
+    <td>71 lbs</td>
+    <td>4K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-0cbe3d68.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-2f5a1f17.html">Custom</a></td>
+    <td>18 lbs</td>
+    <td>4K lbs</td>
+    <td>7</td>
+    <td><a class="detail-btn" href="exercise-2f5a1f17.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-772c57de.html">Custom</a></td>
+    <td>43 lbs</td>
+    <td>4K lbs</td>
+    <td>3</td>
+    <td><a class="detail-btn" href="exercise-772c57de.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-59bc17c2.html">Custom</a></td>
+    <td>25 lbs</td>
+    <td>4K lbs</td>
+    <td>3</td>
+    <td><a class="detail-btn" href="exercise-59bc17c2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-1-3.html">Week 1 - Day 1</a></td>
+    <td>5 lbs</td>
+    <td>4K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="week-1-day-1-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-e990622a.html">Custom</a></td>
+    <td>39 lbs</td>
+    <td>4K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-e990622a.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-de161117.html">Custom</a></td>
+    <td>58 lbs</td>
+    <td>3K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-de161117.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-0ba88eb7.html">Custom</a></td>
+    <td>45 lbs</td>
+    <td>3K lbs</td>
+    <td>3</td>
+    <td><a class="detail-btn" href="exercise-0ba88eb7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-c7737825.html">Custom</a></td>
+    <td>43 lbs</td>
+    <td>3K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-c7737825.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="morning-1.html">Morning</a></td>
+    <td>67 lbs</td>
+    <td>3K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="morning-1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-2-day-2-7.html">Week 2 - Day 2</a></td>
+    <td>11 lbs</td>
+    <td>3K lbs</td>
+    <td>6</td>
+    <td><a class="detail-btn" href="week-2-day-2-7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="blueprint-wednesday.html">Blueprint Wednesday</a></td>
+    <td>15 lbs</td>
+    <td>3K lbs</td>
+    <td>3</td>
+    <td><a class="detail-btn" href="blueprint-wednesday.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="bench.html">Bench+</a></td>
+    <td>26 lbs</td>
+    <td>3K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="bench.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="quick-refresh-2.html">Quick Refresh</a></td>
+    <td>32 lbs</td>
+    <td>3K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="quick-refresh-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-b551d374.html">Custom</a></td>
+    <td>87 lbs</td>
+    <td>3K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-b551d374.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-2e98a197.html">Custom</a></td>
+    <td>75 lbs</td>
+    <td>2K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-2e98a197.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-3-3.html">Week 4 - Day 3</a></td>
+    <td>14 lbs</td>
+    <td>2K lbs</td>
+    <td>4</td>
+    <td><a class="detail-btn" href="week-4-day-3-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-3-2.html">Week 1 - Day 3</a></td>
+    <td>41 lbs</td>
+    <td>2K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="week-1-day-3-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-465987e9.html">Custom</a></td>
+    <td>25 lbs</td>
+    <td>2K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-465987e9.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-ca4839e2.html">Custom</a></td>
+    <td>16 lbs</td>
+    <td>2K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-ca4839e2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="efficient-lower-body.html">Efficient Lower Body</a></td>
+    <td>67 lbs</td>
+    <td>2K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="efficient-lower-body.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="lat-ex.html">Lat Ex</a></td>
+    <td>66 lbs</td>
+    <td>2K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="lat-ex.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="strength-with-brendon.html">Strength with Brendon</a></td>
+    <td>26 lbs</td>
+    <td>2K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="strength-with-brendon.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="tpblue-wed-2.html">TPBlue Wed</a></td>
+    <td>11 lbs</td>
+    <td>2K lbs</td>
+    <td>9</td>
+    <td><a class="detail-btn" href="tpblue-wed-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="1-set-warrior-4-7.html">1 Set Warrior 4</a></td>
+    <td>35 lbs</td>
+    <td>2K lbs</td>
+    <td>5</td>
+    <td><a class="detail-btn" href="1-set-warrior-4-7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="rip-and-rotate-2.html">Rip and Rotate</a></td>
+    <td>5 lbs</td>
+    <td>2K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="rip-and-rotate-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-cc0aaa36.html">Custom</a></td>
+    <td>44 lbs</td>
+    <td>2K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-cc0aaa36.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-6f306d4c.html">Custom</a></td>
+    <td>31 lbs</td>
+    <td>2K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-6f306d4c.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-c4c247a4.html">Custom</a></td>
+    <td>24 lbs</td>
+    <td>2K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-c4c247a4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-b74bbdaf.html">Custom</a></td>
+    <td>76 lbs</td>
+    <td>2K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-b74bbdaf.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-3-3.html">Week 1 - Day 3</a></td>
+    <td>33 lbs</td>
+    <td>1K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="week-1-day-3-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-4-day-2-4.html">Week 4 - Day 2</a></td>
+    <td>27 lbs</td>
+    <td>1K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="week-4-day-2-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-db8e5581.html">Custom</a></td>
+    <td>28 lbs</td>
+    <td>1K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-db8e5581.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="shoulder-stretch.html">Shoulder Stretch</a></td>
+    <td>8 lbs</td>
+    <td>1K lbs</td>
+    <td>11</td>
+    <td><a class="detail-btn" href="shoulder-stretch.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="morning-2.html">Morning</a></td>
+    <td>33 lbs</td>
+    <td>1K lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="morning-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="strength-with-woody.html">Strength with Woody</a></td>
+    <td>45 lbs</td>
+    <td>1K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="strength-with-woody.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="beginner-back-and-biceps.html">Beginner Back and Biceps</a></td>
+    <td>53 lbs</td>
+    <td>1K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="beginner-back-and-biceps.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-b5909b6d.html">Custom</a></td>
+    <td>19 lbs</td>
+    <td>1K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-b5909b6d.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="efficient-upper-body-2.html">Efficient Upper Body</a></td>
+    <td>18 lbs</td>
+    <td>1K lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="efficient-upper-body-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-3-4.html">Week 1 - Day 3</a></td>
+    <td>64 lbs</td>
+    <td>990 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="week-1-day-3-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="hiplegs.html">Hip/Legs</a></td>
+    <td>11 lbs</td>
+    <td>906 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="hiplegs.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-2d93569f.html">Custom</a></td>
+    <td>19 lbs</td>
+    <td>752 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-2d93569f.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-b930fb0b.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>742 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-b930fb0b.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-ec99fdf6.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>742 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-ec99fdf6.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-c4adea15.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>742 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-c4adea15.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-820c93fa.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>742 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-820c93fa.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="quick-fit-bis-and-tris.html">Quick Fit: Bis and Tris</a></td>
+    <td>12 lbs</td>
+    <td>742 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="quick-fit-bis-and-tris.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="rip-and-rotate-3.html">Rip and Rotate</a></td>
+    <td>36 lbs</td>
+    <td>632 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="rip-and-rotate-3.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="core-2.html">Core</a></td>
+    <td>15 lbs</td>
+    <td>599 lbs</td>
+    <td>3</td>
+    <td><a class="detail-btn" href="core-2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-12d4e320.html">Custom</a></td>
+    <td>24 lbs</td>
+    <td>506 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-12d4e320.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="week-1-day-1-4.html">Week 1 - Day 1</a></td>
+    <td>70 lbs</td>
+    <td>494 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="week-1-day-1-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-b62564d5.html">Custom</a></td>
+    <td>26 lbs</td>
+    <td>460 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-b62564d5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-32d2ea05.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>371 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-32d2ea05.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-79df9602.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>371 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-79df9602.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-d9966062.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>371 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-d9966062.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-f8516030.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>371 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-f8516030.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-124bbdb1.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>371 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-124bbdb1.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-de6a9c09.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>371 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-de6a9c09.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-d7f2eac2.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>370 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-d7f2eac2.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-db0df66c.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>370 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-db0df66c.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-391cc5b7.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>370 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-391cc5b7.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-99a561e8.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>370 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-99a561e8.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-fb0ceb84.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>370 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-fb0ceb84.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-a2c09363.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>370 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-a2c09363.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="rip-and-rotate-4.html">Rip and Rotate</a></td>
+    <td>27 lbs</td>
+    <td>351 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="rip-and-rotate-4.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-ac8db33c.html">Custom</a></td>
+    <td>13 lbs</td>
+    <td>350 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-ac8db33c.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="upper-body-basics.html">Upper Body Basics</a></td>
+    <td>72 lbs</td>
+    <td>247 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="upper-body-basics.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="rip-and-rotate-5.html">Rip and Rotate</a></td>
+    <td>31 lbs</td>
+    <td>224 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="rip-and-rotate-5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-518e3e7b.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-518e3e7b.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-7bc2c77c.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-7bc2c77c.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-43079c20.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>2</td>
+    <td><a class="detail-btn" href="exercise-43079c20.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-1df7c409.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-1df7c409.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-84df58e8.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-84df58e8.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-0b8f03ae.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-0b8f03ae.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-1ade96ac.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-1ade96ac.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-e4797e87.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-e4797e87.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-2df095be.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-2df095be.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-3e429dce.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-3e429dce.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-a4c2835f.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-a4c2835f.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-5f31af31.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-5f31af31.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-41934390.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-41934390.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-c1233ebd.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-c1233ebd.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-d45ce363.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-d45ce363.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-ae6fddf5.html">Custom</a></td>
+    <td>5 lbs</td>
+    <td>185 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-ae6fddf5.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-7bcf844b.html">Custom</a></td>
+    <td>14 lbs</td>
+    <td>147 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-7bcf844b.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="exercise-b935c139.html">Custom</a></td>
+    <td>24 lbs</td>
+    <td>48 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="exercise-b935c139.html">View →</a></td>
+  </tr>
+<tr>
+    <td><a class="ex-link" href="glute-gains.html">Glute Gains</a></td>
+    <td>0 lbs</td>
+    <td>0 lbs</td>
+    <td>1</td>
+    <td><a class="detail-btn" href="glute-gains.html">View →</a></td>
+  </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+function filterTable() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('#exBody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+let sortDir = {};
+function sortTable(col) {
+  const tb = document.getElementById('exBody');
+  const rows = Array.from(tb.querySelectorAll('tr'));
+  const dir = (sortDir[col] = -(sortDir[col] || 1));
+  rows.sort((a, b) => {
+    const av = a.cells[col].textContent.trim();
+    const bv = b.cells[col].textContent.trim();
+    const an = parseFloat(av.replace(/[^0-9.]/g, ''));
+    const bn = parseFloat(bv.replace(/[^0-9.]/g, ''));
+    if (!isNaN(an) && !isNaN(bn)) return dir * (an - bn);
+    return dir * av.localeCompare(bv);
+  });
+  rows.forEach(r => tb.appendChild(r));
+}
+</script>
+
+    <!-- Exercise Energy Signature Section -->
+    <div class="card" style="margin-top:30px;">
+        <h2 style="color:#f39c12;margin-bottom:8px;">⚡ Exercise Energy Signature</h2>
+        <p class="sub">How each exercise impacts your recovery (based on WHOOP data)</p>
+        
+        
+    <svg viewBox="0 0 500 600" style="width:100%;max-width:500px;margin:20px 0;">
+        <!-- Axis line -->
+        <line x1="80" y1="10" x2="80" y2="590" stroke="#30363d" stroke-width="2"/>
+        <!-- Scale marks -->
+        <text x="30" y="15" fill="#8b949e" font-size="10">-20</text>
+        <text x="70" y="15" fill="#8b949e" font-size="10">0</text>
+        <text x="440" y="15" fill="#8b949e" font-size="10">+20</text>
+        
+        <rect x="-280.0" y="30" width="360.0" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="43" text-anchor="end" fill="#8b949e" font-size="11">Standing Incline Pre</text>
+        <text x="-285.0" y="43" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-45.5</text>
+        <rect x="-280.0" y="58" width="360.0" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="71" text-anchor="end" fill="#8b949e" font-size="11">Standing Pallof Pres</text>
+        <text x="-285.0" y="71" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-28.0</text>
+        <rect x="80" y="86" width="360.0" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="99" text-anchor="end" fill="#8b949e" font-size="11">Barbell Hip Thrust</text>
+        <text x="85" y="99" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+24.0</text>
+        <rect x="80" y="114" width="360.0" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="127" text-anchor="end" fill="#8b949e" font-size="11">Barbell Squat to Pre</text>
+        <text x="85" y="127" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+20.0</text>
+        <rect x="80" y="142" width="360.0" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="155" text-anchor="end" fill="#8b949e" font-size="11">Standing Overhead Pr</text>
+        <text x="85" y="155" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+20.0</text>
+        <rect x="80" y="170" width="360.0" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="183" text-anchor="end" fill="#8b949e" font-size="11">Upright Row</text>
+        <text x="85" y="183" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+20.0</text>
+        <rect x="-258.40000000000003" y="198" width="338.40000000000003" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="211" text-anchor="end" fill="#8b949e" font-size="11">Barbell Front Raise</text>
+        <text x="-263.40000000000003" y="211" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-18.8</text>
+        <rect x="-231.39999999999998" y="226" width="311.4" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="239" text-anchor="end" fill="#8b949e" font-size="11">Barbell Chinup</text>
+        <text x="-236.39999999999998" y="239" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-17.3</text>
+        <rect x="-231.39999999999998" y="254" width="311.4" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="267" text-anchor="end" fill="#8b949e" font-size="11">Reverse Grip Barbell</text>
+        <text x="-236.39999999999998" y="267" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-17.3</text>
+        <rect x="80" y="282" width="282.59999999999997" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="295" text-anchor="end" fill="#8b949e" font-size="11">Barbell Lying Glute </text>
+        <text x="85" y="295" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+15.7</text>
+        <rect x="-197.2" y="310" width="277.2" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="323" text-anchor="end" fill="#8b949e" font-size="11">Standing Barbell Ove</text>
+        <text x="-202.2" y="323" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-15.4</text>
+        <rect x="-173.79999999999998" y="338" width="253.79999999999998" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="351" text-anchor="end" fill="#8b949e" font-size="11">Barbell Pullover</text>
+        <text x="-178.79999999999998" y="351" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-14.1</text>
+        <rect x="-157.59999999999997" y="366" width="237.59999999999997" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="379" text-anchor="end" fill="#8b949e" font-size="11">Barbell Bent Over Ro</text>
+        <text x="-162.59999999999997" y="379" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-13.2</text>
+        <rect x="-118.00000000000003" y="394" width="198.00000000000003" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="407" text-anchor="end" fill="#8b949e" font-size="11">Seated Alternating R</text>
+        <text x="-123.00000000000003" y="407" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-11.0</text>
+        <rect x="-118.00000000000003" y="422" width="198.00000000000003" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="435" text-anchor="end" fill="#8b949e" font-size="11">Seated Row</text>
+        <text x="-123.00000000000003" y="435" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-11.0</text>
+        <rect x="-96.4" y="450" width="176.4" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="463" text-anchor="end" fill="#8b949e" font-size="11">Alternating Bench Pr</text>
+        <text x="-101.4" y="463" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-9.8</text>
+        <rect x="-85.6" y="478" width="165.6" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="491" text-anchor="end" fill="#8b949e" font-size="11">Resisted Calf Raise</text>
+        <text x="-90.6" y="491" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-9.2</text>
+        <rect x="-82.0" y="506" width="162.0" height="18" fill="#f85149" rx="3"/>
+        <text x="75" y="519" text-anchor="end" fill="#8b949e" font-size="11">Barbell Seated Lat P</text>
+        <text x="-87.0" y="519" text-anchor="end" fill="#e6edf3" font-size="11" font-weight="600">-9.0</text>
+        <rect x="80" y="534" width="162.0" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="547" text-anchor="end" fill="#8b949e" font-size="11">Straight Arm Pulldow</text>
+        <text x="85" y="547" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+9.0</text>
+        <rect x="80" y="562" width="162.0" height="18" fill="#2ea043" rx="3"/>
+        <text x="75" y="575" text-anchor="end" fill="#8b949e" font-size="11">Single Arm Incline C</text>
+        <text x="85" y="575" text-anchor="start" fill="#e6edf3" font-size="11" font-weight="600">+9.0</text>
+    </svg>
+        
+        <table style="margin-top:20px;">
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th style="text-align:center;">Times</th>
+                    <th style="text-align:center;">Avg Recovery</th>
+                    <th style="text-align:center;">Delta</th>
+                    <th style="text-align:center;">Classification</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Standing Incline Press</td>
+            <td style="text-align:center;">6</td>
+            <td style="text-align:center;">71.5</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-45.5</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Standing Pallof Press</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;">75.7</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-28.0</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Hip Thrust</td>
+            <td style="text-align:center;">6</td>
+            <td style="text-align:center;">57.3</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+24.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Squat to Press</td>
+            <td style="text-align:center;">3</td>
+            <td style="text-align:center;">30.0</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+20.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Standing Overhead Press</td>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;">30.0</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+20.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Upright Row</td>
+            <td style="text-align:center;">3</td>
+            <td style="text-align:center;">30.0</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+20.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Front Raise</td>
+            <td style="text-align:center;">8</td>
+            <td style="text-align:center;">68.2</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-18.8</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Chinup</td>
+            <td style="text-align:center;">27</td>
+            <td style="text-align:center;">65.0</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-17.3</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Reverse Grip Barbell Triceps Extension</td>
+            <td style="text-align:center;">27</td>
+            <td style="text-align:center;">65.0</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-17.3</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Lying Glute Bridge</td>
+            <td style="text-align:center;">11</td>
+            <td style="text-align:center;">55.8</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+15.7</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Standing Barbell Overhead Press</td>
+            <td style="text-align:center;">13</td>
+            <td style="text-align:center;">68.8</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-15.4</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Pullover</td>
+            <td style="text-align:center;">24</td>
+            <td style="text-align:center;">61.8</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-14.1</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Bent Over Row</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;">69.2</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-13.2</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Seated Alternating Row</td>
+            <td style="text-align:center;">2</td>
+            <td style="text-align:center;">40.0</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-11.0</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Seated Row</td>
+            <td style="text-align:center;">3</td>
+            <td style="text-align:center;">40.0</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-11.0</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Alternating Bench Press</td>
+            <td style="text-align:center;">45</td>
+            <td style="text-align:center;">62.6</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-9.8</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Resisted Calf Raise</td>
+            <td style="text-align:center;">33</td>
+            <td style="text-align:center;">62.8</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-9.2</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Seated Lat Pulldown</td>
+            <td style="text-align:center;">16</td>
+            <td style="text-align:center;">65.0</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-9.0</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Straight Arm Pulldown</td>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;">38.0</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+9.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Single Arm Incline Chest Fly</td>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;">43.0</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+9.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Single Arm Bench Press</td>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;">43.0</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+9.0</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Farmer March</td>
+            <td style="text-align:center;">6</td>
+            <td style="text-align:center;">60.3</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-8.7</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Goblet Squat</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;">60.3</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-8.7</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Straight Arm March</td>
+            <td style="text-align:center;">6</td>
+            <td style="text-align:center;">60.3</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-8.7</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Bench Chest Fly</td>
+            <td style="text-align:center;">40</td>
+            <td style="text-align:center;">59.1</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-8.5</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Skull Crusher</td>
+            <td style="text-align:center;">24</td>
+            <td style="text-align:center;">59.3</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-6.7</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Half Kneeling Single Arm Row</td>
+            <td style="text-align:center;">36</td>
+            <td style="text-align:center;">52.9</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+6.6</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Seated Pallof Press</td>
+            <td style="text-align:center;">36</td>
+            <td style="text-align:center;">52.9</td>
+            <td style="text-align:center;color:#2ea043;font-weight:600;">+6.6</td>
+            <td style="text-align:center;"><span style="color:#2ea043;">📈 energizing</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Seated Biceps Curl</td>
+            <td style="text-align:center;">31</td>
+            <td style="text-align:center;">60.8</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-5.6</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+        <tr>
+            <td style="color:#f39c12;font-weight:500;">Barbell Straight Arm Pulldown</td>
+            <td style="text-align:center;">10</td>
+            <td style="text-align:center;">68.2</td>
+            <td style="text-align:center;color:#f85149;font-weight:600;">-5.0</td>
+            <td style="text-align:center;"><span style="color:#f85149;">📉 draining</span></td>
+        </tr>
+            </tbody>
+        </table>
+    </div>
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

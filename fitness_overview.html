@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Command Center</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e0e0e0; padding: 20px; }
+h1 { color: #f39c12; margin-bottom: 5px; }
+h2 { color: #f39c12; margin: 30px 0 15px; border-bottom: 1px solid #2a2a1a; padding-bottom: 8px; font-size: 1.2em; }
+.subtitle { color: #888; margin-bottom: 30px; font-size: 0.9em; }
+.back-link { color: #f39c12; text-decoration: none; font-size: 0.85em; margin-bottom: 20px; display: inline-block; }
+.snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+.snap-card { background: #1a1a0d; border-radius: 12px; padding: 20px; border-left: 4px solid #f39c12; }
+.snap-label { color: #888; font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.snap-val { font-size: 1.8em; font-weight: 700; }
+.snap-sub { color: #888; font-size: 0.8em; margin-top: 4px; }
+.streak-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+.streak-card { background: #1a1a0d; border-radius: 12px; padding: 20px; text-align: center; }
+.streak-num { font-size: 3em; font-weight: 700; color: #f39c12; }
+.streak-lbl { color: #888; font-size: 0.85em; }
+.chart-box { background: #1a1a0d; border-radius: 12px; padding: 20px; margin-bottom: 20px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #12120a; color: #f39c12; padding: 10px 12px; text-align: left; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
+td { padding: 8px 12px; border-bottom: 1px solid #1a1a0d; font-size: 0.9em; }
+tr:hover td { background: #12120a; }
+.footer { color: #555; font-size: 0.75em; margin-top: 40px; text-align: center; }
+.nav-links { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
+.nav-link { background: #1a1a0d; border-radius: 8px; padding: 8px 16px; color: #f39c12; text-decoration: none; font-size: 0.9em; border: 1px solid #2a2a1a; }
+.nav-link:hover { background: #2a2a0d; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-link">← Back to Fitness Center</a>
+<h1>🎯 Fitness Command Center</h1>
+<p class="subtitle">Cross-data overview · Generated 2026-02-25 22:00</p>
+
+<div class="nav-links">
+    <a href="tonal_dashboard.html" class="nav-link">🏋️ Tonal Dashboard</a>
+    <a href="sleep_dashboard.html" class="nav-link">😴 Sleep Dashboard</a>
+    <a href="strength_progress.html" class="nav-link">📈 Strength Progress</a>
+    <a href="recovery_insights.html" class="nav-link">💜 Recovery Insights</a>
+    <a href="velocity/index.html" class="nav-link">📈 Training Velocity</a>
+</div>
+
+<h2>📍 Today's Snapshot</h2>
+<div class="snapshot-grid">
+    <div class="snap-card" style="border-left-color:#e74c3c">
+        <div class="snap-label">WHOOP Recovery</div>
+        <div class="snap-val" style="color:#e74c3c">15%</div>
+        <div class="snap-sub">2026-02-24</div>
+    </div>
+    <div class="snap-card" style="border-left-color:#9b59b6">
+        <div class="snap-label">8Sleep Score</div>
+        <div class="snap-val" style="color:#9b59b6">82</div>
+        <div class="snap-sub">HRV: 18.4 · 7.3h slept</div>
+    </div>
+    <div class="snap-card">
+        <div class="snap-label">Last Tonal Session</div>
+        <div class="snap-val" style="color:#f39c12">37,379 <span style="font-size:0.5em;color:#888">lbs</span></div>
+        <div class="snap-sub">2025-04-01 · 2 session(s)</div>
+    </div>
+    <div class="snap-card">
+        <div class="snap-label">Last Garmin Activity</div>
+        <div class="snap-val" style="color:#4ecdc4">1.5 <span style="font-size:0.5em;color:#888">mi</span></div>
+        <div class="snap-sub">2026-02-25 · 2,902 steps</div>
+    </div>
+</div>
+
+<h2>🔥 Current Streaks</h2>
+<div class="streak-grid">
+    <div class="streak-card">
+        <div class="streak-num">0</div>
+        <div class="streak-lbl">Day Tonal Streak</div>
+    </div>
+    <div class="streak-card">
+        <div class="streak-num">26</div>
+        <div class="streak-lbl">Day Activity Streak</div>
+    </div>
+    <div class="streak-card">
+        <div class="streak-num">671</div>
+        <div class="streak-lbl">Total Lifting Days</div>
+    </div>
+    <div class="streak-card">
+        <div class="streak-num">725</div>
+        <div class="streak-lbl">WHOOP Records</div>
+    </div>
+</div>
+
+<h2>📅 7-Day Overview</h2>
+<div class="chart-box">
+<table>
+<tr>
+    <th>Date</th>
+    <th>WHOOP Recovery</th>
+    <th>8Sleep Score</th>
+    <th>Tonal Volume</th>
+    <th>Garmin Dist</th>
+    <th>Steps</th>
+</tr>
+<tr>
+        <td style="color:#aaa">2026-02-19</td>
+        <td style="color:#f39c12">38%</td>
+        <td style="color:#9b59b6">88</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">4.9 mi</td>
+        <td style="color:#888">9,278</td>
+    </tr><tr>
+        <td style="color:#aaa">2026-02-20</td>
+        <td style="color:#f39c12">38%</td>
+        <td style="color:#9b59b6">77</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">2.3 mi</td>
+        <td style="color:#888">4,436</td>
+    </tr><tr>
+        <td style="color:#aaa">2026-02-21</td>
+        <td style="color:#f39c12">41%</td>
+        <td style="color:#f39c12">54</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">3.2 mi</td>
+        <td style="color:#888">5,865</td>
+    </tr><tr>
+        <td style="color:#aaa">2026-02-22</td>
+        <td style="color:#f39c12">35%</td>
+        <td style="color:#9b59b6">78</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">4.0 mi</td>
+        <td style="color:#888">7,708</td>
+    </tr><tr>
+        <td style="color:#aaa">2026-02-23</td>
+        <td style="color:#f39c12">39%</td>
+        <td style="color:#9b59b6">75</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">1.9 mi</td>
+        <td style="color:#888">3,673</td>
+    </tr><tr>
+        <td style="color:#aaa">2026-02-24</td>
+        <td style="color:#f39c12">46%</td>
+        <td style="color:#9b59b6">82</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">4.7 mi</td>
+        <td style="color:#888">8,617</td>
+    </tr><tr>
+        <td style="color:#aaa">2026-02-25</td>
+        <td style="color:#e74c3c">15%</td>
+        <td style="color:#f39c12">55</td>
+        <td style="color:#f39c12">—</td>
+        <td style="color:#4ecdc4">1.5 mi</td>
+        <td style="color:#888">2,902</td>
+    </tr>
+</table>
+</div>
+
+<h2>📊 Recovery vs Training Load</h2>
+<div class="chart-box">
+<p style="color:#888;font-size:0.8em;margin-bottom:10px">Each point: day's training volume → next day's WHOOP recovery (last 60 paired days)</p>
+<svg width="600" height="300" style="max-width:100%"><line x1="55" y1="15" x2="55" y2="260" stroke="#333" stroke-width="1"/><line x1="55" y1="260" x2="580" y2="260" stroke="#333" stroke-width="1"/><text x="317" y="297" text-anchor="middle" fill="#888" font-size="10">Training Volume (lbs)</text><text x="12" y="137" fill="#888" font-size="10" transform="rotate(-90,12,137)">Next-day Recovery %</text><text x="52" y="264" text-anchor="end" fill="#888" font-size="9">6</text><text x="52" y="141" text-anchor="end" fill="#888" font-size="9">52</text><text x="52" y="19" text-anchor="end" fill="#888" font-size="9">98</text><circle cx="109" cy="222" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="320" cy="166" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="310" cy="134" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="83" cy="204" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="259" cy="212" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="464" cy="81" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="314" cy="94" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="207" cy="169" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="192" cy="198" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="274" cy="78" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="342" cy="116" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="174" cy="137" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="180" cy="68" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="136" cy="137" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="241" cy="134" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="367" cy="174" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="103" cy="150" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="92" cy="60" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="276" cy="92" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="368" cy="137" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="101" cy="145" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="334" cy="52" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="264" cy="36" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="312" cy="222" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="240" cy="153" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="373" cy="110" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="168" cy="105" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="104" cy="81" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="295" cy="44" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="118" cy="25" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="354" cy="156" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="324" cy="28" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="329" cy="220" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="140" cy="225" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="381" cy="92" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="201" cy="180" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="288" cy="185" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="155" cy="209" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="295" cy="241" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="253" cy="41" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="314" cy="15" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="336" cy="65" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="350" cy="46" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="370" cy="105" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="358" cy="153" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="218" cy="148" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="430" cy="102" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="299" cy="169" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="433" cy="193" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="136" cy="166" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="491" cy="142" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="203" cy="142" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="303" cy="222" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="158" cy="164" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="341" cy="126" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="137" cy="212" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="303" cy="108" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="378" cy="97" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="94" cy="217" r="4" fill="#4ecdc4" fill-opacity="0.6"/><circle cx="483" cy="41" r="4" fill="#4ecdc4" fill-opacity="0.6"/></svg>
+<p style="color:#888;font-size:0.8em;margin-top:10px">Total paired data points: 268</p>
+</div>
+
+<p class="footer">Generated by fitness-ecosystem-builder · 2026-02-25 22:00</p>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

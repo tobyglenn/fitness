@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRV Trends & Recovery Correlation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #4fc3f7; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { font-size: 24px; margin-bottom: 8px; color: #fff; }
+        .subtitle { color: #8e8e93; font-size: 14px; margin-bottom: 24px; }
+        .card { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .card h2 { font-size: 16px; margin-bottom: 16px; color: #fff; }
+        canvas { width: 100%; height: 250px; display: block; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+        .stat-box { background: #2c2c2e; border-radius: 8px; padding: 16px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: 600; color: #4fc3f7; }
+        .stat-label { font-size: 12px; color: #8e8e93; margin-top: 4px; }
+        .legend { display: flex; gap: 20px; justify-content: center; margin-top: 12px; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        @media (max-width: 600px) { canvas { height: 200px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="http://192.168.1.249:8082/" class="back-link">← Back to Reports</a>
+        <h1>HRV Trends & Recovery Correlation</h1>
+        <p class="subtitle">90-day analysis: 2025-11-28 to 2026-03-01</p>
+        
+        <div class="card">
+            <h2>📈 HRV Trend (90 days)</h2>
+            <canvas id="hrvTrendChart"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Raw HRV</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#fff"></div>7-day Avg</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#8e8e93"></div>Baseline</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>💚 Recovery Score Overlay</h2>
+            <canvas id="recoveryOverlayChart"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>HRV (ms)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#34c759"></div>Recovery %</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔥 Stress Episodes Heatmap</h2>
+            <canvas id="stressHeatmapChart"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#1c1c1e"></div>Low</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Medium</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div>High</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔗 HRV vs Recovery Scatter</h2>
+            <canvas id="hrvRecoveryScatter"></canvas>
+        </div>
+        
+        <div class="card">
+            <h2>📊 Rolling Stats Panel</h2>
+            <canvas id="rollingStatsPanel"></canvas>
+        </div>
+    </div>
+    
+    <script>
+    const data = [{"date": "2025-11-28", "hrv": 21.600586, "recovery": 63.0, "rhr": 80.0, "stress": -1, "max_stress": null}, {"date": "2025-11-29", "hrv": 20.633928, "recovery": 58.0, "rhr": 79.0, "stress": -1, "max_stress": null}, {"date": "2025-11-30", "hrv": 22.253614, "recovery": 67.0, "rhr": 77.0, "stress": 4, "max_stress": 4}, {"date": "2025-12-01", "hrv": 22.326706, "recovery": 68.0, "rhr": 75.0, "stress": null, "max_stress": null}, {"date": "2025-12-03", "hrv": 16.401772, "recovery": 40.0, "rhr": 81.0, "stress": null, "max_stress": null}, {"date": "2025-12-04", "hrv": 12.877313, "recovery": 8.0, "rhr": 86.0, "stress": null, "max_stress": null}, {"date": "2025-12-05", "hrv": 17.377762, "recovery": 63.0, "rhr": 83.0, "stress": null, "max_stress": null}, {"date": "2025-12-07", "hrv": 16.297783, "recovery": 53.0, "rhr": 82.0, "stress": -1, "max_stress": null}, {"date": "2025-12-08", "hrv": 20.279417, "recovery": 78.0, "rhr": 76.0, "stress": -1, "max_stress": null}, {"date": "2025-12-09", "hrv": 22.463127, "recovery": 90.0, "rhr": 77.0, "stress": -1, "max_stress": null}, {"date": "2025-12-10", "hrv": 24.911066, "recovery": 98.0, "rhr": 79.0, "stress": -1, "max_stress": null}, {"date": "2025-12-11", "hrv": 18.000118, "recovery": 67.0, "rhr": 82.0, "stress": -1, "max_stress": null}, {"date": "2025-12-12", "hrv": 15.632154, "recovery": 54.0, "rhr": 82.0, "stress": -1, "max_stress": null}, {"date": "2025-12-13", "hrv": 17.347792, "recovery": 64.0, "rhr": 83.0, "stress": -1, "max_stress": null}, {"date": "2025-12-14", "hrv": 19.52364, "recovery": 76.0, "rhr": 76.0, "stress": -1, "max_stress": null}, {"date": "2025-12-15", "hrv": 11.300228, "recovery": 30.0, "rhr": 86.0, "stress": -1, "max_stress": null}, {"date": "2025-12-16", "hrv": 17.682487, "recovery": 66.0, "rhr": 80.0, "stress": -1, "max_stress": null}, {"date": "2025-12-17", "hrv": 22.001276, "recovery": 90.0, "rhr": 80.0, "stress": -1, "max_stress": null}, {"date": "2025-12-18", "hrv": 24.097528, "recovery": 95.0, "rhr": 76.0, "stress": -1, "max_stress": null}, {"date": "2025-12-19", "hrv": 24.40655, "recovery": 95.0, "rhr": 77.0, "stress": -1, "max_stress": null}, {"date": "2025-12-20", "hrv": 23.75849, "recovery": 90.0, "rhr": 78.0, "stress": -1, "max_stress": null}, {"date": "2025-12-21", "hrv": 19.227741, "recovery": 58.0, "rhr": 79.0, "stress": -1, "max_stress": null}, {"date": "2025-12-22", "hrv": 18.228092, "recovery": 11.0, "rhr": 79.0, "stress": null, "max_stress": null}, {"date": "2025-12-23", "hrv": 26.330618, "recovery": 97.0, "rhr": 74.0, "stress": null, "max_stress": null}, {"date": "2025-12-24", "hrv": 21.263008, "recovery": 63.0, "rhr": 78.0, "stress": null, "max_stress": null}, {"date": "2025-12-25", "hrv": 28.951094, "recovery": 95.0, "rhr": 74.0, "stress": null, "max_stress": null}, {"date": "2025-12-26", "hrv": 22.036098, "recovery": 80.0, "rhr": 79.0, "stress": null, "max_stress": null}, {"date": "2025-12-27", "hrv": 22.423609, "recovery": 82.0, "rhr": 78.0, "stress": null, "max_stress": null}, {"date": "2025-12-28", "hrv": 22.131609, "recovery": 80.0, "rhr": 75.0, "stress": null, "max_stress": null}, {"date": "2025-12-29", "hrv": 29.132599, "recovery": 98.0, "rhr": 70.0, "stress": null, "max_stress": null}, {"date": "2025-12-30", "hrv": 32.47309, "recovery": 98.0, "rhr": 72.0, "stress": null, "max_stress": null}, {"date": "2025-12-31", "hrv": 58.33215, "recovery": 97.0, "rhr": 76.0, "stress": null, "max_stress": null}, {"date": "2026-01-01", "hrv": 24.361927, "recovery": 62.0, "rhr": 76.0, "stress": null, "max_stress": null}, {"date": "2026-01-02", "hrv": 21.404488, "recovery": 58.0, "rhr": 71.0, "stress": null, "max_stress": null}, {"date": "2026-01-03", "hrv": 23.29588, "recovery": 61.0, "rhr": 73.0, "stress": null, "max_stress": null}, {"date": "2026-01-05", "hrv": 20.024916, "recovery": 56.0, "rhr": 70.0, "stress": 30, "max_stress": 75}, {"date": "2026-01-06", "hrv": 19.525644, "recovery": 54.0, "rhr": 75.0, "stress": 22, "max_stress": 88}, {"date": "2026-01-07", "hrv": 23.186962, "recovery": 67.0, "rhr": 71.0, "stress": 21, "max_stress": 78}, {"date": "2026-01-08", "hrv": 31.745472, "recovery": 98.0, "rhr": 75.0, "stress": 25, "max_stress": 85}, {"date": "2026-01-09", "hrv": 17.220957, "recovery": 38.0, "rhr": 80.0, "stress": 47, "max_stress": 94}, {"date": "2026-01-10", "hrv": 15.230654, "recovery": 32.0, "rhr": 81.0, "stress": 24, "max_stress": 79}, {"date": "2026-01-11", "hrv": 18.42932, "recovery": 49.0, "rhr": 79.0, "stress": 40, "max_stress": 88}, {"date": "2026-01-12", "hrv": 24.184341, "recovery": 72.0, "rhr": 77.0, "stress": 49, "max_stress": 99}, {"date": "2026-01-13", "hrv": 19.019053, "recovery": 51.0, "rhr": 82.0, "stress": 52, "max_stress": 97}, {"date": "2026-01-14", "hrv": 10.222565, "recovery": 18.0, "rhr": 89.0, "stress": 61, "max_stress": 99}, {"date": "2026-01-15", "hrv": 19.954685, "recovery": 57.0, "rhr": 83.0, "stress": 48, "max_stress": 98}, {"date": "2026-01-16", "hrv": 37.570698, "recovery": 94.0, "rhr": 71.0, "stress": 48, "max_stress": 96}, {"date": "2026-01-17", "hrv": 18.648682, "recovery": 49.0, "rhr": 82.0, "stress": 57, "max_stress": 98}, {"date": "2026-01-18", "hrv": 22.43132, "recovery": 65.0, "rhr": 80.0, "stress": 50, "max_stress": 93}, {"date": "2026-01-19", "hrv": 36.207523, "recovery": 96.0, "rhr": 72.0, "stress": 54, "max_stress": 96}, {"date": "2026-01-20", "hrv": 19.3541, "recovery": 49.0, "rhr": 77.0, "stress": 48, "max_stress": 96}, {"date": "2026-01-21", "hrv": 23.61305, "recovery": 62.0, "rhr": 76.0, "stress": 49, "max_stress": 98}, {"date": "2026-01-22", "hrv": 19.177525, "recovery": 48.0, "rhr": 76.0, "stress": 53, "max_stress": 97}, {"date": "2026-01-23", "hrv": 25.254513, "recovery": 63.0, "rhr": 80.0, "stress": 54, "max_stress": 94}, {"date": "2026-01-24", "hrv": 23.54958, "recovery": 59.0, "rhr": 77.0, "stress": 45, "max_stress": 93}, {"date": "2026-01-25", "hrv": 26.050348, "recovery": 72.0, "rhr": 74.0, "stress": 46, "max_stress": 99}, {"date": "2026-01-26", "hrv": 19.062115, "recovery": 44.0, "rhr": 75.0, "stress": 56, "max_stress": 96}, {"date": "2026-01-27", "hrv": 20.563528, "recovery": 44.0, "rhr": 75.0, "stress": 49, "max_stress": 93}, {"date": "2026-01-28", "hrv": 21.484774, "recovery": 44.0, "rhr": 77.0, "stress": 58, "max_stress": 96}, {"date": "2026-01-29", "hrv": 16.624405, "recovery": 29.0, "rhr": 83.0, "stress": 60, "max_stress": 89}, {"date": "2026-01-30", "hrv": 18.245022, "recovery": 38.0, "rhr": 77.0, "stress": 54, "max_stress": 88}, {"date": "2026-01-31", "hrv": 34.45769, "recovery": 89.0, "rhr": 73.0, "stress": 39, "max_stress": 84}, {"date": "2026-02-01", "hrv": 15.916133, "recovery": 31.0, "rhr": 77.0, "stress": 49, "max_stress": 89}, {"date": "2026-02-02", "hrv": 19.417759, "recovery": 47.0, "rhr": 79.0, "stress": 52, "max_stress": 93}, {"date": "2026-02-03", "hrv": 12.884704, "recovery": 15.0, "rhr": 81.0, "stress": 57, "max_stress": 94}, {"date": "2026-02-04", "hrv": 19.134262, "recovery": 10.0, "rhr": 80.0, "stress": 44, "max_stress": 92}, {"date": "2026-02-05", "hrv": 30.071331, "recovery": 14.0, "rhr": 67.0, "stress": 38, "max_stress": 96}, {"date": "2026-02-06", "hrv": 33.68769, "recovery": 73.0, "rhr": 65.0, "stress": 41, "max_stress": 94}, {"date": "2026-02-07", "hrv": 60.17599, "recovery": 87.0, "rhr": 77.0, "stress": 53, "max_stress": 100}, {"date": "2026-02-08", "hrv": 32.700188, "recovery": 83.0, "rhr": 72.0, "stress": 45, "max_stress": 97}, {"date": "2026-02-09", "hrv": 18.483486, "recovery": 44.0, "rhr": 76.0, "stress": 54, "max_stress": 93}, {"date": "2026-02-10", "hrv": 24.664766, "recovery": 63.0, "rhr": 73.0, "stress": 38, "max_stress": 99}, {"date": "2026-02-11", "hrv": 18.718916, "recovery": 18.0, "rhr": 76.0, "stress": 59, "max_stress": 98}, {"date": "2026-02-12", "hrv": 16.80657, "recovery": 18.0, "rhr": 79.0, "stress": 56, "max_stress": 94}, {"date": "2026-02-13", "hrv": 104.77237, "recovery": 85.0, "rhr": 80.0, "stress": 58, "max_stress": 99}, {"date": "2026-02-14", "hrv": 16.04099, "recovery": 25.0, "rhr": 84.0, "stress": 63, "max_stress": 95}, {"date": "2026-02-15", "hrv": 15.25637, "recovery": 23.0, "rhr": 81.0, "stress": 57, "max_stress": 96}, {"date": "2026-02-16", "hrv": 16.227386, "recovery": 35.0, "rhr": 77.0, "stress": 43, "max_stress": 98}, {"date": "2026-02-17", "hrv": 14.630932, "recovery": 7.0, "rhr": 81.0, "stress": 37, "max_stress": 94}, {"date": "2026-02-18", "hrv": 22.805332, "recovery": 35.0, "rhr": 74.0, "stress": 39, "max_stress": 88}, {"date": "2026-02-19", "hrv": 24.996542, "recovery": 38.0, "rhr": 67.0, "stress": 38, "max_stress": 84}, {"date": "2026-02-20", "hrv": 26.566427, "recovery": 38.0, "rhr": 70.0, "stress": 44, "max_stress": 87}, {"date": "2026-02-21", "hrv": 24.38755, "recovery": 41.0, "rhr": 72.0, "stress": 45, "max_stress": 96}, {"date": "2026-02-22", "hrv": 22.442207, "recovery": 35.0, "rhr": 74.0, "stress": 47, "max_stress": 95}, {"date": "2026-02-23", "hrv": 25.488049, "recovery": 39.0, "rhr": 71.0, "stress": 48, "max_stress": 96}, {"date": "2026-02-24", "hrv": 28.064613, "recovery": 46.0, "rhr": 70.0, "stress": 42, "max_stress": 97}, {"date": "2026-02-25", "hrv": 25.749737, "recovery": 15.0, "rhr": 67.0, "stress": 40, "max_stress": 91}, {"date": "2026-02-26", "hrv": 35.16584, "recovery": 59.0, "rhr": 69.0, "stress": 37, "max_stress": 94}, {"date": "2026-02-28", "hrv": 28.63912, "recovery": 39.0, "rhr": 65.0, "stress": 39, "max_stress": 91}, {"date": "2026-03-01", "hrv": 26.293297, "recovery": 44.0, "rhr": 72.0, "stress": 37, "max_stress": 81}];
+    const hrv7day = [null, null, null, null, null, null, 19.1, 18.3, 18.3, 18.3, 18.7, 18.9, 19.3, 19.3, 19.7, 18.5, 17.8, 17.4, 18.2, 19.5, 20.4, 20.4, 21.3, 22.6, 22.5, 23.2, 22.8, 22.6, 23.1, 24.6, 25.5, 30.8, 30.1, 30.0, 30.2, 29.9, 28.5, 27.2, 23.4, 22.3, 21.5, 20.8, 21.4, 21.3, 19.4, 17.8, 20.7, 21.1, 21.7, 23.4, 23.5, 25.4, 25.3, 23.5, 24.2, 24.7, 22.3, 22.5, 22.2, 21.8, 20.8, 22.4, 20.9, 21.0, 19.9, 19.5, 21.4, 23.7, 27.3, 29.7, 29.6, 31.3, 31.2, 29.3, 39.5, 33.2, 30.7, 30.4, 28.9, 29.5, 30.7, 19.5, 20.7, 21.7, 23.0, 25.0, 25.4, 26.8, 27.1, 27.4];
+    const hrv30day = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 20.7, 21.1, 22.3, 22.4, 22.4, 22.6, 22.8, 22.9, 23.1, 23.5, 23.3, 23.0, 23.0, 23.3, 23.4, 23.1, 23.3, 24.0, 23.9, 23.8, 24.2, 24.1, 24.2, 24.3, 24.2, 24.3, 24.2, 24.1, 24.0, 24.0, 23.6, 23.1, 22.3, 22.1, 22.0, 21.6, 21.6, 22.0, 22.3, 23.3, 23.8, 23.9, 24.1, 23.9, 23.8, 27.0, 26.9, 26.1, 26.0, 25.8, 25.3, 25.5, 25.6, 25.8, 25.7, 25.8, 25.8, 26.0, 26.5, 26.8, 27.1];
+    const baseline = 23.8;
+    const currentHRV = 26.3;
+    const pctChange = 10.5;
+    const stdDev = 11.6;
+
+    function setupCanvas(id) {
+        const canvas = document.getElementById(id);
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        return { canvas, ctx, w: rect.width, h: rect.height };
+    }
+
+    // Chart 1: HRV Trend
+    function drawHRVTrend() {
+        const { ctx, w, h } = setupCanvas('hrvTrendChart');
+        const pad = { top: 30, right: 20, bottom: 40, left: 45 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const validData = data.filter(d => d.hrv != null);
+        const hrvVals = validData.map(d => d.hrv);
+        const yMin = Math.max(0, Math.min(...hrvVals) - 10);
+        const yMax = Math.max(...hrvVals) + 10;
+        
+        const xScale = chartW / (validData.length - 1);
+        const yScale = chartH / (yMax - yMin);
+        
+        // Grid lines
+        ctx.strokeStyle = '#2c2c2e';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + (chartH * i / 4);
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y);
+            ctx.lineTo(w - pad.right, y);
+            ctx.stroke();
+        }
+        
+        // Y-axis labels
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 4; i++) {
+            const val = yMax - (yMax - yMin) * i / 4;
+            const y = pad.top + (chartH * i / 4);
+            ctx.fillText(val.toFixed(0), pad.left - 8, y + 4);
+        }
+        
+        // X-axis labels
+        ctx.textAlign = 'center';
+        const labelInterval = Math.ceil(validData.length / 7);
+        validData.forEach((d, i) => {
+            if (i % labelInterval === 0) {
+                const x = pad.left + i * xScale;
+                const date = new Date(d.date);
+                ctx.fillText((date.getMonth()+1)+'/'+date.getDate(), x, h - 10);
+            }
+        });
+        
+        // Baseline
+        const baselineY = pad.top + (yMax - baseline) * yScale;
+        ctx.strokeStyle = '#8e8e93';
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, baselineY);
+        ctx.lineTo(w - pad.right, baselineY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // 7-day rolling avg line
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        let started = false;
+        hrv7day.forEach((val, i) => {
+            if (val != null) {
+                const x = pad.left + i * xScale;
+                const y = pad.top + (yMax - val) * yScale;
+                if (!started) { ctx.moveTo(x, y); started = true; }
+                else ctx.lineTo(x, y);
+            }
+        });
+        ctx.stroke();
+        
+        // Raw dots
+        ctx.fillStyle = '#4fc3f7';
+        validData.forEach((d, i) => {
+            const x = pad.left + i * xScale;
+            const y = pad.top + (yMax - d.hrv) * yScale;
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        // Y-axis label
+        ctx.save();
+        ctx.translate(12, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillStyle = '#8e8e93';
+        ctx.textAlign = 'center';
+        ctx.fillText('HRV (ms)', 0, 0);
+        ctx.restore();
+    }
+
+    // Chart 2: Recovery Overlay
+    function drawRecoveryOverlay() {
+        const { ctx, w, h } = setupCanvas('recoveryOverlayChart');
+        const pad = { top: 30, right: 50, bottom: 40, left: 45 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const validData = data.filter(d => d.hrv != null && d.recovery != null);
+        const hrvVals = validData.map(d => d.hrv);
+        const recVals = validData.map(d => d.recovery);
+        const yMinHRV = Math.max(0, Math.min(...hrvVals) - 10);
+        const yMaxHRV = Math.max(...hrvVals) + 10;
+        const yMinRec = 0;
+        const yMaxRec = 100;
+        
+        const xScale = chartW / (validData.length - 1);
+        
+        // Grid
+        ctx.strokeStyle = '#2c2c2e';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + (chartH * i / 4);
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+        }
+        
+        // HRV line (left axis)
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        validData.forEach((d, i) => {
+            const x = pad.left + i * xScale;
+            const y = pad.top + (yMaxHRV - d.hrv) * yScale / (yMaxHRV - yMinHRV);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Recovery line (right axis)
+        ctx.strokeStyle = '#34c759';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        validData.forEach((d, i) => {
+            const x = pad.left + i * xScale;
+            const y = pad.top + (yMaxRec - d.recovery) * yScale / (yMaxRec - yMinRec);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Y-axis labels (left)
+        ctx.fillStyle = '#4fc3f7';
+        ctx.textAlign = 'right';
+        ctx.font = '10px -apple-system';
+        for (let i = 0; i <= 4; i++) {
+            const val = yMaxHRV - (yMaxHRV - yMinHRV) * i / 4;
+            const y = pad.top + chartH * i / 4;
+            ctx.fillText(val.toFixed(0), pad.left - 5, y + 4);
+        }
+        
+        // Y-axis labels (right)
+        ctx.fillStyle = '#34c759';
+        ctx.textAlign = 'left';
+        for (let i = 0; i <= 4; i++) {
+            const val = yMaxRec - (yMaxRec - yMinRec) * i / 4;
+            const y = pad.top + chartH * i / 4;
+            ctx.fillText(val.toFixed(0) + '%', w - pad.right + 5, y + 4);
+        }
+    }
+
+    // Chart 3: Stress Heatmap
+    function drawStressHeatmap() {
+        const { ctx, w, h } = setupCanvas('stressHeatmapChart');
+        const pad = { top: 30, right: 20, bottom: 40, left: 45 };
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const validData = data.filter(d => d.stress != null);
+        const cols = 13;
+        const rows = 7;
+        const cellW = (w - pad.left - pad.right) / cols;
+        const cellH = (h - pad.top - pad.bottom) / rows;
+        
+        validData.forEach((d, i) => {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            const x = pad.left + col * cellW;
+            const y = pad.top + row * cellH;
+            
+            const stress = d.stress || 0;
+            let color;
+            if (stress < 30) color = '#1c1c1e';
+            else if (stress < 60) color = '#4fc3f7';
+            else color = '#ff6b6b';
+            
+            ctx.fillStyle = color;
+            ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2);
+            
+            // Day number
+            if (row === rows - 1) {
+                const date = new Date(d.date);
+                ctx.fillStyle = '#8e8e93';
+                ctx.font = '9px -apple-system';
+                ctx.textAlign = 'center';
+                ctx.fillText(date.getDate(), x + cellW/2, h - 12);
+            }
+        });
+        
+        // Day labels
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '10px -apple-system';
+        days.forEach((day, i) => {
+            const y = pad.top + i * cellH + cellH/2 + 4;
+            ctx.textAlign = 'right';
+            ctx.fillText(day, pad.left - 8, y);
+        });
+    }
+
+    // Chart 4: HRV vs Recovery Scatter
+    function drawHRVRecoveryScatter() {
+        const { ctx, w, h } = setupCanvas('hrvRecoveryScatter');
+        const pad = { top: 30, right: 20, bottom: 50, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const validData = data.filter(d => d.hrv != null && d.recovery != null);
+        const xVals = validData.map(d => d.hrv);
+        const yVals = validData.map(d => d.recovery);
+        
+        const xMin = Math.min(...xVals) - 5;
+        const xMax = Math.max(...xVals) + 5;
+        const yMin = 0;
+        const yMax = 100;
+        
+        const xScale = chartW / (xMax - xMin);
+        const yScale = chartH / (yMax - yMin);
+        
+        // Grid
+        ctx.strokeStyle = '#2c2c2e';
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + chartH * i / 4;
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+        }
+        
+        // Trend line (linear regression)
+        const n = validData.length;
+        const sumX = xVals.reduce((a,b) => a+b, 0);
+        const sumY = yVals.reduce((a,b) => a+b, 0);
+        const sumXY = xVals.reduce((a,b,i) => a + b*yVals[i], 0);
+        const sumX2 = xVals.reduce((a,b) => a + b*b, 0);
+        const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX);
+        const intercept = (sumY - slope*sumX) / n;
+        
+        const r2 = Math.pow((n*sumXY - sumX*sumY) / Math.sqrt((n*sumX2 - sumX*sumX)*(n*sumY*yVals.reduce((a,b)=>a+b*b,0) - sumY*sumY)), 2);
+        
+        ctx.strokeStyle = '#ffd700';
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left + (xMin - xMin) * xScale, pad.top + (yMax - (slope*xMin + intercept)) * yScale);
+        ctx.lineTo(pad.left + (xMax - xMin) * xScale, pad.top + (yMax - (slope*xMax + intercept)) * yScale);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Points
+        validData.forEach(d => {
+            const x = pad.left + (d.hrv - xMin) * xScale;
+            const y = pad.top + (yMax - d.recovery) * yScale;
+            
+            const stress = d.stress || 50;
+            if (stress < 30) ctx.fillStyle = '#28a745';
+            else if (stress < 60) ctx.fillStyle = '#ffd700';
+            else ctx.fillStyle = '#dc3545';
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        // Labels
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('HRV (ms)', w/2, h - 10);
+        
+        ctx.save();
+        ctx.translate(12, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('Recovery %', 0, 0);
+        ctx.restore();
+        
+        // R² label
+        ctx.fillStyle = '#ffd700';
+        ctx.textAlign = 'left';
+        ctx.fillText('R² = ' + r2.toFixed(2), pad.left + 10, pad.top + 20);
+    }
+
+    // Chart 5: Rolling Stats Panel
+    function drawRollingStats() {
+        const { ctx, w, h } = setupCanvas('rollingStatsPanel');
+        const pad = { top: 20, right: 20, bottom: 20, left: 20 };
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const stats = [
+            { label: '7-Day Avg HRV', value: hrv7day[hrv7day.length-1] || '—', color: '#4fc3f7' },
+            { label: '30-Day Avg HRV', value: hrv30day[hrv30day.length-1] || '—', color: '#4fc3f7' },
+            { label: 'Current vs Baseline', value: (pctChange >= 0 ? '+' : '') + pctChange.toFixed(1) + '%', color: pctChange >= 0 ? '#28a745' : '#dc3545' },
+            { label: 'HRV Variability', value: '±' + stdDev, color: '#8e8e93' }
+        ];
+        
+        const boxW = (w - pad.left - pad.right) / 4;
+        
+        stats.forEach((stat, i) => {
+            const x = pad.left + i * boxW;
+            
+            // Value
+            ctx.fillStyle = stat.color;
+            ctx.font = 'bold 28px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(stat.value, x + boxW/2, h/2 - 5);
+            
+            // Label
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '12px -apple-system';
+            ctx.fillText(stat.label, x + boxW/2, h/2 + 20);
+        });
+    }
+
+    drawHRVTrend();
+    drawRecoveryOverlay();
+    drawStressHeatmap();
+    drawHRVRecoveryScatter();
+    drawRollingStats();
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

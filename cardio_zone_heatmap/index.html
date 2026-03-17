@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cardio Zone Distribution</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif; }
+    a { color: #58a6ff; text-decoration: none; }
+    nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 16px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .crumb { color: #8b949e; font-size: 13px; padding: 12px 16px 0; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    h1 { margin: 10px 0 6px; font-size: 32px; }
+    .sub { color: #8b949e; margin-bottom: 14px; }
+    .cards { display: grid; grid-template-columns: repeat(4,minmax(120px,1fr)); gap: 12px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; }
+    .value { font-size: 24px; color: #f39c12; margin-top: 4px; }
+    .label { color: #8b949e; font-size: 12px; }
+    .panel { margin-top: 14px; border: 1px solid #30363d; border-radius: 10px; background: #161b22; padding: 16px; }
+    .panel h2 { margin-bottom: 10px; font-size: 20px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    ul { margin-left: 16px; color: #c9d1d9; line-height: 1.6; }
+    .mono { color: #8b949e; font-size: 12px; }
+    @media (max-width: 980px) { .cards { grid-template-columns: 1fr 1fr; } .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/fitness/index.html">🏠 Home</a>
+    <a href="/fitness/calendars/">📅 Calendars</a>
+    <a href="/fitness/strength/">💪 Strength</a>
+    <a href="/fitness/cardio/">🏃 Cardio</a>
+    <a href="/fitness/recovery/">😴 Recovery</a>
+    <a href="/fitness/nutrition/">🥗 Nutrition</a>
+    <a href="/fitness/running/">🏃‍♂️ Running</a>
+  </nav>
+  <div class="crumb">Home &gt; Cardio &gt; Zone Distribution</div>
+  <div class="container"> 
+    <h1>Cardio Zone Distribution</h1>
+    <p class="sub">Time spent in each heart rate zone over time.</p>
+    <p class="mono">Generated March 04, 2026 at 08:52 AM EST</p>
+
+    <section class="cards"> 
+      <div class="card"><div class="label">Total cardio hours</div><div class="value">957.1h</div></div>
+      <div class="card"><div class="label">Zone 2 % (Aerobic)</div><div class="value">19.7%</div></div>
+      <div class="card"><div class="label">Zone 4/5 % (Threshold+)</div><div class="value">34.5%</div></div>
+      <div class="card"><div class="label">Cardio activities</div><div class="value">1375</div></div>
+    </section>
+
+    <section class="panel">
+      <h2>Heatmap (52 weeks × zones)</h2>
+      <p class="mono">Rows are zones 1-5, columns are weeks. Hover for exact minutes.</p>
+      <svg width="930" height="310" viewBox="0 0 930 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cardio zone heatmap">
+<rect x="0" y="0" width="930" height="310" fill="#0d1117"/>
+<text x="8" y="16" fill="#8b949e" font-size="12">Weeks: older → newer</text>
+<text x="20" y="37" fill="#8b949e" font-size="11">Zone 1: Recovery · Zone 2: Aerobic · Zone 3: Tempo · Zone 4: Threshold · Zone 5: VO2</text>
+<text x="80" y="73.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 1</text>
+<text x="80" y="119.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 2</text>
+<text x="80" y="165.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 3</text>
+<text x="80" y="211.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 4</text>
+<text x="80" y="257.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 5</text>
+<rect x="90" y="50.0" width="13" height="44" fill="#111b29"><title>Week Mar 03 · Zone 1: 0.0 min</title></rect>
+<rect x="90" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Mar 03 · Zone 2: 0.0 min</title></rect>
+<rect x="90" y="142.0" width="13" height="44" fill="#48371a"><title>Week Mar 03 · Zone 3: 0.0 min</title></rect>
+<rect x="90" y="188.0" width="13" height="44" fill="#432111"><title>Week Mar 03 · Zone 4: 0.0 min</title></rect>
+<rect x="90" y="234.0" width="13" height="44" fill="#381418"><title>Week Mar 03 · Zone 5: 0.0 min</title></rect>
+<text x="90.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Mar 03</text>
+<rect x="105" y="50.0" width="13" height="44" fill="#142133"><title>Week Mar 10 · Zone 1: 24.8 min</title></rect>
+<rect x="105" y="96.0" width="13" height="44" fill="#1a3b21"><title>Week Mar 10 · Zone 2: 22.2 min</title></rect>
+<rect x="105" y="142.0" width="13" height="44" fill="#65491c"><title>Week Mar 10 · Zone 3: 5.0 min</title></rect>
+<rect x="105" y="188.0" width="13" height="44" fill="#e65100"><title>Week Mar 10 · Zone 4: 7.5 min</title></rect>
+<rect x="105" y="234.0" width="13" height="44" fill="#b71c1c"><title>Week Mar 10 · Zone 5: 7.6 min</title></rect>
+<rect x="120" y="50.0" width="13" height="44" fill="#111b29"><title>Week Mar 17 · Zone 1: 0.0 min</title></rect>
+<rect x="120" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Mar 17 · Zone 2: 0.0 min</title></rect>
+<rect x="120" y="142.0" width="13" height="44" fill="#48371a"><title>Week Mar 17 · Zone 3: 0.0 min</title></rect>
+<rect x="120" y="188.0" width="13" height="44" fill="#432111"><title>Week Mar 17 · Zone 4: 0.0 min</title></rect>
+<rect x="120" y="234.0" width="13" height="44" fill="#381418"><title>Week Mar 17 · Zone 5: 0.0 min</title></rect>
+<rect x="135" y="50.0" width="13" height="44" fill="#111b29"><title>Week Mar 24 · Zone 1: 0.0 min</title></rect>
+<rect x="135" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Mar 24 · Zone 2: 0.0 min</title></rect>
+<rect x="135" y="142.0" width="13" height="44" fill="#48371a"><title>Week Mar 24 · Zone 3: 0.0 min</title></rect>
+<rect x="135" y="188.0" width="13" height="44" fill="#432111"><title>Week Mar 24 · Zone 4: 0.0 min</title></rect>
+<rect x="135" y="234.0" width="13" height="44" fill="#381418"><title>Week Mar 24 · Zone 5: 0.0 min</title></rect>
+<rect x="150" y="50.0" width="13" height="44" fill="#111b29"><title>Week Mar 31 · Zone 1: 0.0 min</title></rect>
+<rect x="150" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Mar 31 · Zone 2: 0.0 min</title></rect>
+<rect x="150" y="142.0" width="13" height="44" fill="#48371a"><title>Week Mar 31 · Zone 3: 0.0 min</title></rect>
+<rect x="150" y="188.0" width="13" height="44" fill="#432111"><title>Week Mar 31 · Zone 4: 0.0 min</title></rect>
+<rect x="150" y="234.0" width="13" height="44" fill="#381418"><title>Week Mar 31 · Zone 5: 0.0 min</title></rect>
+<text x="150.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Mar 31</text>
+<rect x="165" y="50.0" width="13" height="44" fill="#111b29"><title>Week Apr 07 · Zone 1: 0.0 min</title></rect>
+<rect x="165" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Apr 07 · Zone 2: 0.0 min</title></rect>
+<rect x="165" y="142.0" width="13" height="44" fill="#48371a"><title>Week Apr 07 · Zone 3: 0.0 min</title></rect>
+<rect x="165" y="188.0" width="13" height="44" fill="#432111"><title>Week Apr 07 · Zone 4: 0.0 min</title></rect>
+<rect x="165" y="234.0" width="13" height="44" fill="#381418"><title>Week Apr 07 · Zone 5: 0.0 min</title></rect>
+<rect x="180" y="50.0" width="13" height="44" fill="#111b29"><title>Week Apr 14 · Zone 1: 0.0 min</title></rect>
+<rect x="180" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Apr 14 · Zone 2: 0.0 min</title></rect>
+<rect x="180" y="142.0" width="13" height="44" fill="#48371a"><title>Week Apr 14 · Zone 3: 0.0 min</title></rect>
+<rect x="180" y="188.0" width="13" height="44" fill="#432111"><title>Week Apr 14 · Zone 4: 0.0 min</title></rect>
+<rect x="180" y="234.0" width="13" height="44" fill="#381418"><title>Week Apr 14 · Zone 5: 0.0 min</title></rect>
+<rect x="195" y="50.0" width="13" height="44" fill="#121e2e"><title>Week Apr 21 · Zone 1: 11.4 min</title></rect>
+<rect x="195" y="96.0" width="13" height="44" fill="#162f1e"><title>Week Apr 21 · Zone 2: 3.9 min</title></rect>
+<rect x="195" y="142.0" width="13" height="44" fill="#48371a"><title>Week Apr 21 · Zone 3: 0.0 min</title></rect>
+<rect x="195" y="188.0" width="13" height="44" fill="#432111"><title>Week Apr 21 · Zone 4: 0.0 min</title></rect>
+<rect x="195" y="234.0" width="13" height="44" fill="#381418"><title>Week Apr 21 · Zone 5: 0.0 min</title></rect>
+<rect x="210" y="50.0" width="13" height="44" fill="#142134"><title>Week Apr 28 · Zone 1: 27.3 min</title></rect>
+<rect x="210" y="96.0" width="13" height="44" fill="#17311f"><title>Week Apr 28 · Zone 2: 7.5 min</title></rect>
+<rect x="210" y="142.0" width="13" height="44" fill="#48371a"><title>Week Apr 28 · Zone 3: 0.0 min</title></rect>
+<rect x="210" y="188.0" width="13" height="44" fill="#432111"><title>Week Apr 28 · Zone 4: 0.0 min</title></rect>
+<rect x="210" y="234.0" width="13" height="44" fill="#381418"><title>Week Apr 28 · Zone 5: 0.0 min</title></rect>
+<text x="210.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Apr 28</text>
+<rect x="225" y="50.0" width="13" height="44" fill="#132031"><title>Week May 05 · Zone 1: 21.2 min</title></rect>
+<rect x="225" y="96.0" width="13" height="44" fill="#152c1e"><title>Week May 05 · Zone 2: 0.0 min</title></rect>
+<rect x="225" y="142.0" width="13" height="44" fill="#48371a"><title>Week May 05 · Zone 3: 0.0 min</title></rect>
+<rect x="225" y="188.0" width="13" height="44" fill="#432111"><title>Week May 05 · Zone 4: 0.0 min</title></rect>
+<rect x="225" y="234.0" width="13" height="44" fill="#381418"><title>Week May 05 · Zone 5: 0.0 min</title></rect>
+<rect x="240" y="50.0" width="13" height="44" fill="#1a314f"><title>Week May 12 · Zone 1: 95.9 min</title></rect>
+<rect x="240" y="96.0" width="13" height="44" fill="#1c4424"><title>Week May 12 · Zone 2: 35.8 min</title></rect>
+<rect x="240" y="142.0" width="13" height="44" fill="#6f501d"><title>Week May 12 · Zone 3: 6.6 min</title></rect>
+<rect x="240" y="188.0" width="13" height="44" fill="#8c360a"><title>Week May 12 · Zone 4: 3.3 min</title></rect>
+<rect x="240" y="234.0" width="13" height="44" fill="#381418"><title>Week May 12 · Zone 5: 0.0 min</title></rect>
+<rect x="255" y="50.0" width="13" height="44" fill="#132032"><title>Week May 19 · Zone 1: 21.6 min</title></rect>
+<rect x="255" y="96.0" width="13" height="44" fill="#2e7d32"><title>Week May 19 · Zone 2: 122.7 min</title></rect>
+<rect x="255" y="142.0" width="13" height="44" fill="#9c6c1f"><title>Week May 19 · Zone 3: 14.3 min</title></rect>
+<rect x="255" y="188.0" width="13" height="44" fill="#4c2410"><title>Week May 19 · Zone 4: 0.4 min</title></rect>
+<rect x="255" y="234.0" width="13" height="44" fill="#381418"><title>Week May 19 · Zone 5: 0.0 min</title></rect>
+<rect x="270" y="50.0" width="13" height="44" fill="#182a44"><title>Week May 26 · Zone 1: 66.8 min</title></rect>
+<rect x="270" y="96.0" width="13" height="44" fill="#2d7b31"><title>Week May 26 · Zone 2: 119.6 min</title></rect>
+<rect x="270" y="142.0" width="13" height="44" fill="#70501d"><title>Week May 26 · Zone 3: 6.8 min</title></rect>
+<rect x="270" y="188.0" width="13" height="44" fill="#482211"><title>Week May 26 · Zone 4: 0.2 min</title></rect>
+<rect x="270" y="234.0" width="13" height="44" fill="#381418"><title>Week May 26 · Zone 5: 0.0 min</title></rect>
+<text x="270.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">May 26</text>
+<rect x="285" y="50.0" width="13" height="44" fill="#1d395c"><title>Week Jun 02 · Zone 1: 129.2 min</title></rect>
+<rect x="285" y="96.0" width="13" height="44" fill="#235829"><title>Week Jun 02 · Zone 2: 67.3 min</title></rect>
+<rect x="285" y="142.0" width="13" height="44" fill="#95681f"><title>Week Jun 02 · Zone 3: 13.1 min</title></rect>
+<rect x="285" y="188.0" width="13" height="44" fill="#542610"><title>Week Jun 02 · Zone 4: 0.8 min</title></rect>
+<rect x="285" y="234.0" width="13" height="44" fill="#381418"><title>Week Jun 02 · Zone 5: 0.0 min</title></rect>
+<rect x="300" y="50.0" width="13" height="44" fill="#1b3454"><title>Week Jun 09 · Zone 1: 107.9 min</title></rect>
+<rect x="300" y="96.0" width="13" height="44" fill="#296d2e"><title>Week Jun 09 · Zone 2: 98.8 min</title></rect>
+<rect x="300" y="142.0" width="13" height="44" fill="#65491c"><title>Week Jun 09 · Zone 3: 4.9 min</title></rect>
+<rect x="300" y="188.0" width="13" height="44" fill="#432111"><title>Week Jun 09 · Zone 4: 0.0 min</title></rect>
+<rect x="300" y="234.0" width="13" height="44" fill="#381418"><title>Week Jun 09 · Zone 5: 0.0 min</title></rect>
+<rect x="315" y="50.0" width="13" height="44" fill="#1e3a5f"><title>Week Jun 16 · Zone 1: 135.6 min</title></rect>
+<rect x="315" y="96.0" width="13" height="44" fill="#1f4b26"><title>Week Jun 16 · Zone 2: 47.4 min</title></rect>
+<rect x="315" y="142.0" width="13" height="44" fill="#60461c"><title>Week Jun 16 · Zone 3: 4.1 min</title></rect>
+<rect x="315" y="188.0" width="13" height="44" fill="#492311"><title>Week Jun 16 · Zone 4: 0.3 min</title></rect>
+<rect x="315" y="234.0" width="13" height="44" fill="#381418"><title>Week Jun 16 · Zone 5: 0.0 min</title></rect>
+<rect x="330" y="50.0" width="13" height="44" fill="#182b45"><title>Week Jun 23 · Zone 1: 69.3 min</title></rect>
+<rect x="330" y="96.0" width="13" height="44" fill="#1d4724"><title>Week Jun 23 · Zone 2: 40.6 min</title></rect>
+<rect x="330" y="142.0" width="13" height="44" fill="#5f451c"><title>Week Jun 23 · Zone 3: 3.9 min</title></rect>
+<rect x="330" y="188.0" width="13" height="44" fill="#432111"><title>Week Jun 23 · Zone 4: 0.0 min</title></rect>
+<rect x="330" y="234.0" width="13" height="44" fill="#381418"><title>Week Jun 23 · Zone 5: 0.0 min</title></rect>
+<text x="330.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Jun 23</text>
+<rect x="345" y="50.0" width="13" height="44" fill="#1d3759"><title>Week Jun 30 · Zone 1: 120.3 min</title></rect>
+<rect x="345" y="96.0" width="13" height="44" fill="#1a3a21"><title>Week Jun 30 · Zone 2: 21.8 min</title></rect>
+<rect x="345" y="142.0" width="13" height="44" fill="#664a1c"><title>Week Jun 30 · Zone 3: 5.1 min</title></rect>
+<rect x="345" y="188.0" width="13" height="44" fill="#4e2410"><title>Week Jun 30 · Zone 4: 0.5 min</title></rect>
+<rect x="345" y="234.0" width="13" height="44" fill="#551619"><title>Week Jun 30 · Zone 5: 1.7 min</title></rect>
+<rect x="360" y="50.0" width="13" height="44" fill="#121d2c"><title>Week Jul 07 · Zone 1: 7.3 min</title></rect>
+<rect x="360" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Jul 07 · Zone 2: 0.2 min</title></rect>
+<rect x="360" y="142.0" width="13" height="44" fill="#48371a"><title>Week Jul 07 · Zone 3: 0.0 min</title></rect>
+<rect x="360" y="188.0" width="13" height="44" fill="#432111"><title>Week Jul 07 · Zone 4: 0.0 min</title></rect>
+<rect x="360" y="234.0" width="13" height="44" fill="#381418"><title>Week Jul 07 · Zone 5: 0.0 min</title></rect>
+<rect x="375" y="50.0" width="13" height="44" fill="#16263d"><title>Week Jul 14 · Zone 1: 49.3 min</title></rect>
+<rect x="375" y="96.0" width="13" height="44" fill="#183620"><title>Week Jul 14 · Zone 2: 15.7 min</title></rect>
+<rect x="375" y="142.0" width="13" height="44" fill="#48371a"><title>Week Jul 14 · Zone 3: 0.0 min</title></rect>
+<rect x="375" y="188.0" width="13" height="44" fill="#432111"><title>Week Jul 14 · Zone 4: 0.0 min</title></rect>
+<rect x="375" y="234.0" width="13" height="44" fill="#381418"><title>Week Jul 14 · Zone 5: 0.0 min</title></rect>
+<rect x="390" y="50.0" width="13" height="44" fill="#131f2f"><title>Week Jul 21 · Zone 1: 14.4 min</title></rect>
+<rect x="390" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Jul 21 · Zone 2: 0.7 min</title></rect>
+<rect x="390" y="142.0" width="13" height="44" fill="#48371a"><title>Week Jul 21 · Zone 3: 0.0 min</title></rect>
+<rect x="390" y="188.0" width="13" height="44" fill="#432111"><title>Week Jul 21 · Zone 4: 0.0 min</title></rect>
+<rect x="390" y="234.0" width="13" height="44" fill="#381418"><title>Week Jul 21 · Zone 5: 0.0 min</title></rect>
+<text x="390.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Jul 21</text>
+<rect x="405" y="50.0" width="13" height="44" fill="#142235"><title>Week Jul 28 · Zone 1: 30.0 min</title></rect>
+<rect x="405" y="96.0" width="13" height="44" fill="#183620"><title>Week Jul 28 · Zone 2: 15.1 min</title></rect>
+<rect x="405" y="142.0" width="13" height="44" fill="#4b391b"><title>Week Jul 28 · Zone 3: 0.5 min</title></rect>
+<rect x="405" y="188.0" width="13" height="44" fill="#432111"><title>Week Jul 28 · Zone 4: 0.0 min</title></rect>
+<rect x="405" y="234.0" width="13" height="44" fill="#381418"><title>Week Jul 28 · Zone 5: 0.0 min</title></rect>
+<rect x="420" y="50.0" width="13" height="44" fill="#142235"><title>Week Aug 04 · Zone 1: 29.6 min</title></rect>
+<rect x="420" y="96.0" width="13" height="44" fill="#1a3c22"><title>Week Aug 04 · Zone 2: 24.8 min</title></rect>
+<rect x="420" y="142.0" width="13" height="44" fill="#513d1b"><title>Week Aug 04 · Zone 3: 1.6 min</title></rect>
+<rect x="420" y="188.0" width="13" height="44" fill="#4c2310"><title>Week Aug 04 · Zone 4: 0.4 min</title></rect>
+<rect x="420" y="234.0" width="13" height="44" fill="#381418"><title>Week Aug 04 · Zone 5: 0.0 min</title></rect>
+<rect x="435" y="50.0" width="13" height="44" fill="#182c46"><title>Week Aug 11 · Zone 1: 73.6 min</title></rect>
+<rect x="435" y="96.0" width="13" height="44" fill="#17311f"><title>Week Aug 11 · Zone 2: 7.1 min</title></rect>
+<rect x="435" y="142.0" width="13" height="44" fill="#48371a"><title>Week Aug 11 · Zone 3: 0.0 min</title></rect>
+<rect x="435" y="188.0" width="13" height="44" fill="#432111"><title>Week Aug 11 · Zone 4: 0.0 min</title></rect>
+<rect x="435" y="234.0" width="13" height="44" fill="#381418"><title>Week Aug 11 · Zone 5: 0.0 min</title></rect>
+<rect x="450" y="50.0" width="13" height="44" fill="#142234"><title>Week Aug 18 · Zone 1: 28.3 min</title></rect>
+<rect x="450" y="96.0" width="13" height="44" fill="#162e1e"><title>Week Aug 18 · Zone 2: 3.0 min</title></rect>
+<rect x="450" y="142.0" width="13" height="44" fill="#70501d"><title>Week Aug 18 · Zone 3: 6.8 min</title></rect>
+<rect x="450" y="188.0" width="13" height="44" fill="#432111"><title>Week Aug 18 · Zone 4: 0.0 min</title></rect>
+<rect x="450" y="234.0" width="13" height="44" fill="#381418"><title>Week Aug 18 · Zone 5: 0.0 min</title></rect>
+<text x="450.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Aug 18</text>
+<rect x="465" y="50.0" width="13" height="44" fill="#15253a"><title>Week Aug 25 · Zone 1: 41.8 min</title></rect>
+<rect x="465" y="96.0" width="13" height="44" fill="#1c4123"><title>Week Aug 25 · Zone 2: 31.5 min</title></rect>
+<rect x="465" y="142.0" width="13" height="44" fill="#4e3b1b"><title>Week Aug 25 · Zone 3: 1.0 min</title></rect>
+<rect x="465" y="188.0" width="13" height="44" fill="#442111"><title>Week Aug 25 · Zone 4: 0.0 min</title></rect>
+<rect x="465" y="234.0" width="13" height="44" fill="#381418"><title>Week Aug 25 · Zone 5: 0.0 min</title></rect>
+<rect x="480" y="50.0" width="13" height="44" fill="#132031"><title>Week Sep 01 · Zone 1: 19.0 min</title></rect>
+<rect x="480" y="96.0" width="13" height="44" fill="#1a3b21"><title>Week Sep 01 · Zone 2: 22.0 min</title></rect>
+<rect x="480" y="142.0" width="13" height="44" fill="#da9423"><title>Week Sep 01 · Zone 3: 25.0 min</title></rect>
+<rect x="480" y="188.0" width="13" height="44" fill="#5a280f"><title>Week Sep 01 · Zone 4: 1.0 min</title></rect>
+<rect x="480" y="234.0" width="13" height="44" fill="#381418"><title>Week Sep 01 · Zone 5: 0.0 min</title></rect>
+<rect x="495" y="50.0" width="13" height="44" fill="#131f2f"><title>Week Sep 08 · Zone 1: 14.9 min</title></rect>
+<rect x="495" y="96.0" width="13" height="44" fill="#17311f"><title>Week Sep 08 · Zone 2: 8.1 min</title></rect>
+<rect x="495" y="142.0" width="13" height="44" fill="#48371a"><title>Week Sep 08 · Zone 3: 0.0 min</title></rect>
+<rect x="495" y="188.0" width="13" height="44" fill="#432111"><title>Week Sep 08 · Zone 4: 0.0 min</title></rect>
+<rect x="495" y="234.0" width="13" height="44" fill="#381418"><title>Week Sep 08 · Zone 5: 0.0 min</title></rect>
+<rect x="510" y="50.0" width="13" height="44" fill="#111b29"><title>Week Sep 15 · Zone 1: 0.0 min</title></rect>
+<rect x="510" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Sep 15 · Zone 2: 0.0 min</title></rect>
+<rect x="510" y="142.0" width="13" height="44" fill="#48371a"><title>Week Sep 15 · Zone 3: 0.0 min</title></rect>
+<rect x="510" y="188.0" width="13" height="44" fill="#432111"><title>Week Sep 15 · Zone 4: 0.0 min</title></rect>
+<rect x="510" y="234.0" width="13" height="44" fill="#381418"><title>Week Sep 15 · Zone 5: 0.0 min</title></rect>
+<text x="510.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Sep 15</text>
+<rect x="525" y="50.0" width="13" height="44" fill="#121e2d"><title>Week Sep 22 · Zone 1: 10.8 min</title></rect>
+<rect x="525" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Sep 22 · Zone 2: 0.0 min</title></rect>
+<rect x="525" y="142.0" width="13" height="44" fill="#48371a"><title>Week Sep 22 · Zone 3: 0.0 min</title></rect>
+<rect x="525" y="188.0" width="13" height="44" fill="#432111"><title>Week Sep 22 · Zone 4: 0.0 min</title></rect>
+<rect x="525" y="234.0" width="13" height="44" fill="#381418"><title>Week Sep 22 · Zone 5: 0.0 min</title></rect>
+<rect x="540" y="50.0" width="13" height="44" fill="#121e2e"><title>Week Sep 29 · Zone 1: 13.1 min</title></rect>
+<rect x="540" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Sep 29 · Zone 2: 0.0 min</title></rect>
+<rect x="540" y="142.0" width="13" height="44" fill="#48371a"><title>Week Sep 29 · Zone 3: 0.0 min</title></rect>
+<rect x="540" y="188.0" width="13" height="44" fill="#432111"><title>Week Sep 29 · Zone 4: 0.0 min</title></rect>
+<rect x="540" y="234.0" width="13" height="44" fill="#381418"><title>Week Sep 29 · Zone 5: 0.0 min</title></rect>
+<rect x="555" y="50.0" width="13" height="44" fill="#131f30"><title>Week Oct 06 · Zone 1: 17.0 min</title></rect>
+<rect x="555" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Oct 06 · Zone 2: 0.4 min</title></rect>
+<rect x="555" y="142.0" width="13" height="44" fill="#48371a"><title>Week Oct 06 · Zone 3: 0.0 min</title></rect>
+<rect x="555" y="188.0" width="13" height="44" fill="#432111"><title>Week Oct 06 · Zone 4: 0.0 min</title></rect>
+<rect x="555" y="234.0" width="13" height="44" fill="#381418"><title>Week Oct 06 · Zone 5: 0.0 min</title></rect>
+<rect x="570" y="50.0" width="13" height="44" fill="#111b29"><title>Week Oct 13 · Zone 1: 0.0 min</title></rect>
+<rect x="570" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Oct 13 · Zone 2: 0.0 min</title></rect>
+<rect x="570" y="142.0" width="13" height="44" fill="#48371a"><title>Week Oct 13 · Zone 3: 0.0 min</title></rect>
+<rect x="570" y="188.0" width="13" height="44" fill="#432111"><title>Week Oct 13 · Zone 4: 0.0 min</title></rect>
+<rect x="570" y="234.0" width="13" height="44" fill="#381418"><title>Week Oct 13 · Zone 5: 0.0 min</title></rect>
+<text x="570.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Oct 13</text>
+<rect x="585" y="50.0" width="13" height="44" fill="#111b29"><title>Week Oct 20 · Zone 1: 0.0 min</title></rect>
+<rect x="585" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Oct 20 · Zone 2: 0.0 min</title></rect>
+<rect x="585" y="142.0" width="13" height="44" fill="#48371a"><title>Week Oct 20 · Zone 3: 0.0 min</title></rect>
+<rect x="585" y="188.0" width="13" height="44" fill="#432111"><title>Week Oct 20 · Zone 4: 0.0 min</title></rect>
+<rect x="585" y="234.0" width="13" height="44" fill="#381418"><title>Week Oct 20 · Zone 5: 0.0 min</title></rect>
+<rect x="600" y="50.0" width="13" height="44" fill="#111b29"><title>Week Oct 27 · Zone 1: 0.0 min</title></rect>
+<rect x="600" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Oct 27 · Zone 2: 0.0 min</title></rect>
+<rect x="600" y="142.0" width="13" height="44" fill="#48371a"><title>Week Oct 27 · Zone 3: 0.0 min</title></rect>
+<rect x="600" y="188.0" width="13" height="44" fill="#432111"><title>Week Oct 27 · Zone 4: 0.0 min</title></rect>
+<rect x="600" y="234.0" width="13" height="44" fill="#381418"><title>Week Oct 27 · Zone 5: 0.0 min</title></rect>
+<rect x="615" y="50.0" width="13" height="44" fill="#111b29"><title>Week Nov 03 · Zone 1: 0.0 min</title></rect>
+<rect x="615" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Nov 03 · Zone 2: 0.0 min</title></rect>
+<rect x="615" y="142.0" width="13" height="44" fill="#48371a"><title>Week Nov 03 · Zone 3: 0.0 min</title></rect>
+<rect x="615" y="188.0" width="13" height="44" fill="#432111"><title>Week Nov 03 · Zone 4: 0.0 min</title></rect>
+<rect x="615" y="234.0" width="13" height="44" fill="#381418"><title>Week Nov 03 · Zone 5: 0.0 min</title></rect>
+<rect x="630" y="50.0" width="13" height="44" fill="#111b29"><title>Week Nov 10 · Zone 1: 0.0 min</title></rect>
+<rect x="630" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Nov 10 · Zone 2: 0.0 min</title></rect>
+<rect x="630" y="142.0" width="13" height="44" fill="#48371a"><title>Week Nov 10 · Zone 3: 0.0 min</title></rect>
+<rect x="630" y="188.0" width="13" height="44" fill="#432111"><title>Week Nov 10 · Zone 4: 0.0 min</title></rect>
+<rect x="630" y="234.0" width="13" height="44" fill="#381418"><title>Week Nov 10 · Zone 5: 0.0 min</title></rect>
+<text x="630.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Nov 10</text>
+<rect x="645" y="50.0" width="13" height="44" fill="#111b29"><title>Week Nov 17 · Zone 1: 0.0 min</title></rect>
+<rect x="645" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Nov 17 · Zone 2: 0.0 min</title></rect>
+<rect x="645" y="142.0" width="13" height="44" fill="#48371a"><title>Week Nov 17 · Zone 3: 0.0 min</title></rect>
+<rect x="645" y="188.0" width="13" height="44" fill="#432111"><title>Week Nov 17 · Zone 4: 0.0 min</title></rect>
+<rect x="645" y="234.0" width="13" height="44" fill="#381418"><title>Week Nov 17 · Zone 5: 0.0 min</title></rect>
+<rect x="660" y="50.0" width="13" height="44" fill="#111b29"><title>Week Nov 24 · Zone 1: 0.0 min</title></rect>
+<rect x="660" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Nov 24 · Zone 2: 0.0 min</title></rect>
+<rect x="660" y="142.0" width="13" height="44" fill="#48371a"><title>Week Nov 24 · Zone 3: 0.0 min</title></rect>
+<rect x="660" y="188.0" width="13" height="44" fill="#432111"><title>Week Nov 24 · Zone 4: 0.0 min</title></rect>
+<rect x="660" y="234.0" width="13" height="44" fill="#381418"><title>Week Nov 24 · Zone 5: 0.0 min</title></rect>
+<rect x="675" y="50.0" width="13" height="44" fill="#111b29"><title>Week Dec 01 · Zone 1: 0.0 min</title></rect>
+<rect x="675" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Dec 01 · Zone 2: 0.0 min</title></rect>
+<rect x="675" y="142.0" width="13" height="44" fill="#48371a"><title>Week Dec 01 · Zone 3: 0.0 min</title></rect>
+<rect x="675" y="188.0" width="13" height="44" fill="#432111"><title>Week Dec 01 · Zone 4: 0.0 min</title></rect>
+<rect x="675" y="234.0" width="13" height="44" fill="#381418"><title>Week Dec 01 · Zone 5: 0.0 min</title></rect>
+<rect x="690" y="50.0" width="13" height="44" fill="#111b29"><title>Week Dec 08 · Zone 1: 0.0 min</title></rect>
+<rect x="690" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Dec 08 · Zone 2: 0.0 min</title></rect>
+<rect x="690" y="142.0" width="13" height="44" fill="#48371a"><title>Week Dec 08 · Zone 3: 0.0 min</title></rect>
+<rect x="690" y="188.0" width="13" height="44" fill="#432111"><title>Week Dec 08 · Zone 4: 0.0 min</title></rect>
+<rect x="690" y="234.0" width="13" height="44" fill="#381418"><title>Week Dec 08 · Zone 5: 0.0 min</title></rect>
+<text x="690.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Dec 08</text>
+<rect x="705" y="50.0" width="13" height="44" fill="#111b29"><title>Week Dec 15 · Zone 1: 0.0 min</title></rect>
+<rect x="705" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Dec 15 · Zone 2: 0.0 min</title></rect>
+<rect x="705" y="142.0" width="13" height="44" fill="#48371a"><title>Week Dec 15 · Zone 3: 0.0 min</title></rect>
+<rect x="705" y="188.0" width="13" height="44" fill="#432111"><title>Week Dec 15 · Zone 4: 0.0 min</title></rect>
+<rect x="705" y="234.0" width="13" height="44" fill="#381418"><title>Week Dec 15 · Zone 5: 0.0 min</title></rect>
+<rect x="720" y="50.0" width="13" height="44" fill="#111b29"><title>Week Dec 22 · Zone 1: 0.0 min</title></rect>
+<rect x="720" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Dec 22 · Zone 2: 0.0 min</title></rect>
+<rect x="720" y="142.0" width="13" height="44" fill="#48371a"><title>Week Dec 22 · Zone 3: 0.0 min</title></rect>
+<rect x="720" y="188.0" width="13" height="44" fill="#432111"><title>Week Dec 22 · Zone 4: 0.0 min</title></rect>
+<rect x="720" y="234.0" width="13" height="44" fill="#381418"><title>Week Dec 22 · Zone 5: 0.0 min</title></rect>
+<rect x="735" y="50.0" width="13" height="44" fill="#111b29"><title>Week Dec 29 · Zone 1: 0.0 min</title></rect>
+<rect x="735" y="96.0" width="13" height="44" fill="#152c1e"><title>Week Dec 29 · Zone 2: 0.0 min</title></rect>
+<rect x="735" y="142.0" width="13" height="44" fill="#48371a"><title>Week Dec 29 · Zone 3: 0.0 min</title></rect>
+<rect x="735" y="188.0" width="13" height="44" fill="#432111"><title>Week Dec 29 · Zone 4: 0.0 min</title></rect>
+<rect x="735" y="234.0" width="13" height="44" fill="#381418"><title>Week Dec 29 · Zone 5: 0.0 min</title></rect>
+<rect x="750" y="50.0" width="13" height="44" fill="#142336"><title>Week Jan 05 · Zone 1: 33.9 min</title></rect>
+<rect x="750" y="96.0" width="13" height="44" fill="#215428"><title>Week Jan 05 · Zone 2: 60.1 min</title></rect>
+<rect x="750" y="142.0" width="13" height="44" fill="#6a4d1d"><title>Week Jan 05 · Zone 3: 5.9 min</title></rect>
+<rect x="750" y="188.0" width="13" height="44" fill="#432111"><title>Week Jan 05 · Zone 4: 0.0 min</title></rect>
+<rect x="750" y="234.0" width="13" height="44" fill="#381418"><title>Week Jan 05 · Zone 5: 0.0 min</title></rect>
+<text x="750.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Jan 05</text>
+<rect x="765" y="50.0" width="13" height="44" fill="#132031"><title>Week Jan 12 · Zone 1: 21.2 min</title></rect>
+<rect x="765" y="96.0" width="13" height="44" fill="#1f4c26"><title>Week Jan 12 · Zone 2: 48.2 min</title></rect>
+<rect x="765" y="142.0" width="13" height="44" fill="#48371a"><title>Week Jan 12 · Zone 3: 0.0 min</title></rect>
+<rect x="765" y="188.0" width="13" height="44" fill="#432111"><title>Week Jan 12 · Zone 4: 0.0 min</title></rect>
+<rect x="765" y="234.0" width="13" height="44" fill="#381418"><title>Week Jan 12 · Zone 5: 0.0 min</title></rect>
+<rect x="780" y="50.0" width="13" height="44" fill="#152337"><title>Week Jan 19 · Zone 1: 36.0 min</title></rect>
+<rect x="780" y="96.0" width="13" height="44" fill="#26622b"><title>Week Jan 19 · Zone 2: 82.1 min</title></rect>
+<rect x="780" y="142.0" width="13" height="44" fill="#c28522"><title>Week Jan 19 · Zone 3: 20.8 min</title></rect>
+<rect x="780" y="188.0" width="13" height="44" fill="#532610"><title>Week Jan 19 · Zone 4: 0.7 min</title></rect>
+<rect x="780" y="234.0" width="13" height="44" fill="#381418"><title>Week Jan 19 · Zone 5: 0.0 min</title></rect>
+<rect x="795" y="50.0" width="13" height="44" fill="#142235"><title>Week Jan 26 · Zone 1: 30.8 min</title></rect>
+<rect x="795" y="96.0" width="13" height="44" fill="#1d4524"><title>Week Jan 26 · Zone 2: 38.0 min</title></rect>
+<rect x="795" y="142.0" width="13" height="44" fill="#d08e23"><title>Week Jan 26 · Zone 3: 23.3 min</title></rect>
+<rect x="795" y="188.0" width="13" height="44" fill="#81330b"><title>Week Jan 26 · Zone 4: 2.8 min</title></rect>
+<rect x="795" y="234.0" width="13" height="44" fill="#541619"><title>Week Jan 26 · Zone 5: 1.7 min</title></rect>
+<rect x="810" y="50.0" width="13" height="44" fill="#131f30"><title>Week Feb 02 · Zone 1: 18.2 min</title></rect>
+<rect x="810" y="96.0" width="13" height="44" fill="#27652c"><title>Week Feb 02 · Zone 2: 86.9 min</title></rect>
+<rect x="810" y="142.0" width="13" height="44" fill="#f9a825"><title>Week Feb 02 · Zone 3: 30.2 min</title></rect>
+<rect x="810" y="188.0" width="13" height="44" fill="#55260f"><title>Week Feb 02 · Zone 4: 0.8 min</title></rect>
+<rect x="810" y="234.0" width="13" height="44" fill="#481519"><title>Week Feb 02 · Zone 5: 1.0 min</title></rect>
+<text x="810.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Feb 02</text>
+<rect x="825" y="50.0" width="13" height="44" fill="#17283f"><title>Week Feb 09 · Zone 1: 56.0 min</title></rect>
+<rect x="825" y="96.0" width="13" height="44" fill="#296c2e"><title>Week Feb 09 · Zone 2: 96.4 min</title></rect>
+<rect x="825" y="142.0" width="13" height="44" fill="#d28f23"><title>Week Feb 09 · Zone 3: 23.6 min</title></rect>
+<rect x="825" y="188.0" width="13" height="44" fill="#be4504"><title>Week Feb 09 · Zone 4: 5.6 min</title></rect>
+<rect x="825" y="234.0" width="13" height="44" fill="#381418"><title>Week Feb 09 · Zone 5: 0.0 min</title></rect>
+<rect x="840" y="50.0" width="13" height="44" fill="#172940"><title>Week Feb 16 · Zone 1: 58.9 min</title></rect>
+<rect x="840" y="96.0" width="13" height="44" fill="#215227"><title>Week Feb 16 · Zone 2: 57.7 min</title></rect>
+<rect x="840" y="142.0" width="13" height="44" fill="#8d631f"><title>Week Feb 16 · Zone 3: 11.7 min</title></rect>
+<rect x="840" y="188.0" width="13" height="44" fill="#432111"><title>Week Feb 16 · Zone 4: 0.0 min</title></rect>
+<rect x="840" y="234.0" width="13" height="44" fill="#381418"><title>Week Feb 16 · Zone 5: 0.0 min</title></rect>
+<rect x="855" y="50.0" width="13" height="44" fill="#131f2f"><title>Week Feb 23 · Zone 1: 14.9 min</title></rect>
+<rect x="855" y="96.0" width="13" height="44" fill="#17301f"><title>Week Feb 23 · Zone 2: 6.6 min</title></rect>
+<rect x="855" y="142.0" width="13" height="44" fill="#48371a"><title>Week Feb 23 · Zone 3: 0.0 min</title></rect>
+<rect x="855" y="188.0" width="13" height="44" fill="#432111"><title>Week Feb 23 · Zone 4: 0.0 min</title></rect>
+<rect x="855" y="234.0" width="13" height="44" fill="#381418"><title>Week Feb 23 · Zone 5: 0.0 min</title></rect>
+<text x="90" y="320" fill="#8b949e" font-size="11">Week labels</text>
+</svg>
+    </section>
+
+    <section class="panel">
+      <h2>Zone Distribution (Current Week)</h2>
+      <div style="display:flex; gap: 18px; align-items: flex-start; flex-wrap: wrap;"> 
+        <svg width="324" height="50" viewBox="0 0 324 50" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="0" width="0.0" height="40" fill="#1e3a5f"/>
+<text x="20.0" y="22" fill="#0d1117" font-size="10" text-anchor="middle" opacity="0.95">0%</text>
+<rect x="20.0" y="0" width="0.0" height="40" fill="#2e7d32"/>
+<text x="20.0" y="22" fill="#0d1117" font-size="10" text-anchor="middle" opacity="0.95">0%</text>
+<rect x="20.0" y="0" width="0.0" height="40" fill="#f9a825"/>
+<text x="20.0" y="22" fill="#0d1117" font-size="10" text-anchor="middle" opacity="0.95">0%</text>
+<rect x="20.0" y="0" width="0.0" height="40" fill="#e65100"/>
+<text x="20.0" y="22" fill="#0d1117" font-size="10" text-anchor="middle" opacity="0.95">0%</text>
+<rect x="20.0" y="0" width="0.0" height="40" fill="#b71c1c"/>
+<text x="20.0" y="22" fill="#0d1117" font-size="10" text-anchor="middle" opacity="0.95">0%</text><text x="12" y="64" fill="#8b949e" font-size="11">Current week zone distribution</text></svg>
+        <div style="max-width:460px; color:#8b949e;">
+          <p class="label">Quick zone mix (current week):</p>
+          <ul>
+            <li>Zone 1: 0.0% (0.0 min)</li>
+            <li>Zone 2: 0.0% (0.0 min)</li>
+            <li>Zone 3: 0.0% (0.0 min)</li>
+            <li>Zone 4: 0.0% (0.0 min)</li>
+            <li>Zone 5: 0.0% (0.0 min)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Correlations</h2>
+      <div class="row"> 
+        <div>
+          <h3 style="font-size:16px;margin-bottom:8px;">Zone 2 vs Recovery (next day)</h3>
+          <svg width="350" height="250" viewBox="0 0 350 250" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="350" height="250" fill="#0d1117"/>
+<text x="175.0" y="22" fill="#e6edf3" text-anchor="middle" font-size="12" font-weight="700">Zone 2 % vs Recovery r=-0.02</text>
+<line x1="36" y1="36.0" x2="314" y2="36.0" stroke="#30363d" stroke-width="1" />
+<text x="31" y="36.0" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">100</text>
+<line x1="36" y1="71.6" x2="314" y2="71.6" stroke="#30363d" stroke-width="1" />
+<text x="31" y="71.6" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">80</text>
+<line x1="36" y1="107.2" x2="314" y2="107.2" stroke="#30363d" stroke-width="1" />
+<text x="31" y="107.2" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">60</text>
+<line x1="36" y1="142.8" x2="314" y2="142.8" stroke="#30363d" stroke-width="1" />
+<text x="31" y="142.8" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">40</text>
+<line x1="36" y1="178.4" x2="314" y2="178.4" stroke="#30363d" stroke-width="1" />
+<text x="31" y="178.4" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">20</text>
+<line x1="36" y1="214.0" x2="314" y2="214.0" stroke="#30363d" stroke-width="1" />
+<text x="31" y="214.0" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">0</text>
+<line x1="36.0" y1="36" x2="36.0" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="36.0" y="230" fill="#8b949e" font-size="10" text-anchor="middle">0</text>
+<line x1="91.6" y1="36" x2="91.6" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="91.6" y="230" fill="#8b949e" font-size="10" text-anchor="middle">20</text>
+<line x1="147.2" y1="36" x2="147.2" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="147.2" y="230" fill="#8b949e" font-size="10" text-anchor="middle">40</text>
+<line x1="202.8" y1="36" x2="202.8" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="202.8" y="230" fill="#8b949e" font-size="10" text-anchor="middle">60</text>
+<line x1="258.4" y1="36" x2="258.4" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="258.4" y="230" fill="#8b949e" font-size="10" text-anchor="middle">80</text>
+<line x1="314.0" y1="36" x2="314.0" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="314.0" y="230" fill="#8b949e" font-size="10" text-anchor="middle">100</text>
+<line x1="36" y1="36" x2="36" y2="214" stroke="#8b949e" stroke-width="1.5" />
+<line x1="36" y1="214" x2="314" y2="214" stroke="#8b949e" stroke-width="1.5" />
+<text x="175.0" y="246" fill="#8b949e" font-size="10" text-anchor="middle">Zone % (0-100)</text>
+<text x="14" y="125.0" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-90,14,125.0)">Y</text>
+<line x1="36.0" y1="118.9" x2="314.0" y2="123.4" stroke="#f39c12" stroke-dasharray="4,3" stroke-width="1.8" />
+<circle cx="86.04" cy="125.00" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-02: Zone 2 18.0% → Recovery 50.0</title></circle>
+<circle cx="86.04" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-03: Zone 2 18.0% → Recovery 57.0</title></circle>
+<circle cx="86.04" cy="59.14" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-04: Zone 2 18.0% → Recovery 87.0</title></circle>
+<circle cx="86.04" cy="189.08" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-06: Zone 2 18.0% → Recovery 14.0</title></circle>
+<circle cx="86.04" cy="117.88" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-07: Zone 2 18.0% → Recovery 54.0</title></circle>
+<circle cx="86.04" cy="82.28" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-08: Zone 2 18.0% → Recovery 74.0</title></circle>
+<circle cx="86.04" cy="148.14" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-09: Zone 2 18.0% → Recovery 37.0</title></circle>
+<circle cx="86.04" cy="91.18" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-12: Zone 2 18.0% → Recovery 69.0</title></circle>
+<circle cx="86.04" cy="149.92" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-13: Zone 2 18.0% → Recovery 36.0</title></circle>
+<circle cx="86.04" cy="158.82" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-14: Zone 2 18.0% → Recovery 31.0</title></circle>
+<circle cx="86.04" cy="91.18" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-15: Zone 2 18.0% → Recovery 69.0</title></circle>
+<circle cx="110.91" cy="103.64" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-16: Zone 2 26.9% → Recovery 62.0</title></circle>
+<circle cx="86.04" cy="76.94" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-19: Zone 2 18.0% → Recovery 77.0</title></circle>
+<circle cx="136.08" cy="126.78" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-21: Zone 2 36.0% → Recovery 49.0</title></circle>
+<circle cx="86.04" cy="46.68" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-22: Zone 2 18.0% → Recovery 94.0</title></circle>
+<circle cx="86.04" cy="64.48" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-23: Zone 2 18.0% → Recovery 84.0</title></circle>
+<circle cx="56.53" cy="155.26" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-24: Zone 2 7.4% → Recovery 33.0</title></circle>
+<circle cx="136.08" cy="174.84" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-30: Zone 2 36.0% → Recovery 22.0</title></circle>
+<circle cx="136.08" cy="98.30" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-01: Zone 2 36.0% → Recovery 65.0</title></circle>
+<circle cx="86.04" cy="121.44" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-03: Zone 2 18.0% → Recovery 52.0</title></circle>
+<circle cx="86.04" cy="103.64" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-05: Zone 2 18.0% → Recovery 62.0</title></circle>
+<circle cx="86.04" cy="162.38" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-06: Zone 2 18.0% → Recovery 29.0</title></circle>
+<circle cx="86.04" cy="64.48" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-07: Zone 2 18.0% → Recovery 84.0</title></circle>
+<circle cx="111.73" cy="96.52" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-10: Zone 2 27.2% → Recovery 66.0</title></circle>
+<circle cx="86.04" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-17: Zone 2 18.0% → Recovery 38.0</title></circle>
+<circle cx="136.08" cy="68.04" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-18: Zone 2 36.0% → Recovery 82.0</title></circle>
+<circle cx="86.04" cy="130.34" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-19: Zone 2 18.0% → Recovery 47.0</title></circle>
+<circle cx="86.04" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-20: Zone 2 18.0% → Recovery 57.0</title></circle>
+<circle cx="86.04" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-21: Zone 2 18.0% → Recovery 56.0</title></circle>
+<circle cx="86.04" cy="135.68" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-23: Zone 2 18.0% → Recovery 44.0</title></circle>
+<circle cx="86.04" cy="157.04" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-24: Zone 2 18.0% → Recovery 32.0</title></circle>
+<circle cx="86.04" cy="123.22" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-02: Zone 2 18.0% → Recovery 51.0</title></circle>
+<circle cx="86.04" cy="52.02" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-08: Zone 2 18.0% → Recovery 91.0</title></circle>
+<circle cx="136.08" cy="180.18" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-10: Zone 2 36.0% → Recovery 19.0</title></circle>
+<circle cx="86.04" cy="117.88" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-11: Zone 2 18.0% → Recovery 54.0</title></circle>
+<circle cx="86.04" cy="194.42" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-12: Zone 2 18.0% → Recovery 11.0</title></circle>
+<circle cx="109.00" cy="105.42" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-15: Zone 2 26.3% → Recovery 61.0</title></circle>
+<circle cx="86.04" cy="119.66" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-16: Zone 2 18.0% → Recovery 53.0</title></circle>
+<circle cx="86.04" cy="142.80" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-17: Zone 2 18.0% → Recovery 40.0</title></circle>
+<circle cx="86.04" cy="92.96" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-18: Zone 2 18.0% → Recovery 68.0</title></circle>
+<circle cx="86.04" cy="117.88" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-19: Zone 2 18.0% → Recovery 54.0</title></circle>
+<circle cx="86.04" cy="167.72" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-23: Zone 2 18.0% → Recovery 26.0</title></circle>
+<circle cx="86.04" cy="142.80" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-30: Zone 2 18.0% → Recovery 40.0</title></circle>
+<circle cx="86.04" cy="139.24" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-31: Zone 2 18.0% → Recovery 42.0</title></circle>
+<circle cx="86.04" cy="137.46" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-01: Zone 2 18.0% → Recovery 43.0</title></circle>
+<circle cx="86.04" cy="142.80" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-02: Zone 2 18.0% → Recovery 40.0</title></circle>
+<circle cx="86.04" cy="173.06" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-03: Zone 2 18.0% → Recovery 23.0</title></circle>
+<circle cx="86.04" cy="41.34" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-08: Zone 2 18.0% → Recovery 97.0</title></circle>
+<circle cx="86.04" cy="201.54" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-09: Zone 2 18.0% → Recovery 7.0</title></circle>
+<circle cx="86.04" cy="69.82" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-16: Zone 2 18.0% → Recovery 81.0</title></circle>
+<circle cx="86.04" cy="149.92" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-20: Zone 2 18.0% → Recovery 36.0</title></circle>
+<circle cx="86.04" cy="121.44" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-22: Zone 2 18.0% → Recovery 52.0</title></circle>
+<circle cx="86.04" cy="130.34" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-28: Zone 2 18.0% → Recovery 47.0</title></circle>
+<circle cx="136.08" cy="91.18" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-03: Zone 2 36.0% → Recovery 69.0</title></circle>
+<circle cx="136.08" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-05: Zone 2 36.0% → Recovery 56.0</title></circle>
+<circle cx="86.04" cy="119.66" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-06: Zone 2 18.0% → Recovery 53.0</title></circle>
+<circle cx="136.08" cy="107.20" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-10: Zone 2 36.0% → Recovery 60.0</title></circle>
+<circle cx="113.10" cy="101.86" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-11: Zone 2 27.7% → Recovery 63.0</title></circle>
+<circle cx="86.04" cy="171.28" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-12: Zone 2 18.0% → Recovery 24.0</title></circle>
+<circle cx="136.08" cy="119.66" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-13: Zone 2 36.0% → Recovery 53.0</title></circle>
+<circle cx="136.08" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-17: Zone 2 36.0% → Recovery 56.0</title></circle>
+<circle cx="136.08" cy="96.52" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-24: Zone 2 36.0% → Recovery 66.0</title></circle>
+<circle cx="136.08" cy="148.14" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-25: Zone 2 36.0% → Recovery 37.0</title></circle>
+<circle cx="136.08" cy="153.48" r="4" fill="#0a84ff" opacity="0.6"><title>2023-08-08: Zone 2 36.0% → Recovery 34.0</title></circle>
+<circle cx="86.04" cy="151.70" r="4" fill="#0a84ff" opacity="0.6"><title>2023-08-16: Zone 2 18.0% → Recovery 35.0</title></circle>
+<circle cx="86.04" cy="148.14" r="4" fill="#0a84ff" opacity="0.6"><title>2023-08-17: Zone 2 18.0% → Recovery 37.0</title></circle>
+<circle cx="86.04" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2023-09-19: Zone 2 18.0% → Recovery 57.0</title></circle>
+<circle cx="36.00" cy="190.86" r="4" fill="#0a84ff" opacity="0.6"><title>2023-09-30: Zone 2 0.0% → Recovery 13.0</title></circle>
+<circle cx="86.04" cy="164.16" r="4" fill="#0a84ff" opacity="0.6"><title>2023-10-10: Zone 2 18.0% → Recovery 28.0</title></circle>
+<circle cx="86.04" cy="141.02" r="4" fill="#0a84ff" opacity="0.6"><title>2023-10-12: Zone 2 18.0% → Recovery 41.0</title></circle>
+<circle cx="136.08" cy="142.80" r="4" fill="#0a84ff" opacity="0.6"><title>2023-10-13: Zone 2 36.0% → Recovery 40.0</title></circle>
+<circle cx="36.00" cy="173.06" r="4" fill="#0a84ff" opacity="0.6"><title>2023-11-27: Zone 2 0.0% → Recovery 23.0</title></circle>
+<circle cx="86.04" cy="107.20" r="4" fill="#0a84ff" opacity="0.6"><title>2023-11-28: Zone 2 18.0% → Recovery 60.0</title></circle>
+<circle cx="86.04" cy="116.10" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-01: Zone 2 18.0% → Recovery 55.0</title></circle>
+<circle cx="86.04" cy="155.26" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-02: Zone 2 18.0% → Recovery 33.0</title></circle>
+<circle cx="86.04" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-08: Zone 2 18.0% → Recovery 38.0</title></circle>
+<circle cx="86.04" cy="75.16" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-12: Zone 2 18.0% → Recovery 78.0</title></circle>
+<circle cx="136.08" cy="125.00" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-13: Zone 2 36.0% → Recovery 50.0</title></circle>
+<circle cx="36.00" cy="50.24" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-17: Zone 2 0.0% → Recovery 92.0</title></circle>
+<circle cx="36.00" cy="73.38" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-19: Zone 2 0.0% → Recovery 79.0</title></circle>
+<circle cx="136.08" cy="167.72" r="4" fill="#0a84ff" opacity="0.6"><title>2024-01-13: Zone 2 36.0% → Recovery 26.0</title></circle>
+<circle cx="36.00" cy="125.00" r="4" fill="#0a84ff" opacity="0.6"><title>2024-02-26: Zone 2 0.0% → Recovery 50.0</title></circle>
+<circle cx="36.00" cy="123.22" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-04: Zone 2 0.0% → Recovery 51.0</title></circle>
+<circle cx="36.00" cy="162.38" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-07: Zone 2 0.0% → Recovery 29.0</title></circle>
+<circle cx="36.00" cy="148.14" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-12: Zone 2 0.0% → Recovery 37.0</title></circle>
+<circle cx="36.00" cy="164.16" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-13: Zone 2 0.0% → Recovery 28.0</title></circle>
+<circle cx="36.00" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-14: Zone 2 0.0% → Recovery 38.0</title></circle>
+<circle cx="86.04" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-15: Zone 2 18.0% → Recovery 38.0</title></circle>
+<circle cx="86.04" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-16: Zone 2 18.0% → Recovery 56.0</title></circle>
+<circle cx="86.04" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-17: Zone 2 18.0% → Recovery 38.0</title></circle>
+<circle cx="36.00" cy="149.92" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-25: Zone 2 0.0% → Recovery 36.0</title></circle>
+<circle cx="36.00" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-29: Zone 2 0.0% → Recovery 57.0</title></circle>
+<circle cx="86.04" cy="50.24" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-31: Zone 2 18.0% → Recovery 92.0</title></circle>
+<circle cx="86.04" cy="155.26" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-01: Zone 2 18.0% → Recovery 33.0</title></circle>
+<circle cx="86.04" cy="59.14" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-06: Zone 2 18.0% → Recovery 87.0</title></circle>
+<circle cx="86.04" cy="48.46" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-13: Zone 2 18.0% → Recovery 93.0</title></circle>
+<circle cx="36.00" cy="53.80" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-16: Zone 2 0.0% → Recovery 90.0</title></circle>
+<circle cx="86.04" cy="192.64" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-17: Zone 2 18.0% → Recovery 12.0</title></circle>
+<circle cx="86.04" cy="87.62" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-18: Zone 2 18.0% → Recovery 71.0</title></circle>
+<circle cx="86.04" cy="62.70" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-20: Zone 2 18.0% → Recovery 85.0</title></circle>
+<circle cx="136.08" cy="59.14" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-21: Zone 2 36.0% → Recovery 87.0</title></circle>
+<circle cx="86.04" cy="84.06" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-22: Zone 2 18.0% → Recovery 73.0</title></circle>
+<circle cx="86.04" cy="76.94" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-23: Zone 2 18.0% → Recovery 77.0</title></circle>
+<circle cx="86.04" cy="66.26" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-24: Zone 2 18.0% → Recovery 83.0</title></circle>
+<circle cx="86.04" cy="46.68" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-25: Zone 2 18.0% → Recovery 94.0</title></circle>
+<circle cx="36.00" cy="52.02" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-26: Zone 2 0.0% → Recovery 91.0</title></circle>
+<circle cx="86.04" cy="68.04" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-27: Zone 2 18.0% → Recovery 82.0</title></circle>
+<circle cx="136.08" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-28: Zone 2 36.0% → Recovery 57.0</title></circle>
+<circle cx="36.00" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-06: Zone 2 0.0% → Recovery 57.0</title></circle>
+<circle cx="86.04" cy="101.86" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-07: Zone 2 18.0% → Recovery 63.0</title></circle>
+<circle cx="36.00" cy="71.60" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-08: Zone 2 0.0% → Recovery 80.0</title></circle>
+<circle cx="86.04" cy="62.70" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-09: Zone 2 18.0% → Recovery 85.0</title></circle>
+<circle cx="86.04" cy="78.72" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-10: Zone 2 18.0% → Recovery 76.0</title></circle>
+<circle cx="86.04" cy="151.70" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-13: Zone 2 18.0% → Recovery 35.0</title></circle>
+<circle cx="86.04" cy="119.66" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-15: Zone 2 18.0% → Recovery 53.0</title></circle>
+<circle cx="86.04" cy="121.44" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-16: Zone 2 18.0% → Recovery 52.0</title></circle>
+<circle cx="86.04" cy="158.82" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-22: Zone 2 18.0% → Recovery 31.0</title></circle>
+<circle cx="86.04" cy="100.08" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-28: Zone 2 18.0% → Recovery 64.0</title></circle>
+<circle cx="77.61" cy="73.38" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-05: Zone 2 15.0% → Recovery 79.0</title></circle>
+<circle cx="86.04" cy="50.24" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-09: Zone 2 18.0% → Recovery 92.0</title></circle>
+<circle cx="86.04" cy="85.84" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-12: Zone 2 18.0% → Recovery 72.0</title></circle>
+<circle cx="67.24" cy="137.46" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-18: Zone 2 11.2% → Recovery 43.0</title></circle>
+<circle cx="86.04" cy="96.52" r="4" fill="#0a84ff" opacity="0.6"><title>2024-07-22: Zone 2 18.0% → Recovery 66.0</title></circle>
+<circle cx="86.04" cy="55.58" r="4" fill="#0a84ff" opacity="0.6"><title>2024-07-28: Zone 2 18.0% → Recovery 89.0</title></circle>
+<circle cx="86.04" cy="84.06" r="4" fill="#0a84ff" opacity="0.6"><title>2024-08-13: Zone 2 18.0% → Recovery 73.0</title></circle>
+<circle cx="36.00" cy="125.00" r="4" fill="#0a84ff" opacity="0.6"><title>2024-08-15: Zone 2 0.0% → Recovery 50.0</title></circle>
+<circle cx="86.04" cy="96.52" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-15: Zone 2 18.0% → Recovery 66.0</title></circle>
+<circle cx="36.00" cy="110.76" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-16: Zone 2 0.0% → Recovery 58.0</title></circle>
+<circle cx="86.04" cy="144.58" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-20: Zone 2 18.0% → Recovery 39.0</title></circle>
+<circle cx="86.04" cy="157.04" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-21: Zone 2 18.0% → Recovery 32.0</title></circle>
+<circle cx="86.04" cy="126.78" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-24: Zone 2 18.0% → Recovery 49.0</title></circle>
+<circle cx="86.04" cy="48.46" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-02: Zone 2 18.0% → Recovery 93.0</title></circle>
+<circle cx="36.00" cy="165.94" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-09: Zone 2 0.0% → Recovery 27.0</title></circle>
+<circle cx="86.04" cy="148.14" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-10: Zone 2 18.0% → Recovery 37.0</title></circle>
+<circle cx="36.00" cy="128.56" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-11: Zone 2 0.0% → Recovery 48.0</title></circle>
+<circle cx="36.00" cy="197.98" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-18: Zone 2 0.0% → Recovery 9.0</title></circle>
+<circle cx="36.00" cy="153.48" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-22: Zone 2 0.0% → Recovery 34.0</title></circle>
+<circle cx="36.00" cy="160.60" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-23: Zone 2 0.0% → Recovery 30.0</title></circle>
+<circle cx="36.00" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-24: Zone 2 0.0% → Recovery 56.0</title></circle>
+<circle cx="86.04" cy="126.78" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-25: Zone 2 18.0% → Recovery 49.0</title></circle>
+<circle cx="86.04" cy="116.10" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-27: Zone 2 18.0% → Recovery 55.0</title></circle>
+<circle cx="86.04" cy="141.02" r="4" fill="#0a84ff" opacity="0.6"><title>2024-11-12: Zone 2 18.0% → Recovery 41.0</title></circle>
+<circle cx="94.93" cy="119.66" r="4" fill="#0a84ff" opacity="0.6"><title>2024-12-29: Zone 2 21.2% → Recovery 53.0</title></circle>
+<circle cx="128.11" cy="165.94" r="4" fill="#0a84ff" opacity="0.6"><title>2024-12-30: Zone 2 33.1% → Recovery 27.0</title></circle>
+<circle cx="103.75" cy="92.96" r="4" fill="#0a84ff" opacity="0.6"><title>2025-01-06: Zone 2 24.4% → Recovery 68.0</title></circle>
+<circle cx="127.91" cy="164.16" r="4" fill="#0a84ff" opacity="0.6"><title>2025-03-15: Zone 2 33.1% → Recovery 28.0</title></circle>
+<circle cx="107.47" cy="100.08" r="4" fill="#0a84ff" opacity="0.6"><title>2025-04-22: Zone 2 25.7% → Recovery 64.0</title></circle>
+<circle cx="173.66" cy="73.38" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-02: Zone 2 49.5% → Recovery 79.0</title></circle>
+<circle cx="36.00" cy="128.56" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-03: Zone 2 0.0% → Recovery 48.0</title></circle>
+<circle cx="36.00" cy="80.50" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-07: Zone 2 0.0% → Recovery 75.0</title></circle>
+<circle cx="54.73" cy="85.84" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-15: Zone 2 6.7% → Recovery 72.0</title></circle>
+<circle cx="96.21" cy="96.52" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-16: Zone 2 21.7% → Recovery 66.0</title></circle>
+<circle cx="137.89" cy="128.56" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-17: Zone 2 36.6% → Recovery 48.0</title></circle>
+<circle cx="125.67" cy="44.90" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-18: Zone 2 32.3% → Recovery 95.0</title></circle>
+<circle cx="199.32" cy="153.48" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-19: Zone 2 58.7% → Recovery 34.0</title></circle>
+<circle cx="253.17" cy="41.34" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-24: Zone 2 78.1% → Recovery 97.0</title></circle>
+<circle cx="288.96" cy="52.02" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-25: Zone 2 91.0% → Recovery 91.0</title></circle>
+<circle cx="264.84" cy="125.00" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-26: Zone 2 82.3% → Recovery 50.0</title></circle>
+<circle cx="130.70" cy="123.22" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-29: Zone 2 34.1% → Recovery 51.0</title></circle>
+<circle cx="137.17" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-30: Zone 2 36.4% → Recovery 38.0</title></circle>
+<circle cx="242.79" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-31: Zone 2 74.4% → Recovery 38.0</title></circle>
+<circle cx="208.18" cy="133.90" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-01: Zone 2 61.9% → Recovery 45.0</title></circle>
+<circle cx="203.40" cy="167.72" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-02: Zone 2 60.2% → Recovery 26.0</title></circle>
+<circle cx="60.70" cy="71.60" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-03: Zone 2 8.9% → Recovery 80.0</title></circle>
+<circle cx="106.78" cy="92.96" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-04: Zone 2 25.5% → Recovery 68.0</title></circle>
+<circle cx="151.62" cy="178.40" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-05: Zone 2 41.6% → Recovery 20.0</title></circle>
+<circle cx="76.34" cy="66.26" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-07: Zone 2 14.5% → Recovery 83.0</title></circle>
+<circle cx="116.21" cy="105.42" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-08: Zone 2 28.9% → Recovery 61.0</title></circle>
+<circle cx="48.44" cy="132.12" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-09: Zone 2 4.5% → Recovery 46.0</title></circle>
+<circle cx="150.91" cy="103.64" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-10: Zone 2 41.3% → Recovery 62.0</title></circle>
+<circle cx="194.70" cy="123.22" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-11: Zone 2 57.1% → Recovery 51.0</title></circle>
+<circle cx="238.94" cy="142.80" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-12: Zone 2 73.0% → Recovery 40.0</title></circle>
+<circle cx="140.56" cy="116.10" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-14: Zone 2 37.6% → Recovery 55.0</title></circle>
+<circle cx="155.10" cy="108.98" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-15: Zone 2 42.8% → Recovery 59.0</title></circle>
+<circle cx="209.15" cy="92.96" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-16: Zone 2 62.3% → Recovery 68.0</title></circle>
+<circle cx="43.18" cy="119.66" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-17: Zone 2 2.6% → Recovery 53.0</title></circle>
+<circle cx="49.37" cy="130.34" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-18: Zone 2 4.8% → Recovery 47.0</title></circle>
+<circle cx="115.75" cy="164.16" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-20: Zone 2 28.7% → Recovery 28.0</title></circle>
+<circle cx="58.45" cy="68.04" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-22: Zone 2 8.1% → Recovery 82.0</title></circle>
+<circle cx="225.31" cy="128.56" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-23: Zone 2 68.1% → Recovery 48.0</title></circle>
+<circle cx="43.37" cy="46.68" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-24: Zone 2 2.6% → Recovery 94.0</title></circle>
+<circle cx="77.73" cy="174.84" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-26: Zone 2 15.0% → Recovery 22.0</title></circle>
+<circle cx="120.77" cy="117.88" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-30: Zone 2 30.5% → Recovery 54.0</title></circle>
+<circle cx="42.68" cy="55.58" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-01: Zone 2 2.4% → Recovery 89.0</title></circle>
+<circle cx="36.00" cy="125.00" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-02: Zone 2 0.0% → Recovery 50.0</title></circle>
+<circle cx="86.77" cy="76.94" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-03: Zone 2 18.3% → Recovery 77.0</title></circle>
+<circle cx="37.12" cy="89.40" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-05: Zone 2 0.4% → Recovery 70.0</title></circle>
+<circle cx="43.85" cy="149.92" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-06: Zone 2 2.8% → Recovery 36.0</title></circle>
+<circle cx="42.19" cy="126.78" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-11: Zone 2 2.2% → Recovery 49.0</title></circle>
+<circle cx="124.53" cy="46.68" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-14: Zone 2 31.8% → Recovery 94.0</title></circle>
+<circle cx="36.00" cy="173.06" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-18: Zone 2 0.0% → Recovery 23.0</title></circle>
+<circle cx="55.60" cy="123.22" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-19: Zone 2 7.1% → Recovery 51.0</title></circle>
+<circle cx="49.22" cy="117.88" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-26: Zone 2 4.8% → Recovery 54.0</title></circle>
+<circle cx="190.05" cy="171.28" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-29: Zone 2 55.4% → Recovery 24.0</title></circle>
+<circle cx="86.38" cy="171.28" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-30: Zone 2 18.1% → Recovery 24.0</title></circle>
+<circle cx="36.00" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-03: Zone 2 0.0% → Recovery 56.0</title></circle>
+<circle cx="194.43" cy="194.42" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-07: Zone 2 57.0% → Recovery 11.0</title></circle>
+<circle cx="62.23" cy="71.60" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-10: Zone 2 9.4% → Recovery 80.0</title></circle>
+<circle cx="55.74" cy="151.70" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-12: Zone 2 7.1% → Recovery 35.0</title></circle>
+<circle cx="71.84" cy="100.08" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-15: Zone 2 12.9% → Recovery 64.0</title></circle>
+<circle cx="36.00" cy="137.46" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-18: Zone 2 0.0% → Recovery 43.0</title></circle>
+<circle cx="54.78" cy="91.18" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-19: Zone 2 6.8% → Recovery 69.0</title></circle>
+<circle cx="82.00" cy="62.70" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-21: Zone 2 16.5% → Recovery 85.0</title></circle>
+<circle cx="36.00" cy="87.62" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-22: Zone 2 0.0% → Recovery 71.0</title></circle>
+<circle cx="105.84" cy="114.32" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-25: Zone 2 25.1% → Recovery 56.0</title></circle>
+<circle cx="181.93" cy="139.24" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-26: Zone 2 52.5% → Recovery 42.0</title></circle>
+<circle cx="123.67" cy="187.30" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-27: Zone 2 31.5% → Recovery 15.0</title></circle>
+<circle cx="183.97" cy="167.72" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-28: Zone 2 53.2% → Recovery 26.0</title></circle>
+<circle cx="36.00" cy="48.46" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-31: Zone 2 0.0% → Recovery 93.0</title></circle>
+<circle cx="55.58" cy="160.60" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-02: Zone 2 7.0% → Recovery 30.0</title></circle>
+<circle cx="191.40" cy="133.90" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-03: Zone 2 55.9% → Recovery 45.0</title></circle>
+<circle cx="36.00" cy="130.34" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-10: Zone 2 0.0% → Recovery 47.0</title></circle>
+<circle cx="162.94" cy="116.10" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-11: Zone 2 45.7% → Recovery 55.0</title></circle>
+<circle cx="163.58" cy="68.04" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-13: Zone 2 45.9% → Recovery 82.0</title></circle>
+<circle cx="36.42" cy="148.14" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-26: Zone 2 0.2% → Recovery 37.0</title></circle>
+<circle cx="36.00" cy="174.84" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-30: Zone 2 0.0% → Recovery 22.0</title></circle>
+<circle cx="42.13" cy="76.94" r="4" fill="#0a84ff" opacity="0.6"><title>2025-10-09: Zone 2 2.2% → Recovery 77.0</title></circle>
+<circle cx="58.04" cy="117.88" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-05: Zone 2 7.9% → Recovery 54.0</title></circle>
+<circle cx="204.59" cy="94.74" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-06: Zone 2 60.6% → Recovery 67.0</title></circle>
+<circle cx="269.59" cy="39.56" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-07: Zone 2 84.0% → Recovery 98.0</title></circle>
+<circle cx="250.60" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-08: Zone 2 77.2% → Recovery 38.0</title></circle>
+<circle cx="263.34" cy="126.78" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-10: Zone 2 81.8% → Recovery 49.0</title></circle>
+<circle cx="279.49" cy="123.22" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-12: Zone 2 87.6% → Recovery 51.0</title></circle>
+<circle cx="92.38" cy="181.96" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-13: Zone 2 20.3% → Recovery 18.0</title></circle>
+<circle cx="207.58" cy="112.54" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-14: Zone 2 61.7% → Recovery 57.0</title></circle>
+<circle cx="288.10" cy="126.78" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-19: Zone 2 90.7% → Recovery 49.0</title></circle>
+<circle cx="178.58" cy="103.64" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-20: Zone 2 51.3% → Recovery 62.0</title></circle>
+<circle cx="105.84" cy="128.56" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-21: Zone 2 25.1% → Recovery 48.0</title></circle>
+<circle cx="200.43" cy="85.84" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-24: Zone 2 59.1% → Recovery 72.0</title></circle>
+<circle cx="165.81" cy="135.68" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-27: Zone 2 46.7% → Recovery 44.0</title></circle>
+<circle cx="134.39" cy="162.38" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-28: Zone 2 35.4% → Recovery 29.0</title></circle>
+<circle cx="54.72" cy="158.82" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-31: Zone 2 6.7% → Recovery 31.0</title></circle>
+<circle cx="241.41" cy="130.34" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-01: Zone 2 73.9% → Recovery 47.0</title></circle>
+<circle cx="255.74" cy="187.30" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-02: Zone 2 79.0% → Recovery 15.0</title></circle>
+<circle cx="126.12" cy="196.20" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-03: Zone 2 32.4% → Recovery 10.0</title></circle>
+<circle cx="55.94" cy="84.06" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-05: Zone 2 7.2% → Recovery 73.0</title></circle>
+<circle cx="303.93" cy="59.14" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-06: Zone 2 96.4% → Recovery 87.0</title></circle>
+<circle cx="150.07" cy="135.68" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-08: Zone 2 41.0% → Recovery 44.0</title></circle>
+<circle cx="159.95" cy="101.86" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-09: Zone 2 44.6% → Recovery 63.0</title></circle>
+<circle cx="111.40" cy="181.96" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-10: Zone 2 27.1% → Recovery 18.0</title></circle>
+<circle cx="80.92" cy="181.96" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-11: Zone 2 16.2% → Recovery 18.0</title></circle>
+<circle cx="181.16" cy="62.70" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-12: Zone 2 52.2% → Recovery 85.0</title></circle>
+<circle cx="210.51" cy="169.50" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-13: Zone 2 62.8% → Recovery 25.0</title></circle>
+<circle cx="246.14" cy="151.70" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-15: Zone 2 75.6% → Recovery 35.0</title></circle>
+<circle cx="69.01" cy="201.54" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-16: Zone 2 11.9% → Recovery 7.0</title></circle>
+<circle cx="287.28" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-18: Zone 2 90.4% → Recovery 38.0</title></circle>
+<circle cx="191.00" cy="146.36" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-19: Zone 2 55.8% → Recovery 38.0</title></circle>
+<circle cx="153.44" cy="151.70" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-21: Zone 2 42.2% → Recovery 35.0</title></circle>
+<circle cx="62.68" cy="144.58" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-22: Zone 2 9.6% → Recovery 39.0</title></circle>
+<circle cx="121.76" cy="187.30" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-24: Zone 2 30.8% → Recovery 15.0</title></circle>
+</svg> 
+          <p class="mono" style="margin-top:8px;">250 matched days</p>
+        </div>
+        <div>
+          <h3 style="font-size:16px;margin-bottom:8px;">Zone 4/5 vs HRV</h3>
+          <svg width="350" height="250" viewBox="0 0 350 250" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="350" height="250" fill="#0d1117"/>
+<text x="175.0" y="22" fill="#e6edf3" text-anchor="middle" font-size="12" font-weight="700">Zone 4+5 % vs HRV r=+0.30</text>
+<line x1="36" y1="36.0" x2="314" y2="36.0" stroke="#30363d" stroke-width="1" />
+<text x="31" y="36.0" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">107</text>
+<line x1="36" y1="71.6" x2="314" y2="71.6" stroke="#30363d" stroke-width="1" />
+<text x="31" y="71.6" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">85</text>
+<line x1="36" y1="107.2" x2="314" y2="107.2" stroke="#30363d" stroke-width="1" />
+<text x="31" y="107.2" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">64</text>
+<line x1="36" y1="142.8" x2="314" y2="142.8" stroke="#30363d" stroke-width="1" />
+<text x="31" y="142.8" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">43</text>
+<line x1="36" y1="178.4" x2="314" y2="178.4" stroke="#30363d" stroke-width="1" />
+<text x="31" y="178.4" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">21</text>
+<line x1="36" y1="214.0" x2="314" y2="214.0" stroke="#30363d" stroke-width="1" />
+<text x="31" y="214.0" fill="#8b949e" font-size="10" text-anchor="end" dominant-baseline="middle">0</text>
+<line x1="36.0" y1="36" x2="36.0" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="36.0" y="230" fill="#8b949e" font-size="10" text-anchor="middle">0</text>
+<line x1="91.6" y1="36" x2="91.6" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="91.6" y="230" fill="#8b949e" font-size="10" text-anchor="middle">20</text>
+<line x1="147.2" y1="36" x2="147.2" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="147.2" y="230" fill="#8b949e" font-size="10" text-anchor="middle">40</text>
+<line x1="202.8" y1="36" x2="202.8" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="202.8" y="230" fill="#8b949e" font-size="10" text-anchor="middle">60</text>
+<line x1="258.4" y1="36" x2="258.4" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="258.4" y="230" fill="#8b949e" font-size="10" text-anchor="middle">80</text>
+<line x1="314.0" y1="36" x2="314.0" y2="214" stroke="#30363d" stroke-width="1" />
+<text x="314.0" y="230" fill="#8b949e" font-size="10" text-anchor="middle">100</text>
+<line x1="36" y1="36" x2="36" y2="214" stroke="#8b949e" stroke-width="1.5" />
+<line x1="36" y1="214" x2="314" y2="214" stroke="#8b949e" stroke-width="1.5" />
+<text x="175.0" y="246" fill="#8b949e" font-size="10" text-anchor="middle">Zone % (0-100)</text>
+<text x="14" y="125.0" fill="#8b949e" font-size="10" text-anchor="middle" transform="rotate(-90,14,125.0)">Y</text>
+<line x1="36.0" y1="162.0" x2="314.0" y2="132.4" stroke="#f39c12" stroke-dasharray="4,3" stroke-width="1.8" />
+<circle cx="141.64" cy="145.65" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-02: Zone 4/5 38.0% → HRV 41.0</title></circle>
+<circle cx="141.64" cy="156.32" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-03: Zone 4/5 38.0% → HRV 34.6</title></circle>
+<circle cx="141.64" cy="152.53" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-04: Zone 4/5 38.0% → HRV 36.9</title></circle>
+<circle cx="141.64" cy="127.93" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-06: Zone 4/5 38.0% → HRV 51.7</title></circle>
+<circle cx="141.64" cy="161.99" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-07: Zone 4/5 38.0% → HRV 31.2</title></circle>
+<circle cx="141.64" cy="153.29" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-08: Zone 4/5 38.0% → HRV 36.4</title></circle>
+<circle cx="141.64" cy="136.93" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-09: Zone 4/5 38.0% → HRV 46.3</title></circle>
+<circle cx="141.64" cy="131.42" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-12: Zone 4/5 38.0% → HRV 49.6</title></circle>
+<circle cx="141.64" cy="141.16" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-13: Zone 4/5 38.0% → HRV 43.7</title></circle>
+<circle cx="141.64" cy="163.98" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-14: Zone 4/5 38.0% → HRV 30.0</title></circle>
+<circle cx="141.64" cy="168.70" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-15: Zone 4/5 38.0% → HRV 27.2</title></circle>
+<circle cx="97.42" cy="149.22" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-16: Zone 4/5 22.1% → HRV 38.9</title></circle>
+<circle cx="141.64" cy="140.08" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-19: Zone 4/5 38.0% → HRV 44.4</title></circle>
+<circle cx="52.68" cy="160.39" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-21: Zone 4/5 6.0% → HRV 32.2</title></circle>
+<circle cx="141.64" cy="151.95" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-22: Zone 4/5 38.0% → HRV 37.3</title></circle>
+<circle cx="141.64" cy="90.20" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-23: Zone 4/5 38.0% → HRV 74.3</title></circle>
+<circle cx="200.66" cy="120.43" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-24: Zone 4/5 59.2% → HRV 56.2</title></circle>
+<circle cx="52.68" cy="171.89" r="4" fill="#0a84ff" opacity="0.6"><title>2023-03-30: Zone 4/5 6.0% → HRV 25.3</title></circle>
+<circle cx="52.68" cy="125.76" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-01: Zone 4/5 6.0% → HRV 53.0</title></circle>
+<circle cx="141.64" cy="175.49" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-03: Zone 4/5 38.0% → HRV 23.1</title></circle>
+<circle cx="141.64" cy="166.33" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-05: Zone 4/5 38.0% → HRV 28.6</title></circle>
+<circle cx="141.64" cy="149.60" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-06: Zone 4/5 38.0% → HRV 38.7</title></circle>
+<circle cx="141.64" cy="171.17" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-07: Zone 4/5 38.0% → HRV 25.7</title></circle>
+<circle cx="95.97" cy="149.77" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-10: Zone 4/5 21.6% → HRV 38.6</title></circle>
+<circle cx="141.64" cy="162.77" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-17: Zone 4/5 38.0% → HRV 30.8</title></circle>
+<circle cx="52.68" cy="156.38" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-18: Zone 4/5 6.0% → HRV 34.6</title></circle>
+<circle cx="141.64" cy="120.68" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-19: Zone 4/5 38.0% → HRV 56.0</title></circle>
+<circle cx="141.64" cy="148.81" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-20: Zone 4/5 38.0% → HRV 39.1</title></circle>
+<circle cx="141.64" cy="140.50" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-21: Zone 4/5 38.0% → HRV 44.1</title></circle>
+<circle cx="141.64" cy="152.96" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-23: Zone 4/5 38.0% → HRV 36.6</title></circle>
+<circle cx="141.64" cy="156.77" r="4" fill="#0a84ff" opacity="0.6"><title>2023-04-24: Zone 4/5 38.0% → HRV 34.4</title></circle>
+<circle cx="141.64" cy="128.95" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-02: Zone 4/5 38.0% → HRV 51.1</title></circle>
+<circle cx="141.64" cy="105.64" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-08: Zone 4/5 38.0% → HRV 65.1</title></circle>
+<circle cx="52.68" cy="127.54" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-10: Zone 4/5 6.0% → HRV 51.9</title></circle>
+<circle cx="141.64" cy="162.57" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-11: Zone 4/5 38.0% → HRV 30.9</title></circle>
+<circle cx="141.64" cy="129.96" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-12: Zone 4/5 38.0% → HRV 50.5</title></circle>
+<circle cx="100.83" cy="84.92" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-15: Zone 4/5 23.3% → HRV 77.5</title></circle>
+<circle cx="141.64" cy="110.06" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-16: Zone 4/5 38.0% → HRV 62.4</title></circle>
+<circle cx="141.64" cy="125.08" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-17: Zone 4/5 38.0% → HRV 53.4</title></circle>
+<circle cx="141.64" cy="131.93" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-18: Zone 4/5 38.0% → HRV 49.3</title></circle>
+<circle cx="141.64" cy="111.84" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-19: Zone 4/5 38.0% → HRV 61.3</title></circle>
+<circle cx="141.64" cy="99.83" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-23: Zone 4/5 38.0% → HRV 68.5</title></circle>
+<circle cx="141.64" cy="105.14" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-30: Zone 4/5 38.0% → HRV 65.4</title></circle>
+<circle cx="141.64" cy="139.91" r="4" fill="#0a84ff" opacity="0.6"><title>2023-05-31: Zone 4/5 38.0% → HRV 44.5</title></circle>
+<circle cx="141.64" cy="138.79" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-01: Zone 4/5 38.0% → HRV 45.2</title></circle>
+<circle cx="141.64" cy="133.07" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-02: Zone 4/5 38.0% → HRV 48.6</title></circle>
+<circle cx="141.64" cy="138.51" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-03: Zone 4/5 38.0% → HRV 45.3</title></circle>
+<circle cx="141.64" cy="127.64" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-08: Zone 4/5 38.0% → HRV 51.8</title></circle>
+<circle cx="141.64" cy="93.40" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-09: Zone 4/5 38.0% → HRV 72.4</title></circle>
+<circle cx="141.64" cy="126.45" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-16: Zone 4/5 38.0% → HRV 52.6</title></circle>
+<circle cx="141.64" cy="150.50" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-20: Zone 4/5 38.0% → HRV 38.1</title></circle>
+<circle cx="141.64" cy="131.04" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-22: Zone 4/5 38.0% → HRV 49.8</title></circle>
+<circle cx="141.64" cy="142.25" r="4" fill="#0a84ff" opacity="0.6"><title>2023-06-28: Zone 4/5 38.0% → HRV 43.1</title></circle>
+<circle cx="52.68" cy="170.58" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-03: Zone 4/5 6.0% → HRV 26.1</title></circle>
+<circle cx="52.68" cy="131.78" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-05: Zone 4/5 6.0% → HRV 49.4</title></circle>
+<circle cx="141.64" cy="139.18" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-06: Zone 4/5 38.0% → HRV 44.9</title></circle>
+<circle cx="52.68" cy="88.85" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-10: Zone 4/5 6.0% → HRV 75.1</title></circle>
+<circle cx="93.54" cy="130.16" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-11: Zone 4/5 20.7% → HRV 50.3</title></circle>
+<circle cx="141.64" cy="119.42" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-12: Zone 4/5 38.0% → HRV 56.8</title></circle>
+<circle cx="52.68" cy="153.24" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-13: Zone 4/5 6.0% → HRV 36.5</title></circle>
+<circle cx="52.68" cy="72.38" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-17: Zone 4/5 6.0% → HRV 85.0</title></circle>
+<circle cx="52.68" cy="84.55" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-24: Zone 4/5 6.0% → HRV 77.7</title></circle>
+<circle cx="52.68" cy="117.53" r="4" fill="#0a84ff" opacity="0.6"><title>2023-07-25: Zone 4/5 6.0% → HRV 57.9</title></circle>
+<circle cx="52.68" cy="131.46" r="4" fill="#0a84ff" opacity="0.6"><title>2023-08-08: Zone 4/5 6.0% → HRV 49.6</title></circle>
+<circle cx="141.64" cy="119.91" r="4" fill="#0a84ff" opacity="0.6"><title>2023-08-16: Zone 4/5 38.0% → HRV 56.5</title></circle>
+<circle cx="141.64" cy="140.08" r="4" fill="#0a84ff" opacity="0.6"><title>2023-08-17: Zone 4/5 38.0% → HRV 44.4</title></circle>
+<circle cx="141.64" cy="119.56" r="4" fill="#0a84ff" opacity="0.6"><title>2023-09-19: Zone 4/5 38.0% → HRV 56.7</title></circle>
+<circle cx="241.72" cy="131.79" r="4" fill="#0a84ff" opacity="0.6"><title>2023-09-30: Zone 4/5 74.0% → HRV 49.4</title></circle>
+<circle cx="141.64" cy="141.19" r="4" fill="#0a84ff" opacity="0.6"><title>2023-10-10: Zone 4/5 38.0% → HRV 43.7</title></circle>
+<circle cx="141.64" cy="165.98" r="4" fill="#0a84ff" opacity="0.6"><title>2023-10-12: Zone 4/5 38.0% → HRV 28.8</title></circle>
+<circle cx="52.68" cy="158.22" r="4" fill="#0a84ff" opacity="0.6"><title>2023-10-13: Zone 4/5 6.0% → HRV 33.5</title></circle>
+<circle cx="241.72" cy="159.92" r="4" fill="#0a84ff" opacity="0.6"><title>2023-11-27: Zone 4/5 74.0% → HRV 32.5</title></circle>
+<circle cx="141.64" cy="163.40" r="4" fill="#0a84ff" opacity="0.6"><title>2023-11-28: Zone 4/5 38.0% → HRV 30.4</title></circle>
+<circle cx="141.64" cy="178.83" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-01: Zone 4/5 38.0% → HRV 21.1</title></circle>
+<circle cx="141.64" cy="154.59" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-02: Zone 4/5 38.0% → HRV 35.7</title></circle>
+<circle cx="141.64" cy="172.85" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-08: Zone 4/5 38.0% → HRV 24.7</title></circle>
+<circle cx="141.64" cy="178.84" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-12: Zone 4/5 38.0% → HRV 21.1</title></circle>
+<circle cx="52.68" cy="145.17" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-13: Zone 4/5 6.0% → HRV 41.3</title></circle>
+<circle cx="241.72" cy="154.65" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-17: Zone 4/5 74.0% → HRV 35.6</title></circle>
+<circle cx="241.72" cy="158.01" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-19: Zone 4/5 74.0% → HRV 33.6</title></circle>
+<circle cx="141.64" cy="149.30" r="4" fill="#0a84ff" opacity="0.6"><title>2023-12-22: Zone 4/5 38.0% → HRV 38.8</title></circle>
+<circle cx="52.68" cy="146.09" r="4" fill="#0a84ff" opacity="0.6"><title>2024-01-13: Zone 4/5 6.0% → HRV 40.8</title></circle>
+<circle cx="241.72" cy="159.31" r="4" fill="#0a84ff" opacity="0.6"><title>2024-02-26: Zone 4/5 74.0% → HRV 32.8</title></circle>
+<circle cx="241.72" cy="175.23" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-04: Zone 4/5 74.0% → HRV 23.3</title></circle>
+<circle cx="241.72" cy="157.87" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-07: Zone 4/5 74.0% → HRV 33.7</title></circle>
+<circle cx="241.72" cy="165.13" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-12: Zone 4/5 74.0% → HRV 29.3</title></circle>
+<circle cx="241.72" cy="162.57" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-13: Zone 4/5 74.0% → HRV 30.9</title></circle>
+<circle cx="241.72" cy="171.00" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-14: Zone 4/5 74.0% → HRV 25.8</title></circle>
+<circle cx="141.64" cy="162.99" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-15: Zone 4/5 38.0% → HRV 30.6</title></circle>
+<circle cx="141.64" cy="164.67" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-16: Zone 4/5 38.0% → HRV 29.6</title></circle>
+<circle cx="141.64" cy="161.27" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-17: Zone 4/5 38.0% → HRV 31.7</title></circle>
+<circle cx="241.72" cy="151.50" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-25: Zone 4/5 74.0% → HRV 37.5</title></circle>
+<circle cx="241.72" cy="147.70" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-29: Zone 4/5 74.0% → HRV 39.8</title></circle>
+<circle cx="141.64" cy="158.35" r="4" fill="#0a84ff" opacity="0.6"><title>2024-03-31: Zone 4/5 38.0% → HRV 33.4</title></circle>
+<circle cx="141.64" cy="145.05" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-01: Zone 4/5 38.0% → HRV 41.4</title></circle>
+<circle cx="141.64" cy="161.61" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-06: Zone 4/5 38.0% → HRV 31.5</title></circle>
+<circle cx="141.64" cy="149.21" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-13: Zone 4/5 38.0% → HRV 38.9</title></circle>
+<circle cx="241.72" cy="149.47" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-16: Zone 4/5 74.0% → HRV 38.7</title></circle>
+<circle cx="141.64" cy="129.53" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-17: Zone 4/5 38.0% → HRV 50.7</title></circle>
+<circle cx="141.64" cy="187.98" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-18: Zone 4/5 38.0% → HRV 15.6</title></circle>
+<circle cx="141.64" cy="148.75" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-20: Zone 4/5 38.0% → HRV 39.2</title></circle>
+<circle cx="52.68" cy="135.69" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-21: Zone 4/5 6.0% → HRV 47.0</title></circle>
+<circle cx="141.64" cy="131.47" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-22: Zone 4/5 38.0% → HRV 49.6</title></circle>
+<circle cx="141.64" cy="141.07" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-23: Zone 4/5 38.0% → HRV 43.8</title></circle>
+<circle cx="141.64" cy="134.81" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-24: Zone 4/5 38.0% → HRV 47.5</title></circle>
+<circle cx="141.64" cy="128.83" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-25: Zone 4/5 38.0% → HRV 51.1</title></circle>
+<circle cx="241.72" cy="115.43" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-26: Zone 4/5 74.0% → HRV 59.2</title></circle>
+<circle cx="141.64" cy="118.85" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-27: Zone 4/5 38.0% → HRV 57.1</title></circle>
+<circle cx="52.68" cy="129.01" r="4" fill="#0a84ff" opacity="0.6"><title>2024-04-28: Zone 4/5 6.0% → HRV 51.0</title></circle>
+<circle cx="241.72" cy="138.57" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-06: Zone 4/5 74.0% → HRV 45.3</title></circle>
+<circle cx="141.64" cy="142.81" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-07: Zone 4/5 38.0% → HRV 42.7</title></circle>
+<circle cx="241.72" cy="141.43" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-08: Zone 4/5 74.0% → HRV 43.6</title></circle>
+<circle cx="141.64" cy="135.54" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-09: Zone 4/5 38.0% → HRV 47.1</title></circle>
+<circle cx="141.64" cy="131.85" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-10: Zone 4/5 38.0% → HRV 49.3</title></circle>
+<circle cx="141.64" cy="139.15" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-13: Zone 4/5 38.0% → HRV 44.9</title></circle>
+<circle cx="141.64" cy="150.42" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-15: Zone 4/5 38.0% → HRV 38.2</title></circle>
+<circle cx="141.64" cy="145.45" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-16: Zone 4/5 38.0% → HRV 41.2</title></circle>
+<circle cx="141.64" cy="175.10" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-22: Zone 4/5 38.0% → HRV 23.4</title></circle>
+<circle cx="141.64" cy="156.76" r="4" fill="#0a84ff" opacity="0.6"><title>2024-05-28: Zone 4/5 38.0% → HRV 34.4</title></circle>
+<circle cx="158.50" cy="133.18" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-05: Zone 4/5 44.1% → HRV 48.5</title></circle>
+<circle cx="141.64" cy="131.23" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-09: Zone 4/5 38.0% → HRV 49.7</title></circle>
+<circle cx="141.64" cy="139.35" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-12: Zone 4/5 38.0% → HRV 44.8</title></circle>
+<circle cx="179.23" cy="154.23" r="4" fill="#0a84ff" opacity="0.6"><title>2024-06-18: Zone 4/5 51.5% → HRV 35.9</title></circle>
+<circle cx="141.64" cy="149.63" r="4" fill="#0a84ff" opacity="0.6"><title>2024-07-22: Zone 4/5 38.0% → HRV 38.6</title></circle>
+<circle cx="141.64" cy="149.76" r="4" fill="#0a84ff" opacity="0.6"><title>2024-07-28: Zone 4/5 38.0% → HRV 38.6</title></circle>
+<circle cx="141.64" cy="170.97" r="4" fill="#0a84ff" opacity="0.6"><title>2024-08-13: Zone 4/5 38.0% → HRV 25.8</title></circle>
+<circle cx="241.72" cy="163.51" r="4" fill="#0a84ff" opacity="0.6"><title>2024-08-15: Zone 4/5 74.0% → HRV 30.3</title></circle>
+<circle cx="241.72" cy="160.48" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-16: Zone 4/5 74.0% → HRV 32.1</title></circle>
+<circle cx="141.64" cy="163.82" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-20: Zone 4/5 38.0% → HRV 30.1</title></circle>
+<circle cx="141.64" cy="168.06" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-21: Zone 4/5 38.0% → HRV 27.6</title></circle>
+<circle cx="141.64" cy="165.83" r="4" fill="#0a84ff" opacity="0.6"><title>2024-09-24: Zone 4/5 38.0% → HRV 28.9</title></circle>
+<circle cx="141.64" cy="155.11" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-02: Zone 4/5 38.0% → HRV 35.4</title></circle>
+<circle cx="241.72" cy="104.36" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-09: Zone 4/5 74.0% → HRV 65.8</title></circle>
+<circle cx="141.64" cy="175.47" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-10: Zone 4/5 38.0% → HRV 23.1</title></circle>
+<circle cx="241.72" cy="167.10" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-11: Zone 4/5 74.0% → HRV 28.2</title></circle>
+<circle cx="241.72" cy="158.79" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-18: Zone 4/5 74.0% → HRV 33.1</title></circle>
+<circle cx="241.72" cy="156.60" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-22: Zone 4/5 74.0% → HRV 34.5</title></circle>
+<circle cx="241.72" cy="172.01" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-23: Zone 4/5 74.0% → HRV 25.2</title></circle>
+<circle cx="241.72" cy="174.54" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-24: Zone 4/5 74.0% → HRV 23.7</title></circle>
+<circle cx="141.64" cy="161.82" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-25: Zone 4/5 38.0% → HRV 31.3</title></circle>
+<circle cx="141.64" cy="170.07" r="4" fill="#0a84ff" opacity="0.6"><title>2024-10-27: Zone 4/5 38.0% → HRV 26.4</title></circle>
+<circle cx="141.64" cy="166.89" r="4" fill="#0a84ff" opacity="0.6"><title>2024-11-12: Zone 4/5 38.0% → HRV 28.3</title></circle>
+<circle cx="36.00" cy="176.70" r="4" fill="#0a84ff" opacity="0.6"><title>2024-12-29: Zone 4/5 0.0% → HRV 22.4</title></circle>
+<circle cx="36.00" cy="169.98" r="4" fill="#0a84ff" opacity="0.6"><title>2024-12-30: Zone 4/5 0.0% → HRV 26.4</title></circle>
+<circle cx="36.00" cy="164.96" r="4" fill="#0a84ff" opacity="0.6"><title>2025-01-06: Zone 4/5 0.0% → HRV 29.4</title></circle>
+<circle cx="36.00" cy="159.96" r="4" fill="#0a84ff" opacity="0.6"><title>2025-02-17: Zone 4/5 0.0% → HRV 32.4</title></circle>
+<circle cx="98.40" cy="175.07" r="4" fill="#0a84ff" opacity="0.6"><title>2025-03-15: Zone 4/5 22.4% → HRV 23.4</title></circle>
+<circle cx="36.00" cy="173.67" r="4" fill="#0a84ff" opacity="0.6"><title>2025-04-22: Zone 4/5 0.0% → HRV 24.2</title></circle>
+<circle cx="36.00" cy="175.42" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-02: Zone 4/5 0.0% → HRV 23.2</title></circle>
+<circle cx="36.00" cy="166.57" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-03: Zone 4/5 0.0% → HRV 28.5</title></circle>
+<circle cx="36.00" cy="178.43" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-07: Zone 4/5 0.0% → HRV 21.4</title></circle>
+<circle cx="36.00" cy="168.81" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-15: Zone 4/5 0.0% → HRV 27.1</title></circle>
+<circle cx="98.73" cy="165.55" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-16: Zone 4/5 22.6% → HRV 29.1</title></circle>
+<circle cx="36.00" cy="169.04" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-17: Zone 4/5 0.0% → HRV 27.0</title></circle>
+<circle cx="36.00" cy="177.72" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-18: Zone 4/5 0.0% → HRV 21.8</title></circle>
+<circle cx="38.22" cy="105.63" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-19: Zone 4/5 0.8% → HRV 65.1</title></circle>
+<circle cx="36.25" cy="172.39" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-24: Zone 4/5 0.1% → HRV 25.0</title></circle>
+<circle cx="36.00" cy="138.20" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-25: Zone 4/5 0.0% → HRV 45.5</title></circle>
+<circle cx="38.18" cy="142.41" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-26: Zone 4/5 0.8% → HRV 43.0</title></circle>
+<circle cx="36.00" cy="154.78" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-29: Zone 4/5 0.0% → HRV 35.6</title></circle>
+<circle cx="36.00" cy="163.01" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-30: Zone 4/5 0.0% → HRV 30.6</title></circle>
+<circle cx="36.00" cy="173.83" r="4" fill="#0a84ff" opacity="0.6"><title>2025-05-31: Zone 4/5 0.0% → HRV 24.1</title></circle>
+<circle cx="36.00" cy="174.56" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-01: Zone 4/5 0.0% → HRV 23.7</title></circle>
+<circle cx="41.79" cy="171.06" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-02: Zone 4/5 2.1% → HRV 25.8</title></circle>
+<circle cx="36.00" cy="182.49" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-03: Zone 4/5 0.0% → HRV 18.9</title></circle>
+<circle cx="36.00" cy="150.83" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-04: Zone 4/5 0.0% → HRV 37.9</title></circle>
+<circle cx="36.00" cy="162.04" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-05: Zone 4/5 0.0% → HRV 31.2</title></circle>
+<circle cx="36.00" cy="171.24" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-07: Zone 4/5 0.0% → HRV 25.7</title></circle>
+<circle cx="36.00" cy="147.21" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-08: Zone 4/5 0.0% → HRV 40.1</title></circle>
+<circle cx="36.00" cy="161.78" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-09: Zone 4/5 0.0% → HRV 31.4</title></circle>
+<circle cx="36.00" cy="173.37" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-10: Zone 4/5 0.0% → HRV 24.4</title></circle>
+<circle cx="36.00" cy="159.34" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-11: Zone 4/5 0.0% → HRV 32.8</title></circle>
+<circle cx="36.00" cy="170.66" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-12: Zone 4/5 0.0% → HRV 26.0</title></circle>
+<circle cx="36.00" cy="180.73" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-14: Zone 4/5 0.0% → HRV 20.0</title></circle>
+<circle cx="36.00" cy="170.21" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-15: Zone 4/5 0.0% → HRV 26.3</title></circle>
+<circle cx="37.39" cy="164.73" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-16: Zone 4/5 0.5% → HRV 29.6</title></circle>
+<circle cx="36.00" cy="162.48" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-17: Zone 4/5 0.0% → HRV 30.9</title></circle>
+<circle cx="36.00" cy="169.62" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-18: Zone 4/5 0.0% → HRV 26.6</title></circle>
+<circle cx="36.00" cy="174.19" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-20: Zone 4/5 0.0% → HRV 23.9</title></circle>
+<circle cx="36.00" cy="172.88" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-22: Zone 4/5 0.0% → HRV 24.7</title></circle>
+<circle cx="36.00" cy="150.62" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-23: Zone 4/5 0.0% → HRV 38.0</title></circle>
+<circle cx="36.00" cy="170.35" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-24: Zone 4/5 0.0% → HRV 26.2</title></circle>
+<circle cx="36.00" cy="150.01" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-26: Zone 4/5 0.0% → HRV 38.4</title></circle>
+<circle cx="47.26" cy="150.67" r="4" fill="#0a84ff" opacity="0.6"><title>2025-06-30: Zone 4/5 4.0% → HRV 38.0</title></circle>
+<circle cx="36.00" cy="168.98" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-01: Zone 4/5 0.0% → HRV 27.0</title></circle>
+<circle cx="36.00" cy="148.05" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-02: Zone 4/5 0.0% → HRV 39.6</title></circle>
+<circle cx="36.00" cy="170.04" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-03: Zone 4/5 0.0% → HRV 26.4</title></circle>
+<circle cx="36.00" cy="172.15" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-05: Zone 4/5 0.0% → HRV 25.1</title></circle>
+<circle cx="36.00" cy="155.74" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-06: Zone 4/5 0.0% → HRV 35.0</title></circle>
+<circle cx="36.00" cy="141.50" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-11: Zone 4/5 0.0% → HRV 43.5</title></circle>
+<circle cx="36.00" cy="162.18" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-14: Zone 4/5 0.0% → HRV 31.1</title></circle>
+<circle cx="36.00" cy="164.83" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-18: Zone 4/5 0.0% → HRV 29.5</title></circle>
+<circle cx="36.00" cy="180.87" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-19: Zone 4/5 0.0% → HRV 19.9</title></circle>
+<circle cx="36.00" cy="170.80" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-26: Zone 4/5 0.0% → HRV 25.9</title></circle>
+<circle cx="36.00" cy="184.26" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-29: Zone 4/5 0.0% → HRV 17.9</title></circle>
+<circle cx="36.00" cy="181.62" r="4" fill="#0a84ff" opacity="0.6"><title>2025-07-30: Zone 4/5 0.0% → HRV 19.4</title></circle>
+<circle cx="36.00" cy="186.70" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-03: Zone 4/5 0.0% → HRV 16.4</title></circle>
+<circle cx="38.60" cy="173.79" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-07: Zone 4/5 0.9% → HRV 24.1</title></circle>
+<circle cx="36.00" cy="170.92" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-10: Zone 4/5 0.0% → HRV 25.9</title></circle>
+<circle cx="36.00" cy="170.80" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-12: Zone 4/5 0.0% → HRV 25.9</title></circle>
+<circle cx="36.00" cy="159.52" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-15: Zone 4/5 0.0% → HRV 32.7</title></circle>
+<circle cx="36.00" cy="177.20" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-18: Zone 4/5 0.0% → HRV 22.1</title></circle>
+<circle cx="36.00" cy="177.29" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-19: Zone 4/5 0.0% → HRV 22.0</title></circle>
+<circle cx="36.00" cy="166.26" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-21: Zone 4/5 0.0% → HRV 28.7</title></circle>
+<circle cx="36.00" cy="160.92" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-22: Zone 4/5 0.0% → HRV 31.9</title></circle>
+<circle cx="36.00" cy="166.51" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-25: Zone 4/5 0.0% → HRV 28.5</title></circle>
+<circle cx="36.39" cy="169.73" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-26: Zone 4/5 0.1% → HRV 26.6</title></circle>
+<circle cx="36.00" cy="167.44" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-27: Zone 4/5 0.0% → HRV 28.0</title></circle>
+<circle cx="36.00" cy="187.43" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-28: Zone 4/5 0.0% → HRV 16.0</title></circle>
+<circle cx="36.00" cy="179.72" r="4" fill="#0a84ff" opacity="0.6"><title>2025-08-31: Zone 4/5 0.0% → HRV 20.6</title></circle>
+<circle cx="45.20" cy="155.80" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-02: Zone 4/5 3.3% → HRV 34.9</title></circle>
+<circle cx="36.00" cy="188.53" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-03: Zone 4/5 0.0% → HRV 15.3</title></circle>
+<circle cx="36.00" cy="157.54" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-10: Zone 4/5 0.0% → HRV 33.9</title></circle>
+<circle cx="36.00" cy="175.41" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-11: Zone 4/5 0.0% → HRV 23.2</title></circle>
+<circle cx="36.00" cy="184.20" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-13: Zone 4/5 0.0% → HRV 17.9</title></circle>
+<circle cx="36.00" cy="174.09" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-26: Zone 4/5 0.0% → HRV 24.0</title></circle>
+<circle cx="36.00" cy="181.88" r="4" fill="#0a84ff" opacity="0.6"><title>2025-09-30: Zone 4/5 0.0% → HRV 19.3</title></circle>
+<circle cx="36.00" cy="178.40" r="4" fill="#0a84ff" opacity="0.6"><title>2025-10-09: Zone 4/5 0.0% → HRV 21.4</title></circle>
+<circle cx="36.00" cy="180.65" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-05: Zone 4/5 0.0% → HRV 20.0</title></circle>
+<circle cx="36.00" cy="181.48" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-06: Zone 4/5 0.0% → HRV 19.5</title></circle>
+<circle cx="36.00" cy="175.38" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-07: Zone 4/5 0.0% → HRV 23.2</title></circle>
+<circle cx="36.00" cy="161.12" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-08: Zone 4/5 0.0% → HRV 31.7</title></circle>
+<circle cx="36.00" cy="188.63" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-10: Zone 4/5 0.0% → HRV 15.2</title></circle>
+<circle cx="36.00" cy="173.72" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-12: Zone 4/5 0.0% → HRV 24.2</title></circle>
+<circle cx="36.00" cy="182.32" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-13: Zone 4/5 0.0% → HRV 19.0</title></circle>
+<circle cx="36.00" cy="196.97" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-14: Zone 4/5 0.0% → HRV 10.2</title></circle>
+<circle cx="36.00" cy="153.69" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-19: Zone 4/5 0.0% → HRV 36.2</title></circle>
+<circle cx="42.90" cy="181.76" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-20: Zone 4/5 2.5% → HRV 19.4</title></circle>
+<circle cx="36.00" cy="174.67" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-21: Zone 4/5 0.0% → HRV 23.6</title></circle>
+<circle cx="36.00" cy="174.78" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-24: Zone 4/5 0.0% → HRV 23.5</title></circle>
+<circle cx="36.00" cy="179.75" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-27: Zone 4/5 0.0% → HRV 20.6</title></circle>
+<circle cx="64.97" cy="178.21" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-28: Zone 4/5 10.4% → HRV 21.5</title></circle>
+<circle cx="36.00" cy="156.61" r="4" fill="#0a84ff" opacity="0.6"><title>2026-01-31: Zone 4/5 0.0% → HRV 34.5</title></circle>
+<circle cx="36.00" cy="187.49" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-01: Zone 4/5 0.0% → HRV 15.9</title></circle>
+<circle cx="50.37" cy="181.66" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-02: Zone 4/5 5.2% → HRV 19.4</title></circle>
+<circle cx="36.00" cy="192.54" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-03: Zone 4/5 0.0% → HRV 12.9</title></circle>
+<circle cx="36.00" cy="163.91" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-05: Zone 4/5 0.0% → HRV 30.1</title></circle>
+<circle cx="36.00" cy="157.89" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-06: Zone 4/5 0.0% → HRV 33.7</title></circle>
+<circle cx="36.00" cy="159.53" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-08: Zone 4/5 0.0% → HRV 32.7</title></circle>
+<circle cx="78.75" cy="183.21" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-09: Zone 4/5 15.4% → HRV 18.5</title></circle>
+<circle cx="36.00" cy="172.92" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-10: Zone 4/5 0.0% → HRV 24.7</title></circle>
+<circle cx="36.00" cy="182.82" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-11: Zone 4/5 0.0% → HRV 18.7</title></circle>
+<circle cx="36.00" cy="186.01" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-12: Zone 4/5 0.0% → HRV 16.8</title></circle>
+<circle cx="36.43" cy="39.49" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-13: Zone 4/5 0.2% → HRV 104.8</title></circle>
+<circle cx="36.82" cy="188.59" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-15: Zone 4/5 0.3% → HRV 15.3</title></circle>
+<circle cx="36.00" cy="186.97" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-16: Zone 4/5 0.0% → HRV 16.2</title></circle>
+<circle cx="36.00" cy="176.02" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-18: Zone 4/5 0.0% → HRV 22.8</title></circle>
+<circle cx="36.00" cy="172.37" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-19: Zone 4/5 0.0% → HRV 25.0</title></circle>
+<circle cx="36.00" cy="173.38" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-21: Zone 4/5 0.0% → HRV 24.4</title></circle>
+<circle cx="36.00" cy="176.62" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-22: Zone 4/5 0.0% → HRV 22.4</title></circle>
+<circle cx="36.00" cy="167.26" r="4" fill="#0a84ff" opacity="0.6"><title>2026-02-24: Zone 4/5 0.0% → HRV 28.1</title></circle>
+</svg> 
+          <p class="mono" style="margin-top:8px;">251 matched days</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel"> 
+      <h2>Insights</h2>
+      <ul>
+        <li>Zone 2 share is currently strongest predictor signal with r=-0.02 vs next-day recovery across 250 matched cardio days.</li>
+        <li>Hard-zone share vs same-day HRV correlation currently at r=+0.30 across 251 matched cardio days.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Mini preview (26 weeks)</h2>
+      <svg width="644" height="310" viewBox="0 0 644 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cardio zone heatmap">
+<rect x="0" y="0" width="644" height="310" fill="#0d1117"/>
+<text x="8" y="16" fill="#8b949e" font-size="12">Weeks: older → newer</text>
+<text x="20" y="37" fill="#8b949e" font-size="11">Zone 1: Recovery · Zone 2: Aerobic · Zone 3: Tempo · Zone 4: Threshold · Zone 5: VO2</text>
+<text x="80" y="73.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 1</text>
+<text x="80" y="119.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 2</text>
+<text x="80" y="165.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 3</text>
+<text x="80" y="211.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 4</text>
+<text x="80" y="257.0" fill="#8b949e" font-size="11" text-anchor="end" dominant-baseline="middle">Zone 5</text>
+<rect x="90" y="50.0" width="17" height="44" fill="#111b29"><title>Week Mar 03 · Zone 1: 0.0 min</title></rect>
+<rect x="90" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Mar 03 · Zone 2: 0.0 min</title></rect>
+<rect x="90" y="142.0" width="17" height="44" fill="#48371a"><title>Week Mar 03 · Zone 3: 0.0 min</title></rect>
+<rect x="90" y="188.0" width="17" height="44" fill="#432111"><title>Week Mar 03 · Zone 4: 0.0 min</title></rect>
+<rect x="90" y="234.0" width="17" height="44" fill="#381418"><title>Week Mar 03 · Zone 5: 0.0 min</title></rect>
+<text x="90.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Mar 03</text>
+<rect x="109" y="50.0" width="17" height="44" fill="#142133"><title>Week Mar 10 · Zone 1: 24.8 min</title></rect>
+<rect x="109" y="96.0" width="17" height="44" fill="#1a3b21"><title>Week Mar 10 · Zone 2: 22.2 min</title></rect>
+<rect x="109" y="142.0" width="17" height="44" fill="#865e1e"><title>Week Mar 10 · Zone 3: 5.0 min</title></rect>
+<rect x="109" y="188.0" width="17" height="44" fill="#e65100"><title>Week Mar 10 · Zone 4: 7.5 min</title></rect>
+<rect x="109" y="234.0" width="17" height="44" fill="#b71c1c"><title>Week Mar 10 · Zone 5: 7.6 min</title></rect>
+<rect x="128" y="50.0" width="17" height="44" fill="#111b29"><title>Week Mar 17 · Zone 1: 0.0 min</title></rect>
+<rect x="128" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Mar 17 · Zone 2: 0.0 min</title></rect>
+<rect x="128" y="142.0" width="17" height="44" fill="#48371a"><title>Week Mar 17 · Zone 3: 0.0 min</title></rect>
+<rect x="128" y="188.0" width="17" height="44" fill="#432111"><title>Week Mar 17 · Zone 4: 0.0 min</title></rect>
+<rect x="128" y="234.0" width="17" height="44" fill="#381418"><title>Week Mar 17 · Zone 5: 0.0 min</title></rect>
+<rect x="147" y="50.0" width="17" height="44" fill="#111b29"><title>Week Mar 24 · Zone 1: 0.0 min</title></rect>
+<rect x="147" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Mar 24 · Zone 2: 0.0 min</title></rect>
+<rect x="147" y="142.0" width="17" height="44" fill="#48371a"><title>Week Mar 24 · Zone 3: 0.0 min</title></rect>
+<rect x="147" y="188.0" width="17" height="44" fill="#432111"><title>Week Mar 24 · Zone 4: 0.0 min</title></rect>
+<rect x="147" y="234.0" width="17" height="44" fill="#381418"><title>Week Mar 24 · Zone 5: 0.0 min</title></rect>
+<rect x="166" y="50.0" width="17" height="44" fill="#111b29"><title>Week Mar 31 · Zone 1: 0.0 min</title></rect>
+<rect x="166" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Mar 31 · Zone 2: 0.0 min</title></rect>
+<rect x="166" y="142.0" width="17" height="44" fill="#48371a"><title>Week Mar 31 · Zone 3: 0.0 min</title></rect>
+<rect x="166" y="188.0" width="17" height="44" fill="#432111"><title>Week Mar 31 · Zone 4: 0.0 min</title></rect>
+<rect x="166" y="234.0" width="17" height="44" fill="#381418"><title>Week Mar 31 · Zone 5: 0.0 min</title></rect>
+<text x="166.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Mar 31</text>
+<rect x="185" y="50.0" width="17" height="44" fill="#111b29"><title>Week Apr 07 · Zone 1: 0.0 min</title></rect>
+<rect x="185" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Apr 07 · Zone 2: 0.0 min</title></rect>
+<rect x="185" y="142.0" width="17" height="44" fill="#48371a"><title>Week Apr 07 · Zone 3: 0.0 min</title></rect>
+<rect x="185" y="188.0" width="17" height="44" fill="#432111"><title>Week Apr 07 · Zone 4: 0.0 min</title></rect>
+<rect x="185" y="234.0" width="17" height="44" fill="#381418"><title>Week Apr 07 · Zone 5: 0.0 min</title></rect>
+<rect x="204" y="50.0" width="17" height="44" fill="#111b29"><title>Week Apr 14 · Zone 1: 0.0 min</title></rect>
+<rect x="204" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Apr 14 · Zone 2: 0.0 min</title></rect>
+<rect x="204" y="142.0" width="17" height="44" fill="#48371a"><title>Week Apr 14 · Zone 3: 0.0 min</title></rect>
+<rect x="204" y="188.0" width="17" height="44" fill="#432111"><title>Week Apr 14 · Zone 4: 0.0 min</title></rect>
+<rect x="204" y="234.0" width="17" height="44" fill="#381418"><title>Week Apr 14 · Zone 5: 0.0 min</title></rect>
+<rect x="223" y="50.0" width="17" height="44" fill="#121e2e"><title>Week Apr 21 · Zone 1: 11.4 min</title></rect>
+<rect x="223" y="96.0" width="17" height="44" fill="#162f1e"><title>Week Apr 21 · Zone 2: 3.9 min</title></rect>
+<rect x="223" y="142.0" width="17" height="44" fill="#48371a"><title>Week Apr 21 · Zone 3: 0.0 min</title></rect>
+<rect x="223" y="188.0" width="17" height="44" fill="#432111"><title>Week Apr 21 · Zone 4: 0.0 min</title></rect>
+<rect x="223" y="234.0" width="17" height="44" fill="#381418"><title>Week Apr 21 · Zone 5: 0.0 min</title></rect>
+<rect x="242" y="50.0" width="17" height="44" fill="#142134"><title>Week Apr 28 · Zone 1: 27.3 min</title></rect>
+<rect x="242" y="96.0" width="17" height="44" fill="#17311f"><title>Week Apr 28 · Zone 2: 7.5 min</title></rect>
+<rect x="242" y="142.0" width="17" height="44" fill="#48371a"><title>Week Apr 28 · Zone 3: 0.0 min</title></rect>
+<rect x="242" y="188.0" width="17" height="44" fill="#432111"><title>Week Apr 28 · Zone 4: 0.0 min</title></rect>
+<rect x="242" y="234.0" width="17" height="44" fill="#381418"><title>Week Apr 28 · Zone 5: 0.0 min</title></rect>
+<text x="242.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Apr 28</text>
+<rect x="261" y="50.0" width="17" height="44" fill="#132031"><title>Week May 05 · Zone 1: 21.2 min</title></rect>
+<rect x="261" y="96.0" width="17" height="44" fill="#152c1e"><title>Week May 05 · Zone 2: 0.0 min</title></rect>
+<rect x="261" y="142.0" width="17" height="44" fill="#48371a"><title>Week May 05 · Zone 3: 0.0 min</title></rect>
+<rect x="261" y="188.0" width="17" height="44" fill="#432111"><title>Week May 05 · Zone 4: 0.0 min</title></rect>
+<rect x="261" y="234.0" width="17" height="44" fill="#381418"><title>Week May 05 · Zone 5: 0.0 min</title></rect>
+<rect x="280" y="50.0" width="17" height="44" fill="#1a314f"><title>Week May 12 · Zone 1: 95.9 min</title></rect>
+<rect x="280" y="96.0" width="17" height="44" fill="#1c4424"><title>Week May 12 · Zone 2: 35.8 min</title></rect>
+<rect x="280" y="142.0" width="17" height="44" fill="#9a6b1f"><title>Week May 12 · Zone 3: 6.6 min</title></rect>
+<rect x="280" y="188.0" width="17" height="44" fill="#8c360a"><title>Week May 12 · Zone 4: 3.3 min</title></rect>
+<rect x="280" y="234.0" width="17" height="44" fill="#381418"><title>Week May 12 · Zone 5: 0.0 min</title></rect>
+<rect x="299" y="50.0" width="17" height="44" fill="#132032"><title>Week May 19 · Zone 1: 21.6 min</title></rect>
+<rect x="299" y="96.0" width="17" height="44" fill="#2e7d32"><title>Week May 19 · Zone 2: 122.7 min</title></rect>
+<rect x="299" y="142.0" width="17" height="44" fill="#f9a825"><title>Week May 19 · Zone 3: 14.3 min</title></rect>
+<rect x="299" y="188.0" width="17" height="44" fill="#4c2410"><title>Week May 19 · Zone 4: 0.4 min</title></rect>
+<rect x="299" y="234.0" width="17" height="44" fill="#381418"><title>Week May 19 · Zone 5: 0.0 min</title></rect>
+<rect x="318" y="50.0" width="17" height="44" fill="#182a44"><title>Week May 26 · Zone 1: 66.8 min</title></rect>
+<rect x="318" y="96.0" width="17" height="44" fill="#2d7b31"><title>Week May 26 · Zone 2: 119.6 min</title></rect>
+<rect x="318" y="142.0" width="17" height="44" fill="#9c6d1f"><title>Week May 26 · Zone 3: 6.8 min</title></rect>
+<rect x="318" y="188.0" width="17" height="44" fill="#482211"><title>Week May 26 · Zone 4: 0.2 min</title></rect>
+<rect x="318" y="234.0" width="17" height="44" fill="#381418"><title>Week May 26 · Zone 5: 0.0 min</title></rect>
+<text x="318.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">May 26</text>
+<rect x="337" y="50.0" width="17" height="44" fill="#1d395c"><title>Week Jun 02 · Zone 1: 129.2 min</title></rect>
+<rect x="337" y="96.0" width="17" height="44" fill="#235829"><title>Week Jun 02 · Zone 2: 67.3 min</title></rect>
+<rect x="337" y="142.0" width="17" height="44" fill="#ea9e24"><title>Week Jun 02 · Zone 3: 13.1 min</title></rect>
+<rect x="337" y="188.0" width="17" height="44" fill="#542610"><title>Week Jun 02 · Zone 4: 0.8 min</title></rect>
+<rect x="337" y="234.0" width="17" height="44" fill="#381418"><title>Week Jun 02 · Zone 5: 0.0 min</title></rect>
+<rect x="356" y="50.0" width="17" height="44" fill="#1b3454"><title>Week Jun 09 · Zone 1: 107.9 min</title></rect>
+<rect x="356" y="96.0" width="17" height="44" fill="#296d2e"><title>Week Jun 09 · Zone 2: 98.8 min</title></rect>
+<rect x="356" y="142.0" width="17" height="44" fill="#845d1e"><title>Week Jun 09 · Zone 3: 4.9 min</title></rect>
+<rect x="356" y="188.0" width="17" height="44" fill="#432111"><title>Week Jun 09 · Zone 4: 0.0 min</title></rect>
+<rect x="356" y="234.0" width="17" height="44" fill="#381418"><title>Week Jun 09 · Zone 5: 0.0 min</title></rect>
+<rect x="375" y="50.0" width="17" height="44" fill="#1e3a5f"><title>Week Jun 16 · Zone 1: 135.6 min</title></rect>
+<rect x="375" y="96.0" width="17" height="44" fill="#1f4b26"><title>Week Jun 16 · Zone 2: 47.4 min</title></rect>
+<rect x="375" y="142.0" width="17" height="44" fill="#7a571d"><title>Week Jun 16 · Zone 3: 4.1 min</title></rect>
+<rect x="375" y="188.0" width="17" height="44" fill="#492311"><title>Week Jun 16 · Zone 4: 0.3 min</title></rect>
+<rect x="375" y="234.0" width="17" height="44" fill="#381418"><title>Week Jun 16 · Zone 5: 0.0 min</title></rect>
+<rect x="394" y="50.0" width="17" height="44" fill="#182b45"><title>Week Jun 23 · Zone 1: 69.3 min</title></rect>
+<rect x="394" y="96.0" width="17" height="44" fill="#1d4724"><title>Week Jun 23 · Zone 2: 40.6 min</title></rect>
+<rect x="394" y="142.0" width="17" height="44" fill="#78551d"><title>Week Jun 23 · Zone 3: 3.9 min</title></rect>
+<rect x="394" y="188.0" width="17" height="44" fill="#432111"><title>Week Jun 23 · Zone 4: 0.0 min</title></rect>
+<rect x="394" y="234.0" width="17" height="44" fill="#381418"><title>Week Jun 23 · Zone 5: 0.0 min</title></rect>
+<text x="394.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Jun 23</text>
+<rect x="413" y="50.0" width="17" height="44" fill="#1d3759"><title>Week Jun 30 · Zone 1: 120.3 min</title></rect>
+<rect x="413" y="96.0" width="17" height="44" fill="#1a3a21"><title>Week Jun 30 · Zone 2: 21.8 min</title></rect>
+<rect x="413" y="142.0" width="17" height="44" fill="#875f1e"><title>Week Jun 30 · Zone 3: 5.1 min</title></rect>
+<rect x="413" y="188.0" width="17" height="44" fill="#4e2410"><title>Week Jun 30 · Zone 4: 0.5 min</title></rect>
+<rect x="413" y="234.0" width="17" height="44" fill="#551619"><title>Week Jun 30 · Zone 5: 1.7 min</title></rect>
+<rect x="432" y="50.0" width="17" height="44" fill="#121d2c"><title>Week Jul 07 · Zone 1: 7.3 min</title></rect>
+<rect x="432" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Jul 07 · Zone 2: 0.2 min</title></rect>
+<rect x="432" y="142.0" width="17" height="44" fill="#48371a"><title>Week Jul 07 · Zone 3: 0.0 min</title></rect>
+<rect x="432" y="188.0" width="17" height="44" fill="#432111"><title>Week Jul 07 · Zone 4: 0.0 min</title></rect>
+<rect x="432" y="234.0" width="17" height="44" fill="#381418"><title>Week Jul 07 · Zone 5: 0.0 min</title></rect>
+<rect x="451" y="50.0" width="17" height="44" fill="#16263d"><title>Week Jul 14 · Zone 1: 49.3 min</title></rect>
+<rect x="451" y="96.0" width="17" height="44" fill="#183620"><title>Week Jul 14 · Zone 2: 15.7 min</title></rect>
+<rect x="451" y="142.0" width="17" height="44" fill="#48371a"><title>Week Jul 14 · Zone 3: 0.0 min</title></rect>
+<rect x="451" y="188.0" width="17" height="44" fill="#432111"><title>Week Jul 14 · Zone 4: 0.0 min</title></rect>
+<rect x="451" y="234.0" width="17" height="44" fill="#381418"><title>Week Jul 14 · Zone 5: 0.0 min</title></rect>
+<rect x="470" y="50.0" width="17" height="44" fill="#131f2f"><title>Week Jul 21 · Zone 1: 14.4 min</title></rect>
+<rect x="470" y="96.0" width="17" height="44" fill="#152c1e"><title>Week Jul 21 · Zone 2: 0.7 min</title></rect>
+<rect x="470" y="142.0" width="17" height="44" fill="#48371a"><title>Week Jul 21 · Zone 3: 0.0 min</title></rect>
+<rect x="470" y="188.0" width="17" height="44" fill="#432111"><title>Week Jul 21 · Zone 4: 0.0 min</title></rect>
+<rect x="470" y="234.0" width="17" height="44" fill="#381418"><title>Week Jul 21 · Zone 5: 0.0 min</title></rect>
+<text x="470.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Jul 21</text>
+<rect x="489" y="50.0" width="17" height="44" fill="#142235"><title>Week Jul 28 · Zone 1: 30.0 min</title></rect>
+<rect x="489" y="96.0" width="17" height="44" fill="#183620"><title>Week Jul 28 · Zone 2: 15.1 min</title></rect>
+<rect x="489" y="142.0" width="17" height="44" fill="#4f3b1b"><title>Week Jul 28 · Zone 3: 0.5 min</title></rect>
+<rect x="489" y="188.0" width="17" height="44" fill="#432111"><title>Week Jul 28 · Zone 4: 0.0 min</title></rect>
+<rect x="489" y="234.0" width="17" height="44" fill="#381418"><title>Week Jul 28 · Zone 5: 0.0 min</title></rect>
+<rect x="508" y="50.0" width="17" height="44" fill="#142235"><title>Week Aug 04 · Zone 1: 29.6 min</title></rect>
+<rect x="508" y="96.0" width="17" height="44" fill="#1a3c22"><title>Week Aug 04 · Zone 2: 24.8 min</title></rect>
+<rect x="508" y="142.0" width="17" height="44" fill="#5b431c"><title>Week Aug 04 · Zone 3: 1.6 min</title></rect>
+<rect x="508" y="188.0" width="17" height="44" fill="#4c2310"><title>Week Aug 04 · Zone 4: 0.4 min</title></rect>
+<rect x="508" y="234.0" width="17" height="44" fill="#381418"><title>Week Aug 04 · Zone 5: 0.0 min</title></rect>
+<rect x="527" y="50.0" width="17" height="44" fill="#182c46"><title>Week Aug 11 · Zone 1: 73.6 min</title></rect>
+<rect x="527" y="96.0" width="17" height="44" fill="#17311f"><title>Week Aug 11 · Zone 2: 7.1 min</title></rect>
+<rect x="527" y="142.0" width="17" height="44" fill="#48371a"><title>Week Aug 11 · Zone 3: 0.0 min</title></rect>
+<rect x="527" y="188.0" width="17" height="44" fill="#432111"><title>Week Aug 11 · Zone 4: 0.0 min</title></rect>
+<rect x="527" y="234.0" width="17" height="44" fill="#381418"><title>Week Aug 11 · Zone 5: 0.0 min</title></rect>
+<rect x="546" y="50.0" width="17" height="44" fill="#142234"><title>Week Aug 18 · Zone 1: 28.3 min</title></rect>
+<rect x="546" y="96.0" width="17" height="44" fill="#162e1e"><title>Week Aug 18 · Zone 2: 3.0 min</title></rect>
+<rect x="546" y="142.0" width="17" height="44" fill="#9c6c1f"><title>Week Aug 18 · Zone 3: 6.8 min</title></rect>
+<rect x="546" y="188.0" width="17" height="44" fill="#432111"><title>Week Aug 18 · Zone 4: 0.0 min</title></rect>
+<rect x="546" y="234.0" width="17" height="44" fill="#381418"><title>Week Aug 18 · Zone 5: 0.0 min</title></rect>
+<text x="546.0" y="302" fill="#8b949e" font-size="10" text-anchor="middle">Aug 18</text>
+<rect x="565" y="50.0" width="17" height="44" fill="#15253a"><title>Week Aug 25 · Zone 1: 41.8 min</title></rect>
+<rect x="565" y="96.0" width="17" height="44" fill="#1c4123"><title>Week Aug 25 · Zone 2: 31.5 min</title></rect>
+<rect x="565" y="142.0" width="17" height="44" fill="#553f1b"><title>Week Aug 25 · Zone 3: 1.0 min</title></rect>
+<rect x="565" y="188.0" width="17" height="44" fill="#442111"><title>Week Aug 25 · Zone 4: 0.0 min</title></rect>
+<rect x="565" y="234.0" width="17" height="44" fill="#381418"><title>Week Aug 25 · Zone 5: 0.0 min</title></rect>
+<text x="90" y="320" fill="#8b949e" font-size="11">Week labels</text>
+</svg>
+      <p style="margin-top:10px;color:#8b949e;font-size:13px"><a href="/fitness/running/">🏃 See related running dashboard</a> · <a href="/fitness/cardio/">🏃 Cardio index</a></p>
+    </section>
+  </div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

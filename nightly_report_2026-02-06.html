@@ -4,7 +4,8 @@
     <head>
         <meta charset="utf-8">
         <style>
-            body { font-family: -apple-system, sans-serif; background: #0a0a0c; color: white; padding: 40px; }
+            body { font-family: -apple-system, sans-serif; background: #0a0a0c; color: white; margin: 0; padding: 0; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+            body > *:not(nav) { margin-left: 40px; margin-right: 40px; }
             .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
             .card { background: #1c1c1e; padding: 20px; border-radius: 12px; border: 1px solid #2c2c2e; }
             .value { font-size: 24px; font-weight: bold; color: #0a84ff; }
@@ -16,6 +17,20 @@
         </style>
     </head>
     <body>
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+<!-- cross_report_link_injected --><div style="text-align:center;margin:8px auto"><a href="morning_report_2026-02-06.html" style="display:inline-block;padding:6px 14px;background:#1c2a3a;color:#58a6ff;border:1px solid #30363d;border-radius:6px;text-decoration:none;font-size:13px;margin:8px 0">☀️ View Morning Report (2026-02-06)</a></div>
+
         <h1>Nightly Brief: 2026-02-06</h1>
         <div class="grid">
             <div class="card">LIFTING<br><span class="value">5,083 lbs</span></div>
@@ -63,6 +78,5 @@
         <div class="footer" style="text-align: center; margin-top: 40px;">
             <p><a href="./historical_progress_report_2026-02-06.html" style="color: #007AFF; font-weight: bold; text-decoration: none;">🔗 Dashboard Link: Full Historical Progress</a></p>
         </div>
-    </body>
-    </html>
+    </body></html>
     

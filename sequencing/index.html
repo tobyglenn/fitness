@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workout Sequencing Intelligence</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+nav a:hover { color: #f39c12; }
+nav .brand { color: #f39c12; font-weight: 700; margin-right: 8px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+h1 { font-size: 28px; font-weight: 700; color: #f39c12; margin-bottom: 8px; }
+.subtitle { color: #8b949e; font-size: 14px; margin-bottom: 32px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.grid-1 { grid-column: 1 / -1; }
+@media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; }
+.card h2 { font-size: 16px; font-weight: 600; color: #f39c12; margin-bottom: 4px; }
+.card .card-sub { font-size: 12px; color: #6e7681; margin-bottom: 20px; }
+.split-badge { display: inline-block; background: #0a84ff22; border: 1px solid #0a84ff; color: #0a84ff; padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; margin: 8px 0 16px; }
+.confidence { font-size: 24px; font-weight: 700; color: #f39c12; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; padding: 10px 12px; color: #6e7681; font-weight: 500; border-bottom: 1px solid #30363d; font-size: 12px; text-transform: uppercase; }
+td { border-bottom: 1px solid #21262d; }
+.week-seq { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 16px 0; }
+.score-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; border: 4px solid #2ea043; color: #2ea043; margin: 0 auto 16px; }
+.rec-box { background: #0d1117; border-left: 3px solid #f39c12; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 14px; color: #e6edf3; margin-top: 12px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+<div class="container">
+  <h1>🔄 Workout Sequencing Intelligence</h1>
+  <p class="subtitle">How your training order affects recovery — last 180 days of data</p>
+
+  <div class="grid">
+    <!-- Section 1: Training DNA -->
+    <div class="card">
+      <h2>🧬 Your Training DNA</h2>
+      <div class="card-sub">Detected split type from last 90 days</div>
+      <div class="split-badge">Mixed</div>
+      <div style="margin-bottom:16px">
+        <span style="font-size:13px;color:#8b949e">Confidence: </span>
+        <span class="confidence">50%</span>
+      </div>
+      <div style="margin-bottom:8px;font-size:13px;color:#6e7681">Workout Type Distribution (90 days)</div>
+      
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:110px;font-size:13px;color:#8b949e">Rest</div>
+        <div style="flex:1;background:#2d333b;border-radius:4px;height:20px;overflow:hidden">
+          <div style="width:100.0%;height:100%;background:#6e7681;border-radius:4px;transition:width 0.5s"></div>
+        </div>
+        <div style="width:30px;font-size:13px;color:white;text-align:right">61</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:110px;font-size:13px;color:#8b949e">Run</div>
+        <div style="flex:1;background:#2d333b;border-radius:4px;height:20px;overflow:hidden">
+          <div style="width:49.2%;height:100%;background:#2ea043;border-radius:4px;transition:width 0.5s"></div>
+        </div>
+        <div style="width:30px;font-size:13px;color:white;text-align:right">30</div>
+      </div>
+      
+    </div>
+
+    <!-- Section 4: This Week's Sequence Score -->
+    <div class="card">
+      <h2>📅 This Week's Sequence Score</h2>
+      <div class="card-sub">How optimal is your current 7-day pattern?</div>
+      <div class="score-circle">85</div>
+      <div style="text-align:center;font-size:13px;color:#6e7681;margin-bottom:16px">vs 55% global avg recovery</div>
+      <div class="week-seq"><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Wed</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      <span style="font-size:11px;color:#34a043">72% rec</span>
+    </div><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Thu</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      <span style="font-size:11px;color:#f39c12">56% rec</span>
+    </div><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Fri</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      <span style="font-size:11px;color:#5ca043">84% rec</span>
+    </div><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Sat</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      <span style="font-size:11px;color:#f39c12">68% rec</span>
+    </div><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Sun</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      <span style="font-size:11px;color:#f85149">48% rec</span>
+    </div><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Mon</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      <span style="font-size:11px;color:#f85149">49% rec</span>
+    </div><div style="text-align:center">
+      <div style="font-size:11px;color:#6e7681">Tue</div>
+      <div style="width:70px;height:70px;border-radius:10px;background:#6e7681;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;margin:4px auto;text-align:center;padding:4px">Rest</div>
+      
+    </div></div>
+      <div class="rec-box">Excellent sequencing! Your current pattern is driving strong recovery.</div>
+    </div>
+
+    <!-- Section 2: Transition Heatmap (full width) -->
+    <div class="card grid-1">
+      <h2>🌡️ Workout Transition Heatmap</h2>
+      <div class="card-sub">Average next-day recovery % for each workout sequence (row = yesterday, col = today)</div>
+      <div style="overflow-x:auto">
+        <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px">
+  <text x="240" y="20" text-anchor="middle" fill="#8b949e" font-size="12">TODAY'S WORKOUT →</text>
+  <text x="12" y="240" text-anchor="middle" fill="#8b949e" font-size="12" transform="rotate(-90, 12, 240)">YESTERDAY →</text>
+  <text x="98" y="52" text-anchor="middle" fill="#8b949e" font-size="11">Heavy Lift</text><text x="178" y="52" text-anchor="middle" fill="#8b949e" font-size="11">Mod Lift</text><text x="258" y="52" text-anchor="middle" fill="#8b949e" font-size="11">Run</text><text x="338" y="52" text-anchor="middle" fill="#8b949e" font-size="11">Cycle</text><text x="418" y="52" text-anchor="middle" fill="#8b949e" font-size="11">Rest</text>
+  <text x="52" y="103" text-anchor="end" fill="#8b949e" font-size="11">Heavy Lift</text><text x="52" y="183" text-anchor="end" fill="#8b949e" font-size="11">Mod Lift</text><text x="52" y="263" text-anchor="end" fill="#8b949e" font-size="11">Run</text><text x="52" y="343" text-anchor="end" fill="#8b949e" font-size="11">Cycle</text><text x="52" y="423" text-anchor="end" fill="#8b949e" font-size="11">Rest</text>
+  <rect x="60" y="60" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="98" y="103" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="140" y="60" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="178" y="103" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="220" y="60" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="258" y="103" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="300" y="60" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="338" y="103" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="380" y="60" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="418" y="103" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="60" y="140" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="98" y="183" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="140" y="140" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="178" y="183" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="220" y="140" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="258" y="183" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="300" y="140" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="338" y="183" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="380" y="140" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="418" y="183" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="60" y="220" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="98" y="263" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="140" y="220" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="178" y="263" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="220" y="220" width="76" height="76" rx="6" fill="#f85149" opacity="0.85"/><text x="258" y="263" text-anchor="middle" fill="white" font-size="13" font-weight="600">44%</text><rect x="300" y="220" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="338" y="263" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="380" y="220" width="76" height="76" rx="6" fill="#f85149" opacity="0.85"/><text x="418" y="263" text-anchor="middle" fill="white" font-size="13" font-weight="600">48%</text><rect x="60" y="300" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="98" y="343" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="140" y="300" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="178" y="343" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="220" y="300" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="258" y="343" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="300" y="300" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="338" y="343" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="380" y="300" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="418" y="343" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="60" y="380" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="98" y="423" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="140" y="380" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="178" y="423" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="220" y="380" width="76" height="76" rx="6" fill="#f85149" opacity="0.85"/><text x="258" y="423" text-anchor="middle" fill="white" font-size="13" font-weight="600">48%</text><rect x="300" y="380" width="76" height="76" rx="6" fill="#2d333b" opacity="0.85"/><text x="338" y="423" text-anchor="middle" fill="white" font-size="13" font-weight="600">—</text><rect x="380" y="380" width="76" height="76" rx="6" fill="#f39c12" opacity="0.85"/><text x="418" y="423" text-anchor="middle" fill="white" font-size="13" font-weight="600">56%</text>
+</svg>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2ea043"></div>High Recovery (75%+)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>Moderate (55–75%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div>Low (&lt;55%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2d333b"></div>No Data</div>
+      </div>
+    </div>
+
+    <!-- Section 3a: Best Sequences -->
+    <div class="card">
+      <h2>🏆 Best Sequences</h2>
+      <div class="card-sub">Top 5 by avg next-day WHOOP recovery</div>
+      <table>
+        <tr><th>#</th><th>Sequence</th><th>Avg Recovery</th><th>Samples</th></tr>
+        <tr>
+          <td style="padding:10px 12px">🟢</td>
+          <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#6e7681">Rest</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">56%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">126 samples</td>
+        </tr><tr>
+          <td style="padding:10px 12px">🟢</td>
+          <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#2ea043">Run</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">48%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">14 samples</td>
+        </tr><tr>
+          <td style="padding:10px 12px">🟢</td>
+          <td style="padding:10px 12px"><span style="color:#2ea043">Run</span> → <span style="color:#6e7681">Rest</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">48%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">14 samples</td>
+        </tr><tr>
+          <td style="padding:10px 12px">🟢</td>
+          <td style="padding:10px 12px"><span style="color:#2ea043">Run</span> → <span style="color:#2ea043">Run</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">44%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">19 samples</td>
+        </tr>
+      </table>
+      
+    </div>
+
+    <!-- Section 3b: Worst Sequences -->
+    <div class="card">
+      <h2>⚠️ Sequences to Avoid</h2>
+      <div class="card-sub">Bottom 5 by avg next-day WHOOP recovery</div>
+      <table>
+        <tr><th>#</th><th>Sequence</th><th>Avg Recovery</th><th>Samples</th></tr>
+        <tr>
+          <td style="padding:10px 12px">🔴</td>
+          <td style="padding:10px 12px"><span style="color:#2ea043">Run</span> → <span style="color:#2ea043">Run</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">44%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">19 samples</td>
+        </tr><tr>
+          <td style="padding:10px 12px">🔴</td>
+          <td style="padding:10px 12px"><span style="color:#2ea043">Run</span> → <span style="color:#6e7681">Rest</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">48%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">14 samples</td>
+        </tr><tr>
+          <td style="padding:10px 12px">🔴</td>
+          <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#2ea043">Run</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">48%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">14 samples</td>
+        </tr><tr>
+          <td style="padding:10px 12px">🔴</td>
+          <td style="padding:10px 12px"><span style="color:#6e7681">Rest</span> → <span style="color:#6e7681">Rest</span></td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:700">56%</td>
+          <td style="padding:10px 12px;color:#6e7681;font-size:12px">126 samples</td>
+        </tr>
+      </table>
+      
+    </div>
+
+    <!-- Section 5: Day of Week Pattern (full width) -->
+    <div class="card grid-1">
+      <h2>📊 Day-of-Week Intensity Pattern</h2>
+      <div class="card-sub">Training intensity distribution across days of the week (last 180 days)</div>
+      
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Mon</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:23.1%;background:#f39c12" title="Moderate: 23%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:76.9%;background:#2d333b" title="Rest: 77%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 6M 20R</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Tue</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:26.9%;background:#f39c12" title="Moderate: 27%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:73.1%;background:#2d333b" title="Rest: 73%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 7M 19R</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Wed</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:24.0%;background:#f39c12" title="Moderate: 24%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:76.0%;background:#2d333b" title="Rest: 76%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 6M 19R</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Thu</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:19.2%;background:#f39c12" title="Moderate: 19%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:80.8%;background:#2d333b" title="Rest: 81%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 5M 21R</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Fri</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:11.5%;background:#f39c12" title="Moderate: 12%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:88.5%;background:#2d333b" title="Rest: 88%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 3M 23R</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Sat</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:11.5%;background:#f39c12" title="Moderate: 12%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:88.5%;background:#2d333b" title="Rest: 88%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 3M 23R</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;font-size:13px;color:#8b949e;text-align:center">Sun</div>
+        <div style="flex:1;height:28px;border-radius:6px;overflow:hidden;display:flex">
+          <div style="width:0.0%;background:#0a84ff" title="Heavy: 0%"></div>
+          <div style="width:11.5%;background:#f39c12" title="Moderate: 12%"></div>
+          <div style="width:0.0%;background:#2ea043" title="Light: 0%"></div>
+          <div style="width:88.5%;background:#2d333b" title="Rest: 88%"></div>
+        </div>
+        <div style="width:80px;font-size:12px;color:#6e7681">0H 3M 23R</div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0a84ff"></div>Heavy</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div>Moderate</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2ea043"></div>Light</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2d333b"></div>Rest</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:#6e7681;font-size:12px;margin-top:32px">
+    Generated March 17, 2026 · Data: Tonal (690 days), Garmin (103 days), WHOOP (1135 days)
+  </div>
+</div>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Performance Championship</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+        .header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+        .back-link { color: #4fc3f7; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { font-size: 24px; font-weight: 600; color: #fff; }
+        h2 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+        .card { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        
+        /* Leaderboard Grid */
+        .leaderboard-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+        .rank-card { background: #1c1c1e; border-radius: 12px; padding: 16px; text-align: center; }
+        .rank-card.champion { border: 2px solid #ffd700; }
+        .rank-card .rank { font-size: 28px; font-weight: 700; color: #4fc3f7; }
+        .rank-card.champion .rank { color: #ffd700; }
+        .rank-card .month { font-size: 14px; color: #8e8e93; margin: 4px 0; }
+        .rank-card .score { font-size: 20px; font-weight: 600; color: #fff; }
+        .rank-card .details { font-size: 11px; color: #8e8e93; margin-top: 8px; }
+        
+        /* Charts Grid */
+        .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .chart-container { background: #1c1c1e; border-radius: 12px; padding: 20px; }
+        .chart-container canvas { width: 100%; height: 200px; }
+        
+        .champion-banner { background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%); color: #000; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 24px; }
+        .champion-banner h2 { color: #000; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .champion-banner .champ-month { font-size: 32px; font-weight: 700; }
+        .champion-banner .champ-score { font-size: 18px; opacity: 0.8; }
+        
+        @media (max-width: 768px) {
+            .leaderboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+    </div>
+    <h1>🏆 Monthly Performance Championship</h1>
+    
+    <div class="champion-banner">
+        <h2>Champion Month</h2>
+        <div class="champ-month">2023-09</div>
+        <div class="champ-score">Score: 39.5</div>
+    </div>
+    
+    <div class="leaderboard-grid"><div class="rank-card champion">
+        <div class="rank">#1</div>
+        <div class="month">2023-09</div>
+        <div class="score">39.5</div>
+        <div class="details">0mi · 57wo · 0 strain · 58.0% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#2</div>
+        <div class="month">2023-12</div>
+        <div class="score">39.4</div>
+        <div class="details">0mi · 41wo · 0 strain · 57.6% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#3</div>
+        <div class="month">2023-11</div>
+        <div class="score">38.9</div>
+        <div class="details">0mi · 57wo · 0 strain · 55.8% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#4</div>
+        <div class="month">2025-05</div>
+        <div class="score">38.7</div>
+        <div class="details">37.0mi · 0wo · 0 strain · 62.5% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#5</div>
+        <div class="month">2025-06</div>
+        <div class="score">38.6</div>
+        <div class="details">76.8mi · 0wo · 0 strain · 54.5% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#6</div>
+        <div class="month">2025-08</div>
+        <div class="score">36.8</div>
+        <div class="details">38.6mi · 0wo · 0 strain · 50.5% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#7</div>
+        <div class="month">2023-10</div>
+        <div class="score">36.7</div>
+        <div class="details">0mi · 67wo · 0 strain · 46.9% rec</div>
+    </div><div class="rank-card">
+        <div class="rank">#8</div>
+        <div class="month">2024-04</div>
+        <div class="score">36.6</div>
+        <div class="details">0mi · 31wo · 0 strain · 69.1% rec</div>
+    </div></div>
+    
+    <div class="charts-grid">
+        <div class="chart-container">
+            <h2>Total Monthly Miles</h2>
+            <canvas id="chartMiles"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Monthly Workout Count</h2>
+            <canvas id="chartWorkouts"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Average Monthly Strain</h2>
+            <canvas id="chartStrain"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Average Monthly Recovery</h2>
+            <canvas id="chartRecovery"></canvas>
+        </div>
+        <div class="chart-container" style="grid-column: span 2;">
+            <h2>Championship Score Breakdown (Top 6)</h2>
+            <canvas id="chartBreakdown"></canvas>
+        </div>
+    </div>
+    
+    <script>
+    const MONTHLY_DATA = [{"month": "2021-10", "miles": 0, "workouts": 39, "avg_strain": 0, "avg_recovery": 0, "championship": 24.4}, {"month": "2021-11", "miles": 0, "workouts": 17, "avg_strain": 0, "avg_recovery": 0, "championship": 10.6}, {"month": "2021-12", "miles": 0, "workouts": 32, "avg_strain": 0, "avg_recovery": 0, "championship": 20.0}, {"month": "2022-01", "miles": 0, "workouts": 21, "avg_strain": 0, "avg_recovery": 0, "championship": 13.1}, {"month": "2022-02", "miles": 0, "workouts": 9, "avg_strain": 0, "avg_recovery": 0, "championship": 5.6}, {"month": "2022-03", "miles": 0, "workouts": 8, "avg_strain": 0, "avg_recovery": 0, "championship": 5.0}, {"month": "2022-04", "miles": 0, "workouts": 10, "avg_strain": 0, "avg_recovery": 0, "championship": 6.2}, {"month": "2022-05", "miles": 0, "workouts": 8, "avg_strain": 0, "avg_recovery": 0, "championship": 5.0}, {"month": "2022-06", "miles": 0, "workouts": 47, "avg_strain": 0, "avg_recovery": 0, "championship": 25.0}, {"month": "2022-07", "miles": 0, "workouts": 70, "avg_strain": 0, "avg_recovery": 0, "championship": 25.0}, {"month": "2022-08", "miles": 0, "workouts": 28, "avg_strain": 0, "avg_recovery": 0, "championship": 17.5}, {"month": "2022-09", "miles": 0, "workouts": 9, "avg_strain": 0, "avg_recovery": 0, "championship": 5.6}, {"month": "2022-10", "miles": 0, "workouts": 28, "avg_strain": 0, "avg_recovery": 0, "championship": 17.5}, {"month": "2022-11", "miles": 0, "workouts": 7, "avg_strain": 0, "avg_recovery": 0, "championship": 4.4}, {"month": "2022-12", "miles": 0, "workouts": 5, "avg_strain": 0, "avg_recovery": 0, "championship": 3.1}, {"month": "2023-01", "miles": 0, "workouts": 2, "avg_strain": 0, "avg_recovery": 55.0, "championship": 15.0}, {"month": "2023-02", "miles": 0, "workouts": 4, "avg_strain": 0, "avg_recovery": 51.9, "championship": 15.5}, {"month": "2023-03", "miles": 0, "workouts": 5, "avg_strain": 0, "avg_recovery": 57.4, "championship": 17.5}, {"month": "2023-04", "miles": 0, "workouts": 7, "avg_strain": 0, "avg_recovery": 59.0, "championship": 19.1}, {"month": "2023-05", "miles": 0, "workouts": 8, "avg_strain": 0, "avg_recovery": 59.4, "championship": 19.8}, {"month": "2023-06", "miles": 0, "workouts": 21, "avg_strain": 0, "avg_recovery": 50.8, "championship": 25.8}, {"month": "2023-07", "miles": 0, "workouts": 12, "avg_strain": 0, "avg_recovery": 55.9, "championship": 21.5}, {"month": "2023-08", "miles": 0, "workouts": 36, "avg_strain": 0, "avg_recovery": 48.6, "championship": 34.7}, {"month": "2023-09", "miles": 0, "workouts": 57, "avg_strain": 0, "avg_recovery": 58.0, "championship": 39.5}, {"month": "2023-10", "miles": 0, "workouts": 67, "avg_strain": 0, "avg_recovery": 46.9, "championship": 36.7}, {"month": "2023-11", "miles": 0, "workouts": 57, "avg_strain": 0, "avg_recovery": 55.8, "championship": 38.9}, {"month": "2023-12", "miles": 0, "workouts": 41, "avg_strain": 0, "avg_recovery": 57.6, "championship": 39.4}, {"month": "2024-01", "miles": 0, "workouts": 22, "avg_strain": 0, "avg_recovery": 56.6, "championship": 27.9}, {"month": "2024-02", "miles": 0, "workouts": 22, "avg_strain": 0, "avg_recovery": 55.6, "championship": 27.7}, {"month": "2024-03", "miles": 0, "workouts": 34, "avg_strain": 0, "avg_recovery": 54.3, "championship": 34.8}, {"month": "2024-04", "miles": 0, "workouts": 31, "avg_strain": 0, "avg_recovery": 69.1, "championship": 36.6}, {"month": "2024-05", "miles": 0, "workouts": 15, "avg_strain": 0, "avg_recovery": 56.1, "championship": 23.4}, {"month": "2024-06", "miles": 0, "workouts": 30, "avg_strain": 0, "avg_recovery": 58.4, "championship": 33.4}, {"month": "2024-07", "miles": 0, "workouts": 25, "avg_strain": 0, "avg_recovery": 57.5, "championship": 30.0}, {"month": "2024-08", "miles": 0, "workouts": 21, "avg_strain": 0, "avg_recovery": 55.8, "championship": 27.1}, {"month": "2024-09", "miles": 0, "workouts": 17, "avg_strain": 0, "avg_recovery": 48.7, "championship": 22.8}, {"month": "2024-10", "miles": 0, "workouts": 21, "avg_strain": 0, "avg_recovery": 47.6, "championship": 25.0}, {"month": "2024-11", "miles": 0, "workouts": 25, "avg_strain": 0, "avg_recovery": 58.1, "championship": 30.1}, {"month": "2024-12", "miles": 0, "workouts": 15, "avg_strain": 0, "avg_recovery": 61.7, "championship": 24.8}, {"month": "2025-01", "miles": 0, "workouts": 21, "avg_strain": 0, "avg_recovery": 56.9, "championship": 27.4}, {"month": "2025-02", "miles": 1.0, "workouts": 27, "avg_strain": 0, "avg_recovery": 59.0, "championship": 32.3}, {"month": "2025-03", "miles": 4.1, "workouts": 19, "avg_strain": 0, "avg_recovery": 50.1, "championship": 26.9}, {"month": "2025-04", "miles": 1.1, "workouts": 2, "avg_strain": 0, "avg_recovery": 65.1, "championship": 18.3}, {"month": "2025-05", "miles": 37.0, "workouts": 0, "avg_strain": 0, "avg_recovery": 62.5, "championship": 38.7}, {"month": "2025-06", "miles": 76.8, "workouts": 0, "avg_strain": 0, "avg_recovery": 54.5, "championship": 38.6}, {"month": "2025-07", "miles": 31.4, "workouts": 0, "avg_strain": 0, "avg_recovery": 52.0, "championship": 32.6}, {"month": "2025-08", "miles": 38.6, "workouts": 0, "avg_strain": 0, "avg_recovery": 50.5, "championship": 36.8}, {"month": "2025-09", "miles": 12.4, "workouts": 0, "avg_strain": 0, "avg_recovery": 59.3, "championship": 22.6}, {"month": "2025-10", "miles": 1.7, "workouts": 0, "avg_strain": 0, "avg_recovery": 50.8, "championship": 13.8}, {"month": "2025-11", "miles": 0, "workouts": 0, "avg_strain": 0, "avg_recovery": 47.8, "championship": 12.0}, {"month": "2025-12", "miles": 0, "workouts": 0, "avg_strain": 0, "avg_recovery": 71.9, "championship": 18.0}, {"month": "2026-01", "miles": 29.0, "workouts": 0, "avg_strain": 0, "avg_recovery": 57.3, "championship": 32.4}, {"month": "2026-02", "miles": 31.9, "workouts": 0, "avg_strain": 0, "avg_recovery": 39.4, "championship": 29.8}, {"month": "2026-03", "miles": 0, "workouts": 0, "avg_strain": 0, "avg_recovery": 43.5, "championship": 10.9}];
+    const TOP_6 = [{"month": "2023-09", "miles": 0, "workouts": 57, "avg_strain": 0, "avg_recovery": 58.0, "championship": 39.5}, {"month": "2023-12", "miles": 0, "workouts": 41, "avg_strain": 0, "avg_recovery": 57.6, "championship": 39.4}, {"month": "2023-11", "miles": 0, "workouts": 57, "avg_strain": 0, "avg_recovery": 55.8, "championship": 38.9}, {"month": "2025-05", "miles": 37.0, "workouts": 0, "avg_strain": 0, "avg_recovery": 62.5, "championship": 38.7}, {"month": "2025-06", "miles": 76.8, "workouts": 0, "avg_strain": 0, "avg_recovery": 54.5, "championship": 38.6}, {"month": "2025-08", "miles": 38.6, "workouts": 0, "avg_strain": 0, "avg_recovery": 50.5, "championship": 36.8}];
+    
+    const COLORS = {
+        bg: '#1c1c1e',
+        text: '#e0e0e0',
+        accent: '#4fc3f7',
+        gold: '#ffd700',
+        green: '#28a745',
+        orange: '#ff9500',
+        red: '#ff3b30',
+        grid: '#333'
+    };
+    
+    // Chart helper
+    function setupCanvas(id) {
+        const canvas = document.getElementById(id);
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        return { canvas, ctx, w: rect.width, h: rect.height };
+    }
+    
+    // Bar Chart
+    function drawBarChart(id, data, getLabel, getValue, color) {
+        const { ctx, w, h } = setupCanvas(id);
+        ctx.fillStyle = COLORS.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxVal = Math.max(...data.map(getValue)) * 1.1;
+        const barW = chartW / data.length * 0.7;
+        const gap = chartW / data.length * 0.3;
+        
+        // Y axis
+        ctx.strokeStyle = COLORS.grid;
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = padding.top + (chartH * i / 4);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(w - padding.right, y);
+            ctx.stroke();
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'right';
+            ctx.fillText((maxVal * (4 - i) / 4).toFixed(0), padding.left - 5, y + 4);
+        }
+        
+        // Bars
+        data.forEach((d, i) => {
+            const val = getValue(d);
+            const barH = (val / maxVal) * chartH;
+            const x = padding.left + (chartW / data.length) * i + gap / 2;
+            const y = padding.top + chartH - barH;
+            
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, barW, barH);
+            
+            // Label
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '10px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(getLabel(d), x + barW / 2, h - 10);
+        });
+    }
+    
+    // Line Chart
+    function drawLineChart(id, data, getLabel, getValue, color) {
+        const { ctx, w, h } = setupCanvas(id);
+        ctx.fillStyle = COLORS.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const maxVal = Math.max(...data.map(getValue)) * 1.1;
+        const minVal = Math.min(...data.map(getValue)) * 0.9;
+        const range = maxVal - minVal;
+        
+        // Y axis
+        ctx.strokeStyle = COLORS.grid;
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = padding.top + (chartH * i / 4);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(w - padding.right, y);
+            ctx.stroke();
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'right';
+            ctx.fillText((maxVal - (range * i / 4)).toFixed(0), padding.left - 5, y + 4);
+        }
+        
+        // Line
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = padding.left + (chartW / (data.length - 1 || 1)) * i;
+            const val = getValue(d);
+            const y = padding.top + chartH - ((val - minVal) / range) * chartH;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Points
+        data.forEach((d, i) => {
+            const x = padding.left + (chartW / (data.length - 1 || 1)) * i;
+            const val = getValue(d);
+            const y = padding.top + chartH - ((val - minVal) / range) * chartH;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Label
+            if (i % Math.ceil(data.length / 8) === 0 || i === data.length - 1) {
+                ctx.fillStyle = '#8e8e93';
+                ctx.font = '9px -apple-system';
+                ctx.textAlign = 'center';
+                ctx.fillText(getLabel(d).slice(5), x, h - 10);
+            }
+        });
+    }
+    
+    // Stacked Bar Breakdown
+    function drawBreakdownChart(id) {
+        const { ctx, w, h } = setupCanvas(id);
+        ctx.fillStyle = COLORS.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const padding = { top: 20, right: 20, bottom: 50, left: 50 };
+        const chartW = w - padding.left - padding.right;
+        const chartH = h - padding.top - padding.bottom;
+        
+        const metrics = ['miles', 'workouts', 'avg_strain', 'avg_recovery'];
+        const colors = [COLORS.accent, COLORS.green, COLORS.orange, COLORS.gold];
+        const labels = ['Miles', 'Workouts', 'Strain', 'Recovery'];
+        const weights = [0.25, 0.25, 0.25, 0.25];
+        
+        const maxVal = 100;
+        const barW = chartW / TOP_6.length * 0.7;
+        const gap = chartW / TOP_6.length * 0.3;
+        
+        // Y axis
+        ctx.strokeStyle = COLORS.grid;
+        for (let i = 0; i <= 4; i++) {
+            const y = padding.top + (chartH * i / 4);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(w - padding.right, y);
+            ctx.stroke();
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'right';
+            ctx.fillText((maxVal * (4 - i) / 4), padding.left - 5, y + 4);
+        }
+        
+        // Stacked bars
+        TOP_6.forEach((month, mi) => {
+            let x = padding.left + (chartW / TOP_6.length) * mi + gap / 2;
+            let yBottom = padding.top + chartH;
+            let totalH = 0;
+            
+            metrics.forEach((metric, i) => {
+                let val = metric === 'miles' ? month[metric] / 40 * 100 :
+                          metric === 'workouts' ? month[metric] / 40 * 100 :
+                          metric === 'avg_strain' ? month[metric] / 15 * 100 :
+                          month[metric];
+                val = Math.min(val, 100);
+                const barH = (val / maxVal) * chartH;
+                
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, yBottom - barH, barW, barH);
+                yBottom -= barH;
+                totalH += barH;
+            });
+            
+            // Month label
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(month.month.slice(2), x + barW / 2, h - 20);
+            ctx.fillText(month.month.slice(0, 2) + ')', x + barW / 2, h - 8);
+        });
+        
+        // Legend
+        const legendY = 15;
+        const legendW = 12;
+        ctx.font = '11px -apple-system';
+        labels.forEach((label, i) => {
+            const lx = w / 2 - 150 + i * 80;
+            ctx.fillStyle = colors[i];
+            ctx.fillRect(lx, legendY, legendW, legendW);
+            ctx.fillStyle = '#8e8e93';
+            ctx.textAlign = 'left';
+            ctx.fillText(label, lx + 16, legendY + 10);
+        });
+    }
+    
+    // Draw all charts
+    drawBarChart('chartMiles', MONTHLY_DATA, m => m.month.slice(2), m => m.miles, COLORS.accent);
+    drawBarChart('chartWorkouts', MONTHLY_DATA, m => m.month.slice(2), m => m.workouts, COLORS.green);
+    drawLineChart('chartStrain', MONTHLY_DATA, m => m.month.slice(2), m => m.avg_strain, COLORS.orange);
+    drawLineChart('chartRecovery', MONTHLY_DATA, m => m.month.slice(2), m => m.avg_recovery, COLORS.gold);
+    drawBreakdownChart('chartBreakdown');
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

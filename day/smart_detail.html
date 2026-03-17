@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Day Detail</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 0 20px; display: flex; align-items: center; gap: 0; overflow-x: auto; }
+  nav a { color: #8b949e; text-decoration: none; padding: 14px 16px; font-size: 13px; white-space: nowrap; border-bottom: 2px solid transparent; transition: color .2s; }
+  nav a:hover { color: #e6edf3; }
+  nav a.active { color: #f39c12; border-bottom-color: #f39c12; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+  .date-header { text-align: center; margin-bottom: 24px; }
+  .date-title { font-size: 28px; font-weight: 700; color: #f39c12; }
+  .date-sub { font-size: 14px; color: #8b949e; margin-top: 4px; }
+  .day-nav { display: flex; justify-content: center; gap: 16px; margin-bottom: 32px; }
+  .day-nav button { background: #161b22; border: 1px solid #30363d; color: #e6edf3; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: background .2s; }
+  .day-nav button:hover { background: #21262d; }
+  .day-nav input[type=date] { background: #161b22; border: 1px solid #30363d; color: #e6edf3; padding: 8px 12px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+  .section { margin-bottom: 24px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; }
+  .card-title { font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+  .rec-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; border-left: 4px solid #555; }
+  .rec-icon { font-size: 32px; margin-bottom: 8px; }
+  .rec-headline { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .rec-body { font-size: 14px; color: #c9d1d9; line-height: 1.6; margin-bottom: 8px; }
+  .rec-subtext { font-size: 12px; color: #8b949e; }
+  .rec-factors { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .rec-factor { background: #0d1117; border: 1px solid #30363d; border-radius: 4px; padding: 4px 10px; font-size: 11px; color: #8b949e; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+  .big-number { font-size: 48px; font-weight: 700; line-height: 1; }
+  .big-label { font-size: 12px; color: #8b949e; margin-top: 4px; }
+  .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #21262d; }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-label { font-size: 13px; color: #8b949e; }
+  .metric-value { font-size: 14px; font-weight: 600; }
+  .score-ring { display: inline-block; }
+  .tonal-exercise { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #21262d; font-size: 13px; }
+  .tonal-exercise:last-child { border-bottom: none; }
+  .garmin-act { background: #0d1117; border-radius: 6px; padding: 12px; margin-bottom: 8px; }
+  .garmin-act:last-child { margin-bottom: 0; }
+  .garmin-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .garmin-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+  .garmin-stat { font-size: 12px; color: #8b949e; }
+  .garmin-stat strong { color: #e6edf3; }
+  .nutrition-bar { height: 6px; border-radius: 3px; background: #21262d; margin-top: 4px; overflow: hidden; }
+  .nutrition-fill { height: 100%; border-radius: 3px; transition: width .5s; }
+  .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 500px) { .macro-grid { grid-template-columns: repeat(2, 1fr); } }
+  .macro-card { background: #0d1117; border-radius: 6px; padding: 12px; text-align: center; }
+  .macro-val { font-size: 22px; font-weight: 700; }
+  .macro-lbl { font-size: 11px; color: #8b949e; margin-top: 2px; }
+  .macro-avg { font-size: 10px; color: #555; margin-top: 2px; }
+  .no-data { text-align: center; color: #555; font-size: 13px; padding: 20px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .tag-green { background: #1a3a1f; color: #2ea043; }
+  .tag-yellow { background: #3a2e00; color: #f39c12; }
+  .tag-red { background: #3a1a1a; color: #f85149; }
+  .section-label { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #e6edf3; }
+  .workout-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .workout-time { font-size: 12px; color: #8b949e; }
+  .workout-stats { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .workout-stat { font-size: 13px; }
+  .workout-stat strong { color: #f39c12; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../hub_index.html">🏠 Hub</a>
+  <a href="../fitness_overview.html">Overview</a>
+  <a href="../calendars/2026-02-calendar.html">📅 Calendar</a>
+  <a href="../strength/index.html">💪 Strength</a>
+  <a href="../cardio/index.html">🏃 Cardio</a>
+  <a href="../recovery/index.html">💚 Recovery</a>
+  <a href="../nutrition/index.html">🥗 Nutrition</a>
+  <a href="../training_recommender/index.html">🎯 Recommender</a>
+  <a href="index.html">📊 Day View</a>
+  <a href="smart_detail.html" class="active">🔍 Smart Detail</a>
+</nav>
+
+<div class="container">
+  <div class="date-header">
+    <div class="date-title" id="dateTitle">Loading...</div>
+    <div class="date-sub" id="dateSub"></div>
+  </div>
+
+  <div class="day-nav">
+    <button onclick="prevDay()">← Previous Day</button>
+    <input type="date" id="datePicker" onchange="goToDate(this.value)">
+    <button onclick="nextDay()">Next Day →</button>
+  </div>
+
+  <div id="content">
+    <div class="card"><div class="no-data">Loading...</div></div>
+  </div>
+</div>
+
+<script>
+const DAY_DATA = {"2025-11-29": {"whoop": {"recovery": 58, "rhr": 79, "hrv": 20.6}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 58% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 58% recovered \u00b7 HRV: 21ms \u00b7 RHR: 79bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-11-30": {"whoop": {"recovery": 67, "rhr": 77, "hrv": 22.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 67% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 67% recovered \u00b7 HRV: 22ms \u00b7 RHR: 77bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-01": {"whoop": {"recovery": 68, "rhr": 75, "hrv": 22.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 68% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 68% recovered \u00b7 HRV: 22ms \u00b7 RHR: 75bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-02": {"whoop": null, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "unknown", "icon": "\u2753", "headline": "No recovery data for this day", "body": "WHOOP data not available. Check your WHOOP app.", "subtext": "", "border_color": "#555", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-03": {"whoop": {"recovery": 40, "rhr": 81, "hrv": 16.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 40% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 40% recovered \u00b7 HRV: 16ms \u00b7 RHR: 81bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-04": {"whoop": {"recovery": 8, "rhr": 86, "hrv": 12.9}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 8% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 8% recovered \u00b7 HRV: 13ms \u00b7 RHR: 86bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-05": {"whoop": {"recovery": 63, "rhr": 83, "hrv": 17.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 63% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 63% recovered \u00b7 HRV: 17ms \u00b7 RHR: 83bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-06": {"whoop": null, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "unknown", "icon": "\u2753", "headline": "No recovery data for this day", "body": "WHOOP data not available. Check your WHOOP app.", "subtext": "", "border_color": "#555", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-07": {"whoop": {"recovery": 53, "rhr": 82, "hrv": 16.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 53% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 53% recovered \u00b7 HRV: 16ms \u00b7 RHR: 82bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-08": {"whoop": {"recovery": 78, "rhr": 76, "hrv": 20.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 78% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 78% recovered \u00b7 HRV: 20ms \u00b7 RHR: 76bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-09": {"whoop": {"recovery": 90, "rhr": 77, "hrv": 22.5}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 90% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 90% recovered \u00b7 HRV: 22ms \u00b7 RHR: 77bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-10": {"whoop": {"recovery": 98, "rhr": 79, "hrv": 24.9}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 98% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 98% recovered \u00b7 HRV: 25ms \u00b7 RHR: 79bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-11": {"whoop": {"recovery": 67, "rhr": 82, "hrv": 18.0}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 67% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 67% recovered \u00b7 HRV: 18ms \u00b7 RHR: 82bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-12": {"whoop": {"recovery": 54, "rhr": 82, "hrv": 15.6}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 54% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 54% recovered \u00b7 HRV: 16ms \u00b7 RHR: 82bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-13": {"whoop": {"recovery": 64, "rhr": 83, "hrv": 17.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 64% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 64% recovered \u00b7 HRV: 17ms \u00b7 RHR: 83bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-14": {"whoop": {"recovery": 76, "rhr": 76, "hrv": 19.5}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 76% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 76% recovered \u00b7 HRV: 20ms \u00b7 RHR: 76bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-15": {"whoop": {"recovery": 30, "rhr": 86, "hrv": 11.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 30% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 30% recovered \u00b7 HRV: 11ms \u00b7 RHR: 86bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-16": {"whoop": {"recovery": 66, "rhr": 80, "hrv": 17.7}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 66% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 66% recovered \u00b7 HRV: 18ms \u00b7 RHR: 80bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-17": {"whoop": {"recovery": 90, "rhr": 80, "hrv": 22.0}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 90% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 90% recovered \u00b7 HRV: 22ms \u00b7 RHR: 80bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-18": {"whoop": {"recovery": 95, "rhr": 76, "hrv": 24.1}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 95% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 95% recovered \u00b7 HRV: 24ms \u00b7 RHR: 76bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-19": {"whoop": {"recovery": 95, "rhr": 77, "hrv": 24.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 95% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 95% recovered \u00b7 HRV: 24ms \u00b7 RHR: 77bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-20": {"whoop": {"recovery": 90, "rhr": 78, "hrv": 23.8}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 90% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 90% recovered \u00b7 HRV: 24ms \u00b7 RHR: 78bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-21": {"whoop": {"recovery": 58, "rhr": 79, "hrv": 19.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 58% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 58% recovered \u00b7 HRV: 19ms \u00b7 RHR: 79bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-22": {"whoop": {"recovery": 11, "rhr": 79, "hrv": 18.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 11% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 11% recovered \u00b7 HRV: 18ms \u00b7 RHR: 79bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-23": {"whoop": {"recovery": 97, "rhr": 74, "hrv": 26.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 97% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 97% recovered \u00b7 HRV: 26ms \u00b7 RHR: 74bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-24": {"whoop": {"recovery": 63, "rhr": 78, "hrv": 21.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 63% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 63% recovered \u00b7 HRV: 21ms \u00b7 RHR: 78bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-25": {"whoop": {"recovery": 95, "rhr": 74, "hrv": 29.0}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 95% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 95% recovered \u00b7 HRV: 29ms \u00b7 RHR: 74bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-26": {"whoop": {"recovery": 80, "rhr": 79, "hrv": 22.0}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 80% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 80% recovered \u00b7 HRV: 22ms \u00b7 RHR: 79bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-27": {"whoop": {"recovery": 82, "rhr": 78, "hrv": 22.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 82% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 82% recovered \u00b7 HRV: 22ms \u00b7 RHR: 78bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-28": {"whoop": {"recovery": 80, "rhr": 75, "hrv": 22.1}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 80% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 80% recovered \u00b7 HRV: 22ms \u00b7 RHR: 75bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-29": {"whoop": {"recovery": 98, "rhr": 70, "hrv": 29.1}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 98% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 98% recovered \u00b7 HRV: 29ms \u00b7 RHR: 70bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-30": {"whoop": {"recovery": 98, "rhr": 72, "hrv": 32.5}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 98% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 98% recovered \u00b7 HRV: 32ms \u00b7 RHR: 72bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2025-12-31": {"whoop": {"recovery": 97, "rhr": 76, "hrv": 58.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 97% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 97% recovered \u00b7 HRV: 58ms \u00b7 RHR: 76bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2026-01-01": {"whoop": {"recovery": 62, "rhr": 76, "hrv": 24.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 62% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 62% recovered \u00b7 HRV: 24ms \u00b7 RHR: 76bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2026-01-02": {"whoop": {"recovery": 58, "rhr": 71, "hrv": 21.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 58% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 58% recovered \u00b7 HRV: 21ms \u00b7 RHR: 71bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2026-01-03": {"whoop": {"recovery": 61, "rhr": 73, "hrv": 23.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 61% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 61% recovered \u00b7 HRV: 23ms \u00b7 RHR: 73bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2026-01-04": {"whoop": null, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "unknown", "icon": "\u2753", "headline": "No recovery data for this day", "body": "WHOOP data not available. Check your WHOOP app.", "subtext": "", "border_color": "#555", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2026-01-05": {"whoop": {"recovery": 56, "rhr": 70, "hrv": 20.0}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.58, "duration_min": 23.0, "avg_hr": 132, "calories": 235}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 56% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 56% recovered \u00b7 HRV: 20ms \u00b7 RHR: 70bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": null, "heavy_days_week": 0}}, "2026-01-06": {"whoop": {"recovery": 54, "rhr": 75, "hrv": 19.5}, "sleep": null, "tonal": [], "garmin": [{"name": "Treadmill Running", "type": "treadmill_running", "distance_miles": 2.25, "duration_min": 30.0, "avg_hr": 140, "calories": 341}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 54% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 54% recovered \u00b7 HRV: 20ms \u00b7 RHR: 75bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-07": {"whoop": {"recovery": 67, "rhr": 71, "hrv": 23.2}, "sleep": null, "tonal": [], "garmin": [{"name": "Camp Hill Running", "type": "running", "distance_miles": 0.92, "duration_min": 12.0, "avg_hr": 152, "calories": 140}, {"name": "Treadmill Running", "type": "treadmill_running", "distance_miles": 0.51, "duration_min": 7.0, "avg_hr": 136, "calories": 80}], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 67% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 67% recovered \u00b7 HRV: 23ms \u00b7 RHR: 71bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-08": {"whoop": {"recovery": 98, "rhr": 75, "hrv": 31.7}, "sleep": null, "tonal": [], "garmin": [{"name": "Camp Hill Running", "type": "running", "distance_miles": 0.56, "duration_min": 6.0, "avg_hr": 149, "calories": 84}], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 98% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 98% recovered \u00b7 HRV: 32ms \u00b7 RHR: 75bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-09": {"whoop": {"recovery": 38, "rhr": 80, "hrv": 17.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 38% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 38% recovered \u00b7 HRV: 17ms \u00b7 RHR: 80bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-10": {"whoop": {"recovery": 32, "rhr": 81, "hrv": 15.2}, "sleep": null, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 2.0, "duration_min": 27.0, "avg_hr": 151, "calories": 366}], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 32% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 32% recovered \u00b7 HRV: 15ms \u00b7 RHR: 81bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-01-11": {"whoop": {"recovery": 49, "rhr": 79, "hrv": 18.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 49% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 49% recovered \u00b7 HRV: 18ms \u00b7 RHR: 79bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-12": {"whoop": {"recovery": 72, "rhr": 77, "hrv": 24.2}, "sleep": null, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 3.05, "duration_min": 40.0, "avg_hr": 146, "calories": 481}], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 72% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 72% recovered \u00b7 HRV: 24ms \u00b7 RHR: 77bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-01-13": {"whoop": {"recovery": 51, "rhr": 82, "hrv": 19.0}, "sleep": null, "tonal": [], "garmin": [{"name": "Camp Hill Running", "type": "running", "distance_miles": 0.92, "duration_min": 13.0, "avg_hr": 131, "calories": 150}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 51% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 51% recovered \u00b7 HRV: 19ms \u00b7 RHR: 82bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-14": {"whoop": {"recovery": 18, "rhr": 89, "hrv": 10.2}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.09, "duration_min": 18.0, "avg_hr": 126, "calories": 238}], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 18% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 18% recovered \u00b7 HRV: 10ms \u00b7 RHR: 89bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-15": {"whoop": {"recovery": 57, "rhr": 83, "hrv": 20.0}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 57% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 57% recovered \u00b7 HRV: 20ms \u00b7 RHR: 83bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-16": {"whoop": {"recovery": 94, "rhr": 71, "hrv": 37.6}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 94% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 94% recovered \u00b7 HRV: 38ms \u00b7 RHR: 71bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-01-17": {"whoop": {"recovery": 49, "rhr": 82, "hrv": 18.6}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 49% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 49% recovered \u00b7 HRV: 19ms \u00b7 RHR: 82bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 3, "heavy_days_week": 0}}, "2026-01-18": {"whoop": {"recovery": 65, "rhr": 80, "hrv": 22.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 65% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 65% recovered \u00b7 HRV: 22ms \u00b7 RHR: 80bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 4, "heavy_days_week": 0}}, "2026-01-19": {"whoop": {"recovery": 96, "rhr": 72, "hrv": 36.2}, "sleep": null, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 3.01, "duration_min": 40.0, "avg_hr": 130, "calories": 528}], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 96% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 96% recovered \u00b7 HRV: 36ms \u00b7 RHR: 72bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 5, "heavy_days_week": 0}}, "2026-01-20": {"whoop": {"recovery": 49, "rhr": 77, "hrv": 19.4}, "sleep": null, "tonal": [], "garmin": [{"name": "Tempo", "type": "treadmill_running", "distance_miles": 2.06, "duration_min": 30.0, "avg_hr": 126, "calories": 370}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 49% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 49% recovered \u00b7 HRV: 19ms \u00b7 RHR: 77bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-21": {"whoop": {"recovery": 62, "rhr": 76, "hrv": 23.6}, "sleep": null, "tonal": [], "garmin": [{"name": "Tempo", "type": "treadmill_running", "distance_miles": 1.91, "duration_min": 33.0, "avg_hr": 118, "calories": 357}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 62% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 62% recovered \u00b7 HRV: 24ms \u00b7 RHR: 76bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-22": {"whoop": {"recovery": 48, "rhr": 76, "hrv": 19.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 48% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 48% recovered \u00b7 HRV: 19ms \u00b7 RHR: 76bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-23": {"whoop": {"recovery": 63, "rhr": 80, "hrv": 25.3}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 63% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 63% recovered \u00b7 HRV: 25ms \u00b7 RHR: 80bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-01-24": {"whoop": {"recovery": 59, "rhr": 77, "hrv": 23.5}, "sleep": null, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 3.05, "duration_min": 42.0, "avg_hr": 137, "calories": 616}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 59% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 59% recovered \u00b7 HRV: 24ms \u00b7 RHR: 77bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 3, "heavy_days_week": 0}}, "2026-01-25": {"whoop": {"recovery": 72, "rhr": 74, "hrv": 26.1}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 72% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 72% recovered \u00b7 HRV: 26ms \u00b7 RHR: 74bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-26": {"whoop": {"recovery": 44, "rhr": 75, "hrv": 19.1}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 44% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 44% recovered \u00b7 HRV: 19ms \u00b7 RHR: 75bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-01-27": {"whoop": {"recovery": 44, "rhr": 75, "hrv": 20.6}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.21, "duration_min": 19.0, "avg_hr": 122, "calories": 233}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 44% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 44% recovered \u00b7 HRV: 21ms \u00b7 RHR: 75bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 3, "heavy_days_week": 0}}, "2026-01-28": {"whoop": {"recovery": 44, "rhr": 77, "hrv": 21.5}, "sleep": null, "tonal": [], "garmin": [{"name": "Tempo", "type": "treadmill_running", "distance_miles": 3.55, "duration_min": 44.0, "avg_hr": 143, "calories": 669}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 44% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 44% recovered \u00b7 HRV: 22ms \u00b7 RHR: 77bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-29": {"whoop": {"recovery": 29, "rhr": 83, "hrv": 16.6}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 29% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 29% recovered \u00b7 HRV: 17ms \u00b7 RHR: 83bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-01-30": {"whoop": {"recovery": 38, "rhr": 77, "hrv": 18.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 38% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 38% recovered \u00b7 HRV: 18ms \u00b7 RHR: 77bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-01-31": {"whoop": {"recovery": 89, "rhr": 73, "hrv": 34.5}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.32, "duration_min": 18.0, "avg_hr": 119, "calories": 210}], "nutrition": null, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 89% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 89% recovered \u00b7 HRV: 34ms \u00b7 RHR: 73bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 3, "heavy_days_week": 0}}, "2026-02-01": {"whoop": {"recovery": 31, "rhr": 77, "hrv": 15.9}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.21, "duration_min": 19.0, "avg_hr": 123, "calories": 244}], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 31% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 31% recovered \u00b7 HRV: 16ms \u00b7 RHR: 77bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-02": {"whoop": {"recovery": 47, "rhr": 79, "hrv": 19.4}, "sleep": null, "tonal": [], "garmin": [{"name": "Threshold", "type": "treadmill_running", "distance_miles": 2.7, "duration_min": 36.0, "avg_hr": 134, "calories": 509}], "nutrition": null, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 47% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 47% recovered \u00b7 HRV: 19ms \u00b7 RHR: 79bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-03": {"whoop": {"recovery": 15, "rhr": 81, "hrv": 12.9}, "sleep": null, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 3.09, "duration_min": 41.0, "avg_hr": 139, "calories": 639}], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 15% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 15% recovered \u00b7 HRV: 13ms \u00b7 RHR: 81bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-04": {"whoop": {"recovery": 10, "rhr": 80, "hrv": 19.1}, "sleep": null, "tonal": [], "garmin": [], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 10% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 10% recovered \u00b7 HRV: 19ms \u00b7 RHR: 80bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-05": {"whoop": {"recovery": 14, "rhr": 67, "hrv": 30.1}, "sleep": null, "tonal": [], "garmin": [{"name": "Treadmill Running", "type": "treadmill_running", "distance_miles": 0.66, "duration_min": 10.0, "avg_hr": 106, "calories": 101}], "nutrition": {"calories": 1970, "protein": 189.4, "carbs": 210.7, "fat": 45.7}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 14% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 14% recovered \u00b7 HRV: 30ms \u00b7 RHR: 67bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-02-06": {"whoop": {"recovery": 73, "rhr": 65, "hrv": 33.7}, "sleep": null, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 2.76, "duration_min": 40.0, "avg_hr": 127, "calories": 521}], "nutrition": {"calories": 1263, "protein": 209.8, "carbs": 50.0, "fat": 29.2}, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 73% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 73% recovered \u00b7 HRV: 34ms \u00b7 RHR: 65bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-07": {"whoop": {"recovery": 87, "rhr": 77, "hrv": 60.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 87% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 87% recovered \u00b7 HRV: 60ms \u00b7 RHR: 77bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-08": {"whoop": {"recovery": 83, "rhr": 72, "hrv": 32.7}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.25, "duration_min": 19.0, "avg_hr": 121, "calories": 224}], "nutrition": {"calories": 3006, "protein": 261.8, "carbs": 244.5, "fat": 108.1}, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 83% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 83% recovered \u00b7 HRV: 33ms \u00b7 RHR: 72bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-02-09": {"whoop": {"recovery": 44, "rhr": 76, "hrv": 18.5}, "sleep": null, "tonal": [], "garmin": [{"name": "Threshold", "type": "treadmill_running", "distance_miles": 2.82, "duration_min": 36.0, "avg_hr": 141, "calories": 534}], "nutrition": {"calories": 3044, "protein": 267.2, "carbs": 264.0, "fat": 104.0}, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 44% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 44% recovered \u00b7 HRV: 18ms \u00b7 RHR: 76bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-10": {"whoop": {"recovery": 63, "rhr": 73, "hrv": 24.7}, "sleep": null, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.52, "duration_min": 24.0, "avg_hr": 122, "calories": 283}], "nutrition": {"calories": 1540, "protein": 205.3, "carbs": 111.1, "fat": 33.3}, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 63% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 63% recovered \u00b7 HRV: 25ms \u00b7 RHR: 73bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-11": {"whoop": {"recovery": 18, "rhr": 76, "hrv": 18.7}, "sleep": {"score": 61, "hours": 3.5, "hrv": 27.9}, "tonal": [], "garmin": [{"name": "Recovery", "type": "treadmill_running", "distance_miles": 1.38, "duration_min": 18.0, "avg_hr": 117, "calories": 210}], "nutrition": {"calories": 4133, "protein": 470.0, "carbs": 125.0, "fat": 192.2}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 18% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 18% recovered \u00b7 HRV: 19ms \u00b7 RHR: 76bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-12": {"whoop": {"recovery": 18, "rhr": 79, "hrv": 16.8}, "sleep": {"score": 47, "hours": 5.9, "hrv": 21.8}, "tonal": [], "garmin": [{"name": "Treadmill Running", "type": "treadmill_running", "distance_miles": 0.53, "duration_min": 8.0, "avg_hr": 120, "calories": 106}], "nutrition": {"calories": 2425, "protein": 297.9, "carbs": 144.8, "fat": 73.2}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 18% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 18% recovered \u00b7 HRV: 17ms \u00b7 RHR: 79bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-13": {"whoop": {"recovery": 85, "rhr": 80, "hrv": 104.8}, "sleep": {"score": 78, "hours": 6.3, "hrv": 174.7}, "tonal": [], "garmin": [{"name": "Anaerobic", "type": "treadmill_running", "distance_miles": 3.86, "duration_min": 54.0, "avg_hr": 130, "calories": 663}], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "green", "icon": "\ud83c\udfcb\ufe0f", "headline": "Great day for high-intensity \u2014 you're recovered", "body": "You're 85% recovered and ready to push hard. Strength training or a tough run would be optimal today.", "subtext": "WHOOP: 85% recovered \u00b7 HRV: 105ms \u00b7 RHR: 80bpm", "border_color": "#2ea043", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-14": {"whoop": {"recovery": 25, "rhr": 84, "hrv": 16.0}, "sleep": {"score": null, "hours": 6.3, "hrv": 174.7}, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 25% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 25% recovered \u00b7 HRV: 16ms \u00b7 RHR: 84bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-15": {"whoop": {"recovery": 23, "rhr": 81, "hrv": 15.3}, "sleep": {"score": null, "hours": 6.3, "hrv": 174.7}, "tonal": [], "garmin": [{"name": "Tampa - Base", "type": "running", "distance_miles": 3.22, "duration_min": 46.0, "avg_hr": 133, "calories": 521}], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 23% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 23% recovered \u00b7 HRV: 15ms \u00b7 RHR: 81bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-02-16": {"whoop": {"recovery": 35, "rhr": 77, "hrv": 16.2}, "sleep": null, "tonal": [], "garmin": [{"name": "Tampa - Recovery", "type": "running", "distance_miles": 1.58, "duration_min": 24.0, "avg_hr": 120, "calories": 220}], "nutrition": null, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 35% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 35% recovered \u00b7 HRV: 16ms \u00b7 RHR: 77bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-17": {"whoop": {"recovery": 7, "rhr": 81, "hrv": 14.6}, "sleep": {"score": 50, "hours": 4.8, "hrv": 56.8}, "tonal": [], "garmin": [], "nutrition": {"calories": 2406, "protein": 287.3, "carbs": 187.5, "fat": 57.4}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 7% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 7% recovered \u00b7 HRV: 15ms \u00b7 RHR: 81bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-18": {"whoop": {"recovery": 35, "rhr": 74, "hrv": 22.8}, "sleep": {"score": 88, "hours": 6.7, "hrv": 22.7}, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 2.33, "duration_min": 28.0, "avg_hr": 133, "calories": 392}], "nutrition": {"calories": 2540, "protein": 300.0, "carbs": 212.0, "fat": 69.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 35% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 35% recovered \u00b7 HRV: 23ms \u00b7 RHR: 74bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-02-19": {"whoop": {"recovery": 38, "rhr": 67, "hrv": 25.0}, "sleep": {"score": 88, "hours": 6.7, "hrv": 26.3}, "tonal": [], "garmin": [{"name": "Base", "type": "treadmill_running", "distance_miles": 3.02, "duration_min": 36.0, "avg_hr": 132, "calories": 479}], "nutrition": {"calories": 1828, "protein": 279.4, "carbs": 53.0, "fat": 60.1}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 38% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 38% recovered \u00b7 HRV: 25ms \u00b7 RHR: 67bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-20": {"whoop": {"recovery": 38, "rhr": 70, "hrv": 26.6}, "sleep": {"score": 77, "hours": 5.6, "hrv": 24.8}, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 38% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 38% recovered \u00b7 HRV: 27ms \u00b7 RHR: 70bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 1, "heavy_days_week": 0}}, "2026-02-21": {"whoop": {"recovery": 41, "rhr": 72, "hrv": 24.4}, "sleep": {"score": 54, "hours": 4.8, "hrv": 22.6}, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 listen to your body", "body": "You're 41% recovered. Moderate effort is appropriate \u2014 avoid maximal lifts.", "subtext": "WHOOP: 41% recovered \u00b7 HRV: 24ms \u00b7 RHR: 72bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 2, "heavy_days_week": 0}}, "2026-02-22": {"whoop": {"recovery": 35, "rhr": 74, "hrv": 22.4}, "sleep": null, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 35% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 35% recovered \u00b7 HRV: 22ms \u00b7 RHR: 74bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 3, "heavy_days_week": 0}}, "2026-02-23": {"whoop": {"recovery": 39, "rhr": 71, "hrv": 25.5}, "sleep": {"score": 75, "hours": 5.9, "hrv": 24.0}, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 39% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 39% recovered \u00b7 HRV: 26ms \u00b7 RHR: 71bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 4, "heavy_days_week": 0}}, "2026-02-24": {"whoop": {"recovery": 46, "rhr": 70, "hrv": 28.1}, "sleep": {"score": 82, "hours": 7.3, "hrv": 18.4}, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 46% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 46% recovered \u00b7 HRV: 28ms \u00b7 RHR: 70bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 5, "heavy_days_week": 0}}, "2026-02-25": {"whoop": {"recovery": 15, "rhr": 67, "hrv": 25.7}, "sleep": {"score": 55, "hours": 5.2, "hrv": 68.7}, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "red", "icon": "\ud83d\udca4", "headline": "Recovery day \u2014 consider light movement or rest", "body": "You're only 15% recovered. Heavy training risks injury and slows adaptation. Prioritize sleep and light activity.", "subtext": "WHOOP: 15% recovered \u00b7 HRV: 26ms \u00b7 RHR: 67bpm", "border_color": "#f85149", "days_since_tonal": null, "days_since_run": 6, "heavy_days_week": 0}}, "2026-02-26": {"whoop": {"recovery": 59, "rhr": 69, "hrv": 35.2}, "sleep": null, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "yellow", "icon": "\ud83e\uddd8", "headline": "Moderate training recommended \u2014 cardio over strength", "body": "You're 59% recovered. A moderate run or cardio session is better than heavy lifting today.", "subtext": "WHOOP: 59% recovered \u00b7 HRV: 35ms \u00b7 RHR: 69bpm", "border_color": "#f39c12", "days_since_tonal": null, "days_since_run": 7, "heavy_days_week": 0}}, "2026-02-27": {"whoop": null, "sleep": null, "tonal": [], "garmin": [], "nutrition": {"calories": 0, "protein": 0.0, "carbs": 0.0, "fat": 0.0}, "recommendation": {"level": "unknown", "icon": "\u2753", "headline": "No recovery data for this day", "body": "WHOOP data not available. Check your WHOOP app.", "subtext": "", "border_color": "#555", "days_since_tonal": null, "days_since_run": 8, "heavy_days_week": 0}}};
+const AVG_NUTRITION = {"calories": 2416, "protein": 276.8, "carbs": 160.3, "fat": 77.2};
+const TODAY = "2026-02-27";
+
+const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+function getQueryDate() {
+  const p = new URLSearchParams(window.location.search);
+  return p.get("date") || TODAY;
+}
+
+function setQueryDate(d) {
+  const url = new URL(window.location);
+  url.searchParams.set("date", d);
+  window.history.pushState({}, "", url);
+}
+
+let currentDate = getQueryDate();
+
+function prevDay() {
+  const d = new Date(currentDate + "T12:00:00");
+  d.setDate(d.getDate() - 1);
+  currentDate = d.toISOString().slice(0,10);
+  setQueryDate(currentDate);
+  render();
+}
+
+function nextDay() {
+  const d = new Date(currentDate + "T12:00:00");
+  d.setDate(d.getDate() + 1);
+  currentDate = d.toISOString().slice(0,10);
+  setQueryDate(currentDate);
+  render();
+}
+
+function goToDate(v) {
+  currentDate = v;
+  setQueryDate(v);
+  render();
+}
+
+function formatDate(s) {
+  const d = new Date(s + "T12:00:00");
+  return DAYS[d.getDay()] + ", " + MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+}
+
+function svgRing(pct, color, size=60) {
+  const r = (size/2) - 6;
+  const circ = 2 * Math.PI * r;
+  const dash = (pct / 100) * circ;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#21262d" stroke-width="5"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="5"
+      stroke-dasharray="${dash.toFixed(1)} ${(circ-dash).toFixed(1)}"
+      stroke-dashoffset="${circ * 0.25}"
+      stroke-linecap="round"/>
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="white" font-size="${size*0.22}px" font-weight="700">${pct}%</text>
+  </svg>`;
+}
+
+function scoreColor(score, thresholdGood=67, thresholdMed=40) {
+  if (score >= thresholdGood) return "#2ea043";
+  if (score >= thresholdMed) return "#f39c12";
+  return "#f85149";
+}
+
+function macroBar(val, avg, color) {
+  const pct = avg > 0 ? Math.min(100, (val / (avg * 1.5)) * 100) : 50;
+  return `<div class="nutrition-bar"><div class="nutrition-fill" style="width:${pct}%;background:${color};"></div></div>`;
+}
+
+function render() {
+  // Update picker
+  document.getElementById("datePicker").value = currentDate;
+  document.getElementById("dateTitle").textContent = formatDate(currentDate);
+  const d = new Date(currentDate + "T12:00:00");
+  const isToday = currentDate === TODAY;
+  document.getElementById("dateSub").textContent = isToday ? "Today" : (currentDate < TODAY ? "Past" : "Future");
+
+  const data = DAY_DATA[currentDate];
+  if (!data) {
+    document.getElementById("content").innerHTML = `<div class="card"><div class="no-data">No data available for ${currentDate}.<br>Try a date between the last 90 days.</div></div>`;
+    return;
+  }
+
+  const rec = data.recommendation || {};
+  const whoop = data.whoop || null;
+  const sleep = data.sleep || null;
+  const tonal = data.tonal || [];
+  const garmin = data.garmin || [];
+  const nutrition = data.nutrition || null;
+
+  let html = "";
+
+  // ── Recommendation Card ──────────────────────────────────────────────────
+  html += `<div class="section">
+    <div class="rec-card" style="border-left-color:${rec.border_color || '#555'}">
+      <div class="rec-icon">${rec.icon || "❓"}</div>
+      <div class="rec-headline">${rec.headline || "No recommendation"}</div>
+      <div class="rec-body">${rec.body || ""}</div>
+      ${rec.subtext ? `<div class="rec-subtext">${rec.subtext}</div>` : ""}
+      <div class="rec-factors">
+        ${rec.days_since_tonal != null ? `<span class="rec-factor">💪 Last Tonal: ${rec.days_since_tonal}d ago</span>` : ""}
+        ${rec.days_since_run != null ? `<span class="rec-factor">🏃 Last run: ${rec.days_since_run}d ago</span>` : ""}
+        ${rec.heavy_days_week != null ? `<span class="rec-factor">📊 Heavy days this week: ${rec.heavy_days_week}</span>` : ""}
+      </div>
+    </div>
+  </div>`;
+
+  // ── Recovery Row ─────────────────────────────────────────────────────────
+  html += `<div class="section"><div class="section-label">Recovery</div><div class="grid-2">`;
+
+  // WHOOP
+  if (whoop) {
+    const recPct = whoop.recovery || 0;
+    const col = scoreColor(recPct);
+    html += `<div class="card">
+      <div class="card-title">WHOOP Recovery</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+        <div class="score-ring">${svgRing(recPct, col)}</div>
+        <div>
+          <div class="big-number" style="color:${col};font-size:36px">${recPct}%</div>
+          <div class="big-label">Recovery Score</div>
+        </div>
+      </div>
+      ${whoop.hrv ? `<div class="metric-row"><span class="metric-label">HRV (RMSSD)</span><span class="metric-value">${whoop.hrv} ms</span></div>` : ""}
+      ${whoop.rhr ? `<div class="metric-row"><span class="metric-label">Resting Heart Rate</span><span class="metric-value">${whoop.rhr} bpm</span></div>` : ""}
+    </div>`;
+  } else {
+    html += `<div class="card"><div class="card-title">WHOOP Recovery</div><div class="no-data">No WHOOP data</div></div>`;
+  }
+
+  // 8Sleep
+  if (sleep) {
+    const sleepPct = sleep.score || 0;
+    const sleepCol = scoreColor(sleepPct, 80, 60);
+    html += `<div class="card">
+      <div class="card-title">8Sleep</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+        <div class="score-ring">${svgRing(sleepPct, sleepCol)}</div>
+        <div>
+          <div class="big-number" style="color:${sleepCol};font-size:36px">${sleepPct}%</div>
+          <div class="big-label">Sleep Score</div>
+        </div>
+      </div>
+      ${sleep.hours ? `<div class="metric-row"><span class="metric-label">Time Asleep</span><span class="metric-value">${sleep.hours} hrs</span></div>` : ""}
+      ${sleep.hrv ? `<div class="metric-row"><span class="metric-label">HRV</span><span class="metric-value">${sleep.hrv} ms</span></div>` : ""}
+    </div>`;
+  } else {
+    html += `<div class="card"><div class="card-title">8Sleep</div><div class="no-data">No sleep data</div></div>`;
+  }
+
+  html += `</div></div>`;
+
+  // ── Training ─────────────────────────────────────────────────────────────
+  html += `<div class="section"><div class="section-label">Training</div>`;
+
+  if (tonal.length > 0) {
+    for (const w of tonal) {
+      html += `<div class="card" style="margin-bottom:12px;">
+        <div class="workout-header">
+          <div class="card-title" style="margin-bottom:0">💪 Tonal Workout</div>
+          <div class="workout-time">${w.time}</div>
+        </div>
+        <div class="workout-stats">
+          ${w.volume ? `<div class="workout-stat"><strong>${w.volume.toLocaleString()}</strong> lbs volume</div>` : ""}
+          ${w.sets ? `<div class="workout-stat"><strong>${w.sets}</strong> sets</div>` : ""}
+          ${w.reps ? `<div class="workout-stat"><strong>${w.reps}</strong> reps</div>` : ""}
+          ${w.duration_min ? `<div class="workout-stat"><strong>${w.duration_min}</strong> min</div>` : ""}
+        </div>`;
+
+      if (w.exercises && w.exercises.length > 0) {
+        html += `<div style="margin-top:12px;">`;
+        for (const ex of w.exercises) {
+          html += `<div class="tonal-exercise">
+            <span style="color:#8b949e;font-size:11px;font-family:monospace">${ex.id}</span>
+            <span>${ex.sets} sets · ${Math.round(ex.reps/ex.sets)} reps · ${ex.max_weight} lbs max</span>
+          </div>`;
+        }
+        html += `</div>`;
+      }
+      html += `</div>`;
+    }
+  }
+
+  if (garmin.length > 0) {
+    html += `<div class="card" style="margin-top:12px;">
+      <div class="card-title">🏃 Garmin Activities</div>`;
+    for (const act of garmin) {
+      html += `<div class="garmin-act">
+        <div class="garmin-name">${act.name}</div>
+        <div class="garmin-stats">
+          ${act.distance_miles ? `<div class="garmin-stat"><strong>${act.distance_miles}</strong> mi</div>` : ""}
+          ${act.duration_min ? `<div class="garmin-stat"><strong>${Math.round(act.duration_min)}</strong> min</div>` : ""}
+          ${act.avg_hr ? `<div class="garmin-stat"><strong>${act.avg_hr}</strong> avg HR</div>` : ""}
+          ${act.calories ? `<div class="garmin-stat"><strong>${act.calories}</strong> cal</div>` : ""}
+        </div>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (tonal.length === 0 && garmin.length === 0) {
+    html += `<div class="card"><div class="no-data">No training recorded for this day.</div></div>`;
+  }
+
+  html += `</div>`;
+
+  // ── Nutrition ─────────────────────────────────────────────────────────────
+  html += `<div class="section"><div class="section-label">Nutrition</div>`;
+  if (nutrition && nutrition.calories > 0) {
+    const avg = AVG_NUTRITION;
+    html += `<div class="card">
+      <div class="card-title">Cronometer</div>
+      <div class="macro-grid">
+        <div class="macro-card">
+          <div class="macro-val" style="color:#f39c12">${nutrition.calories}</div>
+          <div class="macro-lbl">Calories</div>
+          ${avg.calories ? `<div class="macro-avg">avg: ${avg.calories}</div>` : ""}
+          ${macroBar(nutrition.calories, avg.calories || 2000, "#f39c12")}
+        </div>
+        <div class="macro-card">
+          <div class="macro-val" style="color:#0a84ff">${nutrition.protein}g</div>
+          <div class="macro-lbl">Protein</div>
+          ${avg.protein ? `<div class="macro-avg">avg: ${avg.protein}g</div>` : ""}
+          ${macroBar(nutrition.protein, avg.protein || 150, "#0a84ff")}
+        </div>
+        <div class="macro-card">
+          <div class="macro-val" style="color:#2ea043">${nutrition.carbs}g</div>
+          <div class="macro-lbl">Carbs</div>
+          ${avg.carbs ? `<div class="macro-avg">avg: ${avg.carbs}g</div>` : ""}
+          ${macroBar(nutrition.carbs, avg.carbs || 200, "#2ea043")}
+        </div>
+        <div class="macro-card">
+          <div class="macro-val" style="color:#da3633">${nutrition.fat}g</div>
+          <div class="macro-lbl">Fat</div>
+          ${avg.fat ? `<div class="macro-avg">avg: ${avg.fat}g</div>` : ""}
+          ${macroBar(nutrition.fat, avg.fat || 80, "#da3633")}
+        </div>
+      </div>
+    </div>`;
+  } else {
+    html += `<div class="card"><div class="no-data">No nutrition data logged for this day.</div></div>`;
+  }
+  html += `</div>`;
+
+  // ── Quick Links ──────────────────────────────────────────────────────────
+  const prevD = new Date(currentDate + "T12:00:00");
+  prevD.setDate(prevD.getDate() - 1);
+  const nextD = new Date(currentDate + "T12:00:00");
+  nextD.setDate(nextD.getDate() + 1);
+  const prevStr = prevD.toISOString().slice(0,10);
+  const nextStr = nextD.toISOString().slice(0,10);
+
+  html += `<div class="section">
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="smart_detail.html?date=${prevStr}" style="background:#161b22;border:1px solid #30363d;color:#e6edf3;text-decoration:none;padding:10px 20px;border-radius:6px;font-size:14px">← ${prevStr}</a>
+      <a href="../recovery/index.html" style="background:#161b22;border:1px solid #30363d;color:#2ea043;text-decoration:none;padding:10px 20px;border-radius:6px;font-size:14px">💚 Recovery Trends</a>
+      <a href="../strength/index.html" style="background:#161b22;border:1px solid #30363d;color:#f39c12;text-decoration:none;padding:10px 20px;border-radius:6px;font-size:14px">💪 Strength History</a>
+      <a href="smart_detail.html?date=${nextStr}" style="background:#161b22;border:1px solid #30363d;color:#e6edf3;text-decoration:none;padding:10px 20px;border-radius:6px;font-size:14px">${nextStr} →</a>
+    </div>
+  </div>`;
+
+  document.getElementById("content").innerHTML = html;
+}
+
+// Init
+document.getElementById("datePicker").value = currentDate;
+render();
+
+window.addEventListener("popstate", () => {
+  currentDate = getQueryDate();
+  render();
+});
+</script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

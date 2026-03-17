@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition-Recovery Currency Converter</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Navigation */
+        nav {
+            background: #161b22;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #8b949e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav a:hover, nav a.active { color: #f39c12; }
+        
+        h1 { 
+            font-size: 2rem; 
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .tagline {
+            color: #8b949e;
+            margin-bottom: 30px;
+        }
+        
+        /* Cards */
+        .card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .card h2 {
+            font-size: 1.1rem;
+            color: #8b949e;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Currency Exchange Card */
+        .currency-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .currency-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f39c12;
+        }
+        .currency-label {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+        
+        /* Recovery Meter */
+        .recovery-meter {
+            margin-top: 20px;
+        }
+        .meter-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+        .meter-bar {
+            height: 24px;
+            background: #21262d;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .meter-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.5s ease;
+            background: linear-gradient(90deg, #f85149, #f39c12, #2ea043);
+        }
+        
+        /* Exchange Widget */
+        .exchange-widget {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .exchange-widget { grid-template-columns: 1fr; }
+        }
+        
+        .macro-input {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .macro-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .macro-row label {
+            width: 70px;
+            color: #8b949e;
+        }
+        .macro-row input[type="range"] {
+            flex: 1;
+            accent-color: #f39c12;
+        }
+        .macro-row .value {
+            width: 50px;
+            text-align: right;
+            color: #f39c12;
+            font-weight: 600;
+        }
+        
+        .exchange-result {
+            background: #21262d;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .exchange-result .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2ea043;
+            margin-bottom: 5px;
+        }
+        .exchange-result .result-label {
+            color: #8b949e;
+        }
+        
+        /* Weekly Chart */
+        .weekly-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 200px;
+            padding: 20px 0;
+        }
+        .chart-bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+        .chart-bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 160px;
+        }
+        .bar {
+            width: 16px;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.3s;
+        }
+        .bar.investment { background: #2ea043; }
+        .bar.spent { background: #f85149; }
+        .chart-date {
+            font-size: 0.75rem;
+            color: #8b949e;
+            margin-top: 8px;
+        }
+        
+        /* Legend */
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #8b949e;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        .legend-dot.investment { background: #2ea043; }
+        .legend-dot.spent { background: #f85149; }
+        
+        /* Top Spenders */
+        .spenders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .spender-list {
+            list-style: none;
+        }
+        .spender-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #21262d;
+        }
+        .spender-item:last-child { border-bottom: none; }
+        .spender-name { color: #fff; }
+        .spender-value { 
+            color: #f39c12; 
+            font-weight: 600;
+        }
+        
+        /* ROI Matrix */
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .roi-cell {
+            background: #21262d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .roi-macro {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .roi-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .roi-value.positive { color: #2ea043; }
+        .roi-value.negative { color: #f85149; }
+        .roi-label {
+            font-size: 0.8rem;
+            color: #8b949e;
+        }
+        
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #21262d;
+            border-radius: 8px;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f39c12;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #8b949e;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/calendars/index.html">Calendars</a>
+            <a href="/strength/index.html">Strength</a>
+            <a href="/cardio/index.html">Cardio</a>
+            <a href="/recovery/index.html">Recovery</a>
+            <a href="/nutrition/index.html" class="active">Nutrition</a>
+        </nav>
+        
+        <h1>Nutrition-Recovery Currency Converter</h1>
+        <p class="tagline">Convert your meals into recovery capacity</p>
+        
+        <!-- Today's Currency Exchange -->
+        <div class="card">
+            <h2>Today's Currency Exchange</h2>
+            <div class="currency-header">
+                <div>
+                    <div class="currency-value">344</div>
+                    <div class="currency-label">Nutrition Investment</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="currency-value" style="font-size: 2rem;">76%</div>
+                    <div class="currency-label">Recovery Capacity</div>
+                </div>
+            </div>
+            <div class="recovery-meter">
+                <div class="meter-label">
+                    <span>Recovery Capacity Remaining</span>
+                    <span>76%</span>
+                </div>
+                <div class="meter-bar">
+                    <div class="meter-fill" style="width: 75.6%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Currency Exchange Widget -->
+        <div class="card">
+            <h2>Currency Exchange Widget</h2>
+            <div class="exchange-widget">
+                <div class="macro-input">
+                    <div class="macro-row">
+                        <label>Protein</label>
+                        <input type="range" id="protein" min="0" max="100" value="30" oninput="updateExchange()">
+                        <span class="value" id="protein-val">30g</span>
+                    </div>
+                    <div class="macro-row">
+                        <label>Carbs</label>
+                        <input type="range" id="carbs" min="0" max="150" value="50" oninput="updateExchange()">
+                        <span class="value" id="carbs-val">50g</span>
+                    </div>
+                    <div class="macro-row">
+                        <label>Fat</label>
+                        <input type="range" id="fat" min="0" max="80" value="20" oninput="updateExchange()">
+                        <span class="value" id="fat-val">20g</span>
+                    </div>
+                </div>
+                <div class="exchange-result">
+                    <div class="result-value" id="hrv-cost">9.2%</div>
+                    <div class="result-label">Recovery Capacity This Buys</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Weekly Currency Flow -->
+        <div class="card">
+            <h2>Weekly Currency Flow</h2>
+            <div class="weekly-chart">
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 100px;"></div>
+                        <div class="bar spent" style="height: 44.4695652173913px;"></div>
+                    </div>
+                    <div class="chart-date">02-17</div>
+                </div>
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 100px;"></div>
+                        <div class="bar spent" style="height: 0.0px;"></div>
+                    </div>
+                    <div class="chart-date">02-18</div>
+                </div>
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 100px;"></div>
+                        <div class="bar spent" style="height: 0.0px;"></div>
+                    </div>
+                    <div class="chart-date">02-19</div>
+                </div>
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 16.65px;"></div>
+                        <div class="bar spent" style="height: 0.0px;"></div>
+                    </div>
+                    <div class="chart-date">02-28</div>
+                </div>
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 44.875px;"></div>
+                        <div class="bar spent" style="height: 0.0px;"></div>
+                    </div>
+                    <div class="chart-date">03-01</div>
+                </div>
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 100px;"></div>
+                        <div class="bar spent" style="height: 0.0px;"></div>
+                    </div>
+                    <div class="chart-date">03-10</div>
+                </div>
+                <div class="chart-bar-group">
+                    <div class="chart-bars">
+                        <div class="bar investment" style="height: 100px;"></div>
+                        <div class="bar spent" style="height: 0.0px;"></div>
+                    </div>
+                    <div class="chart-date">03-11</div>
+                </div>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-dot investment"></div>
+                    <span>Nutrition Investment</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot spent"></div>
+                    <span>Recovery Spent</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Spenders -->
+        <div class="card">
+            <h2>Top Spenders & Best Investments</h2>
+            <div class="spenders-grid">
+                <div>
+                    <h3 style="color: #f85149; margin-bottom: 15px;">Highest Investment</h3>
+                    <ul class="spender-list">
+                        <li class="spender-item">
+                            <span class="spender-name">Chicken Breast (4oz)</span>
+                            <span class="spender-value">36.2</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Protein Shake</span>
+                            <span class="spender-value">27.1</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Salmon (4oz)</span>
+                            <span class="spender-value">26.9</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Rice (1 cup cooked)</span>
+                            <span class="spender-value">26.5</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Greek Yogurt (1 cup)</span>
+                            <span class="spender-value">24.0</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Oatmeal (1 cup cooked)</span>
+                            <span class="spender-value">19.4</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #2ea043; margin-bottom: 15px;">Best Recovery ROI</h3>
+                    <ul class="spender-list">
+                        <li class="spender-item">
+                            <span class="spender-name">Chicken Breast (4oz)</span>
+                            <span class="spender-value">+10.9%</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Salmon (4oz)</span>
+                            <span class="spender-value">+8.1%</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Protein Shake</span>
+                            <span class="spender-value">+8.1%</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Rice (1 cup cooked)</span>
+                            <span class="spender-value">+7.9%</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Greek Yogurt (1 cup)</span>
+                            <span class="spender-value">+7.2%</span>
+                        </li>
+                        <li class="spender-item">
+                            <span class="spender-name">Oatmeal (1 cup cooked)</span>
+                            <span class="spender-value">+5.8%</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recovery ROI Matrix -->
+        <div class="card">
+            <h2>Recovery ROI Matrix</h2>
+            <p style="color: #8b949e; margin-bottom: 15px;">Recovery capacity gained per gram of each macro</p>
+            <div class="roi-grid">
+                <div class="roi-cell">
+                    <div class="roi-macro" style="color: #0a84ff;">Protein</div>
+                    <div class="roi-value positive">+0.058%</div>
+                    <div class="roi-label">per gram</div>
+                </div>
+                <div class="roi-cell">
+                    <div class="roi-macro" style="color: #f39c12;">Carbs</div>
+                    <div class="roi-value positive">+0.265%</div>
+                    <div class="roi-label">per gram</div>
+                </div>
+                <div class="roi-cell">
+                    <div class="roi-macro" style="color: #2ea043;">Fat</div>
+                    <div class="roi-value positive">+0.702%</div>
+                    <div class="roi-label">per gram</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Summary -->
+        <div class="card">
+            <h2>30-Day Summary</h2>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">265.5g</div>
+                    <div class="stat-label">Avg Daily Protein</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">353</div>
+                    <div class="stat-label">Avg Investment</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">57%</div>
+                    <div class="stat-label">Avg Recovery Capacity</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">11</div>
+                    <div class="stat-label">Days Tracked</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const exchangeRate = 0.15;
+        
+        function updateExchange() {
+            const protein = parseInt(document.getElementById('protein').value);
+            const carbs = parseInt(document.getElementById('carbs').value);
+            const fat = parseInt(document.getElementById('fat').value);
+            
+            document.getElementById('protein-val').textContent = protein + 'g';
+            document.getElementById('carbs-val').textContent = carbs + 'g';
+            document.getElementById('fat-val').textContent = fat + 'g';
+            
+            const investment = protein + carbs * 0.5 + fat * 0.3;
+            const result = investment * exchangeRate;
+            
+            document.getElementById('hrv-cost').textContent = result.toFixed(1) + '%';
+        }
+    </script>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronometer-Training Alignment | Fitness Ecosystem</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d1117; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        nav { background: #161b22; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
+        nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+        nav a:hover { color: #f39c12; }
+        nav a.active { color: #f39c12; font-weight: 600; }
+        
+        h1 { color: #ffffff; font-size: 28px; margin-bottom: 8px; }
+        .subtitle { color: #8b949e; margin-bottom: 30px; font-size: 14px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #161b22; padding: 20px; border-radius: 8px; }
+        .stat-label { color: #8b949e; font-size: 12px; text-transform: uppercase; margin-bottom: 5px; }
+        .stat-value { font-size: 24px; font-weight: 600; color: #f39c12; }
+        .stat-sub { font-size: 12px; color: #8b949e; }
+        
+        .section { background: #161b22; padding: 25px; border-radius: 8px; margin-bottom: 20px; }
+        .section h2 { color: #ffffff; font-size: 18px; margin-bottom: 15px; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+        
+        .chart-container { display: flex; justify-content: center; margin: 20px 0; }
+        .chart-container svg { max-width: 100%; height: auto; }
+        
+        .legend { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 10px; color: #8b949e; border-bottom: 1px solid #30363d; font-weight: 600; }
+        td { padding: 10px; border-bottom: 1px solid #21262d; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        
+        .rec-card { background: rgba(243, 156, 18, 0.1); border: 1px solid #f39c12; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .rec-title { color: #f39c12; font-weight: 600; margin-bottom: 5px; }
+        .rec-value { font-size: 18px; }
+        
+        .empty-state { text-align: center; padding: 60px 20px; color: #8b949e; }
+        
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .section { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/fitness/">Home</a>
+            <a href="/fitness/index.html">Dashboard</a>
+            <a href="/fitness/strength/index.html">Strength</a>
+            <a href="/fitness/cardio/index.html">Cardio</a>
+            <a href="/fitness/recovery/index.html">Recovery</a>
+            <a href="/fitness/nutrition/index.html">Nutrition</a>
+            <a href="/fitness/calendars/index.html">Calendars</a>
+        </nav>
+        
+        <h1>🥗 Cronometer-Training Alignment</h1>
+        <p class="subtitle">Correlating nutrition intake with workout performance</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Days Analyzed</div>
+                <div class="stat-value">0</div>
+                <div class="stat-sub">Workouts with nutrition data</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Carbs-Volume Correlation</div>
+                <div class="stat-value" style="color: #8b949e">0.00</div>
+                <div class="stat-sub">Pearson coefficient</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Protein-Volume Correlation</div>
+                <div class="stat-value" style="color: #8b949e">0.00</div>
+                <div class="stat-sub">Pearson coefficient</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Recovery Days</div>
+                <div class="stat-value">0</div>
+                <div class="stat-sub">Consecutive workout days</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="empty-state">
+                <p>No matching data found. We need Cronometer nutrition exports and Tonal workout data on the same days to analyze alignment.</p>
+                <p style="margin-top: 10px; font-size: 12px;">Make sure both data sources are synced.</p>
+            </div>
+        </div>
+
+    </div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

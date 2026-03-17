@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day Rolling Fitness Score</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+nav a { color: #58a6ff; text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 6px; transition: background 0.2s; }
+nav a:hover { background: #21262d; }
+nav a.active { background: #21262d; color: #f39c12; }
+.container { max-width: 1000px; margin: 0 auto; padding: 24px 20px; }
+h1 { font-size: 28px; margin-bottom: 4px; }
+.subtitle { color: #888; margin-bottom: 20px; }
+.hero { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+.big-score { font-size: 80px; font-weight: 900; line-height: 1; color: #f39c12; }
+.trend-arrow { font-size: 48px; color: #f85149; }
+.badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+.card h2 { font-size: 16px; color: #888; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+.gauges { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-around; }
+.mini-charts { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
+.chart-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 10px 12px; color: #888; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #30363d; text-align: center; }
+th:first-child { text-align: left; }
+tr:hover { background: #1c2128; }
+.trajectory-box { padding: 16px 20px; border-radius: 10px; background: #f39c1218; border: 1px solid #f39c1244; }
+.driver-list { margin-top: 12px; color: #ccc; font-size: 14px; line-height: 1.8; }
+.updated { color: #555; font-size: 12px; margin-top: 20px; text-align: center; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/fitness/index.html">🏠 Hub</a>
+  <a href="/fitness/strength/index.html">💪 Strength</a>
+  <a href="/fitness/cardio/index.html">🏃 Cardio</a>
+  <a href="/fitness/recovery/index.html">💚 Recovery</a>
+  <a href="/fitness/nutrition/index.html">🥗 Nutrition</a>
+  <a href="/fitness/fitness_rolling_30d/index.html" class="active">📊 Rolling Score</a>
+</nav>
+<div class="container">
+  <h1>30-Day Rolling Fitness Score</h1>
+  <p class="subtitle">Your composite fitness trajectory — updated daily</p>
+  <div class="hero">
+    <div>
+      <div class="big-score">60</div>
+      <div style="color:#888;font-size:14px;margin-top:4px">Composite Score / 100</div>
+    </div>
+    <div class="trend-arrow">↓</div>
+    <div>
+      <div class="badges">
+        <span style="background:#f8514922;color:#f85149;border:1px solid #f85149;padding:4px 12px;border-radius:20px;font-size:13px">-0.8 vs 30d ago</span>
+        <span style="background:#2ea04322;color:#2ea043;border:1px solid #2ea043;padding:4px 12px;border-radius:20px;font-size:13px">+15.0 vs 60d ago</span>
+        <span style="background:#2ea04322;color:#2ea043;border:1px solid #2ea043;padding:4px 12px;border-radius:20px;font-size:13px">+15.2 vs 90d ago</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Score Breakdown — Today</h2>
+    <div class="gauges"><div style="text-align:center"><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20.3,69.7 A35,35 0 1,1 69.7,69.7"
+        fill="none" stroke="#2a3040" stroke-width="8" stroke-linecap="round"/>
+  <path d="M20.3,69.7 A35,35 0 0,1 45.0,10.0"
+        fill="none" stroke="#0a84ff" stroke-width="8" stroke-linecap="round"/>
+  <text x="45" y="49" text-anchor="middle" fill="white" font-size="16" font-weight="bold">50</text>
+  <text x="45" y="63" text-anchor="middle" fill="#888" font-size="9">Strength</text>
+</svg></div><div style="text-align:center"><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20.3,69.7 A35,35 0 1,1 69.7,69.7"
+        fill="none" stroke="#2a3040" stroke-width="8" stroke-linecap="round"/>
+  <path d="M20.3,69.7 A35,35 0 1,1 69.7,69.7"
+        fill="none" stroke="#2ea043" stroke-width="8" stroke-linecap="round"/>
+  <text x="45" y="49" text-anchor="middle" fill="white" font-size="16" font-weight="bold">100</text>
+  <text x="45" y="63" text-anchor="middle" fill="#888" font-size="9">Cardio</text>
+</svg></div><div style="text-align:center"><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20.3,69.7 A35,35 0 1,1 69.7,69.7"
+        fill="none" stroke="#2a3040" stroke-width="8" stroke-linecap="round"/>
+  <path d="M20.3,69.7 A35,35 0 0,1 28.4,14.2"
+        fill="none" stroke="#f39c12" stroke-width="8" stroke-linecap="round"/>
+  <text x="45" y="49" text-anchor="middle" fill="white" font-size="16" font-weight="bold">39</text>
+  <text x="45" y="63" text-anchor="middle" fill="#888" font-size="9">Recovery</text>
+</svg></div><div style="text-align:center"><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20.3,69.7 A35,35 0 1,1 69.7,69.7"
+        fill="none" stroke="#2a3040" stroke-width="8" stroke-linecap="round"/>
+  <path d="M20.3,69.7 A35,35 0 1,1 77.5,32.1"
+        fill="none" stroke="#a371f7" stroke-width="8" stroke-linecap="round"/>
+  <text x="45" y="49" text-anchor="middle" fill="white" font-size="16" font-weight="bold">75</text>
+  <text x="45" y="63" text-anchor="middle" fill="#888" font-size="9">Sleep</text>
+</svg></div><div style="text-align:center"><svg width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20.3,69.7 A35,35 0 1,1 69.7,69.7"
+        fill="none" stroke="#2a3040" stroke-width="8" stroke-linecap="round"/>
+  <path d="M20.3,69.7 A35,35 0 0,1 31.7,12.6"
+        fill="none" stroke="#f85149" stroke-width="8" stroke-linecap="round"/>
+  <text x="45" y="49" text-anchor="middle" fill="white" font-size="16" font-weight="bold">41</text>
+  <text x="45" y="63" text-anchor="middle" fill="#888" font-size="9">Nutrition</text>
+</svg></div></div>
+  </div>
+  <div class="card">
+    <h2>Composite Score — Last 90 Days</h2>
+    <div class="chart-scroll"><svg width="900" height="280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f39c12" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#f39c12" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <line x1="50" y1="185.0" x2="880" y2="185.0" stroke="#2a3040" stroke-dasharray="4,4"/><text x="45" y="189.0" text-anchor="end" fill="#888" font-size="11">25</text><line x1="50" y1="130.0" x2="880" y2="130.0" stroke="#2a3040" stroke-dasharray="4,4"/><text x="45" y="134.0" text-anchor="end" fill="#888" font-size="11">50</text><line x1="50" y1="75.0" x2="880" y2="75.0" stroke="#2a3040" stroke-dasharray="4,4"/><text x="45" y="79.0" text-anchor="end" fill="#888" font-size="11">75</text>
+  <path d="M50.0,140.6L59.2,140.8L68.4,142.8L77.7,142.5L86.9,142.8L96.1,141.2L105.3,140.6L114.6,139.2L123.8,139.7L133.0,151.6L142.2,150.7L151.4,150.2L160.7,149.6L169.9,149.8L179.1,149.6L188.3,148.7L197.6,147.4L206.8,146.5L216.0,145.6L225.2,145.0L234.4,145.4L243.7,145.0L252.9,144.3L262.1,143.6L271.3,143.0L280.6,142.1L289.8,141.9L299.0,141.0L308.2,140.6L317.4,139.9L326.7,140.1L335.9,139.7L345.1,138.8L354.3,138.6L363.6,134.6L372.8,130.0L382.0,123.0L391.2,119.2L400.4,120.3L409.7,116.6L418.9,116.6L428.1,111.3L437.3,108.0L446.6,107.6L455.8,107.8L465.0,107.8L474.2,108.7L483.4,109.1L492.7,107.3L501.9,106.5L511.1,104.3L520.3,105.4L529.6,105.4L538.8,104.3L548.0,104.5L557.2,105.1L566.4,105.1L575.7,104.0L584.9,105.4L594.1,106.5L603.3,105.4L612.6,105.1L621.8,104.9L631.0,105.6L640.2,106.5L649.4,96.1L658.7,96.1L667.9,103.6L677.1,101.0L686.3,99.6L695.6,98.8L704.8,99.2L714.0,100.3L723.2,96.1L732.4,98.3L741.7,101.2L750.9,101.4L760.1,103.2L769.3,101.2L778.6,99.4L787.8,100.5L797.0,102.5L806.2,103.4L815.4,104.3L824.7,105.1L833.9,106.7L843.1,106.2L852.3,106.2L861.6,106.2L870.8,106.2L880.0,107.1L880.0,240.0L50.0,240.0Z" fill="url(#areaGrad)" stroke="none"/>
+  <path d="M50.0,140.6L59.2,140.8L68.4,142.8L77.7,142.5L86.9,142.8L96.1,141.2L105.3,140.6L114.6,139.2L123.8,139.7L133.0,151.6L142.2,150.7L151.4,150.2L160.7,149.6L169.9,149.8L179.1,149.6L188.3,148.7L197.6,147.4L206.8,146.5L216.0,145.6L225.2,145.0L234.4,145.4L243.7,145.0L252.9,144.3L262.1,143.6L271.3,143.0L280.6,142.1L289.8,141.9L299.0,141.0L308.2,140.6L317.4,139.9L326.7,140.1L335.9,139.7L345.1,138.8L354.3,138.6L363.6,134.6L372.8,130.0L382.0,123.0L391.2,119.2L400.4,120.3L409.7,116.6L418.9,116.6L428.1,111.3L437.3,108.0L446.6,107.6L455.8,107.8L465.0,107.8L474.2,108.7L483.4,109.1L492.7,107.3L501.9,106.5L511.1,104.3L520.3,105.4L529.6,105.4L538.8,104.3L548.0,104.5L557.2,105.1L566.4,105.1L575.7,104.0L584.9,105.4L594.1,106.5L603.3,105.4L612.6,105.1L621.8,104.9L631.0,105.6L640.2,106.5L649.4,96.1L658.7,96.1L667.9,103.6L677.1,101.0L686.3,99.6L695.6,98.8L704.8,99.2L714.0,100.3L723.2,96.1L732.4,98.3L741.7,101.2L750.9,101.4L760.1,103.2L769.3,101.2L778.6,99.4L787.8,100.5L797.0,102.5L806.2,103.4L815.4,104.3L824.7,105.1L833.9,106.7L843.1,106.2L852.3,106.2L861.6,106.2L870.8,106.2L880.0,107.1" fill="none" stroke="#f39c12" stroke-width="2.5"/>
+  <text x="50.0" y="258" text-anchor="middle" fill="#888" font-size="10">12-02</text><text x="188.3" y="258" text-anchor="middle" fill="#888" font-size="10">12-17</text><text x="326.7" y="258" text-anchor="middle" fill="#888" font-size="10">01-01</text><text x="465.0" y="258" text-anchor="middle" fill="#888" font-size="10">01-16</text><text x="603.3" y="258" text-anchor="middle" fill="#888" font-size="10">01-31</text><text x="741.7" y="258" text-anchor="middle" fill="#888" font-size="10">02-15</text><text x="880.0" y="258" text-anchor="middle" fill="#888" font-size="10">03-02</text>
+</svg></div>
+  </div>
+  <div class="card">
+    <h2>Component Trends — Last 30 Days</h2>
+    <div class="mini-charts">
+        <div style="background:#161b22;border-radius:10px;padding:12px;text-align:center;min-width:150px">
+          <div style="color:#0a84ff;font-size:12px;font-weight:600;margin-bottom:4px">Strength</div>
+          <svg width="160" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mg0a84ff" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a84ff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0a84ff" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <path d="M6.0,74.0L11.1,74.0L16.2,74.0L21.3,74.0L26.4,74.0L31.5,74.0L36.6,74.0L41.7,74.0L46.8,74.0L51.9,74.0L57.0,74.0L62.1,74.0L67.2,74.0L72.3,74.0L77.4,74.0L82.6,74.0L87.7,74.0L92.8,74.0L97.9,74.0L103.0,74.0L108.1,74.0L113.2,74.0L118.3,74.0L123.4,74.0L128.5,74.0L133.6,74.0L138.7,74.0L143.8,74.0L148.9,74.0L154.0,74.0L154.0,74.0L6.0,74.0Z" fill="url(#mg0a84ff)" stroke="none"/>
+  <path d="M6.0,74.0L11.1,74.0L16.2,74.0L21.3,74.0L26.4,74.0L31.5,74.0L36.6,74.0L41.7,74.0L46.8,74.0L51.9,74.0L57.0,74.0L62.1,74.0L67.2,74.0L72.3,74.0L77.4,74.0L82.6,74.0L87.7,74.0L92.8,74.0L97.9,74.0L103.0,74.0L108.1,74.0L113.2,74.0L118.3,74.0L123.4,74.0L128.5,74.0L133.6,74.0L138.7,74.0L143.8,74.0L148.9,74.0L154.0,74.0" fill="none" stroke="#0a84ff" stroke-width="2"/>
+</svg>
+          <div style="color:white;font-size:18px;font-weight:bold;margin-top:4px">50</div>
+        </div>
+        <div style="background:#161b22;border-radius:10px;padding:12px;text-align:center;min-width:150px">
+          <div style="color:#2ea043;font-size:12px;font-weight:600;margin-bottom:4px">Cardio</div>
+          <svg width="160" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mg2ea043" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2ea043" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#2ea043" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <path d="M6.0,74.0L11.1,6.0L16.2,6.0L21.3,6.0L26.4,6.0L31.5,6.0L36.6,6.0L41.7,6.0L46.8,6.0L51.9,6.0L57.0,6.0L62.1,6.0L67.2,6.0L72.3,6.0L77.4,6.0L82.6,6.0L87.7,6.0L92.8,6.0L97.9,6.0L103.0,6.0L108.1,6.0L113.2,6.0L118.3,6.0L123.4,6.0L128.5,6.0L133.6,6.0L138.7,6.0L143.8,6.0L148.9,6.0L154.0,6.0L154.0,74.0L6.0,74.0Z" fill="url(#mg2ea043)" stroke="none"/>
+  <path d="M6.0,74.0L11.1,6.0L16.2,6.0L21.3,6.0L26.4,6.0L31.5,6.0L36.6,6.0L41.7,6.0L46.8,6.0L51.9,6.0L57.0,6.0L62.1,6.0L67.2,6.0L72.3,6.0L77.4,6.0L82.6,6.0L87.7,6.0L92.8,6.0L97.9,6.0L103.0,6.0L108.1,6.0L113.2,6.0L118.3,6.0L123.4,6.0L128.5,6.0L133.6,6.0L138.7,6.0L143.8,6.0L148.9,6.0L154.0,6.0" fill="none" stroke="#2ea043" stroke-width="2"/>
+</svg>
+          <div style="color:white;font-size:18px;font-weight:bold;margin-top:4px">100</div>
+        </div>
+        <div style="background:#161b22;border-radius:10px;padding:12px;text-align:center;min-width:150px">
+          <div style="color:#f39c12;font-size:12px;font-weight:600;margin-bottom:4px">Recovery</div>
+          <svg width="160" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mgf39c12" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f39c12" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#f39c12" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <path d="M6.0,6.0L11.1,8.0L16.2,13.7L21.3,19.8L26.4,25.1L31.5,24.3L36.6,26.0L41.7,19.8L46.8,18.2L51.9,16.2L57.0,23.5L62.1,28.0L67.2,19.0L72.3,23.5L77.4,32.9L82.6,34.9L87.7,42.6L92.8,51.2L97.9,52.4L103.0,55.7L108.1,56.9L113.2,60.6L118.3,63.4L123.4,66.7L128.5,70.7L133.6,68.7L138.7,69.1L143.8,67.9L148.9,67.1L154.0,74.0L154.0,74.0L6.0,74.0Z" fill="url(#mgf39c12)" stroke="none"/>
+  <path d="M6.0,6.0L11.1,8.0L16.2,13.7L21.3,19.8L26.4,25.1L31.5,24.3L36.6,26.0L41.7,19.8L46.8,18.2L51.9,16.2L57.0,23.5L62.1,28.0L67.2,19.0L72.3,23.5L77.4,32.9L82.6,34.9L87.7,42.6L92.8,51.2L97.9,52.4L103.0,55.7L108.1,56.9L113.2,60.6L118.3,63.4L123.4,66.7L128.5,70.7L133.6,68.7L138.7,69.1L143.8,67.9L148.9,67.1L154.0,74.0" fill="none" stroke="#f39c12" stroke-width="2"/>
+</svg>
+          <div style="color:white;font-size:18px;font-weight:bold;margin-top:4px">48</div>
+        </div>
+        <div style="background:#161b22;border-radius:10px;padding:12px;text-align:center;min-width:150px">
+          <div style="color:#a371f7;font-size:12px;font-weight:600;margin-bottom:4px">Sleep</div>
+          <svg width="160" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mga371f7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a371f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a371f7" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <path d="M6.0,66.8L11.1,66.8L16.2,66.8L21.3,66.8L26.4,66.8L31.5,66.8L36.6,66.8L41.7,66.8L46.8,66.8L51.9,66.8L57.0,66.8L62.1,74.0L67.2,36.8L72.3,36.8L77.4,36.8L82.6,36.8L87.7,46.8L92.8,28.8L97.9,18.3L103.0,15.6L108.1,21.4L113.2,18.7L118.3,17.3L123.4,14.7L128.5,18.3L133.6,13.9L138.7,9.1L143.8,7.9L148.9,6.0L154.0,6.0L154.0,74.0L6.0,74.0Z" fill="url(#mga371f7)" stroke="none"/>
+  <path d="M6.0,66.8L11.1,66.8L16.2,66.8L21.3,66.8L26.4,66.8L31.5,66.8L36.6,66.8L41.7,66.8L46.8,66.8L51.9,66.8L57.0,66.8L62.1,74.0L67.2,36.8L72.3,36.8L77.4,36.8L82.6,36.8L87.7,46.8L92.8,28.8L97.9,18.3L103.0,15.6L108.1,21.4L113.2,18.7L118.3,17.3L123.4,14.7L128.5,18.3L133.6,13.9L138.7,9.1L143.8,7.9L148.9,6.0L154.0,6.0" fill="none" stroke="#a371f7" stroke-width="2"/>
+</svg>
+          <div style="color:white;font-size:18px;font-weight:bold;margin-top:4px">61</div>
+        </div>
+        <div style="background:#161b22;border-radius:10px;padding:12px;text-align:center;min-width:150px">
+          <div style="color:#f85149;font-size:12px;font-weight:600;margin-bottom:4px">Nutrition</div>
+          <svg width="160" height="80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mgf85149" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f85149" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#f85149" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <path d="M6.0,64.3L11.1,64.3L16.2,64.3L21.3,64.3L26.4,6.0L31.5,6.0L36.6,44.8L41.7,35.2L46.8,29.3L51.9,25.5L57.0,22.7L62.1,20.6L67.2,31.9L72.3,41.0L77.4,48.5L82.6,48.5L87.7,44.8L92.8,41.9L97.9,39.4L103.0,44.8L108.1,49.7L113.2,54.1L118.3,57.8L123.4,61.3L128.5,64.3L133.6,67.1L138.7,69.6L143.8,71.9L148.9,74.0L154.0,74.0L154.0,74.0L6.0,74.0Z" fill="url(#mgf85149)" stroke="none"/>
+  <path d="M6.0,64.3L11.1,64.3L16.2,64.3L21.3,64.3L26.4,6.0L31.5,6.0L36.6,44.8L41.7,35.2L46.8,29.3L51.9,25.5L57.0,22.7L62.1,20.6L67.2,31.9L72.3,41.0L77.4,48.5L82.6,48.5L87.7,44.8L92.8,41.9L97.9,39.4L103.0,44.8L108.1,49.7L113.2,54.1L118.3,57.8L123.4,61.3L128.5,64.3L133.6,67.1L138.7,69.6L143.8,71.9L148.9,74.0L154.0,74.0" fill="none" stroke="#f85149" stroke-width="2"/>
+</svg>
+          <div style="color:white;font-size:18px;font-weight:bold;margin-top:4px">64</div>
+        </div></div>
+  </div>
+  <div class="card">
+    <h2>Trajectory Analysis</h2>
+    <div class="trajectory-box">
+      <div style="font-size:18px;font-weight:600;color:#f39c12">➡️ Plateaued — stable performance</div>
+      <div class="driver-list">
+        🏆 Best component: <strong style="color:#f39c12">Cardio</strong> (100/100)<br>
+        ⚠️ Focus area: <strong style="color:#f85149">Recovery</strong> (40/100)<br>
+        📅 7-day avg: <strong>60.8</strong> vs prior 7-day: <strong>62.7</strong>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Historical Comparison</h2>
+    <div class="chart-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Period</th>
+            <th style="color:#f39c12">Composite</th>
+            <th style="color:#0a84ff">Strength</th>
+            <th style="color:#2ea043">Cardio</th>
+            <th style="color:#f39c12">Recovery</th>
+            <th style="color:#a371f7">Sleep</th>
+            <th style="color:#f85149">Nutrition</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td style="padding:10px 12px;color:#ccc">Today</td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:bold;text-align:center">60.4</td>
+          <td style="padding:10px 12px;text-align:center;color:#0a84ff">50</td>
+          <td style="padding:10px 12px;text-align:center;color:#2ea043">100</td>
+          <td style="padding:10px 12px;text-align:center;color:#f39c12">40</td>
+          <td style="padding:10px 12px;text-align:center;color:#a371f7">75</td>
+          <td style="padding:10px 12px;text-align:center;color:#f85149">42</td>
+        </tr><tr>
+          <td style="padding:10px 12px;color:#ccc">30 days ago</td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:bold;text-align:center">61.2</td>
+          <td style="padding:10px 12px;text-align:center;color:#0a84ff">50</td>
+          <td style="padding:10px 12px;text-align:center;color:#2ea043">97</td>
+          <td style="padding:10px 12px;text-align:center;color:#f39c12">57</td>
+          <td style="padding:10px 12px;text-align:center;color:#a371f7">50</td>
+          <td style="padding:10px 12px;text-align:center;color:#f85149">50</td>
+        </tr><tr>
+          <td style="padding:10px 12px;color:#ccc">60 days ago</td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:bold;text-align:center">45.4</td>
+          <td style="padding:10px 12px;text-align:center;color:#0a84ff">50</td>
+          <td style="padding:10px 12px;text-align:center;color:#2ea043">0</td>
+          <td style="padding:10px 12px;text-align:center;color:#f39c12">72</td>
+          <td style="padding:10px 12px;text-align:center;color:#a371f7">50</td>
+          <td style="padding:10px 12px;text-align:center;color:#f85149">50</td>
+        </tr><tr>
+          <td style="padding:10px 12px;color:#ccc">90 days ago</td>
+          <td style="padding:10px 12px;color:#f39c12;font-weight:bold;text-align:center">45.2</td>
+          <td style="padding:10px 12px;text-align:center;color:#0a84ff">50</td>
+          <td style="padding:10px 12px;text-align:center;color:#2ea043">0</td>
+          <td style="padding:10px 12px;text-align:center;color:#f39c12">49</td>
+          <td style="padding:10px 12px;text-align:center;color:#a371f7">87</td>
+          <td style="padding:10px 12px;text-align:center;color:#f85149">50</td>
+        </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <p class="updated">Last updated: March 02, 2026 at 02:23 AM</p>
+</div>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Annual Training Summary</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaa;
+            --accent-blue: #4fc3f7;
+            --accent-gold: #ffd700;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .back-link {
+            display: inline-block;
+            color: var(--accent-blue);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle { color: var(--text-secondary); margin-bottom: 30px; font-size: 14px; }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+        .stat-value.gold { color: var(--accent-gold); }
+        .stat-value.green { color: var(--accent-green); }
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--accent-gold);
+        }
+        
+        canvas {
+            width: 100%;
+            height: 250px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .insights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        .insight-item {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .insight-item h4 {
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .insight-item p {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        
+        .data-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 22px; }
+            .stat-value { font-size: 24px; }
+            .section { padding: 16px; }
+            .legend { flex-wrap: wrap; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+        
+        <h1>2025 Annual Training Summary</h1>
+        <p class="subtitle">Full year recap • Data through December 2025</p>
+        
+        <div class="summary-grid">
+            <div class="stat-card">
+                <div class="stat-value gold">206</div>
+                <div class="stat-label">Miles Run</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value green">1.09M</div>
+                <div class="stat-label">Lbs Lifted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">80</div>
+                <div class="stat-label">Avg Sleep Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">57%</div>
+                <div class="stat-label">Avg Recovery</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Monthly Activity Overview</h2>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div> Miles Run</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div> Volume (K lbs)</div>
+            </div>
+            <canvas id="activityChart"></canvas>
+        </div>
+        
+        <div class="section">
+            <h2>Recovery & Sleep Trends</h2>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div> Sleep Score</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#28a745"></div> Recovery %</div>
+            </div>
+            <canvas id="recoveryChart"></canvas>
+        </div>
+        
+        <div class="section">
+            <h2>Key Insights</h2>
+            <div class="insights">
+                <div class="insight-item">
+                    <h4>🏃 Best Running Month</h4>
+                    <p>June dominated with 77 miles across 24 runs — perfect weather for building mileage.</p>
+                </div>
+                <div class="insight-item">
+                    <h4>💪 Strongest Lifting</h4>
+                    <p>February saw 425K lbs volume across 27 Tonal workouts — peak strength training month.</p>
+                </div>
+                <div class="insight-item">
+                    <h4>😴 Best Sleep</h4>
+                    <p>November averaged 87 sleep score — best monthly rest quality of the year.</p>
+                </div>
+                <div class="insight-item">
+                    <h4>❤️ Most Recovered</h4>
+                    <p>December showed 72% average recovery — likely holiday rest period paying off.</p>
+                </div>
+                <div class="insight-item">
+                    <h4>📊 Consistency</h4>
+                    <p>69 Tonal workouts in ~4 months tracked = ~17/month. Keep it up!</p>
+                </div>
+                <div class="insight-item">
+                    <h4>⏰ Sleep Duration</h4>
+                    <p>Average 7.4 hours/night. April & May had best sleep quality (85+ scores).</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Training Load Balance</h2>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#28a745"></div> Running (miles)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div> Tonal (volume normalized)</div>
+            </div>
+            <canvas id="loadChart"></canvas>
+        </div>
+        
+        <p class="data-note">Note: Some data sources partial — Garmin running through Oct, Tonal through Apr, 8Sleep through Nov. Full year data shown where available.</p>
+    </div>
+    
+    <script>
+        // Data
+        const monthlyData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            running: [1.2, 1.0, 4.1, 1.1, 37.0, 76.7, 31.9, 38.6, 12.4, 1.7, 0, 0],
+            tonal: [286728, 424766, 337759, 37379, 0, 0, 0, 0, 0, 0, 0, 0],
+            sleep: [80.5, 77.0, 77.5, 85.4, 85.3, 82.2, 78.7, 74.6, 80.1, 78.0, 87.2, 0],
+            recovery: [56.9, 59.0, 50.1, 65.1, 62.5, 54.5, 52.0, 50.5, 59.3, 50.8, 47.8, 71.9]
+        };
+        
+        // Helper: get canvas with DPR
+        function setupCanvas(canvas) {
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = 250 * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            return { ctx, w: rect.width, h: 250 };
+        }
+        
+        // Draw all charts
+        function drawAllCharts() {
+            drawActivityChart();
+            drawRecoveryChart();
+            drawLoadChart();
+        }
+        
+        function drawActivityChart() {
+            const canvas = document.getElementById('activityChart');
+            const { ctx, w, h } = setupCanvas(canvas);
+            const padding = 50;
+            
+            // Background
+            ctx.fillStyle = '#1c1c1e';
+            ctx.fillRect(0, 0, w, h);
+            
+            const max1 = Math.max(...monthlyData.running.filter(x => x > 0), 1);
+            const max2 = Math.max(...monthlyData.tonal.filter(x => x > 0), 1);
+            const max = Math.max(max1, max2 / 1000);
+            
+            // Grid lines
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (h - padding * 2) * i / 4;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(w - 10, y);
+                ctx.stroke();
+                // Y labels
+                ctx.fillStyle = '#666';
+                ctx.font = '10px -apple-system';
+                ctx.fillText(Math.round(max * (4 - i) / 4), 5, y + 4);
+            }
+            
+            // X labels
+            ctx.fillStyle = '#aaa';
+            ctx.font = '10px -apple-system';
+            const barWidth = (w - padding * 2) / 12;
+            monthlyData.labels.forEach((lbl, i) => {
+                const x = padding + i * barWidth + barWidth / 2;
+                ctx.fillText(lbl, x - 10, h - 10);
+            });
+            
+            // Bars (running) - left axis
+            monthlyData.running.forEach((val, i) => {
+                if (val > 0) {
+                    const barH = (val / max) * (h - padding * 2);
+                    const x = padding + i * barWidth + 2;
+                    const y = h - padding - barH;
+                    ctx.fillStyle = '#4fc3f7';
+                    ctx.fillRect(x, y, barWidth - 4, barH);
+                    // Value
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '9px -apple-system';
+                    ctx.fillText(val.toFixed(1), x + barWidth/2 - 10, y - 3);
+                }
+            });
+            
+            // Line (tonal volume) - right axis (scale to K)
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            let started = false;
+            let lastValidX = null, lastValidY = null;
+            monthlyData.tonal.forEach((val, i) => {
+                if (val > 0) {
+                    const x = padding + i * barWidth + barWidth / 2;
+                    const y = h - padding - (val / 1000 / max) * (h - padding * 2);
+                    if (started) {
+                        ctx.lineTo(x, y);
+                    } else {
+                        ctx.moveTo(x, y);
+                        started = true;
+                    }
+                    lastValidX = x;
+                    lastValidY = y;
+                } else if (lastValidX !== null) {
+                    // Gap for missing data
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(lastValidX, lastValidY);
+                    started = false;
+                    lastValidX = null;
+                }
+            });
+            ctx.stroke();
+            
+            // Points
+            monthlyData.tonal.forEach((val, i) => {
+                if (val > 0) {
+                    const x = padding + i * barWidth + barWidth / 2;
+                    const y = h - padding - (val / 1000 / max) * (h - padding * 2);
+                    ctx.fillStyle = '#ffd700';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+        
+        function drawRecoveryChart() {
+            const canvas = document.getElementById('recoveryChart');
+            const { ctx, w, h } = setupCanvas(canvas);
+            const padding = 50;
+            
+            // Background
+            ctx.fillStyle = '#1c1c1e';
+            ctx.fillRect(0, 0, w, h);
+            
+            const max = 100;
+            
+            // Grid lines
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (h - padding * 2) * i / 4;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(w - 10, y);
+                ctx.stroke();
+                ctx.fillStyle = '#666';
+                ctx.font = '10px -apple-system';
+                ctx.fillText(Math.round(max * (4 - i) / 4), 5, y + 4);
+            }
+            
+            // X labels
+            ctx.fillStyle = '#aaa';
+            ctx.font = '10px -apple-system';
+            const barWidth = (w - padding * 2) / 12;
+            monthlyData.labels.forEach((lbl, i) => {
+                const x = padding + i * barWidth + barWidth / 2;
+                ctx.fillText(lbl, x - 10, h - 10);
+            });
+            
+            // Sleep line (blue)
+            ctx.strokeStyle = '#4fc3f7';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            let sleepStarted = false;
+            let lastSleepX = null, lastSleepY = null;
+            monthlyData.sleep.forEach((val, i) => {
+                if (val > 0) {
+                    const x = padding + i * barWidth + barWidth / 2;
+                    const y = h - padding - (val / max) * (h - padding * 2);
+                    if (sleepStarted) {
+                        ctx.lineTo(x, y);
+                    } else {
+                        ctx.moveTo(x, y);
+                        sleepStarted = true;
+                    }
+                    lastSleepX = x;
+                    lastSleepY = y;
+                } else if (lastSleepX !== null) {
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(lastSleepX, lastSleepY);
+                    sleepStarted = false;
+                    lastSleepX = null;
+                }
+            });
+            ctx.stroke();
+            
+            // Sleep points
+            monthlyData.sleep.forEach((val, i) => {
+                if (val > 0) {
+                    const x = padding + i * barWidth + barWidth / 2;
+                    const y = h - padding - (val / max) * (h - padding * 2);
+                    ctx.fillStyle = '#4fc3f7';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Value
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '8px -apple-system';
+                    ctx.fillText(val.toFixed(0), x - 5, y - 8);
+                }
+            });
+            
+            // Recovery line (green)
+            ctx.strokeStyle = '#28a745';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            let recStarted = false;
+            monthlyData.recovery.forEach((val, i) => {
+                if (val > 0) {
+                    const x = padding + i * barWidth + barWidth / 2;
+                    const y = h - padding - (val / max) * (h - padding * 2);
+                    if (recStarted) {
+                        ctx.lineTo(x, y);
+                    } else {
+                        ctx.moveTo(x, y);
+                        recStarted = true;
+                    }
+                }
+            });
+            ctx.stroke();
+            
+            // Recovery points
+            monthlyData.recovery.forEach((val, i) => {
+                if (val > 0) {
+                    const x = padding + i * barWidth + barWidth / 2;
+                    const y = h - padding - (val / max) * (h - padding * 2);
+                    ctx.fillStyle = '#28a745';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+        
+        function drawLoadChart() {
+            const canvas = document.getElementById('loadChart');
+            const { ctx, w, h } = setupCanvas(canvas);
+            const padding = 50;
+            
+            // Background
+            ctx.fillStyle = '#1c1c1e';
+            ctx.fillRect(0, 0, w, h);
+            
+            // Combine running + tonal into stacked bars
+            const max = Math.max(
+                ...monthlyData.running.map((r, i) => r + (monthlyData.tonal[i] || 0) / 1000),
+                1
+            );
+            
+            // Grid lines
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (h - padding * 2) * i / 4;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(w - 10, y);
+                ctx.stroke();
+                ctx.fillStyle = '#666';
+                ctx.font = '10px -apple-system';
+                ctx.fillText(Math.round(max * (4 - i) / 4), 5, y + 4);
+            }
+            
+            // X labels
+            ctx.fillStyle = '#aaa';
+            ctx.font = '10px -apple-system';
+            const barWidth = (w - padding * 2) / 12;
+            monthlyData.labels.forEach((lbl, i) => {
+                const x = padding + i * barWidth + barWidth / 2;
+                ctx.fillText(lbl, x - 10, h - 10);
+            });
+            
+            // Stacked bars: running (green) + tonal (blue, normalized)
+            const tonalMax = Math.max(...monthlyData.tonal.filter(x => x > 0), 1);
+            monthlyData.running.forEach((runVal, i) => {
+                const tonalVal = monthlyData.tonal[i] || 0;
+                const tonalNorm = (tonalVal / tonalMax) * 40; // Normalize to similar scale
+                
+                const totalH = ((runVal + tonalNorm) / max) * (h - padding * 2);
+                const runH = (runVal / max) * (h - padding * 2);
+                const tonalH = (tonalNorm / max) * (h - padding * 2);
+                
+                const x = padding + i * barWidth + 2;
+                const baseY = h - padding;
+                
+                // Running portion
+                if (runVal > 0) {
+                    const y = baseY - runH;
+                    const grad = ctx.createLinearGradient(x, y, x, baseY);
+                    grad.addColorStop(0, '#28a745');
+                    grad.addColorStop(1, '#1a5c2e');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(x, y, barWidth - 4, runH);
+                }
+                
+                // Tonal portion stacked
+                if (tonalVal > 0) {
+                    const y = baseY - runH - tonalH;
+                    const grad = ctx.createLinearGradient(x, y, x, baseY - runH);
+                    grad.addColorStop(0, '#4fc3f7');
+                    grad.addColorStop(1, '#0288d1');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(x, y, barWidth - 4, tonalH);
+                }
+                
+                // Value label
+                if (runVal > 0 || tonalVal > 0) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '8px -apple-system';
+                    ctx.fillText((runVal + tonalNorm).toFixed(0), x + barWidth/2 - 8, baseY - totalH - 3);
+                }
+            });
+        }
+        
+        // Initial draw
+        drawAllCharts();
+        
+        // Resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(drawAllCharts, 250);
+        });
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

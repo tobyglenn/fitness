@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ready Now · Fitness Dashboard</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 48px;
+}
+.timestamp {
+  font-size: 12px;
+  color: #8b949e;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.verdict {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #f39c12;
+}
+/* Recommendation card */
+.rec-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 20px 28px;
+  max-width: 440px;
+  width: 100%;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.rec-card .rec-icon { font-size: 32px; margin-bottom: 8px; }
+.rec-card .rec-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.rec-card .rec-detail { font-size: 14px; color: #8b949e; line-height: 1.5; }
+/* Quick stats */
+.stats-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+}
+.stat-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 14px 16px;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+}
+.stat-card .stat-label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.stat-card .stat-value { font-size: 26px; font-weight: 800; }
+.stat-card .stat-sub { font-size: 11px; color: #8b949e; margin-top: 4px; }
+/* Training context */
+.context-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 16px 20px;
+  max-width: 440px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+.context-card h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #8b949e; margin-bottom: 12px; }
+.activity-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #21262d;
+  font-size: 14px;
+  gap: 8px;
+}
+.activity-row:last-child { border-bottom: none; }
+.muted { color: #8b949e; }
+.vol { font-weight: 700; color: #f39c12; }
+/* Action links */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 440px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+.action-link {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-decoration: none;
+  color: #e6edf3;
+  font-size: 14px;
+  transition: border-color 0.15s;
+}
+.action-link:hover { border-color: #f39c12; color: #f39c12; }
+/* Back nav */
+.back-nav {
+  font-size: 12px;
+  color: #8b949e;
+}
+.back-nav a { color: #f39c12; text-decoration: none; }
+.back-nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="timestamp">Tuesday, Mar 17 · 3:02 AM</div>
+
+<!-- Hero gauge -->
+<div class="hero">
+  <svg width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="80" fill="none" stroke="#30363d" stroke-width="12"/>
+  <circle cx="100" cy="100" r="80" fill="none" stroke="#f39c12" stroke-width="12"
+    stroke-dasharray="276.46 226.19"
+    stroke-dashoffset="125.66"
+    stroke-linecap="round" transform="rotate(0 100 100)"/>
+  <text x="100" y="92" text-anchor="middle" font-size="42" font-weight="bold" fill="white" font-family="system-ui">55</text>
+  <text x="100" y="120" text-anchor="middle" font-size="16" fill="#8b949e" font-family="system-ui">/ 100</text>
+</svg>
+  <div class="verdict">MODERATE</div>
+</div>
+
+<!-- Recommendation -->
+<div class="rec-card">
+  <div class="rec-icon">🚶</div>
+  <div class="rec-title">Moderate Training</div>
+  <div class="rec-detail">Readiness is moderate (55%). Light to moderate strength or steady cardio is ideal. Avoid maxing out.</div>
+</div>
+
+<!-- Quick stats -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-label">💜 WHOOP</div>
+    <div class="stat-value" style="color:#f39c12">49%</div>
+    <div class="stat-sub">Recovery ↑ · HRV 24.8ms</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">😴 Sleep</div>
+    <div class="stat-value" style="color:#2ea043">85</div>
+    <div class="stat-sub">7.0h slept</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">🏃 Run</div>
+    <div class="stat-value" style="font-size:18px;line-height:1.4">1.8 mi, 6d ago</div>
+    <div class="stat-sub">Last run</div>
+  </div>
+</div>
+
+<!-- Training context (last 3 days) -->
+<div class="context-card">
+  <h3>Last 3 Days — Tonal</h3>
+  <div class="activity-row muted">No Tonal sessions in last 3 days</div>
+</div>
+
+<!-- Action links -->
+<div class="actions">
+  <a class="action-link" href="../recovery/index.html">💜 Recovery Details →</a>
+  <a class="action-link" href="../strength/index.html">🏋️ Strength →</a>
+  <a class="action-link" href="../cardio/index.html">🏃 Cardio →</a>
+  <a class="action-link" href="../hub_index.html">⬅ Hub</a>
+</div>
+
+<div class="back-nav"><a href="../hub_index.html">← Back to Hub</a></div>
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
