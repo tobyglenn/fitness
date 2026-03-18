@@ -1,0 +1,302 @@
+;
+const DATES = Object.keys(ALL_DATA).sort();
+
+function fmtDate(d) {
+  const [y,m,day] = d.split('-').map(Number);
+  return new Date(y,m-1,day).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+function fmtMin(min) {
+  if (!min) return '--';
+  const h = Math.floor(min/60), m = Math.round(min%60);
+  return h > 0 ? h+'h '+m+'m' : m+'m';
+}
+function scoreColor(s) {
+  if (s===null||s===undefined) return '#8b949e';
+  return s<40?'#f85149':s<70?'#f39c12':'#2ea043';
+}
+function svgCircle(score, label) {
+  const color = scoreColor(score);
+  if (score===null||score===undefined) {
+    return '<div class="score-circle-wrap"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="42" fill="none" stroke="#30363d" stroke-width="10"/><text x="55" y="58" text-anchor="middle" fill="#8b949e" font-size="20">--</text></svg><div class="label">'+label+'</div></div>';
+  }
+  const r=42, circ=2*Math.PI*r, dash=(score/100)*circ;
+  return '<div class="score-circle-wrap"><svg width="110" height="110" viewBox="0 0 110 110">'+
+    '<circle cx="55" cy="55" r="'+r+'" fill="none" stroke="#30363d" stroke-width="10"/>'+
+    '<circle cx="55" cy="55" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="10" stroke-dasharray="'+dash.toFixed(1)+' '+circ.toFixed(1)+'" stroke-linecap="round" transform="rotate(-90 55 55)"/>'+
+    '<text x="55" y="50" text-anchor="middle" dominant-baseline="middle" fill="'+color+'" font-size="22" font-weight="bold">'+Math.round(score)+'</text>'+
+    '<text x="55" y="68" text-anchor="middle" fill="#8b949e" font-size="11">%</text>'+
+    '</svg><div class="label">'+label+'</div></div>';
+}
+
+function renderRecovery(data) {
+  const w=data.whoop, e=data.eight_sleep;
+  let h='<div class="card"><div class="card-title">Recovery</div><div class="score-row">';
+  h+=svgCircle(w&&w.recovery_score!=null?w.recovery_score:null,'WHOOP');
+  h+=svgCircle(e&&e.sleep_score!=null?e.sleep_score:null,'8Sleep');
+  h+='</div>';
+  if(w){h+='<div class="stat-grid"><div class="stat-item"><div class="stat-val">'+(w.hrv_rmssd?Math.round(w.hrv_rmssd):'--')+'</div><div class="stat-label">HRV ms</div></div><div class="stat-item"><div class="stat-val">'+(w.resting_hr?Math.round(w.resting_hr):'--')+'</div><div class="stat-label">RHR bpm</div></div></div>';}
+  h+='</div>';
+  let s='';
+  if(e){
+    s='<div class="card"><div class="card-title">Sleep</div><div class="stat-grid">';
+    s+='<div class="stat-item"><div class="stat-val">'+(e.time_slept_hours?e.time_slept_hours.toFixed(1):'--')+'</div><div class="stat-label">Hours Slept</div></div>';
+    s+='<div class="stat-item"><div class="stat-val">'+(e.time_in_bed_hours?e.time_in_bed_hours.toFixed(1):'--')+'</div><div class="stat-label">In Bed</div></div>';
+    if(e.heart_rate_avg)s+='<div class="stat-item"><div class="stat-val">'+Math.round(e.heart_rate_avg)+'</div><div class="stat-label">Night HR</div></div>';
+    s+='</div>';
+    const deep=e.deep_hours||0,rem=e.rem_hours||0,light=e.light_hours||0,awake=e.awake_hours||0,tot=deep+rem+light+awake;
+    if(tot>0){
+      const p=x=>((x/tot)*100).toFixed(1);
+      s+='<div class="sleep-bar-wrap"><div class="sleep-bar-label"><span>Sleep Stages</span><span>'+tot.toFixed(1)+'h</span></div><div class="sleep-bar">';
+      s+='<div class="sleep-seg" style="width:'+p(deep)+'%;background:#4a90d9;">'+(deep>0.5?deep.toFixed(1)+'h':'')+'</div>';
+      s+='<div class="sleep-seg" style="width:'+p(rem)+'%;background:#e8a0d4;">'+(rem>0.5?rem.toFixed(1)+'h':'')+'</div>';
+      s+='<div class="sleep-seg" style="width:'+p(light)+'%;background:#7bb2e0;">'+(light>0.5?light.toFixed(1)+'h':'')+'</div>';
+      s+='<div class="sleep-seg" style="width:'+p(awake)+'%;background:#d95850;">'+(awake>0.3?awake.toFixed(1)+'h':'')+'</div>';
+      s+='</div><div class="sleep-legend"><div class="sleep-leg-item"><div class="sleep-leg-dot" style="background:#4a90d9"></div>Deep '+deep.toFixed(1)+'h</div><div class="sleep-leg-item"><div class="sleep-leg-dot" style="background:#e8a0d4"></div>REM '+rem.toFixed(1)+'h</div><div class="sleep-leg-item"><div class="sleep-leg-dot" style="background:#7bb2e0"></div>Light '+light.toFixed(1)+'h</div><div class="sleep-leg-item"><div class="sleep-leg-dot" style="background:#d95850"></div>Awake '+awake.toFixed(1)+'h</div></div></div>';
+    }
+    s+='</div>';
+  }
+  document.getElementById('recovery-cards').innerHTML=h+s;
+}
+
+function renderTonal(workouts){
+  const el=document.getElementById('tonal-section');
+  if(!workouts||!workouts.length){el.innerHTML='';return;}
+  let h='';
+  for(const w of workouts){
+    h+='<div class="card-full"><div class="card-title">Tonal -- '+w.workout_name+'</div>';
+    h+='<div class="stat-grid" style="margin-bottom:16px;">';
+    h+='<div class="stat-item"><div class="stat-val">'+w.begin_time+'</div><div class="stat-label">Start</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+w.duration_min+'m</div><div class="stat-label">Duration</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+((w.total_volume_lbs||0).toLocaleString())+'</div><div class="stat-label">Volume lbs</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+(w.total_sets||'--')+'</div><div class="stat-label">Sets</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+(w.total_reps||'--')+'</div><div class="stat-label">Reps</div></div>';
+    h+='</div>';
+    if(w.exercises&&w.exercises.length){
+      h+='<table><thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th><th>Volume</th></tr></thead><tbody>';
+      for(const ex of w.exercises){
+        h+='<tr><td>'+ex.name+'</td><td>'+ex.sets+'</td><td>'+(ex.reps||'--')+'</td><td>'+(ex.weight_lbs?ex.weight_lbs+' lbs':'--')+'</td><td>'+(ex.volume?ex.volume.toLocaleString()+' lbs':'--')+'</td></tr>';
+      }
+      h+='</tbody></table>';
+    }
+    h+='</div>';
+  }
+  el.innerHTML=h;
+}
+
+function renderGarmin(activities){
+  const el=document.getElementById('garmin-section');
+  if(!activities||!activities.length){el.innerHTML='';return;}
+  let h='';
+  for(const a of activities){
+    const icon=a.activityType&&a.activityType.toLowerCase().includes('run')?'Run':a.activityType&&a.activityType.toLowerCase().includes('cycl')?'Cycle':'Activity';
+    const dist=a.distance_miles?a.distance_miles.toFixed(2)+' mi':'--';
+    let pace='--';
+    if(a.avgPace&&a.activityType&&a.activityType.toLowerCase().includes('run')){
+      const pm=Math.floor(a.avgPace),ps=Math.round((a.avgPace-pm)*60);
+      pace=pm+':'+(ps.toString().padStart(2,'0'))+' /mi';
+    }
+    h+='<div class="card-full"><div class="card-title">'+icon+' -- '+(a.activityName||a.activityType)+'</div>';
+    h+='<div class="stat-grid">';
+    h+='<div class="stat-item"><div class="stat-val">'+dist+'</div><div class="stat-label">Distance</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+fmtMin(a.duration_min)+'</div><div class="stat-label">Duration</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+pace+'</div><div class="stat-label">Avg Pace</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+(a.averageHR||'--')+'</div><div class="stat-label">Avg HR</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+(a.maxHR||'--')+'</div><div class="stat-label">Max HR</div></div>';
+    h+='<div class="stat-item"><div class="stat-val">'+(a.elevationGain?Math.round(a.elevationGain)+'ft':'--')+'</div><div class="stat-label">Elevation</div></div>';
+    h+='</div></div>';
+  }
+  el.innerHTML=h;
+}
+
+function renderNutrition(n){
+  const el=document.getElementById('nutrition-section');
+  if(!n){el.innerHTML='';return;}
+  const maxM=Math.max(n.protein,n.carbs,n.fat,1);
+  el.innerHTML='<div class="card-full"><div class="card-title">Nutrition</div>'+
+    '<div class="stat-grid">'+
+    '<div class="stat-item"><div class="stat-val">'+Math.round(n.calories)+'</div><div class="stat-label">Calories</div></div>'+
+    '<div class="stat-item"><div class="stat-val '+(n.protein>150?'protein-high':'')+'">'+Math.round(n.protein)+'g</div><div class="stat-label">Protein'+(n.protein>150?' HI':'')+'</div></div>'+
+    '<div class="stat-item"><div class="stat-val">'+Math.round(n.carbs)+'g</div><div class="stat-label">Carbs</div></div>'+
+    '<div class="stat-item"><div class="stat-val">'+Math.round(n.fat)+'g</div><div class="stat-label">Fat</div></div>'+
+    '</div>'+
+    '<div style="margin-top:16px;display:flex;flex-direction:column;gap:6px;">'+
+    '<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span style="color:#58a6ff;">Protein</span><span>'+Math.round(n.protein)+'g</span></div><div class="macro-bar"><div class="macro-fill" style="width:'+((n.protein/maxM*100).toFixed(0))+'%;background:#58a6ff;"></div></div></div>'+
+    '<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span style="color:#f39c12;">Carbs</span><span>'+Math.round(n.carbs)+'g</span></div><div class="macro-bar"><div class="macro-fill" style="width:'+((n.carbs/maxM*100).toFixed(0))+'%;background:#f39c12;"></div></div></div>'+
+    '<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;"><span style="color:#f85149;">Fat</span><span>'+Math.round(n.fat)+'g</span></div><div class="macro-bar"><div class="macro-fill" style="width:'+((n.fat/maxM*100).toFixed(0))+'%;background:#f85149;"></div></div></div>'+
+    '</div></div>';
+}
+
+function renderTimeline(data){
+  const el=document.getElementById('timeline-section');
+  const items=[];
+  if(data.eight_sleep&&data.eight_sleep.time_slept_hours) items.push({time:'Morning',desc:'Wake up after '+data.eight_sleep.time_slept_hours.toFixed(1)+'h sleep | Score: '+(data.eight_sleep.sleep_score||'?'),dot:'#4a90d9'});
+  if(data.tonal) for(const w of data.tonal) items.push({time:w.begin_time,desc:'Tonal: '+w.workout_name+' | '+((w.total_volume_lbs||0).toLocaleString())+' lbs | '+w.duration_min+'min',dot:'#f39c12'});
+  if(data.garmin) for(const a of data.garmin){const dist=a.distance_miles?' | '+a.distance_miles.toFixed(2)+' mi':'';items.push({time:'Activity',desc:(a.activityName||a.activityType)+dist,dot:'#2ea043'});}
+  if(data.whoop&&data.whoop.recovery_score!=null) items.push({time:'Recovery',desc:'WHOOP '+Math.round(data.whoop.recovery_score)+'% | HRV '+(data.whoop.hrv_rmssd?Math.round(data.whoop.hrv_rmssd):'?')+'ms | RHR '+(data.whoop.resting_hr?Math.round(data.whoop.resting_hr):'?')+'bpm',dot:'#2ea043'});
+  if(data.nutrition) items.push({time:'Nutrition',desc:Math.round(data.nutrition.calories)+' kcal | P:'+Math.round(data.nutrition.protein)+'g C:'+Math.round(data.nutrition.carbs)+'g F:'+Math.round(data.nutrition.fat)+'g',dot:'#7bb2e0'});
+  if(!items.length){el.innerHTML='';return;}
+  let h='<div class="card-full"><div class="card-title">Day Summary</div><div class="timeline">';
+  for(const i of items) h+='<div class="tl-item"><div class="tl-dot" style="background:'+i.dot+'"></div><div class="tl-content"><div class="tl-time">'+i.time+'</div><div class="tl-desc">'+i.desc+'</div></div></div>';
+  h+='</div></div>';
+  el.innerHTML=h;
+}
+
+function renderDay(dateStr){
+  const url=new URL(window.location.href);
+  url.searchParams.set('date',dateStr);
+  window.history.replaceState(null,'',url.toString());
+  document.getElementById('date-input').value=dateStr;
+  const [y,m,d]=dateStr.split('-').map(Number);
+  const dt=new Date(y,m-1,d);
+  const prev=new Date(dt); prev.setDate(prev.getDate()-1);
+  const next=new Date(dt); next.setDate(next.getDate()+1);
+  const ps=prev.toISOString().slice(0,10), ns=next.toISOString().slice(0,10);
+  document.getElementById('prev-link').onclick=e=>{e.preventDefault();renderDay(ps);};
+  document.getElementById('next-link').onclick=e=>{e.preventDefault();renderDay(ns);};
+  document.title='Day Detail -- '+dateStr;
+  document.getElementById('date-display').textContent=fmtDate(dateStr);
+  const data=ALL_DATA[dateStr];
+  if(!data){
+    document.getElementById('content').style.display='none';
+    document.getElementById('no-data-msg').style.display='block';
+    document.getElementById('date-sub').textContent='No data available';
+    return;
+  }
+  document.getElementById('no-data-msg').style.display='none';
+  document.getElementById('content').style.display='block';
+  const parts=[];
+  if(data.whoop&&data.whoop.recovery_score!=null) parts.push('Recovery: '+Math.round(data.whoop.recovery_score)+'%');
+  if(data.eight_sleep&&data.eight_sleep.sleep_score) parts.push('Sleep: '+data.eight_sleep.sleep_score+'%');
+  if(data.tonal&&data.tonal.length) parts.push('Tonal workout');
+  if(data.garmin&&data.garmin.length) parts.push(data.garmin[0].activityType||'Activity');
+  if(data.nutrition) parts.push(Math.round(data.nutrition.calories)+' kcal');
+  document.getElementById('date-sub').textContent=parts.join(' · ')||'No data logged';
+  renderRecovery(data);
+  renderTonal(data.tonal);
+  renderGarmin(data.garmin);
+  renderNutrition(data.nutrition);
+  renderTimeline(data);
+}
+
+function goToDate(){const v=document.getElementById('date-input').value;if(v)renderDay(v);}
+function goToToday(){renderDay(new Date().toISOString().slice(0,10));}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const p=new URLSearchParams(window.location.search);
+  renderDay(p.get('date')||new Date().toISOString().slice(0,10));
+});
+</script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

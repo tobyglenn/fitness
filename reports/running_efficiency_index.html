@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Running Efficiency Index</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0c;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:20px;line-height:1.5}
+a{color:#4fc3f7;text-decoration:none}
+.header{padding:15px 0;border-bottom:1px solid #333;margin-bottom:20px}
+.header a{font-size:14px}
+h1{font-size:24px;margin-bottom:5px;color:#fff}
+h2{font-size:18px;margin:25px 0 15px;color:#fff;border-bottom:1px solid #333;padding-bottom:8px}
+.stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.stat{background:#1c1c1e;padding:15px 20px;border-radius:8px;min-width:140px}
+.stat-value{font-size:28px;font-weight:700;color:#4fc3f7}
+.stat-label{font-size:12px;color:#8e8e93;margin-top:4px}
+.chart-card{background:#1c1c1e;border-radius:12px;padding:20px;margin-bottom:20px}
+.chart-title{font-size:16px;font-weight:600;margin-bottom:15px;color:#fff}
+canvas{width:100%;height:300px;display:block}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid #333}
+th{color:#8e8e93;font-size:12px;font-weight:600;text-transform:uppercase}
+td{color:#fff}
+.best{color:#28a745}
+.worst{color:#dc3545}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+@media(max-width:600px){.stats{gap:10px}.stat{min-width:100px;padding:10px 15px}.stat-value{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="header"><a href="http://192.168.1.249:8082/">← Back to Reports</a></div>
+<h1>Running Efficiency Index</h1>
+<p style="color:#8e8e93;margin-bottom:20px">Cardio efficiency analysis: how efficiently you run at different heart rates</p>
+<div class="stats">
+<div class="stat"><div class="stat-value">111</div><div class="stat-label">Total Runs</div></div>
+<div class="stat"><div class="stat-value">265</div><div class="stat-label">Total Miles</div></div>
+<div class="stat"><div class="stat-value">15:04</div><div class="stat-label">Avg Pace (min/mi)</div></div>
+<div class="stat"><div class="stat-value">128</div><div class="stat-label">Avg HR</div></div>
+<div class="stat"><div class="stat-value">10:18</div><div class="stat-label">Best Pace</div></div>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Efficiency Over Time (7-Day Avg)</div>
+<canvas id="efficiencyChart"></canvas>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Outdoor vs Treadmill Comparison</div>
+<canvas id="surfaceEfficiencyChart"></canvas>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Efficiency Trend + Recovery Overlay</div>
+<canvas id="efficiencyRecoveryChart"></canvas>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Pace vs Heart Rate Scatter</div>
+<canvas id="scatterChart"></canvas>
+</div>
+
+<div class="grid-2">
+<div class="chart-card">
+<div class="chart-title">Efficiency by Day of Week</div>
+<canvas id="dowChart"></canvas>
+</div>
+<div class="chart-card">
+<div class="chart-title">Pace by Hour of Day</div>
+<canvas id="hourChart"></canvas>
+</div>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Monthly Pace Trend</div>
+<canvas id="monthChart"></canvas>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Top 10 Most Efficient Runs</div>
+<table id="leaderboard">
+<tr><th>Distance</th><th>Pace</th><th>HR</th><th>Efficiency</th></tr>
+</table>
+</div>
+
+<script>
+const runTypeKeys = ["treadmill_running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "running", "treadmill_running", "treadmill_running", "running", "treadmill_running", "running", "treadmill_running", "treadmill_running", "running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "treadmill_running", "running", "running", "treadmill_running", "treadmill_running"];
+const runDates = ["2025-02-17", "2025-03-15", "2025-04-22", "2025-05-02", "2025-05-03", "2025-05-07", "2025-05-15", "2025-05-16", "2025-05-17", "2025-05-18", "2025-05-19", "2025-05-24", "2025-05-25", "2025-05-26", "2025-05-29", "2025-05-30", "2025-05-31", "2025-06-01", "2025-06-02", "2025-06-03", "2025-06-04", "2025-06-05", "2025-06-07", "2025-06-08", "2025-06-08", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-14", "2025-06-15", "2025-06-16", "2025-06-17", "2025-06-17", "2025-06-18", "2025-06-20", "2025-06-22", "2025-06-23", "2025-06-24", "2025-06-26", "2025-06-30", "2025-07-01", "2025-07-02", "2025-07-03", "2025-07-05", "2025-07-06", "2025-07-11", "2025-07-14", "2025-07-18", "2025-07-19", "2025-07-30", "2025-08-03", "2025-08-07", "2025-08-10", "2025-08-12", "2025-08-12", "2025-08-15", "2025-08-18", "2025-08-19", "2025-08-21", "2025-08-21", "2025-08-22", "2025-08-25", "2025-08-26", "2025-08-26", "2025-08-27", "2025-08-27", "2025-08-28", "2025-08-28", "2025-08-31", "2025-09-02", "2025-09-02", "2025-09-03", "2025-09-03", "2025-09-10", "2025-09-11", "2025-09-13", "2025-09-26", "2025-09-30", "2025-10-09", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-07", "2026-01-08", "2026-01-10", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-24", "2026-01-27", "2026-01-28", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-05", "2026-02-06", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-15", "2026-02-16", "2026-02-18", "2026-02-19"];
+
+const paceHrData = [{"hr": 132.0, "pace": 15.9375, "dist": 1.024}, {"hr": 142.0, "pace": 16.66214181701508, "dist": 4.0517}, {"hr": 137.0, "pace": 13.931430560389838, "dist": 1.1492}, {"hr": 139.0, "pace": 11.742883101150818, "dist": 1.3208}, {"hr": 119.0, "pace": 17.10267229254571, "dist": 1.7775}, {"hr": 128.0, "pace": 14.762190647721965, "dist": 1.4991}, {"hr": 126.0, "pace": 15.030345066759146, "dist": 2.8835}, {"hr": 152.0, "pace": 12.463005590266361, "dist": 1.2164}, {"hr": 136.0, "pace": 13.55421686746988, "dist": 3.2536}, {"hr": 131.0, "pace": 14.232323539242199, "dist": 3.2911}, {"hr": 135.0, "pace": 16.076109115619843, "dist": 3.0903}, {"hr": 151.0, "pace": 13.980683764927875, "dist": 4.0277}, {"hr": 144.0, "pace": 13.778496977773546, "dist": 4.2022}, {"hr": 145.0, "pace": 15.37401775691397, "dist": 1.9598}, {"hr": 130.0, "pace": 15.644614245058673, "dist": 2.5651}, {"hr": 130.0, "pace": 15.54006422808804, "dist": 1.2767}, {"hr": 142.0, "pace": 12.560732257504771, "dist": 4.6104}, {"hr": 139.0, "pace": 14.300349825087457, "dist": 4.002}, {"hr": 155.0, "pace": 12.011496151432064, "dist": 3.0271}, {"hr": 113.0, "pace": 18.23295257874697, "dist": 2.3112}, {"hr": 119.0, "pace": 15.51650235747964, "dist": 3.2662}, {"hr": 130.0, "pace": 14.084386500442186, "dist": 3.5053}, {"hr": 128.0, "pace": 14.152247055996154, "dist": 3.3288}, {"hr": 127.0, "pace": 14.138840597086507, "dist": 3.3362}, {"hr": 119.0, "pace": 17.166921898928024, "dist": 1.306}, {"hr": 125.0, "pace": 14.82600009292385, "dist": 2.1523}, {"hr": 128.0, "pace": 13.481152993348116, "dist": 3.157}, {"hr": 127.0, "pace": 14.24976663013921, "dist": 2.4639}, {"hr": 144.0, "pace": 12.427395934172315, "dist": 4.132}, {"hr": 129.0, "pace": 18.29175437810723, "dist": 2.2327}, {"hr": 135.0, "pace": 14.020926756352766, "dist": 3.6795}, {"hr": 143.0, "pace": 11.7587727528617, "dist": 4.2632}, {"hr": 112.0, "pace": 17.423658464275125, "dist": 3.373}, {"hr": 111.0, "pace": 18.83264933880529, "dist": 2.4123}, {"hr": 117.0, "pace": 17.005255314142286, "dist": 2.5498}, {"hr": 128.0, "pace": 14.822505685751013, "dist": 3.0339}, {"hr": 114.0, "pace": 18.476819049467792, "dist": 3.0909}, {"hr": 141.0, "pace": 12.52528741303597, "dist": 4.0534}, {"hr": 116.0, "pace": 16.79131404579151, "dist": 3.0486}, {"hr": 119.0, "pace": 15.67946842535889, "dist": 4.0333}, {"hr": 132.0, "pace": 14.217971548050183, "dist": 4.9979}, {"hr": 116.0, "pace": 15.511715986182214, "dist": 2.4027}, {"hr": 115.0, "pace": 16.05360370981687, "dist": 2.5446}, {"hr": 111.0, "pace": 17.260178053416023, "dist": 3.9988}, {"hr": 107.0, "pace": 16.65075251216296, "dist": 4.3986}, {"hr": 112.0, "pace": 15.153437661544245, "dist": 4.2558}, {"hr": 108.0, "pace": 17.537368112543962, "dist": 2.7296}, {"hr": 127.0, "pace": 14.551570124893166, "dist": 3.6271}, {"hr": 103.0, "pace": 20.804591038200684, "dist": 1.7251}, {"hr": 113.0, "pace": 17.49123831775701, "dist": 3.424}, {"hr": 117.0, "pace": 16.02677607428201, "dist": 2.3155}, {"hr": 106.0, "pace": 20.978041676002693, "dist": 1.7852}, {"hr": 132.0, "pace": 16.130492515692904, "dist": 3.3136}, {"hr": 109.0, "pace": 19.076849727345866, "dist": 3.3559}, {"hr": 123.0, "pace": 17.679527051637667, "dist": 3.5691}, {"hr": 116.0, "pace": 18.719326945548023, "dist": 2.1395}, {"hr": 117.0, "pace": 17.67483951245723, "dist": 3.5361}, {"hr": 108.0, "pace": 21.564319455124682, "dist": 3.6412}, {"hr": 112.0, "pace": 18.394886363636363, "dist": 2.3936}, {"hr": 105.0, "pace": 19.94654865222139, "dist": 3.4798}, {"hr": 158.0, "pace": 10.79104808331487, "dist": 0.9026}, {"hr": 106.0, "pace": 19.60648262873569, "dist": 2.0177}, {"hr": 134.0, "pace": 11.74478313121381, "dist": 0.9153}, {"hr": 140.0, "pace": 14.683382915427114, "dist": 0.9412}, {"hr": 134.0, "pace": 13.25749521581969, "dist": 0.9406}, {"hr": 118.0, "pace": 14.662425610506874, "dist": 0.9746}, {"hr": 134.0, "pace": 10.2936396142594, "dist": 0.9229}, {"hr": 134.0, "pace": 12.601288177851652, "dist": 0.9626}, {"hr": 137.0, "pace": 11.879049676025918, "dist": 0.926}, {"hr": 110.0, "pace": 20.27803909271454, "dist": 1.9134}, {"hr": 163.0, "pace": 11.079434289228018, "dist": 1.7889}, {"hr": 134.0, "pace": 13.918605933605383, "dist": 0.9067}, {"hr": 154.0, "pace": 10.766185270166913, "dist": 2.2227}, {"hr": 138.0, "pace": 13.347662547017732, "dist": 0.9305}, {"hr": 118.0, "pace": 15.216138328530258, "dist": 0.8675}, {"hr": 130.0, "pace": 16.59174072138003, "dist": 0.9565}, {"hr": 106.0, "pace": 20.31952582095653, "dist": 2.9356}, {"hr": 133.0, "pace": 13.233934350439204, "dist": 0.8652}, {"hr": 126.0, "pace": 15.239032928563613, "dist": 0.9141}, {"hr": 121.0, "pace": 19.731434855588358, "dist": 1.7277}, {"hr": 132.0, "pace": 14.246955643889203, "dist": 1.5849}, {"hr": 140.0, "pace": 13.11424516586837, "dist": 2.2548}, {"hr": 152.0, "pace": 12.588478710661004, "dist": 0.9183}, {"hr": 136.0, "pace": 13.184864012613325, "dist": 0.5074}, {"hr": 149.0, "pace": 11.391724879097259, "dist": 0.5583}, {"hr": 151.0, "pace": 13.597564019368043, "dist": 2.0033}, {"hr": 146.0, "pace": 13.226229508196724, "dist": 3.05}, {"hr": 131.0, "pace": 13.98166339227243, "dist": 0.9162}, {"hr": 126.0, "pace": 16.645220588235293, "dist": 1.088}, {"hr": 130.0, "pace": 13.131044567782245, "dist": 3.0089}, {"hr": 126.0, "pace": 14.648570043625785, "dist": 2.063}, {"hr": 118.0, "pace": 17.376705141657922, "dist": 1.906}, {"hr": 137.0, "pace": 13.752500901964643, "dist": 3.0489}, {"hr": 122.0, "pace": 15.52892561983471, "dist": 1.21}, {"hr": 143.0, "pace": 12.35332188986127, "dist": 3.5537}, {"hr": 119.0, "pace": 13.772727272727272, "dist": 1.32}, {"hr": 123.0, "pace": 15.651957531519576, "dist": 1.2056}, {"hr": 134.0, "pace": 13.196296296296296, "dist": 2.7}, {"hr": 139.0, "pace": 13.302722628209274, "dist": 3.0926}, {"hr": 106.0, "pace": 15.76562971911809, "dist": 0.6622}, {"hr": 127.0, "pace": 14.572463768115943, "dist": 2.76}, {"hr": 121.0, "pace": 14.856, "dist": 1.25}, {"hr": 141.0, "pace": 12.673758865248228, "dist": 2.82}, {"hr": 122.0, "pace": 15.572368421052632, "dist": 1.52}, {"hr": 117.0, "pace": 13.18840579710145, "dist": 1.38}, {"hr": 120.0, "pace": 15.70464767616192, "dist": 0.5336}, {"hr": 130.0, "pace": 14.006531543206677, "dist": 3.8582}, {"hr": 133.0, "pace": 14.249798249425785, "dist": 3.2218}, {"hr": 120.0, "pace": 14.998738011105502, "dist": 1.5848}, {"hr": 133.0, "pace": 12.04006189821183, "dist": 2.3264}, {"hr": 132.0, "pace": 11.78476821192053, "dist": 3.02}];
+const dowData = {"0": {"paces": [15.9375, 16.66214181701508, 13.931430560389838, 11.742883101150818, 17.10267229254571, 14.762190647721965, 15.030345066759146, 12.463005590266361, 13.55421686746988, 14.232323539242199, 16.076109115619843, 13.980683764927875, 13.778496977773546, 15.37401775691397, 15.644614245058673, 15.54006422808804, 12.560732257504771, 14.300349825087457, 12.011496151432064, 18.23295257874697, 15.51650235747964, 14.084386500442186, 14.152247055996154, 14.138840597086507, 17.166921898928024, 14.82600009292385, 13.481152993348116, 14.24976663013921, 12.427395934172315, 18.29175437810723, 14.020926756352766, 11.7587727528617, 17.423658464275125, 18.83264933880529, 17.005255314142286, 14.822505685751013, 18.476819049467792, 12.52528741303597, 16.79131404579151, 15.67946842535889, 14.217971548050183, 15.511715986182214, 16.05360370981687, 17.260178053416023, 16.65075251216296, 15.153437661544245, 17.537368112543962, 14.551570124893166, 20.804591038200684, 17.49123831775701, 16.02677607428201, 20.978041676002693, 16.130492515692904, 19.076849727345866, 17.679527051637667, 18.719326945548023, 17.67483951245723, 21.564319455124682, 18.394886363636363, 19.94654865222139, 10.79104808331487, 19.60648262873569, 11.74478313121381, 14.683382915427114, 13.25749521581969, 14.662425610506874, 10.2936396142594, 12.601288177851652, 11.879049676025918, 20.27803909271454, 11.079434289228018, 13.918605933605383, 10.766185270166913, 13.347662547017732, 15.216138328530258, 16.59174072138003, 20.31952582095653, 13.233934350439204, 15.239032928563613, 19.731434855588358, 14.246955643889203, 13.11424516586837, 12.588478710661004, 13.184864012613325, 11.391724879097259, 13.597564019368043, 13.226229508196724, 13.98166339227243, 16.645220588235293, 13.131044567782245, 14.648570043625785, 17.376705141657922, 13.752500901964643, 15.52892561983471, 12.35332188986127, 13.772727272727272, 15.651957531519576, 13.196296296296296, 13.302722628209274, 15.76562971911809, 14.572463768115943, 14.856, 12.673758865248228, 15.572368421052632, 13.18840579710145, 15.70464767616192, 14.006531543206677, 14.249798249425785, 14.998738011105502, 12.04006189821183, 11.78476821192053], "hrs": [132.0, 142.0, 137.0, 139.0, 119.0, 128.0, 126.0, 152.0, 136.0, 131.0, 135.0, 151.0, 144.0, 145.0, 130.0, 130.0, 142.0, 139.0, 155.0, 113.0, 119.0, 130.0, 128.0, 127.0, 119.0, 125.0, 128.0, 127.0, 144.0, 129.0, 135.0, 143.0, 112.0, 111.0, 117.0, 128.0, 114.0, 141.0, 116.0, 119.0, 132.0, 116.0, 115.0, 111.0, 107.0, 112.0, 108.0, 127.0, 103.0, 113.0, 117.0, 106.0, 132.0, 109.0, 123.0, 116.0, 117.0, 108.0, 112.0, 105.0, 158.0, 106.0, 134.0, 140.0, 134.0, 118.0, 134.0, 134.0, 137.0, 110.0, 163.0, 134.0, 154.0, 138.0, 118.0, 130.0, 106.0, 133.0, 126.0, 121.0, 132.0, 140.0, 152.0, 136.0, 149.0, 151.0, 146.0, 131.0, 126.0, 130.0, 126.0, 118.0, 137.0, 122.0, 143.0, 119.0, 123.0, 134.0, 139.0, 106.0, 127.0, 121.0, 141.0, 122.0, 117.0, 120.0, 130.0, 133.0, 120.0, 133.0, 132.0], "dists": [1.024, 4.0517, 1.1492, 1.3208, 1.7775, 1.4991, 2.8835, 1.2164, 3.2536, 3.2911, 3.0903, 4.0277, 4.2022, 1.9598, 2.5651, 1.2767, 4.6104, 4.002, 3.0271, 2.3112, 3.2662, 3.5053, 3.3288, 3.3362, 1.306, 2.1523, 3.157, 2.4639, 4.132, 2.2327, 3.6795, 4.2632, 3.373, 2.4123, 2.5498, 3.0339, 3.0909, 4.0534, 3.0486, 4.0333, 4.9979, 2.4027, 2.5446, 3.9988, 4.3986, 4.2558, 2.7296, 3.6271, 1.7251, 3.424, 2.3155, 1.7852, 3.3136, 3.3559, 3.5691, 2.1395, 3.5361, 3.6412, 2.3936, 3.4798, 0.9026, 2.0177, 0.9153, 0.9412, 0.9406, 0.9746, 0.9229, 0.9626, 0.926, 1.9134, 1.7889, 0.9067, 2.2227, 0.9305, 0.8675, 0.9565, 2.9356, 0.8652, 0.9141, 1.7277, 1.5849, 2.2548, 0.9183, 0.5074, 0.5583, 2.0033, 3.05, 0.9162, 1.088, 3.0089, 2.063, 1.906, 3.0489, 1.21, 3.5537, 1.32, 1.2056, 2.7, 3.0926, 0.6622, 2.76, 1.25, 2.82, 1.52, 1.38, 0.5336, 3.8582, 3.2218, 1.5848, 2.3264, 3.02]}, "1": {"paces": [], "hrs": [], "dists": []}, "2": {"paces": [], "hrs": [], "dists": []}, "3": {"paces": [], "hrs": [], "dists": []}, "4": {"paces": [], "hrs": [], "dists": []}, "5": {"paces": [], "hrs": [], "dists": []}, "6": {"paces": [], "hrs": [], "dists": []}};
+const hourData = {"5": {"paces": [13.597564019368043]}, "6": {"paces": [13.980683764927875]}, "7": {"paces": [14.82600009292385, 14.217971548050183, 13.131044567782245]}, "8": {"paces": [19.076849727345866, 14.683382915427114, 14.662425610506874, 12.601288177851652, 11.079434289228018, 10.766185270166913, 16.59174072138003]}, "9": {"paces": [13.778496977773546, 14.138840597086507, 13.481152993348116, 14.249798249425785, 14.998738011105502]}, "10": {"paces": [14.084386500442186, 14.152247055996154, 14.020926756352766]}, "11": {"paces": [12.011496151432064, 12.52528741303597, 19.94654865222139, 12.35332188986127, 12.673758865248228]}, "12": {"paces": [16.66214181701508, 13.931430560389838, 17.10267229254571, 12.463005590266361, 18.23295257874697, 12.427395934172315, 11.7587727528617, 17.423658464275125, 17.005255314142286, 15.511715986182214, 17.679527051637667, 19.60648262873569, 14.246955643889203, 16.645220588235293, 14.648570043625785, 17.376705141657922, 13.772727272727272, 13.302722628209274, 11.78476821192053]}, "13": {"paces": [13.55421686746988, 16.076109115619843, 13.226229508196724, 14.006531543206677]}, "14": {"paces": [15.9375, 10.79104808331487, 11.74478313121381, 13.25749521581969, 10.2936396142594, 11.879049676025918, 13.918605933605383, 13.347662547017732, 15.216138328530258, 13.233934350439204, 15.239032928563613, 12.588478710661004, 13.98166339227243, 15.651957531519576, 14.856]}, "15": {"paces": [11.742883101150818, 15.030345066759146, 15.644614245058673, 15.51650235747964, 18.83264933880529, 20.804591038200684, 18.394886363636363, 13.752500901964643, 13.18840579710145]}, "16": {"paces": [14.762190647721965, 14.232323539242199, 15.54006422808804, 12.560732257504771, 15.70464767616192]}, "17": {"paces": [14.300349825087457, 16.05360370981687, 21.564319455124682, 20.27803909271454, 20.31952582095653, 19.731434855588358, 13.184864012613325, 11.391724879097259, 13.196296296296296, 14.572463768115943, 15.572368421052632, 12.04006189821183]}, "18": {"paces": [17.166921898928024, 14.24976663013921, 18.29175437810723, 15.67946842535889, 17.260178053416023, 16.130492515692904, 18.719326945548023, 17.67483951245723, 13.11424516586837, 15.52892561983471]}, "19": {"paces": [15.37401775691397, 14.822505685751013, 14.551570124893166, 17.49123831775701, 16.02677607428201, 20.978041676002693]}, "20": {"paces": [18.476819049467792, 16.79131404579151, 15.153437661544245, 17.537368112543962, 15.76562971911809]}};
+const monthData = {"2025-02": {"paces": [15.9375], "hrs": [132.0], "dists": [1.024]}, "2025-03": {"paces": [16.66214181701508], "hrs": [142.0], "dists": [4.0517]}, "2025-04": {"paces": [13.931430560389838], "hrs": [137.0], "dists": [1.1492]}, "2025-05": {"paces": [11.742883101150818, 17.10267229254571, 14.762190647721965, 15.030345066759146, 12.463005590266361, 13.55421686746988, 14.232323539242199, 16.076109115619843, 13.980683764927875, 13.778496977773546, 15.37401775691397, 15.644614245058673, 15.54006422808804, 12.560732257504771], "hrs": [139.0, 119.0, 128.0, 126.0, 152.0, 136.0, 131.0, 135.0, 151.0, 144.0, 145.0, 130.0, 130.0, 142.0], "dists": [1.3208, 1.7775, 1.4991, 2.8835, 1.2164, 3.2536, 3.2911, 3.0903, 4.0277, 4.2022, 1.9598, 2.5651, 1.2767, 4.6104]}, "2025-06": {"paces": [14.300349825087457, 12.011496151432064, 18.23295257874697, 15.51650235747964, 14.084386500442186, 14.152247055996154, 14.138840597086507, 17.166921898928024, 14.82600009292385, 13.481152993348116, 14.24976663013921, 12.427395934172315, 18.29175437810723, 14.020926756352766, 11.7587727528617, 17.423658464275125, 18.83264933880529, 17.005255314142286, 14.822505685751013, 18.476819049467792, 12.52528741303597, 16.79131404579151, 15.67946842535889, 14.217971548050183], "hrs": [139.0, 155.0, 113.0, 119.0, 130.0, 128.0, 127.0, 119.0, 125.0, 128.0, 127.0, 144.0, 129.0, 135.0, 143.0, 112.0, 111.0, 117.0, 128.0, 114.0, 141.0, 116.0, 119.0, 132.0], "dists": [4.002, 3.0271, 2.3112, 3.2662, 3.5053, 3.3288, 3.3362, 1.306, 2.1523, 3.157, 2.4639, 4.132, 2.2327, 3.6795, 4.2632, 3.373, 2.4123, 2.5498, 3.0339, 3.0909, 4.0534, 3.0486, 4.0333, 4.9979]}, "2025-07": {"paces": [15.511715986182214, 16.05360370981687, 17.260178053416023, 16.65075251216296, 15.153437661544245, 17.537368112543962, 14.551570124893166, 20.804591038200684, 17.49123831775701, 16.02677607428201], "hrs": [116.0, 115.0, 111.0, 107.0, 112.0, 108.0, 127.0, 103.0, 113.0, 117.0], "dists": [2.4027, 2.5446, 3.9988, 4.3986, 4.2558, 2.7296, 3.6271, 1.7251, 3.424, 2.3155]}, "2025-08": {"paces": [20.978041676002693, 16.130492515692904, 19.076849727345866, 17.679527051637667, 18.719326945548023, 17.67483951245723, 21.564319455124682, 18.394886363636363, 19.94654865222139, 10.79104808331487, 19.60648262873569, 11.74478313121381, 14.683382915427114, 13.25749521581969, 14.662425610506874, 10.2936396142594, 12.601288177851652, 11.879049676025918, 20.27803909271454], "hrs": [106.0, 132.0, 109.0, 123.0, 116.0, 117.0, 108.0, 112.0, 105.0, 158.0, 106.0, 134.0, 140.0, 134.0, 118.0, 134.0, 134.0, 137.0, 110.0], "dists": [1.7852, 3.3136, 3.3559, 3.5691, 2.1395, 3.5361, 3.6412, 2.3936, 3.4798, 0.9026, 2.0177, 0.9153, 0.9412, 0.9406, 0.9746, 0.9229, 0.9626, 0.926, 1.9134]}, "2025-09": {"paces": [11.079434289228018, 13.918605933605383, 10.766185270166913, 13.347662547017732, 15.216138328530258, 16.59174072138003, 20.31952582095653, 13.233934350439204, 15.239032928563613], "hrs": [163.0, 134.0, 154.0, 138.0, 118.0, 130.0, 106.0, 133.0, 126.0], "dists": [1.7889, 0.9067, 2.2227, 0.9305, 0.8675, 0.9565, 2.9356, 0.8652, 0.9141]}, "2025-10": {"paces": [19.731434855588358], "hrs": [121.0], "dists": [1.7277]}, "2026-01": {"paces": [14.246955643889203, 13.11424516586837, 12.588478710661004, 13.184864012613325, 11.391724879097259, 13.597564019368043, 13.226229508196724, 13.98166339227243, 16.645220588235293, 13.131044567782245, 14.648570043625785, 17.376705141657922, 13.752500901964643, 15.52892561983471, 12.35332188986127, 13.772727272727272], "hrs": [132.0, 140.0, 152.0, 136.0, 149.0, 151.0, 146.0, 131.0, 126.0, 130.0, 126.0, 118.0, 137.0, 122.0, 143.0, 119.0], "dists": [1.5849, 2.2548, 0.9183, 0.5074, 0.5583, 2.0033, 3.05, 0.9162, 1.088, 3.0089, 2.063, 1.906, 3.0489, 1.21, 3.5537, 1.32]}, "2026-02": {"paces": [15.651957531519576, 13.196296296296296, 13.302722628209274, 15.76562971911809, 14.572463768115943, 14.856, 12.673758865248228, 15.572368421052632, 13.18840579710145, 15.70464767616192, 14.006531543206677, 14.249798249425785, 14.998738011105502, 12.04006189821183, 11.78476821192053], "hrs": [123.0, 134.0, 139.0, 106.0, 127.0, 121.0, 141.0, 122.0, 117.0, 120.0, 130.0, 133.0, 120.0, 133.0, 132.0], "dists": [1.2056, 2.7, 3.0926, 0.6622, 2.76, 1.25, 2.82, 1.52, 1.38, 0.5336, 3.8582, 3.2218, 1.5848, 2.3264, 3.02]}};
+
+const DOW_LABELS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+function initCanvas(id) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  return { canvas, ctx, w: rect.width, h: rect.height };
+}
+
+
+function efficiencyFromRun(d) {
+  if (!d || !d.hr || !d.pace || !d.dist) return 0;
+  return d.dist / (d.hr * (d.pace / 60));
+}
+
+function drawEfficiencyTrend() {
+  const { ctx, w, h } = initCanvas('efficiencyChart');
+  const pad = { t: 32, r: 28, b: 46, l: 56 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+
+  const windowSize = 7;
+  const records = paceHrData.map((d, idx) => ({
+    ...d,
+    index: idx,
+    date: runDates[idx] || `Run ${idx + 1}`,
+    type: runTypeKeys[idx] || 'running',
+    eff: efficiencyFromRun(d)
+  })).filter(r => Number.isFinite(r.eff) && r.eff > 0);
+
+  if (records.length < 2) {
+    ctx.fillStyle = '#1c1c1e';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '14px -apple-system';
+    ctx.textAlign = 'center';
+    ctx.fillText('No efficiency data available', w / 2, h / 2);
+    return;
+  }
+
+  const rollingAvg = records.map((run, idx) => {
+    const start = Math.max(0, idx - windowSize + 1);
+    const window = records.slice(start, idx + 1);
+    const avg = window.reduce((s, r) => s + r.eff, 0) / window.length;
+    return { ...run, rollingAvg: avg };
+  });
+
+  const allVals = [...records.map(r => r.eff), ...rollingAvg.map(r => r.rollingAvg)];
+  const minEff = Math.min(...allVals) * 0.97;
+  const maxEff = Math.max(...allVals) * 1.03;
+
+  const firstDate = new Date(records[0].date);
+  const lastDate = new Date(records[records.length - 1].date);
+  const dateSpan = Math.max(lastDate.getTime() - firstDate.getTime(), 1);
+
+  const xFor = (idx) => pad.l + ((new Date(records[idx].date).getTime() - firstDate.getTime()) / dateSpan) * plotW;
+  const yFor = (v) => h - pad.b - ((v - minEff) / (maxEff - minEff || 1)) * plotH;
+
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+
+  // axes + grid
+  ctx.strokeStyle = '#333';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+
+  for (let i = 0; i <= 5; i++) {
+    const y = pad.t + (plotH * i / 5);
+    ctx.strokeStyle = '#222';
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y);
+    ctx.lineTo(w - pad.r, y);
+    ctx.stroke();
+
+    const v = (maxEff - (maxEff - minEff) * i / 5);
+    ctx.fillStyle = '#666';
+    ctx.font = '10px -apple-system';
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(3), pad.l - 6, y + 4);
+  }
+
+  const byDate = [...records].map(r => new Date(r.date).toLocaleDateString(undefined, { month: '2-digit', day: '2-digit' }));
+  const shown = new Set();
+  const tickEvery = Math.max(1, Math.ceil(records.length / 6));
+  byDate.forEach((label, idx) => {
+    if (idx % tickEvery !== 0 && idx !== records.length - 1) return;
+    if (shown.has(label) && idx !== records.length - 1) return;
+    shown.add(label);
+    const x = xFor(idx);
+    ctx.fillStyle = '#8e8e93';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, h - pad.b + 14);
+  });
+
+  // efficiency line
+  ctx.strokeStyle = '#4fc3f7';
+  ctx.lineWidth = 2.6;
+  ctx.beginPath();
+  records.forEach((run, idx) => {
+    const x = xFor(idx);
+    const y = yFor(run.eff);
+    if (idx === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // rolling average
+  ctx.strokeStyle = '#28a745';
+  ctx.setLineDash([6, 4]);
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  rollingAvg.forEach((run, idx) => {
+    const x = xFor(idx);
+    const y = yFor(run.rollingAvg);
+    if (idx === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // best runs
+  const topIdx = [...records]
+    .map((r, idx) => ({ idx, score: r.eff }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map(v => v.idx);
+
+  records.forEach((run, idx) => {
+    const x = xFor(idx);
+    const y = yFor(run.eff);
+    const isTop = topIdx.includes(idx);
+    ctx.fillStyle = isTop ? '#ffd700' : '#4fc3f7';
+    ctx.beginPath();
+    ctx.arc(x, y, isTop ? 5 : 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    if (isTop) {
+      ctx.fillStyle = '#ffd700';
+      ctx.font = '10px -apple-system';
+      ctx.textAlign = 'center';
+      ctx.fillText('★', x, y - 9);
+    }
+  });
+
+  // labels
+  ctx.fillStyle = '#a4a4a4';
+  ctx.font = '11px -apple-system';
+  ctx.textAlign = 'left';
+  ctx.fillText('Efficiency', pad.l + 4, 20);
+  ctx.fillStyle = '#666';
+  ctx.fillRect(pad.l + 58, 14, 10, 10);
+  ctx.fillStyle = '#28a745';
+  ctx.fillText('7-day avg', pad.l + 71, 20);
+
+  ctx.fillStyle = '#666';
+  ctx.font = '10px -apple-system';
+  ctx.textAlign = 'left';
+  ctx.fillText('Top runs highlighted in gold', pad.l + 160, 20);
+}
+
+function drawOutdoorVsTreadmill() {
+  const { ctx, w, h } = initCanvas('surfaceEfficiencyChart');
+  const pad = { t: 30, r: 24, b: 45, l: 52 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+
+  const records = paceHrData.map((d, idx) => ({
+    ...d,
+    index: idx,
+    date: runDates[idx] || `Run ${idx + 1}`,
+    type: runTypeKeys[idx] || 'running',
+    eff: efficiencyFromRun(d)
+  })).filter(r => Number.isFinite(r.eff) && r.eff > 0);
+
+  if (records.length < 2) {
+    return;
+  }
+
+  const surfaceCounts = {
+    running: records.filter(r => r.type === 'running'),
+    treadmill_running: records.filter(r => r.type === 'treadmill_running')
+  };
+  const allEff = records.map(r => r.eff);
+  const minEff = Math.min(...allEff) * 0.95;
+  const maxEff = Math.max(...allEff) * 1.05;
+
+  const xFor = (idx) => pad.l + (plotW * idx / (records.length - 1));
+  const yFor = (v) => pad.t + plotH - ((v - minEff) / (maxEff - minEff || 1)) * plotH;
+
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+
+  // axes
+  ctx.strokeStyle = '#333';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+
+  // grid
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (plotH * i / 4);
+    const v = (maxEff - (maxEff - minEff) * i / 4).toFixed(3);
+    ctx.strokeStyle = '#222';
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y);
+    ctx.lineTo(w - pad.r, y);
+    ctx.stroke();
+
+    ctx.fillStyle = '#666';
+    ctx.font = '10px -apple-system';
+    ctx.textAlign = 'right';
+    ctx.fillText(v, pad.l - 6, y + 4);
+  }
+
+  function plotSurface(label, color) {
+    const arr = surfaceCounts[label];
+    if (arr.length === 0) return;
+    const meanEff = arr.reduce((s, r) => s + r.eff, 0) / arr.length;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    arr.forEach((r, i) => {
+      const x = xFor(r.index);
+      const y = yFor(r.eff);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    arr.forEach((r) => {
+      const x = xFor(r.index);
+      const y = yFor(r.eff);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y, 3.4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    ctx.strokeStyle = color;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.l, yFor(meanEff));
+    ctx.lineTo(w - pad.r, yFor(meanEff));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '10px -apple-system';
+    ctx.textAlign = 'left';
+    const labelX = arr[0].type === 'running' ? w - pad.r - 85 : w - pad.r - 130;
+    ctx.fillText(`Avg ${label === 'running' ? 'running' : 'treadmill'}: ${meanEff.toFixed(3)}`, labelX, yFor(meanEff) - 6);
+  }
+
+  plotSurface('running', '#4fc3f7');
+  plotSurface('treadmill_running', '#ffd700');
+
+  // legend
+  ctx.fillStyle = '#4fc3f7';
+  ctx.fillRect(pad.l + 6, 10, 10, 10);
+  ctx.fillStyle = '#fff';
+  ctx.font = '11px -apple-system';
+  ctx.textAlign = 'left';
+  ctx.fillText('Running', pad.l + 18, 19);
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(pad.l + 106, 10, 10, 10);
+  ctx.fillStyle = '#fff';
+  ctx.fillText('Treadmill', pad.l + 118, 19);
+
+  ctx.fillStyle = '#666';
+  ctx.font = '10px -apple-system';
+  const runCount = surfaceCounts.running.length;
+  const treadCount = surfaceCounts.treadmill_running.length;
+  ctx.fillText(`Runs: ${runCount} road, ${treadCount} treadmill`, pad.l, h - 14);
+}
+
+function drawEfficiencyRecovery() {
+  const { ctx, w, h } = initCanvas('efficiencyRecoveryChart');
+  const pad = { t: 32, r: 30, b: 50, l: 56 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+
+  const records = paceHrData.map((d, idx) => ({
+    ...d,
+    index: idx,
+    date: runDates[idx] || `Run ${idx + 1}`,
+    eff: efficiencyFromRun(d)
+  })).filter(r => Number.isFinite(r.eff) && r.eff > 0);
+
+  const xStep = plotW / (records.length - 1 || 1);
+  const xFor = (idx) => pad.l + xStep * idx;
+
+  const effVals = records.map(r => r.eff);
+  const minEff = Math.min(...effVals) * 0.96;
+  const maxEff = Math.max(...effVals) * 1.04;
+
+  // Optional: embedded Garmin daily RHRs are not currently in report payload
+  const garminDailyRhr = [];
+
+  ctx.fillStyle = '#1c0a0c';
+  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+
+  const yEff = (v) => h - pad.b - ((v - minEff) / (maxEff - minEff || 1)) * plotH;
+
+  // axes
+  ctx.strokeStyle = '#333';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (plotH * i / 4);
+    const v = (maxEff - (maxEff - minEff) * i / 4);
+    ctx.strokeStyle = '#222';
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y);
+    ctx.lineTo(w - pad.r, y);
+    ctx.stroke();
+
+    ctx.fillStyle = '#666';
+    ctx.font = '10px -apple-system';
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(3), pad.l - 6, y + 3);
+  }
+
+  // efficiency
+  ctx.strokeStyle = '#4fc3f7';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  records.forEach((r, idx) => {
+    const x = xFor(idx);
+    const y = yEff(r.eff);
+    if (idx === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  records.forEach((r, idx) => {
+    const x = xFor(idx);
+    const y = yEff(r.eff);
+    ctx.fillStyle = '#4fc3f7';
+    ctx.beginPath();
+    ctx.arc(x, y, 2.8, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  if (!garminDailyRhr.length) {
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '11px -apple-system';
+    ctx.textAlign = 'left';
+    ctx.fillText('No Garmin daily RHR embedded; showing efficiency trend only.', pad.l, 16);
+    return;
+  }
+
+  // if RHR present, overlay
+  const rhrMap = new Map(garminDailyRhr.map(r => [r.date, r.rhr]));
+  const withRhr = records
+    .map(r => ({ ...r, rhr: rhrMap.get(r.date) }))
+    .filter(r => r.rhr != null);
+
+  if (withRhr.length < 2) return;
+
+  const rhrVals = withRhr.map(r => r.rhr);
+  const minRhr = Math.min(...rhrVals);
+  const maxRhr = Math.max(...rhrVals);
+  const yRhr = (v) => h - pad.b - ((v - minRhr) / (maxRhr - minRhr || 1)) * plotH;
+
+  ctx.strokeStyle = '#ff6b6b';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  withRhr.forEach((r, idx) => {
+    const x = xFor(r.index);
+    const y = yRhr(r.rhr);
+    if (idx === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  withRhr.forEach((r) => {
+    const x = xFor(r.index);
+    const y = yRhr(r.rhr);
+    ctx.fillStyle = '#ff6b6b';
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  ctx.fillStyle = '#ff6b6b';
+  ctx.font = '10px -apple-system';
+  ctx.fillText('RHR overlay', pad.l, 28);
+}
+
+function drawScatter() {
+
+  const { ctx, w, h } = initCanvas('scatterChart');
+  const pad = { t: 30, r: 30, b: 50, l: 50 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+  
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+  
+  const hrVals = paceHrData.map(d => d.hr);
+  const paceVals = paceHrData.map(d => d.pace);
+  const minHR = Math.min(...hrVals) - 5;
+  const maxHR = Math.max(...hrVals) + 5;
+  const minPace = Math.min(...paceVals) - 1;
+  const maxPace = Math.max(...paceVals) + 1;
+  
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+  
+  ctx.fillStyle = '#8e8e93';
+  ctx.font = '12px -apple-system,BlinkMacSystemFont,sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Average HR (bpm)', w/2, h - 10);
+  
+  ctx.save();
+  ctx.translate(15, h/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Pace (min/mile)', 0, 0);
+  ctx.restore();
+  
+  // Grid lines
+  ctx.strokeStyle = '#222';
+  for(let i=0; i<=5; i++) {
+    const y = pad.t + (plotH * i / 5);
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w-pad.r, y); ctx.stroke();
+    const x = pad.l + (plotW * i / 5);
+    ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, h-pad.b); ctx.stroke();
+  }
+  
+  // Scatter points
+  paceHrData.forEach(d => {
+    const x = pad.l + ((d.hr - minHR) / (maxHR - minHR)) * plotW;
+    const y = h - pad.b - ((d.pace - minPace) / (maxPace - minPace)) * plotH;
+    const eff = d.dist / (d.hr * (d.pace/60));
+    const alpha = 0.4 + (eff / 0.05) * 0.4;
+    ctx.fillStyle = eff > 0.035 ? 'rgba(40, 167, 69, ' + Math.min(alpha, 0.9) + ')' : 
+                   eff < 0.025 ? 'rgba(220, 53, 69, ' + Math.min(alpha, 0.9) + ')' : 
+                   'rgba(79, 195, 247, ' + Math.min(alpha, 0.9) + ')';
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  // Axis values
+  ctx.fillStyle = '#666';
+  ctx.font = '10px -apple-system';
+  ctx.textAlign = 'center';
+  for(let i=0; i<=4; i++) {
+    const hr = minHR + (maxHR - minHR) * i / 4;
+    const x = pad.l + plotW * i / 4;
+    ctx.fillText(Math.round(hr), x, h - pad.b + 15);
+  }
+  ctx.textAlign = 'right';
+  for(let i=0; i<=4; i++) {
+    const pace = minPace + (maxPace - minPace) * i / 4;
+    const y = h - pad.b - plotH * i / 4;
+    ctx.fillText(pace.toFixed(0), pad.l - 5, y + 3);
+  }
+}
+
+function drawDOW() {
+  const { ctx, w, h } = initCanvas('dowChart');
+  const pad = { t: 30, r: 20, b: 40, l: 40 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+  
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+  
+  const days = [0,1,2,3,4,5,6];
+  const avgs = days.map(d => {
+    const p = dowData[d] ? dowData[d].paces : [];
+    return p.length ? p.reduce((a,b)=>a+b,0)/p.length : 0;
+  });
+  const maxAvg = Math.max(...avgs) * 1.1;
+  
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+  
+  const barW = plotW / 7 - 8;
+  
+  days.forEach((day, i) => {
+    const avg = avgs[i];
+    const x = pad.l + (plotW * i / 7) + 4;
+    const barH = maxAvg > 0 ? (avg / maxAvg) * plotH : 0;
+    const y = h - pad.b - barH;
+    
+    ctx.fillStyle = avg > 0 ? '#4fc3f7' : '#333';
+    ctx.fillRect(x, y, barW, barH);
+    
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '11px -apple-system,BlinkMacSystemFont,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(DOW_LABELS[day].slice(0,3), x + barW/2, h - pad.b + 18);
+    
+    if (avg > 0) {
+      ctx.fillText(avg.toFixed(1), x + barW/2, y - 5);
+    }
+  });
+}
+
+function drawHour() {
+  const { ctx, w, h } = initCanvas('hourChart');
+  const pad = { t: 30, r: 20, b: 40, l: 40 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+  
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+  
+  const hours = Object.keys(hourData).map(Number).sort((a,b)=>a-b);
+  const avgs = hours.map(h => {
+    const p = hourData[h] ? hourData[h].paces : [];
+    return p.length ? p.reduce((a,b)=>a+b,0)/p.length : 0;
+  });
+  const maxAvg = Math.max(...avgs) * 1.1;
+  const minAvg = Math.min(...avgs.filter(a => a > 0)) * 0.9 || 0;
+  
+  ctx.strokeStyle = '#333';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.strokeStyle = '#ffd700';
+  ctx.lineWidth = 2;
+  
+  avgs.forEach((avg, i) => {
+    if (avg === 0) return;
+    const x = pad.l + (plotW * i / (hours.length - 1));
+    const y = h - pad.b - ((avg - minAvg) / (maxAvg - minAvg)) * plotH;
+    if (i === 0 || avgs.slice(0, i).every(a => a === 0)) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  
+  ctx.fillStyle = '#ffd700';
+  avgs.forEach((avg, i) => {
+    if (avg === 0) return;
+    const x = pad.l + (plotW * i / (hours.length - 1));
+    const y = h - pad.b - ((avg - minAvg) / (maxAvg - minAvg)) * plotH;
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI*2);
+    ctx.fill();
+    
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '10px -apple-system';
+    ctx.textAlign = 'center';
+    ctx.fillText(hours[i] + ':00', x, h - pad.b + 15);
+  });
+}
+
+function drawMonth() {
+  const { ctx, w, h } = initCanvas('monthChart');
+  const pad = { t: 30, r: 20, b: 40, l: 40 };
+  const plotW = w - pad.l - pad.r;
+  const plotH = h - pad.t - pad.b;
+  
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fillRect(0, 0, w, h);
+  
+  const months = Object.keys(monthData).sort();
+  const avgs = months.map(m => {
+    const p = monthData[m].paces;
+    return p.length ? p.reduce((a,b)=>a+b,0)/p.length : 0;
+  });
+  const maxAvg = Math.max(...avgs) * 1.1;
+  const minAvg = Math.min(...avgs) * 0.9;
+  
+  ctx.strokeStyle = '#333';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, h - pad.b);
+  ctx.lineTo(w - pad.r, h - pad.b);
+  ctx.stroke();
+  
+  const barW = plotW / months.length - 10;
+  
+  // Trend line
+  ctx.beginPath();
+  ctx.strokeStyle = '#ffd700';
+  ctx.lineWidth = 2;
+  avgs.forEach((avg, i) => {
+    const x = pad.l + (plotW * i / (months.length - 1 || 1));
+    const y = h - pad.b - ((avg - minAvg) / (maxAvg - minAvg)) * plotH;
+    if(i===0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  
+  // Month labels
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  avgs.forEach((avg, i) => {
+    const x = pad.l + (plotW * i / months.length) + 5;
+    const barH = ((avg - minAvg) / (maxAvg - minAvg)) * plotH;
+    const y = h - pad.b - barH;
+    
+    ctx.fillStyle = '#4fc3f7';
+    ctx.fillRect(x, y, barW, barH);
+    
+    ctx.fillStyle = '#8e8e93';
+    ctx.font = '10px -apple-system';
+    ctx.textAlign = 'center';
+    const m = months[i];
+    const year = m.split('-')[0];
+    const monthNum = parseInt(m.split('-')[1]) - 1;
+    const label = year === '2025' ? MONTH_NAMES[monthNum] : MONTH_NAMES[monthNum];
+    ctx.fillText(label, x + barW/2, h - pad.b + 15);
+  });
+  
+  // Y-axis values
+  ctx.fillStyle = '#666';
+  ctx.font = '10px -apple-system';
+  ctx.textAlign = 'right';
+  for(let i = 0; i <= 4; i++) {
+    const pace = minAvg + (maxAvg - minAvg) * i / 4;
+    const y = h - pad.b - plotH * i / 4;
+    ctx.fillText(pace.toFixed(0), pad.l - 5, y + 3);
+  }
+}
+
+function drawLeaderboard() {
+  const tbody = document.querySelector('#leaderboard');
+  // Efficiency = miles / (HR * hours)
+  const withEff = paceHrData.map(d => ({
+    ...d,
+    eff: d.dist / (d.hr * (d.pace/60))
+  }));
+  const top10 = withEff.sort((a,b) => b.eff - a.eff).slice(0, 10);
+  
+  top10.forEach(r => {
+    const row = document.createElement('tr');
+    row.innerHTML = '<td>' + r.dist.toFixed(1) + ' mi</td><td>' + Math.floor(r.pace) + ':' + Math.round((r.pace % 1) * 60).toString().padStart(2,'0') + '</td><td>' + Math.round(r.hr) + '</td><td class="best">' + (r.eff * 1000).toFixed(1) + '</td>';
+    tbody.appendChild(row);
+  });
+}
+
+function renderAllCharts() {
+  drawEfficiencyTrend();
+  drawOutdoorVsTreadmill();
+  drawEfficiencyRecovery();
+  drawScatter();
+  drawDOW();
+  drawHour();
+  drawMonth();
+  drawLeaderboard();
+}
+
+window.addEventListener('load', renderAllCharts);
+window.addEventListener('resize', renderAllCharts);
+
+renderAllCharts();
+</script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

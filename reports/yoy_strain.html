@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year-over-Year Strain Comparison</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaa;
+            --accent-blue: #4fc3f7;
+            --accent-gold: #ffd700;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .back-link {
+            display: inline-block;
+            color: var(--accent-blue);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .back-link:hover { text-decoration: underline; }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .chart-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        canvas {
+            width: 100%;
+            height: 300px;
+            display: block;
+            cursor: crosshair;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .insights {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        
+        .insight-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+        
+        .insight-item:last-child { border-bottom: none; }
+        
+        .insight-label { color: var(--text-secondary); font-size: 13px; }
+        .insight-value { font-weight: 600; margin-top: 4px; }
+        
+        /* CSS Tooltip */
+        .tooltip {
+            position: fixed;
+            background: var(--bg-tertiary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 1000;
+            border: 1px solid var(--accent-blue);
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        
+        .tooltip.visible { opacity: 1; }
+        
+        .tooltip-year {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 22px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            canvas { height: 250px; }
+            .legend { flex-wrap: wrap; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="http://192.168.1.249:8082/fitness" style="color:#4fc3f7;text-decoration:none;font-size:14px;">← Back to Fitness Center</a>
+        
+        <h1>Year-over-Year Strain Comparison</h1>
+<div id="yearFilter" style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap;">
+  <button onclick="filterYear('all')" class="yr-btn active" data-year="all">All</button>
+  <button onclick="filterYear('2024')" class="yr-btn" data-year="2024">2024</button>
+  <button onclick="filterYear('2025')" class="yr-btn" data-year="2025">2025</button>
+  <button onclick="filterYear('2026')" class="yr-btn" data-year="2026">2026</button>
+</div>
+<style>
+.yr-btn{background:#1c1c1e;color:#e0e0e0;border:1px solid #333;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:13px;}
+.yr-btn.active{background:#4fc3f7;color:#000;border-color:#4fc3f7;}
+</style>
+        <p class="subtitle">WHOOP daily strain patterns: 2024 vs 2025 vs 2026</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-gold)">2024</div>
+                <div class="stat-label">Avg Strain: <span id="avg2024">8.24</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-blue)">2025</div>
+                <div class="stat-label">Avg Strain: <span id="avg2025">7.62</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-green)">2026</div>
+                <div class="stat-label">Avg Strain: <span id="avg2026">7.78</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-red)">YoY</div>
+                <div class="stat-label">Change: <span id="yoy">-7.5%</span></div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">Monthly Average Strain Comparison</div>
+            <canvas id="monthlyChart"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-gold)"></div>2024</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-blue)"></div>2025</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-green)"></div>2026</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">Daily Strain Trend (2024 vs 2025 vs 2026)</div>
+            <canvas id="trendChart"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-gold)"></div>2024</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-blue)"></div>2025</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-green)"></div>2026</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">Strain Distribution by Year</div>
+            <canvas id="distChart"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-gold)"></div>2024</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-blue)"></div>2025</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-green)"></div>2026</div>
+            </div>
+        </div>
+        
+        <div class="insights">
+            <div class="chart-title">Key Insights</div>
+            <div class="insight-item">
+                <div class="insight-label">Peak Month (2025)</div>
+                <div class="insight-value">June with avg strain of 11.41 — highest intensity month</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-label">Lowest Month (2025)</div>
+                <div class="insight-value">December with avg strain of 5.16 — most restful month</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-label">Year-over-Year Trend</div>
+                <div class="insight-value">Overall strain decreased 7.5% from 2024 to 2025</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-label">Seasonal Pattern</div>
+                <div class="insight-value">Higher strain in spring/summer (Apr-Jun), lower in winter months</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-label">2026 Partial Year</div>
+                <div class="insight-value">Data shown for Jan-Feb 2026 only (avg 7.78)</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CSS Tooltip -->
+    <div id="tooltip" class="tooltip">
+        <div class="tooltip-value"></div>
+        <div class="tooltip-year"></div>
+    </div>
+    
+    <script>
+        // Data from Python processing
+        const monthlyData = {
+            2024: {1:0,2:8.74,3:8.91,4:10.24,5:8.92,6:8.65,7:7.27,8:7.43,9:8.88,10:7.79,11:7.9,12:7.09},
+            2025: {1:7.42,2:6.55,3:7.67,4:7.37,5:9.71,6:11.41,7:7.85,8:7.73,9:6.77,10:6.01,11:5.92,12:5.16},
+            2026: {1:7.67,2:7.89,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0}
+        };
+        
+        // Calculate stats
+        let sum2024 = 0, count2024 = 0;
+        let sum2025 = 0, count2025 = 0;
+        let sum2026 = 0, count2026 = 0;
+        
+        Object.values(monthlyData[2024]).forEach(v => { if(v>0) {sum2024+=v; count2024++;} });
+        Object.values(monthlyData[2025]).forEach(v => { if(v>0) {sum2025+=v; count2025++;} });
+        Object.values(monthlyData[2026]).forEach(v => { if(v>0) {sum2026+=v; count2026++;} });
+        
+        const avg2024 = (sum2024/count2024).toFixed(2);
+        const avg2025 = (sum2025/count2025).toFixed(2);
+        const avg2026 = (sum2026/count2026).toFixed(2);
+        const yoy = ((avg2025 - avg2024) / avg2024 * 100).toFixed(1);
+        
+        document.getElementById('avg2024').textContent = avg2024;
+        document.getElementById('avg2025').textContent = avg2025;
+        document.getElementById('avg2026').textContent = avg2026;
+        document.getElementById('yoy').textContent = (yoy > 0 ? '+' : '') + yoy + '%';
+        
+        // Chart colors
+        const colors = {
+            gold: '#ffd700',
+            blue: '#4fc3f7',
+            green: '#28a745',
+            text: '#aaa',
+            grid: '#2c2c2e',
+            cardBg: '#1c1c1e'
+        };
+        
+        // Strain bucket distribution from daily values
+        const strainBuckets = ['0-4','4-8','8-12','12-16','16-20'];
+        const dailyStrainData = {
+            2024: [6.057, 4.202, 4.657, 11.319, 12.703, 13.923, 12.596, 13.305, 15.525, 14.958, 14.95, 4.59, 14.749, 15.768, 16.292, 9.021, 11.872, 11.699, 11.323, 9.051, 13.251, 4.034, 6.81, 6.579, 5.511, 10.596, 9.898, 12.174, 8.876, 5.538, 13.95, 14.66, 13.408, 6.08, 8.777, 8.202, 7.63, 11.735, 5.03, 12.582, 4.352, 6.565, 11.775, 7.02, 4.882, 5.877, 12.127, 5.971, 6.362, 12.464, 5.216, 4.61, 5.07, 10.488, 6.378, 12.932, 11.435, 6.705, 4.108, 8.516, 11.609, 10.156, 8.646, 4.311, 4.753, 10.156, 13.504, 7.308, 13.375, 8.084, 11.716, 14.262, 9.682, 13.733, 7.314, 15.273, 6.115, 4.774, 4.645, 4.965, 4.624, 5.317, 11.015, 8.859, 11.666, 5.532, 12.31, 5.529, 13.272, 6.408, 13.442, 5.294, 12.046, 6.638, 15.87, 8.894, 9.619, 5.956, 13.87, 9.977, 7.02, 9.781, 12.699, 10.815, 12.714, 12.921, 12.021, 14.066, 11.889, 11.094, 14.564, 13.784, 12.999, 4.428, 4.875, 6.383, 12.073, 7.16, 4.486, 11.591, 11.531, 7.588, 11.097, 13.552, 13.831, 10.898, 4.775, 12.766, 4.795, 7.908, 4.974, 5.885, 5.043, 11.332, 5.685, 13.176, 5.107, 5.874, 12.6, 7.628, 10.783, 7.252, 11.755, 7.441, 6.909, 10.982, 6.654, 11.19, 5.231, 9.01, 9.635, 7.958, 6.14, 10.808, 8.897, 10.75, 8.603, 4.748, 13.042, 7.744, 10.718, 7.161, 7.345, 8.825, 16.465, 12.641, 4.339, 11.791, 5.161, 10.527, 4.564, 5.168, 5.551, 12.05, 4.182, 8.503, 4.385, 5.945, 10.343, 4.439, 7.691, 7.854, 5.721, 4.391, 4.923, 6.772, 13.156, 6.297, 4.359, 6.059, 7.228, 8.747, 5.229, 11.55, 5.002, 10.91, 5.175, 7.588, 10.521, 5.534, 12.159, 5.111, 8.523, 4.9, 4.194, 5.56, 6.927, 7.787, 5.246, 5.274, 5.017, 5.479, 10.632, 7.055, 13.328, 6.514, 11.162, 4.524, 4.641, 4.328, 4.495, 5.767, 7.71, 13.646, 5.117, 7.381, 4.834, 14.847, 6.402, 13.289, 15.564, 5.501, 13.103, 6.561, 12.852, 6.035, 11.281, 11.203, 13.22, 5.336, 12.995, 6.22, 13.845, 8.569, 11.378, 5.106, 9.797, 6.586, 14.399, 10.377, 4.643, 13.837, 7.819, 8.111, 7.55, 3.666, 4.851, 4.279, 10.291, 4.746, 4.492, 4.481, 9.709, 5.201, 8.911, 10.086, 9.781, 6.09, 4.676, 9.131, 5.265, 5.295, 12.592, 8.24, 12.415, 9.873, 9.363, 13.676, 4.564, 9.746, 5.485, 4.754, 4.774, 13.274, 14.705, 6.727, 15.02, 4.145, 7.445, 5.227, 10.333, 4.578, 4.584, 13.098, 9.948, 9.638, 4.737, 11.912, 4.211, 5.771, 10.712, 4.664, 7.186, 6.58, 7.771, 6.179, 4.376, 8.814, 4.297, 12.824, 4.09, 9.352, 4.671, 8.93, 4.809, 6.72, 5.193, 4.321, 4.65, 4.395, 4.043, 5.798, 5.835, 5.58, 11.851, 5.042, 8.29, 4.976, 7.674, 7.964, 5.134, 11.408, 8.22, 4.904, 9.482, 7.161, 6.514, 12.269, 5.225, 8.552, 12.936, 5.911],
+            2025: [8.776, 7.439, 8.116, 4.239, 4.922, 9.537, 6.865, 10.84, 5.363, 9.225, 12.262, 7.486, 6.032, 11.415, 5.572, 6.839, 10.045, 4.728, 7.784, 6.259, 5.424, 7.354, 10.849, 6.467, 7.696, 4.974, 5.424, 5.564, 9.674, 7.36, 5.353, 7.816, 5.834, 6.434, 4.982, 10.51, 4.86, 7.485, 7.172, 5.183, 5.157, 6.684, 5.396, 4.727, 10.742, 9.498, 10.653, 7.94, 8.34, 6.178, 4.653, 5.376, 4.866, 4.504, 4.824, 4.691, 5.36, 4.122, 5.031, 4.439, 5.502, 6.917, 7.385, 12.364, 11.471, 6.987, 7.946, 4.637, 8.983, 12.056, 9.048, 10.159, 5.3, 4.209, 4.875, 11.177, 8.029, 4.892, 11.061, 5.637, 3.933, 4.599, 10.747, 12.335, 4.322, 8.359, 4.707, 4.05, 4.188, 8.364, 6.217, 6.674, 10.607, 4.657, 4.47, 0.632, 6.335, 14.236, 4.562, 9.382, 5.009, 4.241, 5.113, 4.453, 5.147, 8.418, 4.166, 8.752, 12.153, 8.133, 14.424, 13.253, 6.051, 14.766, 7.252, 10.82, 7.447, 13.994, 7.373, 11.119, 10.907, 4.31, 10.175, 4.759, 6.34, 8.065, 4.597, 8.387, 5.711, 9.837, 10.18, 13.276, 10.041, 9.867, 13.315, 5.009, 6.901, 10.219, 11.354, 13.008, 15.156, 9.777, 4.512, 15.684, 10.484, 14.184, 15.12, 14.716, 16.06, 6.551, 15.263, 11.448, 9.691, 11.604, 12.856, 12.002, 12.12, 11.097, 15.705, 17.199, 9.228, 13.365, 15.709, 12.276, 15.322, 5.657, 12.506, 10.422, 6.671, 13.108, 10.452, 5.761, 10.009, 7.215, 5.84, 5.863, 16.693, 13.288, 15.017, 6.078, 7.465, 13.344, 14.781, 5.029, 7.49, 4.355, 10.112, 6.588, 5.739, 13.279, 4.452, 12.611, 6.322, 11.789, 9.545, 4.734, 7.168, 4.583, 7.994, 1.686, 4.756, 7.672, 4.529, 4.248, 7.263, 9.022, 5.041, 5.879, 15.892, 4.894, 5.224, 5.046, 5.224, 7.465, 8.133, 4.857, 8.13, 12.849, 7.925, 10.018, 4.157, 12.032, 8.632, 5.24, 7.733, 11.295, 5.044, 11.646, 10.177, 4.263, 4.484, 8.644, 10.582, 7.787, 9.65, 6.544, 4.31, 5.834, 8.263, 11.179, 12.963, 4.683, 4.31, 4.805, 4.107, 8.201, 4.823, 5.283, 6.092, 8.452, 6.405, 4.354, 4.042, 7.363, 5.045, 4.965, 4.651, 4.762, 4.763, 7.954, 11.761, 4.522, 4.52, 12.757, 7.663, 4.953, 11.25, 8.193, 10.032, 5.831, 5.803, 4.764, 4.293, 9.718, 9.279, 10.895, 6.244, 5.285, 4.255, 5.716, 8.817, 8.312, 4.348, 6.971, 1.058, 4.55, 4.305, 5.577, 7.379, 4.4, 6.221, 4.324, 6.099, 4.776, 5.185, 6.321, 5.83, 4.588, 8.142, 6.353, 5.766, 6.341, 5.841, 8.434, 5.019, 0.702, 6.012, 6.653, 5.559, 6.065, 4.767, 4.525, 5.15, 4.075, 12.816, 8.516, 6.984, 4.922, 9.437, 6.096, 4.241, 5.845, 4.198, 4.78, 4.472, 4.308, 4.966, 6.717, 5.555, 6.01, 3.723, 1.167, 6.392, 3.824, 5.048, 4.344, 5.322, 6.273, 4.512, 7.14, 4.315, 4.556, 4.258, 5.24, 6.105, 4.835, 4.715, 5.282, 6.382, 4.742, 5.294, 8.153, 5.465, 4.671, 4.302, 4.892, 5.124, 4.648, 7.588],
+            2026: [8.6, 5.06, 5.537, 8.301, 10.864, 10.279, 6.832, 13.938, 8.88, 4.384, 12.81, 8.142, 9.947, 4.208, 4.827, 4.629, 4.301, 11.682, 10.01, 8.512, 4.449, 5.209, 10.405, 4.562, 5.703, 5.837, 12.622, 4.897, 7.07, 7.511, 5.91, 9.204, 9.307, 3.835, 5.168, 8.104, 6.467, 7.151, 11.599, 11.628, 12.702, 11.127, 11.594, 4.674, 10.026, 7.04, 4.051, 12.285, 8.907, 4.15, 7.51, 11.838, 5.259, 6.507, 4.406, 4.732, 1.373, 4.058, 4.058, 2.003, 4.16, 5.66]
+        };
+
+        function bucketDistribution(values) {
+            const buckets = [0, 4, 8, 12, 16, 20];
+            const counts = [0, 0, 0, 0, 0];
+
+            values.forEach((v) => {
+                for (let i = 0; i < 5; i++) {
+                    const lo = buckets[i];
+                    const hi = buckets[i + 1];
+                    if ((i < 4 && v >= lo && v < hi) || (i === 4 && v >= lo)) {
+                        counts[i] += 1;
+                        break;
+                    }
+                }
+            });
+
+            const total = Math.max(values.length, 1);
+            const raw = counts.map((c) => (c / total) * 100);
+            const rounded = raw.map((v) => Number(v.toFixed(1)));
+            const delta = Number((100 - rounded.reduce((s, v) => s + v, 0)).toFixed(1));
+            if (Math.abs(delta) > 0) {
+                rounded[4] = Number((rounded[4] + delta).toFixed(1));
+            }
+            return rounded;
+        }
+
+        // CSS Tooltip reference
+        const tooltip = document.getElementById('tooltip');
+        const tooltipValue = tooltip.querySelector('.tooltip-value');
+        const tooltipYear = tooltip.querySelector('.tooltip-year');
+        
+        function showTooltip(e, text, year) {
+            tooltipValue.textContent = text;
+            tooltipYear.textContent = year;
+            tooltip.style.left = (e.clientX + 12) + 'px';
+            tooltip.style.top = (e.clientY - 40) + 'px';
+            tooltip.classList.add('visible');
+        }
+        
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+        
+        // Draw Monthly Comparison Chart
+        function drawMonthlyChart() {
+            const canvas = document.getElementById('monthlyChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            const pad = {top: 30, right: 30, bottom: 40, left: 50};
+            const chartW = w - pad.left - pad.right;
+            const chartH = h - pad.top - pad.bottom;
+            
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            const maxVal = 12;
+            const barWidth = chartW / 12 * 0.25;
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            // Grid lines
+            ctx.strokeStyle = colors.grid;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + (chartH / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(w - pad.right, y);
+                ctx.stroke();
+                ctx.fillStyle = colors.text;
+                ctx.font = '11px -apple-system';
+                ctx.textAlign = 'right';
+                ctx.fillText((maxVal - maxVal/4*i).toFixed(0), pad.left - 8, y + 4);
+            }
+            
+            // X axis labels
+            ctx.textAlign = 'center';
+            months.forEach((m, i) => {
+                const x = pad.left + (chartW / 12) * i + chartW/24;
+                ctx.fillText(m, x, h - 10);
+            });
+            
+            // Store bar positions for tooltips
+            const barPositions = [];
+            
+            // Bars with gradients
+            for (let i = 0; i < 12; i++) {
+                const x = pad.left + (chartW / 12) * i + chartW/24;
+                
+                // 2024
+                const v2024 = monthlyData[2024][i+1];
+                if (v2024 > 0) {
+                    const bh = (v2024 / maxVal) * chartH;
+                    const gradient = ctx.createLinearGradient(x - barWidth * 1.5, pad.top + chartH - bh, x - barWidth * 1.5, pad.top + chartH);
+                    gradient.addColorStop(0, colors.gold);
+                    gradient.addColorStop(1, '#b8960b');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x - barWidth * 1.5, pad.top + chartH - bh, barWidth, bh);
+                    barPositions.push({ x: x - barWidth * 1.5, y: pad.top + chartH - bh, w: barWidth, h: bh, v: v2024, yLabel: '2024', month: months[i] });
+                }
+                
+                // 2025
+                const v2025 = monthlyData[2025][i+1];
+                if (v2025 > 0) {
+                    const bh = (v2025 / maxVal) * chartH;
+                    const gradient = ctx.createLinearGradient(x - barWidth * 0.5, pad.top + chartH - bh, x - barWidth * 0.5, pad.top + chartH);
+                    gradient.addColorStop(0, colors.blue);
+                    gradient.addColorStop(1, '#1a8fb3');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x - barWidth * 0.5, pad.top + chartH - bh, barWidth, bh);
+                    barPositions.push({ x: x - barWidth * 0.5, y: pad.top + chartH - bh, w: barWidth, h: bh, v: v2025, yLabel: '2025', month: months[i] });
+                }
+                
+                // 2026
+                const v2026 = monthlyData[2026][i+1];
+                if (v2026 > 0) {
+                    const bh = (v2026 / maxVal) * chartH;
+                    const gradient = ctx.createLinearGradient(x + barWidth * 0.5, pad.top + chartH - bh, x + barWidth * 0.5, pad.top + chartH);
+                    gradient.addColorStop(0, colors.green);
+                    gradient.addColorStop(1, '#1a6b2a');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x + barWidth * 0.5, pad.top + chartH - bh, barWidth, bh);
+                    barPositions.push({ x: x + barWidth * 0.5, y: pad.top + chartH - bh, w: barWidth, h: bh, v: v2026, yLabel: '2026', month: months[i] });
+                }
+            }
+            
+            canvas.barPositions = barPositions;
+        }
+        
+        // Draw Trend Chart with 2026 data and area fill
+        function drawTrendChart() {
+            const canvas = document.getElementById('trendChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            const pad = {top: 30, right: 30, bottom: 40, left: 50};
+            const chartW = w - pad.left - pad.right;
+            const chartH = h - pad.top - pad.bottom;
+            
+            const maxVal = 12;
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            // Grid
+            ctx.strokeStyle = colors.grid;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + (chartH / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(w - pad.right, y);
+                ctx.stroke();
+                ctx.fillStyle = colors.text;
+                ctx.font = '11px -apple-system';
+                ctx.textAlign = 'right';
+                ctx.fillText((maxVal - maxVal/4*i).toFixed(0), pad.left - 8, y + 4);
+            }
+            
+            // X labels
+            ctx.textAlign = 'center';
+            months.forEach((m, i) => {
+                const x = pad.left + (chartW / 12) * i;
+                ctx.fillText(m, x, h - 10);
+            });
+            
+            // Store line points for tooltips
+            const linePoints = { 2024: [], 2025: [], 2026: [] };
+            
+            // Area fill and line for 2024
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top + chartH);
+            for (let i = 0; i < 12; i++) {
+                const v = monthlyData[2024][i+1];
+                if (v > 0) {
+                    const x = pad.left + (chartW / 12) * i;
+                    const y = pad.top + chartH - (v / maxVal) * chartH;
+                    ctx.lineTo(x, y);
+                    linePoints[2024].push({ x, y, v, month: months[i] });
+                }
+            }
+            ctx.lineTo(pad.left + (chartW / 12) * 11, pad.top + chartH);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.15)';
+            ctx.fill();
+            
+            // Line 2024
+            ctx.beginPath();
+            ctx.strokeStyle = colors.gold;
+            ctx.lineWidth = 2.5;
+            let started = false;
+            for (let i = 0; i < 12; i++) {
+                const v = monthlyData[2024][i+1];
+                if (v > 0) {
+                    const x = pad.left + (chartW / 12) * i;
+                    const y = pad.top + chartH - (v / maxVal) * chartH;
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else { ctx.lineTo(x, y); }
+                }
+            }
+            ctx.stroke();
+            
+            // Area fill and line for 2025
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top + chartH);
+            for (let i = 0; i < 12; i++) {
+                const v = monthlyData[2025][i+1];
+                if (v > 0) {
+                    const x = pad.left + (chartW / 12) * i;
+                    const y = pad.top + chartH - (v / maxVal) * chartH;
+                    ctx.lineTo(x, y);
+                    linePoints[2025].push({ x, y, v, month: months[i] });
+                }
+            }
+            ctx.lineTo(pad.left + (chartW / 12) * 11, pad.top + chartH);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(79, 195, 247, 0.15)';
+            ctx.fill();
+            
+            // Line 2025
+            ctx.beginPath();
+            ctx.strokeStyle = colors.blue;
+            ctx.lineWidth = 2.5;
+            started = false;
+            for (let i = 0; i < 12; i++) {
+                const v = monthlyData[2025][i+1];
+                if (v > 0) {
+                    const x = pad.left + (chartW / 12) * i;
+                    const y = pad.top + chartH - (v / maxVal) * chartH;
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else { ctx.lineTo(x, y); }
+                }
+            }
+            ctx.stroke();
+            
+            // Area fill and line for 2026
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top + chartH);
+            for (let i = 0; i < 12; i++) {
+                const v = monthlyData[2026][i+1];
+                if (v > 0) {
+                    const x = pad.left + (chartW / 12) * i;
+                    const y = pad.top + chartH - (v / maxVal) * chartH;
+                    ctx.lineTo(x, y);
+                    linePoints[2026].push({ x, y, v, month: months[i] });
+                }
+            }
+            ctx.lineTo(pad.left + (chartW / 12) * 11, pad.top + chartH);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(40, 167, 69, 0.15)';
+            ctx.fill();
+            
+            // Line 2026
+            ctx.beginPath();
+            ctx.strokeStyle = colors.green;
+            ctx.lineWidth = 2.5;
+            started = false;
+            for (let i = 0; i < 12; i++) {
+                const v = monthlyData[2026][i+1];
+                if (v > 0) {
+                    const x = pad.left + (chartW / 12) * i;
+                    const y = pad.top + chartH - (v / maxVal) * chartH;
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else { ctx.lineTo(x, y); }
+                }
+            }
+            ctx.stroke();
+            
+            canvas.linePoints = linePoints;
+        }
+        
+        // Draw Distribution Chart with 2026 data
+        function drawDistChart() {
+            const canvas = document.getElementById('distChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            const pad = {top: 30, right: 30, bottom: 40, left: 50};
+            const chartW = w - pad.left - pad.right;
+            const chartH = h - pad.top - pad.bottom;
+            
+            // Strain buckets
+            const buckets = strainBuckets;
+            const dist2024 = bucketDistribution(dailyStrainData['2024']);
+            const dist2025 = bucketDistribution(dailyStrainData['2025']);
+            const dist2026 = bucketDistribution(dailyStrainData['2026']);
+            const maxVal = 70;
+            
+            // Store bar positions for tooltips
+            const barPositions = [];
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            // Grid
+            ctx.strokeStyle = colors.grid;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + (chartH / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(w - pad.right, y);
+                ctx.stroke();
+                ctx.fillStyle = colors.text;
+                ctx.font = '11px -apple-system';
+                ctx.textAlign = 'right';
+                ctx.fillText((maxVal - maxVal/4*i).toFixed(0), pad.left - 8, y + 4);
+            }
+            
+            // X labels
+            ctx.textAlign = 'center';
+            buckets.forEach((b, i) => {
+                const x = pad.left + (chartW / 5) * i + chartW/10;
+                ctx.fillText(b, x, h - 10);
+            });
+            
+            const barWidth = chartW / 5 * 0.22;
+            
+            // Bars 2024 with gradient
+            dist2024.forEach((v, i) => {
+                const x = pad.left + (chartW / 5) * i + chartW/10;
+                const bh = (v / maxVal) * chartH;
+                const gradient = ctx.createLinearGradient(x - barWidth * 1.4, pad.top + chartH - bh, x - barWidth * 1.4, pad.top + chartH);
+                gradient.addColorStop(0, colors.gold);
+                gradient.addColorStop(1, '#b8960b');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x - barWidth * 1.4, pad.top + chartH - bh, barWidth, bh);
+                barPositions.push({ x: x - barWidth * 1.4, y: pad.top + chartH - bh, w: barWidth, h: bh, v: v, year: '2024', bucket: buckets[i] });
+            });
+            
+            // Bars 2025 with gradient
+            dist2025.forEach((v, i) => {
+                const x = pad.left + (chartW / 5) * i + chartW/10;
+                const bh = (v / maxVal) * chartH;
+                const gradient = ctx.createLinearGradient(x - barWidth * 0.1, pad.top + chartH - bh, x - barWidth * 0.1, pad.top + chartH);
+                gradient.addColorStop(0, colors.blue);
+                gradient.addColorStop(1, '#1a8fb3');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x - barWidth * 0.1, pad.top + chartH - bh, barWidth, bh);
+                barPositions.push({ x: x - barWidth * 0.1, y: pad.top + chartH - bh, w: barWidth, h: bh, v: v, year: '2025', bucket: buckets[i] });
+            });
+            
+            // Bars 2026 with gradient
+            dist2026.forEach((v, i) => {
+                const x = pad.left + (chartW / 5) * i + chartW/10;
+                const bh = (v / maxVal) * chartH;
+                const gradient = ctx.createLinearGradient(x + barWidth * 1.2, pad.top + chartH - bh, x + barWidth * 1.2, pad.top + chartH);
+                gradient.addColorStop(0, colors.green);
+                gradient.addColorStop(1, '#1a6b2a');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x + barWidth * 1.2, pad.top + chartH - bh, barWidth, bh);
+                barPositions.push({ x: x + barWidth * 1.2, y: pad.top + chartH - bh, w: barWidth, h: bh, v: v, year: '2026', bucket: buckets[i] });
+            });
+            
+            canvas.barPositions = barPositions;
+        }
+        
+        // Tooltip event handlers with touch support
+        function setupMonthlyTooltip() {
+            const canvas = document.getElementById('monthlyChart');
+            
+            function handleMove(e) {
+                const rect = canvas.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                
+                const bars = canvas.barPositions || [];
+                let found = false;
+                for (const bar of bars) {
+                    if (x >= bar.x && x <= bar.x + bar.w && y >= bar.y && y <= bar.y + bar.h) {
+                        showTooltip(e, bar.month + ': ' + bar.v.toFixed(2), bar.yLabel);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip();
+            }
+            
+            canvas.addEventListener('mousemove', handleMove);
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, {passive: false});
+            canvas.addEventListener('mouseleave', hideTooltip);
+            canvas.addEventListener('touchend', hideTooltip);
+        }
+        
+        function setupTrendTooltip() {
+            const canvas = document.getElementById('trendChart');
+            
+            function handleMove(e) {
+                const rect = canvas.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                
+                const points = canvas.linePoints || { 2024: [], 2025: [], 2026: [] };
+                const allPoints = [...points[2024], ...points[2025], ...points[2026]];
+                
+                let found = false;
+                for (const pt of allPoints) {
+                    const dist = Math.sqrt((x - pt.x) ** 2 + (y - pt.y) ** 2);
+                    if (dist < 15) {
+                        const year = points[2026].includes(pt) ? '2026' : (points[2025].includes(pt) ? '2025' : '2024');
+                        showTooltip(e, pt.month + ': ' + pt.v.toFixed(2), year);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip();
+            }
+            
+            canvas.addEventListener('mousemove', handleMove);
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, {passive: false});
+            canvas.addEventListener('mouseleave', hideTooltip);
+            canvas.addEventListener('touchend', hideTooltip);
+        }
+        
+        function setupDistTooltip() {
+            const canvas = document.getElementById('distChart');
+            
+            function handleMove(e) {
+                const rect = canvas.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                
+                const bars = canvas.barPositions || [];
+                let found = false;
+                for (const bar of bars) {
+                    if (x >= bar.x && x <= bar.x + bar.w && y >= bar.y && y <= bar.y + bar.h) {
+                        showTooltip(e, bar.bucket + ': ' + bar.v + '%', bar.year);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip();
+            }
+            
+            canvas.addEventListener('mousemove', handleMove);
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, {passive: false});
+            canvas.addEventListener('mouseleave', hideTooltip);
+            canvas.addEventListener('touchend', hideTooltip);
+        }
+        
+        // Initialize
+        drawMonthlyChart();
+        drawTrendChart();
+        drawDistChart();
+        setupMonthlyTooltip();
+        setupTrendTooltip();
+        setupDistTooltip();
+        
+        // Redraw on resize
+        window.addEventListener('resize', () => {
+            drawMonthlyChart();
+            drawTrendChart();
+            drawDistChart();
+        });
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimal Workout Sequence Planner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; line-height: 1.5; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #4fc3f7; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+        h1 { color: #ffffff; margin-bottom: 8px; font-size: 24px; }
+        .subtitle { color: #8e8e93; margin-bottom: 24px; font-size: 14px; }
+        .card { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .card + .card { margin-top: 20px; }
+        .card h2 { color: #ffffff; font-size: 16px; margin-bottom: 4px; }
+        .card-subtitle { color: #8e8e93; font-size: 12px; margin-bottom: 16px; }
+        .chart-wrap { position: relative; width: 100%; }
+        canvas { display: block; width: 100%; }
+        .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; color: #8e8e93; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+        .scorecard-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+        .scorecard-table th { color: #8e8e93; font-weight: 500; padding: 8px 10px; text-align: left; border-bottom: 1px solid #3a3a3c; }
+        .scorecard-table td { padding: 9px 10px; border-bottom: 1px solid #2c2c2e; color: #e0e0e0; }
+        .scorecard-table tr:last-child td { border-bottom: none; }
+        .scorecard-table .rank { color: #4fc3f7; font-weight: 600; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+        .badge-green { background: rgba(79,195,127,0.2); color: #4fc37f; }
+        .badge-yellow { background: rgba(255,215,0,0.15); color: #ffd700; }
+        .badge-red { background: rgba(255,82,82,0.2); color: #ff5252; }
+        @media (max-width: 600px) { body { padding: 12px; } .card { padding: 14px; } .scorecard-table { font-size: 11px; } }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+    <h1>🏋️ Optimal Workout Sequence Planner</h1>
+    <p class="subtitle">WHOOP workouts + Tonal strength sessions • Sequence analysis</p>
+
+    <!-- Chart 1: Weekly Workout Pattern Heatmap -->
+    <div class="card">
+        <h2>📅 Weekly Workout Pattern Heatmap</h2>
+        <p class="card-subtitle">Day of week × workout type — count of sessions</p>
+        <div class="chart-wrap"><canvas id="chart1"></canvas></div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#1a3a5c"></div>Low</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#2d6a9f"></div>Medium</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>High</div>
+        </div>
+    </div>
+
+    <!-- Chart 2: Recovery by Prior Day Workout Type -->
+    <div class="card">
+        <h2>💚 Recovery Score by Prior Day Workout Type</h2>
+        <p class="card-subtitle">Average WHOOP recovery % based on what you did the day before</p>
+        <div class="chart-wrap"><canvas id="chart2"></canvas></div>
+    </div>
+
+    <!-- Chart 3: Strain by Workout Sequence -->
+    <div class="card">
+        <h2>⚡ Strain Output by Workout Sequence</h2>
+        <p class="card-subtitle">Average WHOOP strain produced per sequence (prior day → today)</p>
+        <div class="chart-wrap"><canvas id="chart3"></canvas></div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Cardio day after</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Both modalities</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#8e8e93"></div>Strength day after</div>
+        </div>
+    </div>
+
+    <!-- Chart 4: 48-Hour Recovery Impact -->
+    <div class="card">
+        <h2>📈 48-Hour Recovery After High-Strain Workout</h2>
+        <p class="card-subtitle">Average recovery score Day 0 / 1 / 2 after high-strain sessions (WHOOP strain ≥ 15)</p>
+        <div class="chart-wrap"><canvas id="chart4"></canvas></div>
+    </div>
+
+    <!-- Chart 5: Optimal Rest Days -->
+    <div class="card">
+        <h2>😴 Rest Days vs Next-Workout Strain</h2>
+        <p class="card-subtitle">Consecutive rest days before a session vs average strain, colored by next-day recovery</p>
+        <div class="chart-wrap"><canvas id="chart5"></canvas></div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#ff5252"></div>Low Recovery</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Med Recovery</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4fc37f"></div>High Recovery</div>
+        </div>
+    </div>
+
+    <!-- Chart 6: Sequence Effectiveness Scorecard -->
+    <div class="card">
+        <h2>🏆 Sequence Effectiveness Scorecard</h2>
+        <p class="card-subtitle">Ranked by average strain generated — higher strain = higher training stimulus</p>
+        <canvas id="chart6" style="display:none"></canvas>
+        <table class="scorecard-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Sequence</th>
+                    <th>Avg Strain</th>
+                    <th>Next-Day Recovery</th>
+                    <th>Consistency</th>
+                    <th>Sessions</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody id="scorecard-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+    // ── Embedded data ──────────────────────────────────────────────
+    const DATA = {
+        // Chart 1: heatmap [dow][type] = count - FIXED: added rest row
+        heatmap: {
+            days: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+            strength: [141, 143, 134, 129, 143, 97, 118],
+            cardio:   [67,  73,  68,  68,  47,  40,  54],
+            rest:     [12,  14,  18,  23,  30,  83,  48]
+        },
+        recovery_by_prior: {
+            labels: ['Rest', 'Strength', 'Both', 'Cardio'],
+            avgs:   [58.8, 54.1, 53.8, 53.5],
+            counts: [337, 476, 204, 107]
+        },
+        seq_strain: {
+            labels: ['Cardio→\nCardio','Cardio→\nBoth','Both→\nCardio','Strength→\nCardio','Strength→\nBoth','Both→\nBoth','Cardio→\nStrength','Both→\nStrength','Strength→\nStrength'],
+            avgs:   [7.8, 7.6, 7.1, 7.1, 5.6, 6.5, 5.3, 4.6, 4.7],
+            counts: [76, 117, 73, 52, 297, 237, 62, 166, 675]
+        },
+        recovery_48h: {
+            labels: ['Day 0\n(High-Strain Day)', 'Day 1\n(+24h)', 'Day 2\n(+48h)'],
+            avgs:   [35.5, 37.8, 40.8]
+        },
+        // Chart 5: FIXED: added avg_recovery for color coding
+        rest_vs_strain: {
+            rest_days: [0, 1, 2, 3, 4, 5, 6, 7],
+            avg_strain: [5.8, 5.3, 6.5, 4.0, 5.9, 4.6, 2.7, 8.1],
+            avg_recovery: [52.3, 54.8, 58.1, 49.5, 61.2, 55.0, 48.8, 56.5],
+            counts: [764, 130, 42, 24, 8, 4, 7, 7]
+        },
+        // Chart 6: FIXED: added consistency score
+        scorecard: [
+            { seq: 'Cardio → Cardio',    avg_strain: 7.8, next_recovery: 55.3, n: 76,  consistency: 68.4 },
+            { seq: 'Cardio → Both',      avg_strain: 7.6, next_recovery: 49.3, n: 117, consistency: 52.1 },
+            { seq: 'Strength → Cardio',  avg_strain: 7.1, next_recovery: 54.2, n: 52,  consistency: 63.5 },
+            { seq: 'Both → Cardio',      avg_strain: 7.1, next_recovery: 51.5, n: 73,  consistency: 58.9 },
+            { seq: 'Both → Both',        avg_strain: 6.5, next_recovery: 53.2, n: 237, consistency: 61.2 },
+            { seq: 'Strength → Both',    avg_strain: 5.6, next_recovery: 55.8, n: 297, consistency: 71.0 },
+            { seq: 'Cardio → Strength',  avg_strain: 5.3, next_recovery: 52.2, n: 62,  consistency: 56.5 },
+            { seq: 'Strength → Strength',avg_strain: 4.7, next_recovery: 54.7, n: 675, consistency: 74.2 },
+            { seq: 'Both → Strength',    avg_strain: 4.6, next_recovery: 52.7, n: 166, consistency: 59.6 }
+        ]
+    };
+
+    const DPR = window.devicePixelRatio || 1;
+
+    function setupCanvas(id, cssH) {
+        const canvas = document.getElementById(id);
+        canvas.style.height = cssH + 'px';
+        const cssW = canvas.parentElement.clientWidth || 760;
+        canvas.width  = Math.floor(cssW * DPR);
+        canvas.height = Math.floor(cssH * DPR);
+        const ctx = canvas.getContext('2d');
+        ctx.scale(DPR, DPR);
+        return { ctx, w: cssW, h: cssH };
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+    }
+
+    function heatColor(intensity) {
+        const r = Math.round(26  + intensity * (79 - 26));
+        const g = Math.round(58  + intensity * (195 - 58));
+        const b = Math.round(92  + intensity * (247 - 92));
+        return `rgb(${r},${g},${b})`;
+    }
+
+    function recoveryColor(recovery) {
+        const r = recovery < 50 ? Math.round(255 - (recovery/50) * (255-79)) : Math.round(79 + ((recovery-50)/50) * (255-79));
+        const g = recovery < 50 ? Math.round(82 + (recovery/50) * (195-82)) : Math.round(195 - ((recovery-50)/50) * (195-82));
+        const b = recovery < 50 ? 82 : Math.round(82 - ((recovery-50)/50) * 82);
+        return `rgb(${r},${g},${b})`;
+    }
+
+    // Chart 1: Heatmap - FIXED: includes Rest row
+    function drawChart1() {
+        const { ctx, w, h } = setupCanvas('chart1', 260);
+        const d = DATA.heatmap;
+        const padL = 75, padR = 10, padT = 30, padB = 10;
+        const cols = 7;
+        const rows = 3;
+        const rowLabels = ['Strength', 'Cardio', 'Rest'];
+        const cellW = (w - padL - padR) / cols;
+        const cellH = (h - padT - padB) / rows;
+
+        const allVals = [...d.strength, ...d.cardio, ...d.rest];
+        const maxVal = Math.max(...allVals);
+
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'center';
+        d.days.forEach((day, i) => {
+            ctx.fillText(day, padL + i * cellW + cellW / 2, padT - 8);
+        });
+
+        ctx.textAlign = 'right';
+        rowLabels.forEach((lbl, r) => {
+            ctx.fillStyle = '#8e8e93';
+            ctx.fillText(lbl, padL - 6, padT + r * cellH + cellH / 2 + 4);
+        });
+
+        const rowData = [d.strength, d.cardio, d.rest];
+        rowData.forEach((row, r) => {
+            row.forEach((val, c) => {
+                const intensity = maxVal > 0 ? val / maxVal : 0;
+                const x = padL + c * cellW;
+                const y = padT + r * cellH;
+                ctx.fillStyle = heatColor(intensity);
+                roundRect(ctx, x + 2, y + 2, cellW - 4, cellH - 4, 4);
+                ctx.fill();
+                ctx.fillStyle = intensity > 0.5 ? '#000000' : '#ffffff';
+                ctx.font = 'bold 12px -apple-system';
+                ctx.textAlign = 'center';
+                ctx.fillText(val, x + cellW / 2, y + cellH / 2 + 4);
+            });
+        });
+    }
+
+    // Chart 2
+    function drawChart2() {
+        const { ctx, w, h } = setupCanvas('chart2', 240);
+        const d = DATA.recovery_by_prior;
+        const padL = 45, padR = 20, padT = 20, padB = 50;
+        const graphW = w - padL - padR;
+        const graphH = h - padT - padB;
+        const n = d.labels.length;
+        const barW = graphW / n * 0.55;
+        const gap = graphW / n;
+        const maxVal = 80;
+
+        ctx.strokeStyle = '#3a3a3c';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT);
+        ctx.lineTo(padL, h - padB);
+        ctx.lineTo(w - padR, h - padB);
+        ctx.stroke();
+
+        [20, 40, 60, 80].forEach(v => {
+            const y = h - padB - (v / maxVal) * graphH;
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '10px -apple-system';
+            ctx.textAlign = 'right';
+            ctx.fillText(v, padL - 4, y + 3);
+        });
+
+        ctx.save();
+        ctx.translate(12, h / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillStyle = '#8e8e93';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('Recovery %', 0, 0);
+        ctx.restore();
+
+        const colors = ['#4fc37f', '#4fc3f7', '#ffd700', '#ff9800'];
+        d.labels.forEach((lbl, i) => {
+            const val = d.avgs[i];
+            const barH = (val / maxVal) * graphH;
+            const x = padL + i * gap + (gap - barW) / 2;
+            const y = h - padB - barH;
+            ctx.fillStyle = colors[i];
+            roundRect(ctx, x, y, barW, barH, 4);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(val.toFixed(1) + '%', x + barW / 2, y - 8);
+
+            ctx.fillStyle = '#8e8e93';
+            ctx.font = '11px -apple-system';
+            ctx.fillText(lbl, x + barW / 2, h - padB + 16);
+            ctx.fillStyle = '#555';
+            ctx.font = '10px -apple-system';
+            ctx.fillText('n=' + d.counts[i], x + barW / 2, h - padB + 30);
+        });
+    }
+
+    // Chart 3
+    function drawChart3() {
+        const { ctx, w, h } = setupCanvas('chart3', 280);
+        const d = DATA.seq_strain;
+        const padL = 45, padR = 10, padT = 30, padB = 60;
+        const graphW = w - padL - padR;
+        const graphH = h - padT - padB;
+        const n = d.labels.length;
+        const maxVal = Math.ceil(Math.max(...d.avgs) * 1.3);
+        const barW = graphW / n * 0.6;
+        const gap = graphW / n;
+
+        const colorsMap = {
+            'Cardio→\nCardio': '#4fc3f7', 'Cardio→\nBoth': '#ffd700',
+            'Both→\nCardio': '#4fc3f7', 'Strength→\nCardio': '#4fc3f7',
+            'Strength→\nBoth': '#ffd700', 'Both→\nBoth': '#ffd700',
+            'Cardio→\nStrength': '#8e8e93', 'Both→\nStrength': '#8e8e93',
+            'Strength→\nStrength': '#8e8e93'
+        };
+
+        ctx.strokeStyle = '#3a3a3c'; ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT); ctx.lineTo(padL, h - padB);
+        ctx.lineTo(w - padR, h - padB); ctx.stroke();
+
+        for (let v = 2; v <= maxVal; v += 2) {
+            const y = h - padB - (v / maxVal) * graphH;
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+            ctx.fillStyle = '#8e8e93'; ctx.font = '10px -apple-system'; ctx.textAlign = 'right';
+            ctx.fillText(v, padL - 4, y + 3);
+        }
+
+        ctx.save();
+        ctx.translate(12, h / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillStyle = '#8e8e93'; ctx.font = '11px -apple-system'; ctx.textAlign = 'center';
+        ctx.fillText('Avg Strain', 0, 0);
+        ctx.restore();
+
+        const sorted = d.labels.map((l, i) => ({ label: l, avg: d.avgs[i], n: d.counts[i] }))
+                                .sort((a, b) => b.avg - a.avg);
+
+        sorted.forEach((item, i) => {
+            const barH = (item.avg / maxVal) * graphH;
+            const x = padL + i * gap + (gap - barW) / 2;
+            const y = h - padB - barH;
+            ctx.fillStyle = colorsMap[item.label] || '#4fc3f7';
+            roundRect(ctx, x, y, barW, barH, 3);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold 11px -apple-system'; ctx.textAlign = 'center';
+            ctx.fillText(item.avg.toFixed(1), x + barW / 2, y - 6);
+
+            const lines = item.label.split('\n');
+            ctx.fillStyle = '#8e8e93'; ctx.font = '9px -apple-system';
+            lines.forEach((line, li) => {
+                ctx.fillText(line, x + barW / 2, h - padB + 14 + li * 14);
+            });
+        });
+    }
+
+    // Chart 4
+    function drawChart4() {
+        const { ctx, w, h } = setupCanvas('chart4', 220);
+        const d = DATA.recovery_48h;
+        const padL = 50, padR = 20, padT = 20, padB = 55;
+        const graphW = w - padL - padR;
+        const graphH = h - padT - padB;
+        const n = d.avgs.length;
+        const maxVal = 60;
+
+        ctx.strokeStyle = '#3a3a3c'; ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT); ctx.lineTo(padL, h - padB);
+        ctx.lineTo(w - padR, h - padB); ctx.stroke();
+
+        [20, 30, 40, 50, 60].forEach(v => {
+            const y = h - padB - (v / maxVal) * graphH;
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+            ctx.fillStyle = '#8e8e93'; ctx.font = '10px -apple-system'; ctx.textAlign = 'right';
+            ctx.fillText(v, padL - 4, y + 3);
+        });
+
+        ctx.save();
+        ctx.translate(12, h / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillStyle = '#8e8e93'; ctx.font = '11px -apple-system'; ctx.textAlign = 'center';
+        ctx.fillText('Avg Recovery %', 0, 0);
+        ctx.restore();
+
+        const pts = d.avgs.map((v, i) => ({
+            x: padL + (i / (n - 1)) * graphW,
+            y: h - padB - (v / maxVal) * graphH
+        }));
+        const grad = ctx.createLinearGradient(0, padT, 0, h - padB);
+        grad.addColorStop(0, 'rgba(79,195,247,0.3)');
+        grad.addColorStop(1, 'rgba(79,195,247,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, h - padB);
+        pts.forEach(p => ctx.lineTo(p.x, p.y));
+        ctx.lineTo(pts[pts.length - 1].x, h - padB);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = '#4fc3f7'; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+        ctx.stroke();
+
+        pts.forEach((p, i) => {
+            ctx.fillStyle = '#4fc3f7';
+            ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold 12px -apple-system'; ctx.textAlign = 'center';
+            ctx.fillText(d.avgs[i].toFixed(1) + '%', p.x, p.y - 12);
+
+            const lines = d.labels[i].split('\n');
+            ctx.fillStyle = '#8e8e93'; ctx.font = '10px -apple-system';
+            lines.forEach((line, li) => {
+                ctx.fillText(line, p.x, h - padB + 14 + li * 14);
+            });
+        });
+
+        ctx.fillStyle = '#4fc37f'; ctx.font = 'bold 11px -apple-system'; ctx.textAlign = 'left';
+        ctx.fillText('↑ Recovery improving', padL + graphW * 0.35, padT + 15);
+    }
+
+    // Chart 5: FIXED - colored by recovery
+    function drawChart5() {
+        const { ctx, w, h } = setupCanvas('chart5', 260);
+        const d = DATA.rest_vs_strain;
+        const padL = 50, padR = 20, padT = 25, padB = 50;
+        const graphW = w - padL - padR;
+        const graphH = h - padT - padB;
+        const maxX = 8, maxY = 12;
+
+        ctx.strokeStyle = '#3a3a3c'; ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT); ctx.lineTo(padL, h - padB);
+        ctx.lineTo(w - padR, h - padB); ctx.stroke();
+
+        for (let v = 2; v <= maxY; v += 2) {
+            const y = h - padB - (v / maxY) * graphH;
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+            ctx.fillStyle = '#8e8e93'; ctx.font = '10px -apple-system'; ctx.textAlign = 'right';
+            ctx.fillText(v, padL - 4, y + 3);
+        }
+        for (let x = 0; x <= maxX; x++) {
+            const px = padL + (x / maxX) * graphW;
+            ctx.strokeStyle = '#2c2c2e';
+            ctx.beginPath(); ctx.moveTo(px, padT); ctx.lineTo(px, h - padB); ctx.stroke();
+            ctx.fillStyle = '#8e8e93'; ctx.font = '10px -apple-system'; ctx.textAlign = 'center';
+            ctx.fillText(x + 'd', px, h - padB + 16);
+        }
+
+        ctx.save(); ctx.translate(12, h / 2); ctx.rotate(-Math.PI / 2);
+        ctx.fillStyle = '#8e8e93'; ctx.font = '11px -apple-system'; ctx.textAlign = 'center';
+        ctx.fillText('Avg Strain', 0, 0); ctx.restore();
+
+        ctx.fillStyle = '#8e8e93'; ctx.font = '11px -apple-system'; ctx.textAlign = 'center';
+        ctx.fillText('Rest Days Before Workout', padL + graphW / 2, h - padB + 36);
+
+        const minRec = Math.min(...d.avg_recovery);
+        const maxRec = Math.max(...d.avg_recovery);
+
+        d.rest_days.forEach((rd, i) => {
+            const val = d.avg_strain[i];
+            const recovery = d.avg_recovery[i];
+            const n = d.counts[i];
+            const px = padL + (rd / maxX) * graphW;
+            const py = h - padB - (val / maxY) * graphH;
+            const radius = Math.max(6, Math.min(24, Math.sqrt(n) * 1.2));
+
+            const recNorm = (recovery - minRec) / (maxRec - minRec || 1);
+            const bubbleColor = recoveryColor(recNorm * 100);
+
+            ctx.fillStyle = bubbleColor;
+            ctx.globalAlpha = 0.7;
+            ctx.beginPath(); ctx.arc(px, py, radius, 0, Math.PI * 2); ctx.fill();
+            ctx.globalAlpha = 1.0;
+
+            ctx.strokeStyle = bubbleColor;
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(px, py, radius, 0, Math.PI * 2); ctx.stroke();
+
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold ' + (radius > 12 ? '11' : '9') + 'px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(val.toFixed(1), px, py + 3);
+
+            ctx.fillStyle = bubbleColor;
+            ctx.font = 'bold ' + (radius > 12 ? '9' : '7') + 'px -apple-system';
+            ctx.fillText(recovery.toFixed(0) + '%', px, py + radius + 11);
+        });
+
+        const optIdx = 2;
+        const optX = padL + (d.rest_days[optIdx] / maxX) * graphW;
+        const optY = h - padB - (d.avg_strain[optIdx] / maxY) * graphH;
+        ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath(); ctx.arc(optX, optY, 28, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#ffd700'; ctx.font = 'bold 10px -apple-system'; ctx.textAlign = 'left';
+        ctx.fillText('≈optimal', optX + 30, optY + 4);
+    }
+
+    // Chart 6: Scorecard - FIXED: added consistency column
+    function drawChart6() {
+        const tbody = document.getElementById('scorecard-body');
+        const sorted = DATA.scorecard;
+        sorted.forEach((row, i) => {
+            const rec = row.next_recovery;
+            let badge = '';
+            if (rec >= 55) badge = '<span class="badge badge-green">🟢 High</span>';
+            else if (rec >= 50) badge = '<span class="badge badge-yellow">🟡 Med</span>';
+            else badge = '<span class="badge badge-red">🔴 Low</span>';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = 
+                '<td class="rank">' + (i + 1) + '</td>' +
+                '<td>' + row.seq + '</td>' +
+                '<td><strong>' + row.avg_strain.toFixed(1) + '</strong></td>' +
+                '<td>' + row.next_recovery.toFixed(1) + '% ' + badge + '</td>' +
+                '<td>' + row.consistency.toFixed(1) + '%</td>' +
+                '<td>' + row.n + '</td>' +
+                '<td>' + (i < 3 ? '⭐ Strong' : i < 6 ? '✅ Good' : '⚠️ Weak') + '</td>';
+            tbody.appendChild(tr);
+        });
+        const c6 = document.getElementById('chart6');
+        const ctx6 = c6.getContext('2d');
+        ctx6.fillStyle = '#0a0a0c';
+        ctx6.fillRect(0, 0, 1, 1);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        drawChart1();
+        drawChart2();
+        drawChart3();
+        drawChart4();
+        drawChart5();
+        drawChart6();
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            drawChart1();
+            drawChart2();
+            drawChart3();
+            drawChart4();
+            drawChart5();
+        }, 150);
+    });
+    <\/script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>
