@@ -48,7 +48,7 @@
     
   <div class="container">
     <h1>💪 Strength Dashboard</h1>
-    <div class="sub">Generated on 2026-03-17 15:24 EDT</div>
+    <div class="sub">Generated on 2026-03-18 03:01 EDT</div>
 
     <section class="stats" style="margin-bottom:14px">
       <div class="card"><div class="label">Lifetime Volume</div><div class="value">8,844,120 lbs</div></div>
@@ -1224,8 +1224,512 @@
       </table>
     </section>
 
+<!-- WEEK COMPARISON WIDGET START -->
+
+<style>
+/* Week Comparison Widget */
+.week-comparison {
+  background: #161b22;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+}
+.week-comparison h2 {
+  color: white;
+  margin: 0 0 20px 0;
+  font-size: 1.4em;
+}
+.wc-week-labels {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 0.8em;
+  color: #8b949e;
+}
+.wc-week-labels span { flex: 1; text-align: center; }
+.comparison-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.comp-card {
+  background: #0d1117;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.comp-card .label {
+  color: #8b949e;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 10px;
+}
+.comp-card .values {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  margin: 12px 0;
+}
+.comp-card .current {
+  color: white;
+  font-weight: bold;
+  font-size: 1.15em;
+}
+.comp-card .previous {
+  color: #6e7681;
+  font-size: 0.85em;
+}
+.comp-card .delta {
+  font-weight: bold;
+  font-size: 1.05em;
+  display: block;
+  margin-top: 4px;
+}
+.delta.positive { color: #2ea043; }
+.delta.negative { color: #f85149; }
+.delta.neutral  { color: #8b949e; }
+.wc-no-data {
+  color: #6e7681;
+  text-align: center;
+  padding: 16px;
+  font-style: italic;
+}
+</style>
+
+<section class="week-comparison">
+  <h2>📊 This Week vs Last Week</h2>
+  <div class="wc-week-labels">
+    <span>This week (Mar 16 – Mar 22)</span>
+    <span>Last week (Mar 09 – Mar 15)</span>
+  </div>
+  <p class="wc-no-data">No strength data for current or previous week.</p>
+</section>
+<!-- WEEK COMPARISON WIDGET END -->
+
+
     <div class="footer">Navigation: Hub • Calendars • Running • Recovery • Nutrition</div>
   </div>
+
+<!-- ===== VARIETY SCORE CARD ===== -->
+<div class="section chart-card" style="margin-top:24px;" id="variety-score-section">
+  <h2>🎲 Training Variety Index <span style="background:#f8514922;color:#f85149;border:1px solid #f8514944;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:600">⚠️ Add variety</span></h2>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
+    <div style="flex:0 0 auto;min-width:160px;">
+      <div style="font-size:3rem;font-weight:700;color:#f85149;line-height:1">0.00</div>
+      <div style="color:#8b949e;font-size:0.8rem;margin-top:4px;text-transform:uppercase;letter-spacing:.05em">Variety Score</div>
+      <div style="color:#8b949e;font-size:0.8rem;margin-top:6px">0 unique exercises / 0 total sets</div>
+      <div style="margin-top:8px;font-size:0.8rem;color:#8b949e">4-wk avg: <span style="color:#f85149;font-weight:600">0.00</span> &nbsp; Trend: <span style="font-weight:600">→</span></div>
+      <div style="margin-top:12px;"><svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" style="display:block;width:120px;height:40px">
+  <line x1="0" y1="23.2" x2="120" y2="23.2" stroke="#f85149" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+  <polyline points="2.0,36.0 12.5,36.0 23.1,36.0 33.6,36.0 44.2,36.0 54.7,36.0 65.3,36.0 75.8,36.0 86.4,36.0 96.9,36.0 107.5,36.0 118.0,36.0" fill="none" stroke="#f85149" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="118.0" cy="36.0" r="3" fill="#f85149"/>
+</svg></div>
+      <div style="font-size:0.7rem;color:#8b949e;margin-top:4px">Last 12 weeks · dashed = 0.4 threshold</div>
+    </div>
+    <div style="flex:1;min-width:240px;">
+      <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:14px;">
+        <div style="font-size:0.85rem;margin-bottom:8px;color:#e6edf3">⚠️ High stagnation risk — try adding Romanian Deadlifts, Face Pulls, or Bulgarian Split Squats this week.</div>
+        <div style="font-size:0.75rem;color:#8b949e;margin-top:8px">
+          <span style="color:#2ea043">●</span> &gt; 0.5 = High variety &nbsp;
+          <span style="color:#f39c12">●</span> 0.3–0.5 = Moderate &nbsp;
+          <span style="color:#f85149">●</span> &lt; 0.3 = Stagnation risk
+        </div>
+        <div style="margin-top:10px;font-size:0.75rem;color:#8b949e">
+          <a href="../muscle_frequency/index.html#variety-trend-section" style="color:#f39c12;text-decoration:none">→ View 12-week variety trend chart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ===== END VARIETY SCORE CARD ===== -->
+
+
+<!-- VOLUME PR TIMELINE SECTION — auto-generated -->
+<section id="volume-pr-timeline" style="margin-top:40px">
+  <h2 style="color:#f39c12;border-bottom:1px solid #30363d;padding-bottom:8px;margin-bottom:20px">
+    🏆 Volume PR Timeline
+  </h2>
+
+  <!-- PR Summary Cards -->
+  <h3 style="color:#e6edf3;margin-bottom:14px">Personal Records by Muscle Group</h3>
+  <div class="pr-cards-grid">
+    
+    <div class="pr-card" style="border-left:3px solid #f85149">
+      <div class="pr-muscle" style="color:#f85149">Shoulders</div>
+      <div class="pr-vol">13,535 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Feb 18, 2025</div>
+      <div class="pr-streak">Last PR: 393d ago</div>
+    </div>
+    <div class="pr-card" style="border-left:3px solid #a371f7">
+      <div class="pr-muscle" style="color:#a371f7">Biceps</div>
+      <div class="pr-vol">13,535 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Feb 18, 2025</div>
+      <div class="pr-streak">Last PR: 393d ago</div>
+    </div>
+    <div class="pr-card" style="border-left:3px solid #0a84ff">
+      <div class="pr-muscle" style="color:#0a84ff">Back</div>
+      <div class="pr-vol">16,539 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Mar 20, 2024</div>
+      <div class="pr-streak">Last PR: 728d ago</div>
+    </div>
+    <div class="pr-card" style="border-left:3px solid #f39c12">
+      <div class="pr-muscle" style="color:#f39c12">Chest</div>
+      <div class="pr-vol">16,912 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Mar 17, 2024</div>
+      <div class="pr-streak">Last PR: 731d ago</div>
+    </div>
+    <div class="pr-card" style="border-left:3px solid #79c0ff">
+      <div class="pr-muscle" style="color:#79c0ff">Triceps</div>
+      <div class="pr-vol">3,605 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Jun 14, 2022</div>
+      <div class="pr-streak">Last PR: —</div>
+    </div>
+    <div class="pr-card" style="border-left:3px solid #7ee787">
+      <div class="pr-muscle" style="color:#7ee787">Core</div>
+      <div class="pr-vol">6,327 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Jan 09, 2022</div>
+      <div class="pr-streak">Last PR: —</div>
+    </div>
+    <div class="pr-card" style="border-left:3px solid #2ea043">
+      <div class="pr-muscle" style="color:#2ea043">Legs</div>
+      <div class="pr-vol">10,386 <span class="unit">lbs</span></div>
+      <div class="pr-meta">PR: Oct 14, 2021</div>
+      <div class="pr-streak">Last PR: —</div>
+    </div>
+  </div>
+
+  <!-- SVG Chart -->
+  <h3 style="color:#e6edf3;margin:24px 0 10px">Volume Over Time &amp; PR Milestones</h3>
+  <p style="color:#8b949e;font-size:0.85em;margin-bottom:8px">Hover over dots to see PR details and recovery correlation</p>
+  <div style="overflow-x:auto">
+    <svg width="860" height="380" style="background:#0d1117;border-radius:8px;display:block">
+      <!-- axes -->
+      <line x1="60" y1="20" x2="60" y2="330" stroke="#30363d"/>
+      <line x1="60" y1="330" x2="840" y2="330" stroke="#30363d"/>
+      <line x1="60" y1="330.0" x2="840" y2="330.0" stroke="#30363d" stroke-dasharray="4,4"/>
+<text x="55" y="334.0" fill="#8b949e" font-size="9" text-anchor="end">0</text>
+<line x1="60" y1="275.0" x2="840" y2="275.0" stroke="#30363d" stroke-dasharray="4,4"/>
+<text x="55" y="279.0" fill="#8b949e" font-size="9" text-anchor="end">3,000</text>
+<line x1="60" y1="220.0" x2="840" y2="220.0" stroke="#30363d" stroke-dasharray="4,4"/>
+<text x="55" y="224.0" fill="#8b949e" font-size="9" text-anchor="end">6,000</text>
+<line x1="60" y1="165.0" x2="840" y2="165.0" stroke="#30363d" stroke-dasharray="4,4"/>
+<text x="55" y="169.0" fill="#8b949e" font-size="9" text-anchor="end">9,000</text>
+<line x1="60" y1="110.0" x2="840" y2="110.0" stroke="#30363d" stroke-dasharray="4,4"/>
+<text x="55" y="114.0" fill="#8b949e" font-size="9" text-anchor="end">12,000</text>
+<line x1="60" y1="55.0" x2="840" y2="55.0" stroke="#30363d" stroke-dasharray="4,4"/>
+<text x="55" y="59.0" fill="#8b949e" font-size="9" text-anchor="end">15,000</text>
+<line x1="58.7" y1="330" x2="58.7" y2="335" stroke="#30363d"/>
+<text x="58.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Oct 2021</text>
+<line x1="78.3" y1="330" x2="78.3" y2="335" stroke="#30363d"/>
+<text x="78.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Nov 2021</text>
+<line x1="97.3" y1="330" x2="97.3" y2="335" stroke="#30363d"/>
+<text x="97.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Dec 2021</text>
+<line x1="116.9" y1="330" x2="116.9" y2="335" stroke="#30363d"/>
+<text x="116.9" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jan 2022</text>
+<line x1="136.5" y1="330" x2="136.5" y2="335" stroke="#30363d"/>
+<text x="136.5" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Feb 2022</text>
+<line x1="154.3" y1="330" x2="154.3" y2="335" stroke="#30363d"/>
+<text x="154.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Mar 2022</text>
+<line x1="173.9" y1="330" x2="173.9" y2="335" stroke="#30363d"/>
+<text x="173.9" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Apr 2022</text>
+<line x1="192.8" y1="330" x2="192.8" y2="335" stroke="#30363d"/>
+<text x="192.8" y="348" fill="#8b949e" font-size="9" text-anchor="middle">May 2022</text>
+<line x1="212.5" y1="330" x2="212.5" y2="335" stroke="#30363d"/>
+<text x="212.5" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jun 2022</text>
+<line x1="231.4" y1="330" x2="231.4" y2="335" stroke="#30363d"/>
+<text x="231.4" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jul 2022</text>
+<line x1="251.0" y1="330" x2="251.0" y2="335" stroke="#30363d"/>
+<text x="251.0" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Aug 2022</text>
+<line x1="270.7" y1="330" x2="270.7" y2="335" stroke="#30363d"/>
+<text x="270.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Sep 2022</text>
+<line x1="289.6" y1="330" x2="289.6" y2="335" stroke="#30363d"/>
+<text x="289.6" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Oct 2022</text>
+<line x1="309.2" y1="330" x2="309.2" y2="335" stroke="#30363d"/>
+<text x="309.2" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Nov 2022</text>
+<line x1="328.2" y1="330" x2="328.2" y2="335" stroke="#30363d"/>
+<text x="328.2" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Dec 2022</text>
+<line x1="347.8" y1="330" x2="347.8" y2="335" stroke="#30363d"/>
+<text x="347.8" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jan 2023</text>
+<line x1="367.4" y1="330" x2="367.4" y2="335" stroke="#30363d"/>
+<text x="367.4" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Feb 2023</text>
+<line x1="385.2" y1="330" x2="385.2" y2="335" stroke="#30363d"/>
+<text x="385.2" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Mar 2023</text>
+<line x1="404.8" y1="330" x2="404.8" y2="335" stroke="#30363d"/>
+<text x="404.8" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Apr 2023</text>
+<line x1="423.7" y1="330" x2="423.7" y2="335" stroke="#30363d"/>
+<text x="423.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">May 2023</text>
+<line x1="443.4" y1="330" x2="443.4" y2="335" stroke="#30363d"/>
+<text x="443.4" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jun 2023</text>
+<line x1="462.3" y1="330" x2="462.3" y2="335" stroke="#30363d"/>
+<text x="462.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jul 2023</text>
+<line x1="481.9" y1="330" x2="481.9" y2="335" stroke="#30363d"/>
+<text x="481.9" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Aug 2023</text>
+<line x1="501.6" y1="330" x2="501.6" y2="335" stroke="#30363d"/>
+<text x="501.6" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Sep 2023</text>
+<line x1="520.5" y1="330" x2="520.5" y2="335" stroke="#30363d"/>
+<text x="520.5" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Oct 2023</text>
+<line x1="540.1" y1="330" x2="540.1" y2="335" stroke="#30363d"/>
+<text x="540.1" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Nov 2023</text>
+<line x1="559.1" y1="330" x2="559.1" y2="335" stroke="#30363d"/>
+<text x="559.1" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Dec 2023</text>
+<line x1="578.7" y1="330" x2="578.7" y2="335" stroke="#30363d"/>
+<text x="578.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jan 2024</text>
+<line x1="598.3" y1="330" x2="598.3" y2="335" stroke="#30363d"/>
+<text x="598.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Feb 2024</text>
+<line x1="616.7" y1="330" x2="616.7" y2="335" stroke="#30363d"/>
+<text x="616.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Mar 2024</text>
+<line x1="636.3" y1="330" x2="636.3" y2="335" stroke="#30363d"/>
+<text x="636.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Apr 2024</text>
+<line x1="655.3" y1="330" x2="655.3" y2="335" stroke="#30363d"/>
+<text x="655.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">May 2024</text>
+<line x1="674.9" y1="330" x2="674.9" y2="335" stroke="#30363d"/>
+<text x="674.9" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jun 2024</text>
+<line x1="693.9" y1="330" x2="693.9" y2="335" stroke="#30363d"/>
+<text x="693.9" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jul 2024</text>
+<line x1="713.5" y1="330" x2="713.5" y2="335" stroke="#30363d"/>
+<text x="713.5" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Aug 2024</text>
+<line x1="733.1" y1="330" x2="733.1" y2="335" stroke="#30363d"/>
+<text x="733.1" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Sep 2024</text>
+<line x1="752.1" y1="330" x2="752.1" y2="335" stroke="#30363d"/>
+<text x="752.1" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Oct 2024</text>
+<line x1="771.7" y1="330" x2="771.7" y2="335" stroke="#30363d"/>
+<text x="771.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Nov 2024</text>
+<line x1="790.7" y1="330" x2="790.7" y2="335" stroke="#30363d"/>
+<text x="790.7" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Dec 2024</text>
+<line x1="810.3" y1="330" x2="810.3" y2="335" stroke="#30363d"/>
+<text x="810.3" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Jan 2025</text>
+<line x1="829.9" y1="330" x2="829.9" y2="335" stroke="#30363d"/>
+<text x="829.9" y="348" fill="#8b949e" font-size="9" text-anchor="middle">Feb 2025</text>
+<path d="M 117.6,287.3 L 127.7,284.2 L 135.9,298.5 L 136.5,305.1 L 141.6,266.2 L 143.5,277.2 L 152.4,298.1 L 156.8,238.3 L 170.7,253.7 L 177.7,270.1 L 197.3,309.5 L 220.7,222.0 L 228.9,224.2 L 230.2,224.3 L 231.4,322.7 L 231.4,240.0 L 233.3,283.0 L 238.4,233.8 L 238.4,277.0 L 240.3,275.5 L 240.9,275.5 L 242.2,273.4 L 244.1,298.3 L 245.4,262.9 L 247.9,273.3 L 248.5,298.3 L 251.0,274.0 L 253.6,293.0 L 254.8,270.7 L 257.4,311.8 L 266.2,274.0 L 276.4,260.6 L 277.0,265.1 L 278.2,292.5 L 297.9,276.2 L 298.5,284.9 L 301.7,284.9 L 302.9,313.6 L 463.6,303.1 L 490.2,282.7 L 791.3,224.1 L 803.9,176.5 L 840.0,81.9" fill="none" stroke="#f85149" stroke-width="2" opacity="0.7"/>
+<circle cx="117.6" cy="287.3" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2022-01-03" data-vol="2332" data-title="Shoulder Stretch" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="127.7" cy="284.2" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2022-01-19" data-vol="2498" data-title="Shoulder Stretch" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="141.6" cy="266.2" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2022-02-10" data-vol="3480" data-title="Shoulder Stretch" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="156.8" cy="238.3" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2022-03-06" data-vol="5000" data-title="Shoulder Stretch" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="220.7" cy="222.0" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2022-06-15" data-vol="5892" data-title="NG Deadlift/Dead Bug/raise" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="803.9" cy="176.5" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2024-12-22" data-vol="8372" data-title="Overhead/Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="840.0" cy="81.9" r="5" fill="#f85149" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Shoulders" data-date="2025-02-18" data-vol="13535" data-title="Overhead/Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<path d="M 60.0,264.1 L 72.7,218.1 L 176.4,217.7 L 180.8,279.4 L 180.8,215.1 L 219.4,222.5 L 220.7,263.9 L 221.3,278.8 L 221.9,233.4 L 222.6,301.5 L 228.9,268.8 L 233.3,259.3 L 241.6,289.7 L 241.6,281.6 L 242.8,281.6 L 244.7,309.3 L 245.4,269.3 L 246.6,280.4 L 249.1,304.1 L 251.0,264.3 L 256.7,264.7 L 276.4,270.4 L 297.9,281.7 L 302.3,276.0 L 370.0,276.3 L 394.0,273.9 L 399.1,281.7 L 428.8,280.6 L 442.7,255.8 L 490.2,282.7 L 791.3,224.1 L 803.9,176.5 L 840.0,81.9" fill="none" stroke="#a371f7" stroke-width="2" opacity="0.7"/>
+<circle cx="60.0" cy="264.1" r="5" fill="#a371f7" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Biceps" data-date="2021-10-03" data-vol="3594" data-title="Quick Fit: Bis and Tris" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="72.7" cy="218.1" r="5" fill="#a371f7" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Biceps" data-date="2021-10-23" data-vol="6103" data-title="Beginner Back and Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="176.4" cy="217.7" r="5" fill="#a371f7" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Biceps" data-date="2022-04-06" data-vol="6125" data-title="Power Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="180.8" cy="215.1" r="5" fill="#a371f7" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Biceps" data-date="2022-04-13" data-vol="6271" data-title="Power Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="803.9" cy="176.5" r="5" fill="#a371f7" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Biceps" data-date="2024-12-22" data-vol="8372" data-title="Overhead/Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="840.0" cy="81.9" r="5" fill="#a371f7" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Biceps" data-date="2025-02-18" data-vol="13535" data-title="Overhead/Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<path d="M 72.7,218.1 L 220.7,259.9 L 220.7,222.0 L 222.6,231.0 L 223.8,261.6 L 227.6,258.4 L 227.6,271.5 L 228.3,252.0 L 228.9,224.2 L 230.2,224.3 L 230.8,276.1 L 231.4,240.0 L 232.1,215.4 L 232.1,251.2 L 232.7,265.8 L 233.3,283.0 L 233.3,242.7 L 234.0,265.8 L 234.0,260.0 L 234.6,319.7 L 235.9,296.4 L 236.5,243.0 L 237.1,267.8 L 238.4,233.8 L 238.4,308.2 L 238.4,277.0 L 238.4,225.4 L 238.4,308.2 L 239.0,266.7 L 239.7,273.4 L 239.7,255.1 L 240.3,275.5 L 240.3,254.6 L 240.9,275.5 L 241.6,240.7 L 241.6,253.1 L 242.2,273.4 L 244.1,298.3 L 244.1,266.0 L 244.7,309.3 L 245.4,269.3 L 245.4,263.9 L 245.4,266.7 L 245.4,262.9 L 245.4,259.0 L 246.6,280.4 L 247.9,273.3 L 247.9,207.8 L 247.9,252.3 L 248.5,298.3 L 249.1,304.1 L 251.0,274.0 L 251.0,264.3 L 251.0,206.5 L 252.9,258.7 L 252.9,266.0 L 253.6,293.0 L 254.8,270.7 L 254.8,251.2 L 255.5,250.2 L 256.7,264.7 L 257.4,311.8 L 258.0,232.9 L 259.9,279.2 L 263.7,272.5 L 264.3,301.8 L 266.2,274.0 L 266.2,256.6 L 276.4,260.6 L 276.4,270.4 L 277.0,265.1 L 278.2,292.5 L 279.5,254.4 L 281.4,253.6 L 285.2,307.4 L 292.2,281.3 L 297.9,270.9 L 297.9,276.2 L 297.9,250.5 L 298.5,284.9 L 300.4,217.1 L 301.7,284.9 L 302.3,276.0 L 302.3,266.7 L 302.9,313.6 L 302.9,258.4 L 314.9,266.7 L 367.4,279.4 L 433.2,271.7 L 442.1,273.8 L 442.7,255.8 L 463.6,303.1 L 494.6,266.1 L 506.6,265.1 L 623.6,36.3 L 628.1,26.8 L 814.1,96.0" fill="none" stroke="#0a84ff" stroke-width="2" opacity="0.7"/>
+<circle cx="72.7" cy="218.1" r="5" fill="#0a84ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Back" data-date="2021-10-23" data-vol="6103" data-title="Beginner Back and Biceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="232.1" cy="215.4" r="5" fill="#0a84ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Back" data-date="2022-07-03" data-vol="6254" data-title="Lat Ex" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="247.9" cy="207.8" r="5" fill="#0a84ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Back" data-date="2022-07-28" data-vol="6665" data-title="Bench Pullover, Narrow" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="251.0" cy="206.5" r="5" fill="#0a84ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Back" data-date="2022-08-02" data-vol="6737" data-title="Bench Pullover, Narrow" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="623.6" cy="36.3" r="5" fill="#0a84ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Back" data-date="2024-03-13" data-vol="16024" data-title="TP Back" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="628.1" cy="26.8" r="5" fill="#0a84ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Back" data-date="2024-03-20" data-vol="16539" data-title="TP Back" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<path d="M 122.0,195.5 L 176.4,199.8 L 179.6,206.9 L 184.0,214.9 L 187.2,200.5 L 205.5,281.7 L 206.1,222.4 L 206.1,274.0 L 218.8,202.3 L 219.4,222.5 L 221.3,278.8 L 222.6,208.0 L 223.8,190.6 L 226.4,209.3 L 227.6,195.8 L 227.6,259.3 L 228.3,267.0 L 228.3,269.7 L 229.5,253.8 L 229.5,254.2 L 230.8,232.6 L 232.1,235.0 L 233.3,259.3 L 233.3,197.3 L 234.6,311.0 L 234.6,319.7 L 235.2,256.5 L 236.5,243.0 L 238.4,308.2 L 238.4,308.2 L 239.7,273.4 L 239.7,258.2 L 240.3,181.9 L 241.6,240.7 L 244.1,235.6 L 245.4,269.3 L 245.4,263.9 L 245.4,259.0 L 246.0,292.4 L 246.6,280.4 L 247.9,207.8 L 251.0,264.3 L 251.0,206.5 L 252.9,258.7 L 253.6,241.6 L 253.6,223.2 L 255.5,250.2 L 256.7,253.0 L 256.7,264.7 L 257.4,296.2 L 257.4,224.3 L 259.9,279.2 L 261.2,300.5 L 264.3,301.8 L 266.2,256.6 L 268.8,283.3 L 276.4,270.4 L 279.5,254.4 L 281.4,253.6 L 285.2,307.4 L 290.9,236.1 L 297.9,270.9 L 300.4,217.1 L 302.3,276.0 L 302.3,266.4 L 302.9,283.6 L 304.2,266.4 L 367.4,279.4 L 392.7,244.4 L 419.3,246.4 L 433.2,271.7 L 442.1,273.8 L 442.7,255.8 L 494.6,266.1 L 506.6,265.1 L 626.2,20.0 L 639.5,170.4 L 814.1,96.0" fill="none" stroke="#f39c12" stroke-width="2" opacity="0.7"/>
+<circle cx="122.0" cy="195.5" r="5" fill="#f39c12" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Chest" data-date="2022-01-09" data-vol="7339" data-title="Bench+" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="223.8" cy="190.6" r="5" fill="#f39c12" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Chest" data-date="2022-06-20" data-vol="7605" data-title="Power Bench" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="240.3" cy="181.9" r="5" fill="#f39c12" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Chest" data-date="2022-07-16" data-vol="8079" data-title="Bench Ladder" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="626.2" cy="20.0" r="5" fill="#f39c12" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Chest" data-date="2024-03-17" data-vol="16912" data-title="TP Bench" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<path d="M 60.0,264.1 L 220.7,263.9 L 222.6,301.5 L 228.9,268.8" fill="none" stroke="#79c0ff" stroke-width="2" opacity="0.7"/>
+<circle cx="60.0" cy="264.1" r="5" fill="#79c0ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Triceps" data-date="2021-10-03" data-vol="3594" data-title="Quick Fit: Bis and Tris" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="220.7" cy="263.9" r="5" fill="#79c0ff" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Triceps" data-date="2022-06-14" data-vol="3605" data-title="Long Set Biceps/Triceps" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<path d="M 116.3,293.6 L 121.4,214.0 L 220.7,222.0 L 228.9,224.2 L 230.2,224.3 L 231.4,240.0 L 233.3,283.0 L 238.4,233.8 L 238.4,277.0 L 240.3,275.5 L 240.9,275.5 L 242.2,273.4 L 244.1,298.3 L 245.4,262.9 L 247.9,273.3 L 248.5,298.3 L 251.0,274.0 L 253.6,293.0 L 254.8,270.7 L 257.4,311.8 L 266.2,274.0 L 276.4,260.6 L 277.0,265.1 L 278.2,292.5 L 297.9,276.2 L 298.5,284.9 L 301.7,284.9 L 302.9,313.6 L 463.6,303.1 L 490.2,282.7" fill="none" stroke="#7ee787" stroke-width="2" opacity="0.7"/>
+<circle cx="116.3" cy="293.6" r="5" fill="#7ee787" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Core" data-date="2022-01-01" data-vol="1987" data-title="Core" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<circle cx="121.4" cy="214.0" r="5" fill="#7ee787" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Core" data-date="2022-01-09" data-vol="6327" data-title="Core" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<path d="M 67.0,139.6 L 97.3,148.4 L 227.6,259.3 L 228.3,267.0 L 229.5,254.2 L 231.4,284.8 L 232.7,265.8 L 234.0,265.8 L 235.9,296.4 L 237.8,283.9 L 239.0,266.7 L 240.9,289.9 L 241.6,289.7 L 241.6,281.6 L 242.8,281.6 L 245.4,266.7 L 252.9,266.0 L 281.4,316.1 L 297.9,281.7 L 302.3,266.7 L 314.9,266.7 L 370.0,276.3 L 394.0,273.9 L 399.1,281.7 L 428.8,280.6" fill="none" stroke="#2ea043" stroke-width="2" opacity="0.7"/>
+<circle cx="67.0" cy="139.6" r="5" fill="#2ea043" stroke="#fff" stroke-width="1.5" class="pr-dot" data-muscle="Legs" data-date="2021-10-14" data-vol="10386" data-title="Glute Gains" data-recov="—" data-recov-before="—" data-recov-after="—"/>
+<rect x="70" y="364" width="12" height="8" fill="#f85149" rx="2"/>
+<text x="85" y="371" fill="#e6edf3" font-size="10">Shoulders</text>
+<rect x="190" y="364" width="12" height="8" fill="#a371f7" rx="2"/>
+<text x="205" y="371" fill="#e6edf3" font-size="10">Biceps</text>
+<rect x="310" y="364" width="12" height="8" fill="#0a84ff" rx="2"/>
+<text x="325" y="371" fill="#e6edf3" font-size="10">Back</text>
+<rect x="430" y="364" width="12" height="8" fill="#f39c12" rx="2"/>
+<text x="445" y="371" fill="#e6edf3" font-size="10">Chest</text>
+<rect x="550" y="364" width="12" height="8" fill="#79c0ff" rx="2"/>
+<text x="565" y="371" fill="#e6edf3" font-size="10">Triceps</text>
+<rect x="670" y="364" width="12" height="8" fill="#7ee787" rx="2"/>
+<text x="685" y="371" fill="#e6edf3" font-size="10">Core</text>
+    </svg>
+  </div>
+
+  <!-- Tooltip -->
+  <div id="pr-tooltip" style="display:none;position:fixed;background:#161b22;border:1px solid #f39c12;border-radius:8px;padding:12px 16px;z-index:9999;pointer-events:none;min-width:200px">
+    <div id="tt-muscle" style="font-weight:700;margin-bottom:6px"></div>
+    <div id="tt-date" style="color:#8b949e;font-size:0.85em;margin-bottom:4px"></div>
+    <div id="tt-vol" style="font-size:1.1em;margin-bottom:8px"></div>
+    <div style="color:#8b949e;font-size:0.82em;border-top:1px solid #30363d;padding-top:6px;margin-top:4px">
+      WHOOP Recovery
+    </div>
+    <div id="tt-recov-before" style="font-size:0.88em"></div>
+    <div id="tt-recov" style="font-size:0.88em;font-weight:600"></div>
+    <div id="tt-recov-after" style="font-size:0.88em"></div>
+  </div>
+
+  <!-- Recovery Correlation hint -->
+  <p style="color:#8b949e;font-size:0.8em;margin-top:6px">
+    ★ dots = personal record moments &nbsp;|&nbsp; recovery shown for PR day ± 1 day
+  </p>
+
+  <!-- Breakdown Table -->
+  <h3 style="color:#e6edf3;margin:28px 0 12px">Muscle Group Breakdown</h3>
+  <div style="overflow-x:auto">
+    <table id="pr-table" style="width:100%;border-collapse:collapse;font-size:0.9em">
+      <thead>
+        <tr style="background:#161b22;color:#8b949e;text-align:left">
+          <th style="padding:10px 12px;cursor:pointer" onclick="sortTable(0)">Muscle Group ⇅</th>
+          <th style="padding:10px 12px;cursor:pointer" onclick="sortTable(1)">Workouts ⇅</th>
+          <th style="padding:10px 12px;cursor:pointer" onclick="sortTable(2)">PR Volume ⇅</th>
+          <th style="padding:10px 12px;cursor:pointer" onclick="sortTable(3)">PR Date ⇅</th>
+          <th style="padding:10px 12px;cursor:pointer" onclick="sortTable(4)">Avg Volume ⇅</th>
+          <th style="padding:10px 12px;cursor:pointer" onclick="sortTable(5)">Trend ⇅</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+    <tr>
+      <td><span style="color:#f85149;font-weight:600">Shoulders</span></td>
+      <td>43</td>
+      <td>13,535 lbs</td>
+      <td>Feb 18, 2025</td>
+      <td>3,359 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+    <tr>
+      <td><span style="color:#a371f7;font-weight:600">Biceps</span></td>
+      <td>33</td>
+      <td>13,535 lbs</td>
+      <td>Feb 18, 2025</td>
+      <td>3,903 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+    <tr>
+      <td><span style="color:#0a84ff;font-weight:600">Back</span></td>
+      <td>97</td>
+      <td>16,539 lbs</td>
+      <td>Mar 20, 2024</td>
+      <td>3,866 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+    <tr>
+      <td><span style="color:#f39c12;font-weight:600">Chest</span></td>
+      <td>78</td>
+      <td>16,912 lbs</td>
+      <td>Mar 17, 2024</td>
+      <td>4,549 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+    <tr>
+      <td><span style="color:#79c0ff;font-weight:600">Triceps</span></td>
+      <td>4</td>
+      <td>3,605 lbs</td>
+      <td>Jun 14, 2022</td>
+      <td>3,024 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+    <tr>
+      <td><span style="color:#7ee787;font-weight:600">Core</span></td>
+      <td>30</td>
+      <td>6,327 lbs</td>
+      <td>Jan 09, 2022</td>
+      <td>3,171 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+    <tr>
+      <td><span style="color:#2ea043;font-weight:600">Legs</span></td>
+      <td>25</td>
+      <td>10,386 lbs</td>
+      <td>Oct 14, 2021</td>
+      <td>3,488 lbs</td>
+      <td style="color:#8b949e;font-size:1.2em">→</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recovery link -->
+  <p style="margin-top:16px;font-size:0.85em">
+    <a href="../recovery/index.html" style="color:#f39c12">→ View full recovery data</a>
+  </p>
+</section>
+
+<style>
+.pr-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.pr-card {
+  background: #161b22;
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: transform 0.15s;
+}
+.pr-card:hover { transform: translateY(-2px); }
+.pr-muscle { font-size: 0.85em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.pr-vol { font-size: 1.6em; font-weight: 700; color: #e6edf3; line-height: 1.1; }
+.pr-vol .unit { font-size: 0.5em; color: #8b949e; }
+.pr-meta { color: #8b949e; font-size: 0.8em; margin-top: 4px; }
+.pr-streak { color: #f39c12; font-size: 0.78em; margin-top: 2px; }
+#pr-table tbody tr { border-bottom: 1px solid #21262d; }
+#pr-table tbody tr:hover { background: #161b22; }
+#pr-table tbody td { padding: 9px 12px; color: #e6edf3; }
+</style>
+
+<script>
+(function() {
+  var dots = document.querySelectorAll('.pr-dot');
+  var tt = document.getElementById('pr-tooltip');
+  dots.forEach(function(dot) {
+    dot.addEventListener('mouseenter', function(e) {
+      var muscle = dot.getAttribute('data-muscle');
+      var date   = dot.getAttribute('data-date');
+      var vol    = dot.getAttribute('data-vol');
+      var title  = dot.getAttribute('data-title');
+      var recov  = dot.getAttribute('data-recov');
+      var before = dot.getAttribute('data-recov-before');
+      var after  = dot.getAttribute('data-recov-after');
+      var color  = dot.getAttribute('fill');
+
+      document.getElementById('tt-muscle').textContent = muscle + ' PR';
+      document.getElementById('tt-muscle').style.color = color;
+      document.getElementById('tt-date').textContent = date + ' — ' + title;
+      document.getElementById('tt-vol').textContent = parseInt(vol).toLocaleString() + ' lbs';
+      document.getElementById('tt-recov-before').textContent = 'Day before: ' + (before === '—' ? 'no data' : before + '%');
+      document.getElementById('tt-recov').textContent = 'PR day:       ' + (recov === '—' ? 'no data' : recov + '%');
+      document.getElementById('tt-recov-after').textContent = 'Day after:  ' + (after === '—' ? 'no data' : after + '%');
+
+      tt.style.display = 'block';
+    });
+    dot.addEventListener('mousemove', function(e) {
+      tt.style.left = (e.clientX + 16) + 'px';
+      tt.style.top  = (e.clientY - 10) + 'px';
+    });
+    dot.addEventListener('mouseleave', function() {
+      tt.style.display = 'none';
+    });
+  });
+
+  // Table sort
+  var sortDir = {};
+  window.sortTable = function(colIdx) {
+    var tbody = document.querySelector('#pr-table tbody');
+    var rows  = Array.from(tbody.querySelectorAll('tr'));
+    var asc   = !sortDir[colIdx];
+    sortDir[colIdx] = asc;
+    rows.sort(function(a, b) {
+      var av = a.cells[colIdx].textContent.replace(/[^0-9.↑↓→]/g, '') || a.cells[colIdx].textContent;
+      var bv = b.cells[colIdx].textContent.replace(/[^0-9.↑↓→]/g, '') || b.cells[colIdx].textContent;
+      var an = parseFloat(av), bn = parseFloat(bv);
+      if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+      return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+    });
+    rows.forEach(function(r) { tbody.appendChild(r); });
+  };
+})();
+</script>
+<!-- END VOLUME PR TIMELINE SECTION -->
+
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
