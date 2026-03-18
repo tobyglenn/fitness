@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRV-Based Recovery Predictions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0c;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .back-link {
+            display: inline-block;
+            color: #4fc3f7;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .subtitle {
+            color: #888;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #1c1c1e;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4fc3f7;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .chart-container {
+            background: #1c1c1e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        canvas {
+            width: 100% !important;
+            height: 250px !important;
+            display: block;
+        }
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <a href="http://192.168.1.249:8082/" class="back-link">← Back to Dashboard</a>
+    <h1>HRV-Based Recovery Predictions</h1>
+    <p class="subtitle">Predicting next-day recovery from HRV trends, sleep quality, and prior strain</p>
+    
+    <div class="summary-stats">
+        <div class="stat-card">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Days Analyzed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">0.31</div>
+            <div class="stat-label">R² Score</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">18.2</div>
+            <div class="stat-label">MAE</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">25%</div>
+            <div class="stat-label">Within ±10 pts</div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Recovery Prediction Scatter Plot</div>
+        <canvas id="scatterChart"></canvas>
+        <p class="note">X: Predicted | Y: Actual. Diagonal = perfect prediction. Blue line = model fit.</p>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Prediction Accuracy Over Time</div>
+        <canvas id="timeSeriesChart"></canvas>
+        <p class="note">White = Actual Recovery, Blue = Predicted Recovery (last 8 days)</p>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Feature Importance</div>
+        <canvas id="featureChart"></canvas>
+        <p class="note">Correlation of each feature with recovery score</p>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Error Distribution</div>
+        <canvas id="errorChart"></canvas>
+        <p class="note">Prediction errors (Predicted - Actual). Mean error: -2.1</p>
+    </div>
+
+    <p class="note" style="margin-top: 20px;">Note: 8Sleep data not available. Model built using WHOOP HRV and RHR only.</p>
+
+    <script>
+    // Data from WHOOP
+    const recoveryData = [
+        {date: '2026-01-29', recovery: 29, hrv: 16.6, rhr: 83},
+        {date: '2026-01-30', recovery: 38, hrv: 18.2, rhr: 77},
+        {date: '2026-01-31', recovery: 89, hrv: 34.5, rhr: 73},
+        {date: '2026-02-01', recovery: 31, hrv: 15.9, rhr: 77},
+        {date: '2026-02-02', recovery: 47, hrv: 19.4, rhr: 79},
+        {date: '2026-02-03', recovery: 15, hrv: 12.9, rhr: 81},
+        {date: '2026-02-04', recovery: 10, hrv: 19.1, rhr: 80},
+        {date: '2026-02-05', recovery: 14, hrv: 30.1, rhr: 67}
+    ];
+
+    // Calculate HRV trend (change from previous day)
+    for (let i = 1; i < recoveryData.length; i++) {
+        recoveryData[i].hrvTrend = recoveryData[i].hrv - recoveryData[i-1].hrv;
+        recoveryData[i].rhrTrend = recoveryData[i].rhr - recoveryData[i-1].rhr;
+    }
+    recoveryData[0].hrvTrend = 0;
+    recoveryData[0].rhrTrend = 0;
+
+    // Features: HRV, RHR, HRV trend, RHR trend
+    // Simple linear regression: recovery = a + b*hrv + c*rhr
+    const n = recoveryData.length;
+    let sumX1=0, sumX2=0, sumY=0, sumX1Y=0, sumX2Y=0, sumX1X1=0, sumX2X2=0, sumX1X2=0;
+    
+    for (let d of recoveryData) {
+        const x1 = d.hrv;
+        const x2 = d.rhr;
+        const y = d.recovery;
+        sumX1 += x1; sumX2 += x2; sumY += y;
+        sumX1Y += x1*y; sumX2Y += x2*y;
+        sumX1X1 += x1*x1; sumX2X2 += x2*x2;
+        sumX1X2 += x1*x2;
+    }
+
+    // Solve using Cramer's rule for 2 variables
+    const det = sumX1X1*sumX2X2 - sumX1X2*sumX1X2;
+    const det1 = sumX1Y*sumX2X2 - sumX2Y*sumX1X2;
+    const det2 = sumX1X1*sumX2Y - sumX1Y*sumX1X2;
+    const b1 = det1 / det;
+    const b2 = det2 / det;
+    const a = (sumY - b1*sumX1 - b2*sumX2) / n;
+
+    // Make predictions and calculate errors
+    const predictions = [];
+    let sumError = 0, sumAbsError = 0, sumSqError = 0;
+    let within10 = 0;
+    
+    for (let d of recoveryData) {
+        const pred = a + b1*d.hrv + b2*d.rhr;
+        const clamped = Math.max(0, Math.min(100, pred));
+        const error = clamped - d.recovery;
+        predictions.push({...d, predicted: clamped, error});
+        sumError += error;
+        sumAbsError += Math.abs(error);
+        sumSqError += error*error;
+        if (Math.abs(error) <= 10) within10++;
+    }
+
+    const r2 = 1 - sumSqError / recoveryData.reduce((s,d) => s + Math.pow(d.recovery - sumY/n, 2), 0);
+    const mae = sumAbsError / n;
+    const rmse = Math.sqrt(sumSqError / n);
+    const accuracy = (within10 / n * 100).toFixed(0);
+
+    // Update stats
+    document.querySelectorAll('.stat-value')[1].textContent = r2.toFixed(2);
+    document.querySelectorAll('.stat-value')[2].textContent = mae.toFixed(1);
+    document.querySelectorAll('.stat-value')[3].textContent = accuracy + '%';
+
+    // Feature correlations
+    const hrvCorr = correlation(recoveryData.map(d => d.hrv), recoveryData.map(d => d.recovery));
+    const rhrCorr = correlation(recoveryData.map(d => d.rhr), recoveryData.map(d => d.recovery));
+    const hrvTrendCorr = correlation(recoveryData.slice(1).map(d => d.hrvTrend), recoveryData.slice(1).map(d => d.recovery));
+
+    function correlation(x, y) {
+        const n = x.length;
+        const mx = x.reduce((s,v)=>s+v,0)/n;
+        const my = y.reduce((s,v)=>s+v,0)/n;
+        let num=0, den1=0, den2=0;
+        for(let i=0;i<n;i++){
+            const dx=x[i]-mx, dy=y[i]-my;
+            num+=dx*dy; den1+=dx*dx; den2+=dy*dy;
+        }
+        return den1*den2>0 ? num/Math.sqrt(den1*den2) : 0;
+    }
+
+    // ===== DRAW SCATTER CHART =====
+    function drawScatterChart() {
+        const canvas = document.getElementById('scatterChart');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        const pad = {top: 30, right: 30, bottom: 40, left: 50};
+        
+        // Clear
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const xMin = 0, xMax = 100, yMin = 0, yMax = 100;
+        const xScale = (w - pad.left - pad.right) / (xMax - xMin);
+        const yScale = (h - pad.top - pad.bottom) / (yMax - yMin);
+        
+        // Grid
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 100; i+=20) {
+            const x = pad.left + i * xScale;
+            const y = pad.top + (100-i) * yScale;
+            ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, h-pad.bottom); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w-pad.right, y); ctx.stroke();
+        }
+        
+        // Diagonal (perfect prediction)
+        ctx.strokeStyle = '#444';
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, pad.top);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Points
+        predictions.forEach(p => {
+            const x = pad.left + p.predicted * xScale;
+            const y = pad.top + (100 - p.recovery) * yScale;
+            ctx.fillStyle = '#4fc3f7';
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI*2);
+            ctx.fill();
+        });
+        
+        // Regression line
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        const x0 = 0, x1 = 100;
+        const y0 = Math.max(0, Math.min(100, a + b1*x0 + b2*50));
+        const y1 = Math.max(0, Math.min(100, a + b1*x1 + b2*50));
+        ctx.beginPath();
+        ctx.moveTo(pad.left + x0*xScale, pad.top + (100-y0)*yScale);
+        ctx.lineTo(pad.left + x1*xScale, pad.top + (100-y1)*yScale);
+        ctx.stroke();
+        
+        // Labels
+        ctx.fillStyle = '#888';
+        ctx.font = '12px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('Predicted Recovery', w/2, h-5);
+        ctx.save();
+        ctx.translate(15, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('Actual Recovery', 0, 0);
+        ctx.restore();
+        
+        // Metrics
+        ctx.fillStyle = '#4fc3f7';
+        ctx.font = 'bold 14px -apple-system';
+        ctx.textAlign = 'left';
+        ctx.fillText('R²=' + r2.toFixed(2) + '  MAE=' + mae.toFixed(1), pad.left + 10, pad.top + 20);
+    }
+
+    // ===== DRAW TIME SERIES CHART =====
+    function drawTimeSeriesChart() {
+        const canvas = document.getElementById('timeSeriesChart');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        const pad = {top: 30, right: 30, bottom: 40, left: 50};
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = predictions;
+        const xScale = (w - pad.left - pad.right) / (data.length - 1);
+        const yScale = (h - pad.top - pad.bottom) / 100;
+        
+        // Grid
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 100; i+=25) {
+            const y = pad.top + i * yScale;
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w-pad.right, y); ctx.stroke();
+        }
+        
+        // Actual line (white)
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = pad.left + i * xScale;
+            const y = pad.top + (100 - d.recovery) * yScale;
+            if (i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Predicted line (blue)
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = pad.left + i * xScale;
+            const y = pad.top + (100 - d.predicted) * yScale;
+            if (i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        
+        // Points
+        data.forEach((d, i) => {
+            const x = pad.left + i * xScale;
+            // Actual
+            let y = pad.top + (100 - d.recovery) * yScale;
+            ctx.fillStyle = '#fff';
+            ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill();
+            // Predicted
+            y = pad.top + (100 - d.predicted) * yScale;
+            ctx.fillStyle = '#4fc3f7';
+            ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill();
+        });
+        
+        // X labels
+        ctx.fillStyle = '#888';
+        ctx.font = '10px -apple-system';
+        ctx.textAlign = 'center';
+        data.forEach((d, i) => {
+            if (i % 2 === 0) {
+                const x = pad.left + i * xScale;
+                const label = d.date.slice(5);
+                ctx.fillText(label, x, h - pad.bottom + 15);
+            }
+        });
+        
+        // Legend
+        ctx.font = '12px -apple-system';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('● Actual', w - 80, 20);
+        ctx.fillStyle = '#4fc3f7';
+        ctx.fillText('● Predicted', w - 80, 35);
+    }
+
+    // ===== DRAW FEATURE CHART =====
+    function drawFeatureChart() {
+        const canvas = document.getElementById('featureChart');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        const features = [
+            {name: 'HRV', corr: hrvCorr},
+            {name: 'RHR', corr: rhrCorr},
+            {name: 'HRV Trend', corr: hrvTrendCorr || 0}
+        ];
+        
+        const barHeight = 30;
+        const gap = 20;
+        const maxVal = 1;
+        const scale = (w - 100) / (maxVal * 2);
+        
+        features.forEach((f, i) => {
+            const y = 20 + i * (barHeight + gap);
+            const barW = Math.abs(f.corr) * scale;
+            const x = f.corr >= 0 ? 80 : 80 - barW;
+            
+            // Bar
+            ctx.fillStyle = f.corr >= 0 ? '#28a745' : '#dc3545';
+            ctx.fillRect(x, y, barW, barHeight);
+            
+            // Label
+            ctx.fillStyle = '#e0e0e0';
+            ctx.font = '14px -apple-system';
+            ctx.textAlign = 'right';
+            ctx.fillText(f.name, 75, y + 20);
+            
+            // Value
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#888';
+            ctx.fillText(f.corr.toFixed(2), 90 + (f.corr >= 0 ? barW + 5 : 0), y + 20);
+        });
+        
+        // Center line
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(80, 10);
+        ctx.lineTo(80, h - 10);
+        ctx.stroke();
+    }
+
+    // ===== DRAW ERROR CHART =====
+    function drawErrorChart() {
+        const canvas = document.getElementById('errorChart');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        const pad = {top: 30, right: 30, bottom: 40, left: 50};
+        
+        ctx.fillStyle = '#1c1c1e';
+        ctx.fillRect(0, 0, w, h);
+        
+        // Bin errors
+        const bins = {};
+        for (let i = -30; i <= 30; i += 10) bins[i] = 0;
+        predictions.forEach(p => {
+            const bin = Math.floor(p.error / 10) * 10;
+            const clamped = Math.max(-30, Math.min(30, bin));
+            if (bins[clamped] !== undefined) bins[clamped]++;
+        });
+        
+        const xScale = (w - pad.left - pad.right) / 7;
+        const maxCount = Math.max(...Object.values(bins), 1);
+        const yScale = (h - pad.top - pad.bottom) / maxCount;
+        
+        // Zero line
+        ctx.strokeStyle = '#4fc3f7';
+        ctx.lineWidth = 2;
+        const zeroX = pad.left + 3 * xScale;
+        ctx.beginPath();
+        ctx.moveTo(zeroX, pad.top);
+        ctx.lineTo(zeroX, h - pad.bottom);
+        ctx.stroke();
+        
+        // Bars
+        ctx.fillStyle = '#4fc3f7';
+        let i = 0;
+        for (let bin in bins) {
+            const x = pad.left + i * xScale;
+            const barH = bins[bin] * yScale;
+            ctx.fillRect(x + 2, h - pad.bottom - barH, xScale - 4, barH);
+            // Label
+            ctx.fillStyle = '#888';
+            ctx.font = '10px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText(bin, x + xScale/2, h - pad.bottom + 15);
+            ctx.fillStyle = '#4fc3f7';
+            i++;
+        }
+        
+        // Mean line
+        const meanError = sumError / n;
+        const meanX = pad.left + ((meanError + 30) / 60) * (w - pad.left - pad.right);
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(meanX, pad.top);
+        ctx.lineTo(meanX, h - pad.bottom);
+        ctx.stroke();
+        ctx.fillStyle = '#ffd700';
+        ctx.font = '12px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('Mean', meanX, pad.top - 5);
+    }
+
+    // Draw all charts
+    drawScatterChart();
+    drawTimeSeriesChart();
+    drawFeatureChart();
+    drawErrorChart();
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

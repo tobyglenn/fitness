@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Pairing Effectiveness</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0c; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+        .header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        .header a { color: #4fc3f7; text-decoration: none; font-size: 14px; }
+        h1 { color: #fff; font-size: 24px; font-weight: 600; }
+        .subtitle { color: #888; font-size: 14px; margin-top: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: #1c1c1e; border-radius: 12px; padding: 20px; }
+        .card h2 { color: #fff; font-size: 16px; margin-bottom: 15px; font-weight: 500; }
+        canvas { width: 100%; height: 250px; border-radius: 8px; }
+        .legend { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .note { color: #666; font-size: 12px; margin-top: 10px; }
+        @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="http://192.168.1.249:8082/">← Back</a>
+        <div>
+            <h1>Workout Pairing Effectiveness</h1>
+            <div class="subtitle">How previous day workouts affect today's performance • 8 recovery days • 16 workouts analyzed</div>
+        </div>
+    </div>
+    
+    <div class="grid">
+        <div class="card">
+            <h2>Previous Day Type Impact</h2>
+            <canvas id="chart1"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Rest</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Strength</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#28a745"></div>Cardio</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#dc3545"></div>Both</div>
+            </div>
+            <div class="note">Avg running strain by previous day's workout type</div>
+        </div>
+        
+        <div class="card">
+            <h2>Recovery Score by Prior Workout</h2>
+            <canvas id="chart2"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Recovery</div>
+            </div>
+            <div class="note">WHOOP recovery scores after different workout types</div>
+        </div>
+        
+        <div class="card">
+            <h2>Strain Timeline: Previous Day vs Today</h2>
+            <canvas id="chart3"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Rest</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Strength</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#28a745"></div>Cardio</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#dc3545"></div>Both</div>
+            </div>
+            <div class="note">Strain carryover from previous day</div>
+        </div>
+        
+        <div class="card">
+            <h2>Weekly Recovery Pattern</h2>
+            <canvas id="chart4"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#1c1c1e"></div>0-25</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#2d1f1f"></div>25-50</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#3d2f2f"></div>50-75</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#4d3f3f"></div>75-100</div>
+            </div>
+            <div class="note">Recovery score distribution by day of week</div>
+        </div>
+        
+        <div class="card">
+            <h2>Optimal Recovery Windows</h2>
+            <canvas id="chart5"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Rest</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Strength</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#28a745"></div>Cardio</div>
+            </div>
+            <div class="note">Avg recovery score by hours since last workout</div>
+        </div>
+        
+        <div class="card">
+            <h2>Best Performing Pairings</h2>
+            <canvas id="chart6"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Strain</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Recovery</div>
+            </div>
+            <div class="note">Top workout combinations by performance</div>
+        </div>
+    </div>
+    
+    <script>
+    const colors = { bg: '#1c1c1e', text: '#ffffff', accent: '#4fc3f7', gold: '#ffd700', green: '#28a745', red: '#dc3545' };
+    const typeColors = { 'rest': '#4fc3f7', 'strength': '#ffd700', 'cardio': '#28a745', 'strength+cardio': '#dc3545' };
+    
+    // Data
+    const priorTypeAvg = {"rest": 9.6, "strength": 22.7, "cardio": 35.5, "strength+cardio": 68.1};
+    const priorRecAvg = {"rest": 14.0, "strength": 63.5, "cardio": 38.0, "strength+cardio": 23.0};
+    const strainPairs = [
+        {x: 0.123, y: 38.0, type: 'strength', date: '2026-01-29'},
+        {x: 6.176, y: 89.0, type: 'cardio', date: '2026-01-30'},
+        {x: 6.404, y: 31.0, type: 'cardio', date: '2026-01-31'},
+        {x: 5.901, y: 47.0, type: 'cardio', date: '2026-02-01'},
+        {x: 13.169, y: 15.0, type: 'strength+cardio', date: '2026-02-02'},
+        {x: 9.239, y: 10.0, type: 'strength+cardio', date: '2026-02-03'}
+    ];
+    const weeklyRec = {"0": {"0": 0, "1": 1, "2": 0, "3": 0, "4": 0}, "1": {"0": 1, "1": 0, "2": 0, "3": 0, "4": 0}, "2": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0}, "3": {"0": 1, "1": 1, "2": 0, "3": 0, "4": 0}, "4": {"0": 0, "1": 1, "2": 0, "3": 0, "4": 0}, "5": {"0": 0, "1": 0, "2": 0, "3": 1, "4": 0}, "6": {"0": 0, "1": 1, "2": 0, "3": 0, "4": 0}};
+    const leaderboard = [{"pair": "strength+cardio → cardio", "strain": 44.1, "recovery": 31.0, "n": 2}, {"pair": "strength → strength", "strain": 24.0, "recovery": 38.0, "n": 2}, {"pair": "cardio → strength", "strain": 9.0, "recovery": 29.0, "n": 2}, {"pair": "cardio → cardio", "strain": 35.4, "recovery": 0, "n": 93}];
+    const recoveryWindows = [
+        {bucket: '0-6h', rest: 14, strength: 10, cardio: 15},
+        {bucket: '6-12h', rest: 0, strength: 0, cardio: 0},
+        {bucket: '12-18h', rest: 0, strength: 38, cardio: 89},
+        {bucket: '18-24h', rest: 0, strength: 0, cardio: 31},
+        {bucket: '24-36h', rest: 47, strength: 0, cardio: 0},
+        {bucket: '36-48h', rest: 0, strength: 15, cardio: 10}
+    ];
+    
+    // Chart 1: Previous Day Type Impact
+    (function() {
+        const canvas = document.getElementById('chart1');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const labels = ['Rest', 'Strength', 'Cardio', 'Both'];
+        const keys = ['rest', 'strength', 'cardio', 'strength+cardio'];
+        const values = keys.map(k => priorTypeAvg[k] || 0);
+        const maxVal = Math.max(...values, 80);
+        
+        const barW = w * 0.18, gap = w * 0.12;
+        const startX = (w - (4 * barW + 3 * gap)) / 2;
+        const baseY = h - 50;
+        
+        ctx.fillStyle = colors.text;
+        ctx.font = '12px -apple-system';
+        ctx.textAlign = 'center';
+        
+        values.forEach((v, i) => {
+            const x = startX + i * (barW + gap);
+            const barH = (v / maxVal) * (h - 80);
+            ctx.fillStyle = typeColors[keys[i]];
+            ctx.fillRect(x, baseY - barH, barW, barH);
+            ctx.fillStyle = colors.text;
+            ctx.fillText(v.toFixed(1), x + barW/2, baseY - barH - 8);
+            ctx.fillText(labels[i], x + barW/2, baseY + 20);
+        });
+        
+        // Y-axis
+        ctx.strokeStyle = '#333';
+        ctx.beginPath();
+        ctx.moveTo(40, 20);
+        ctx.lineTo(40, baseY);
+        ctx.stroke();
+        ctx.fillStyle = '#666';
+        ctx.textAlign = 'right';
+        [0, 25, 50, 75, 100].forEach((v, i) => {
+            const y = baseY - (v / maxVal) * (h - 80);
+            ctx.fillText(v, 35, y + 4);
+            ctx.strokeStyle = '#222';
+            ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(w-10, y); ctx.stroke();
+        });
+    })();
+    
+    // Chart 2: Recovery Score by Prior Workout
+    (function() {
+        const canvas = document.getElementById('chart2');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const labels = ['Rest', 'Strength', 'Cardio', 'Both'];
+        const keys = ['rest', 'strength', 'cardio', 'strength+cardio'];
+        const values = keys.map(k => priorRecAvg[k] || 0);
+        const maxVal = 100;
+        
+        const barW = w * 0.18, gap = w * 0.12;
+        const startX = (w - (4 * barW + 3 * gap)) / 2;
+        const baseY = h - 50;
+        
+        ctx.fillStyle = colors.text;
+        ctx.textAlign = 'center';
+        
+        values.forEach((v, i) => {
+            const x = startX + i * (barW + gap);
+            const barH = (v / maxVal) * (h - 80);
+            ctx.fillStyle = colors.accent;
+            ctx.fillRect(x, baseY - barH, barW, barH);
+            ctx.fillStyle = colors.text;
+            ctx.fillText(v.toFixed(0), x + barW/2, baseY - barH - 8);
+            ctx.fillText(labels[i], x + barW/2, baseY + 20);
+        });
+        
+        ctx.strokeStyle = '#333';
+        ctx.beginPath();
+        ctx.moveTo(40, 20);
+        ctx.lineTo(40, baseY);
+        ctx.stroke();
+        ctx.fillStyle = '#666';
+        ctx.textAlign = 'right';
+        [0, 25, 50, 75, 100].forEach(v => {
+            const y = baseY - (v / maxVal) * (h - 80);
+            ctx.fillText(v, 35, y + 4);
+        });
+    })();
+    
+    // Chart 3: Strain Timeline Scatter
+    (function() {
+        const canvas = document.getElementById('chart3');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const data = strainPairs.length > 0 ? strainPairs : [{x:0,y:0,type:'rest'}];
+        const maxX = Math.max(...data.map(d => d.x), 50) * 1.1;
+        const maxY = Math.max(...data.map(d => d.y), 50) * 1.1;
+        
+        const pad = {left: 50, right: 20, top: 20, bottom: 40};
+        const cw = w - pad.left - pad.right;
+        const ch = h - pad.top - pad.bottom;
+        
+        // Grid
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1;
+        for(let i=0; i<=4; i++) {
+            const y = pad.top + (ch/4)*i;
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w-pad.right, y); ctx.stroke();
+            const x = pad.left + (cw/4)*i;
+            ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, h-pad.bottom); ctx.stroke();
+        }
+        
+        // Points
+        data.forEach(d => {
+            const px = pad.left + (d.x / maxX) * cw;
+            const py = h - pad.bottom - (d.y / maxY) * ch;
+            ctx.fillStyle = typeColors[d.type] || colors.accent;
+            ctx.beginPath();
+            ctx.arc(px, py, 5, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        // Trend line (simple)
+        if(data.length > 1) {
+            const sumX = data.reduce((a,d)=>a+d.x,0), sumY = data.reduce((a,d)=>a+d.y,0);
+            const sumXY = data.reduce((a,d)=>a+d.x*d.y,0), sumX2 = data.reduce((a,d)=>a+d.x*d.x,0);
+            const n = data.length;
+            const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX) || 0;
+            const intercept = (sumY - slope*sumX) / n;
+            
+            ctx.strokeStyle = '#fff';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(pad.left, h - pad.bottom - (intercept/maxY)*ch);
+            ctx.lineTo(w-pad.right, h - pad.bottom - ((slope*maxX+intercept)/maxY)*ch);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+        
+        // Labels
+        ctx.fillStyle = '#666';
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'center';
+        ctx.fillText('Previous Day Strain', w/2, h - 8);
+        ctx.save();
+        ctx.translate(15, h/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillText('Next Day Recovery (%)', 0, 0);
+        ctx.restore();
+    })();
+    
+    // Chart 4: Weekly Recovery Heatmap
+    (function() {
+        const canvas = document.getElementById('chart4');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const buckets = ['0-25', '25-50', '50-75', '75-100'];
+        
+        const cellW = (w - 60) / 7;
+        const cellH = (h - 60) / 4;
+        
+        ctx.font = '11px -apple-system';
+        ctx.textAlign = 'center';
+        
+        days.forEach((d, i) => {
+            ctx.fillStyle = '#666';
+            ctx.fillText(d, 40 + cellW/2 + i*cellW, h - 25);
+        });
+        
+        buckets.forEach((b, i) => {
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'right';
+            ctx.fillText(b, 35, 30 + cellH/2 + i*cellH);
+        });
+        
+        // Draw cells
+        const heatColors = ['#1c1c1e', '#2d1f1f', '#3d2f2f', '#4d3f3f'];
+        for(let dow = 0; dow < 7; dow++) {
+            for(let bucket = 0; bucket < 4; bucket++) {
+                const count = weeklyRec[dow] ? (weeklyRec[dow][bucket] || 0) : 0;
+                const intensity = Math.min(count / 2, 1);
+                const colorIdx = Math.min(Math.floor(intensity * 4), 3);
+                ctx.fillStyle = heatColors[colorIdx];
+                ctx.fillRect(40 + dow*cellW, 30 + bucket*cellH, cellW - 2, cellH - 2);
+                
+                if(count > 0) {
+                    ctx.fillStyle = colors.text;
+                    ctx.font = '12px -apple-system';
+                    ctx.fillText(count.toString(), 40 + dow*cellW + cellW/2, 30 + bucket*cellH + cellH/2 + 4);
+                }
+            }
+        }
+    })();
+    
+    // Chart 5: Optimal Recovery Windows (grouped bar)
+    (function() {
+        const canvas = document.getElementById('chart5');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const buckets = recoveryWindows.map(d => d.bucket);
+        const maxVal = 100;
+        
+        const pad = {left: 50, right: 20, top: 20, bottom: 40};
+        const cw = w - pad.left - pad.right;
+        const ch = h - pad.top - pad.bottom;
+        
+        const barW = cw / buckets.length * 0.6;
+        const groupW = cw / buckets.length;
+        
+        // Y-axis
+        ctx.strokeStyle = '#333';
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#666';
+        ctx.textAlign = 'right';
+        [0, 25, 50, 75, 100].forEach(v => {
+            const y = h - pad.bottom - (v / maxVal) * ch;
+            ctx.fillText(v, 40, y + 4);
+            ctx.strokeStyle = '#222';
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+        });
+        
+        // X-axis labels and bars
+        ctx.textAlign = 'center';
+        buckets.forEach((bucket, i) => {
+            const groupX = pad.left + i * groupW + groupW / 2;
+            const data = recoveryWindows[i];
+            
+            ctx.fillStyle = '#666';
+            ctx.fillText(bucket, groupX, h - pad.bottom + 15);
+            
+            // Draw non-zero bars (3 bars per bucket)
+            const barColors = [
+                { color: colors.accent, value: data.rest },
+                { color: colors.gold, value: data.strength },
+                { color: colors.green, value: data.cardio }
+            ];
+            
+            const innerBarW = barW / 3 - 2;
+            barColors.forEach((bc, j) => {
+                if (bc.value > 0) {
+                    const x = groupX - barW/2 + j * (innerBarW + 2);
+                    const barH = (bc.value / maxVal) * ch;
+                    ctx.fillStyle = bc.color;
+                    ctx.fillRect(x, h - pad.bottom - barH, innerBarW, barH);
+                }
+            });
+        });
+    })();
+    
+    // Chart 6: Best Performing Pairings (horizontal bar)
+    (function() {
+        const canvas = document.getElementById('chart6');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width, h = rect.height;
+        
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, w, h);
+        
+        const items = leaderboard.slice(0, 5);
+        if(items.length === 0) {
+            ctx.fillStyle = colors.text;
+            ctx.font = '14px -apple-system';
+            ctx.textAlign = 'center';
+            ctx.fillText('Need more data', w/2, h/2);
+            return;
+        }
+        
+        const barH = Math.min(35, (h - 40) / items.length - 10);
+        const maxVal = Math.max(...items.map(i => Math.max(i.strain, i.recovery||1)), 50);
+        
+        items.forEach((item, i) => {
+            const y = 30 + i * (barH + 10);
+            const strainW = (item.strain / maxVal) * (w - 120);
+            const recW = item.recovery > 0 ? (item.recovery / maxVal) * (w - 120) : 0;
+            
+            // Label
+            ctx.fillStyle = colors.text;
+            ctx.font = '11px -apple-system';
+            ctx.textAlign = 'left';
+            const label = item.pair.length > 18 ? item.pair.substring(0,16) + '..' : item.pair;
+            ctx.fillText(label, 5, y + barH/2 + 4);
+            
+            // Strain bar
+            ctx.fillStyle = colors.accent;
+            ctx.fillRect(100, y, strainW, barH);
+            
+            // Recovery bar
+            if(recW > 0) {
+                ctx.fillStyle = colors.gold;
+                ctx.fillRect(100 + strainW + 2, y, recW, barH);
+            }
+            
+            // Values
+            ctx.fillStyle = '#888';
+            ctx.font = '10px -apple-system';
+            ctx.textAlign = 'left';
+            ctx.fillText(item.strain.toFixed(0), 102 + strainW, y + barH/2 + 3);
+            if(recW > 0) ctx.fillText(item.recovery.toFixed(0), 102 + strainW + recW + 2, y + barH/2 + 3);
+        });
+    })();
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>

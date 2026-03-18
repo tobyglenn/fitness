@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonal Lifetime Volume Timeline</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaa;
+            --accent-blue: #4fc3f7;
+            --accent-gold: #ffd700;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .back-link {
+            display: inline-block;
+            color: var(--accent-blue);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        .chart-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .chart-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        canvas {
+            width: 100%;
+            height: 300px;
+            display: block;
+            cursor: pointer;
+        }
+        .heatmap-container {
+            overflow-x: auto;
+        }
+        .heatmap {
+            display: grid;
+            grid-template-columns: 60px repeat(12, 1fr);
+            gap: 3px;
+            min-width: 600px;
+        }
+        .heatmap-header {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 4px;
+        }
+        .heatmap-row-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+        .heatmap-cell {
+            cursor: pointer;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--text-primary);
+            transition: transform 0.2s;
+        }
+        .heatmap-cell:hover {
+            transform: scale(1.15);
+            z-index: 1;
+        }
+        .peak-months {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+        .peak-months h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--accent-gold);
+        }
+        .peak-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            font-size: 14px;
+        }
+        .peak-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+        }
+        .peak-rank {
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        #tooltip { position: fixed; background: var(--bg-tertiary); color: var(--text-primary); padding: 10px 14px; border-radius: 8px; font-size: 13px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 1000; border: 1px solid var(--accent-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.4); } #tooltip.visible { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div id="tooltip"></div>
+    <div class="container">
+        <a href="http://192.168.1.249:8082/fitness" class="back-link">← Back to Fitness Center</a>
+        <h1>🏋️ Tonal Lifetime Volume Timeline</h1>
+<div id="yearFilter" style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap;">
+  <button onclick="filterYear('all')" class="yr-btn active" data-year="all">All</button>
+  <button onclick="filterYear('2024')" class="yr-btn" data-year="2024">2024</button>
+  <button onclick="filterYear('2025')" class="yr-btn" data-year="2025">2025</button>
+  <button onclick="filterYear('2026')" class="yr-btn" data-year="2026">2026</button>
+</div>
+<style>
+.yr-btn{background:#1c1c1e;color:#e0e0e0;border:1px solid #333;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:13px;}
+.yr-btn.active{background:#4fc3f7;color:#000;border-color:#4fc3f7;}
+</style>
+        <p class="subtitle">1,002 workouts from Oct 2021 to Apr 2025</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">8,844,120</div>
+                <div class="stat-label">Total Volume (lbs)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1,002</div>
+                <div class="stat-label">Total Workouts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8,826</div>
+                <div class="stat-label">Avg Volume/Workout</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">4,704K</div>
+                <div class="stat-label">2024 Volume (Peak Year)</div>
+            </div>
+        </div>
+        
+        <div class="chart-section">
+            <h2 class="chart-title">Monthly Lifting Volume</h2>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        
+        <div class="chart-section">
+            <h2 class="chart-title">Cumulative Volume Over Time</h2>
+            <canvas id="cumulativeChart"></canvas>
+        </div>
+        
+        <div class="chart-section">
+            <h2 class="chart-title">Yearly Volume</h2>
+            <canvas id="yearlyChart"></canvas>
+        </div>
+        
+        <div class="chart-section">
+            <h2 class="chart-title">Workout Frequency Heatmap</h2>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">Workouts per month (darker = more)</p>
+            <div class="heatmap-container">
+                <div class="heatmap" id="heatmap"></div>
+            </div>
+            <div class="peak-months">
+                <h3>🏆 Peak Months</h3>
+                <div class="peak-list">
+                    <div class="peak-item"><span><span class="peak-rank">1</span>Mar 2024</span><span>688,680 lbs</span></div>
+                    <div class="peak-item"><span><span class="peak-rank">2</span>Apr 2024</span><span>686,272 lbs</span></div>
+                    <div class="peak-item"><span><span class="peak-rank">3</span>Feb 2024</span><span>485,081 lbs</span></div>
+                    <div class="peak-item"><span><span class="peak-rank">4</span>Jun 2024</span><span>432,510 lbs</span></div>
+                    <div class="peak-item"><span><span class="peak-rank">5</span>Feb 2025</span><span>424,766 lbs</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const monthlyLabels = ["11/22", "12/22", "01/23", "02/23", "03/23", "04/23", "05/23", "06/23", "07/23", "08/23", "09/23", "10/23", "11/23", "12/23", "01/24", "02/24", "03/24", "04/24", "05/24", "06/24", "07/24", "08/24", "09/24", "10/24", "11/24", "12/24", "01/25", "02/25", "03/25", "04/25"];
+        const monthlyVolumes = [22197, 23054, 5889, 9908, 23328, 34541, 38364, 78534, 51490, 155216, 268886, 330880, 237782, 196389, 251129, 485081, 688680, 686272, 325595, 432510, 379687, 338262, 258969, 332744, 355397, 170096, 286728, 424766, 337759, 37379];
+        const monthlyCounts = [7, 5, 2, 4, 5, 7, 8, 21, 12, 36, 57, 67, 57, 41, 22, 22, 34, 31, 15, 30, 25, 21, 17, 21, 25, 15, 21, 27, 19, 2];
+        const tooltip = document.getElementById('tooltip');
+        
+        function showTooltip(x, y, text) {
+            tooltip.textContent = text;
+            tooltip.style.left = (x + 15) + 'px';
+            tooltip.style.top = (y - 10) + 'px';
+            tooltip.classList.add('visible');
+        }
+        
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+
+        const cumulativeDates = ["10-02", "10-02", "10-02", "10-03", "10-03", "10-03", "10-03", "10-03", "10-04", "10-05", "10-06", "10-07", "10-07", "10-08", "10-11", "10-11", "10-12", "10-12", "10-12", "10-12", "10-14", "10-14", "10-14", "10-14", "10-16", "10-16", "10-17", "10-19", "10-19", "10-21", "10-23", "10-23", "10-26", "10-26", "10-27", "10-28", "10-28", "10-30", "10-31", "11-02", "11-04", "11-05", "11-06", "11-07", "11-09", "11-09", "11-13", "11-16", "11-17", "11-17", "11-18", "11-18", "11-18", "11-25", "11-26", "11-30", "12-01", "12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07", "12-09", "12-09", "12-10", "12-12", "12-12", "12-12", "12-12", "12-14", "12-14", "12-18", "12-19", "12-19", "12-21", "12-21", "12-23", "12-24", "12-26", "12-26", "12-26", "12-28", "12-28", "12-29", "12-31", "12-31", "01-01", "01-02", "01-03", "01-03", "01-06", "01-08", "01-08", "01-09", "01-09", "01-11", "01-13", "01-15", "01-15", "01-16", "01-17", "01-18", "01-19", "01-20", "01-21", "01-23", "01-25", "02-01", "02-02", "02-10", "02-12", "02-13", "02-19", "02-20", "02-26", "02-28", "03-05", "03-06", "03-06", "03-13", "03-19", "03-22", "03-27", "03-28", "04-05", "04-06", "04-07", "04-11", "04-13", "04-13", "04-18", "04-19", "04-22", "04-28", "05-04", "05-08", "05-15", "05-20", "05-21", "05-22", "05-22", "05-25", "06-01", "06-05", "06-08", "06-09", "06-12", "06-12", "06-12", "06-13", "06-14", "06-14", "06-15", "06-15", "06-16", "06-16", "06-17", "06-17", "06-17", "06-18", "06-20", "06-20", "06-21", "06-21", "06-21", "06-21", "06-21", "06-22", "06-23", "06-23", "06-24", "06-24", "06-24", "06-25", "06-25", "06-26", "06-26", "06-26", "06-26", "06-27", "06-27", "06-27", "06-28", "06-28", "06-28", "06-29", "06-29", "06-29", "06-30", "07-01", "07-01", "07-01", "07-01", "07-02", "07-02", "07-03", "07-03", "07-03", "07-04", "07-04", "07-05", "07-05", "07-05", "07-05", "07-06", "07-06", "07-06", "07-06", "07-08", "07-08", "07-08", "07-08", "07-08", "07-08", "07-08", "07-09", "07-10", "07-10", "07-11", "07-11", "07-12", "07-12", "07-13", "07-13", "07-13", "07-13", "07-14", "07-15", "07-15", "07-15", "07-16", "07-16", "07-16", "07-16", "07-17", "07-17", "07-17", "07-17", "07-18", "07-18", "07-19", "07-19", "07-20", "07-22", "07-22", "07-22", "07-23", "07-23", "07-23", "07-24", "07-24", "07-24", "07-25", "07-26", "07-27", "07-28", "07-28", "07-29", "07-30", "08-01", "08-02", "08-02", "08-02", "08-04", "08-04", "08-04", "08-05", "08-06", "08-06", "08-08", "08-08", "08-08", "08-08", "08-11", "08-11", "08-11", "08-11", "08-11", "08-13", "08-15", "08-18", "08-18", "08-22", "08-22", "08-26", "08-26", "08-30", "09-11", "09-11", "09-12", "09-14", "09-15", "09-18", "09-19", "09-25", "09-29", "10-04", "10-04", "10-05", "10-11", "10-13", "10-14", "10-15", "10-15", "10-15", "10-15", "10-16", "10-16", "10-17", "10-18", "10-18", "10-19", "10-21", "10-22", "10-22", "10-22", "10-22", "10-23", "10-23", "10-23", "10-25", "10-25", "10-26", "10-27", "11-03", "11-05", "11-11", "11-14", "11-24", "11-25", "11-26", "12-03", "12-07", "12-18", "12-21", "12-27", "01-05", "01-15", "02-02", "02-06", "02-07", "02-09", "03-12", "03-13", "03-14", "03-16", "03-24", "04-05", "04-17", "04-18", "04-19", "04-20", "04-21", "04-25", "05-08", "05-10", "05-16", "05-17", "05-24", "05-30", "05-31", "05-31", "06-01", "06-02", "06-05", "06-08", "06-08", "06-09", "06-09", "06-19", "06-20", "06-21", "06-21", "06-22", "06-22", "06-22", "06-26", "06-26", "06-26", "06-27", "06-28", "06-28", "06-28", "07-03", "07-03", "07-04", "07-05", "07-07", "07-10", "07-11", "07-23", "07-24", "07-25", "07-25", "07-28", "08-01", "08-02", "08-03", "08-04", "08-07", "08-08", "08-08", "08-09", "08-10", "08-11", "08-11", "08-12", "08-14", "08-14", "08-14", "08-14", "08-21", "08-22", "08-22", "08-23", "08-23", "08-23", "08-23", "08-24", "08-24", "08-25", "08-25", "08-28", "08-28", "08-28", "08-29", "08-29", "08-30", "08-30", "08-31", "08-31", "09-05", "09-05", "09-06", "09-06", "09-07", "09-07", "09-07", "09-07", "09-07", "09-08", "09-08", "09-09", "09-10", "09-10", "09-10", "09-11", "09-11", "09-12", "09-14", "09-14", "09-14", "09-15", "09-15", "09-15", "09-16", "09-18", "09-18", "09-18", "09-18", "09-19", "09-19", "09-20", "09-20", "09-20", "09-21", "09-22", "09-22", "09-23", "09-23", "09-23", "09-23", "09-24", "09-24", "09-25", "09-25", "09-25", "09-25", "09-26", "09-26", "09-26", "09-27", "09-28", "09-28", "09-28", "09-29", "09-30", "09-30", "10-01", "10-01", "10-02", "10-02", "10-02", "10-02", "10-02", "10-03", "10-03", "10-03", "10-04", "10-05", "10-05", "10-05", "10-05", "10-05", "10-06", "10-06", "10-07", "10-07", "10-08", "10-09", "10-10", "10-10", "10-10", "10-11", "10-12", "10-12", "10-12", "10-13", "10-13", "10-13", "10-14", "10-14", "10-15", "10-15", "10-17", "10-18", "10-18", "10-20", "10-20", "10-20", "10-20", "10-20", "10-22", "10-22", "10-23", "10-23", "10-24", "10-24", "10-25", "10-25", "10-26", "10-26", "10-26", "10-26", "10-27", "10-27", "10-29", "10-29", "10-29", "10-29", "10-29", "10-30", "10-30", "10-31", "10-31", "11-01", "11-01", "11-02", "11-03", "11-03", "11-03", "11-03", "11-04", "11-04", "11-05", "11-06", "11-06", "11-06", "11-07", "11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "11-12", "11-13", "11-14", "11-14", "11-15", "11-15", "11-16", "11-16", "11-16", "11-16", "11-17", "11-17", "11-18", "11-18", "11-20", "11-20", "11-20", "11-21", "11-21", "11-21", "11-21", "11-21", "11-22", "11-22", "11-23", "11-25", "11-25", "11-25", "11-25", "11-25", "11-25", "11-26", "11-26", "11-27", "11-27", "11-28", "11-30", "12-01", "12-01", "12-03", "12-03", "12-04", "12-04", "12-05", "12-06", "12-06", "12-06", "12-07", "12-07", "12-09", "12-09", "12-09", "12-10", "12-11", "12-12", "12-12", "12-13", "12-20", "12-20", "12-21", "12-21", "12-22", "12-22", "12-22", "12-24", "12-24", "12-26", "12-26", "12-26", "12-26", "12-27", "12-27", "12-28", "12-29", "12-29", "12-29", "12-30", "12-30", "01-01", "01-01", "01-04", "01-08", "01-09", "01-10", "01-10", "01-11", "01-12", "01-14", "01-17", "01-18", "01-22", "01-23", "01-24", "01-25", "01-26", "01-27", "01-28", "01-29", "01-30", "01-31", "02-01", "02-02", "02-03", "02-05", "02-06", "02-07", "02-07", "02-07", "02-08", "02-09", "02-12", "02-13", "02-14", "02-15", "02-16", "02-18", "02-19", "02-20", "02-23", "02-24", "02-27", "02-29", "03-02", "03-03", "03-04", "03-06", "03-07", "03-07", "03-08", "03-09", "03-10", "03-11", "03-12", "03-13", "03-13", "03-14", "03-15", "03-16", "03-17", "03-18", "03-19", "03-20", "03-20", "03-20", "03-21", "03-21", "03-22", "03-23", "03-24", "03-25", "03-26", "03-27", "03-28", "03-29", "03-30", "03-31", "04-01", "04-02", "04-04", "04-04", "04-05", "04-06", "04-06", "04-07", "04-08", "04-09", "04-10", "04-11", "04-12", "04-13", "04-14", "04-15", "04-16", "04-17", "04-18", "04-19", "04-20", "04-21", "04-22", "04-23", "04-24", "04-25", "04-26", "04-27", "04-28", "04-29", "04-30", "05-01", "05-02", "05-03", "05-03", "05-04", "05-13", "05-14", "05-15", "05-18", "05-20", "05-21", "05-22", "05-28", "05-30", "05-31", "06-02", "06-02", "06-03", "06-04", "06-05", "06-06", "06-07", "06-08", "06-09", "06-10", "06-11", "06-12", "06-12", "06-12", "06-13", "06-15", "06-16", "06-17", "06-18", "06-18", "06-18", "06-19", "06-20", "06-21", "06-22", "06-23", "06-25", "06-27", "06-28", "06-30", "07-02", "07-02", "07-03", "07-05", "07-06", "07-06", "07-07", "07-08", "07-09", "07-11", "07-12", "07-15", "07-16", "07-17", "07-18", "07-18", "07-19", "07-19", "07-20", "07-21", "07-22", "07-25", "07-26", "07-28", "07-30", "08-01", "08-02", "08-03", "08-05", "08-06", "08-08", "08-09", "08-11", "08-12", "08-13", "08-13", "08-15", "08-20", "08-21", "08-22", "08-24", "08-25", "08-26", "08-29", "08-29", "08-30", "09-03", "09-05", "09-08", "09-09", "09-11", "09-12", "09-15", "09-17", "09-18", "09-19", "09-20", "09-22", "09-23", "09-24", "09-26", "09-29", "09-30", "10-01", "10-03", "10-06", "10-09", "10-11", "10-15", "10-16", "10-17", "10-18", "10-19", "10-20", "10-21", "10-22", "10-23", "10-24", "10-25", "10-27", "10-28", "10-28", "10-29", "10-31", "11-01", "11-02", "11-03", "11-04", "11-05", "11-07", "11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "11-13", "11-14", "11-18", "11-19", "11-20", "11-21", "11-22", "11-23", "11-24", "11-26", "11-26", "11-28", "11-30", "12-01", "12-01", "12-02", "12-03", "12-14", "12-15", "12-17", "12-18", "12-22", "12-22", "12-23", "12-26", "12-29", "12-30", "12-30", "01-02", "01-05", "01-05", "01-06", "01-07", "01-08", "01-10", "01-11", "01-14", "01-14", "01-17", "01-19", "01-21", "01-21", "01-23", "01-24", "01-26", "01-27", "01-28", "01-28", "01-31", "02-01", "02-02", "02-03", "02-04", "02-04", "02-06", "02-07", "02-07", "02-08", "02-09", "02-10", "02-11", "02-12", "02-13", "02-14", "02-16", "02-16", "02-16", "02-16", "02-18", "02-19", "02-20", "02-21", "02-23", "02-24", "02-25", "02-26", "03-03", "03-04", "03-05", "03-06", "03-06", "03-07", "03-09", "03-10", "03-13", "03-13", "03-18", "03-20", "03-22", "03-23", "03-24", "03-25", "03-27", "03-27", "03-29", "04-01", "04-01"];
+        const cumulativeValues = [1226, 8439, 13355, 18135, 20254, 23848, 26991, 33318, 38821, 43230, 47064, 56469, 57369, 65234, 70071, 70751, 72745, 75234, 78110, 80778, 91164, 94159, 96935, 104823, 114871, 116647, 125539, 127491, 135153, 146003, 152106, 161671, 168352, 176770, 180082, 181434, 192879, 206117, 218839, 226753, 233110, 243144, 254447, 267376, 270956, 284565, 293524, 305439, 308007, 310954, 317083, 319127, 331578, 331578, 331578, 337076, 346983, 354640, 367066, 381189, 389226, 389226, 403747, 412654, 428144, 428144, 438448, 440245, 454513, 462047, 462047, 467954, 467954, 478427, 483124, 491236, 498906, 513964, 532798, 535140, 541752, 550870, 555421, 562681, 579097, 579097, 579917, 595595, 597582, 615659, 616442, 618774, 626688, 632336, 642194, 649533, 655860, 659523, 664199, 670411, 678821, 685737, 695076, 701582, 704080, 710996, 718272, 727634, 734370, 736090, 737446, 740926, 753186, 756066, 762837, 772425, 774165, 774789, 780865, 787331, 792331, 793068, 796038, 803757, 810659, 814822, 821926, 828051, 831319, 838035, 844306, 847067, 853344, 858037, 865101, 865101, 869880, 870998, 870998, 874808, 877443, 880497, 886369, 889792, 892917, 906222, 919194, 922904, 931346, 938313, 942233, 948098, 951703, 959323, 965215, 969040, 971833, 985568, 987125, 992527, 997797, 1004452, 1012057, 1015787, 1024737, 1026268, 1030153, 1034443, 1039571, 1045463, 1046679, 1053266, 1059276, 1060414, 1065468, 1072789, 1076694, 1080950, 1084140, 1087997, 1087997, 1091288, 1094965, 1098401, 1104175, 1107516, 1107516, 1109833, 1113969, 1118126, 1123890, 1124290, 1127230, 1132546, 1134677, 1139588, 1142055, 1147239, 1151539, 1157793, 1161650, 1165150, 1168650, 1173415, 1175979, 1183221, 1183783, 1184817, 1188636, 1188636, 1194030, 1195794, 1197194, 1198443, 1200843, 1204853, 1204853, 1206684, 1220344, 1225092, 1227609, 1231004, 1232192, 1237441, 1238629, 1244338, 1244983, 1247876, 1251328, 1255243, 1259328, 1262414, 1264601, 1268716, 1276795, 1279767, 1282410, 1286165, 1288361, 1291333, 1295528, 1300398, 1300950, 1304036, 1306679, 1310169, 1311896, 1317047, 1320653, 1323962, 1325090, 1328962, 1332622, 1336074, 1338123, 1340827, 1343920, 1348157, 1354822, 1356549, 1357961, 1361507, 1368244, 1371829, 1374884, 1378377, 1382265, 1382265, 1387086, 1392912, 1394932, 1399288, 1403588, 1406823, 1406823, 1407815, 1413584, 1415429, 1418991, 1423189, 1428488, 1431260, 1432870, 1437551, 1439091, 1442227, 1446230, 1449285, 1451830, 1455083, 1458870, 1462413, 1464457, 1468582, 1469338, 1473504, 1474736, 1479199, 1484321, 1488901, 1491556, 1495976, 1496381, 1500801, 1505139, 1507772, 1510707, 1513933, 1516393, 1520813, 1524053, 1528473, 1530103, 1536261, 1538721, 1542191, 1545643, 1548588, 1553008, 1556916, 1557810, 1560339, 1563809, 1569142, 1571088, 1576608, 1577321, 1577321, 1580773, 1583719, 1588139, 1593472, 1598805, 1605302, 1609268, 1609268, 1614676, 1621859, 1627748, 1627748, 1630511, 1633438, 1635788, 1637656, 1644756, 1650625, 1655293, 1658351, 1660984, 1667392, 1669923, 1675028, 1681301, 1687830, 1690962, 1695525, 1702653, 1705349, 1714361, 1717544, 1721028, 1725599, 1730825, 1733889, 1737936, 1741727, 1742710, 1746314, 1750418, 1751969, 1757354, 1763418, 1765254, 1773136, 1777800, 1782025, 1783137, 1784113, 1787393, 1795697, 1802696, 1805223, 1806013, 1808463, 1812423, 1818065, 1825100, 1826567, 1830483, 1836141, 1838412, 1846584, 1851952, 1858210, 1859368, 1862034, 1863913, 1870894, 1873978, 1876344, 1880490, 1888427, 1893715, 1896799, 1897281, 1898687, 1903679, 1913542, 1917767, 1920349, 1920537, 1924069, 1934525, 1943007, 1946495, 1952297, 1952297, 1958359, 1960368, 1961532, 1963274, 1972055, 1978431, 1980445, 1984055, 1990574, 1992227, 1993263, 1999806, 2000124, 2002052, 2011761, 2019129, 2027410, 2037179, 2042094, 2044030, 2044540, 2046576, 2048801, 2058970, 2065938, 2071422, 2072964, 2085664, 2089206, 2091140, 2099018, 2103646, 2107426, 2110153, 2113701, 2121773, 2132475, 2135665, 2136582, 2139336, 2143370, 2145818, 2147524, 2149364, 2153291, 2156883, 2170179, 2173659, 2178781, 2181075, 2182683, 2184307, 2196252, 2197953, 2200678, 2203026, 2211208, 2215488, 2227848, 2229267, 2230912, 2234452, 2236130, 2238786, 2242085, 2250756, 2255180, 2256196, 2259944, 2272904, 2278574, 2284439, 2288015, 2291839, 2296378, 2299637, 2304441, 2313201, 2314909, 2321837, 2328000, 2330356, 2333626, 2338900, 2341000, 2342252, 2347802, 2352414, 2357326, 2360703, 2366997, 2376315, 2380242, 2383607, 2398586, 2401525, 2403538, 2411754, 2413094, 2416277, 2417685, 2423101, 2428836, 2430807, 2444234, 2450084, 2457141, 2457141, 2462769, 2469871, 2476075, 2482129, 2485438, 2486624, 2487592, 2489316, 2499408, 2503378, 2513127, 2522067, 2523800, 2525464, 2534830, 2540487, 2541771, 2544411, 2544888, 2550270, 2559892, 2562106, 2568666, 2569952, 2575088, 2581214, 2583512, 2587652, 2591783, 2601904, 2612231, 2618895, 2621678, 2631926, 2646604, 2647424, 2651068, 2653800, 2655558, 2660779, 2666643, 2671979, 2674877, 2676049, 2682013, 2691676, 2696921, 2699920, 2706864, 2713764, 2717057, 2725221, 2726459, 2728150, 2731030, 2737616, 2740579, 2751089, 2751929, 2755409, 2757073, 2759973, 2765969, 2769381, 2771605, 2774689, 2776491, 2783089, 2785649, 2788267, 2789515, 2789915, 2795283, 2802180, 2807648, 2810033, 2815868, 2818528, 2821971, 2824387, 2827047, 2834625, 2834625, 2836728, 2838896, 2840976, 2844609, 2851059, 2856677, 2858829, 2863807, 2865190, 2871426, 2875423, 2881893, 2892186, 2895412, 2897332, 2902341, 2904868, 2909210, 2914493, 2916646, 2922356, 2926050, 2935642, 2937273, 2945940, 2950094, 2957543, 2962388, 2964595, 2970243, 2978011, 2979858, 2987702, 2990970, 2998785, 3001011, 3003309, 3009679, 3021057, 3023412, 3028944, 3032033, 3036348, 3042523, 3045015, 3046675, 3053066, 3054919, 3058672, 3067451, 3074775, 3088370, 3091029, 3094060, 3102793, 3106775, 3114672, 3119622, 3122702, 3127393, 3141140, 3156501, 3169873, 3200306, 3220921, 3231180, 3263365, 3282673, 3304195, 3340025, 3358026, 3384169, 3422314, 3445805, 3448603, 3453519, 3459942, 3497943, 3506566, 3545188, 3567026, 3579120, 3610915, 3632487, 3653306, 3660653, 3686333, 3708572, 3736085, 3759226, 3789276, 3803693, 3816810, 3830789, 3837645, 3874945, 3883163, 3894859, 3902080, 3914285, 3944765, 3969126, 3981072, 3997096, 4037610, 4048679, 4075513, 4092425, 4132033, 4156540, 4162999, 4179538, 4194166, 4196863, 4237260, 4262986, 4287691, 4311666, 4338558, 4355919, 4378188, 4416706, 4425658, 4454099, 4477956, 4516880, 4541591, 4557318, 4560384, 4583986, 4592695, 4621186, 4643948, 4672942, 4684458, 4690926, 4731078, 4754445, 4773299, 4797101, 4837757, 4849099, 4878696, 4882500, 4895520, 4922875, 4943513, 4979709, 5000519, 5026127, 5045730, 5063122, 5088997, 5107322, 5142273, 5164228, 5192948, 5232139, 5233274, 5254258, 5284589, 5323211, 5349169, 5363858, 5372691, 5389455, 5402259, 5420030, 5445177, 5484545, 5489823, 5490811, 5503437, 5527243, 5537144, 5555802, 5579610, 5592358, 5611245, 5624775, 5649841, 5660666, 5680224, 5682192, 5685250, 5710937, 5730595, 5744955, 5763756, 5765864, 5767416, 5779256, 5799859, 5826657, 5841513, 5862411, 5866429, 5868693, 5893969, 5908009, 5922333, 5923851, 5924167, 5944969, 5959552, 5981388, 6002356, 6017550, 6038249, 6049998, 6058077, 6073352, 6094436, 6106263, 6128081, 6134243, 6155823, 6161177, 6176525, 6198261, 6213831, 6236003, 6258100, 6273977, 6289953, 6302020, 6326247, 6346521, 6357625, 6374061, 6380485, 6405767, 6424920, 6443956, 6452912, 6458657, 6479798, 6505218, 6516423, 6537747, 6552746, 6560526, 6580509, 6588039, 6605880, 6627789, 6640282, 6648950, 6660859, 6675423, 6689232, 6697360, 6706128, 6719111, 6740568, 6761666, 6777935, 6799665, 6821073, 6827780, 6849468, 6871076, 6882626, 6899251, 6912824, 6932094, 6952376, 6968082, 6990573, 7012365, 7016896, 7043665, 7060892, 7066816, 7084422, 7106676, 7124214, 7138471, 7157944, 7168967, 7175078, 7180084, 7198380, 7208702, 7231995, 7238039, 7244367, 7253229, 7275600, 7295494, 7302032, 7312995, 7314756, 7334164, 7345680, 7361577, 7384693, 7404317, 7426597, 7439079, 7453555, 7473878, 7497247, 7513775, 7523960, 7528865, 7552289, 7563982, 7586250, 7587392, 7603216, 7613622, 7623002, 7628781, 7634738, 7658242, 7669026, 7682241, 7690613, 7701829, 7707597, 7731198, 7753942, 7755980, 7757488, 7775894, 7787397, 7811646, 7834690, 7848700, 7861467, 7881178, 7906659, 7909635, 7917915, 7929630, 7937678, 7943154, 7954572, 7982115, 7987352, 7991667, 8011498, 8014307, 8039117, 8044216, 8068970, 8087794, 8110711, 8121311, 8127536, 8155604, 8160363, 8166329, 8171614, 8193073, 8199593, 8226039, 8249953, 8274282, 8282635, 8289711, 8301771, 8306637, 8311352, 8324887, 8345794, 8355459, 8376925, 8394857, 8417958, 8442891, 8468982, 8496766, 8523559, 8538547, 8565255, 8571391, 8593233, 8626387, 8634381, 8646911, 8672388, 8686124, 8708285, 8718186, 8743567, 8751667, 8773776, 8776498, 8802284, 8806741, 8830832, 8844120];
+        const yearlyLabels = ["2021", "2022", "2023", "2024", "2025"];
+        const yearlyVolumes = [595, 1026, 1431, 4704, 1086];
+        const heatmapMatrix = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 17, 32], [21, 9, 8, 10, 8, 47, 70, 28, 9, 28, 7, 5], [2, 4, 5, 7, 8, 21, 12, 36, 57, 67, 57, 41], [22, 22, 34, 31, 15, 30, 25, 21, 17, 21, 25, 15], [21, 27, 19, 2, 0, 0, 0, 0, 0, 0, 0, 0]];
+        const yearsList = [2021, 2022, 2023, 2024, 2025];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        // Color helpers
+        const bgPrimary = '#0a0a0c';
+        const bgTertiary = '#2c2c2e';
+        const accentBlue = '#4fc3f7';
+        const accentGold = '#ffd700';
+        const textSecondary = '#aaa';
+        
+        // Draw Monthly Volume Chart
+        function drawMonthlyChart() {
+            const canvas = document.getElementById('monthlyChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            const padding = {top: 20, right: 20, bottom: 50, left: 60};
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+            
+            const maxVol = Math.max(...monthlyVolumes);
+            const barWidth = Math.max(8, (chartW / monthlyVolumes.length) - 4);
+            
+            ctx.fillStyle = bgPrimary;
+            ctx.fillRect(0, 0, w, h);
+            
+            // Store bar positions for tooltip
+            canvas.barPositions = [];
+            
+            // Y-axis grid
+            ctx.strokeStyle = bgTertiary;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartH * i / 5);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+                
+                const val = Math.round(maxVol * (5 - i) / 5 / 1000);
+                ctx.fillStyle = textSecondary;
+                ctx.font = '11px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(val + 'K', padding.left - 8, y + 4);
+            }
+            
+            // Bars
+            monthlyVolumes.forEach((vol, i) => {
+                const barH = (vol / maxVol) * chartH;
+                const x = padding.left + (chartW / monthlyVolumes.length) * i + 2;
+                const y = padding.top + chartH - barH;
+                
+                // Store position for tooltip
+                canvas.barPositions.push({x, y, w: barWidth, h: barH, vol, label: monthlyLabels[i], count: monthlyCounts[i]});
+                
+                // Gradient
+                const gradient = ctx.createLinearGradient(x, y, x, y + barH);
+                gradient.addColorStop(0, accentBlue);
+                gradient.addColorStop(1, '#1a8fb3');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, barH);
+            });
+            
+            // X-axis labels
+            ctx.fillStyle = textSecondary;
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            monthlyLabels.forEach((label, i) => {
+                if (i % 3 === 0) {
+                    const x = padding.left + (chartW / monthlyVolumes.length) * i + barWidth/2;
+                    ctx.fillText(label, x, h - padding.bottom + 20);
+                }
+            });
+            
+            // Tooltip handler
+            canvas.onmousemove = function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+                let found = false;
+                for (const bar of (canvas.barPositions || [])) {
+                    if (mx >= bar.x && mx <= bar.x + bar.w && my >= bar.y && my <= bar.y + bar.h) {
+                        showTooltip(e.clientX, e.clientY, bar.label + ': ' + bar.vol.toLocaleString() + ' lbs (' + bar.count + ' workouts)');
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip();
+            };
+            canvas.onmouseleave = hideTooltip;
+        }
+        
+        // Draw Cumulative Chart
+        function drawCumulativeChart() {
+            const canvas = document.getElementById('cumulativeChart');
+            
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            const padding = {top: 20, right: 20, bottom: 40, left: 60};
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+            
+            const maxVal = Math.max(...cumulativeValues);
+            const step = Math.ceil(cumulativeValues.length / 30);
+            
+            ctx.fillStyle = bgPrimary;
+            ctx.fillRect(0, 0, w, h);
+            
+            // Grid
+            ctx.strokeStyle = bgTertiary;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartH * i / 5);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+                
+                const val = Math.round(maxVal * (5 - i) / 5 / 1000000 * 10) / 10;
+                ctx.fillStyle = textSecondary;
+                ctx.font = '11px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(val + 'M', padding.left - 8, y + 4);
+            }
+            
+            // Line
+            ctx.beginPath();
+            ctx.strokeStyle = accentGold;
+            ctx.lineWidth = 2.5;
+            
+            cumulativeValues.forEach((val, i) => {
+                const x = padding.left + (i / (cumulativeValues.length - 1)) * chartW;
+                const y = padding.top + chartH - (val / maxVal) * chartH;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            // Fill gradient
+            ctx.lineTo(padding.left + chartW, padding.top + chartH);
+            ctx.lineTo(padding.left, padding.top + chartH);
+            ctx.closePath();
+            const gradient = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
+            gradient.addColorStop(0, 'rgba(255, 215, 0, 0.3)');
+            gradient.addColorStop(1, 'rgba(255, 215, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // X-axis labels (years) with spacing
+            ctx.fillStyle = textSecondary;
+            ctx.font = '11px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            let prevYear = '';
+            let prevX = 0;
+            cumulativeDates.forEach((date, i) => {
+                const year = date.split('-')[0];
+                const x = padding.left + (i / (cumulativeValues.length - 1)) * chartW;
+                if (year !== prevYear && x - prevX > 50) {
+                    ctx.fillText(year, x, h - padding.bottom + 20);
+                    prevYear = year;
+                    prevX = x;
+                }
+            });
+            
+            // Store points for tooltip
+            canvas.pointPositions = [];
+            cumulativeValues.forEach((val, i) => {
+                const x = padding.left + (i / (cumulativeValues.length - 1)) * chartW;
+                const y = padding.top + chartH - (val / maxVal) * chartH;
+                canvas.pointPositions.push({x, y, val, date: cumulativeDates[i]});
+            });
+            
+            // Tooltip handler
+            canvas.onmousemove = function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+                let closest = null;
+                let minDist = Infinity;
+                for (const pt of (canvas.pointPositions || [])) {
+                    const dist = Math.sqrt((mx - pt.x) ** 2 + (my - pt.y) ** 2);
+                    if (dist < minDist && dist < 20) {
+                        minDist = dist;
+                        closest = pt;
+                    }
+                }
+                if (closest) {
+                    showTooltip(e.clientX, e.clientY, '20' + closest.date + ': ' + closest.val.toLocaleString() + ' lbs');
+                } else {
+                    hideTooltip();
+                }
+            };
+            canvas.onmouseleave = hideTooltip;
+        }
+        
+        // Draw Yearly Chart
+        function drawYearlyChart() {
+            const canvas = document.getElementById('yearlyChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const w = rect.width;
+            const h = rect.height;
+            const padding = {top: 20, right: 20, bottom: 50, left: 50};
+            const chartW = w - padding.left - padding.right;
+            const chartH = h - padding.top - padding.bottom;
+            
+            const maxVol = Math.max(...yearlyVolumes);
+            const barWidth = Math.min(60, (chartW / yearlyVolumes.length) - 20);
+            
+            ctx.fillStyle = bgPrimary;
+            ctx.fillRect(0, 0, w, h);
+            
+            // Y-axis
+            ctx.strokeStyle = bgTertiary;
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartH * i / 5);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+                
+                const val = Math.round(maxVol * (5 - i) / 5);
+                ctx.fillStyle = textSecondary;
+                ctx.font = '11px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(val + 'K', padding.left - 8, y + 4);
+            }
+            
+            // Store bar positions
+            canvas.barPositions = [];
+            
+            // Bars
+            yearlyVolumes.forEach((vol, i) => {
+                const barH = (vol / maxVol) * chartH;
+                const x = padding.left + (chartW / yearlyVolumes.length) * i + (chartW / yearlyVolumes.length - barWidth) / 2;
+                const y = padding.top + chartH - barH;
+                
+                // Store for tooltip
+                canvas.barPositions.push({x, y, w: barWidth, h: barH, vol, label: yearlyLabels[i]});
+                
+                const gradient = ctx.createLinearGradient(x, y, x, y + barH);
+                gradient.addColorStop(0, '#28a745');
+                gradient.addColorStop(1, '#1a6b2c');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, barH);
+                
+                // Value on top
+                ctx.fillStyle = accentBlue;
+                ctx.font = 'bold 14px -apple-system, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(vol + 'K', x + barWidth/2, y - 8);
+                
+                // Label
+                ctx.fillStyle = textSecondary;
+                ctx.font = '14px -apple-system, sans-serif';
+                ctx.fillText(yearlyLabels[i], x + barWidth/2, h - padding.bottom + 24);
+            });
+            
+            // Tooltip handler
+            canvas.onmousemove = function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+                let found = false;
+                for (const bar of (canvas.barPositions || [])) {
+                    if (mx >= bar.x && mx <= bar.x + bar.w && my >= bar.y && my <= bar.y + bar.h) {
+                        showTooltip(e.clientX, e.clientY, bar.label + ': ' + (bar.vol * 1000).toLocaleString() + ' lbs (total)');
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip();
+            };
+            canvas.onmouseleave = hideTooltip;
+        }
+        
+        // Build Heatmap
+        function buildHeatmap() {
+            const container = document.getElementById('heatmap');
+            let html = '<div class="heatmap-header"></div>';
+            months.forEach(m => {
+                html += '<div class="heatmap-header">' + m + '</div>';
+            });
+            
+            const maxCount = Math.max(...heatmapMatrix.flat(), 1);
+            
+            heatmapMatrix.forEach((row, yi) => {
+                html += '<div class="heatmap-row-label">' + yearsList[yi] + '</div>';
+                row.forEach((count, mi) => {
+                    const intensity = count / maxCount;
+                    let bg, color;
+                    if (intensity > 0.7) {
+                        bg = `rgb(79, 195, 247)`;
+                        color = '#000';
+                    } else if (intensity > 0.4) {
+                        bg = `rgb(79, 195, 247, 0.6)`;
+                        color = '#fff';
+                    } else if (intensity > 0.1) {
+                        bg = `rgb(79, 195, 247, 0.3)`;
+                        color = '#fff';
+                    } else {
+                        bg = bgTertiary;
+                        color = textSecondary;
+                    }
+                    const title = months[mi] + ' ' + yearsList[yi] + ': ' + (count || 0) + ' workouts';
+                    html += '<div class="heatmap-cell" title="' + title + '" style="background:' + bg + ';color:' + color + '">' + (count || '') + '</div>';
+                });
+            });
+            container.innerHTML = html;
+        }
+        
+        function safeDraw(name, fn) {
+            try {
+                fn();
+            } catch (err) {
+                console.error(`[tonal] ${name} draw failed:`, err);
+            }
+        }
+
+        // Wait for DOM to be ready
+        window.addEventListener('load', function() {
+            safeDraw('monthly', drawMonthlyChart);
+            safeDraw('cumulative', drawCumulativeChart);
+            safeDraw('yearly', drawYearlyChart);
+            safeDraw('heatmap', buildHeatmap);
+        });
+        
+        // Redraw on resize
+        window.addEventListener('resize', function() {
+            safeDraw('monthly', drawMonthlyChart);
+            safeDraw('cumulative', drawCumulativeChart);
+            safeDraw('yearly', drawYearlyChart);
+            safeDraw('heatmap', buildHeatmap);
+        });
+    </script>
+<script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>!el.querySelector("a")){el.innerHTML="<a href="/fitness/morning_report_"+t+".html" style="color:#58a6ff;text-decoration:none" title="Morning report">"+t+"</a> <a href="/fitness/nightly_report_"+t+".html" style="color:#8b949e;text-decoration:none;font-size:0.8em" title="Nightly report">🌙</a>";}});})();</script></body>
+</html>
