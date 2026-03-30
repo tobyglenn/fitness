@@ -1,27 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>🥗 Nutrition</title>
   <style>
-    :root { --bg:#0d1117; --card:#161b22; --line:#30363d; --text:#e6edf3; --muted:#8b949e; --accent:#34d399; --link:#58a6ff; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg); color:var(--text); }
-    .container { max-width:1100px; margin:0 auto; padding:24px 20px 40px; }
-    h1 { margin:0 0 8px; font-size:2rem; }
-    .subtitle { color:var(--muted); margin:0 0 22px; }
-    .hero-card,.year-block { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:18px; }
-    .hero-card h2,.year-block h2 { margin:0 0 12px; font-size:1.05rem; color:var(--accent); }
-    .dashboard-link { display:inline-block; margin-top:10px; padding:10px 14px; border:1px solid var(--line); border-radius:10px; color:var(--text); text-decoration:none; background:#11161d; }
-    .dashboard-link:hover,.page-link:hover { border-color:var(--accent); color:var(--accent); }
-    .page-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
-    .page-link { display:block; padding:12px 14px; border:1px solid var(--line); border-radius:10px; text-decoration:none; color:var(--text); background:#11161d; }
-    .empty-note { color:var(--muted); margin:0; }
+    :root {
+      --bg: #1c1c1e;
+      --card: #2c2c2e;
+      --line: #444;
+      --text: #fff;
+      --muted: #a8adb5;
+      --accent: #0a84ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); }
+    .global-nav { position: sticky; top: 0; z-index: 20; background: #19191d; border-bottom: 1px solid var(--line); display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 16px; }
+    .global-nav a { color: #c6ccd6; text-decoration: none; padding: 6px 12px; border-radius: 8px; }
+    .global-nav a.active, .global-nav a:hover { color: var(--accent); background: #24242a; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 18px; }
+    h1 { font-size: 2rem; margin-bottom: 8px; }
+    .sub { color: var(--muted); margin-bottom: 16px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+    .card .label { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .card .value { font-size: 1.8rem; font-weight: 700; margin-top: 6px; color: #fff; }
+    .section { margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+    .section h2 { font-size: 1.05rem; margin-bottom: 12px; color: #fff; }
+    .grid-links { display: grid; grid-template-columns: repeat(auto-fit,minmax(165px,1fr)); gap: 10px; }
+    .link-card { background: #232327; border: 1px solid #4a4a4a; border-radius: 10px; padding: 12px; text-decoration: none; color: #fff; }
+    .link-card .icon { font-size: 1.4rem; margin-right: 8px; }
+    .link-card .title { font-weight: 600; }
+    .link-card .desc { color: var(--muted); font-size: .88rem; margin-top: 4px; }
+    .section-group { margin-bottom: 32px; }
+    .section-header { font-size: 16px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { text-align: left; color: var(--muted); font-weight: 600; }
+    tr:nth-child(even) td { background: #242429; }
+    .footer { margin-top: 16px; color: var(--muted); font-size: .82rem; text-align: right; }
   </style>
 </head>
 <body>
-<nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
+  
+    <nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
   <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
   <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
   <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
@@ -44,18 +67,34 @@
 </script>
 <div class="container">
   <h1>🥗 Nutrition</h1>
-  <p class="subtitle">Nutrition dashboard and any section sub-pages.</p>
-  <section class="hero-card">
-    <h2>Main dashboard</h2>
-    <p>Primary nutrition dashboard with intake and recovery insights.</p>
-    <a class="dashboard-link" href="index.html">Open this section dashboard</a>
+  <div class="sub">Nutrition tracking, macro analysis, and recovery correlation</div>
+
+  <section class="section">
+    <div class="section-group">
+      <h3 class="section-header">📊 Reports</h3>
+      <div class="link-grid">
+        <a class="link-card" href="../nutrition_report.html"><span class="title">Nutrition Report</span></a>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3 class="section-header">🔗 Recovery &amp; Performance</h3>
+      <div class="link-grid">
+        <a class="link-card" href="nutrition_recovery_currency/"><span class="title">Nutrition Recovery Currency</span></a>
+        <a class="link-card" href="nutrition_recovery_correlation/"><span class="title">Nutrition Recovery Correlation</span></a>
+        <a class="link-card" href="../nutrition_recovery_lag/"><span class="title">Nutrition Recovery Lag</span></a>
+        <a class="link-card" href="../nutrition_performance/"><span class="title">Nutrition Performance</span></a>
+      </div>
+    </div>
+
+    <div class="section-group">
+      <h3 class="section-header">📱 Cronometer</h3>
+      <div class="link-grid">
+        <a class="link-card" href="../cronometer_training_alignment/"><span class="title">Cronometer Training Alignment</span></a>
+      </div>
+    </div>
   </section>
-  <section class="year-block"><h2>Section pages</h2><p class="empty-note">No extra sub-pages live inside this directory yet. Use the main dashboard above.</p></section>
 </div>
-
-
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
