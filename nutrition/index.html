@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🥗 Nutrition</title>
+  <title>Nutrition Dashboard</title>
   <style>
     :root {
       --bg: #1c1c1e;
@@ -40,11 +40,11 @@
     th { text-align: left; color: var(--muted); font-weight: 600; }
     tr:nth-child(even) td { background: #242429; }
     .footer { margin-top: 16px; color: var(--muted); font-size: .82rem; text-align: right; }
+    .muted { color: var(--muted); }
   </style>
 </head>
 <body>
-  
-    <nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
+      <nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
   <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
   <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
   <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
@@ -65,49 +65,12 @@
   document.getElementById('nav-nutrition').href = base + 'nutrition/';
 })();
 </script>
-<div class="container">
-  <h1>🥗 Nutrition</h1>
-  <div class="sub">Nutrition tracking, macro analysis, and recovery correlation</div>
-
-  <section class="section">
-    <div class="section-group">
-      <h3 class="section-header">📊 Reports</h3>
-      <div class="link-grid">
-        <a class="link-card" href="../nutrition_report.html"><span class="title">Nutrition Report</span></a>
-      </div>
-    </div>
-
-    <div class="section-group">
-      <h3 class="section-header">🔗 Recovery &amp; Performance</h3>
-      <div class="link-grid">
-        <a class="link-card" href="nutrition_recovery_currency/"><span class="title">Nutrition Recovery Currency</span></a>
-        <a class="link-card" href="nutrition_recovery_correlation/"><span class="title">Nutrition Recovery Correlation</span></a>
-        <a class="link-card" href="../nutrition_recovery_lag/"><span class="title">Nutrition Recovery Lag</span></a>
-        <a class="link-card" href="../nutrition_performance/"><span class="title">Nutrition Performance</span></a>
-      </div>
-    </div>
-
-    <div class="section-group">
-      <h3 class="section-header">📱 Cronometer</h3>
-      <div class="link-grid">
-        <a class="link-card" href="../cronometer_training_alignment/"><span class="title">Cronometer Training Alignment</span></a>
-      </div>
-    </div>
-  </section>
-</div>
-<!-- morning_report_link_injected --><script>
-(function(){
-  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
-    var t = el.textContent.trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
-      el.innerHTML =
-        '<a href="/fitness/morning_report_' + t + '.html" ' +
-        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
-        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
-        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
-    }
-  });
-})();
-</script>
+  <div class="container">
+    <h1>Nutrition Dashboard</h1>
+    <div class="sub">Live Cronometer nutrition summary · Updated Monday, 2026-03-30 10:00 ET</div>
+    <div class="stats"><div class="card"><div class="label">Avg daily calories, last 7 days</div><div class="value">610</div></div><div class="card"><div class="label">Avg daily protein, last 7 days</div><div class="value">102.0 g</div></div><div class="card"><div class="label">Yesterday calories</div><div class="value">N/A</div><div class="label" style="margin-top:6px;text-transform:none;letter-spacing:0;">2026-03-29</div></div><div class="card"><div class="label">Yesterday protein</div><div class="value">N/A</div><div class="label" style="margin-top:6px;text-transform:none;letter-spacing:0;">2026-03-29</div></div></div>
+    <section class="section"><h2>Last 14 days of nutrition</h2><table><thead><tr><th>Date</th><th>Calories</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th></tr></thead><tbody><tr><td>2026-03-30</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-29</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-28</td><td>360</td><td>64.0</td><td>20.0</td><td>4.0</td></tr><tr><td>2026-03-27</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-26</td><td>860</td><td>140.0</td><td>46.0</td><td>18.0</td></tr><tr><td>2026-03-25</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-23</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-20</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-19</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-18</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>2026-03-17</td><td>2,298</td><td>280.7</td><td>107.6</td><td>84.5</td></tr><tr><td>2026-03-16</td><td>2,560</td><td>377.7</td><td>165.0</td><td>44.4</td></tr><tr><td>2026-03-12</td><td>3,200</td><td>366.0</td><td>118.0</td><td>149.0</td></tr><tr><td>2026-03-11</td><td>2,169</td><td>260.1</td><td>121.0</td><td>76.3</td></tr></tbody></table></section><section class="section"><h2>Nutrition links</h2><div class="section-group"><div class="link-grid"><a class="link-card" href="../cronometer_training_alignment/index.html"><span class="title">Cronometer-Training Alignment</span></a><a class="link-card" href="../nutrition/index.html"><span class="title">Nutrition &amp; Recovery</span></a><a class="link-card" href="../nutrition/nutrition_recovery_correlation/index.html"><span class="title">Nutrition Recovery Correlation</span></a><a class="link-card" href="../nutrition/nutrition_recovery_currency/index.html"><span class="title">Nutrition Recovery Currency</span></a><a class="link-card" href="../nutrition_performance/index.html"><span class="title">Nutrition ↔ Performance</span></a><a class="link-card" href="../nutrition_recovery_lag/index.html"><span class="title">Nutrition-Recovery Lag</span></a></div></div></section>
+    <div class="footer">Source: Cronometer daily summary export.</div>
+  </div>
 </body>
 </html>
