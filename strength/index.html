@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Strength - Fitness Ecosystem</title>
+  <title>Strength Dashboard</title>
   <style>
     :root {
       --bg: #1c1c1e;
@@ -40,11 +40,11 @@
     th { text-align: left; color: var(--muted); font-weight: 600; }
     tr:nth-child(even) td { background: #242429; }
     .footer { margin-top: 16px; color: var(--muted); font-size: .82rem; text-align: right; }
+    .muted { color: var(--muted); }
   </style>
 </head>
 <body>
-  
-    <nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
+      <nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
   <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
   <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
   <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
@@ -65,125 +65,12 @@
   document.getElementById('nav-nutrition').href = base + 'nutrition/';
 })();
 </script>
-<div class="container">
-    <h1>💪 Strength Index</h1>
-    <div class="sub">Comprehensive index of strength-related pages across the site.</div>
-
-    <section class="section">
-      <h2>Sections</h2>
-      <div class="section-group">
-        <h3 class="section-header">📊 Overview &amp; Summary</h3>
-        <div class="link-grid">
-          <a class="link-card" href="integrated_summary.html"><span class="title">Integrated Summary</span></a>
-          <a class="link-card" href="../lifting_recovery_report.html"><span class="title">Lifting Recovery Report</span></a>
-          <a class="link-card" href="../achievements/strength.html"><span class="title">Achievements Strength</span></a>
-          <a class="link-card" href="../exercises/strength-essentials.html"><span class="title">Exercises Strength Essentials</span></a>
-          <a class="link-card" href="../exercises/strength-with-brendon.html"><span class="title">Exercises Strength With Brendon</span></a>
-          <a class="link-card" href="../exercises/strength-with-woody.html"><span class="title">Exercises Strength With Woody</span></a>
-          <a class="link-card" href="../reports/strength_volume_recovery_curve.html"><span class="title">Reports Strength Volume Recovery Curve</span></a>
-          <a class="link-card" href="../reports/workout_complementarity.html"><span class="title">Reports Workout Complementarity</span></a>
-          <a class="link-card" href="../reports/workout_sequence_optimizer.html"><span class="title">Reports Workout Sequence Optimizer</span></a>
-          <a class="link-card" href="../reports/workout_streak_preservation.html"><span class="title">Reports Workout Streak Preservation</span></a>
-          <a class="link-card" href="../running_strength_correlation/"><span class="title">Running Strength Correlation</span></a>
-          <a class="link-card" href="../sleep_strength_prediction/"><span class="title">Sleep Strength Prediction</span></a>
-          <a class="link-card" href="../sleep_workout_matcher/"><span class="title">Sleep Workout Matcher</span></a>
-          <a class="link-card" href="../sleep_workout_pipeline/"><span class="title">Sleep Workout Pipeline</span></a>
-          <a class="link-card" href="../sleep_workout_quality_bridge/"><span class="title">Sleep Workout Quality Bridge</span></a>
-          <a class="link-card" href="../sleep_workout_quality_bridge/patterns.html"><span class="title">Sleep Workout Quality Bridge Patterns</span></a>
-          <a class="link-card" href="../workout_quality/"><span class="title">Workout Quality</span></a>
-          <a class="link-card" href="../workout_quality_by_sleep_buckets/"><span class="title">Workout Quality By Sleep Buckets</span></a>
-          <a class="link-card" href="../workout_quality_predictor/"><span class="title">Workout Quality Predictor</span></a>
-          <a class="link-card" href="../workout_recall_explorer/"><span class="title">Workout Recall Explorer</span></a>
-          <a class="link-card" href="../workout_signature/"><span class="title">Workout Signature</span></a>
-          <a class="link-card" href="../workout_split_analyzer/"><span class="title">Workout Split Analyzer</span></a>
-        </div>
-      </div>
-
-      <div class="section-group">
-        <h3 class="section-header">🏋️ Tonal</h3>
-        <div class="link-grid">
-          <a class="link-card" href="../tonal_dashboard.html"><span class="title">Tonal Dashboard</span></a>
-          <a class="link-card" href="../tonal_explorer/"><span class="title">Tonal Explorer</span></a>
-          <a class="link-card" href="../gear/tonal/"><span class="title">Gear Tonal</span></a>
-          <a class="link-card" href="../reports/tonal_volume_timeline.html"><span class="title">Reports Tonal Volume Timeline</span></a>
-          <a class="link-card" href="../blog/tonal-scam-review/"><span class="title">Blog Tonal Scam Review</span></a>
-        </div>
-      </div>
-
-      <div class="section-group">
-        <h3 class="section-header">⚡ Speediance</h3>
-        <div class="link-grid">
-          <a class="link-card" href="../speediance_dashboard.html"><span class="title">Speediance Dashboard</span></a>
-          <a class="link-card" href="../speediance/"><span class="title">Speediance</span></a>
-          <a class="link-card" href="../gear/speediance-gym-monster-2s/"><span class="title">Gear Speediance Gym Monster 2S</span></a>
-          <a class="link-card" href="../gear/speediance-gym-monster-original/"><span class="title">Gear Speediance Gym Monster Original</span></a>
-          <a class="link-card" href="../blog/1-2-million-pounds-speediance-7-month-review/"><span class="title">Blog 1 2 Million Pounds Speediance 7 Month Review</span></a>
-          <a class="link-card" href="../blog/speediance-1rm-system-exposed/"><span class="title">Blog Speediance 1Rm System Exposed</span></a>
-          <a class="link-card" href="../blog/speediance-2s-first-look-review/"><span class="title">Blog Speediance 2S First Look Review</span></a>
-          <a class="link-card" href="../blog/speediance-2s-modes-explained/"><span class="title">Blog Speediance 2S Modes Explained</span></a>
-          <a class="link-card" href="../blog/speediance-partner-mode-v2-vs-v3/"><span class="title">Blog Speediance Partner Mode V2 Vs V3</span></a>
-          <a class="link-card" href="../blog/speediance-safety-start-problem/"><span class="title">Blog Speediance Safety Start Problem</span></a>
-          <a class="link-card" href="../blog/speediance-v31-update/"><span class="title">Blog Speediance V31 Update</span></a>
-        </div>
-      </div>
-
-      <div class="section-group">
-        <h3 class="section-header">💪 Muscle Analysis</h3>
-        <div class="link-grid">
-          <a class="link-card" href="../muscle_dependency_map/"><span class="title">Muscle Dependency Map</span></a>
-          <a class="link-card" href="../muscle_depreciation/"><span class="title">Muscle Depreciation</span></a>
-          <a class="link-card" href="../muscle_fatigue_heatmap/"><span class="title">Muscle Fatigue Heatmap</span></a>
-          <a class="link-card" href="../muscle_frequency/"><span class="title">Muscle Frequency</span></a>
-          <a class="link-card" href="../muscle_group_seasonality/"><span class="title">Muscle Group Seasonality</span></a>
-          <a class="link-card" href="../muscle_groups/"><span class="title">Muscle Groups</span></a>
-          <a class="link-card" href="../muscle_growth/"><span class="title">Muscle Growth</span></a>
-          <a class="link-card" href="../muscle_last_worked_calendar/"><span class="title">Muscle Last Worked Calendar</span></a>
-          <a class="link-card" href="../muscle_pr_timeline/"><span class="title">Muscle Pr Timeline</span></a>
-          <a class="link-card" href="../muscle_recovery/"><span class="title">Muscle Recovery</span></a>
-          <a class="link-card" href="../muscle_symmetry/"><span class="title">Muscle Symmetry</span></a>
-          <a class="link-card" href="muscle_asset_rebalancer/"><span class="title">Muscle Asset Rebalancer</span></a>
-        </div>
-      </div>
-
-      <div class="section-group">
-        <h3 class="section-header">📈 Lifting Recovery Reports</h3>
-        <div class="link-grid">
-          <a class="link-card" href="../lifting_recovery_report_2026-03-29.html"><span class="title">Lifting Recovery Report 2026-03-29</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-28.html"><span class="title">Lifting Recovery Report 2026-03-28</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-27.html"><span class="title">Lifting Recovery Report 2026-03-27</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-25.html"><span class="title">Lifting Recovery Report 2026-03-25</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-24.html"><span class="title">Lifting Recovery Report 2026-03-24</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-23.html"><span class="title">Lifting Recovery Report 2026-03-23</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-22.html"><span class="title">Lifting Recovery Report 2026-03-22</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-21.html"><span class="title">Lifting Recovery Report 2026-03-21</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-19.html"><span class="title">Lifting Recovery Report 2026-03-19</span></a>
-          <a class="link-card" href="../lifting_recovery_report_2026-03-18.html"><span class="title">Lifting Recovery Report 2026-03-18</span></a>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">Updated: 2026-03-30 09:48 ET</div>
+  <div class="container">
+    <h1>Strength Dashboard</h1>
+    <div class="sub">Live WHOOP, Tonal, and Speediance strength snapshot · Updated Monday, 2026-03-30 10:00 ET</div>
+    <div class="stats"><div class="card"><div class="label">WHOOP strength strain this week</div><div class="value">25.0</div></div><div class="card"><div class="label">BJJ strain this week</div><div class="value">24.2</div></div><div class="card"><div class="label">Last Tonal session</div><div class="value">2025-04-01</div><div class="label" style="margin-top:6px;text-transform:none;letter-spacing:0;">24,091 lbs</div></div><div class="card"><div class="label">Last Speediance session</div><div class="value">2026-03-19</div><div class="label" style="margin-top:6px;text-transform:none;letter-spacing:0;">Arms Barbell · 4,563 lbs</div></div></div>
+    <section class="section"><h2>Last 14 days of strength workouts</h2><table><thead><tr><th>Date</th><th>Type</th><th>Strain</th></tr></thead><tbody><tr><td>2026-03-30</td><td>Jiu Jitsu</td><td>9.0</td></tr><tr><td>2026-03-29</td><td>Weightlifting</td><td>8.5</td></tr><tr><td>2026-03-28</td><td>Weightlifting</td><td>5.3</td></tr><tr><td>2026-03-27</td><td>Jiu Jitsu</td><td>8.2</td></tr><tr><td>2026-03-26</td><td>Weightlifting</td><td>10.9</td></tr><tr><td>2026-03-26</td><td>Weightlifting</td><td>0.3</td></tr><tr><td>2026-03-25</td><td>Jiu Jitsu</td><td>6.9</td></tr><tr><td>2026-03-20</td><td>Jiu Jitsu</td><td>12.1</td></tr><tr><td>2026-03-18</td><td>Jiu Jitsu</td><td>5.5</td></tr><tr><td>2026-03-17</td><td>Weightlifting</td><td>10.9</td></tr><tr><td>2026-03-12</td><td>Weightlifting</td><td>10.6</td></tr><tr><td>2026-03-11</td><td>Jiu Jitsu</td><td>7.7</td></tr><tr><td>2026-02-22</td><td>Weightlifting</td><td>10.9</td></tr><tr><td>2026-02-18</td><td>Weightlifting</td><td>11.1</td></tr></tbody></table></section><section class="section"><h2>Strength links</h2><div class="section-group"><div class="link-grid"><a class="link-card" href="../exercises/index.html"><span class="title">Exercise Library</span></a><a class="link-card" href="../training_hypertrophy/index.html"><span class="title">Hypertrophy Tracker</span></a><a class="link-card" href="../muscle_growth/index.html"><span class="title">Hypertrophy Volume Finder</span></a><a class="link-card" href="../strength/integrated_summary.html"><span class="title">Integrated Summary</span></a><a class="link-card" href="../strength/muscle_asset_rebalancer/index.html"><span class="title">Muscle Asset Rebalancer</span></a><a class="link-card" href="../muscle_dependency_map/index.html"><span class="title">Muscle Dependency Map</span></a><a class="link-card" href="../muscle_depreciation/index.html"><span class="title">Muscle Depreciation</span></a><a class="link-card" href="../muscle_fatigue_heatmap/index.html"><span class="title">Muscle Fatigue Heatmap</span></a><a class="link-card" href="../muscle_frequency/index.html"><span class="title">Muscle Frequency &amp; Recovery</span></a><a class="link-card" href="../muscle_groups/index.html"><span class="title">Muscle Group Volume</span></a><a class="link-card" href="../muscle_recovery/index.html"><span class="title">Muscle Recovery Map</span></a><a class="link-card" href="../muscle_symmetry/index.html"><span class="title">Muscle Symmetry Score</span></a><a class="link-card" href="../personal_bests_timeline/index.html"><span class="title">Personal Best Timeline</span></a><a class="link-card" href="../speediance/index.html"><span class="title">Speediance Journey</span></a><a class="link-card" href="../strength/index.html"><span class="title">Strength Dashboard</span></a><a class="link-card" href="../tonal_explorer/index.html"><span class="title">Tonal Exercise Explorer</span></a><a class="link-card" href="../workout_signature/index.html"><span class="title">Workout Signature DNA</span></a><a class="link-card" href="../workout_split_analyzer/index.html"><span class="title">Workout Split Analyzer</span></a><a class="link-card" href="../yoy_progress/index.html"><span class="title">Year-over-Year Progress</span></a></div></div></section>
+    <div class="footer">Sources: WHOOP workouts, Tonal workouts export, Speediance dashboard data.</div>
   </div>
-
-
-
-
-
-
-
-<!-- morning_report_link_injected --><script>
-(function(){
-  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
-    var t = el.textContent.trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
-      el.innerHTML =
-        '<a href="/fitness/morning_report_' + t + '.html" ' +
-        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
-        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
-        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
-    }
-  });
-})();
-</script>
 </body>
 </html>
