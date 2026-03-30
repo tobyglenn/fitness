@@ -28,6 +28,27 @@ footer { text-align: center; color: #6e7681; font-size: 12px; padding: 20px; mar
 </style>
 </head>
 <body>
+<nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
+  <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+  <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+  <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  <a id="nav-running" href="#" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+  <a id="nav-sleep" href="#" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+  <a id="nav-nutrition" href="#" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+</nav>
+<script>
+(function(){
+  var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.startsWith('192.168.');
+  var base = isLocal ? 'http://192.168.1.249:8080/' : 'https://tobyglenn.github.io/fitness/';
+  document.getElementById('nav-hub').href = base;
+  document.getElementById('nav-calendars').href = base + 'calendars/';
+  document.getElementById('nav-strength').href = base + 'strength/';
+  document.getElementById('nav-running').href = base + 'running/';
+  document.getElementById('nav-sleep').href = base + 'sleep/';
+  document.getElementById('nav-nutrition').href = base + 'nutrition/';
+})();
+</script>
+
 
 <nav>
   <a href="../hub_index.html">🏠 Home</a>
@@ -168,6 +189,7 @@ footer { text-align: center; color: #6e7681; font-size: 12px; padding: 20px; mar
   Inter-Week Recovery Balance &bull; Tonal + WHOOP + Garmin &bull; <a href="../hub_index.html" style="color:#f39c12">← Back to Hub</a>
 </footer>
 <script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
 
 
 
