@@ -45,27 +45,6 @@ h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
 </style>
 </head>
 <body>
-<nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
-  <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
-  <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
-  <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
-  <a id="nav-running" href="#" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
-  <a id="nav-sleep" href="#" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
-  <a id="nav-nutrition" href="#" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
-</nav>
-<script>
-(function(){
-  var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.startsWith('192.168.');
-  var base = isLocal ? 'http://192.168.1.249:8080/' : 'https://tobyglenn.github.io/fitness/';
-  document.getElementById('nav-hub').href = base;
-  document.getElementById('nav-calendars').href = base + 'calendars/';
-  document.getElementById('nav-strength').href = base + 'strength/';
-  document.getElementById('nav-running').href = base + 'running/';
-  document.getElementById('nav-sleep').href = base + 'sleep/';
-  document.getElementById('nav-nutrition').href = base + 'nutrition/';
-})();
-</script>
-
 <nav>
   <span class="brand">🏆 Fitness Ecosystem</span>
   <a href="../index.html">🏠 Hub</a>
@@ -91,6 +70,7 @@ h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
   <div class="badge-grid"><div class="badge-card earned"><div class="badge-icon">🏋️</div><div class="badge-name">First Lift</div><div class="badge-desc">Complete first Tonal workout</div><div class="badge-date">✅ Oct 02, 2021</div></div><div class="badge-card earned"><div class="badge-icon">💪</div><div class="badge-name">Century Set</div><div class="badge-desc">100 total Tonal workouts</div><div class="badge-date">✅ Jan 14, 2022</div></div><div class="badge-card earned"><div class="badge-icon">🔥</div><div class="badge-name">Double Century</div><div class="badge-desc">200 total Tonal workouts</div><div class="badge-date">✅ Jul 03, 2022</div></div><div class="badge-card earned"><div class="badge-icon">👑</div><div class="badge-name">Volume King</div><div class="badge-desc">100,000 lbs total volume</div><div class="badge-date">✅ Oct 14, 2021</div></div><div class="badge-card earned"><div class="badge-icon">💎</div><div class="badge-name">Millionaire</div><div class="badge-desc">1,000,000 lbs total volume</div><div class="badge-date">✅ Jun 18, 2022</div></div><div class="badge-card earned"><div class="badge-icon">👑</div><div class="badge-name">Consistency King</div><div class="badge-desc">4+ workouts/week for 8 consecutive weeks</div></div><div class="badge-card locked"><div class="badge-icon">📈</div><div class="badge-name">PR Machine</div><div class="badge-desc">Set 10+ personal records</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div><div class="progress-text">0 / 10</div></div><div class="badge-card earned"><div class="badge-icon">🧭</div><div class="badge-name">Exercise Explorer</div><div class="badge-desc">Try 20+ unique exercises</div></div></div>
 </main>
 <script>(function(){document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){var t=el.textContent.trim();if(/^d{4}-d{2}-d{2}$/.test(t)
+
 
 
 
