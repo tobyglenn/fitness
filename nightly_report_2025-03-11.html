@@ -65,18 +65,27 @@
     </style>
 </head>
 <body>
-<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
-  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
-    <a href="/fitness/" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
-    <a href="/fitness/calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
-    <a href="/fitness/strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
-  </div>
-  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
-    <a href="/fitness/running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
-    <a href="/fitness/sleep/" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
-    <a href="/fitness/nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
-  </div>
+<nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
+  <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+  <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+  <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  <a id="nav-running" href="#" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+  <a id="nav-sleep" href="#" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
+  <a id="nav-nutrition" href="#" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
 </nav>
+<script>
+(function(){
+  var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.startsWith('192.168.');
+  var base = isLocal ? 'http://192.168.1.249:8080/' : 'https://tobyglenn.github.io/fitness/';
+  var depth = (location.pathname.match(/\//g)||[]).length - 1;
+  document.getElementById('nav-hub').href = base;
+  document.getElementById('nav-calendars').href = base + 'calendars/';
+  document.getElementById('nav-strength').href = base + 'strength/';
+  document.getElementById('nav-running').href = base + 'running/';
+  document.getElementById('nav-sleep').href = base + 'sleep/';
+  document.getElementById('nav-nutrition').href = base + 'nutrition/';
+})();
+</script>
 <!-- cross_report_link_injected --><div style="text-align:center;margin:8px auto"><a href="morning_report_2025-03-11.html" style="display:inline-block;padding:6px 14px;background:#1c2a3a;color:#58a6ff;border:1px solid #30363d;border-radius:6px;text-decoration:none;font-size:13px;margin:8px 0">☀️ View Morning Report (2025-03-11)</a></div>
     <style>
         .factor-pill {
