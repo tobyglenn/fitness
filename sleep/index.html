@@ -1,76 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sleep &amp; Recovery Dashboard</title>
-  <style>
-    :root {
-      --bg: #1c1c1e;
-      --card: #2c2c2e;
-      --line: #444;
-      --text: #fff;
-      --muted: #a8adb5;
-      --accent: #0a84ff;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); }
-    .global-nav { position: sticky; top: 0; z-index: 20; background: #19191d; border-bottom: 1px solid var(--line); display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 16px; }
-    .global-nav a { color: #c6ccd6; text-decoration: none; padding: 6px 12px; border-radius: 8px; }
-    .global-nav a.active, .global-nav a:hover { color: var(--accent); background: #24242a; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 18px; }
-    h1 { font-size: 2rem; margin-bottom: 8px; }
-    .sub { color: var(--muted); margin-bottom: 16px; }
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 18px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
-    .card .label { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: 0.03em; }
-    .card .value { font-size: 1.8rem; font-weight: 700; margin-top: 6px; color: #fff; }
-    .section { margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-    .section h2 { font-size: 1.05rem; margin-bottom: 12px; color: #fff; }
-    .grid-links { display: grid; grid-template-columns: repeat(auto-fit,minmax(165px,1fr)); gap: 10px; }
-    .link-card { background: #232327; border: 1px solid #4a4a4a; border-radius: 10px; padding: 12px; text-decoration: none; color: #fff; }
-    .link-card .icon { font-size: 1.4rem; margin-right: 8px; }
-    .link-card .title { font-weight: 600; }
-    .link-card .desc { color: var(--muted); font-size: .88rem; margin-top: 4px; }
-    .section-group { margin-bottom: 32px; }
-    .section-header { font-size: 16px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-    .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
-    th, td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
-    th { text-align: left; color: var(--muted); font-weight: 600; }
-    tr:nth-child(even) td { background: #242429; }
-    .footer { margin-top: 16px; color: var(--muted); font-size: .82rem; text-align: right; }
-    .muted { color: var(--muted); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sleep Dashboard 🛏️</title>
+<style>
+* {box-sizing:border-box;margin:0;padding:0}
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --blue: #58a6ff;
+  --green: #2ea043;
+  --yellow: #f39c12;
+  --red: #f85149;
+  --line: #30363d;
+}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh}
+nav{background:var(--card);border-bottom:1px solid var(--line);padding:12px 24px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+nav a{color:var(--muted);text-decoration:none;font-size:0.9em;padding:4px 10px;border-radius:6px;transition:all .2s}nav>div>a{padding:0;border-radius:0;font-size:14px}
+nav a:hover{color:var(--text);background:#21262d}
+nav a.active{color:var(--blue);background:rgba(88,166,255,0.1)}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}
+h1{font-size:2em;margin-bottom:4px}
+.subtitle{color:var(--muted);font-size:0.95em;margin-bottom:4px}
+.updated{color:var(--muted);font-size:0.8em;margin-bottom:28px}
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.card-label{color:var(--muted);font-size:0.78em;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.card-value{font-size:2.2em;font-weight:700;line-height:1}
+.card-sub{color:var(--muted);font-size:0.82em;margin-top:6px}
+.section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;margin-bottom:24px}
+.section h2{font-size:1.1em;margin-bottom:16px;color:var(--text)}
+.section p{color:var(--muted);font-size:0.88em;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;font-size:0.88em}
+th{color:var(--muted);font-weight:600;text-align:left;padding:8px 12px;border-bottom:1px solid #21262d}
+td{padding:7px 12px;border-bottom:1px solid #161b22}
+tr:hover td{background:#1c2128}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.82em;color:var(--muted)}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:12px}
+.link-card{display:block;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;text-decoration:none;color:var(--text);font-size:14px}
+.link-card:hover{border-color:var(--blue);color:var(--blue)}
+@media(max-width:600px){.hero{grid-template-columns:1fr 1fr}h1{font-size:1.5em}}
+</style>
 </head>
 <body>
-      <nav id="site-nav" style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;">
-  <a id="nav-hub" href="#" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
-  <a id="nav-calendars" href="#" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
-  <a id="nav-strength" href="#" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
-  <a id="nav-running" href="#" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
-  <a id="nav-sleep" href="#" style="color:#a0aec0;text-decoration:none;">😴 Sleep &amp; Recovery</a>
-  <a id="nav-nutrition" href="#" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
-</nav>
-<script>
-(function(){
-  var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.startsWith('192.168.');
-  var base = isLocal ? 'http://192.168.1.249:8080/' : 'https://tobyglenn.github.io/fitness/';
-  var depth = (location.pathname.match(/\//g)||[]).length - 1;
-  document.getElementById('nav-hub').href = base;
-  document.getElementById('nav-calendars').href = base + 'calendars/';
-  document.getElementById('nav-strength').href = base + 'strength/';
-  document.getElementById('nav-running').href = base + 'running/';
-  document.getElementById('nav-sleep').href = base + 'sleep/';
-  document.getElementById('nav-nutrition').href = base + 'nutrition/';
-})();
-</script>
-  <div class="container">
-    <h1>Sleep &amp; Recovery Dashboard</h1>
-    <div class="sub">Live 8Sleep and WHOOP recovery snapshot · Updated Monday, 2026-03-30 10:02 ET</div>
-    <div class="stats"><div class="card"><div class="label">Avg 8Sleep score, last 7 days</div><div class="value">79.1</div></div><div class="card"><div class="label">Avg WHOOP recovery, last 7 days</div><div class="value">51.0</div></div><div class="card"><div class="label">Last night HRV</div><div class="value">23.7</div></div><div class="card"><div class="label">Last night sleep duration</div><div class="value">6.17 h</div></div></div>
-    <section class="section"><h2>Last 14 days of sleep and recovery</h2><table><thead><tr><th>Date</th><th>8Sleep Score</th><th>WHOOP Recovery</th><th>HRV</th><th>Duration (h)</th></tr></thead><tbody><tr><td>2026-03-30</td><td>68</td><td>51</td><td>23.7</td><td>6.17</td></tr><tr><td>2026-03-29</td><td>88</td><td>80</td><td>26.4</td><td>8.62</td></tr><tr><td>2026-03-28</td><td>82</td><td>50</td><td>20.4</td><td>7.29</td></tr><tr><td>2026-03-27</td><td>78</td><td>58</td><td>22.2</td><td>6.79</td></tr><tr><td>2026-03-26</td><td>79</td><td>39</td><td>23.7</td><td>6.26</td></tr><tr><td>2026-03-25</td><td>80</td><td>78</td><td>26.8</td><td>6.34</td></tr><tr><td>2026-03-24</td><td>79</td><td>1</td><td>18.1</td><td>7.83</td></tr><tr><td>2026-03-23</td><td>56</td><td>9</td><td>17.0</td><td>2.41</td></tr><tr><td>2026-03-22</td><td>87</td><td>40</td><td>22.3</td><td>8.98</td></tr><tr><td>2026-03-21</td><td>90</td><td>58</td><td>25.3</td><td>8.06</td></tr><tr><td>2026-03-20</td><td>58</td><td>20</td><td>36.6</td><td>4.27</td></tr><tr><td>2026-03-19</td><td>80</td><td>52</td><td>25.3</td><td>6.76</td></tr><tr><td>2026-03-18</td><td>74</td><td>34</td><td>105.2</td><td>5.68</td></tr><tr><td>2026-03-17</td><td>62</td><td>39</td><td>78.9</td><td>5.33</td></tr></tbody></table></section><section class="section"><h2>Sleep links</h2><div class="section-group"><div class="link-grid"><a class="link-card" href="../recovery_forecaster/index.html"><span class="title">7-Day Recovery Forecast</span></a><a class="link-card" href="../recovery_pipeline/index.html"><span class="title">72-Hour Recovery Pipeline</span></a><a class="link-card" href="../divergence_detector/index.html"><span class="title">8Sleep ↔ WHOOP Divergence</span></a><a class="link-card" href="../sleep/consistency.html"><span class="title">Consistency</span></a><a class="link-card" href="../hrv_analysis/index.html"><span class="title">HRV Analysis</span></a><a class="link-card" href="../hrv_triage/index.html"><span class="title">HRV Triage Diagnostic</span></a><a class="link-card" href="../recovery_capacity_demand/index.html"><span class="title">Recovery Capacity vs Demand</span></a><a class="link-card" href="../recovery_composite/index.html"><span class="title">Recovery Composite</span></a><a class="link-card" href="../recovery/index.html"><span class="title">Recovery Dashboard</span></a><a class="link-card" href="../recovery_efficiency/index.html"><span class="title">Recovery Efficiency</span></a><a class="link-card" href="../recovery_trends/index.html"><span class="title">Recovery Trends</span></a><a class="link-card" href="../balance/index.html"><span class="title">Recovery-Strain Balance</span></a><a class="link-card" href="../recovery_lag/index.html"><span class="title">Recovery-Workout Lag</span></a><a class="link-card" href="../strain_accumulation/index.html"><span class="title">Rolling Strain Accumulation</span></a><a class="link-card" href="../sleep_architecture_impact/index.html"><span class="title">Sleep Architecture Impact</span></a><a class="link-card" href="../sleep_stacking/index.html"><span class="title">Sleep Architecture Stacking</span></a><a class="link-card" href="../sleep_debt_dashboard/index.html"><span class="title">Sleep Debt Dashboard</span></a><a class="link-card" href="../sleep_stage_predictor/index.html"><span class="title">Sleep Stage Predictor</span></a><a class="link-card" href="../sleep_stage_recovery_impact/index.html"><span class="title">Sleep Stage Recovery Impact</span></a><a class="link-card" href="../sleep_stage_running_bridge/index.html"><span class="title">Sleep → Running Bridge</span></a><a class="link-card" href="../sleep_strength_prediction/index.html"><span class="title">Sleep → Strength Predictor</span></a><a class="link-card" href="../sleep_workout_matcher/index.html"><span class="title">Sleep → Workout Matcher</span></a><a class="link-card" href="../sleep_workout_pipeline/index.html"><span class="title">Sleep → Workout Pipeline</span></a><a class="link-card" href="../sleep_workout_quality_bridge/index.html"><span class="title">Sleep-Workout Quality Bridge</span></a><a class="link-card" href="../strain_vs_capacity/index.html"><span class="title">Strain vs Adaptive Capacity</span></a><a class="link-card" href="../strain_balance_heatmap/index.html"><span class="title">Weekly Strain Heatmap</span></a></div></div></section>
-    <div class="footer">Sources: 8Sleep nightly exports and WHOOP recovery records.</div>
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="../" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="../calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="../strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
   </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="../running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="../sleep/" style="color:#ffffff;font-weight:bold">😴 Sleep &amp; Recovery</a>
+    <a href="../nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>🛏️ Sleep Dashboard</h1>
+  <div class="subtitle">8Sleep + WHOOP sleep metrics — last 30 days</div>
+  <div class="updated">Updated: March 31, 2026 03:02 AM ET</div>
+
+  <!-- Hero Stats -->
+  <div class="hero">
+    <div class="card">
+      <div class="card-label">Last Night's 8Sleep Score</div>
+      <div class="card-value" style="color:#f39c12">68</div>
+      <div class="card-sub">🟡 OK</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Avg Sleep Score (30 days)</div>
+      <div class="card-value" style="color:#f39c12">77</div>
+      <div class="card-sub">🟡 OK</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Last WHOOP HRV</div>
+      <div class="card-value" style="color:#2ea043">23.7</div>
+      <div class="card-sub">ms</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Avg HRV (30 days)</div>
+      <div class="card-value" style="color:#2ea043">26.2</div>
+      <div class="card-sub">ms</div>
+    </div>
+  </div>
+
+  <!-- Sleep Score Trend -->
+  <div class="section">
+    <h2>📈 Sleep Score Trend — Last 30 Nights</h2>
+    <p>Daily 8Sleep scores. Green ≥80, yellow 60-79, red &lt;60.</p>
+    <svg viewBox="0 0 900 220" style="width:100%;max-width:900px" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="220" fill="#0d1117" rx="6"/>
+  <text x="42" y="183.0" fill="#8b949e" font-size="9" text-anchor="end">0</text><line x1="50" y1="180.0" x2="880" y2="180.0" stroke="#21262d" stroke-width="1"/><text x="42" y="153.0" fill="#8b949e" font-size="9" text-anchor="end">20</text><line x1="50" y1="150.0" x2="880" y2="150.0" stroke="#21262d" stroke-width="1"/><text x="42" y="123.0" fill="#8b949e" font-size="9" text-anchor="end">40</text><line x1="50" y1="120.0" x2="880" y2="120.0" stroke="#21262d" stroke-width="1"/><text x="42" y="93.0" fill="#8b949e" font-size="9" text-anchor="end">60</text><line x1="50" y1="90.0" x2="880" y2="90.0" stroke="#21262d" stroke-width="1"/><text x="42" y="63.0" fill="#8b949e" font-size="9" text-anchor="end">80</text><line x1="50" y1="60.0" x2="880" y2="60.0" stroke="#21262d" stroke-width="1"/><text x="42" y="33.0" fill="#8b949e" font-size="9" text-anchor="end">100</text><line x1="50" y1="30.0" x2="880" y2="30.0" stroke="#21262d" stroke-width="1"/><rect x="54.1" y="63.0" width="19.4" height="117.0" fill="#f39c12" rx="2"><title>2026-03-02: 78</title></rect><rect x="81.8" y="46.5" width="19.4" height="133.5" fill="#2ea043" rx="2"><title>2026-03-03: 89</title></rect><rect x="109.5" y="48.0" width="19.4" height="132.0" fill="#2ea043" rx="2"><title>2026-03-04: 88</title></rect><rect x="137.2" y="88.5" width="19.4" height="91.5" fill="#f39c12" rx="2"><title>2026-03-05: 61</title></rect><rect x="164.8" y="75.0" width="19.4" height="105.0" fill="#f39c12" rx="2"><title>2026-03-06: 70</title></rect><rect x="192.5" y="117.0" width="19.4" height="63.0" fill="#f85149" rx="2"><title>2026-03-07: 42</title></rect><rect x="220.2" y="85.5" width="19.4" height="94.5" fill="#f39c12" rx="2"><title>2026-03-08: 63</title></rect><rect x="247.8" y="45.0" width="19.4" height="135.0" fill="#2ea043" rx="2"><title>2026-03-09: 90</title></rect><rect x="275.5" y="33.0" width="19.4" height="147.0" fill="#2ea043" rx="2"><title>2026-03-10: 98</title></rect><rect x="303.1" y="58.5" width="19.4" height="121.5" fill="#2ea043" rx="2"><title>2026-03-11: 81</title></rect><rect x="330.8" y="70.5" width="19.4" height="109.5" fill="#f39c12" rx="2"><title>2026-03-12: 73</title></rect><rect x="358.5" y="48.0" width="19.4" height="132.0" fill="#2ea043" rx="2"><title>2026-03-13: 88</title></rect><rect x="441.5" y="52.5" width="19.4" height="127.5" fill="#2ea043" rx="2"><title>2026-03-16: 85</title></rect><rect x="469.1" y="87.0" width="19.4" height="93.0" fill="#f39c12" rx="2"><title>2026-03-17: 62</title></rect><rect x="496.8" y="69.0" width="19.4" height="111.0" fill="#f39c12" rx="2"><title>2026-03-18: 74</title></rect><rect x="524.5" y="60.0" width="19.4" height="120.0" fill="#2ea043" rx="2"><title>2026-03-19: 80</title></rect><rect x="552.1" y="93.0" width="19.4" height="87.0" fill="#f85149" rx="2"><title>2026-03-20: 58</title></rect><rect x="579.8" y="45.0" width="19.4" height="135.0" fill="#2ea043" rx="2"><title>2026-03-21: 90</title></rect><rect x="607.5" y="49.5" width="19.4" height="130.5" fill="#2ea043" rx="2"><title>2026-03-22: 87</title></rect><rect x="635.1" y="96.0" width="19.4" height="84.0" fill="#f85149" rx="2"><title>2026-03-23: 56</title></rect><rect x="662.8" y="61.5" width="19.4" height="118.5" fill="#f39c12" rx="2"><title>2026-03-24: 79</title></rect><rect x="690.5" y="60.0" width="19.4" height="120.0" fill="#2ea043" rx="2"><title>2026-03-25: 80</title></rect><rect x="718.1" y="61.5" width="19.4" height="118.5" fill="#f39c12" rx="2"><title>2026-03-26: 79</title></rect><rect x="745.8" y="63.0" width="19.4" height="117.0" fill="#f39c12" rx="2"><title>2026-03-27: 78</title></rect><rect x="773.5" y="57.0" width="19.4" height="123.0" fill="#2ea043" rx="2"><title>2026-03-28: 82</title></rect><rect x="801.1" y="48.0" width="19.4" height="132.0" fill="#2ea043" rx="2"><title>2026-03-29: 88</title></rect><rect x="828.8" y="78.0" width="19.4" height="102.0" fill="#f39c12" rx="2"><title>2026-03-30: 68</title></rect><text x="63.8" y="196" fill="#8b949e" font-size="9" text-anchor="middle">03-02</text><text x="257.5" y="196" fill="#8b949e" font-size="9" text-anchor="middle">03-09</text><text x="451.2" y="196" fill="#8b949e" font-size="9" text-anchor="middle">03-16</text><text x="644.8" y="196" fill="#8b949e" font-size="9" text-anchor="middle">03-23</text><text x="838.5" y="196" fill="#8b949e" font-size="9" text-anchor="middle">03-30</text><g transform="translate(620, 30)">
+    <rect x="0" y="-15" width="260" height="30" fill="#161b22" rx="4" stroke="#30363d"/>
+    <rect x="10" y="-8" width="12" height="12" fill="#2ea043" rx="2"/>
+    <text x="28" y="0" fill="#8b949e" font-size="9">≥80 Great</text>
+    <rect x="90" y="-8" width="12" height="12" fill="#f39c12" rx="2"/>
+    <text x="108" y="0" fill="#8b949e" font-size="9">60-79 OK</text>
+    <rect x="175" y="-8" width="12" height="12" fill="#f85149" rx="2"/>
+    <text x="193" y="0" fill="#8b949e" font-size="9">&lt;60 Poor</text>
+  </g>
+  <line x1="50" y1="30" x2="50" y2="180" stroke="#8b949e" stroke-width="1"/>
+  <line x1="50" y1="180" x2="880" y2="180" stroke="#8b949e" stroke-width="1"/>
+</svg>
+  </div>
+
+  <!-- Recent Nights Table -->
+  <div class="section">
+    <h2>📊 Recent Nights — Last 14 Days</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th>Date</th>
+        <th>8Sleep Score</th>
+        <th>WHOOP Recovery</th>
+        <th>HRV</th>
+        <th>Hours Slept</th>
+      </tr></thead>
+      <tbody><tr>
+      <td style="color:#c9d1d9">2026-03-02</td>
+      <td><span style="color:#f39c12;font-weight:bold">78</span></td>
+      <td style="color:#f39c12">43%</td>
+      <td style="color:#2ea043">25.9</td>
+      <td style="color:#8b949e">9.4h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-03</td>
+      <td><span style="color:#2ea043;font-weight:bold">89</span></td>
+      <td style="color:#f39c12">44%</td>
+      <td style="color:#2ea043">25.8</td>
+      <td style="color:#8b949e">7.9h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-04</td>
+      <td><span style="color:#2ea043;font-weight:bold">88</span></td>
+      <td style="color:#f39c12">37%</td>
+      <td style="color:#2ea043">22.1</td>
+      <td style="color:#8b949e">—</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-05</td>
+      <td><span style="color:#f39c12;font-weight:bold">61</span></td>
+      <td style="color:#8b949e">—</td>
+      <td style="color:#8b949e">—</td>
+      <td style="color:#8b949e">8.7h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-06</td>
+      <td><span style="color:#f39c12;font-weight:bold">70</span></td>
+      <td style="color:#f39c12">58%</td>
+      <td style="color:#2ea043">33.8</td>
+      <td style="color:#8b949e">7.3h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-07</td>
+      <td><span style="color:#f85149;font-weight:bold">42</span></td>
+      <td style="color:#f39c12">57%</td>
+      <td style="color:#2ea043">34.0</td>
+      <td style="color:#8b949e">7.1h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-08</td>
+      <td><span style="color:#f39c12;font-weight:bold">63</span></td>
+      <td style="color:#f39c12">48%</td>
+      <td style="color:#2ea043">29.4</td>
+      <td style="color:#8b949e">7.9h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-09</td>
+      <td><span style="color:#2ea043;font-weight:bold">90</span></td>
+      <td style="color:#2ea043">73%</td>
+      <td style="color:#2ea043">37.7</td>
+      <td style="color:#8b949e">8.8h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-10</td>
+      <td><span style="color:#2ea043;font-weight:bold">98</span></td>
+      <td style="color:#2ea043">97%</td>
+      <td style="color:#2ea043">42.2</td>
+      <td style="color:#8b949e">7.0h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-11</td>
+      <td><span style="color:#2ea043;font-weight:bold">81</span></td>
+      <td style="color:#2ea043">72%</td>
+      <td style="color:#2ea043">29.3</td>
+      <td style="color:#8b949e">7.0h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-12</td>
+      <td><span style="color:#f39c12;font-weight:bold">73</span></td>
+      <td style="color:#f39c12">56%</td>
+      <td style="color:#2ea043">24.5</td>
+      <td style="color:#8b949e">9.2h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-13</td>
+      <td><span style="color:#2ea043;font-weight:bold">88</span></td>
+      <td style="color:#2ea043">84%</td>
+      <td style="color:#2ea043">36.4</td>
+      <td style="color:#8b949e">9.1h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-14</td>
+      <td><span style="color:#8b949e;font-weight:bold">—</span></td>
+      <td style="color:#2ea043">68%</td>
+      <td style="color:#2ea043">32.1</td>
+      <td style="color:#8b949e">10.4h</td>
+    </tr><tr>
+      <td style="color:#c9d1d9">2026-03-15</td>
+      <td><span style="color:#8b949e;font-weight:bold">—</span></td>
+      <td style="color:#f39c12">48%</td>
+      <td style="color:#2ea043">24.8</td>
+      <td style="color:#8b949e">7.1h</td>
+    </tr></tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Sleep Analysis Sub-Pages -->
+  <div class="section">
+    <h2>🔬 Sleep Analysis</h2>
+    <p>Detailed sleep analytics and correlations:</p>
+    <div class="link-grid">
+      <a href="../sleep_architecture_impact/index.html" class="link-card">Sleep Architecture Impact</a>
+      <a href="../sleep_debt_dashboard/index.html" class="link-card">Sleep Debt Dashboard</a>
+      <a href="../sleep_stacking/index.html" class="link-card">Sleep Architecture Stacking</a>
+      <a href="../sleep_stage_predictor/index.html" class="link-card">Sleep Stage Predictor</a>
+      <a href="../sleep_stage_recovery_impact/index.html" class="link-card">Sleep Stage Recovery Impact</a>
+      <a href="../sleep_stage_running_bridge/index.html" class="link-card">Sleep → Running Bridge</a>
+      <a href="../sleep_strength_prediction/index.html" class="link-card">Sleep → Strength Predictor</a>
+      <a href="../sleep_workout_matcher/index.html" class="link-card">Sleep → Workout Matcher</a>
+      <a href="../sleep_workout_pipeline/index.html" class="link-card">Sleep → Workout Pipeline</a>
+      <a href="../sleep_workout_quality_bridge/index.html" class="link-card">Sleep-Workout Quality Bridge</a>
+      <a href="../divergence_detector/index.html" class="link-card">8Sleep ↔ WHOOP Divergence</a>
+      <a href="../hrv_analysis/index.html" class="link-card">HRV Analysis</a>
+      <a href="../hrv_triage/index.html" class="link-card">HRV Triage Diagnostic</a>
+      <a href="../recovery/index.html" class="link-card">Recovery Dashboard</a>
+    </div>
+  </div>
+</div>
 </body>
 </html>
