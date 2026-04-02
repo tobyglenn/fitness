@@ -138,6 +138,7 @@ tr:hover td { background: #12122a; }
 
 
 
+
 <!-- ═══ SLEEP PERFORMANCE CORRELATIONS (auto-appended by generate_sleep_insights.py) ═══ -->
 
 <section style="margin-top:40px;padding-top:32px;border-top:1px solid #30363d;">
@@ -2147,7 +2148,7 @@ Next-day Volume: 24,091 lbs</title></circle>
 <line x1="65" y1="340" x2="670" y2="340" stroke="#484f58" stroke-width="1.5"/>
 <text x="367" y="392" text-anchor="middle" fill="#8b949e" font-size="12">Hours Slept</text>
 <text x="14" y="190" text-anchor="middle" fill="#8b949e" font-size="12" transform="rotate(-90 14 190)">Run Distance (miles)</text>
-<line x1="65.0" y1="319.3" x2="670.0" y2="309.5" stroke="#f39c12" stroke-width="2" stroke-dasharray="5,5" opacity="0.8"/>
+<line x1="65.0" y1="319.4" x2="670.0" y2="309.4" stroke="#f39c12" stroke-width="2" stroke-dasharray="5,5" opacity="0.8"/>
 <circle cx="396.2" cy="329.4" r="5" fill="#f85149" opacity="0.75" cursor="pointer"><title>Sleep: 2021-10-07
 Hours Slept: 6.6h
 Next-day Run: 1.07 miles</title></circle>
@@ -3156,10 +3157,13 @@ Next-day Run: 3.62 miles</title></circle>
 <circle cx="376.1" cy="329.2" r="5" fill="#f85149" opacity="0.75" cursor="pointer"><title>Sleep: 2026-03-30
 Hours Slept: 6.2h
 Next-day Run: 1.09 miles</title></circle>
-<text x="665" y="56" text-anchor="end" fill="#f39c12" font-size="11" font-style="italic">r = 0.09 (weak positive correlation, n=337)</text>
+<circle cx="286.3" cy="326.4" r="5" fill="#f85149" opacity="0.75" cursor="pointer"><title>Sleep: 2026-03-31
+Hours Slept: 4.4h
+Next-day Run: 1.38 miles</title></circle>
+<text x="665" y="56" text-anchor="end" fill="#f39c12" font-size="11" font-style="italic">r = 0.09 (weak positive correlation, n=338)</text>
 </svg>
 </div>
-<p style="color:#8b949e;font-size:0.85rem;margin-top:4px;">Based on 337 matched night→run pairs</p>
+<p style="color:#8b949e;font-size:0.85rem;margin-top:4px;">Based on 338 matched night→run pairs</p>
 </section>
 
 
@@ -3208,7 +3212,7 @@ Next-day Run: 1.09 miles</title></circle>
 <line x1="60" y1="350" x2="580" y2="350" stroke="#2a2a4a" stroke-width="2"/>
 <text x="320.0" y="395" fill="#e0e0e0" font-size="12" text-anchor="middle">Sleep Score</text>
 <text x="12" y="185.0" fill="#e0e0e0" font-size="12" text-anchor="middle" transform="rotate(-90,12,185.0)">Recovery %</text>
-<line x1="60.0" y1="207.7" x2="580.0" y2="178.9" stroke="#f39c12" stroke-width="2" opacity="0.8"/>
+<line x1="60.0" y1="207.4" x2="580.0" y2="178.9" stroke="#f39c12" stroke-width="2" opacity="0.8"/>
 <circle cx="506.5" cy="236.6" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2025-01-23: Sleep 87 → Recovery % 38.0%</title></circle>
 <circle cx="450.0" cy="264.1" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2024-09-07: Sleep 77 → Recovery % 29.0%</title></circle>
 <circle cx="523.5" cy="148.0" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2024-07-19: Sleep 90 → Recovery % 67.0%</title></circle>
@@ -3265,6 +3269,7 @@ Next-day Run: 1.09 miles</title></circle>
 <circle cx="489.6" cy="157.2" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2025-08-15: Sleep 84 → Recovery % 64.0%</title></circle>
 <circle cx="489.6" cy="279.4" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2025-10-02: Sleep 84 → Recovery % 24.0%</title></circle>
 <circle cx="416.1" cy="166.4" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2024-04-05: Sleep 71 → Recovery % 61.0%</title></circle>
+<circle cx="410.4" cy="123.6" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2026-03-31: Sleep 70 → Recovery % 75.0%</title></circle>
 <circle cx="314.3" cy="96.1" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2024-08-26: Sleep 53 → Recovery % 84.0%</title></circle>
 <circle cx="495.2" cy="151.1" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2023-12-27: Sleep 85 → Recovery % 66.0%</title></circle>
 <circle cx="523.5" cy="157.2" r="5" fill="#0a84ff" opacity="0.65" class="scatter-point"><title>2024-05-28: Sleep 90 → Recovery % 64.0%</title></circle>
@@ -4158,7 +4163,7 @@ Next-day Run: 1.09 miles</title></circle>
   </div>
   <div class="correlation-stats">
     <span class="stat">Correlation r: <strong>0.07</strong></span>
-    <span class="stat">n = <strong>945</strong> days</span>
+    <span class="stat">n = <strong>946</strong> days</span>
     <span class="stat">Trend: <strong>weak / none</strong></span>
   </div>
   <a href="../recovery/index.html" class="recovery-link">↗ See Recovery Dashboard</a>
@@ -4933,30 +4938,29 @@ Next-day Run: 1.09 miles</title></circle>
     <div class="comp-card">
       <span class="label">Avg Sleep Score</span>
       <div class="values">
-        <span class="current">69</span>
+        <span class="current">72</span>
         <span class="previous">77</span>
       </div>
-      <span class="delta negative">↓ -10.9%</span>
+      <span class="delta negative">↓ -6.6%</span>
     </div>
     <div class="comp-card">
       <span class="label">Avg Hours</span>
       <div class="values">
-        <span class="current">5.3 hrs</span>
+        <span class="current">5.7 hrs</span>
         <span class="previous">6.5 hrs</span>
       </div>
-      <span class="delta negative">↓ -18.8%</span>
+      <span class="delta negative">↓ -11.7%</span>
     </div>
     <div class="comp-card">
       <span class="label">Avg HRV</span>
       <div class="values">
-        <span class="current">23 ms</span>
+        <span class="current">22 ms</span>
         <span class="previous">22 ms</span>
       </div>
-      <span class="delta positive">↑ +3.5%</span>
+      <span class="delta negative">↓ -0.7%</span>
     </div></div>
 </section>
 <!-- WEEK COMPARISON WIDGET END -->
-
 
 <!-- morning_report_link_injected --><script>
 (function(){
