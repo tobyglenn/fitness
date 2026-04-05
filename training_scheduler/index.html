@@ -112,7 +112,7 @@
             <div class="day-header">Mon</div>
             <div class="day-date">03-30</div>
             <div class="day-workout" contenteditable="true" data-workout="medium">Moderate Training</div>
-            <div class="day-recovery" style="color:#f85149">31%</div>
+            <div class="day-recovery" style="color:#f85149">33%</div>
             <div class="day-strain"> Strain: 60</div>
         </div>
 
@@ -120,7 +120,7 @@
             <div class="day-header">Tue</div>
             <div class="day-date">03-31</div>
             <div class="day-workout" contenteditable="true" data-workout="rest">Rest Day</div>
-            <div class="day-recovery" style="color:#f85149">38%</div>
+            <div class="day-recovery" style="color:#f39c12">40%</div>
             <div class="day-strain"> Strain: 0</div>
         </div>
 
@@ -128,7 +128,7 @@
             <div class="day-header">Wed</div>
             <div class="day-date">04-01</div>
             <div class="day-workout" contenteditable="true" data-workout="heavy">Heavy Leg Day</div>
-            <div class="day-recovery" style="color:#f85149">25%</div>
+            <div class="day-recovery" style="color:#f85149">27%</div>
             <div class="day-strain"> Strain: 90</div>
         </div>
 
@@ -136,7 +136,7 @@
             <div class="day-header">Thu</div>
             <div class="day-date">04-02</div>
             <div class="day-workout" contenteditable="true" data-workout="rest">Rest Day</div>
-            <div class="day-recovery" style="color:#f85149">32%</div>
+            <div class="day-recovery" style="color:#f85149">34%</div>
             <div class="day-strain"> Strain: 0</div>
         </div>
 
@@ -144,7 +144,7 @@
             <div class="day-header">Fri</div>
             <div class="day-date">04-03</div>
             <div class="day-workout" contenteditable="true" data-workout="medium">Moderate Training</div>
-            <div class="day-recovery" style="color:#f85149">26%</div>
+            <div class="day-recovery" style="color:#f85149">31%</div>
             <div class="day-strain"> Strain: 60</div>
         </div>
 
@@ -152,7 +152,7 @@
             <div class="day-header">Sat</div>
             <div class="day-date">04-04</div>
             <div class="day-workout" contenteditable="true" data-workout="light">Light/Recovery</div>
-            <div class="day-recovery" style="color:#f85149">28%</div>
+            <div class="day-recovery" style="color:#f85149">37%</div>
             <div class="day-strain"> Strain: 35</div>
         </div>
 
@@ -160,7 +160,7 @@
             <div class="day-header">Sun</div>
             <div class="day-date">04-05</div>
             <div class="day-workout" contenteditable="true" data-workout="rest">Rest Day</div>
-            <div class="day-recovery" style="color:#f85149">35%</div>
+            <div class="day-recovery" style="color:#f39c12">44%</div>
             <div class="day-strain"> Strain: 0</div>
         </div>
       </div>
@@ -234,8 +234,8 @@
           <line x1="50" y1="114" x2="590" y2="114" class="threshold-line" stroke="#f85149"/>
           <line x1="50" y1="186" x2="590" y2="186" class="threshold-line" stroke="#2ea043"/>
           <!-- Recovery line -->
-          <path class="recovery-area" d="M60,270 L60,201.25 140,185.85 220,214.45 300,199.05 380,211.7 460,208.39999999999998 540,193.0 L540,270 Z"/>
-          <path class="recovery-line" d="M60,201.25 140,185.85 220,214.45 300,199.05 380,211.7 460,208.39999999999998 540,193.0"/>
+          <path class="recovery-area" d="M60,270 L60,196.3 140,180.89999999999998 220,209.5 300,194.10000000000002 380,201.8 460,188.6 540,173.2 L540,270 Z"/>
+          <path class="recovery-line" d="M60,196.3 140,180.89999999999998 220,209.5 300,194.10000000000002 380,201.8 460,188.6 540,173.2"/>
           <!-- Day labels -->
           <text x="60" y="290" class="axis-label" text-anchor="center">Mon</text>
           <text x="140" y="290" class="axis-label" text-anchor="center">Tue</text>
@@ -263,15 +263,15 @@
       <div class="stat-label">Total Weekly Strain</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value" id="minRecovery" class="stat-bad">25%</div>
+      <div class="stat-value" id="minRecovery" class="stat-bad">27%</div>
       <div class="stat-label">Lowest Recovery Day</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value" id="maxRecovery" class="stat-good">38%</div>
+      <div class="stat-value" id="maxRecovery" class="stat-good">44%</div>
       <div class="stat-label">Peak Recovery Day</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value" id="balanceScore" class="stat-neutral">-19</div>
+      <div class="stat-value" id="balanceScore" class="stat-good">-14</div>
       <div class="stat-label">Balance Score (-100 to +100)</div>
     </div>
     <div class="stat-card">
@@ -294,7 +294,7 @@
 <script>
   const strainValues = {"heavy": 90, "push": 70, "pull": 60, "legs": 85, "upper": 65, "lower": 80, "full": 75, "chest": 65, "back": 60, "shoulders": 60, "arms": 50, "medium": 60, "light": 35, "cardio": 45, "rest": 0};
   const strainLabels = {"heavy": "Heavy Leg Day", "push": "Upper Push", "pull": "Upper Pull", "legs": "Lower Body", "upper": "Upper Body", "lower": "Lower Body", "full": "Full Body", "chest": "Chest Day", "back": "Back Day", "shoulders": "Shoulders", "arms": "Arms", "medium": "Moderate Training", "light": "Light/Recovery", "cardio": "Cardio/Run", "rest": "Rest Day"};
-  const fatigueModel = {"high_volume_impact": -15, "low_volume_impact": -0.5};
+  const fatigueModel = {"high_volume_impact": -15, "low_volume_impact": 4.0};
   const templates = {"ppl": ["Upper Push", "Upper Pull", "Lower Body", "Rest Day", "Upper Push", "Upper Pull", "Rest Day"], "upper_lower": ["Upper Body", "Lower Body", "Rest Day", "Upper Body", "Lower Body", "Rest Day", "Rest Day"], "full_body": ["Full Body", "Rest Day", "Full Body", "Rest Day", "Full Body", "Rest Day", "Rest Day"], "bro_split": ["Chest Day", "Back Day", "Lower Body", "Shoulders", "Arms", "Rest Day", "Rest Day"], "balanced": ["Moderate Training", "Rest Day", "Heavy Leg Day", "Rest Day", "Moderate Training", "Light/Recovery", "Rest Day"]};
   
   let currentSchedule = ["medium", "rest", "heavy", "rest", "medium", "light", "rest"];
@@ -389,7 +389,6 @@
     });
   });
 </script>
-
 
 <!-- morning_report_link_injected --><script>
 (function(){
