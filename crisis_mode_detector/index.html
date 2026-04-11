@@ -113,11 +113,11 @@
             </div>
             <div class="card">
                 <div class="card-label">Critical Days</div>
-                <div class="card-value critical">6</div>
+                <div class="card-value critical">7</div>
             </div>
             <div class="card">
                 <div class="card-label">Warning Days</div>
-                <div class="card-value warning">6</div>
+                <div class="card-value warning">5</div>
             </div>
             <div class="card">
                 <div class="card-label">OK Days</div>
@@ -131,8 +131,8 @@
 
             <div class="day-row ok">
                 <div>
-                    <div class="date">04-10</div>
-                    <div class="day">Fri</div>
+                    <div class="date">04-11</div>
+                    <div class="day">Sat</div>
                 </div>
                 <div class="signals"><span style="color: #3fb950">✓ All clear</span></div>
                 <div>
@@ -146,6 +146,26 @@
                 <div>
                     <div class="score">0</div>
                     <span class="status-badge ok">ok</span>
+                </div>
+            </div>
+
+            <div class="day-row critical">
+                <div>
+                    <div class="date">04-10</div>
+                    <div class="day">Fri</div>
+                </div>
+                <div class="signals"><span class="signal high">recovery: 18.0</span><span class="signal high">hrv: 14.579214</span><span class="signal medium">sleep: 68.0</span><span class="signal high">body battery: 5.0</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>18%</span></div>
+                        <div class="metric">8Sleep: <span>68</span></div>
+                        <div class="metric">BB: <span>5</span></div>
+                        <div class="metric">HRV: <span>15</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">10</div>
+                    <span class="status-badge critical">critical</span>
                 </div>
             </div>
 
@@ -169,26 +189,6 @@
                 </div>
             </div>
 
-            <div class="day-row critical">
-                <div>
-                    <div class="date">04-08</div>
-                    <div class="day">Wed</div>
-                </div>
-                <div class="signals"><span class="signal medium">recovery: 40.0</span><span class="signal high">hrv: 23.24839</span><span class="signal high">body battery: 16.0</span></div>
-                <div>
-                    <div class="metrics">
-                        <div class="metric">WHOOP: <span>40%</span></div>
-                        <div class="metric">8Sleep: <span>92</span></div>
-                        <div class="metric">BB: <span>16</span></div>
-                        <div class="metric">HRV: <span>23</span></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="score">7</div>
-                    <span class="status-badge critical">critical</span>
-                </div>
-            </div>
-
         </div>
         
         <div class="legend">
@@ -199,10 +199,9 @@
 
         <div class="insights">
             <h2>💡 Insights</h2>
-            <div class="insight-item">⚠️ You've had 12 crisis/warning days in the last 3 days. Consider deload or extra recovery.</div><div class="insight-item">🔋 Garmin Body Battery has been depleted (< 40) for 3+ days this week.</div>
+            <div class="insight-item">⚠️ You've had 12 crisis/warning days in the last 3 days. Consider deload or extra recovery.</div><div class="insight-item">📉 WHOOP recovery has been consistently low (under 45%) for 4+ of the last 7 days.</div><div class="insight-item">🔋 Garmin Body Battery has been depleted (< 40) for 3+ days this week.</div>
         </div>
     </div>
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
