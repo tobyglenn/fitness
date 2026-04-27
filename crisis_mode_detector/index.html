@@ -104,7 +104,7 @@
         </nav>
         
         <h1>🛡️ Crisis Mode Detector</h1>
-        <p class="subtitle">Multi-device recovery monitoring • Last 14 days • Baseline recovery: 55% • Baseline HRV: 34.1ms</p>
+        <p class="subtitle">Multi-device recovery monitoring • Last 14 days • Baseline recovery: 55% • Baseline HRV: 34.0ms</p>
         
         <div class="summary">
             <div class="card">
@@ -131,8 +131,8 @@
 
             <div class="day-row ok">
                 <div>
-                    <div class="date">04-26</div>
-                    <div class="day">Sun</div>
+                    <div class="date">04-27</div>
+                    <div class="day">Mon</div>
                 </div>
                 <div class="signals"><span style="color: #3fb950">✓ All clear</span></div>
                 <div>
@@ -146,6 +146,26 @@
                 <div>
                     <div class="score">0</div>
                     <span class="status-badge ok">ok</span>
+                </div>
+            </div>
+
+            <div class="day-row critical">
+                <div>
+                    <div class="date">04-26</div>
+                    <div class="day">Sun</div>
+                </div>
+                <div class="signals"><span class="signal medium">recovery: 41.0</span><span class="signal high">hrv: 17.479725</span><span class="signal medium">body battery: 35.0</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>41%</span></div>
+                        <div class="metric">8Sleep: <span>80</span></div>
+                        <div class="metric">BB: <span>35</span></div>
+                        <div class="metric">HRV: <span>17</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">5</div>
+                    <span class="status-badge critical">critical</span>
                 </div>
             </div>
 
@@ -169,26 +189,6 @@
                 </div>
             </div>
 
-            <div class="day-row warning">
-                <div>
-                    <div class="date">04-24</div>
-                    <div class="day">Fri</div>
-                </div>
-                <div class="signals"><span class="signal medium">hrv: 26.99735</span><span class="signal medium">sleep: 70.0</span><span class="signal medium">body battery: 29.0</span></div>
-                <div>
-                    <div class="metrics">
-                        <div class="metric">WHOOP: <span>68%</span></div>
-                        <div class="metric">8Sleep: <span>70</span></div>
-                        <div class="metric">BB: <span>29</span></div>
-                        <div class="metric">HRV: <span>27</span></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="score">3</div>
-                    <span class="status-badge warning">warning</span>
-                </div>
-            </div>
-
         </div>
         
         <div class="legend">
@@ -202,7 +202,6 @@
             <div class="insight-item">⚠️ You've had 11 crisis/warning days in the last 3 days. Consider deload or extra recovery.</div><div class="insight-item">💔 HRV has been suppressed (below 80% of baseline 34ms) for 4+ days.</div><div class="insight-item">🔋 Garmin Body Battery has been depleted (< 40) for 3+ days this week.</div>
         </div>
     </div>
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
