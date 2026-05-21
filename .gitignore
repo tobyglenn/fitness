@@ -2,3 +2,5 @@ audio/
 *.mp4
 *.mp3
 *.aiff
+.DS_Store
+**/.DS_Store
