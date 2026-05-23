@@ -45,12 +45,12 @@
 
   <div class='container'>
     <h1>Weekly Strain Balance Heatmap</h1>
-    <div class='subtitle'>Current 4-week view · Last updated May 23, 2026 03:03 AM ET</div>
+    <div class='subtitle'>Current 4-week view · Last updated May 23, 2026 03:01 AM ET</div>
 
     <div class='stats'>
       <div class='stat'><h2>Current Week Avg Strain</h2><p>0.0</p><div class='small muted'>Last 7 days</div></div>
-      <div class='stat'><h2>Current Week Avg Recovery</h2><p>44</p><div class='small muted'>Last 7 days</div></div>
-      <div class='stat'><h2>Current Week Balance</h2><p class='muted'>Diff: <span class='warn'>+44.2</span></p><div class='small muted'>Recovery minus strain</div></div>
+      <div class='stat'><h2>Current Week Avg Recovery</h2><p>43</p><div class='small muted'>Last 7 days</div></div>
+      <div class='stat'><h2>Current Week Balance</h2><p class='muted'>Diff: <span class='warn'>+43.4</span></p><div class='small muted'>Recovery minus strain</div></div>
       <div class='stat'><h2>7d Trend</h2><p id='trendTag' class='ok'>Balanced</p><div class='small muted'>Based on recent 7-day rolling balance</div></div>
       <div class='stat'><h2>Zone Counts (28d)</h2><p><span class='ok'>Green 0</span> / <span class='warn'>Yellow 0</span> / <span class='bad'>Red 0</span></p><div class='small muted'>Daily color classification</div></div>
       <div class='stat'><h2>High Strain Risk</h2><p class='bad'>0 day stretch</p><div class='small muted'>Longest consecutive red run</div></div>
@@ -169,7 +169,7 @@
               <text x='496.0' y='340' text-anchor='middle' fill='white' font-size='18' font-weight='700'>21</text>
               <text x='496.0' y='358' text-anchor='middle' fill='white' font-size='11' opacity='0.9'>—</text>
             </g><g>
-              <rect x='548' y='306' width='96' height='76' rx='8' fill='#30363d' stroke='#21262d' stroke-width='1' data-tip="2026-05-22 | Strain: — | Recovery: 48 | Volume: — lbs | Status: —" class='heat-cell'/>
+              <rect x='548' y='306' width='96' height='76' rx='8' fill='#30363d' stroke='#21262d' stroke-width='1' data-tip="2026-05-22 | Strain: — | Recovery: — | Volume: — lbs | Status: —" class='heat-cell'/>
               <text x='596.0' y='340' text-anchor='middle' fill='white' font-size='18' font-weight='700'>22</text>
               <text x='596.0' y='358' text-anchor='middle' fill='white' font-size='11' opacity='0.9'>—</text>
             </g><g>
@@ -211,20 +211,5 @@
       });
     });
   </script>
-
-<!-- morning_report_link_injected --><script>
-(function(){
-  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
-    var t = el.textContent.trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
-      el.innerHTML =
-        '<a href="/fitness/morning_report_' + t + '.html" ' +
-        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
-        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
-        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
-    }
-  });
-})();
-</script>
 </body>
 </html>

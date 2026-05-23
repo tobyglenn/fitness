@@ -71,7 +71,7 @@ a:hover { text-decoration:underline; }
 <body>
 
 <h1>🏋️ Fitness Center</h1>
-<p class="subtitle">Last updated: 2026-05-23 07:50 EST</p>
+<p class="subtitle">Last updated: 2026-05-23 08:54 EST</p>
 
 <!-- ── Overnight Analytics Reports ── -->
 <p class="section-label">🔬 Overnight Analytics Reports</p>
@@ -139,11 +139,10 @@ a:hover { text-decoration:underline; }
 <div class="accordion" id="acc-morning">
   <div class="acc-header" onclick="toggleAcc('morning')">
     <span>☀️ Morning Reports</span>
-    <span class="acc-meta"><span class="acc-count">1691 reports</span> <span class="acc-chevron" id="chev-morning">▼</span></span>
+    <span class="acc-meta"><span class="acc-count">1690 reports</span> <span class="acc-chevron" id="chev-morning">▼</span></span>
   </div>
   <div class="acc-preview"><li><a href="morning_report_2026-05-23.html" target="_blank" rel="noopener noreferrer">May 23</a> <span class=today-badge>TODAY</span></li></div>
-  <div class="acc-body" id="body-morning" style="display:none"><li><a href="morning_report_2026-05-22.html" target="_blank" rel="noopener noreferrer">May 22</a></li>
-<li><a href="morning_report_2026-05-21.html" target="_blank" rel="noopener noreferrer">May 21</a></li>
+  <div class="acc-body" id="body-morning" style="display:none"><li><a href="morning_report_2026-05-21.html" target="_blank" rel="noopener noreferrer">May 21</a></li>
 <li><a href="morning_report_2026-05-20.html" target="_blank" rel="noopener noreferrer">May 20</a></li>
 <li><a href="morning_report_2026-05-19.html" target="_blank" rel="noopener noreferrer">May 19</a></li>
 <li><a href="morning_report_2026-05-18.html" target="_blank" rel="noopener noreferrer">May 18</a></li>
@@ -1839,11 +1838,10 @@ a:hover { text-decoration:underline; }
 <div class="accordion" id="acc-nightly">
   <div class="acc-header" onclick="toggleAcc('nightly')">
     <span>🌙 Nightly Reports</span>
-    <span class="acc-meta"><span class="acc-count">1645 reports</span> <span class="acc-chevron" id="chev-nightly">▼</span></span>
+    <span class="acc-meta"><span class="acc-count">1644 reports</span> <span class="acc-chevron" id="chev-nightly">▼</span></span>
   </div>
   <div class="acc-preview"><li><a href="nightly_report_2026-05-22.html" target="_blank" rel="noopener noreferrer">May 22</a></li></div>
-  <div class="acc-body" id="body-nightly" style="display:none"><li><a href="nightly_report_2026-05-21.html" target="_blank" rel="noopener noreferrer">May 21</a></li>
-<li><a href="nightly_report_2026-05-20.html" target="_blank" rel="noopener noreferrer">May 20</a></li>
+  <div class="acc-body" id="body-nightly" style="display:none"><li><a href="nightly_report_2026-05-20.html" target="_blank" rel="noopener noreferrer">May 20</a></li>
 <li><a href="nightly_report_2026-05-19.html" target="_blank" rel="noopener noreferrer">May 19</a></li>
 <li><a href="nightly_report_2026-05-18.html" target="_blank" rel="noopener noreferrer">May 18</a></li>
 <li><a href="nightly_report_2026-05-17.html" target="_blank" rel="noopener noreferrer">May 17</a></li>
@@ -3605,11 +3603,10 @@ a:hover { text-decoration:underline; }
 <div class="accordion" id="acc-historical">
   <div class="acc-header" onclick="toggleAcc('historical')">
     <span>📈 Historical Progress Reports</span>
-    <span class="acc-meta"><span class="acc-count">87 reports</span> <span class="acc-chevron" id="chev-historical">▼</span></span>
+    <span class="acc-meta"><span class="acc-count">86 reports</span> <span class="acc-chevron" id="chev-historical">▼</span></span>
   </div>
   <div class="acc-preview"><li><a href="historical_progress_report_2026-05-23.html" target="_blank" rel="noopener noreferrer">May 23</a> <span class=today-badge>TODAY</span></li></div>
-  <div class="acc-body" id="body-historical" style="display:none"><li><a href="historical_progress_report_2026-05-22.html" target="_blank" rel="noopener noreferrer">May 22</a></li>
-<li><a href="historical_progress_report_2026-05-21.html" target="_blank" rel="noopener noreferrer">May 21</a></li>
+  <div class="acc-body" id="body-historical" style="display:none"><li><a href="historical_progress_report_2026-05-21.html" target="_blank" rel="noopener noreferrer">May 21</a></li>
 <li><a href="historical_progress_report_2026-05-20.html" target="_blank" rel="noopener noreferrer">May 20</a></li>
 <li><a href="historical_progress_report_2026-05-19.html" target="_blank" rel="noopener noreferrer">May 19</a></li>
 <li><a href="historical_progress_report_2026-05-18.html" target="_blank" rel="noopener noreferrer">May 18</a></li>
@@ -3708,21 +3705,6 @@ function toggleAcc(id) {
   body.style.display = open ? 'none' : 'block';
   chev.textContent   = open ? '▼' : '▲';
 }
-</script>
-
-<!-- morning_report_link_injected --><script>
-(function(){
-  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
-    var t = el.textContent.trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
-      el.innerHTML =
-        '<a href="/fitness/morning_report_' + t + '.html" ' +
-        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
-        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
-        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
-    }
-  });
-})();
 </script>
 </body>
 </html>
