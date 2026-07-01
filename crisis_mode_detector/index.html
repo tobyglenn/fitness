@@ -113,11 +113,11 @@
             </div>
             <div class="card">
                 <div class="card-label">Critical Days</div>
-                <div class="card-value critical">6</div>
+                <div class="card-value critical">7</div>
             </div>
             <div class="card">
                 <div class="card-label">Warning Days</div>
-                <div class="card-value warning">4</div>
+                <div class="card-value warning">3</div>
             </div>
             <div class="card">
                 <div class="card-label">OK Days</div>
@@ -131,8 +131,8 @@
 
             <div class="day-row ok">
                 <div>
-                    <div class="date">06-30</div>
-                    <div class="day">Tue</div>
+                    <div class="date">07-01</div>
+                    <div class="day">Wed</div>
                 </div>
                 <div class="signals"><span style="color: #3fb950">✓ All clear</span></div>
                 <div>
@@ -146,6 +146,26 @@
                 <div>
                     <div class="score">0</div>
                     <span class="status-badge ok">ok</span>
+                </div>
+            </div>
+
+            <div class="day-row critical">
+                <div>
+                    <div class="date">06-30</div>
+                    <div class="day">Tue</div>
+                </div>
+                <div class="signals"><span class="signal medium">hrv: 25.194788</span><span class="signal high">sleep: 51.0</span><span class="signal high">body battery: 15.0</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>82%</span></div>
+                        <div class="metric">8Sleep: <span>51</span></div>
+                        <div class="metric">BB: <span>15</span></div>
+                        <div class="metric">HRV: <span>25</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">7</div>
+                    <span class="status-badge critical">critical</span>
                 </div>
             </div>
 
@@ -169,26 +189,6 @@
                 </div>
             </div>
 
-            <div class="day-row elevated">
-                <div>
-                    <div class="date">06-28</div>
-                    <div class="day">Sun</div>
-                </div>
-                <div class="signals"><span class="signal medium">body battery: 25.0</span></div>
-                <div>
-                    <div class="metrics">
-                        <div class="metric">WHOOP: <span>-</span></div>
-                        <div class="metric">8Sleep: <span>80</span></div>
-                        <div class="metric">BB: <span>25</span></div>
-                        <div class="metric">HRV: <span>-</span></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="score">1</div>
-                    <span class="status-badge elevated">elevated</span>
-                </div>
-            </div>
-
         </div>
         
         <div class="legend">
@@ -202,8 +202,6 @@
             <div class="insight-item">⚠️ You've had 10 crisis/warning days in the last 3 days. Consider deload or extra recovery.</div><div class="insight-item">💔 HRV has been suppressed (below 80% of baseline 34ms) for 4+ days.</div><div class="insight-item">🔋 Garmin Body Battery has been depleted (< 40) for 3+ days this week.</div>
         </div>
     </div>
-
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
