@@ -113,11 +113,11 @@
             </div>
             <div class="card">
                 <div class="card-label">Critical Days</div>
-                <div class="card-value critical">4</div>
+                <div class="card-value critical">3</div>
             </div>
             <div class="card">
                 <div class="card-label">Warning Days</div>
-                <div class="card-value warning">6</div>
+                <div class="card-value warning">7</div>
             </div>
             <div class="card">
                 <div class="card-label">OK Days</div>
@@ -131,8 +131,8 @@
 
             <div class="day-row ok">
                 <div>
-                    <div class="date">07-24</div>
-                    <div class="day">Fri</div>
+                    <div class="date">07-25</div>
+                    <div class="day">Sat</div>
                 </div>
                 <div class="signals"><span style="color: #3fb950">✓ All clear</span></div>
                 <div>
@@ -146,6 +146,26 @@
                 <div>
                     <div class="score">0</div>
                     <span class="status-badge ok">ok</span>
+                </div>
+            </div>
+
+            <div class="day-row warning">
+                <div>
+                    <div class="date">07-24</div>
+                    <div class="day">Fri</div>
+                </div>
+                <div class="signals"><span class="signal medium">recovery: 38.0</span><span class="signal high">hrv: 22.382467</span></div>
+                <div>
+                    <div class="metrics">
+                        <div class="metric">WHOOP: <span>38%</span></div>
+                        <div class="metric">8Sleep: <span>79</span></div>
+                        <div class="metric">BB: <span>None</span></div>
+                        <div class="metric">HRV: <span>22</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score">4</div>
+                    <span class="status-badge warning">warning</span>
                 </div>
             </div>
 
@@ -169,26 +189,6 @@
                 </div>
             </div>
 
-            <div class="day-row critical">
-                <div>
-                    <div class="date">07-22</div>
-                    <div class="day">Wed</div>
-                </div>
-                <div class="signals"><span class="signal high">recovery: 27.0</span><span class="signal high">hrv: 20.664162</span></div>
-                <div>
-                    <div class="metrics">
-                        <div class="metric">WHOOP: <span>27%</span></div>
-                        <div class="metric">8Sleep: <span>76</span></div>
-                        <div class="metric">BB: <span>None</span></div>
-                        <div class="metric">HRV: <span>21</span></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="score">6</div>
-                    <span class="status-badge critical">critical</span>
-                </div>
-            </div>
-
         </div>
         
         <div class="legend">
@@ -202,7 +202,6 @@
             <div class="insight-item">⚠️ You've had 10 crisis/warning days in the last 3 days. Consider deload or extra recovery.</div>
         </div>
     </div>
-
 <!-- morning_report_link_injected --><script>
 (function(){
   document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
