@@ -1,0 +1,45 @@
+name: Deploy site
+
+# Builds the site from main and publishes it as a single orphan commit on
+# gh-pages (Pages source: "Deploy from branch: gh-pages"). Force-pushing an
+# orphan commit means gh-pages never accumulates history.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Assemble site
+        run: |
+          rsync -a --exclude /.git --exclude /.github --exclude /build --exclude /_site --exclude /CNAME --exclude /.gitignore ./ _site/
+          python3 build/build_site.py --out _site
+          touch _site/.nojekyll
+          du -sh _site
+
+      - name: Publish to gh-pages
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd _site
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Deploy ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
