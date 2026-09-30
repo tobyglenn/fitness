@@ -103,12 +103,29 @@
     return box;
   }
 
+  // Run a report's own chart scripts (lifting reports use Chart.js) in order.
+  function runScripts(list) {
+    if (!list.length) return;
+    var b = list[0], s = document.createElement("script");
+    if (b.scriptSrc) {
+      s.src = b.scriptSrc;
+      s.onload = s.onerror = function () { runScripts(list.slice(1)); };
+      body.appendChild(s);
+    } else {
+      s.textContent = b.script;
+      body.appendChild(s);
+      runScripts(list.slice(1));
+    }
+  }
+
   function renderReport(doc, series) {
+    var pageScripts = [];
     document.title = doc.title;
-    body.appendChild(h("h1", {}, esc(doc.title)));
+    if (!doc.inlineTitle) body.appendChild(h("h1", {}, esc(doc.title)));
     doc.blocks.forEach(function (b) {
       if (b.metrics) body.appendChild(metricGrid(doc.metrics));
       else if (b.chart) body.appendChild(chartBox(b));
+      else if (b.script || b.scriptSrc) pageScripts.push(b);
       else if (b.html) {
         var wrap = h("div", {}, b.html);
         while (wrap.firstChild) body.appendChild(wrap.firstChild);
@@ -141,6 +158,7 @@
       try { window.ReportCharts.render(slot, slot.getAttribute("data-chart"), ctx); }
       catch (e) { slot.innerHTML = '<div class="rc-empty">Chart failed: ' + esc(e.message) + "</div>"; }
     });
+    runScripts(pageScripts);
   }
 
   function fail(msg) {

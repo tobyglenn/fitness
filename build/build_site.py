@@ -10,6 +10,7 @@ content is rendered in the browser by report/report.js. Also writes:
   nightly_report.html         always shows the newest nightly report
   interactive_nightly.html    always shows the newest interactive nightly
   historical_progress_report.html  newest historical progress report
+  lifting_recovery_report.html     newest lifting & recovery report
   report/index.html           browse every report
 
 Usage: build_site.py [--out DIR]   (default: repo root; CI uses _site/)
@@ -24,12 +25,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REPORTS_DIR = ROOT / "data" / "reports"
-KINDS = ("morning", "nightly", "interactive", "historical")
+KINDS = ("morning", "nightly", "interactive", "historical", "lifting")
 TITLES = {
     "morning": "Morning Brief", "nightly": "Nightly Brief",
     "interactive": "Comprehensive Nightly Report", "historical": "Historical Progress Report",
+    "lifting": "Lifting & Recovery Report",
 }
-PAGE_PREFIX = {"interactive": "interactive_nightly_", "historical": "historical_progress_report_"}
+PAGE_PREFIX = {
+    "interactive": "interactive_nightly_", "historical": "historical_progress_report_",
+    "lifting": "lifting_recovery_report_",
+}
 
 
 def page_name(kind: str, date: str) -> str:
@@ -80,14 +85,10 @@ BROWSER = """<!DOCTYPE html>
 
 
 def collect() -> dict[str, list[str]]:
-    index = {
+    return {
         kind: sorted(p.stem for p in (REPORTS_DIR / kind).glob("*/*.json"))
         for kind in KINDS
     }
-    # Lifting & recovery reports are committed as HTML (small, Chart.js-driven);
-    # list them so the historical report can link to its day's lifting report.
-    index["lifting"] = sorted(p.stem[len("lifting_recovery_report_"):] for p in ROOT.glob("lifting_recovery_report_20*.html"))
-    return index
 
 
 def browser_html(index: dict[str, list[str]]) -> str:

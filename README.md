@@ -14,6 +14,7 @@ took ~1.3 GB; the same reports are now ~36 MB of data.
 | Nightly brief (2021-10 →) | `nightly_report_<date>.html` | `data/reports/nightly/` |
 | Comprehensive (interactive) nightly | `interactive_nightly_<date>.html` | `data/reports/interactive/` |
 | Historical progress (2026-02 →) | `historical_progress_report_<date>.html` | `data/reports/historical/` |
+| Lifting & recovery (2026-02 →) | `lifting_recovery_report_<date>.html` | `data/reports/lifting/` |
 
 ```
 data/reports/<kind>/<yyyy>/<date>.json   report content: metric cards, coach notes,
@@ -28,13 +29,14 @@ report/<kind>.css                        the original report styles, verbatim
 ```
 
 URLs are unchanged, and `morning_report.html`, `nightly_report.html`,
-`interactive_nightly.html` and `historical_progress_report.html` show the
-latest of each. Those are ~700-byte shells generated at deploy time by
+`interactive_nightly.html`, `historical_progress_report.html` and
+`lifting_recovery_report.html` show the latest of each. Those are ~700-byte shells generated at deploy time by
 `build/build_site.py`, along with `report/index.html` (browse every report)
 and `data/reports/index.json`.
 
-`lifting_recovery_report_<date>.html` stays committed as HTML: each page is
-~30 KB and already draws its charts with Chart.js from inline data.
+Lifting & recovery reports keep their own Chart.js charts: the report JSON
+carries the page's chart script and data, which `report.js` runs after
+rendering. Their other images are the shared, always-current `charts/*.svg`.
 
 ## Daily flow
 

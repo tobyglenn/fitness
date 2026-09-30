@@ -30,14 +30,17 @@ ROOT = Path(__file__).resolve().parent.parent
 REPORTS_DIR = ROOT / "data" / "reports"
 # morning_report_<date>.html, nightly_report_<date>.html → kind morning/nightly;
 # interactive_nightly_<date>.html (Mac nightly generator) → kind interactive;
-# historical_progress_report_<date>.html → kind historical.
+# historical_progress_report_<date>.html → kind historical;
+# lifting_recovery_report_<date>.html → kind lifting.
 NAME_RE = re.compile(
-    r"^(?:(morning|nightly)_report|(interactive)_nightly|(historical)_progress_report)_(\d{4}-\d{2}-\d{2})\.html$"
+    r"^(?:(morning|nightly)_report|(interactive)_nightly|(historical)_progress_report|(lifting)_recovery_report)"
+    r"_(\d{4}-\d{2}-\d{2})\.html$"
 )
 SCHEMA_VERSION = 1
 FALLBACK_TITLES = {
     "morning": "Morning Brief", "nightly": "Nightly Brief",
     "interactive": "Comprehensive Nightly Report", "historical": "Historical Progress Report",
+    "lifting": "Lifting & Recovery Report",
 }
 
 # Chart heading → renderer id (see report/charts.js).
@@ -164,11 +167,27 @@ def convert(html: str, kind: str, date: str) -> dict:
     title = ""
     metrics = None
     blocks: list[dict] = []
+    # Lifting & recovery reports draw their charts with Chart.js from an inline
+    # `const data = {...}` script: keep that script (and the Chart.js include)
+    # so report.js can run it after rendering. Other scripts are nav helpers.
+    scripts: list[dict] = []
+    inline_title = False
+    for n in root.find_all("script"):
+        code = n.text()
+        if kind == "lifting" and n.attrs.get("src") and "chart" in n.attrs["src"].lower():
+            scripts.append({"scriptSrc": n.attrs["src"]})
+        elif kind == "lifting" and ("new Chart" in code or "const data" in code):
+            scripts.append({"script": code.strip()})
+        n.remove()
+
     if not any(el.tag == "h1" for el in body.elements()):
         h1 = body.find("h1")  # e.g. interactive nightly wraps everything in a container
         if h1 is not None:
             title = clean_text(h1.text())
-            h1.remove()
+            if kind == "lifting":
+                inline_title = True  # the heading is part of the report's header block
+            else:
+                h1.remove()
 
     for el in body.elements():
         if el.tag in ("nav", "script", "style", "link", "meta", "head"):
@@ -202,11 +221,13 @@ def convert(html: str, kind: str, date: str) -> dict:
             continue
         blocks.append({"html": compact_html(el)})
 
+    blocks += scripts
     return {
         "schema": SCHEMA_VERSION,
         "kind": kind,
         "date": date,
         "title": title or f"{FALLBACK_TITLES.get(kind, kind.title())}: {date}",
+        **({"inlineTitle": True} if inline_title else {}),
         "metrics": metrics or [],
         "blocks": blocks,
     }
@@ -220,7 +241,7 @@ def ingest(path: Path, delete: bool = False) -> Path:
     m = NAME_RE.match(path.name)
     if not m:
         raise ValueError(f"not a dated report file: {path.name}")
-    kind, date = m.group(1) or m.group(2) or m.group(3), m.group(4)
+    kind, date = m.group(1) or m.group(2) or m.group(3) or m.group(4), m.group(5)
     doc = convert(path.read_text(encoding="utf-8", errors="replace"), kind, date)
     if not doc["blocks"]:
         raise ValueError(f"no content extracted from {path.name}")
