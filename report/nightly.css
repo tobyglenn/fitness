@@ -68,3 +68,20 @@
             margin: 5px 5px 5px 0;
         }
     
+
+/* Layout fixes (not in the original pages). The originals never styled
+   .metric-grid, so the day's metric cards stacked one per row; and
+   .summary-paragraph's `margin: 20px 0` beat the body's side margins, so
+   coach guidance and the summaries ran wider than everything else. */
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 40px 30px; }
+.metric-grid .card { min-width: 0; }
+body > .summary-paragraph, body > .chart-box { margin: 20px 40px; }
+.card:has(> h3:only-child) { padding: 12px 18px; }
+@media (max-width: 700px) {
+    body > *:not(nav), body > .summary-paragraph, body > .chart-box { margin-left: 16px; margin-right: 16px; }
+    .metric-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-left: 16px; margin-right: 16px; }
+    .metric-grid .card { padding: 14px; }
+    .metric-grid .value { font-size: 20px; }
+    .summary-paragraph, .chart-box { padding: 18px; }
+    .grid { grid-template-columns: 1fr; }
+}

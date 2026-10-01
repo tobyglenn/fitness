@@ -89,7 +89,7 @@
       var html = esc(c.label)
         + (c.tip ? '<span class="info-icon" data-tooltip="' + esc(c.tip) + '">i</span>' : "")
         + '<br><span class="value"' + (color ? ' style="color: ' + color + ';"' : "") + ">" + esc(c.value) + "</span>"
-        + (c.sub ? " " + esc(c.sub) : "");
+        + (c.sub ? '<div class="metric-sub">' + esc(c.sub) + "</div>" : "");
       grid.appendChild(h("div", { class: "card" }, html));
     });
     return grid;

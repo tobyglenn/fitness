@@ -23,3 +23,6 @@
 .rc-svg .rc-pie-label { font-size: 17px; fill: #e5e5e7; }
 /* historical: the original title sat inside its centred 900px container */
 body[data-kind="historical"] > h1, body[data-kind="historical"] > .rc-links { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+/* Metric card sub-line (averages, macros) sits under the value, not run into it. */
+.metric-sub { margin-top: 4px; color: #8e8e93; font-size: 13px; line-height: 1.4; }
