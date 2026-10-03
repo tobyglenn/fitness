@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Consistency Score</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0a0c; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
+a { color: #4fc3f7; text-decoration: none; }
+.card { background: #1c1c1e; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+h1 { color: #fff; margin-bottom: 5px; }
+h2 { color: #fff; font-size: 1.2rem; margin-bottom: 15px; }
+.subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+canvas { width: 100%; height: 250px; display: block; }
+.legend { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; font-size: 0.8rem; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-color { width: 12px; height: 12px; border-radius: 2px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.score { font-size: 2rem; font-weight: bold; color: #4fc3f7; }
+.label { color: #888; font-size: 0.85rem; }
+.streaks { display: flex; flex-direction: column; gap: 10px; }
+.streak-item { background: #252527; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+.streak-rank { color: #ffd700; font-weight: bold; margin-right: 10px; }
+.streak-dates { color: #aaa; }
+.streak-score { color: #4fc3f7; font-weight: bold; }
+</style>
+</head>
+<body>
+<a href="/fitness/">← Back to Reports</a>
+<h1>Training Consistency Score</h1>
+<p class="subtitle">Composite 0-100 score combining running frequency, workout count, sleep quality, and recovery</p>
+<p class="label" style="margin-bottom:20px">Generated 2026-10-03 07:30 EDT • Data through 2026-10-03 • WHOOP sync 2026-10-03T07:30:14.608962</p>
+
+<div class="grid">
+<div class="card" style="grid-column: 1/-1">
+<h2>Current Week Score</h2>
+<div class="score">47.4</div>
+<p class="label">Week of 2026-09-28 • Max 100 pts</p>
+</div>
+
+<div class="card" style="grid-column: 1/-1">
+<h2>Consistency Score Over Time</h2><canvas id="consistencyScoreChart"></canvas>
+<div class="legend"><div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Total Score</div><div class="legend-item"><div class="legend-color" style="background:#ffd700"></div>7-day avg</div></div>
+</div>
+
+<div class="card" style="grid-column: 1/-1">
+<h2>Component Breakdown (Last 8 Weeks)</h2><canvas id="componentBreakdownChart"></canvas>
+<div class="legend"><div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Running (25)</div><div class="legend-item"><div class="legend-color" style="background:#ffd700"></div>Workout (25)</div><div class="legend-item"><div class="legend-color" style="background:#4caf50"></div>Sleep (25)</div><div class="legend-item"><div class="legend-color" style="background:#ff9800"></div>Recovery (25)</div></div>
+</div>
+
+<div class="card" style="grid-column: 1/-1"><h2>Streak Calendar (Last 90 Days)</h2><canvas id="streakHeatmap"></canvas></div>
+<div class="card"><h2>Best Streaks</h2><div class="streaks" id="streakLeaderboard"></div></div>
+<div class="card"><h2>Weekly Pattern</h2><canvas id="weeklyPatternChart"></canvas><div class="label" style="margin-top:10px">Best: Mon (53.2) • Worst: Sun (32.7)</div></div>
+</div>
+
+<script>
+const weeklyData = [{"week": "07-06", "week_full": "2026-07-06", "score": 45.0, "running": 3.6, "workout": 7.1, "sleep": 19.3, "recovery": 15.0}, {"week": "07-13", "week_full": "2026-07-13", "score": 49.1, "running": 3.6, "workout": 7.1, "sleep": 21.7, "recovery": 16.7}, {"week": "07-20", "week_full": "2026-07-20", "score": 37.2, "running": 1.8, "workout": 5.4, "sleep": 17.9, "recovery": 12.1}, {"week": "07-27", "week_full": "2026-07-27", "score": 51.6, "running": 5.4, "workout": 12.5, "sleep": 19.2, "recovery": 14.5}, {"week": "08-03", "week_full": "2026-08-03", "score": 49.1, "running": 0.0, "workout": 10.7, "sleep": 20.4, "recovery": 17.9}, {"week": "08-10", "week_full": "2026-08-10", "score": 38.7, "running": 0.0, "workout": 5.4, "sleep": 20.1, "recovery": 13.3}, {"week": "08-17", "week_full": "2026-08-17", "score": 46.2, "running": 0.0, "workout": 7.1, "sleep": 20.7, "recovery": 18.3}, {"week": "08-24", "week_full": "2026-08-24", "score": 33.0, "running": 0.0, "workout": 1.8, "sleep": 19.3, "recovery": 11.9}, {"week": "08-31", "week_full": "2026-08-31", "score": 42.2, "running": 0.0, "workout": 5.4, "sleep": 21.3, "recovery": 15.5}, {"week": "09-07", "week_full": "2026-09-07", "score": 47.1, "running": 0.0, "workout": 7.1, "sleep": 21.6, "recovery": 18.3}, {"week": "09-14", "week_full": "2026-09-14", "score": 45.5, "running": 0.0, "workout": 12.5, "sleep": 20.3, "recovery": 12.7}, {"week": "09-21", "week_full": "2026-09-21", "score": 35.6, "running": 1.8, "workout": 5.4, "sleep": 17.7, "recovery": 10.7}, {"week": "09-28", "week_full": "2026-09-28", "score": 47.4, "running": 0.0, "workout": 12.5, "sleep": 18.5, "recovery": 16.3}];
+const dailyData = [{"date": "2026-07-06", "score": 70.5}, {"date": "2026-07-07", "score": 71.2}, {"date": "2026-07-08", "score": 54.5}, {"date": "2026-07-09", "score": 20.8}, {"date": "2026-07-10", "score": 36.2}, {"date": "2026-07-11", "score": 31.0}, {"date": "2026-07-12", "score": 30.8}, {"date": "2026-07-13", "score": 48.5}, {"date": "2026-07-14", "score": 47.0}, {"date": "2026-07-15", "score": 46.0}, {"date": "2026-07-16", "score": 76.5}, {"date": "2026-07-17", "score": 49.2}, {"date": "2026-07-18", "score": 36.2}, {"date": "2026-07-19", "score": 40.0}, {"date": "2026-07-20", "score": 38.8}, {"date": "2026-07-21", "score": 55.0}, {"date": "2026-07-22", "score": 38.2}, {"date": "2026-07-23", "score": 29.0}, {"date": "2026-07-24", "score": 30.2}, {"date": "2026-07-25", "score": 45.5}, {"date": "2026-07-26", "score": 23.5}, {"date": "2026-07-27", "score": 55.5}, {"date": "2026-07-28", "score": 66.0}, {"date": "2026-07-29", "score": 68.5}, {"date": "2026-07-30", "score": 61.0}, {"date": "2026-07-31", "score": 37.0}, {"date": "2026-08-01", "score": 40.5}, {"date": "2026-08-02", "score": 33.0}, {"date": "2026-08-03", "score": 54.8}, {"date": "2026-08-04", "score": 40.8}, {"date": "2026-08-05", "score": 63.8}, {"date": "2026-08-06", "score": 43.5}, {"date": "2026-08-07", "score": 53.0}, {"date": "2026-08-08", "score": 44.8}, {"date": "2026-08-09", "score": 43.0}, {"date": "2026-08-10", "score": 43.0}, {"date": "2026-08-11", "score": 35.2}, {"date": "2026-08-12", "score": 28.2}, {"date": "2026-08-13", "score": 33.5}, {"date": "2026-08-14", "score": 51.2}, {"date": "2026-08-15", "score": 38.0}, {"date": "2026-08-16", "score": 42.0}, {"date": "2026-08-17", "score": 66.5}, {"date": "2026-08-18", "score": 37.0}, {"date": "2026-08-19", "score": 49.8}, {"date": "2026-08-20", "score": 33.2}, {"date": "2026-08-21", "score": 60.2}, {"date": "2026-08-22", "score": 38.5}, {"date": "2026-08-23", "score": 38.0}, {"date": "2026-08-24", "score": 27.2}, {"date": "2026-08-25", "score": 41.5}, {"date": "2026-08-26", "score": 24.0}, {"date": "2026-08-27", "score": 37.5}, {"date": "2026-08-28", "score": 41.2}, {"date": "2026-08-29", "score": 22.8}, {"date": "2026-08-30", "score": 37.0}, {"date": "2026-08-31", "score": 29.8}, {"date": "2026-09-01", "score": 37.8}, {"date": "2026-09-02", "score": 55.5}, {"date": "2026-09-03", "score": 46.8}, {"date": "2026-09-04", "score": 56.8}, {"date": "2026-09-05", "score": 37.0}, {"date": "2026-09-06", "score": 31.5}, {"date": "2026-09-07", "score": 70.8}, {"date": "2026-09-08", "score": 48.5}, {"date": "2026-09-09", "score": 69.0}, {"date": "2026-09-10", "score": 42.2}, {"date": "2026-09-11", "score": 35.8}, {"date": "2026-09-12", "score": 37.5}, {"date": "2026-09-13", "score": 26.0}, {"date": "2026-09-14", "score": 54.5}, {"date": "2026-09-15", "score": 45.5}, {"date": "2026-09-16", "score": 55.8}, {"date": "2026-09-17", "score": 38.5}, {"date": "2026-09-18", "score": 51.5}, {"date": "2026-09-19", "score": 42.8}, {"date": "2026-09-20", "score": 30.0}, {"date": "2026-09-21", "score": 65.8}, {"date": "2026-09-22", "score": 26.0}, {"date": "2026-09-23", "score": 42.2}, {"date": "2026-09-24", "score": 27.2}, {"date": "2026-09-25", "score": 47.0}, {"date": "2026-09-26", "score": 23.0}, {"date": "2026-09-27", "score": 17.8}, {"date": "2026-09-28", "score": 66.0}, {"date": "2026-09-29", "score": 56.8}, {"date": "2026-09-30", "score": 48.8}, {"date": "2026-10-01", "score": 35.8}, {"date": "2026-10-02", "score": 35.0}, {"date": "2026-10-03", "score": 41.8}];
+const streaksData = [{"start": "2026-07-27", "days": 4, "avg": 62.8}, {"start": "2026-07-06", "days": 3, "avg": 65.4}, {"start": "2026-09-28", "days": 2, "avg": 61.4}, {"start": "2026-07-16", "days": 1, "avg": 76.5}, {"start": "2026-09-07", "days": 1, "avg": 70.8}];
+const patternData = [{"day": "Mon", "avg": 53.2}, {"day": "Tue", "avg": 46.8}, {"day": "Wed", "avg": 49.6}, {"day": "Thu", "avg": 40.4}, {"day": "Fri", "avg": 44.9}, {"day": "Sat", "avg": 36.9}, {"day": "Sun", "avg": 32.7}];
+
+function setupCanvas(id) { const canvas=document.getElementById(id); const ctx=canvas.getContext('2d'); const dpr=window.devicePixelRatio||1; const rect=canvas.getBoundingClientRect(); canvas.width=rect.width*dpr; canvas.height=rect.height*dpr; ctx.scale(dpr,dpr); return [canvas,ctx,rect.width,rect.height]; }
+function drawConsistencyChart() { const [canvas,ctx,w,h]=setupCanvas('consistencyScoreChart'); ctx.fillStyle='#1c1c1e'; ctx.fillRect(0,0,w,h); const pad={left:45,right:20,top:20,bottom:35}, chartW=w-pad.left-pad.right, chartH=h-pad.top-pad.bottom; ctx.strokeStyle='#333'; ctx.beginPath(); ctx.moveTo(pad.left,pad.top); ctx.lineTo(pad.left,h-pad.bottom); ctx.lineTo(w-pad.right,h-pad.bottom); ctx.stroke(); ctx.fillStyle='#888'; ctx.font='11px sans-serif'; ctx.textAlign='right'; for(let i=0;i<=100;i+=25){let y=pad.top+chartH*(1-i/100);ctx.fillText(String(i),pad.left-8,y+4);} ctx.textAlign='center'; const xStep=chartW/Math.max(weeklyData.length-1,1); weeklyData.forEach((d,i)=>{if(i%2===0)ctx.fillText(d.week,pad.left+i*xStep,h-pad.bottom+15);}); if(weeklyData.length<2)return; ctx.fillStyle='rgba(79,195,247,.15)'; ctx.beginPath(); ctx.moveTo(pad.left,h-pad.bottom); weeklyData.forEach((d,i)=>ctx.lineTo(pad.left+i*xStep,pad.top+chartH*(1-d.score/100))); ctx.lineTo(pad.left+(weeklyData.length-1)*xStep,h-pad.bottom); ctx.closePath(); ctx.fill(); ctx.strokeStyle='#4fc3f7'; ctx.lineWidth=2; ctx.beginPath(); weeklyData.forEach((d,i)=>{const x=pad.left+i*xStep,y=pad.top+chartH*(1-d.score/100); if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.stroke(); ctx.strokeStyle='#ffd700'; ctx.lineWidth=1.5; ctx.setLineDash([5,5]); ctx.beginPath(); weeklyData.forEach((d,i)=>{let sum=0,cnt=0; for(let j=Math.max(0,i-3);j<=Math.min(weeklyData.length-1,i+3);j++){sum+=weeklyData[j].score;cnt++;} const avg=sum/cnt,x=pad.left+i*xStep,y=pad.top+chartH*(1-avg/100); if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.stroke(); ctx.setLineDash([]); }
+function drawComponentChart() { const [canvas,ctx,w,h]=setupCanvas('componentBreakdownChart'); ctx.fillStyle='#1c1c1e'; ctx.fillRect(0,0,w,h); const pad={left:45,right:20,top:20,bottom:35}, chartW=w-pad.left-pad.right, chartH=h-pad.top-pad.bottom; ctx.strokeStyle='#333'; ctx.beginPath(); ctx.moveTo(pad.left,pad.top); ctx.lineTo(pad.left,h-pad.bottom); ctx.lineTo(w-pad.right,h-pad.bottom); ctx.stroke(); ctx.fillStyle='#888'; ctx.font='11px sans-serif'; ctx.textAlign='right'; for(let i=0;i<=100;i+=25){let y=pad.top+chartH*(1-i/100);ctx.fillText(String(i),pad.left-8,y+4);} const data=weeklyData.slice(-8), barW=Math.min(30,(chartW/data.length)*.7), gap=(chartW-barW*data.length)/(data.length+1), colors={running:'#4fc3f7',workout:'#ffd700',sleep:'#4caf50',recovery:'#ff9800'}; data.forEach((d,i)=>{const x=pad.left+gap+i*(barW+gap); let y=h-pad.bottom; ['running','workout','sleep','recovery'].forEach(k=>{const bh=(d[k]/100)*chartH; ctx.fillStyle=colors[k]; ctx.fillRect(x,y-bh,barW,bh); y-=bh;}); ctx.fillStyle='#888'; ctx.textAlign='center'; ctx.fillText(d.week,x+barW/2,h-pad.bottom+15);}); }
+function drawHeatmap() { const [canvas,ctx,w,h]=setupCanvas('streakHeatmap'); ctx.fillStyle='#1c1c1e'; ctx.fillRect(0,0,w,h); const pad={left:35,right:10,top:25,bottom:20}, cols=13, rows=7, cellW=(w-pad.left-pad.right)/cols, cellH=(h-pad.top-pad.bottom)/rows; ['M','T','W','T','F','S','S'].forEach((lab,r)=>{ctx.fillStyle='#888';ctx.font='10px sans-serif';ctx.textAlign='right';ctx.fillText(lab,pad.left-5,pad.top+r*cellH+cellH/2+3);}); const startDate=new Date(dailyData[0].date); function color(score){return score>=75?'#28a745':score>=50?'#4caf50':score>=30?'#ff9800':score>0?'#dc3545':'#333';} dailyData.forEach((d)=>{const dt=new Date(d.date), dow=(dt.getDay()+6)%7, days=Math.floor((dt-startDate)/(86400000)), week=Math.floor((days+((startDate.getDay()+6)%7))/7), x=pad.left+week*cellW, y=pad.top+dow*cellH; ctx.fillStyle=color(d.score); ctx.fillRect(x+1,y+1,cellW-2,cellH-2);}); ctx.fillStyle='#888'; ctx.textAlign='left'; ctx.fillText('Low',pad.left,h-8); ctx.fillText('High',pad.left+115,h-8); }
+function drawStreaks() { const c=document.getElementById('streakLeaderboard'); if(!streaksData.length)c.innerHTML='<div class="label">No 50+ score streaks in this window</div>'; streaksData.forEach((s,i)=>{const div=document.createElement('div'); div.className='streak-item'; div.innerHTML='<div><span class="streak-rank">#'+(i+1)+'</span><span class="streak-dates">'+s.start+' ('+s.days+' days)</span></div><span class="streak-score">'+s.avg.toFixed(1)+'</span>'; c.appendChild(div);}); }
+function drawWeeklyPattern() { const [canvas,ctx,w,h]=setupCanvas('weeklyPatternChart'); ctx.fillStyle='#1c1c1e'; ctx.fillRect(0,0,w,h); const pad={left:35,right:15,top:20,bottom:30}, chartW=w-pad.left-pad.right, chartH=h-pad.top-pad.bottom, maxY=Math.max(50,...patternData.map(d=>d.avg))*1.1, barW=chartW/7*.6, gap=chartW/7; ctx.strokeStyle='#333'; ctx.beginPath(); ctx.moveTo(pad.left,pad.top); ctx.lineTo(pad.left,h-pad.bottom); ctx.lineTo(w-pad.right,h-pad.bottom); ctx.stroke(); patternData.forEach((d,i)=>{const x=pad.left+i*gap+gap/2-barW/2, bh=(d.avg/maxY)*chartH, y=h-pad.bottom-bh; ctx.fillStyle=d.avg>=50?'#4fc3f7':(d.avg>=36?'#ff9800':'#dc3545'); ctx.fillRect(x,y,barW,bh); ctx.fillStyle='#aaa'; ctx.textAlign='center'; ctx.font='11px sans-serif'; ctx.fillText(d.day,x+barW/2,h-pad.bottom+15); ctx.fillStyle='#fff'; ctx.fillText(d.avg.toFixed(1),x+barW/2,y-5);}); }
+function drawAll(){ drawConsistencyChart(); drawComponentChart(); drawHeatmap(); drawStreaks(); drawWeeklyPattern(); }
+window.addEventListener('resize',()=>setTimeout(drawAll,100)); drawAll();
+</script>
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
