@@ -1,0 +1,87 @@
+/* Verbatim from the original generated nightly reports. */
+        body { font-family: -apple-system, sans-serif; background: #0a0a0c; color: white; margin: 0; padding: 0; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+        body > *:not(nav) { margin-left: 40px; margin-right: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .card { background: #1c1c1e; padding: 20px; border-radius: 12px; border: 1px solid #2c2c2e; }
+        .value { font-size: 24px; font-weight: bold; color: #0a84ff; }
+        .chart-box { background: #1c1c1e; padding: 25px; border-radius: 20px; margin: 20px 0; border: 1px solid #2c2c2e; }
+        .insight-pill { font-size: 12px; color: #8e8e93; margin-top: 5px; }
+        img { width: 100%; border-radius: 10px; }
+        h1, h2 { color: #0a84ff; }
+        .summary-paragraph { background: #1c1c1e; padding: 25px; border-radius: 15px; margin: 20px 0; font-size: 16px; border: 1px solid #2c2c2e; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #2c2c2e; }
+        .card-title { font-size: 1.3rem; font-weight: bold; color: #ffffff; }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; }
+        .badge-green { background: #32d74b; color: #000; }
+        .badge-yellow { background: #ffd60a; color: #000; }
+        .badge-red { background: #ff453a; color: #fff; }
+        .badge-blue { background: #0a84ff; color: #fff; }
+        .badge-gray { background: #8e8e93; color: #fff; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-item { background: #2c2c2e; padding: 15px; border-radius: 8px; }
+        .stat-label { color: #8e8e93; font-size: 0.85rem; margin-bottom: 5px; }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: #0a84ff; }
+        .stat-subtext { color: #8e8e93; font-size: 0.8rem; margin-top: 3px; }
+        .details-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px; background: #2c2c2e; border-radius: 6px; }
+        .detail-label { color: #8e8e93; }
+        .detail-value { color: #ffffff; font-weight: 600; }
+        .quality-indicator { display: inline-block; }
+        .quality-stars { color: #ffd60a; }
+        .quality-label { color: #8e8e93; font-size: 0.85rem; margin-left: 5px; }
+        .hr-zone-chart { margin: 20px 0; }
+        .hr-zone { margin: 10px 0; }
+        .hr-zone-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .hr-zone-bar { width: 100%; height: 20px; background: #2c2c2e; border-radius: 4px; overflow: hidden; }
+        .hr-zone-fill { height: 100%; transition: width 0.3s ease; }
+        .form-metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .form-metric { background: #2c2c2e; padding: 15px; border-radius: 8px; border-left: 3px solid #0a84ff; }
+        .form-metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .form-metric-name { font-weight: bold; color: #ffffff; }
+        .form-metric-value { font-size: 1.3rem; color: #0a84ff; }
+        .training-effect-badge { display: inline-flex; align-items: center; gap: 8px; background: #2c2c2e; padding: 10px 15px; border-radius: 8px; margin: 5px; }
+        .training-effect-emoji { font-size: 1.5rem; }
+        .training-effect-label { font-weight: bold; }
+        .training-effect-score { color: #8e8e93; font-size: 0.9rem; }
+        .recovery-context { background: linear-gradient(135deg, #1a2a3a 0%, #2a1a3a 100%); padding: 20px; border-radius: 12px; margin: 20px 0; }
+        .trend-indicator { display: inline-flex; align-items: center; gap: 5px; color: #8e8e93; font-size: 0.9rem; }
+        .no-data { background: #2c2c2e; padding: 30px; border-radius: 12px; text-align: center; color: #8e8e93; }
+        .efficiency-badge { display: inline-block; padding: 8px 15px; border-radius: 6px; font-weight: bold; font-size: 1.1rem; }
+        .efficiency-excellent { background: #32d74b; color: #000; }
+        .efficiency-good { background: #ffd60a; color: #000; }
+        .efficiency-poor { background: #ff453a; color: #fff; }
+        .tooltip { position: relative; display: inline-block; cursor: help; }
+        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #2c2c2e; color: #fff; padding: 8px 12px; border-radius: 6px; white-space: nowrap; font-size: 0.85rem; z-index: 1000; }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .details-grid { grid-template-columns: 1fr; }
+            .form-metrics-grid { grid-template-columns: 1fr; }
+        }
+    
+        .factor-pill {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #2c2c2e;
+            color: #8e8e93;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 5px 5px 5px 0;
+        }
+    
+
+/* Layout fixes (not in the original pages). The originals never styled
+   .metric-grid, so the day's metric cards stacked one per row; and
+   .summary-paragraph's `margin: 20px 0` beat the body's side margins, so
+   coach guidance and the summaries ran wider than everything else. */
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 40px 30px; }
+.metric-grid .card { min-width: 0; }
+body > .summary-paragraph, body > .chart-box { margin: 20px 40px; }
+.card:has(> h3:only-child) { padding: 12px 18px; }
+@media (max-width: 700px) {
+    body > *:not(nav), body > .summary-paragraph, body > .chart-box { margin-left: 16px; margin-right: 16px; }
+    .metric-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-left: 16px; margin-right: 16px; }
+    .metric-grid .card { padding: 14px; }
+    .metric-grid .value { font-size: 20px; }
+    .summary-paragraph, .chart-box { padding: 18px; }
+    .grid { grid-template-columns: 1fr; }
+}

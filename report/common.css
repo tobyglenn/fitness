@@ -1,0 +1,28 @@
+/* Shared additions for the data-driven report pages (charts, links, browser). */
+.rc-chart, .chart-slot { width: 100%; margin: 10px 0 14px; }
+.rc-svg { display: block; width: 100%; height: auto; border-radius: 6px; }
+.rc-svg text { fill: #e5e5e7; font: 13px -apple-system, "Helvetica Neue", Arial, sans-serif; }
+.rc-svg .rc-title { font-size: 19px; font-weight: 700; }
+.rc-svg .rc-axlabel { font-size: 13px; fill: #c7c7cc; }
+.rc-svg .rc-legend text { font-size: 12.5px; }
+.rc-empty { padding: 36px 16px; text-align: center; color: #8e8e93; background: #1c1c1e; border: 1px dashed #3a3a3c; border-radius: 8px; }
+.rc-links a:hover { filter: brightness(1.25); }
+
+/* report/index.html — browse every report */
+.rb-year { margin: 28px 0 8px; color: #0a84ff; }
+.rb-month { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid #2c2c2e; }
+.rb-month h3 { margin: 4px 0; font-size: 15px; color: #c7c7cc; }
+.rb-days { display: flex; flex-wrap: wrap; gap: 6px; }
+.rb-day { display: inline-flex; align-items: center; gap: 4px; background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 6px; padding: 4px 8px; font-size: 13px; color: #e5e5e7; }
+.rb-day a { color: #58a6ff; text-decoration: none; }
+.rb-day a.n { color: #8e8e93; }
+.rb-day a:hover { text-decoration: underline; }
+.rb-filter { background: #1c1c1e; color: #fff; border: 1px solid #3a3a3c; border-radius: 6px; padding: 8px 10px; font-size: 14px; width: min(320px, 100%); }
+@media (max-width: 600px) { .rb-month { grid-template-columns: 1fr; gap: 4px; } }
+.rc-svg .rc-pie-pct { font-size: 19px; font-weight: 700; fill: #fff; }
+.rc-svg .rc-pie-label { font-size: 17px; fill: #e5e5e7; }
+/* historical: the original title sat inside its centred 900px container */
+body[data-kind="historical"] > h1, body[data-kind="historical"] > .rc-links { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+/* Metric card sub-line (averages, macros) sits under the value, not run into it. */
+.metric-sub { margin-top: 4px; color: #8e8e93; font-size: 13px; line-height: 1.4; }

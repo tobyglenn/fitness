@@ -1,0 +1,17 @@
+{
+  "agents": [
+    {"name": "ARIA", "role": "Main Agent", "status": "active", "description": "Coordinating agent operations...", "emoji": "🌸"},
+    {"name": "Clawd", "role": "232 · Gemini Based", "status": "idle", "description": "Generating visualizations", "emoji": "⚙️☁️"},
+    {"name": "BOB", "role": "218 · Brain On Board", "status": "idle", "description": "Main OpenClaw agent - formerly Claud", "emoji": "🧠"},
+    {"name": "Pulse", "role": "Subagent", "status": "idle", "description": "Ready for tasks", "emoji": "⚡"},
+    {"name": "Clarity", "role": "Subagent", "status": "active", "description": "Refactoring dashboard to data-driven approach", "emoji": "🔍"},
+    {"name": "Spark", "role": "Subagent", "status": "idle", "description": "Ready for tasks", "emoji": "💡"},
+    {"name": "Sage", "role": "Subagent", "status": "active", "description": "Pending verification of dashboard refactor", "emoji": "🐺"},
+    {"name": "Vision", "role": "Subagent", "status": "idle", "description": "Ready for visual analysis", "emoji": "👁️"}
+  ],
+  "activities": [
+    {"message": "Dashboard refactor: Clarity implementing, Sage verifying", "type": "system", "time": "just now"},
+    {"message": "Dashboard test completed: Spark and Sage marked active", "type": "fleet", "time": "5 min ago"},
+    {"message": "Defect fixes completed and verified by Clarity/Sage team", "type": "system", "time": "15 min ago"}
+  ]
+}
