@@ -51,6 +51,7 @@ CHART_IDS = [
     ("cardio intensity", "cardio-intensity"),
     ("weekly load", "weekly-load"),
     ("fueling vs output", "fueling"),
+    ("composite recovery", "sleep-debt"),
     ("sleep debt", "sleep-debt"),
     ("recovery debt", "sleep-debt"),
 ]
@@ -102,6 +103,14 @@ def strip_noise(node: Node, kind: str = "") -> None:
         elif n.tag in ("script", "style"):
             n.remove()
         elif n.tag == "img" and (n.attrs.get("src") or "").startswith("data:"):
+            parent=n.parent
+            if parent is not None and parent.attrs.get('data-wearable-spec'):
+                spec=json.loads(parent.attrs['data-wearable-spec'])
+                slot=Node('div', {'class':'chart-slot','data-chart':'wearable-observation','data-spec':json.dumps(spec,separators=(',',':'))},parent)
+                parent.children[parent.children.index(n)]=slot
+                n.parent=None
+                parent.attrs.pop('data-wearable-spec',None)
+                continue
             cid = chart_id(" ".join([n.attrs.get("alt", ""), n.attrs.get("title", ""), heading]), kind)
             if cid and n.parent is not None:
                 slot = Node("div", {"class": "chart-slot", "data-chart": cid}, n.parent)

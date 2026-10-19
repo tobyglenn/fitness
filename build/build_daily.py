@@ -39,7 +39,7 @@ FIELDS = [
     "kcal_out",        # WHOOP kcal burned + Garmin active calories
     "workout_strain",  # WHOOP workout/activity strain (sum)
     "bjj_strain",      # WHOOP BJJ/grappling strain
-    "w_sleep_h",       # WHOOP time in bed
+    "w_sleep_h",       # WHOOP actual sleep (light + REM + deep)
     "w_deep_h",
     "w_rem_h",
     "w_debt_h",        # WHOOP need from sleep debt
@@ -59,6 +59,7 @@ FIELDS = [
     "carbs_g",
     "fat_g",
     "weight_lbs",      # Cronometer body weight
+    "spd_recovery",   # Speediance app native recovery, sensor unspecified
 ]
 
 RUN_TYPES = {"running", "treadmill_running", "trail_running", "track_running"}
@@ -151,7 +152,7 @@ def load_whoop(data_dir: Path, days: Days) -> None:
             vals = [v for v in (fn(x) for x in scores) if v is not None]
             return sum(vals) / len(vals) if vals else None
         st = lambda x, k: _num((x.get("stage_summary") or {}).get(k))
-        days.set(d, "w_sleep_h", mean(lambda x: (st(x, "total_in_bed_time_milli") or 0) / 3.6e6), 2)
+        days.set(d, "w_sleep_h", mean(lambda x: sum(st(x,k) or 0 for k in ("total_light_sleep_time_milli","total_rem_sleep_time_milli","total_slow_wave_sleep_time_milli")) / 3.6e6), 2)
         days.set(d, "w_deep_h", mean(lambda x: (st(x, "total_slow_wave_sleep_time_milli") or 0) / 3.6e6), 2)
         days.set(d, "w_rem_h", mean(lambda x: (st(x, "total_rem_sleep_time_milli") or 0) / 3.6e6), 2)
         days.set(d, "w_debt_h", mean(lambda x: (_num((x.get("sleep_needed") or {}).get("need_from_sleep_debt_milli")) or 0) / 3.6e6), 2)
@@ -342,6 +343,16 @@ def write_years(days: Days) -> None:
         print(f"  {path.relative_to(ROOT)}: {len(out['days'])} days")
 
 
+def load_speediance_strap(data_dir: Path, days: Days) -> None:
+    path=data_dir / "speediance_strap" / "normalized.json"
+    if not path.exists():return
+    cache=json.loads(path.read_text())
+    for date,row in cache.get("records",{}).items():
+        value=_num(row.get("spd_recovery"))
+        if value is not None and 0 <= value <= 100:
+            days.set(date,"spd_recovery",value,1)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--data-dir", type=Path, default=Path(os.environ.get("DATA_DIR", Path.home() / "clawd" / "data")))
@@ -354,6 +365,7 @@ def main() -> None:
         load_garmin(args.data_dir, days, args.since)
         load_eight_sleep(args.data_dir, days)
         load_speediance(args.data_dir, days)
+        load_speediance_strap(args.data_dir, days)
         load_tonal(args.data_dir, days)
         load_cronometer(args.data_dir, days)
     else:

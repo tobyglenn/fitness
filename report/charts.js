@@ -233,10 +233,10 @@
 
   // ------------------------------------------------------------- metrics --
   function composite(row) {
-    // WHOOP 50% + Garmin Sleep Score 30% + 8Sleep 20% (missing counts as 0),
+    // WHOOP 50% + Garmin Sleep Score 30% + 8Sleep 20%; all sources required,
     // matching calculate_composite_recovery().
     if (!row) return null;
-    if (row.recovery == null && row.g_sleep_score == null && row.e_score == null) return null;
+    if (row.recovery == null || !(row.g_sleep_score > 0) || !(row.e_score > 0)) return null;
     return (row.recovery || 0) * 0.5 + (row.g_sleep_score || 0) * 0.3 + (row.e_score || 0) * 0.2;
   }
   function nz(v) { return v === null || v === undefined || v === 0 ? null : v; }
@@ -259,8 +259,9 @@
           { type: "line", label: "WHOOP Recovery", color: C.blue, data: days.map(function (d) { return nz(get(d).recovery); }) },
           { type: "line", label: "Garmin Sleep Score", color: C.green, marker: "triangle", data: days.map(function (d) { return nz(get(d).g_sleep_score); }) },
           { type: "line", label: "8Sleep Fitness Score", color: C.purple, marker: "square", data: days.map(function (d) { return nz(get(d).e_score); }) },
+          { type: "line", label: "Speediance app Recovery", color: "#ffb340", marker: "square", data: days.map(function (d) { return get(d).spd_recovery == null ? null : get(d).spd_recovery; }) },
           {
-            type: "scatter", label: "Away from home (no 8Sleep)", color: C.orange, marker: "down",
+            type: "scatter", label: "Eight Sleep unavailable", color: C.orange, marker: "down",
             data: days.map(function (d) { var r = get(d); return !r.e_score && (r.recovery || r.g_bb) ? 5 : null; }),
             fmt: function () { return "no 8Sleep data"; },
           },
@@ -348,7 +349,7 @@
         return vals.length ? vals.reduce(function (a, b) { return a + b; }, 0) / vals.length : null;
       });
       return {
-        title: "Recovery Debt Trendline",
+        title: "Composite Recovery Trend",
         x: days.map(mmdd), xFull: days,
         axes: [{ label: "Recovery Score" }],
         series: [
@@ -443,6 +444,10 @@
   };
 
   function render(container, id, ctx) {
+    if (id === "wearable-observation") {
+      var snapshot = JSON.parse(container.getAttribute("data-spec"));
+      return plot(container, snapshot);
+    }
     var build = CHARTS[id];
     if (!build) return empty(container, "Unknown chart: " + id);
     var spec = build(ctx);
