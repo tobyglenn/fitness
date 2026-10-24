@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recovery Efficiency Analysis</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 12px 24px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 14px; }
+  nav a:hover, nav a.active { color: #f39c12; }
+  nav .brand { color: #f39c12; font-weight: 700; font-size: 16px; margin-right: 16px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+  h1 { font-size: 28px; margin-bottom: 6px; }
+  .subtitle { color: #8b949e; font-size: 15px; margin-bottom: 32px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+  .card-label { color: #8b949e; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .card-value { font-size: 32px; font-weight: 700; color: #f39c12; }
+  .card-sub { color: #8b949e; font-size: 13px; margin-top: 6px; }
+  .section { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; margin-bottom: 32px; }
+  .section h2 { font-size: 18px; margin-bottom: 16px; color: #f39c12; }
+  .chart-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { color: #8b949e; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; padding: 8px 12px; border-bottom: 1px solid #30363d; text-align: left; }
+  td { padding: 10px 12px; border-bottom: 1px solid #21262d; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #1c2128; }
+  .insights { list-style: none; }
+  .insights li { padding: 12px 0; border-bottom: 1px solid #21262d; font-size: 15px; line-height: 1.5; }
+  .insights li:last-child { border-bottom: none; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .green { color: #2ea043; }
+  .orange { color: #f39c12; }
+  .red { color: #f85149; }
+</style>
+</head>
+<body>
+<nav style="background:#1a1a2e;padding:10px 20px;text-align:center;font-size:14px;border-bottom:1px solid #333;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;">
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="../" style="color:#a0aec0;text-decoration:none;">🏠 Hub</a>
+    <a href="../calendars/" style="color:#a0aec0;text-decoration:none;">📅 Calendars</a>
+    <a href="../strength/" style="color:#a0aec0;text-decoration:none;">💪 Strength</a>
+  </div>
+  <div style="display:flex;justify-content:center;gap:20px;width:100%;">
+    <a href="../running/" style="color:#a0aec0;text-decoration:none;">🏃 Running</a>
+    <a href="../sleep/" style="color:#ffffff;font-weight:bold">😴 Sleep &amp; Recovery</a>
+    <a href="../nutrition/" style="color:#a0aec0;text-decoration:none;">🥗 Nutrition</a>
+  </div>
+</nav>
+<div class="container">
+  <h1>Recovery Efficiency Analysis 📊</h1>
+  <p class="subtitle">How your training impacts next-day recovery · Last 180 days · 0 training days analyzed</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Avg Next-Day Recovery</div>
+      <div class="card-value">0%</div>
+      <div class="card-sub">After training days</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Best Training Day</div>
+      <div class="card-value">Mon</div>
+      <div class="card-sub">Avg 0% next-day recovery</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Heavy Day Impact</div>
+      <div class="card-value green">+0%</div>
+      <div class="card-sub">Recovery change after heavy volume</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Recovery Breakpoint</div>
+      <div class="card-value">N/A</div>
+      <div class="card-sub">Lbs where recovery dips</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Training Load vs Next-Day Recovery</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 800 400"><text x="400" y="200" fill="#888" text-anchor="middle">No data</text></svg></div>
+    <p style="color:#8b949e;font-size:13px;margin-top:10px">Each dot = one training day. Trend line in orange. Colored by day of week.</p>
+  </div>
+
+  <div class="section">
+    <h2>Avg Next-Day Recovery by Training Day</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 600 300" style="width:100%;max-width:600px">
+  <rect width="600" height="300" fill="#161b22" rx="8"/>
+  <text x="44" y="254.0" fill="#888" font-size="10" text-anchor="end">0</text><line x1="50" y1="250.0" x2="580" y2="250.0" stroke="#2a2a2a" stroke-dasharray="3,3"/><text x="44" y="199.0" fill="#888" font-size="10" text-anchor="end">25</text><line x1="50" y1="195.0" x2="580" y2="195.0" stroke="#2a2a2a" stroke-dasharray="3,3"/><text x="44" y="144.0" fill="#888" font-size="10" text-anchor="end">50</text><line x1="50" y1="140.0" x2="580" y2="140.0" stroke="#2a2a2a" stroke-dasharray="3,3"/><text x="44" y="89.0" fill="#888" font-size="10" text-anchor="end">75</text><line x1="50" y1="85.0" x2="580" y2="85.0" stroke="#2a2a2a" stroke-dasharray="3,3"/><text x="44" y="34.0" fill="#888" font-size="10" text-anchor="end">100</text><line x1="50" y1="30.0" x2="580" y2="30.0" stroke="#2a2a2a" stroke-dasharray="3,3"/>
+  <line x1="50" y1="30" x2="50" y2="250" stroke="#444"/>
+  <line x1="50" y1="250" x2="580" y2="250" stroke="#444"/>
+  <rect x="57.6" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="87.9" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="87.9" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Mon</text><rect x="133.3" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="163.6" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="163.6" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Tue</text><rect x="209.0" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="239.3" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="239.3" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Wed</text><rect x="284.7" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="315.0" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="315.0" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Thu</text><rect x="360.4" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="390.7" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="390.7" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Fri</text><rect x="436.1" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="466.4" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="466.4" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Sat</text><rect x="511.9" y="250.0" width="60.6" height="0.0" fill="hsl(0, 70%, 50%)" rx="3"/><text x="542.1" y="245.0" fill="white" font-size="11" text-anchor="middle">0%</text><text x="542.1" y="268.0" fill="#aaa" font-size="12" text-anchor="middle">Sun</text>
+  <text x="300" y="295" fill="#aaa" font-size="12" text-anchor="middle">Day of Week</text>
+</svg></div>
+  </div>
+
+  <div class="section">
+    <h2>Volume Bucket Analysis</h2>
+    <table>
+      <thead><tr><th>Bucket</th><th>Count</th><th>Avg Recovery</th><th>Std Dev</th></tr></thead>
+      <tbody>
+<tr>
+  <td><span style="color:#2ea043">●</span> Light</td>
+  <td>0 days</td>
+  <td>0%</td>
+  <td>±0.0%</td>
+</tr>
+<tr>
+  <td><span style="color:#f39c12">●</span> Medium</td>
+  <td>0 days</td>
+  <td>0%</td>
+  <td>±0.0%</td>
+</tr>
+<tr>
+  <td><span style="color:#f85149">●</span> Heavy</td>
+  <td>0 days</td>
+  <td>0%</td>
+  <td>±0.0%</td>
+</tr></tbody>
+    </table>
+    <p style="color:#8b949e;font-size:12px;margin-top:10px">Light &lt;5,000 lbs · Medium 5,000–15,000 lbs · Heavy &gt;15,000 lbs (Tonal only)</p>
+  </div>
+
+  <div class="section">
+    <h2>90-Day Rolling Efficiency Trend</h2>
+    <div class="chart-wrap"><svg viewBox="0 0 800 250"><text x="400" y="125" fill="#888" text-anchor="middle">No data</text></svg></div>
+    <p style="color:#8b949e;font-size:13px;margin-top:8px">Weekly average efficiency (next-day recovery / normalized load). Dashed line = break-even at 1.0.</p>
+  </div>
+
+  <div class="section">
+    <h2>Lowest Efficiency Days</h2>
+    <p style='color:#8b949e'>No low-efficiency days found in the current dataset.</p>
+  </div>
+
+  <div class="section">
+    <h2>💡 Recommendations</h2>
+    <ul class="insights">
+      <li>📈 Insufficient training + recovery overlap data for personalized insights yet.</li>
+    </ul>
+  </div>
+
+  <p style="color:#444;font-size:12px;text-align:center;margin-top:24px">Generated 2026-05-23 03:02 · 0 training+recovery pairs · WHOOP + Tonal + Garmin</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- morning_report_link_injected --><script>
+(function(){
+  document.querySelectorAll("td,li,.date-cell,.date").forEach(function(el){
+    var t = el.textContent.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(t) && !el.querySelector("a")) {
+      el.innerHTML =
+        '<a href="/fitness/morning_report_' + t + '.html" ' +
+        'style="color:#58a6ff;text-decoration:none" title="Morning report">' + t + '</a>' +
+        ' <a href="/fitness/nightly_report_' + t + '.html" ' +
+        'style="color:#8b949e;text-decoration:none;font-size:0.85em" title="Nightly report">🌙</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
