@@ -1,0 +1,43 @@
+/* Verbatim from the original lifting & recovery reports. */
+        body {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0a0a0c; color: white; margin: 0; padding: 0;}
+        .container {max-width: 1400px; margin: 20px auto;}
+        .header {text-align: left; margin-bottom: 40px; border-left: 5px solid #0a84ff; padding-left: 20px;}
+        h1 {color: white; margin: 0; font-size: 3em; letter-spacing: -2px;}
+        .grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;}
+        .card {background: #1c1c1e; border-radius: 12px; padding: 30px; border: 1px solid #2c2c2e; transition: transform 0.2s; display: flex; flex-direction: column; min-height: 470px;} /* Added min-height for cards */
+        .card:hover {border-color: #333;}
+        .card h3 {margin-top: 0; color: #8e8e93; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; margin-bottom: 20px;}
+        .stat-value {font-size: 3.5em; font-weight: 800; color: white; line-height: 1;}
+        .stat-label {color: #0a84ff; text-transform: uppercase; font-size: 0.7em; letter-spacing: 1px; font-weight: bold;}
+        .body-viz {text-align: center; grid-column: 1 / -1; display: grid; grid-template-columns: 50% 50%; align-items: start; column-gap: 28px; padding-bottom: 12px;}
+        .bio-readiness {text-align: left; width: 100%;}
+        .body-viz {min-height: auto;}
+        .body-figures {display: flex; flex-direction: row; gap: 2px; align-items: center; justify-content: flex-end; width: 100%;}
+        .two-up {display: grid; grid-template-columns: 1fr 1fr; gap: 20px; grid-column: 1 / -1;}
+        .charts-stack {display: grid; gap: 20px; margin-top: 20px;}
+        @media (max-width: 800px) {
+            .body-viz {grid-template-columns: 1fr;}
+            .body-figures {order: -1;}
+            .two-up {grid-template-columns: 1fr;}
+        }
+        svg {width: 100%; height: 400px; max-width: 220px; filter: drop-shadow(0 0 15px rgba(0,132,255,0.1));} /* Explicit size for Safari */
+        .volume-bar {height: 6px; background: #2c2c2e; border-radius: 3px; margin-top: 8px; overflow: hidden;} /* Adjusted background */
+        .volume-fill {height: 100%; background: #0a84ff;} /* Adjusted fill color */
+        .muscle-label {display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.85em; color: #8e8e93;} /* Adjusted color */
+        .muscle-label b {color: white;}
+        .chart-container {height: 200px; margin-top: 20px; flex-grow: 1; min-height: 350px;} /* Increased min-height for charts */
+        .prediction-item {margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #2c2c2e;} /* Adjusted border */
+        .prediction-item .time {color: #0a84ff; font-weight: bold; font-size: 0.9em;} /* Adjusted color */
+        .prediction-item .part {font-size: 0.8em; color: #8e8e93; text-transform: uppercase;} /* Adjusted color */
+        .tag {background: #2c2c2e; padding: 4px 10px; border-radius: 20px; font-size: 0.7em; color: #0a84ff; border: 1px solid #3a3a3c; margin-right: 5px;} /* Adjusted colors */
+        #monthly-volume-list {display: flex; flex-direction: column; justify-content: center; flex-grow: 1;}
+        #monthly-volume-header {display: flex; justify-content: center; align-items: baseline; gap: 8px; margin-top: 24px; color: #8e8e93; text-transform: uppercase; font-size: 0.7em; letter-spacing: 1px;}
+        #monthly-volume-range {color: #444; text-transform: none;}
+        .recovery-bar {height: 6px; background: #2c2c2e; border-radius: 3px; margin-top: 6px; overflow: hidden;}
+        .recovery-fill {height: 100%; border-radius: 3px;}
+
+        :root {--part-Core-color: #32d74b; --part-Core-glow: false;--part-Upper-Chest-color: #32d74b; --part-Upper-Chest-glow: false;--part-Chest-color: #32d74b; --part-Chest-glow: false;--part-Back-color: #32d74b; --part-Back-glow: false;--part-Shoulders-color: #32d74b; --part-Shoulders-glow: false;--part-Arms-L-color: #32d74b; --part-Arms-L-glow: false;--part-Arms-R-color: #32d74b; --part-Arms-R-glow: false;--part-Legs-L-color: #32d74b; --part-Legs-L-glow: false;--part-Legs-R-color: #32d74b; --part-Legs-R-glow: false;}
+        svg .part-glow[data-glow="true"] {
+            filter: url(#glow);
+        }
+    

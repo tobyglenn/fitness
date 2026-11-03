@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day Detail</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 10px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 13px; position: sticky; top: 0; z-index: 100; }
+  nav a { color: #58a6ff; text-decoration: none; white-space: nowrap; }
+  nav a:hover { color: #f39c12; }
+  nav .sep { color: #30363d; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  .page-header { margin-bottom: 28px; }
+  .date-nav { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .date-nav a { color: #58a6ff; text-decoration: none; font-size: 28px; font-weight: bold; padding: 4px 14px; border-radius: 6px; transition: background 0.2s; }
+  .date-nav a:hover { background: #21262d; }
+  .date-title { font-size: 28px; font-weight: 700; color: #f0f6fc; }
+  .date-sub { color: #8b949e; font-size: 14px; margin-top: 4px; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 20px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+  .card-title { font-size: 13px; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .score-row { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; }
+  .score-circle-wrap { text-align: center; }
+  .score-circle-wrap .label { font-size: 12px; color: #8b949e; margin-top: 6px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .stat-item { background: #0d1117; border-radius: 8px; padding: 10px 12px; }
+  .stat-val { font-size: 20px; font-weight: 700; color: #f0f6fc; }
+  .stat-label { font-size: 11px; color: #8b949e; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { color: #8b949e; font-weight: 600; padding: 6px 8px; text-align: left; border-bottom: 1px solid #30363d; }
+  td { padding: 6px 8px; border-bottom: 1px solid #21262d; color: #e6edf3; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #1c2128; }
+  .sleep-bar-wrap { margin-top: 12px; }
+  .sleep-bar-label { font-size: 11px; color: #8b949e; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .sleep-bar { height: 28px; border-radius: 6px; overflow: hidden; display: flex; }
+  .sleep-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.85); min-width: 2px; }
+  .sleep-legend { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .sleep-leg-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #8b949e; }
+  .sleep-leg-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .timeline { position: relative; padding: 8px 0; }
+  .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: #30363d; }
+  .tl-item { display: flex; gap: 16px; margin-bottom: 14px; }
+  .tl-dot { width: 12px; height: 12px; border-radius: 50%; background: #f39c12; border: 2px solid #0d1117; margin-top: 3px; flex-shrink: 0; margin-left: 15px; z-index: 1; }
+  .tl-content { flex: 1; }
+  .tl-time { font-size: 11px; color: #8b949e; }
+  .tl-desc { font-size: 13px; color: #e6edf3; }
+  .no-data { color: #8b949e; text-align: center; padding: 60px 20px; }
+  .macro-bar { height: 8px; border-radius: 4px; background: #21262d; margin-top: 4px; overflow: hidden; }
+  .macro-fill { height: 100%; border-radius: 4px; }
+  .protein-high { color: #2ea043; font-weight: 700; }
+  .card-full { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .date-picker-wrap { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .date-picker-wrap input[type=date] { background: #161b22; border: 1px solid #30363d; color: #e6edf3; padding: 6px 10px; border-radius: 6px; font-size: 13px; }
+  .date-picker-wrap button { background: #f39c12; color: #000; border: none; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } .date-title { font-size: 20px; } }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+  <span class="sep">|</span>
+  <a href="../fitness_overview.html">Overview</a>
+  <a href="../sleep_dashboard.html">Sleep</a>
+  <a href="../recovery/index.html">Recovery</a>
+  <a href="../strength/index.html">Strength</a>
+  <a href="../cardio/index.html">Cardio</a>
+  <a href="../nutrition/index.html">Nutrition</a>
+  <a href="../velocity/index.html">Velocity</a>
+  <a href="../training_rhythm/index.html">Rhythm</a>
+  <span class="sep">|</span>
+  <a href="../calendars/2026-02-calendar.html">Feb 2026</a>
+  <a href="../calendars/2025-12-calendar.html">Dec 2025</a>
+  <a href="../calendars/2025-11-calendar.html">Nov 2025</a>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <div class="date-nav">
+      <a id="prev-link" href="#" title="Previous day">&larr;</a>
+      <div>
+        <div class="date-title" id="date-display">Loading...</div>
+        <div class="date-sub" id="date-sub"></div>
+      </div>
+      <a id="next-link" href="#" title="Next day">&rarr;</a>
+    </div>
+    <div class="date-picker-wrap">
+      <input type="date" id="date-input" />
+      <button onclick="goToDate()">Go</button>
+      <a href="#" onclick="goToToday();return false;" style="color:#58a6ff;font-size:13px;">Today</a>
+    </div>
+  </div>
+
+  <div id="no-data-msg" class="no-data" style="display:none;">
+    <p style="font-size:20px;margin-bottom:8px;">No data for this date</p>
+    <p>Data starts from late 2021. Use the arrows or date picker to navigate.</p>
+  </div>
+
+  <div id="content" style="display:none;">
+    <div class="cards-grid" id="recovery-cards"></div>
+    <div id="tonal-section"></div>
+    <div id="garmin-section"></div>
+    <div id="nutrition-section"></div>
+    <div id="timeline-section"></div>
+  </div>
+</div>
+
+<script>
+const ALL_DATA = 
