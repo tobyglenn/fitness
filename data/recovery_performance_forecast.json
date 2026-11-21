@@ -1,0 +1,2766 @@
+{
+  "generated_at": "2026-03-01T22:28:14.787915-05:00",
+  "today_combined": 87.0,
+  "avg_volume": 13170,
+  "r2": 0.009,
+  "mae": 7259,
+  "n_data_points": 666,
+  "forecasts": [
+    {
+      "date": "2026-03-02",
+      "combined_recovery": 87.0,
+      "predicted_volume": 14336,
+      "ci": 7259,
+      "pct_of_avg": 108.8
+    },
+    {
+      "date": "2026-03-03",
+      "combined_recovery": 84.0,
+      "predicted_volume": 14168,
+      "ci": 7259,
+      "pct_of_avg": 107.6
+    },
+    {
+      "date": "2026-03-04",
+      "combined_recovery": 81.0,
+      "predicted_volume": 14000,
+      "ci": 7259,
+      "pct_of_avg": 106.3
+    }
+  ],
+  "last7_overlay": [
+    {
+      "date": "2025-03-22",
+      "volume": 9901.0,
+      "recovery": 65.5
+    },
+    {
+      "date": "2025-03-23",
+      "volume": 25381.0,
+      "recovery": 60.0
+    },
+    {
+      "date": "2025-03-24",
+      "volume": 8100.0,
+      "recovery": 62.5
+    },
+    {
+      "date": "2025-03-25",
+      "volume": 22109.0,
+      "recovery": 46.5
+    },
+    {
+      "date": "2025-03-27",
+      "volume": 28508.0,
+      "recovery": 67.0
+    },
+    {
+      "date": "2025-03-29",
+      "volume": 4457.0,
+      "recovery": 71.5
+    },
+    {
+      "date": "2025-04-01",
+      "volume": 37379.0,
+      "recovery": 88.0
+    }
+  ],
+  "accuracy_rows": [
+    {
+      "date": "2025-03-24",
+      "predicted": 12967,
+      "actual": 8100,
+      "error_pct": 60.1
+    },
+    {
+      "date": "2025-03-25",
+      "predicted": 12072,
+      "actual": 22109,
+      "error_pct": 45.4
+    },
+    {
+      "date": "2025-03-27",
+      "predicted": 13218,
+      "actual": 28508,
+      "error_pct": 53.6
+    },
+    {
+      "date": "2025-03-29",
+      "predicted": 13469,
+      "actual": 4457,
+      "error_pct": 202.2
+    },
+    {
+      "date": "2025-04-01",
+      "predicted": 14391,
+      "actual": 37379,
+      "error_pct": 61.5
+    }
+  ],
+  "correlated_points": [
+    {
+      "combined": 73.0,
+      "volume": 10305.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 7865.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 680.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 4837.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 10027.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 24045.0
+    },
+    {
+      "combined": 91.0,
+      "volume": 11824.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 8892.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 9614.0
+    },
+    {
+      "combined": 70.0,
+      "volume": 10850.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 15668.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 15099.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 3312.0
+    },
+    {
+      "combined": 71.0,
+      "volume": 12797.0
+    },
+    {
+      "combined": 77.0,
+      "volume": 13238.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 12722.0
+    },
+    {
+      "combined": 77.0,
+      "volume": 7914.0
+    },
+    {
+      "combined": 57.0,
+      "volume": 6357.0
+    },
+    {
+      "combined": 30.0,
+      "volume": 10034.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 11303.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 12929.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 17189.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 8959.0
+    },
+    {
+      "combined": 38.0,
+      "volume": 14862.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 2568.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 20624.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 9907.0
+    },
+    {
+      "combined": 91.0,
+      "volume": 12426.0
+    },
+    {
+      "combined": 92.0,
+      "volume": 14123.0
+    },
+    {
+      "combined": 80.0,
+      "volume": 8037.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 14521.0
+    },
+    {
+      "combined": 92.0,
+      "volume": 8907.0
+    },
+    {
+      "combined": 24.0,
+      "volume": 15490.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 10304.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 23599.0
+    },
+    {
+      "combined": 91.0,
+      "volume": 5907.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 10473.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 12809.0
+    },
+    {
+      "combined": 82.0,
+      "volume": 22728.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 18834.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 2342.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 4551.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 15730.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 23676.0
+    },
+    {
+      "combined": 47.0,
+      "volume": 16498.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 1987.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 18077.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 3115.0
+    },
+    {
+      "combined": 71.0,
+      "volume": 7914.0
+    },
+    {
+      "combined": 41.0,
+      "volume": 9858.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 5648.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 13666.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 3663.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 4676.0
+    },
+    {
+      "combined": 38.0,
+      "volume": 14622.0
+    },
+    {
+      "combined": 54.5,
+      "volume": 6916.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 9339.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 6506.0
+    },
+    {
+      "combined": 41.0,
+      "volume": 2498.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 6916.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 7276.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 9362.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 6736.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 1720.0
+    },
+    {
+      "combined": 58.5,
+      "volume": 1356.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 3480.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 12260.0
+    },
+    {
+      "combined": 94.0,
+      "volume": 2880.0
+    },
+    {
+      "combined": 52.5,
+      "volume": 6771.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 9588.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 1740.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 624.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 6076.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 11466.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 737.0
+    },
+    {
+      "combined": 84.0,
+      "volume": 2970.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 7719.0
+    },
+    {
+      "combined": 65.5,
+      "volume": 6902.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 4163.0
+    },
+    {
+      "combined": 27.5,
+      "volume": 7104.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 6125.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 3268.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 6716.0
+    },
+    {
+      "combined": 29.5,
+      "volume": 2761.0
+    },
+    {
+      "combined": 54.0,
+      "volume": 6271.0
+    },
+    {
+      "combined": 77.0,
+      "volume": 6277.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 4693.0
+    },
+    {
+      "combined": 65.5,
+      "volume": 7064.0
+    },
+    {
+      "combined": 68.5,
+      "volume": 4779.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 1118.0
+    },
+    {
+      "combined": 80.0,
+      "volume": 3810.0
+    },
+    {
+      "combined": 89.5,
+      "volume": 2635.0
+    },
+    {
+      "combined": 92.0,
+      "volume": 8926.0
+    },
+    {
+      "combined": 70.0,
+      "volume": 3423.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 3125.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 13305.0
+    },
+    {
+      "combined": 41.5,
+      "volume": 12972.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 3710.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 19329.0
+    },
+    {
+      "combined": 56.0,
+      "volume": 5865.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 11225.0
+    },
+    {
+      "combined": 64.5,
+      "volume": 9717.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 16528.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 12229.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 6655.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 11335.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 23784.0
+    },
+    {
+      "combined": 62.5,
+      "volume": 5892.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 7803.0
+    },
+    {
+      "combined": 22.0,
+      "volume": 12202.0
+    },
+    {
+      "combined": 70.0,
+      "volume": 11226.0
+    },
+    {
+      "combined": 47.0,
+      "volume": 11303.0
+    },
+    {
+      "combined": 68.5,
+      "volume": 10404.0
+    },
+    {
+      "combined": 61.0,
+      "volume": 9115.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 10610.0
+    },
+    {
+      "combined": 41.0,
+      "volume": 5764.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 10787.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 7378.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 15738.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 7357.0
+    },
+    {
+      "combined": 13.5,
+      "volume": 18071.0
+    },
+    {
+      "combined": 54.0,
+      "volume": 5415.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 16217.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 6579.0
+    },
+    {
+      "combined": 92.0,
+      "volume": 13660.0
+    },
+    {
+      "combined": 31.0,
+      "volume": 5912.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 6437.0
+    },
+    {
+      "combined": 43.0,
+      "volume": 10435.0
+    },
+    {
+      "combined": 45.0,
+      "volume": 3452.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 11086.0
+    },
+    {
+      "combined": 79.5,
+      "volume": 17353.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 11566.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 9065.0
+    },
+    {
+      "combined": 47.5,
+      "volume": 3638.0
+    },
+    {
+      "combined": 31.0,
+      "volume": 2643.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 6878.0
+    },
+    {
+      "combined": 39.5,
+      "volume": 3490.0
+    },
+    {
+      "combined": 45.0,
+      "volume": 8043.0
+    },
+    {
+      "combined": 58.0,
+      "volume": 10984.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 2049.0
+    },
+    {
+      "combined": 41.5,
+      "volume": 2704.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 3093.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 10902.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 1727.0
+    },
+    {
+      "combined": 89.0,
+      "volume": 1412.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 3546.0
+    },
+    {
+      "combined": 39.0,
+      "volume": 3055.0
+    },
+    {
+      "combined": 52.5,
+      "volume": 10322.0
+    },
+    {
+      "combined": 76.0,
+      "volume": 7381.0
+    },
+    {
+      "combined": 59.5,
+      "volume": 6841.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 5826.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 11891.0
+    },
+    {
+      "combined": 41.5,
+      "volume": 16366.0
+    },
+    {
+      "combined": 38.0,
+      "volume": 5299.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 2772.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 6291.0
+    },
+    {
+      "combined": 43.0,
+      "volume": 4676.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 7058.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 2545.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 7040.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 3543.0
+    },
+    {
+      "combined": 68.5,
+      "volume": 2044.0
+    },
+    {
+      "combined": 65.5,
+      "volume": 4125.0
+    },
+    {
+      "combined": 59.5,
+      "volume": 756.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 4166.0
+    },
+    {
+      "combined": 56.0,
+      "volume": 1232.0
+    },
+    {
+      "combined": 64.5,
+      "volume": 4463.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 9702.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 2655.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 4420.0
+    },
+    {
+      "combined": 76.0,
+      "volume": 405.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 4420.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 13132.0
+    },
+    {
+      "combined": 44.0,
+      "volume": 6880.0
+    },
+    {
+      "combined": 42.5,
+      "volume": 3240.0
+    },
+    {
+      "combined": 36.5,
+      "volume": 6050.0
+    },
+    {
+      "combined": 45.0,
+      "volume": 6158.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 2460.0
+    },
+    {
+      "combined": 56.0,
+      "volume": 14287.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 7331.0
+    },
+    {
+      "combined": 48.5,
+      "volume": 8803.0
+    },
+    {
+      "combined": 37.0,
+      "volume": 1946.0
+    },
+    {
+      "combined": 52.0,
+      "volume": 5520.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 713.0
+    },
+    {
+      "combined": 45.0,
+      "volume": 3452.0
+    },
+    {
+      "combined": 54.0,
+      "volume": 2946.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 4420.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 5333.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 5333.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 6497.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 3966.0
+    },
+    {
+      "combined": 92.0,
+      "volume": 5408.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 7183.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 5889.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 2763.0
+    },
+    {
+      "combined": 53.5,
+      "volume": 2927.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 2350.0
+    },
+    {
+      "combined": 82.0,
+      "volume": 1868.0
+    },
+    {
+      "combined": 88.5,
+      "volume": 7100.0
+    },
+    {
+      "combined": 80.0,
+      "volume": 5869.0
+    },
+    {
+      "combined": 59.5,
+      "volume": 4668.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 3058.0
+    },
+    {
+      "combined": 88.5,
+      "volume": 2633.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 6408.0
+    },
+    {
+      "combined": 25.0,
+      "volume": 2531.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 5105.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 6273.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 6529.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 3132.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 4563.0
+    },
+    {
+      "combined": 91.0,
+      "volume": 7128.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 2696.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 9012.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 3183.0
+    },
+    {
+      "combined": 58.5,
+      "volume": 3484.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 4571.0
+    },
+    {
+      "combined": 40.0,
+      "volume": 8290.0
+    },
+    {
+      "combined": 42.0,
+      "volume": 4047.0
+    },
+    {
+      "combined": 43.0,
+      "volume": 3791.0
+    },
+    {
+      "combined": 29.0,
+      "volume": 983.0
+    },
+    {
+      "combined": 71.0,
+      "volume": 7708.0
+    },
+    {
+      "combined": 92.5,
+      "volume": 6936.0
+    },
+    {
+      "combined": 31.0,
+      "volume": 6064.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 1836.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 12546.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 6313.0
+    },
+    {
+      "combined": 82.0,
+      "volume": 18583.0
+    },
+    {
+      "combined": 41.5,
+      "volume": 2527.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 7200.0
+    },
+    {
+      "combined": 53.5,
+      "volume": 12677.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 1467.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 3916.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 5658.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 2271.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 8172.0
+    },
+    {
+      "combined": 65.5,
+      "volume": 5368.0
+    },
+    {
+      "combined": 90.5,
+      "volume": 6258.0
+    },
+    {
+      "combined": 70.0,
+      "volume": 3824.0
+    },
+    {
+      "combined": 65.5,
+      "volume": 1879.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 6981.0
+    },
+    {
+      "combined": 80.0,
+      "volume": 3084.0
+    },
+    {
+      "combined": 52.0,
+      "volume": 2366.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 4146.0
+    },
+    {
+      "combined": 83.5,
+      "volume": 7937.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 8372.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 482.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 1406.0
+    },
+    {
+      "combined": 34.5,
+      "volume": 14855.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 4225.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 10456.0
+    },
+    {
+      "combined": 68.5,
+      "volume": 6302.0
+    },
+    {
+      "combined": 77.0,
+      "volume": 8482.0
+    },
+    {
+      "combined": 54.0,
+      "volume": 9290.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 9235.0
+    },
+    {
+      "combined": 81.0,
+      "volume": 10523.0
+    },
+    {
+      "combined": 52.5,
+      "volume": 8390.0
+    },
+    {
+      "combined": 62.0,
+      "volume": 11782.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 7579.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 2246.0
+    },
+    {
+      "combined": 39.5,
+      "volume": 17077.0
+    },
+    {
+      "combined": 77.0,
+      "volume": 18050.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 6851.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 21908.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 7026.0
+    },
+    {
+      "combined": 68.5,
+      "volume": 12700.0
+    },
+    {
+      "combined": 84.0,
+      "volume": 13354.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 8408.0
+    },
+    {
+      "combined": 79.5,
+      "volume": 2727.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 22322.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 6861.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 4034.0
+    },
+    {
+      "combined": 52.5,
+      "volume": 9921.0
+    },
+    {
+      "combined": 76.5,
+      "volume": 16888.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 10896.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 1608.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 13569.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 14956.0
+    },
+    {
+      "combined": 88.5,
+      "volume": 16640.0
+    },
+    {
+      "combined": 62.0,
+      "volume": 8282.0
+    },
+    {
+      "combined": 86.5,
+      "volume": 14626.0
+    },
+    {
+      "combined": 59.5,
+      "volume": 4424.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 17724.0
+    },
+    {
+      "combined": 53.5,
+      "volume": 5670.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 9441.0
+    },
+    {
+      "combined": 43.5,
+      "volume": 8363.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 25459.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 11789.0
+    },
+    {
+      "combined": 55.0,
+      "volume": 5274.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 18426.0
+    },
+    {
+      "combined": 88.5,
+      "volume": 9671.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 13245.0
+    },
+    {
+      "combined": 59.5,
+      "volume": 3365.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 14979.0
+    },
+    {
+      "combined": 68.5,
+      "volume": 13168.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 1340.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 10007.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 21133.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 12907.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 5628.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 7102.0
+    },
+    {
+      "combined": 82.0,
+      "volume": 12258.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 17279.0
+    },
+    {
+      "combined": 56.0,
+      "volume": 13719.0
+    },
+    {
+      "combined": 48.5,
+      "volume": 10673.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 11030.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 6941.0
+    },
+    {
+      "combined": 58.5,
+      "volume": 18121.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 8774.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 18986.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 14252.0
+    },
+    {
+      "combined": 90.0,
+      "volume": 16991.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 13031.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 14678.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 8954.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 11085.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 11300.0
+    },
+    {
+      "combined": 79.5,
+      "volume": 4070.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 14908.0
+    },
+    {
+      "combined": 58.0,
+      "volume": 2999.0
+    },
+    {
+      "combined": 80.0,
+      "volume": 6944.0
+    },
+    {
+      "combined": 83.5,
+      "volume": 6900.0
+    },
+    {
+      "combined": 54.5,
+      "volume": 4531.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 8164.0
+    },
+    {
+      "combined": 81.5,
+      "volume": 1691.0
+    },
+    {
+      "combined": 46.5,
+      "volume": 9466.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 13473.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 12296.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 5996.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 5308.0
+    },
+    {
+      "combined": 93.0,
+      "volume": 2560.0
+    },
+    {
+      "combined": 16.0,
+      "volume": 8400.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 18916.0
+    },
+    {
+      "combined": 65.5,
+      "volume": 5468.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 5835.0
+    },
+    {
+      "combined": 64.5,
+      "volume": 18757.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 4271.0
+    },
+    {
+      "combined": 59.5,
+      "volume": 5713.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 6450.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 5618.0
+    },
+    {
+      "combined": 37.0,
+      "volume": 7130.0
+    },
+    {
+      "combined": 58.5,
+      "volume": 7619.0
+    },
+    {
+      "combined": 50.5,
+      "volume": 10467.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 10293.0
+    },
+    {
+      "combined": 53.5,
+      "volume": 10155.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 6869.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 13146.0
+    },
+    {
+      "combined": 52.5,
+      "volume": 3694.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 9592.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 10298.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 4154.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 12294.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 7855.0
+    },
+    {
+      "combined": 80.5,
+      "volume": 17459.0
+    },
+    {
+      "combined": 82.0,
+      "volume": 11083.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 11378.0
+    },
+    {
+      "combined": 93.5,
+      "volume": 10894.0
+    },
+    {
+      "combined": 74.5,
+      "volume": 7887.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 11756.0
+    },
+    {
+      "combined": 61.0,
+      "volume": 4315.0
+    },
+    {
+      "combined": 62.5,
+      "volume": 8051.0
+    },
+    {
+      "combined": 86.5,
+      "volume": 5606.0
+    },
+    {
+      "combined": 70.0,
+      "volume": 8779.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 7324.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 13595.0
+    },
+    {
+      "combined": 79.5,
+      "volume": 5690.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 8733.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 3982.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 7897.0
+    },
+    {
+      "combined": 71.5,
+      "volume": 4950.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 3080.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 4691.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 13747.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 15361.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 13372.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 30433.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 20615.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 10259.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 32185.0
+    },
+    {
+      "combined": 89.5,
+      "volume": 19308.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 21522.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 35830.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 18001.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 26143.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 38145.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 23491.0
+    },
+    {
+      "combined": 84.5,
+      "volume": 14137.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 38001.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 8623.0
+    },
+    {
+      "combined": 51.0,
+      "volume": 38622.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 21838.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 12094.0
+    },
+    {
+      "combined": 67.5,
+      "volume": 31795.0
+    },
+    {
+      "combined": 80.0,
+      "volume": 21572.0
+    },
+    {
+      "combined": 76.5,
+      "volume": 20819.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 7347.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 25680.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 22239.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 27513.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 23141.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 30050.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 14417.0
+    },
+    {
+      "combined": 80.5,
+      "volume": 13117.0
+    },
+    {
+      "combined": 53.5,
+      "volume": 13979.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 15074.0
+    },
+    {
+      "combined": 62.0,
+      "volume": 37300.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 11696.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 7221.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 12205.0
+    },
+    {
+      "combined": 64.5,
+      "volume": 30480.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 24361.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 27970.0
+    },
+    {
+      "combined": 51.0,
+      "volume": 40514.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 11069.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 26834.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 16912.0
+    },
+    {
+      "combined": 62.5,
+      "volume": 39608.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 24507.0
+    },
+    {
+      "combined": 52.5,
+      "volume": 37626.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 43094.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 25726.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 24705.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 23975.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 26892.0
+    },
+    {
+      "combined": 52.0,
+      "volume": 17361.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 22269.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 38518.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 8952.0
+    },
+    {
+      "combined": 48.0,
+      "volume": 28441.0
+    },
+    {
+      "combined": 79.5,
+      "volume": 23857.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 38924.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 24711.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 3066.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 15727.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 23602.0
+    },
+    {
+      "combined": 66.0,
+      "volume": 37200.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 22762.0
+    },
+    {
+      "combined": 76.5,
+      "volume": 28994.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 11516.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 6468.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 40152.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 23367.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 18854.0
+    },
+    {
+      "combined": 93.5,
+      "volume": 23802.0
+    },
+    {
+      "combined": 89.5,
+      "volume": 40656.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 11342.0
+    },
+    {
+      "combined": 92.0,
+      "volume": 29597.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 3804.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 13020.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 27355.0
+    },
+    {
+      "combined": 87.5,
+      "volume": 20638.0
+    },
+    {
+      "combined": 90.0,
+      "volume": 36196.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 20810.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 25608.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 19603.0
+    },
+    {
+      "combined": 88.5,
+      "volume": 17392.0
+    },
+    {
+      "combined": 93.0,
+      "volume": 25875.0
+    },
+    {
+      "combined": 89.0,
+      "volume": 18325.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 34951.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 21955.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 28720.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 39191.0
+    },
+    {
+      "combined": 87.5,
+      "volume": 22119.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 30331.0
+    },
+    {
+      "combined": 61.0,
+      "volume": 38622.0
+    },
+    {
+      "combined": 61.0,
+      "volume": 25958.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 14689.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 8833.0
+    },
+    {
+      "combined": 71.0,
+      "volume": 16764.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 12804.0
+    },
+    {
+      "combined": 51.0,
+      "volume": 17771.0
+    },
+    {
+      "combined": 42.5,
+      "volume": 25147.0
+    },
+    {
+      "combined": 87.5,
+      "volume": 39368.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 5278.0
+    },
+    {
+      "combined": 91.0,
+      "volume": 13614.0
+    },
+    {
+      "combined": 45.5,
+      "volume": 23806.0
+    },
+    {
+      "combined": 76.0,
+      "volume": 9901.0
+    },
+    {
+      "combined": 83.5,
+      "volume": 18658.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 23808.0
+    },
+    {
+      "combined": 90.5,
+      "volume": 12748.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 18887.0
+    },
+    {
+      "combined": 93.5,
+      "volume": 13530.0
+    },
+    {
+      "combined": 90.0,
+      "volume": 25066.0
+    },
+    {
+      "combined": 84.0,
+      "volume": 10825.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 24584.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 25687.0
+    },
+    {
+      "combined": 54.5,
+      "volume": 19658.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 14360.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 18801.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 15500.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 20603.0
+    },
+    {
+      "combined": 83.5,
+      "volume": 26798.0
+    },
+    {
+      "combined": 62.0,
+      "volume": 14856.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 20898.0
+    },
+    {
+      "combined": 70.0,
+      "volume": 4018.0
+    },
+    {
+      "combined": 62.5,
+      "volume": 2264.0
+    },
+    {
+      "combined": 83.0,
+      "volume": 25276.0
+    },
+    {
+      "combined": 75.5,
+      "volume": 14040.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 14324.0
+    },
+    {
+      "combined": 46.0,
+      "volume": 1834.0
+    },
+    {
+      "combined": 76.5,
+      "volume": 20802.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 14583.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 42804.0
+    },
+    {
+      "combined": 76.5,
+      "volume": 15194.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 20699.0
+    },
+    {
+      "combined": 84.5,
+      "volume": 11749.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 8079.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 15275.0
+    },
+    {
+      "combined": 70.5,
+      "volume": 21084.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 11827.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 21818.0
+    },
+    {
+      "combined": 61.0,
+      "volume": 27742.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 20702.0
+    },
+    {
+      "combined": 78.5,
+      "volume": 21736.0
+    },
+    {
+      "combined": 71.5,
+      "volume": 15570.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 22172.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 22097.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 15877.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 15976.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 12067.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 24227.0
+    },
+    {
+      "combined": 52.0,
+      "volume": 20274.0
+    },
+    {
+      "combined": 61.5,
+      "volume": 11104.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 16436.0
+    },
+    {
+      "combined": 21.0,
+      "volume": 6424.0
+    },
+    {
+      "combined": 39.0,
+      "volume": 25282.0
+    },
+    {
+      "combined": 39.5,
+      "volume": 19153.0
+    },
+    {
+      "combined": 43.5,
+      "volume": 19036.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 8956.0
+    },
+    {
+      "combined": 27.0,
+      "volume": 26886.0
+    },
+    {
+      "combined": 38.5,
+      "volume": 25420.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 11205.0
+    },
+    {
+      "combined": 76.0,
+      "volume": 21324.0
+    },
+    {
+      "combined": 94.0,
+      "volume": 14999.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 7780.0
+    },
+    {
+      "combined": 45.5,
+      "volume": 19983.0
+    },
+    {
+      "combined": 34.0,
+      "volume": 7530.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 39750.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 12493.0
+    },
+    {
+      "combined": 46.5,
+      "volume": 8668.0
+    },
+    {
+      "combined": 38.0,
+      "volume": 11909.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 14564.0
+    },
+    {
+      "combined": 44.0,
+      "volume": 13809.0
+    },
+    {
+      "combined": 45.0,
+      "volume": 8128.0
+    },
+    {
+      "combined": 42.0,
+      "volume": 8768.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 12983.0
+    },
+    {
+      "combined": 47.5,
+      "volume": 21457.0
+    },
+    {
+      "combined": 57.0,
+      "volume": 21098.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 16269.0
+    },
+    {
+      "combined": 37.5,
+      "volume": 21730.0
+    },
+    {
+      "combined": 22.5,
+      "volume": 21408.0
+    },
+    {
+      "combined": 26.0,
+      "volume": 6707.0
+    },
+    {
+      "combined": 37.5,
+      "volume": 21688.0
+    },
+    {
+      "combined": 94.0,
+      "volume": 21608.0
+    },
+    {
+      "combined": 20.0,
+      "volume": 11550.0
+    },
+    {
+      "combined": 53.5,
+      "volume": 16625.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 13573.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 19270.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 20282.0
+    },
+    {
+      "combined": 80.5,
+      "volume": 15706.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 22491.0
+    },
+    {
+      "combined": 49.0,
+      "volume": 21792.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 4531.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 26769.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 17227.0
+    },
+    {
+      "combined": 69.0,
+      "volume": 5924.0
+    },
+    {
+      "combined": 45.0,
+      "volume": 17606.0
+    },
+    {
+      "combined": 45.5,
+      "volume": 22254.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 17538.0
+    },
+    {
+      "combined": 51.0,
+      "volume": 14257.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 19473.0
+    },
+    {
+      "combined": 69.5,
+      "volume": 11023.0
+    },
+    {
+      "combined": 62.0,
+      "volume": 6111.0
+    },
+    {
+      "combined": 71.5,
+      "volume": 23302.0
+    },
+    {
+      "combined": 47.5,
+      "volume": 10322.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 23293.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 6044.0
+    },
+    {
+      "combined": 51.0,
+      "volume": 6328.0
+    },
+    {
+      "combined": 82.0,
+      "volume": 8862.0
+    },
+    {
+      "combined": 22.0,
+      "volume": 22371.0
+    },
+    {
+      "combined": 49.5,
+      "volume": 19894.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 17501.0
+    },
+    {
+      "combined": 83.5,
+      "volume": 1761.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 19408.0
+    },
+    {
+      "combined": 76.0,
+      "volume": 11516.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 15897.0
+    },
+    {
+      "combined": 77.0,
+      "volume": 23116.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 19624.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 22280.0
+    },
+    {
+      "combined": 80.5,
+      "volume": 14476.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 20323.0
+    },
+    {
+      "combined": 66.5,
+      "volume": 23369.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 16528.0
+    },
+    {
+      "combined": 93.5,
+      "volume": 10185.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 4905.0
+    },
+    {
+      "combined": 56.5,
+      "volume": 11693.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 23424.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 22268.0
+    },
+    {
+      "combined": 73.0,
+      "volume": 1142.0
+    },
+    {
+      "combined": 85.5,
+      "volume": 26230.0
+    },
+    {
+      "combined": 90.5,
+      "volume": 9380.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 5779.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 5957.0
+    },
+    {
+      "combined": 83.5,
+      "volume": 23504.0
+    },
+    {
+      "combined": 99.0,
+      "volume": 10784.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 13215.0
+    },
+    {
+      "combined": 74.0,
+      "volume": 19588.0
+    },
+    {
+      "combined": 63.0,
+      "volume": 5768.0
+    },
+    {
+      "combined": 72.5,
+      "volume": 23601.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 22744.0
+    },
+    {
+      "combined": 64.0,
+      "volume": 3546.0
+    },
+    {
+      "combined": 47.5,
+      "volume": 18406.0
+    },
+    {
+      "combined": 72.0,
+      "volume": 35752.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 23044.0
+    },
+    {
+      "combined": 76.5,
+      "volume": 14010.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 12767.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 19711.0
+    },
+    {
+      "combined": 78.0,
+      "volume": 25481.0
+    },
+    {
+      "combined": 64.5,
+      "volume": 11256.0
+    },
+    {
+      "combined": 71.0,
+      "volume": 11715.0
+    },
+    {
+      "combined": 79.5,
+      "volume": 8048.0
+    },
+    {
+      "combined": 82.5,
+      "volume": 16894.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 27543.0
+    },
+    {
+      "combined": 62.5,
+      "volume": 5237.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 4315.0
+    },
+    {
+      "combined": 87.0,
+      "volume": 19831.0
+    },
+    {
+      "combined": 79.0,
+      "volume": 27619.0
+    },
+    {
+      "combined": 60.5,
+      "volume": 5099.0
+    },
+    {
+      "combined": 46.5,
+      "volume": 24754.0
+    },
+    {
+      "combined": 86.0,
+      "volume": 18824.0
+    },
+    {
+      "combined": 88.5,
+      "volume": 22917.0
+    },
+    {
+      "combined": 51.5,
+      "volume": 16825.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 28068.0
+    },
+    {
+      "combined": 64.5,
+      "volume": 10725.0
+    },
+    {
+      "combined": 75.0,
+      "volume": 5285.0
+    },
+    {
+      "combined": 52.0,
+      "volume": 21459.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 6520.0
+    },
+    {
+      "combined": 90.5,
+      "volume": 26446.0
+    },
+    {
+      "combined": 68.0,
+      "volume": 23914.0
+    },
+    {
+      "combined": 71.0,
+      "volume": 24329.0
+    },
+    {
+      "combined": 58.0,
+      "volume": 8353.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 28717.0
+    },
+    {
+      "combined": 57.5,
+      "volume": 13535.0
+    },
+    {
+      "combined": 63.5,
+      "volume": 20907.0
+    },
+    {
+      "combined": 59.0,
+      "volume": 9665.0
+    },
+    {
+      "combined": 55.5,
+      "volume": 21466.0
+    },
+    {
+      "combined": 71.5,
+      "volume": 17932.0
+    },
+    {
+      "combined": 77.5,
+      "volume": 23101.0
+    },
+    {
+      "combined": 91.0,
+      "volume": 24933.0
+    },
+    {
+      "combined": 85.0,
+      "volume": 26091.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 27784.0
+    },
+    {
+      "combined": 73.5,
+      "volume": 26793.0
+    },
+    {
+      "combined": 46.0,
+      "volume": 14988.0
+    },
+    {
+      "combined": 48.0,
+      "volume": 32844.0
+    },
+    {
+      "combined": 65.0,
+      "volume": 21842.0
+    },
+    {
+      "combined": 50.0,
+      "volume": 33154.0
+    },
+    {
+      "combined": 31.0,
+      "volume": 7994.0
+    },
+    {
+      "combined": 21.0,
+      "volume": 38007.0
+    },
+    {
+      "combined": 30.0,
+      "volume": 13736.0
+    },
+    {
+      "combined": 36.0,
+      "volume": 22161.0
+    },
+    {
+      "combined": 53.0,
+      "volume": 9901.0
+    },
+    {
+      "combined": 60.0,
+      "volume": 25381.0
+    },
+    {
+      "combined": 62.5,
+      "volume": 8100.0
+    },
+    {
+      "combined": 46.5,
+      "volume": 22109.0
+    },
+    {
+      "combined": 67.0,
+      "volume": 28508.0
+    },
+    {
+      "combined": 71.5,
+      "volume": 4457.0
+    },
+    {
+      "combined": 88.0,
+      "volume": 37379.0
+    }
+  ]
+}
